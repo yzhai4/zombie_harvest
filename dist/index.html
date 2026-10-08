@@ -938,7 +938,8 @@
       <button class="food-action" id="eatBtnAction" aria-label="吃饭回复体力">🍲 吃饭 · 回复体力<small>消耗 1 食物 · 体力 +24；体力耗尽后禁用</small></button>
       <div class="action-row">
         <button class="action-btn primary" id="gatherBtn">🧺 采集<small>附近资源 + 30 分钟</small></button>
-        <button class="action-btn" id="buildBtn">🛠 建造<small>选       <button class="action-btn attack" id="attackBtn">🪓 攻击<small>相邻僵尸</small></button>
+        <button class="action-btn" id="buildBtn">🛠 建造<small>选择后点地图</small></button>
+        <button class="action-btn attack" id="attackBtn">🪓 攻击<small>相邻僵尸</small></button>
       </div>
       <div class="utility-row"><button class="action-btn" id="cropBtn">🌱 播种 / 收获<small>靠近菜畦操作</small></button><button class="action-btn" id="evolveBtn">🧬 进化建筑<small>先点地图中的建筑</small></button></div>
       <div class="control-grid">
@@ -1045,7 +1046,8 @@
       <p id="nightCopy">僵尸正从林子里涌出来。农场的每一块木板都会被算进防线。</p>
       <div class="daily-summary" id="dailySummary">
         <div class="daily-summary-head"><span>📋 每日总结</span><span id="summarySubtitle">第 1 天 · 尸潮已结束</span></div>
-     daily-summary-item"><b id="summaryKills">0</b><span>击杀僵尸</span></div>
+        <div class="daily-summary-grid">
+          <div class="daily-summary-item"><b id="summaryKills">0</b><span>击杀僵尸</span></div>
           <div class="daily-summary-item"><b id="summaryBreaches">0</b><span>突破数量</span></div>
           <div class="daily-summary-item"><b id="summaryDamage">0</b><span>营地生命损失</span></div>
           <div class="daily-summary-item"><b id="summaryWalls">0</b><span>墙体损伤</span></div>
@@ -1149,7 +1151,7 @@
     const NPC_TEMPLATES = Object.freeze({
       carpenter: { id: 'carpenter', name: '阿梁', role: '木匠', icon: '🧑‍🔧', position: {x: 1, y: 2}, fallbackPoint: {x: 2, y: 2}, desc: '木墙 +6 防线，额外挡住 1 只', personality: { courage: 58, duty: 72, compassion: 65, discipline: 68, riskTolerance: 52, loyalty: 70 } },
       doctor: { id: 'doctor', name: '苏禾', role: '医生', icon: '🧑‍⚕️', position: {x: 6, y: 2}, fallbackPoint: {x: 2, y: 2}, desc: '尸潮伤害降低 30%，清晨前治疗 8', personality: { courage: 46, duty: 76, compassion: 96, discipline: 78, riskTolerance: 34, loyalty: 72 } },
-      radio: { id: 'radio', name: '阿默', role: '广播员', icon: '📻', position: {x: 8, y: 6}, fallbacpersonality: { courage: 52, duty: 64, compassion: 58, discipline: 62, riskTolerance: 65, loyalty: 60 } },
+      radio: { id: 'radio', name: '阿默', role: '广播员', icon: '📻', position: {x: 8, y: 6}, fallbackPoint: {x: 2, y: 2}, desc: '提前预警，尸潮少 1 只', personality: { courage: 52, duty: 64, compassion: 58, discipline: 62, riskTolerance: 65, loyalty: 60 } },
       commander: { id: 'commander', name: '林岑', role: '营地长官', icon: '🧭', position: {x: 5, y: 2}, fallbackPoint: {x: 2, y: 2}, desc: '统一调度防线和人员，负责继任判断', personality: { courage: 78, duty: 92, compassion: 62, discipline: 94, riskTolerance: 55, loyalty: 88 } },
       sergeant: { id: 'sergeant', name: '贺川', role: '士官长', icon: '🪖', position: {x: 7, y: 2}, fallbackPoint: {x: 2, y: 2}, desc: '训练士兵并负责换防', personality: { courage: 86, duty: 90, compassion: 48, discipline: 86, riskTolerance: 78, loyalty: 84 } },
       guardJi: { id: 'guardJi', name: '纪宁', role: '士兵', icon: '🛡️', position: {x: 8, y: 3}, fallbackPoint: {x: 2, y: 2}, desc: '谨慎守门，优先保护熟悉的同伴', personality: { courage: 68, duty: 82, compassion: 72, discipline: 80, riskTolerance: 44, loyalty: 86 } },
@@ -1263,7 +1265,7 @@
     const commonNpcOrders = [
       { id: 'guard', name: '守墙', desc: '在指定防线待命，增加防线余量。' },
       { id: 'patrol', name: '巡逻', desc: '在接触前拦截尸群，但更容易暴露在危险中。' },
-  name: '支援玩家', desc: '跟随玩家行动，降低其遭遇危险时的压力。' }
+      { id: 'cover', name: '支援玩家', desc: '跟随玩家行动，降低其遭遇危险时的压力。' }
     ];
     const npcOrders = {
       carpenter: [
@@ -1504,7 +1506,7 @@
     function applyTerrain(cell, x, y) {
       const terrain = terrainAt(x, y);
       cell.classList.add('terrain-' + terrain);
- (terrain === 'path') cell.classList.add('path');
+      if (terrain === 'path') cell.classList.add('path');
       if (terrain === 'water') cell.classList.add('water');
       return terrain;
     }
@@ -1651,7 +1653,7 @@
       $('missionText').textContent = missionDone ? `第 ${state.day}/5 天：防线和援防都准备好了；食物${food.level}，可决定是否过夜。` : supports ? `第 ${state.day}/5 天：已有 ${supports} 名幸存者支援，再补 ${Math.max(0, 3-walls)} 面木墙；食物${food.level}。` : `第 ${state.day}/5 天：先靠近一名幸存者请求支援，再补一面木墙；食物${food.level}。`;
       $('missionBar').style.width = `${Math.min(100, 20 + walls * 20 + supports * 20)}%`;
       const modeHint = state.buildMode ? (state.selectedBuild ? `放置${buildInfo[state.selectedBuild].name}` : '先选择建筑') : state.energy <= 0 ? '体力耗尽 · 等到清晨' : state.energy < 40 ? '可吃东西补体力' : '靠近目标后按 E 交互';
-      const locationHint = isDesktopPanorama() : `${getMapRegion(state.player.x, state.player.y)} · ${state.player.x + 1}/${MAP.cols}列 · ${state.player.y + 1}/${MAP.rows}行`;
+      const locationHint = isDesktopPanorama() ? '' : `${getMapRegion(state.player.x, state.player.y)} · ${state.player.x + 1}/${MAP.cols}列 · ${state.player.y + 1}/${MAP.rows}行`;
       $('modeHint').textContent = (locationHint ? locationHint + ' · ' : '') + modeHint + (isDesktopPanorama() ? ' · WASD移动 · E交互 · B背包 · C建造 · F/空格攻击 · R进食' : '');
       renderEvent(); renderCollections(); renderEvolution(); renderInventory();
     }
@@ -1757,7 +1759,7 @@
             cell.innerHTML += `<span class="entity night-enemy"><b class="night-zombie-phase">${phaseLabel}</b>${battleEnemyIcon(battleEnemy)}<small><i style="width:${width}%"></i></small></span>`;
           }
           if (state.player.x === x && state.player.y === y) { cell.classList.add('player'); cell.innerHTML += '<span class="tag">你</span>'; }
-          te.selected.x === x && state.selected.y === y) { cell.classList.add('highlight', 'focus'); }
+          if (state.selected && state.selected.x === x && state.selected.y === y) { cell.classList.add('highlight', 'focus'); }
           if (state.buildMode && terrainAt(x, y) !== 'water' && !building && !resource && !zombie && !npc && !landmark && !area && !(state.player.x === x && state.player.y === y)) cell.classList.add('build-target');
           world.appendChild(cell);
         }
@@ -1890,7 +1892,7 @@
       }
       if (areas.length) {
         const area = areas[0];
-        add(`${area.icon} ${CAMP_ZONES[area.zone]?.name || '营地区域'}`, describeInteractionrea}), 'area', 'primary');
+        add(`${area.icon} ${CAMP_ZONES[area.zone]?.name || '营地区域'}`, describeInteraction({kind:'area', item:area}), 'area', 'primary');
       }
       if (zombies.length) {
         icon = '🧟'; title = `尸潮接触 · ${zombies.length} 只僵尸`; hint = '先处理相邻威胁，再决定是否采集或和幸存者交谈。';
@@ -2013,7 +2015,7 @@
           patient.needs = patient.needs || {hunger:18,fatigue:12,stress:8}; patient.needs.stress = Math.max(0, patient.needs.stress - 14); patient.lastReport = '晨间优先救治 +' + 18 + ' HP'; rememberNpc(patient, '接受晨间优先救治', 3); pushFx('heal', '+18 ' + patient.name, patient.x, patient.y, 'heal');
           result = `苏禾先为${patient.name}处理了伤势，生命值 +18，药草 -1。`;
         } else {
-          if (patient) { patient.needs = patient.needs || {hunger:18,fatigue:12,stress:8}; patient.needs.fatigue = Math.max(0, patient.needs.fatigue - 18); patient.needs.stath.min(100, patient.needs.stress + 2); patient.lastReport = '晨间休整，暂缓用药'; rememberNpc(patient, '接受休整并暂缓用药', 0); }
+          if (patient) { patient.needs = patient.needs || {hunger:18,fatigue:12,stress:8}; patient.needs.fatigue = Math.max(0, patient.needs.fatigue - 18); patient.needs.stress = Math.min(100, patient.needs.stress + 2); patient.lastReport = '晨间休整，暂缓用药'; rememberNpc(patient, '接受休整并暂缓用药', 0); }
           state.morale = Math.max(0, state.morale - 1);
           result = '你让伤员先睡一会儿，把药草留给更危险的时刻。士气 -1，伤员疲劳 -18。';
         }
@@ -2408,7 +2410,7 @@
     function battleEnemyIcon(enemy) {
       return enemy.kind === 'brute' ? '🧟‍♂️' : enemy.kind === 'runner' ? '🏃‍♂️' : '🧟';
     }
-    functittleEnemyPosition(enemy) {
+    function battleEnemyPosition(enemy) {
       const steps = MAP.battle.entryX - MAP.battle.targetX;
       const progressStep = Math.floor(Math.min(99, enemy.progress) / (100 / steps));
       return { x: Math.max(MAP.battle.targetX, MAP.battle.entryX - progressStep), y: MAP.battle.laneRows[enemy.lane % MAP.battle.laneRows.length] };
@@ -2530,7 +2532,7 @@
       log(npc.name + ' 在尸潮中阵亡。岗位功能消失，营地士气 -12。', 'danger');
     }
     function updateNpcPressure(npc, battle) {
-      if (!npcIsActive(npc) || npc.combatStatus === 'fl| npc.combatStatus === 'fleeing') return;
+      if (!npcIsActive(npc) || npc.combatStatus === 'fled' || npc.combatStatus === 'fleeing') return;
       const threats = battle.enemies.filter(e => !e.dead && !e.reached).reduce((sum, e) => {
         const p = battleEnemyPosition(e);
         const distance = Math.abs(p.x - npc.x) + Math.abs(p.y - npc.y);
@@ -2660,7 +2662,7 @@
           if (x === MAP.battle.entryX && MAP.battle.laneRows.includes(y)) cell.classList.add('night-entry');
           if (impact === tileKey(x, y)) cell.classList.add('night-impact');
           cell.innerHTML = '<i class="ground-speck"></i><i class="ground-speck s2"></i>';
-          const building = getBuilding(x, y), resource = getResource(x, y), npc = getNpc(x, y), landmark = getLanrk(x, y), area = getCampArea(x, y), enemy = enemyAt.get(tileKey(x, y));
+          const building = getBuilding(x, y), resource = getResource(x, y), npc = getNpc(x, y), landmark = getLandmark(x, y), area = getCampArea(x, y), enemy = enemyAt.get(tileKey(x, y));
           if (!isRegionVisible(x, y) && !enemy) { cell.classList.add('fogged'); cell.innerHTML += '<span class="map-decor">🌫️</span>'; world.appendChild(cell); continue; }
           const focused = state.interactionFocus && state.interactionFocus.x === x && state.interactionFocus.y === y;
           const lockedCombat = enemy && state.combatTargetId && enemy.id === state.combatTargetId;
@@ -2782,7 +2784,7 @@
         if (patrolTarget) {
           const patrolDamage = 18 + b.patrolCount * 8;
           const targetPos = battleEnemyPosition(patrolTarget);
-          patrolTage; patrolTarget.lastDamage = patrolDamage; patrolTarget.hit = true; b.autoShots += 1;
+          patrolTarget.hp -= patrolDamage; patrolTarget.lastDamage = patrolDamage; patrolTarget.hit = true; b.autoShots += 1;
           pushFx('damage', `-${patrolDamage}`, targetPos.x, targetPos.y, 'hit');
           autoFeed.push(`巡逻队 -${patrolDamage}`);
           if (patrolTarget.hp <= 0) { patrolTarget.hp = 0; patrolTarget.dead = true; b.autoKills += 1; b.kills += 1; pushFx('death', '💥', targetPos.x, targetPos.y, 'death'); autoFeed.push('巡逻队击破目标'); }
@@ -2878,7 +2880,7 @@
       const doctorEfficiency = npcRoleEfficiency(doctorHolder);
       const radioEfficiency = npcRoleEfficiency(radioHolder);
       const carpenterEfficiency = npcRoleEfficiency(carpenterHolder);
-   let damage = Math.max(0, Math.round(b.campDamage - (b.eventShield || 0)));
+      let damage = Math.max(0, Math.round(b.campDamage - (b.eventShield || 0)));
       if (doctorActive) damage = Math.floor(damage * (1 - 0.3 * doctorEfficiency));
       if (doctorOrder === 'guard') damage = Math.floor(damage * (1 - 0.18 * doctorEfficiency));
       if (radioRoleOrder === 'cover') damage = Math.max(0, damage - Math.round(3 * radioEfficiency));
@@ -2983,7 +2985,7 @@
         const hitDamage = Math.round((weapon.nightDamage || weapon.damage) * coverMultiplier);
         target.hp -= hitDamage; target.lastDamage = hitDamage; target.hit = true;
         const pos = battleEnemyPosition(target); pushFx('damage', `-${hitDamage}`, pos.x, pos.y, 'hit');
-        if (target.hp <= 0) { targp = 0; target.dead = true; b.kills += 1; state.zombieKills += 1; if (state.combatTargetId === target.id) { state.combatTargetId = null; clearInteractionFocus(); } pushFx('death', '💥', pos.x, pos.y, 'death'); }
+        if (target.hp <= 0) { target.hp = 0; target.dead = true; b.kills += 1; state.zombieKills += 1; if (state.combatTargetId === target.id) { state.combatTargetId = null; clearInteractionFocus(); } pushFx('death', '💥', pos.x, pos.y, 'death'); }
       });
       if (state.weapon.id === 'hookBlade' && state.zombieKills % 2 === 0) { state.parts += 1; b.feed.push('捕兽钩回收 +1 零件'); }
       b.feed.push(`你用${weapon.name}补刀 ${targets.length} 只${b.coverCount ? ' · NPC掩护生效' : ''}`);
@@ -3122,7 +3124,7 @@
       { id: 'resourceStrip', title: '资源', bar: true },
       { id: 'missionPanel', title: '今日任务', bar: true },
       { id: 'eventPanel', title: '今日异动', handle: '.event-head' },
-      { id: 'contextPanl', title: '附近互动', handle: '.context-head' },
+      { id: 'contextPanel', title: '附近互动', handle: '.context-head' },
       { id: 'survivorPanel', title: '幸存者支援', handle: '.panel-top' },
       { id: 'collectionPanel', title: '材料与收藏', handle: '.panel-top' },
       { id: 'gamePanel', title: '今日行动', handle: '.panel-top' },
