@@ -1,0 +1,2431 @@
+Warning: truncated output (original token count: 55339)
+Total output lines: 2691
+
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=yes" />
+  <meta name="theme-color" content="#0b1117" />
+  <title>尸潮农场 · 生存经营小游戏</title>
+  <style>
+    :root {
+      --bg: #0b1117;
+      --bg-2: #121c22;
+      --panel: rgba(19, 31, 37, .94);
+      --panel-soft: rgba(28, 44, 49, .86);
+      --line: rgba(224, 236, 203, .12);
+      --cream: #f7f1cf;
+      --muted: #9eafa1;
+      --green: #b7d96f;
+      --green-dark: #304b32;
+      --orange: #f7a44d;
+      --red: #ed6b5c;
+      --blue: #6fc4d4;
+      --purple: #c99bea;
+      --shadow: 0 16px 38px rgba(0, 0, 0, .28);
+      --radius: 20px;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; background: var(--bg); color: var(--cream); font-family: ui-rounded, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif; }
+    body { min-height: 100svh; overflow-x: hidden; }
+    button { font: inherit; border: 0; color: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+    .app {
+      width: min(100%, 520px);
+      min-height: 100svh;
+      margin: 0 auto;
+      padding: calc(12px + env(safe-area-inset-top)) 14px calc(24px + env(safe-area-inset-bottom));
+      position: relative;
+      background:
+        radial-gradient(circle at 15% 0%, rgba(74, 137, 107, .12), transparent 30%),
+        radial-gradient(circle at 90% 22%, rgba(146, 86, 54, .12), transparent 28%),
+        linear-gradient(180deg, #0b1117 0%, #11191e 68%, #0d1419 100%);
+    }
+    .brand-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
+    .brand-kicker { font-size: 10px; letter-spacing: .22em; color: var(--green); text-transform: uppercase; font-weight: 800; }
+    h1 { font-size: 25px; margin: 4px 0 2px; letter-spacing: -.04em; }
+    .subtitle { color: var(--muted); font-size: 12px; }
+    .version-stamp { display: inline-block; margin-top: 5px; padding: 3px 7px; border: 1px solid rgba(183,217,111,.24); border-radius: 999px; color: var(--green); background: rgba(183,217,111,.08); font-size: 9px; font-weight: 800; letter-spacing: .02em; }
+    .day-badge { min-width: 88px; padding: 10px 12px; border-radius: 16px; background: rgba(31, 49, 52, .84); border: 1px solid var(--line); text-align: right; }
+    .day-badge strong { display: block; font-size: 14px; color: var(--green); }
+    .day-badge span { display: block; margin-top: 2px; color: var(--muted); font-size: 11px; }
+    .resource-strip { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; margin-bottom: 10px; }
+    .resource { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 8px 8px 7px; box-shadow: var(--shadow); min-width: 0; }
+    .resource .label { display: flex; align-items: center; gap: 4px; color: var(--muted); font-size: 9px; white-space: nowrap; }
+    .resource .value { margin-top: 3px; font-weight: 800; font-size: 16px; }
+    .resource .value.warn { color: var(--orange); }
+    .resource .value.good { color: var(--green); }
+    .resource:nth-child(1), .resource:nth-child(3), .resource:nth-child(6) { border-top: 2px solid var(--green); }
+    .resource:nth-child(2), .resource:nth-child(5) { border-top: 2px solid var(--orange); }
+    .resource:nth-child(4) { border-top: 2px solid var(--purple); }
+    .mission { display: flex; align-items: center; gap: 9px; border: 1px solid rgba(183, 217, 111, .19); background: rgba(44, 70, 48, .42); padding: 10px 12px; border-radius: 15px; margin-bottom: 10px; }
+    .mission-icon { width: 26px; height: 26px; display: grid; place-items: center; border-radius: 9px; background: rgba(183, 217, 111, .18); }
+    .mission-copy { flex: 1; min-width: 0; }
+    .mission-copy b { display: block; font-size: 12px; }
+    .mission-copy span { display: block; margin-top: 2px; color: var(--muted); font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .mission-progress { width: 54px; height: 6px; overflow: hidden; border-radius: 8px; background: rgba(255, 255, 255, .08); }
+    .mission-progress i { display: block; width: 25%; height: 100%; border-radius: inherit; background: var(--green); transition: width .3s ease; }
+    .event-panel { margin-bottom: 10px; padding: 11px 12px; border-radius: 17px; border: 1px solid rgba(247,164,77,.22); background: linear-gradient(135deg, rgba(65,47,35,.88), rgba(33,37,34,.92)); box-shadow: var(--shadow); }
+    .event-head { display: flex; align-items: center; gap: 8px; }
+    .event-icon { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 10px; background: rgba(247,164,77,.17); font-size: 18px; }
+    .event-copy { flex: 1; min-width: 0; }
+    .event-copy b { display: block; font-size: 12px; }
+    .event-copy span { display: block; margin-top: 2px; color: var(--muted); font-size: 10px; line-height: 1.4; }
+    .event-state { color: var(--orange); font-size: 9px; font-weight: 800; white-space: nowrap; }
+    .event-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-top: 9px; }
+    .event-choice { min-height: 36px; padding: 6px 8px; border-radius: 11px; background: rgba(255,255,255,.07); border: 1px solid rgba(247,241,207,.12); text-align: left; font-size: 10px; font-weight: 800; }
+    .event-choice:active { transform: scale(.98); }
+    .event-choice small { display: block; margin-top: 2px; color: var(--muted); font-size: 8px; font-weight: 600; }
+    .event-choice:disabled { opacity: .42; cursor: not-allowed; }
+    .world-wrap { position: relative; border-radius: 22px; background: #263c35; border: 1px solid rgba(197, 225, 157, .18); padding: 8px; box-shadow: var(--shadow); overflow: hidden; }
+    .world-wrap::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(135deg, rgba(255,255,255,.06), transparent 34%, rgba(0,0,0,.16)); z-index: 2; }
+    .world-header { position: absolute; z-index: 3; top: 14px; left: 14px; right: 14px; display: flex; justify-content: space-between; align-items: flex-start; pointer-events: none; }
+    .weather-pill, .map-location-pill, .alert-pill { backdrop-filter: blur(12px); background: rgba(10, 20, 22, .55); border: 1px solid rgba(240, 245, 214, .15); border-radius: 999px; padding: 7px 10px; font-size: 10px; color: var(--cream); }
+    .map-location-pill { position: absolute; left: 50%; transform: translateX(-50%); color: var(--blue); white-space: nowrap; }
+    .alert-pill { color: var(--orange); }
+    .world { display: grid; grid-template-columns: repeat(10, 1fr); grid-template-rows: repeat(7, 1fr); gap: 2px; aspect-ratio: 10 / 7; border-radius: 16px; overflow: hidden; background: #20372e; position: relative; }
+    .tile { position: relative; display: grid; place-items: center; min-width: 0; min-height: 0; font-size: clamp(15px, 5vw, 25px); background: #5c8b56; user-select: none; transition: filter .15s ease, transform .15s ease; }
+    .tile:nth-child(3n) { background: #638f58; }
+    .tile:nth-child(4n) { background: #568251; }
+    .tile.path { background: #98764f; }
+    .tile.water, .tile.terrain-water { background: #438a93; }
+    .tile.terrain-forest { background: #3f6948; }
+    .tile.terrain-wetland { background: #4c7770; }
+    .tile.terrain-farmland { background: #8a7650; }
+    .tile.terrain-ruins { background: #5e5f59; }
+    .tile.terrain-grass { background: #5c8b56; }
+    .tile.fogged { background: #26353a !important; filter: saturate(.18) brightness(.58); }
+    .tile.fogged .ground-speck { opacity: .18; }
+    .tile .map-decor { position: relative; z-index: 1; opacity: .7; font-size: .55em; filter: saturate(.76); pointer-events: none; }
+    .tile.target-lock { outline: 2px solid var(--yellow); outline-offset: -2px; box-shadow: 0 0 0 2px rgba(255,212,92,.22), inset 0 0 18px rgba(255,212,92,.16); }
+    .tile.camp-area.zone-eastOutpost { background: linear-gradient(145deg, #744b3f, #4f3732); border-color: rgba(237,107,92,.38); }
+    .tile.camp-area.zone-farmland { background: linear-gradient(145deg, #7c6b43, #51482f); border-color: rgba(247,164,77,.36); }
+    .tile.camp-area.zone-riverBank { background: linear-gradient(145deg, #3b7077, #2b4d57); border-color: rgba(111,196,212,.38); }
+    .tile.highlight { outline: 3px solid var(--green); outline-offset: -3px; filter: brightness(1.18); z-index: 2; }
+    .tile.cursor { outline: 2px solid var(--blue); outline-offset: -2px; filter: brightness(1.12); z-index: 3; }
+    .tile.build-target { box-shadow: inset 0 0 0 3px rgba(247, 164, 77, .85); }
+    .tile .ground-speck { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: rgba(39, 79, 42, .34); left: 23%; top: 27%; }
+    .tile .ground-speck.s2 { left: 70%; top: 72%; width: 2px; height: 2px; }
+    .tile .entity { position: relative; z-index: 1; filter: drop-shadow(0 3px 2px rgba(0,0,0,.28)); line-height: 1; }
+    .tile .tag { position: absolute; z-index: 2; bottom: 3px; left: 50%; transform: translateX(-50%); background: rgba(10, 24, 22, .65); padding: 2px 5px; border-radius: 5px; color: #fff; font-size: 8px; white-space: nowrap; }
+    .tile .hp { position: absolute; top: 3px; left: 5px; right: 5px; height: 3px; border-radius: 99px; background: rgba(0,0,0,.3); overflow: hidden; }
+    .tile .hp i { display: block; height: 100%; background: var(--red); }
+    .tile.player .entity { animation: bob 1.2s ease-in-out infinite; }
+    .tile.zombie .entity { animation: shamble 1.1s ease-in-out infinite; }
+    .tile.npc .entity { animation: bob 1.8s ease-in-out infinite; }
+    .tile.fx-hit { animation: tileHit .3s ease; box-shadow: inset 0 0 0 3px rgba(247,164,77,.92), 0 0 12px rgba(247,164,77,.6); }
+    .tile.fx-dead { filter: grayscale(.72) brightness(1.2); box-shadow: inset 0 0 0 3px rgba(237,107,92,.8); }
+    .tile.npc.injured .entity { filter: saturate(.72) drop-shadow(0 0 5px rgba(247,164,77,.8)); }
+    .tile.npc.critical .entity { animation: npcCritical .55s ease-in-out infinite; filter: saturate(.56) drop-shadow(0 0 7px rgba(237,107,92,.95)); }
+    .player-marker { position: absolute; z-index: 4; display: grid; place-items: center; pointer-events: none; transition: filter .12s ease; }
+    .player-marker .entity { position: relative; font-size: clamp(18px, 4.3vw, 31px); line-height: 1; filter: drop-shadow(0 4px 3px rgba(0,0,0,.42)); animation: bob 1.2s ease-in-out infinite; }
+    .player-marker.step { animation: player-step .14s ease-out both; }
+    @keyframes player-step { from { left: var(--marker-start-left); top: var(--marker-start-top); } to { left: var(--marker-end-left); top: var(--marker-end-top); } }
+    @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+    @keyframes shamble { 0%,100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg) translateY(1px); } }
+    @keyframes tileHit { 50% { transform: scale(1.07); filter: brightness(1.75); } }
+    @keyframes npcCritical { 50% { transform: translateX(2px) rotate(4deg); } }
+    .world-effect { position: absolute; z-index: 16; display: grid; place-items: center; width: 10%; height: 12%; pointer-events: none; font-size: clamp(11px, 1.5vw, 17px); font-weight: 950; text-shadow: 0 2px 4px rgba(0,0,0,.65); transform: translate(-50%, -50%); animation: worldEffectFloat .85s ease-out forwards; }
+    .world-effect.damage { color: var(--orange); }
+    .world-effect.player-hit, .world-effect.npc-state, .world-effect.breach { color: var(--red); }
+    .world-effect.death { color: #ffcf82; font-size: clamp(16px, 2.1vw, 25px); animation-name: worldEffectBurst; }
+    .world-effect.heal { color: var(--green); }
+    @keyframes worldEffectFloat { from { opacity: 1; margin-top: 1%; } to { opacity: 0; margin-top: -9%; } }
+    @keyframes worldEffectBurst { from { opacity: 1; transform: translate(-50%,-50%) scale(.65); } 45% { transform: translate(-50%,-58%) scale(1.2); } to { opacity: 0; transform: translate(-50%,-78%) scale(1); } }
+    .map-legend { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 7px 3px 0; color: rgba(247,241,207,.7); font-size: 9px; }
+    .map-legend span { display: inline-flex; align-items: center; gap: 4px; }
+    .legend-dot { width: 7px; height: 7px; display: inline-block; border-radius: 50%; background: var(--green); }
+    .legend-dot.wild { background: #3f6948; }
+    .legend-dot.landmark { background: var(--blue); }
+    .legend-dot.gate { background: var(--red); }
+    .world-footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 8px; padding: 0 3px 1px; font-size: 10px; color: rgba(247, 241, 207, .74); }
+    .energy-bar { display: flex; align-items: center; gap: 7px; flex: 1; }
+    .energy-bar span { white-space: nowrap; }
+    .meter { height: 7px; border-radius: 99px; overflow: hidden; background: rgba(6, 18, 17, .4); flex: 1; }
+    .meter i { display: block; height: 100%; width: 78%; border-radius: inherit; background: linear-gradient(90deg, var(--orange), var(--green)); transition: width .25s ease; }
+    .game-panel { margin-top: 10px; border: 1px solid rgba(111,196,212,.18); border-left: 3px solid var(--blue); background: linear-gradient(135deg, rgba(19,31,37,.97), rgba(17,30,36,.88)); border-radius: var(--radius); padding: 12px; box-shadow: var(--shadow); }
+    .panel-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .panel-title { font-size: 13px; font-weight: 800; }
+    .panel-help { color: var(--muted); font-size: 10px; }
+    .action-row { display: grid; grid-template-columns: 1.15fr 1fr 1fr; gap: 8px; margin-top: 10px; }
+    .utility-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+    .utility-row .action-btn { min-height: 41px; }
+    .survival-strip { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+    .survival-strip .energy-bar { min-width: 0; }
+    .feed-btn { display: flex; flex: 0 0 88px; min-height: 36px; align-items: center; justify-content: center; flex-direction: column; border-radius: 12px; padding: 6px 8px; background: #e8bc6f; color: #271c13; font-size: 11px; font-weight: 900; }
+    .feed-btn:disabled { opacity: .42; filter: grayscale(.55); }
+    .feed-btn small { display: block; margin-top: 1px; font-size: 8px; font-weight: 700; opacity: .72; }
+    .food-action { width: 100%; min-height: 42px; margin-top: 8px; border-radius: 13px; padding: 7px 10px; background: #e8bc6f; color: #271c13; font-size: 12px; font-weight: 900; }
+    .food-action:disabled { opacity: .42; filter: grayscale(.55); cursor: not-allowed; }
+    .food-action small { display: block; margin-top: 2px; font-size: 9px; font-weight: 700; opacity: .72; }
+    .world-hint { margin-top: 6px; color: rgba(247,241,207,.62); font-size: 10px; text-align: right; }
+    .context-panel { display: none; margin-top: 8px; padding: 10px 11px; border-radius: 17px; border: 1px solid rgba(183,217,111,.3); background: linear-gradient(135deg, rgba(35,58,48,.96), rgba(20,34,35,.96)); box-shadow: var(--shadow); animation: context-in .18s ease-out; }
+    .context-panel.show { display: block; }
+    .context-head { display: flex; align-items: center; gap: 8px; }
+    .context-icon { width: 30px; height: 30px; flex: 0 0 auto; display: grid; place-items: center; border-radius: 10px; background: rgba(183,217,111,.17); font-size: 18px; }
+    .context-copy { flex: 1; min-width: 0; }
+    .context-copy b { display: block; font-size: 12px; }
+    .context-copy span { display: block; margin-top: 2px; color: var(--muted); font-size: 9px; line-height: 1.35; }
+    .context-close { width: 25px; height: 25px; padding: 0; border-radius: 9px; background: rgba(255,255,255,.07); color: var(--muted); font-size: 17px; line-height: 1; }
+    .context-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; margin-top: 9px; }
+    .context-action { min-height: 36px; padding: 7px 8px; border-radius: 11px; background: rgba(255,255,255,.08); border: 1px solid rgba(247,241,207,.12); text-align: left; font-size: 10px; font-weight: 800; }
+    .context-action:active { transform: scale(.98); }
+    .context-action small { display: block; margin-top: 2px; color: var(--muted); font-size: 8px; line-height: 1.25; font-weight: 600; }
+    .context-action.primary { color: #162319; background: var(--green); border-color: transparent; }
+    .context-action.attack { color: #2c1511; background: #e88a61; border-color: transparent; }
+    .context-action:disabled { opacity: .42; filter: grayscale(.55); cursor: not-allowed; }
+    .context-action .action-index { display: inline-grid; place-items: center; width: 16px; height: 16px; margin-right: 4px; border-radius: 5px; background: rgba(10,24,22,.24); font-size: 9px; font-style: normal; }
+    @keyframes context-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+    .panel-head-actions { display: flex; align-items: center; justify-content: flex-end; gap: 5px; }
+    .panel-toggle { min-height: 27px; padding: 4px 7px; border-radius: 9px; color: var(--cream); background: rgba(255,255,255,.08); border: 1px solid rgba(247,241,207,.12); font-size: 9px; font-weight: 800; }
+    .panel-toggle:active { transform: scale(.97); }
+    .event-panel { display: none; }
+    .event-panel.open { display: block; }
+    .survivor-panel, .collection-panel, .weapon-panel { display: none; }
+    .survivor-panel.open { display: block; }
+    .collection-panel.open { display: block; }
+    .weapon-panel.open { display: block; }
+    .utility-row { display: none; }
+    .action-btn { min-height: 45px; border-radius: 14px; padding: 8px 8px; background: #1e3237; border: 1px solid rgba(222, 234, 201, .13); font-size: 12px; font-weight: 800; transition: transform .12s ease, background .12s ease; }
+    .action-btn:disabled { opacity: .42; filter: grayscale(.55); cursor: not-allowed; }
+    .action-btn:active { transform: scale(.97); }
+    .action-btn.primary { color: #112016; background: var(--green); border-color: transparent; }
+    .action-btn.attack { color: #27120f; background: #e88a61; border-color: transparent; }
+    .action-btn small { display: block; margin-top: 2px; font-size: 9px; opacity: .75; font-weight: 600; }
+    .control-grid { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 14px; margin-top: 12px; }
+    .joystick { width: 112px; height: 112px; border-radius: 50%; margin: 0 auto; position: relative; background: radial-gradient(circle, rgba(183,217,111,.25) 0 18%, rgba(183,217,111,.09) 19% 48%, rgba(183,217,111,.04) 49% 100%); border: 1px solid rgba(183,217,111,.2); touch-action: none; }
+    .stick { position: absolute; width: 42px; height: 42px; top: 35px; left: 35px; border-radius: 50%; background: #aacb6b; border: 4px solid rgba(20, 45, 34, .55); box-shadow: 0 6px 12px rgba(0,0,0,.2); transition: left .12s ease, top .12s ease; }
+    .joy-label { position: absolute; inset: 0; display: grid; place-items: center; color: rgba(247, 241, 207, .55); font-size: 9px; letter-spacing: .08em; pointer-events: none; }
+    .quick-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .quick { min-height: 51px; border-radius: 15px; background: var(--panel-soft); border: 1px solid var(--line); display: flex; align-items: center; gap: 8px; padding: 8px 9px; text-align: left; }
+    .quick:active { transform: scale(.97); }
+    .quick .emoji { font-size: 20px; }
+    .quick b { display: block; font-size: 11px; }
+    .quick span { display: block; color: var(--muted); font-size: 9px; margin-top: 2px; }
+    .build-drawer { display: none; margin-top: 10px; border-top: 1px solid var(--line); padding-top: 10px; }
+    .build-drawer.open { display: block; }
+    .build-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .build-card { text-align: left; border-radius: 14px; padding: 10px; background: #19282d; border: 1px solid rgba(224, 236, 203, .1); }
+    .build-card.selected { border-color: var(--orange); box-shadow: 0 0 0 2px rgba(247,164,77,.16); }
+    .build-card:active { transform: scale(.98); }
+    .build-icon { font-size: 21px; }
+    .build-card b { display: block; margin-top: 4px; font-size: 11px; }
+    .build-card span { display: block; margin-top: 2px; color: var(--muted); font-size: 9px; line-height: 1.35; }
+    .cost { display: flex; gap: 7px; margin-top: 7px; font-size: 9px; color: var(--orange); }
+    .build-hint { margin: 8px 2px 0; font-size: 10px; color: var(--orange); }
+    .evolve-drawer { display: none; margin-top: 10px; border-top: 1px solid var(--line); padding-top: 10px; }
+    .evolve-drawer.open { display: block; }
+    .evolve-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .evolve-head b { font-size: 11px; }
+    .evolve-head span { color: var(--muted); font-size: 9px; }
+    .evo-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 7px; }
+    .evo-card { min-width: 0; text-align: left; border-radius: 13px; padding: 9px; background: #202e31; border: 1px solid rgba(224,236,203,.12); }
+    .evo-card:active { transform: scale(.98); }
+    .evo-card:disabled { opacity: .42; cursor: not-allowed; }
+    .evo-card b { display: block; font-size: 10px; }
+    .evo-card span { display: block; margin-top: 3px; color: var(--muted); font-size: 8px; line-height: 1.35; }
+    .evo-card em { display: block; margin-top: 5px; color: var(--orange); font-size: 8px; font-style: normal; font-weight: 800; }
+    .weapon-panel { margin-top: 10px; padding: 10px; border-radius: 15px; border: 1px solid rgba(111,196,212,.2); background: rgba(19,41,49,.72); }
+    .weapon-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .weapon-head b { font-size: 11px; }
+    .weapon-head span { color: var(--blue); font-size: 10px; font-weight: 800; }
+    .weapon-paths { display: grid; grid-template-columns: repeat(2, 1fr); gap: 7px; margin-top: 8px; }
+    .weapon-choice { min-height: 41px; padding: 7px; border-radius: 11px; background: rgba(255,255,255,.06); border: 1px solid rgba(111,196,212,.16); text-align: left; }
+    .weapon-choice:disabled { opacity: .4; cursor: not-allowed; }
+    .weapon-choice b { display: block; font-size: 10px; }
+    .weapon-choice small { display: block; margin-top: 2px; color: var(--muted); font-size: 8px; line-height: 1.35; }
+    .collection-panel { margin-top: 10px; padding: 11px 12px; border-radius: var(--radius); border: 1px solid rgba(247,201,106,.18); background: rgba(44,35,26,.72); box-shadow: var(--shadow); }
+    .collection-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin-top: 9px; }
+    .collection-item { padding: 8px 6px; border-radius: 12px; background: rgba(255,255,255,.05); text-align: center; }
+    .collection-item .collect-icon { font-size: 18px; }
+    .collection-item b { display: block; margin-top: 3px; font-size: 13px; }
+    .collection-item span { display: block; margin-top: 2px; color: var(--muted); font-size: 8px; line-height: 1.3; }
+    .survivor-panel { margin-top: 10px; padding: 12px; border-radius: var(--radius); border: 1px solid rgba(201,155,234,.18); background: rgba(28,24,42,.78); box-shadow: var(--shadow); }
+    .survivor-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin-top: 9px; }
+    .survivor-card { min-width: 0; border-radius: 13px; padding: 9px 7px; text-align: left; background: rgba(255,255,255,.05); border: 1px solid rgba(247,241,207,.1); }
+    .survivor-card.near { border-color: var(--green); background: rgba(183,217,111,.11); }
+    .survivor-card.supported { border-color: var(--orange); background: rgba(247,164,77,.12); }
+    .survivor-card.injured { border-color: rgba(247,164,77,.64); }
+    .survivor-card.critical { border-color: var(--red); background: rgba(237,107,92,.14); animation: survivorCritical .8s ease-in-out infinite; }
+    .survivor-card.dead { opacity: .54; border-color: rgba(237,107,92,.42); filter: grayscale(.7); }
+    .survivor-card.dead em { color: var(--red); }
+    .tile.camp-area { background: linear-gradient(145deg, #41624a, #304d3b); border-color: rgba(247, 233, 173, .28); }
+    .tile.camp-area .tag { color: #f7e9ad; }
+    .survivor-card:active { transform: scale(.98); }
+    .survivor-icon { font-size: 20px; line-height: 1; }
+    .survivor-card b { display: block; margin-top: 5px; font-size: 10px; }
+    .survivor-card span { display: block; margin-top: 2px; color: var(--muted); font-size: 8px; line-height: 1.35; }
+    .survivor-card em { display: block; margin-top: 6px; color: var(--orange); font-size: 8px; font-style: normal; font-weight: 800; }
+    @keyframes survivorCritical { 50% { box-shadow: 0 0 0 2px rgba(237,107,92,.18); } }
+    .log-panel { display: none; margin-top: 10px; padding: 12px; border-radius: var(--radius); border: 1px solid var(--line); background: rgba(13, 24, 29, .76); }
+    .log-head { display: flex; justify-content: space-between; align-items: center; }
+    .log-head b { font-size: 12px; }
+    .log-head span { font-size: 10px; color: var(--muted); }
+    .log-list { display: grid; gap: 7px; margin-top: 9px; }
+    .log-line { display: flex; gap: 8px; color: #cad7be; font-size: 10px; line-height: 1.4; }
+    .log-line i { width: 5px; height: 5px; flex: 0 0 auto; margin-top: 5px; border-radius: 50%; background: var(--green); }
+    .log-line.warn i { background: var(--orange); }
+    .log-line.danger i { background: var(--red); }
+    .inventory-overlay { position: fixed; inset: 0; z-index: 34; display: none; align-items: center; justify-content: center; padding: 16px; background: rgba(5, 10, 13, .78); backdrop-filter: blur(9px); }
+    .inventory-overlay.open { display: flex; }
+    .inventory-panel { width: min(94vw, 720px); max-height: min(88svh, 720px); overflow: auto; border: 1px solid rgba(247,241,207,.2); border-radius: 24px; padding: 18px; background: linear-gradient(145deg, rgba(28,46,50,.98), rgba(18,29,34,.98)); box-shadow: 0 24px 80px rgba(0,0,0,.5); }
+    .inventory-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; }
+    .inventory-head b { display: block; font-size: 20px; }
+    .inventory-head span { display: block; margin-top: 3px; color: var(--muted); font-size: 10px; }
+    .inventory-close { width: 32px; height: 32px; border-radius: 11px; background: rgba(255,255,255,.08); color: var(--cream); font-size: 20px; }
+    .inventory-section { margin-top: 16px; }
+    .inventory-section-title { display: flex; justify-content: space-between; align-items: center; color: var(--green); font-size: 11px; font-weight: 800; }
+    .inventory-section-title span { color: var(--muted); font-size: 9px; font-weight: 600; }
+    .inventory-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 8px; }
+    .inventory-slot { min-height: 70px; padding: 9px; border: 1px solid rgba(247,241,207,.11); border-radius: 14px; background: rgba(255,255,255,.055); }
+    .inventory-slot .inventory-icon { font-size: 22px; }
+    .inventory-slot b { display: block; margin-top: 4px; font-size: 12px; }
+    .inventory-slot span { display: block; margin-top: 2px; color: var(--muted); font-size: 9px; }
+    .inventory-equipment { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+    .inventory-equipment-card { padding: 10px; border-radius: 14px; border: 1px solid rgba(111,196,212,.2); background: rgba(16,45,53,.62); }
+    .inventory-equipment-card b { display: block; font-size: 11px; }
+    .inventory-equipment-card span { display: block; margin-top: 4px; color: var(--muted); font-size: 9px; line-height: 1.4; }
+    .inventory-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 16px; }
+    .inventory-action { min-height: 40px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,.08); border: 1px solid rgba(247,241,207,.12); font-size: 10px; font-weight: 800; }
+    .inventory-action.primary { color: #152319; background: var(--green); border-color: transparent; }
+    .inventory-hotkeys { margin-top: 12px; color: rgba(247,241,207,.64); font-size: 9px; line-height: 1.5; }
+    @media (max-width: 380px) {
+      .resource-strip { grid-template-columns: repeat(3, 1fr); gap: 5px; }
+      .panel-head-actions { flex-wrap: wrap; justify-content: flex-end; }
+      .world .tag { display: none; }
+      .world .tile.highlight .tag, .world .tile.player .tag, .world .tile.npc .tag, .world .tile.focus .tag { display: block; }
+      .survivor-list { grid-template-columns: repeat(2, 1fr); }
+      .map-location-pill { display: none; }
+    }
+    @media (min-width: 381px) {
+      .survivor-list { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+    @media (min-width: 900px) {
+      body { overflow-x: auto; }
+      .app {
+        width: min(100%, 1540px);
+        padding: 26px 30px 34px;
+        display: grid;
+        grid-template-columns: minmax(230px, 280px) minmax(680px, 1fr) minmax(300px, 360px);
+        grid-template-areas:
+          "brand brand brand"
+          "resources resources resources"
+          "mission mission mission"
+          "event world context"
+          "event world survivor"
+          "event world collection"
+          "log world game";
+        column-gap: 16px;
+        row-gap: 12px;
+        align-items: start;
+      }
+      .brand-row { grid-area: brand; margin-bottom: 0; }
+      .resource-strip { grid-area: resources; margin-bottom: 0; }
+      .mission { grid-area: mission; margin-bottom: 0; }
+      .event-panel { grid-area: event; margin: 0; display: block; }
+      .world-wrap { grid-area: world; min-width: 0; margin: 0; }
+      .context-panel { grid-area: context; margin: 0; }
+      .survivor-panel { grid-area: survivor; margin: 0; display: block; }
+      .collection-panel { grid-area: collection; margin: 0; display: block; }
+      .game-panel { grid-area: game; margin: 0; }
+      .log-panel { grid-area: log; margin: 0; display: block; }
+      .world { aspect-ratio: 3 / 2; grid-template-columns: repeat(18, minmax(28px, 1fr)); grid-template-rows: repeat(12, minmax(28px, 1fr)); gap: 3px; }
+      .tile { font-size: clamp(20px, 2.1vw, 34px); }
+      .tile .tag { display: block; font-size: 9px; }
+      .world-hint { font-size: 11px; }
+      .survivor-list { grid-template-columns: repeat(2, 1fr); }
+      .survivor-card { padding: 10px 8px; }
+      .control-grid { grid-template-columns: 1fr; }
+      .joystick { display: none; }
+      .quick-grid { grid-template-columns: repeat(4, 1fr); }
+      .quick { min-height: 44px; padding: 6px; }
+      .quick .emoji { font-size: 17px; }
+      .quick b { font-size: 10px; }
+      .quick span { font-size: 8px; }
+      .panel-head-actions { flex-wrap: wrap; justify-content: flex-end; }
+      .night-card { width: min(96vw, 1180px); max-height: 96svh; padding: 24px; }
+      .night-world { aspect-ratio: 3 / 2; }
+      .night-card .result-grid { grid-template-columns: repeat(4, 1fr); }
+      .night-map-wrap, .battle-lane { padding: 14px; }
+      .night-control-panel { grid-template-columns: 1fr 240px; }
+    }
+    @media (min-width: 900px) and (max-width: 1180px) {
+      .app {
+        grid-template-columns: minmax(0, 1.35fr) minmax(260px, .65fr);
+        grid-template-areas:
+          "brand brand"
+          "resources resources"
+          "mission mission"
+          "world context"
+          "world survivor"
+          "world collection"
+          "world game"
+          "event log";
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+      .world { grid-template-columns: repeat(18, minmax(23px, 1fr)); grid-template-rows: repeat(12, minmax(23px, 1fr)); }
+      .tile { font-size: 20px; }
+      .tile .tag { font-size: 8px; padding-left: 3px; padding-right: 3px; }
+    }
+    @media (max-width: 520px) {
+      .map-location-pill { display: none; }
+    }
+    .toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom)); transform: translate(-50%, 18px); opacity: 0; pointer-events: none; z-index: 20; max-width: min(88vw, 400px); padding: 10px 14px; background: #e9efcf; color: #16231b; border-radius: 999px; font-size: 12px; font-weight: 800; box-shadow: 0 10px 30px rgba(0,0,0,.3); transition: .25s ease; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+    .night-overlay { position: fixed; inset: 0; z-index: 30; display: none; align-items: end; justify-content: center; padding: 10px 10px calc(10px + env(safe-area-inset-bottom)); overflow-y: auto; background: rgba(5,8,12,.9); backdrop-filter: blur(5px); }
+    .night-overlay.show { display: grid; }
+    .night-card { width: min(100%, 520px); max-height: 94svh; overflow-y: auto; border-radius: 25px; border: 1px solid rgba(247, 241, 207, .18); background: linear-gradient(180deg, rgba(25,36,47,.96), rgba(16,24,32,.98)); padding: 18px; box-shadow: 0 30px 80px rgba(0,0,0,.45); text-align: center; }
+    .night-icon { font-size: 52px; line-height: 1; }
+    .night-card h2 { margin: 12px 0 4px; font-size: 23px; }
+    .night-card p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.6; }
+    .wavebar { height: 10px; margin: 17px 0 13px; border-radius: 99px; overflow: hidden; background: rgba(255,255,255,.08); }
+    .wavebar i { display: block; width: 0; height: 100%; background: linear-gradient(90deg, var(--purple), var(--red)); transition: width .7s ease; }
+    .wave-caption { display: flex; justify-content: space-between; margin-top: 13px; color: rgba(247,241,207,.62); font-size: 10px; }
+    .battle-status { margin-top: 9px; padding: 10px; border-radius: 14px; background: rgba(255,255,255,.05); border: 1px solid rgba(247,241,207,.1); text-align: left; }
+    .battle-status-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    .battle-status-head b { font-size: 11px; color: var(--orange); }
+    .battle-status-head span { color: var(--muted); font-size: 10px; }
+    .battle-route { display: flex; align-items: center; gap: 8px; margin-top: 8px; color: rgba(247,241,207,.75); font-size: 14px; }
+    .battle-route i { position: relative; height: 7px; flex: 1; border-radius: 99px; background: linear-gradient(90deg, rgba(111,196,212,.7), rgba(237,107,92,.85)); }
+    .battle-route i::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(90deg, transparent 0 14px, rgba(255,255,255,.18) 14px 16px); border-radius: inherit; }
+    .battle-route em { position: absolute; z-index: 1; top: 50%; left: 18%; width: 14px; height: 14px; border-radius: 50%; transform: translate(-50%, -50%); background: #f5d370; border: 2px solid #38261b; box-shadow: 0 0 0 4px rgba(245,211,112,.15); transition: left .7s ease; }
+    .battle-route-labels { display: flex; justify-content: space-between; margin-top: 4px; color: rgba(247,241,207,.42); font-size: 9px; }
+    .support-detail { margin-top: 8px; color: var(--purple); font-size: 10px; line-height: 1.45; }
+    .battle-lane { margin-top: 10px; padding: 10px; border-radius: 15px; background: rgba(7, 16, 20, .62); border: 1px solid rgba(111,196,212,.16); text-align: left; }
+    .battle-lane-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .battle-lane-head b { font-size: 10px; color: var(--blue); }
+    .battle-lane-head span { color: var(--muted); font-size: 9px; }
+    .night-map-wrap { margin-top: 10px; padding: 10px; border-radius: 15px; background: rgba(7, 16, 20, .72); border: 1px solid rgba(183,217,111,.18); text-align: left; }
+    .night-map-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .night-map-head b { font-size: 10px; color: var(--green); }
+    .night-map-head span { color: var(--muted); font-size: 9px; }
+    .night-world { margin-top: 8px; filter: saturate(.82) brightness(.72); box-shadow: inset 0 0 0 2px rgba(237,107,92,.24), 0 0 22px rgba(50,91,105,.22); }
+    .night-world .tile { cursor: default; }
+    .night-world .tile.night-entry { box-shadow: inset 0 0 0 2px rgba(237,107,92,.72); }
+    .night-world .tile.night-impact { animation: breachPulse .58s ease; box-shadow: inset 0 0 0 3px rgba(237,107,92,.95), 0 0 13px rgba(237,107,92,.65); }
+    .night-world .tile.night-zombie-tile { background: #684949; }
+    .night-world .tile.zombie-approach { background: #755046; box-shadow: inset 0 0 0 2px rgba(247,164,77,.34); }
+    .night-world .tile.zombie-contact { background: #82483f; box-shadow: inset 0 0 0 3px rgba(237,107,92,.72), 0 0 10px rgba(237,107,92,.36); }
+    .night-world .tile .night-enemy { position: relative; z-index: 4; animation: shamble 1.1s ease-in-out infinite; }
+    .night-world .tile .night-enemy small { position: absolute; left: -5px; right: -5px; bottom: -7px; height: 3px; overflow: hidden; border-radius: 9px; background: rgba(0,0,0,.58); }
+    .night-world .tile .night-enemy small i { display: block; height: 100%; background: var(--red); }
+    .night-world .tile .night-order { position: absolute; z-index: 5; top: 2px; right: 2px; padding: 1px 3px; border-radius: 4px; background: rgba(183,217,111,.8); color: #152017; font-size: 7px; font-weight: 900; }
+    .night-zombie-phase { position: absolute; z-index: 7; top: 2px; left: 2px; padding: 1px 3px; border-radius: 4px; background: rgba(13,24,29,.78); color: rgba(247,241,207,.78); font-size: 6px; font-weight: 900; }
+    .zombie-contact .night-zombie-phase { color: var(--red); }
+    @keyframes breachPulse { 50% { filter: brightness(1.65); } }
+    .battle-map-readout { margin-top: 8px; padding: 8px 9px; border-radius: 10px; background: rgba(111,196,212,.08); color: rgba(247,241,207,.76); font-size: 9px; line-height: 1.45; }
+    .night-control-panel { display: grid; grid-template-columns: 1fr 1.15fr; gap: 9px; align-items: center; margin-top: 9px; padding: 9px; border-radius: 14px; background: rgba(183,217,111,.08); border: 1px solid rgba(183,217,111,.18); }
+    .night-control-copy { text-align: left; }
+    .night-control-copy b { display: block; color: var(--green); font-size: 10px; }
+    .night-control-copy span { display: block; margin-top: 3px; color: var(--muted); font-size: 9px; line-height: 1.4; }
+    .night-control-copy em { display: block; margin-top: 4px; color: var(--orange); font-size: 9px; font-style: normal; font-weight: 800; }
+    .night-move-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; max-width: 168px; margin-left: auto; }
+    .night-move-btn { min-height: 32px; border-radius: 9px; background: rgba(255,255,255,.09); border: 1px solid rgba(247,241,207,.12); font-size: 15px; font-weight: 900; }
+    .night-move-btn:active { transform: scale(.95); background: rgba(183,217,111,.2); }
+    .night-move-spacer { visibility: hidden; }
+    .night-attack-readout { margin-top: 7px; color: var(--orange); font-size: 9px; text-align: left; }
+    .night-npc-status { position: absolute; z-index: 6; left: 3px; bottom: 2px; padding: 1px 3px; border-radius: 4px; background: rgba(13,24,29,.9); color: var(--green); font-size: 7px; font-weight: 900; }
+    .night-npc-status.hurt { color: var(--orange); }
+    .night-npc-status.flee { color: var(--red); }
+    .night-npc-status.hurt, .night-npc-status.flee { animation: statusPulse .7s ease-in-out infinite; }
+    @keyframes statusPulse { 50% { transform: scale(1.08); } }
+    .lane-track { position: relative; height: 66px; margin-top: 8px; border-radius: 12px; overflow: hidden; background: linear-gradient(180deg, rgba(42,77,73,.72), rgba(31,49,49,.72)); border: 1px solid rgba(247,241,207,.1); }
+    .lane-track::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(90deg, transparent 0 16%, rgba(247,241,207,.07) 16% 16.5%); pointer-events: none; }
+    .lane-track::after { content: ""; position: absolute; left: 84%; top: 0; bottom: 0; width: 2px; background: rgba(237,107,92,.58); box-shadow: 0 0 14px rgba(237,107,92,.38); }
+    .lane-gate { position: absolute; right: 2%; top: 50%; z-index: 2; transform: translateY(-50%); font-size: 20px; filter: drop-shadow(0 2px 2px rgba(0,0,0,.35)); }
+    .lane-zombie { position: absolute; z-index: 3; width: 35px; transform: translate(-50%, -50%); transition: left .42s linear, opacity .2s ease, filter .2s ease; text-align: center; font-size: 19px; line-height: 1; filter: drop-shadow(0 3px 2px rgba(0,0,0,.38)); }
+    .lane-zombie.dead { opacity: .24; filter: grayscale(1); }
+    .lane-zombie.hit { animation: laneHit .26s ease; }
+    .lane-zombie small { display: block; height: 3px; margin: 3px 5px 0; overflow: hidden; border-radius: 9px; background: rgba(0,0,0,.42); }
+    .lane-zombie small i { display: block; height: 100%; border-radius: inherit; background: var(--red); transition: width .2s ease; }
+    .lane-damage { position: absolute; top: -15px; left: 50%; color: var(--orange); font-size: 10px; transform: translateX(-50%); animation: floatDamage .62s ease-out forwards; }
+    @keyframes floatDamage { from { opacity: 1; transform: translate(-50%, 0); } to { opacity: 0; transform: translate(-50%, -11px); } }
+    .lane-damage { position: absolute; left: 50%; top: -17px; transform: translateX(-50%); color: var(--orange); font-size: 9px; font-weight: 900; animation: damageFloat .55s ease forwards; white-space: nowrap; }
+    @keyframes laneHit { 50% { filter: brightness(1.9) drop-shadow(0 0 6px rgba(247,164,77,.9)); transform: translate(-50%, -50%) scale(1.18); } }
+    @keyframes damageFloat { from { opacity: 1; transform: translate(-50%, 3px); } to { opacity: 0; transform: translate(-50%, -10px); } }
+    .lane-legend { display: flex; justify-content: space-between; margin-top: 5px; color: rgba(247,241,207,.48); font-size: 8px; }
+    .tower-feed { display: flex; gap: 6px; min-height: 22px; margin-top: 7px; overflow: hidden; color: var(--green); font-size: 9px; white-space: nowrap; text-overflow: ellipsis; }
+    .tower-feed span { padding: 4px 6px; border-radius: 7px; background: rgba(183,217,111,.1); }
+    .player-attack-hint { margin-top: 7px; color: var(--orange); font-size: 9px; line-height: 1.4; text-align: left; }
+    .result-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin: 13px 0 17px; }
+    .result-item { padding: 9px 5px; border-radius: 12px; background: rgba(255,255,255,.05); }
+    .result-item b { display: block; font-size: 16px; }
+    .result-item span { display: block; margin-top: 2px; color: var(--muted); font-size: 9px; }
+    .continue-btn { width: 100%; min-height: 47px; border-radius: 15px; background: var(--green); color: #182219; font-weight: 900; }
+    .tip { margin-top: 9px; text-align: center; color: rgba(247,241,207,.48); font-size: 10px; }
+    @media (min-width: 600px) {
+      body { padding: 18px 0; }
+      .app { min-height: calc(100svh - 36px); border: 1px solid rgba(255,255,255,.06); border-radius: 30px; box-shadow: 0 18px 70px rgba(0,0,0,.4); }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="brand-row">
+      <div>
+        <div class="brand-kicker">SURVIVE · BUILD · REPEAT</div>
+        <h1>尸潮农场</h1>
+        <div class="subtitle">白天经营一块地，晚上守住最后一盏灯。</div>
+        <div class="version-stamp">v1.5 · E交互 / B背包 / WASD行走</div>
+      </div>
+      <div class="day-badge"><strong id="dayLabel">第 1 天</strong><span id="timeLabel">06:00 · 晴</span></div>
+    </header>
+
+    <section class="resource-strip" aria-label="资源">
+      <div class="resource"><div class="label">🪵 木材</div><div class="value good" id="woodValue">24</div></div>
+      <div class="resource"><div class="label">🪨 石材</div><div class="value" id="stoneValue">12</div></div>
+      <div class="resource"><div class="label">🥫 食物</div><div class="value good" id="foodValue">8</div></div>
+      <div class="resource"><div class="label">🌰 种子</div><div class="value" id="seedValue">3</div></div>
+      <div class="resource"><div class="label">🔩 零件</div><div class="value" id="partsValue">4</div></div>
+      <div class="resource"><div class="label">🫀 状态</div><div class="value good" id="hpValue">100</div></div>
+    </section>
+
+    <section class="mission">
+      <div class="mission-icon">🎯</div>
+      <div class="mission-copy"><b>今日任务：让农场活过今晚</b><span id="missionText">先找到一名幸存者请求支援，再补一面木墙。</span></div>
+      <div class="mission-progress"><i id="missionBar"></i></div>
+    </section>
+
+    <section class="event-panel" id="eventPanel">
+      <div class="event-head"><div class="event-icon" id="eventIcon">📦</div><div class="event-copy"><b id="eventTitle">今日异动：废弃补给箱</b><span id="eventText">围栏外有一个被雨水泡过的补给箱。声音会把东西引过来，但里面可能有能救命的物资。</span></div><div class="event-state" id="eventState">待处理</div></div>
+      <div class="event-actions"><button class="event-choice" id="eventChoiceA">🔎 搜索补给箱<small>消耗 6 体力，获得食物和零件</small></button><button class="event-choice" id="eventChoiceB">🚶 安静绕开<small>不消耗体力，士气 +2</small></button></div>
+    </section>
+
+    <section class="world-wrap">
+      <div class="world-header"><div class="weather-pill" id="weatherPill">☀️ 白天 · 还剩 6 小时</div><div class="map-location-pill" id="mapRegionLabel">营地核心 · 4/18列</div><div class="alert-pill" id="alertPill">尸潮预警 0%</div></div>
+      <div class="world" id="world" aria-label="农场地图"></div>
+      <div class="map-legend" aria-label="地图图例"><span><i class="legend-dot camp"></i>营地</span><span><i class="legend-dot wild"></i>外围</span><span><i class="legend-dot landmark"></i>地标</span><span><i class="legend-dot gate"></i>入口</span></div>
+      <div class="survival-strip"><div class="energy-bar"><span>⚡ 体力 <b id="energyValue">78</b>/100</span><div class="meter"><i id="energyBar"></i></div></div><button class="feed-btn" id="eatBtn">🍲 吃饭<small>体力 +24</small></button></div>
+      <div class="world-hint" id="modeHint">靠近可交互物显示操作</div>
+    </section>
+
+    <section class="context-panel" id="contextPanel" aria-live="polite">
+      <div class="context-head"><div class="context-icon" id="contextIcon">✨</div><div class="context-copy"><b id="contextTitle">附近互动</b><span id="contextHint">走到资源、建筑或幸存者旁边后，这里会出现对应操作。</span></div><button class="context-close" id="contextClose" aria-label="关闭附近互动">×</button></div>
+      <div class="context-actions" id="contextActions"></div>
+    </section>
+
+    <section class="survivor-panel" id="survivorPanel">
+      <div class="panel-top"><div class="panel-title">幸存者支援 <span id="npcRosterSummary" class="panel-help">10/10</span></div><div class="panel-help" id="npcHint">靠近地图中的人物后请求支援</div></div>
+      <div class="survivor-list" id="survivorList">
+        <button class="survivor-card" data-npc="carpenter"><div class="survivor-icon">🧑‍🔧</div><b>阿梁 · 木匠</b><span>木墙 +6 防线，额外挡住 1 只</span><em>先靠近地图人物</em></button>
+        <button class="survivor-card" data-npc="doctor"><div class="survivor-icon">🧑‍⚕️</div><b>苏禾 · 医生</b><span>尸潮伤害降低 30%，清晨前治疗 8</span><em>先靠近地图人物</em></button>
+        <button class="survivor-card" data-npc="radio"><div class="survivor-icon">📻</div><b>阿默 · 广播员</b><span>提前预警，尸潮少 1 只</span><em>先靠近地图人物</em></button>
+      </div>
+    </section>
+
+    <section class="collection-panel" id="collectionPanel">
+      <div class="panel-top"><div class="panel-title">材料与收藏</div><div class="panel-help">探索地标、事件和稀有资源</div></div>
+      <div class="collection-grid">
+        <div class="collection-item"><div class="collect-icon">📼</div><b id="tapeValue">0/2</b><span>旧磁带<br>广播塔地标</span></div>
+        <div class="collection-item"><div class="collect-icon">🧩</div><b id="blueprintValue">0/3</b><span>蓝图碎片<br>解锁进化配方</span></div>
+        <div class="collection-item"><div class="collect-icon">🏅</div><b id="relicValue">0/3</b><span>旧时代遗物<br>收藏奖励</span></div>
+      </div>
+    </section>
+
+    <section class="game-panel">
+      <div class="panel-top"><div class="panel-title">今日行动</div><div class="panel-head-actions"><span class="panel-help">WASD 行走 · E 交互 · 行动会推进时间</span><button class="panel-toggle" id="survivorToggle">👥 人员</button><button class="panel-toggle" id="eventToggle">📣 异动</button><button class="panel-toggle" id="collectionToggle">📚 收藏</button></div></div>
+      <button class="food-action" id="eatBtnAction" aria-label="吃饭回复体力">🍲 吃饭 · 回复体力<small>消耗 1 食物 · 体力 +24；体力耗尽后禁用</small></button>
+      <div class="action-row">
+        <button class="action-btn primary" id="gatherBtn">🧺 采集<small>附近资源 + 30 分钟</small></button>
+        <button class="action-btn" id="buildBtn">🛠 建造<small>选择后点地图</small></button>
+        <button class="action-btn attack" id="attackBtn">🪓 攻击<small>相邻僵尸</small></button>
+      </div>
+      <div class="utility-row"><button class="action-btn" id="cropBtn">🌱 播种 / 收获<small>靠近菜畦操作</small></button><button class="action-btn" id="evolveBtn">🧬 进化建筑<small>先点地图中的建筑</small></button></div>
+      <div class="control-grid">
+        <div class="joystick" id="joystick" aria-label="虚拟摇杆"><div class="stick" id="stick"></div><div class="joy-label">移动</div></div>
+        <div class="quick-grid">
+          <button class="quick" data-dir="up"><span class="emoji">⬆️</span><span><b>上移</b><span>探索地图</span></span></button>
+          <button class="quick" data-dir="down"><span class="emoji">⬇️</span><span><b>下移</b><span>寻找资源</span></span></button>
+          <button class="quick" data-dir="left"><span class="emoji">⬅️</span><span><b>左移</b><span>调整站位</span></span></button>
+          <button class="quick" data-dir="right"><span class="emoji">➡️</span><span><b>右移</b><span>靠近目标</span></span></button>
+        </div>
+      </div>
+      <div class="build-drawer" id="buildDrawer">
+        <div class="build-grid">
+          <button class="build-card" data-build="wall"><div class="build-icon">🧱</div><b>木墙</b><span>挡住一只僵尸，提升防线。</span><div class="cost">🪵 8 · 🪨 1</div></button>
+          <button class="build-card" data-build="tower"><div class="build-icon">🗼</div><b>瞭望塔</b><span>夜间自动射击，清理尸潮。</span><div class="cost">🪵 12 · 🪨 5</div></button>
+          <button class="build-card" data-build="garden"><div class="build-icon">🌱</div><b>菜畦</b><span>播种后两天成熟，收获 3 份食物。</span><div class="cost">🪵 5 · 🪨 2</div></button>
+          <button class="build-card" data-build="lamp"><div class="build-icon">🏮</div><b>守夜灯</b><span>稳定士气，降低受伤概率。</span><div class="cost">🪵 4 · 🪨 3</div></button>
+        </div>
+        <div class="build-hint" id="buildHint">先选建筑，再点击地图上的空地。</div>
+      </div>
+      <div class="evolve-drawer" id="evolveDrawer">
+        <div class="evolve-head"><b id="evolveTitle">建筑进化</b><span id="evolveHint">先点击地图中的墙、塔、菜畦或灯</span></div>
+        <div class="evo-grid">
+          <button class="evo-card" data-evolve="spikeWall"><b>🪵 尖刺栅栏</b><span>木墙进化：尸潮会被钉住，额外挡 2 只。</span><em>🪵 6 · 🪨 2 · 🔩 3</em></button>
+          <button class="evo-card" data-evolve="flameTower"><b>🔥 火油塔</b><span>瞭望塔进化：一轮尸潮自动清理 3 只。</span><em>🪵 6 · 🪨 4 · 🔩 4</em></button>
+          <button class="evo-card" data-evolve="greenhouse"><b>🌿 药草温室</b><span>菜畦进化：每次收获额外获得 1 份药草。</span><em>🪵 5 · 🪨 3 · 🔩 2</em></button>
+          <button class="evo-card" data-evolve="beacon"><b>📡 求救信标</b><span>守夜灯进化：让广播员的尸潮预警再提前一步。</span><em>🪵 4 · 🪨 4 · 🔩 3</em></button>
+        </div>
+      </div>
+      <section class="weapon-panel" id="weaponPanel">
+        <div class="weapon-head"><b>武器进化：<span id="weaponName">生锈斧</span></b><span id="weaponDamage">伤害 50</span></div>
+        <div class="weapon-paths">
+          <button class="weapon-choice" data-weapon="hookBlade"><b>🪝 捕兽钩</b><small>伤害 70 · 有机会从尸潮回收零件<br>🔩 5 · 🪵 2</small></button>
+          <button class="weapon-choice" data-weapon="pulseAxe"><b>⚡ 脉冲斧</b><small>伤害 55 · 夜战一次清理 2 只<br>🔩 8 · 📼 1</small></button>
+        </div>
+      </section>
+      <button class="action-btn primary" id="endDayBtn" style="width:100%; margin-top:10px; background:#e8bc6f;">🌙 结束白天，迎接尸潮</button>
+    </section>
+
+    <section class="log-panel">
+      <div class="log-head"><b>幸存者日志</b><span id="logCount">记录 1 条</span></div>
+      <div class="log-list" id="logList"></div>
+      <div class="tip">提示：食物可在体力尚未归零时补给；体力耗尽后只能等到清晨恢复。</div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast"></div>
+  <div class="inventory-overlay" id="inventoryOverlay" aria-hidden="true">
+    <section class="inventory-panel" id="inventoryPanel" role="dialog" aria-modal="true" aria-labelledby="inventoryTitle">
+      <div class="inventory-head"><div><b id="inventoryTitle">🎒 背包</b><span>按 B 打开或关闭 · 物资、装备和收藏</span></div><button class="inventory-close" id="inventoryClose" aria-label="关闭背包">×</button></div>
+      <div class="inventory-section"><div class="inventory-section-title">随身物资 <span id="inventoryCapacity">6 类资源</span></div><div class="inventory-grid">
+        <div class="inventory-slot"><div class="inventory-icon">🪵</div><b id="inventoryWood">0</b><span>木材</span></div>
+        <div class="inventory-slot"><div class="inventory-icon">🪨</div><b id="inventoryStone">0</b><span>石材</span></div>
+        <div class="inventory-slot"><div class="inventory-icon">🥫</div><b id="inventoryFood">0</b><span>食物</span></div>
+        <div class="inventory-slot"><div class="inventory-icon">🌰</div><b id="inventorySeeds">0</b><span>种子</span></div>
+        <div class="inventory-slot"><div class="inventory-icon">🔩</div><b id="inventoryParts">0</b><span>零件</span></div>
+        <div class="inventory-slot"><div class="inventory-icon">🌿</div><b id="inventoryMedicine">0</b><span>药草</span></div>
+      </div></div>
+      <div class="inventory-section"><div class="inventory-section-title">装备与收藏 <span>只读状态</span></div><div class="inventory-equipment">
+        <div class="inventory-equipment-card"><b>🪓 <span id="inventoryWeapon">生锈斧</span></b><span id="inventoryWeaponDetail">伤害 50 · 夜战按 F 或空格攻击</span></div>
+        <div class="inventory-equipment-card"><b>📚 收藏进度</b><span id="inventoryCollection">磁带 0/2 · 蓝图 0/3 · 遗物 0/3</span></div>
+      </div></div>
+      <div class="inventory-actions"><button class="inventory-action primary" id="inventoryEat">🍲 R · 吃饭</button><button class="inventory-action" id="inventoryBuild">🛠 C · 建造</button><button class="inventory-action" id="inventoryContinue">↩ 继续游戏</button></div>
+      <div class="inventory-hotkeys">桌面：WASD 移动 · E 交互 · F/空格攻击 · B 背包 · C 建造 · R 进食。手机仍可使用屏幕上的按钮和摇杆。</div>
+    </section>
+  </div>
+  <div class="night-overlay" id="nightOverlay">
+    <div class="night-card">
+      <div class="night-icon" id="nightIcon">🌕</div>
+      <h2 id="nightTitle">月亮升起来了</h2>
+      <p id="nightCopy">僵尸正从林子里涌出来。农场的每一块木板都会被算进防线。</p>
+      <div class="night-map-wrap">
+        <div class="night-map-head"><b>🗺️ 同一张农场地图 · 夜间攻防</b><span id="nightMapStatus">等待尸群进入东侧入口</span></div>
+        <div class="world night-world" id="nightWorld" aria-label="夜间农场地图"></div>
+        <div class="battle-map-readout" id="battleMapReadout">白天建造的位置会直接影响今晚的防线。</div>
+      </div>
+      <div class="wave-caption"><span>尸潮推进</span><span id="waveProgressText">18%</span></div>
+      <div class="wavebar"><i id="waveBar"></i></div>
+      <div class="battle-status"><div class="battle-status-head"><b id="battleStage">远处来袭</b><span id="battleDetail">4 只僵尸正在靠近</span></div><div class="battle-route"><span>🌲</span><i><em id="threatMarker"></em></i><span>🏚️</span></div><div class="battle-route-labels"><span>林地入口</span><span>营地防线</span></div><div class="support-detail" id="supportDetail">本夜援防：未请求</div></div>
+      <div class="battle-lane" aria-label="自动防线实时战况"><div class="battle-lane-head"><b>🛡️ 自动防线 · 你不能操控建筑</b><span id="autoDefenseText">等待第一轮射击</span></div><div class="lane-track" id="battleLane"><span class="lane-gate">🏚️</span></div><div class="lane-legend"><span>🌲 尸群入口</span><span id="barrierText">防线余量 --</span><span>营地</span></div><div class="tower-feed" id="towerFeed"></div><div class="player-attack-hint" id="playerAttackHint">建筑会自动攻击；你只能用自己的武器补刀。</div></div>
+      <div class="night-control-panel" aria-label="夜间玩家控制"><div class="night-control-copy"><b>🧑‍🌾 只控制自己</b><span id="nightPlayerReadout">地图中的黄色农夫是你。建筑和 NPC 会按命令自动行动。</span><em id="nightAttackReadout">靠近尸群后使用攻击按钮。</em></div><div class="night-move-grid"><span class="night-move-spacer"></span><button class="night-move-btn" data-night-dir="up" aria-label="夜间上移">⬆️</button><span class="night-move-spacer"></span><button class="night-move-btn" data-night-dir="left" aria-label="夜间左移">⬅️</button><button class="night-move-btn" data-night-dir="down" aria-label="夜间下移">⬇️</button><button class="night-move-btn" data-night-dir="right" aria-label="夜间右移">➡️</button></div></div>
+      <div class="result-grid"><div class="result-item"><b id="waveZombies">0</b><span>来袭僵尸</span></div><div class="result-item"><b id="waveDefense">0</b><span>防线强度</span></div><div class="result-item"><b id="waveDamage">0</b><span>本轮损失</span></div><div class="result-item"><b id="waveSupport">0</b><span>支援队员</span></div></div>
+      <button class="continue-btn" id="nightAttackBtn" style="background:#e88a61;color:#27120f;margin-bottom:8px;">🪓 攻击附近目标</button>
+      <button class="continue-btn" id="continueBtn">继续到清晨</button>
+    </div>
+  </div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const dirs = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] };
+    const MAP = Object.freeze({
+      cols: 18, rows: 12, viewCols: 10, viewRows: 7,
+      legacyCols: 10, legacyRows: 7, revision: '18x12-expansion',
+      battle: { entryX: 17, targetX: 2, wallX: 8, laneRows: [2, 3, 4] }
+    });
+    const EXPANSION_RESOURCES = Object.freeze([
+      {x: 12, y: 2, type: 'tree', amount: 2},
+      {x: 15, y: 4, type: 'scrap', amount: 2},
+      {x: 3, y: 9, type: 'berry', amount: 2},
+      {x: 8, y: 8, type: 'tree', amount: 2},
+      {x: 14, y: 8, type: 'herb', amount: 2},
+      {x: 16, y: 6, type: 'rock', amount: 2}
+    ]);
+    const EXPANSION_LANDMARKS = Object.freeze([
+      {x: 14, y: 1, type: 'watchPost', name: '东侧废弃岗亭', icon: '🛖', found: false},
+      {x: 12, y: 9, type: 'waterMill', name: '废弃水车', icon: '⚙️', found: false},
+      {x: 16, y: 10, type: 'supplyDepot', name: '旧补给库', icon: '🗃️', found: false}
+    ]);
+    let battleTimer = null;
+    const buildInfo = {
+      wall: { name: '木墙', icon: '🧱', wood: 8, stone: 1, defense: 5 },
+      tower: { name: '瞭望塔', icon: '🗼', wood: 12, stone: 5, defense: 10 },
+      garden: { name: '菜畦', icon: '🌱', wood: 5, stone: 2, defense: 1 },
+      lamp: { name: '守夜灯', icon: '🏮', wood: 4, stone: 3, defense: 4 },
+      spikeWall: { name: '尖刺栅栏', icon: '🪵', defense: 9 },
+      flameTower: { name: '火油塔', icon: '🔥', defense: 14 },
+      greenhouse: { name: '药草温室', icon: '🌿', defense: 2 },
+      beacon: { name: '求救信标', icon: '📡', defense: 6 }
+    };
+    const evolutionInfo = {
+      spikeWall: { from: 'wall', name: '尖刺栅栏', wood: 6, stone: 2, parts: 3, desc: '尸潮额外挡住 2 只。' },
+      flameTower: { from: 'tower', name: '火油塔', wood: 6, stone: 4, parts: 4, desc: '夜间自动清理 3 只僵尸。' },
+      greenhouse: { from: 'garden', name: '药草温室', wood: 5, stone: 3, parts: 2, desc: '每次收获额外获得 1 份药草。' },
+      beacon: { from: 'lamp', name: '求救信标', wood: 4, stone: 4, parts: 3, desc: '若有广播员支援，尸潮再减少 1 只。' }
+    };
+    const weaponInfo = {
+      rustAxe: { name: '生锈斧', damage: 50, nightDamage: 100, desc: '可靠但笨重的旧斧头。' },
+      hookBlade: { name: '捕兽钩', damage: 70, nightDamage: 120, parts: 5, wood: 2, desc: '击杀尸潮后有机会回收零件。' },
+      pulseAxe: { name: '脉冲斧', damage: 55, nightDamage: 200, parts: 8, tapes: 1, desc: '夜战一次挥击可清理 2 只僵尸。' }
+    };
+    const eventPool = [
+      { id: 'supply', icon: '📦', title: '今日异动：废弃补给箱', text: '围栏外有一个被雨水泡过的补给箱。声音会把东西引过来，但里面可能有能救命的物资。', a: '🔎 搜索补给箱', aHint: '消耗 6 体力，食物 +3、零件 +1，尸潮 +1', b: '🚶 安静绕开', bHint: '不消耗体力，士气 +2' },
+      { id: 'storm', icon: '🌧️', title: '今日异动：黑雨将至', text: '乌云压住了农场。今晚的木材会吸水，但现在加固还能保住防线。', a: '🪵 加固防线', aHint: '消耗 4 木材，本夜损失 -8', b: '🔥 守住火种', bHint: '消耗 1 食物，士气 +5' },
+      { id: 'signal', icon: '📻', title: '今日异动：陌生广播', text: '收音机里反复播放一个坐标。那里或许有蓝图，也可能是尸群的诱饵。', a: '📡 调谐信号', aHint: '消耗 5 体力，蓝图 +1，尸潮 -1', b: '🔇 关闭收音机', bHint: '不冒险，士气 +1' },
+      { id: 'screamer', icon: '📢', title: '今日异动：尖啸者在林边', text: '一种会引来更多尸群的尖啸者停在林边。它还没有发现火光，但留给你的时间不多了。', a: '🪤 布置静音陷阱', aHint: '消耗 2 零件，尸潮 -2', b: '🏮 熄灯潜伏', bHint: '士气 -3，本夜损失 -4' }
+    ];
+    const DYNAMIC_EVENT_IDS = new Set(['ration', 'triage', 'tension']);
+    // 需求驱动的晨间异动：让 NPC 的饥饿、伤势和压力真正改变当天的决策，
+    // 同时复用旧事件面板，避免另起一套 UI 或破坏旧存档。
+    function refreshDynamicNpcEvent() {
+      const living = state.npcs.filter(npcIsActive);
+      if (!living.length) return null;
+      const hungry = living.filter(n => (n.needs?.hunger || 0) >= 68).sort((a, b) => (b.needs.hunger || 0) - (a.needs.hunger || 0));
+      const injured = living.filter(n => n.lifeState !== 'healthy').sort((a, b) => a.hp - b.hp);
+      const tense = living.filter(n => (n.needs?.stress || 0) >= 72 || (n.needs?.fatigue || 0) >= 78);
+      const critical = injured.some(n => n.lifeState === 'critical');
+      if ((state.food <= 2 || hungry.length >= Math.max(2, Math.ceil(living.length * .45))) && !critical) {
+        const names = hungry.slice(0, 2).map(n => n.name).join('、') || '几名幸存者';
+        return { id: 'ration', icon: '🍲', title: '今日异动：配给线排起长队', text: `${names}已经明显饥饿。周岚建议现在决定是开一顿热食，还是把库存留到尸潮之后。`, a: '🍲 按配给分餐', aHint: '消耗 1 食物，降低全员饥饿和压力，士气 +2', b: '📦 保留库存', bHint: '不消耗食物，但全员压力 +5，士气 -3' };
+      }
+      if (injured.length && (state.medicine > 0 || injured.some(n => n.lifeState === 'critical'))) {
+        const patient = injured[0];
+        return { id: 'triage', icon: '⚕️', title: '今日异动：医务室需要排序', text: `${patient.name}的伤势仍未稳定。苏禾只能先处理一名伤员，今天的药草要交给谁？`, a: '🩹 优先救治重伤', aHint: '消耗 1 药草，最低生命值幸存者恢复 18 HP', b: '🛏️ 让伤员休息', bHint: '不消耗药草，伤员疲劳 -18，但士气 -1' };
+      }
+      if (tense.length || state.morale < 42) {
+        const lead = tense[0];
+        return { id: 'tension', icon: '🫱', title: '今日异动：换防前的争执', text: `${lead ? lead.name : '几名守卫'}对昨夜的安排有意见。你需要让大家把话说开，或尽快结束争执回到岗位。`, a: '🗣️ 召开短会', aHint: '推进 15 分钟，降低全员压力，士气 +4', b: '⏱️ 立即换防', bHint: '不耗时，但压力 +4；今晚尸潮推进略快' };
+      }
+      return null;
+    }
+
+    const NPC_TEMPLATES = Object.freeze({
+      carpenter: { id: 'carpenter', name: '阿梁', role: '木匠', icon: '🧑‍🔧', position: {x: 1, y: 2}, fallbackPoint: {x: 2, y: 2}, desc: '木墙 +6 防线，额外挡住 1 只', personality: { courage: 58, duty: 72, compassion: 65, discipline: 68, riskTolerance: 52, loyalty: 70 } },
+      doctor: { id: 'doctor', name: '苏禾', role: '医生', icon: '🧑‍⚕️', position: {x: 6, y: 2}, fallbackPoint: {x: 2, y: 2}, desc: '尸潮伤害降低 30%，清晨前治疗 8', personality: { courage: 46, duty: 76, compassion: 96, discipline: 78, riskTolerance: 34, loyalty: 72 } },
+      radio: { id: 'radio', name: '阿默', role: '广播员', icon: '📻', position: {x: 8, y: 6}, fallbackPoint: {x: 2, y: 2}, desc: '提前预警，尸潮少 1 只', personality: { courage: 52, duty: 64, compassion: 58, discipline: 62, riskTolerance: 65, loyalty: 60 } },
+      commander: { id: 'commander', name: '林岑', role: '营地长官', icon: '🧭', position: {x: 5, y: 2}, fallbackPoint: {x: 2, y: 2}, desc: '统一调度防线和人员，负责继任判断', personality: { courage: 78, duty: 92, compassion: 62, discipline: 94, riskTolerance: 55, loyalty: 88 } },
+      sergeant: { id: 'sergeant', name: '贺川', role: '士官长', icon: '🪖', position: {x: 7, y: 2}, fallbackPoint: {x: 2, y: 2}, desc: '训练士兵并负责换防', personality: { courage: 86, duty: 90, compassion: 48, discipline: 86, riskTolerance: 78, loyalty: 84 } },
+      guardJi: { id: 'guardJi', name: '纪宁', role: '士兵', icon: '🛡️', position: {x: 8, y: 3}, fallbackPoint: {x: 2, y: 2}, desc: '谨慎守门，优先保护熟悉的同伴', personality: { courage: 68, duty: 82, compassion: 72, discipline: 80, riskTolerance: 44, loyalty: 86 } },
+      guardChen: { id: 'guardChen', name: '陈野', role: '士兵', icon: '🔦', position: {x: 7, y: 5}, fallbackPoint: {x: 2, y: 2}, desc: '节省弹药，威胁过高时提前撤退', personality: { courage: 42, duty: 56, compassion: 46, discipline: 64, riskTolerance: 28, loyalty: 48 } },
+      guardJiang: { id: 'guardJiang', name: '蒋锋', role: '士兵', icon: '⚔️', position: {x: 3, y: 5}, fallbackPoint: {x: 2, y: 2}, desc: '好胜冲动，可能脱离岗位追击', personality: { courage: 88, duty: 48, compassion: 36, discipline: 38, riskTolerance: 94, loyalty: 58 } },
+      quartermaster: { id: 'quartermaster', name: '周岚', role: '后勤官', icon: '📦', position: {x: 2, y: 5}, fallbackPoint: {x: 2, y: 2}, desc: '管理食物、弹药和药品的优先级', personality: { courage: 44, duty: 84, compassion: 54, discipline: 88, riskTolerance: 24, loyalty: 66 } },
+      cook: { id: 'cook', name: '唐婶', role: '炊事与农务', icon: '🧺', position: {x: 4, y: 6}, fallbackPoint: {x: 2, y: 2}, desc: '照料农务和火堆，稳定营地士气', personality: { courage: 60, duty: 80, compassion: 88, discipline: 70, riskTolerance: 42, loyalty: 82 } }
+    });
+
+    const CAMP_ZONES = Object.freeze({
+      command: { name: '指挥所', short: '指挥' },
+      infirmary: { name: '医务室', short: '医疗' },
+      workshop: { name: '工坊', short: '工坊' },
+      warehouse: { name: '仓库', short: '后勤' },
+      barracks: { name: '兵营', short: '兵营' },
+      residence: { name: '居住区', short: '居住' },
+      core: { name: '营地核心', short: '核心' },
+      eastGate: { name: '东门防线', short: '东门' },
+      northGate: { name: '北门防线', short: '北门' },
+      serviceGate: { name: '南侧服务门', short: '服务门' },
+      eastOutpost: { name: '东侧前哨', short: '前哨' },
+      farmland: { name: '南侧农田', short: '农田' },
+      riverBank: { name: '排水河湾', short: '河湾' }
+    });
+    const NPC_ASSIGNMENTS = Object.freeze({
+      carpenter: { homeZone: 'workshop', workZone: 'eastGate' },
+      doctor: { homeZone: 'infirmary', workZone: 'core' },
+      radio: { homeZone: 'command', workZone: 'northGate' },
+      commander: { homeZone: 'command', workZone: 'core' },
+      sergeant: { homeZone: 'barracks', workZone: 'eastGate' },
+      guardJi: { homeZone: 'barracks', workZone: 'northGate' },
+      guardChen: { homeZone: 'barracks', workZone: 'serviceGate' },
+      guardJiang: { homeZone: 'barracks', workZone: 'eastGate' },
+      quartermaster: { homeZone: 'warehouse', workZone: 'core' },
+      cook: { homeZone: 'residence', workZone: 'core' }
+    });
+    const CAMP_AREAS = Object.freeze([
+      { x: 5, y: 1, zone: 'command', icon: '🧭' },
+      { x: 6, y: 0, zone: 'infirmary', icon: '⚕️' },
+      { x: 2, y: 1, zone: 'workshop', icon: '⚒️' },
+      { x: 2, y: 4, zone: 'warehouse', icon: '📦' },
+      { x: 6, y: 4, zone: 'barracks', icon: '🛏️' },
+      { x: 4, y: 5, zone: 'residence', icon: '🔥' },
+      { x: 9, y: 3, zone: 'eastGate', icon: '🚪' },
+      { x: 0, y: 2, zone: 'northGate', icon: '🛡️' },
+      { x: 5, y: 6, zone: 'serviceGate', icon: '🚧' },
+      { x: 11, y: 3, zone: 'eastOutpost', icon: '🛡️' },
+      { x: 10, y: 8, zone: 'farmland', icon: '🌾' },
+      { x: 13, y: 9, zone: 'riverBank', icon: '🌊' }
+    ]);
+    const REGION_DEFS = Object.freeze({
+      core: { name: '营地核心', short: '核心', color: 'core' },
+      east: { name: '东侧外围', short: '东侧', color: 'east' },
+      south: { name: '南侧拓荒区', short: '南侧', color: 'south' },
+      ruins: { name: '东侧废墟', short: '废墟', color: 'ruins' }
+    });
+
+    function createNpcState(id, overrides = {}) {
+      const template = NPC_TEMPLATES[id];
+      if (!template) throw new Error('Unknown NPC template: ' + id);
+      return {
+        id: template.id, name: template.name, role: template.role, icon: template.icon, desc: template.desc,
+        ...NPC_ASSIGNMENTS[id], x: template.position.x, y: template.position.y, maxHp: 100, hp: 100,
+        lifeState: 'healthy', wounds: [], morale: 72, behaviorState: 'work',
+        currentOrder: null, fallbackPoint: {...template.fallbackPoint}, inventory: { medicine: 0, ammo: 2 },
+        personality: {...template.personality}, relations: { trustToPlayer: 0, trustToCommander: 0, allies: ({ guardJi: ['guardChen'], guardChen: ['guardJi'], guardJiang: [], commander: ['sergeant'], sergeant: ['commander'], quartermaster: ['cook'], cook: ['quartermaster'] }[id] || []), rivals: ({ guardJiang: ['guardChen'], guardChen: ['guardJiang'] }[id] || []) },
+        memory: { helpedByPlayer: 0, witnessedDeaths: 0, failedOrders: 0, importantEvents: [] },
+        needs: { hunger: 18, fatigue: 12, stress: 8 }, scheduleState: 'work', lastReport: '', actingRole: null, actingFor: null,
+        supportRequested: false, order: null, bond: 0, combatHp: 100, combatStatus: 'ready',
+        escapePressure: 0, ...overrides
+      };
+    }
+
+    const state = {
+      day: 1, hour: 6, minute: 0, energy: 78, hp: 100, wood: 24, stone: 12, food: 8, seeds: 3, parts: 4, medicine: 0, morale: 72, nightBattle: null, gameOver: null, selectedNpc: null, selectedBuilding: null,
+      collection: { tape: 0, blueprint: 0, relic: 0 }, event: null, eventThreat: 0, eventShield: 0,
+      weapon: { id: 'rustAxe' },
+      player: { x: 3, y: 4 }, playerVisual: { x: 3, y: 4 }, facing: 'down', combatTargetId: null, hoverTarget: null, interactionFocus: null, npcTalkOpen: null, interactionRepeatTimer: null, moveTweenFrame: null, visitedRegions: { core: true }, areaFlags: {}, roleVacancies: {}, tempCoordination: false, noiseEvents: [], inventoryOpen: false, selected: null, buildMode: false, selectedBuild: null, night: false, zombieKills: 0, mapRevision: MAP.revision, effects: [], effectSeq: 0,
+      buildings: [{x:2,y:2,type:'shelter'}, {x:3,y:2,type:'garden',planted:false,growth:0,ready:false}, {x:8,y:4,type:'wall', hp:3}, {x:8,y:5,type:'wall', hp:3}],
+      resources: [{x:1,y:5,type:'tree',amount:2},{x:4,y:1,type:'tree',amount:2},{x:5,y:5,type:'rock',amount:2},{x:7,y:1,type:'berry',amount:2},{x:1,y:1,type:'rock',amount:2},{x:6,y:6,type:'tree',amount:2},{x:8,y:0,type:'scrap',amount:2},{x:0,y:0,type:'herb',amount:2}, ...EXPANSION_RESOURCES],
+      landmarks: [{x:9,y:0,type:'radioTower',name:'废弃广播塔',icon:'📡',found:false},{x:0,y:6,type:'oldCar',name:'锈蚀卡车',icon:'🚙',found:false},{x:9,y:6,type:'vault',name:'地下储藏柜',icon:'🗃️',found:false}, ...EXPANSION_LANDMARKS],
+      npcs: [
+        createNpcState('carpenter', { perk: '羁绊 3：木墙放置时额外 +1 耐久' }),
+        createNpcState('doctor', { perk: '羁绊 3：进食额外恢复 6 生命' }),
+        createNpcState('radio', { perk: '羁绊 3：求救信标额外减少 1 只尸潮' }),
+        createNpcState('commander', { x: 4, y: 0, perk: '负责全局调度；长官缺席时防线协调下降' }),
+        createNpcState('sergeant', { x: 5, y: 0, perk: '换防时额外提高纪律' }),
+        createNpcState('guardJi', { x: 7, y: 2, perk: '保护熟悉的盟友' }),
+        createNpcState('guardChen', { x: 1, y: 4, perk: '威胁过高时优先撤退' }),
+        createNpcState('guardJiang', { x: 3, y: 5, perk: '追击时伤害提高，但更容易离开岗位' }),
+        createNpcState('quartermaster', { x: 4, y: 4, perk: '物资紧张时优先保护核心人员' }),
+        createNpcState('cook', { x: 4, y: 6, perk: '公共火堆提高营地士气' })
+      ],
+      zombies: [], logs: [{text:'营地里还有十位幸存者，先认识他们，再决定今晚谁守哪一面墙。', kind:''},{text:'醒来时，收音机只剩下一个频道：今晚会有尸潮。', kind:''}]
+    };
+
+    state.event = {...eventPool[0], handled: false};
+
+    const SAVE_VERSION = 11;
+    const SAVE_KEY = 'zombie-harvest-progress-v11';
+    const LEGACY_SAVE_KEYS = ['zombie-harvest-progress-v10', 'zombie-harvest-progress-v9', 'zombie-harvest-progress-v8', 'zombie-harvest-progress-v7'];
+    const collectionCaps = { tape: 2, blueprint: 3, relic: 3 };
+    const requiredBond = { spikeWall: 'carpenter', flameTower: 'radio', greenhouse: 'doctor', beacon: 'radio' };
+    const requiredBlueprint = { spikeWall: 1, flameTower: 2, greenhouse: 1, beacon: 2 };
+    const commonNpcOrders = [
+      { id: 'guard', name: '守墙', desc: '在指定防线待命，增加防线余量。' },
+      { id: 'patrol', name: '巡逻', desc: '在接触前拦截尸群，但更容易暴露在危险中。' },
+      { id: 'cover', name: '支援玩家', desc: '跟随玩家行动，降低其遭遇危险时的压力。' }
+    ];
+    const npcOrders = {
+      carpenter: [
+        { id: 'guard', name: '守墙', desc: '加固一段防线，增加防线余量。' },
+        { id: 'patrol', name: '巡逻', desc: '巡逻队会在尸群接触前自动拦截。' },
+        { id: 'cover', name: '支援玩家', desc: '为玩家标记目标，夜间补刀伤害提升。' }
+      ],
+      doctor: [
+        { id: 'guard', name: '守墙', desc: '在防线后待命，降低突破造成的损伤。' },
+        { id: 'patrol', name: '巡逻', desc: '携带急救包巡逻，拦下一次突破。' },
+        { id: 'cover', name: '支援玩家', desc: '跟在玩家身后，结算时额外治疗。' }
+      ],
+      radio: [
+        { id: 'guard', name: '守墙', desc: '提前报告尸群路线，敌人推进更慢。' },
+        { id: 'patrol', name: '巡逻', desc: '用广播诱导一条尸群路线，自动削弱目标。' },
+        { id: 'cover', name: '支援玩家', desc: '为玩家呼叫掩护，减少营地受到的冲击。' }
+      ],
+      commander: commonNpcOrders, sergeant: commonNpcOrders, guardJi: commonNpcOrders,
+      guardChen: commonNpcOrders, guardJiang: commonNpcOrders, quartermaster: commonNpcOrders, cook: commonNpcOrders
+    };
+    const defaultNpcOrder = { carpenter: 'guard', doctor: 'cover', radio: 'guard', commander: 'guard', sergeant: 'guard', guardJi: 'guard', guardChen: 'guard', guardJiang: 'patrol', quartermaster: 'guard', cook: 'cover' };
+    function getNpcOrders(npc) { return npcOrders[npc?.actingRole || npc?.id] || commonNpcOrders; }
+    function getNpcOrderInfo(npc, orderId = npc?.order) {
+      const list = getNpcOrders(npc);
+      return list.find(order => order.id === orderId) || list.find(order => order.id === defaultNpcOrder[npc?.actingRole || npc?.id]) || list[0] || { id: orderId || 'guard', name: '待命', desc: '等待夜间指令。' };
+    }
+
+    function serializeNpc(npc) {
+      return {
+        id: npc.id, x: npc.x, y: npc.y, maxHp: npc.maxHp, hp: npc.hp, lifeState: npc.lifeState,
+        wounds: npc.wounds, morale: npc.morale, behaviorState: npc.behaviorState, currentOrder: npc.currentOrder,
+        fallbackPoint: npc.fallbackPoint, homeZone: npc.homeZone, workZone: npc.workZone, inventory: npc.inventory, personality: npc.personality, relations: npc.relations,
+        memory: npc.memory, bond: npc.bond, supportRequested: npc.supportRequested, order: npc.order || null
+        , needs: npc.needs, scheduleState: npc.scheduleState, lastReport: npc.lastReport, actingRole: npc.actingRole || null, actingFor: npc.actingFor || null
+      };
+    }
+    function normalizeNpc(npc, saved = {}) {
+      const merged = {...createNpcState(npc.id), ...npc, ...saved};
+      merged.x = clampToMap(merged.x, MAP.cols);
+      merged.y = clampToMap(merged.y, MAP.rows);
+      merged.maxHp = Number.isFinite(merged.maxHp) ? Math.max(1, Math.min(200, merged.maxHp)) : 100;
+      merged.hp = Number.isFinite(merged.hp) ? Math.max(0, Math.min(merged.maxHp, merged.hp)) : merged.maxHp;
+      merged.morale = Number.isFinite(merged.morale) ? Math.max(0, Math.min(100, merged.morale)) : 72;
+      merged.bond = Number.isFinite(merged.bond) ? Math.max(0, Math.min(3, merged.bond)) : 0;
+      merged.wounds = Array.isArray(merged.wounds) ? merged.wounds.slice(0, 4) : [];
+      merged.fallbackPoint = merged.fallbackPoint && Number.isFinite(merged.fallbackPoint.x) && Number.isFinite(merged.fallbackPoint.y) ? merged.fallbackPoint : {...NPC_TEMPLATES[npc.id].fallbackPoint};
+      merged.personality = {...NPC_TEMPLATES[npc.id].personality, ...(merged.personality || {})};
+      merged.relations = {...createNpcState(npc.id).relations, ...(merged.relations || {})};
+      merged.memory = {...createNpcState(npc.id).memory, ...(merged.memory || {})};
+      merged.needs = {...createNpcState(npc.id).needs, ...(merged.needs || {})};
+      ['hunger','fatigue','stress'].forEach(k => { merged.needs[k] = Math.max(0, Math.min(100, Number(merged.needs[k]) || 0)); });
+      merged.scheduleState = typeof merged.scheduleState === 'string' ? merged.scheduleState : 'work';
+      merged.lastReport = typeof merged.lastReport === 'string' ? merged.lastReport : '';
+      merged.actingRole = typeof merged.actingRole === 'string' && NPC_TEMPLATES[merged.actingRole] ? merged.actingRole : null;
+      merged.actingFor = typeof merged.actingFor === 'string' && NPC_TEMPLATES[merged.actingFor] ? merged.actingFor : null;
+      merged.lifeState = merged.hp <= 0 ? 'dead' : ['healthy','injured','critical'].includes(merged.lifeState) ? merged.lifeState : merged.hp < 60 ? 'injured' : 'healthy';
+      merged.supportRequested = merged.lifeState !== 'dead' && !!merged.supportRequested;
+      merged.order = merged.lifeState === 'dead' ? null : merged.order;
+      merged.combatHp = merged.hp;
+      merged.combatStatus = merged.lifeState === 'dead' ? 'dead' : 'ready';
+      return merged;
+    }
+    function saveProgress() {
+      try {
+        const safe = {
+          version: SAVE_VERSION, day: state.day, hour: state.hour, minute: state.minute, energy: state.energy, hp: state.hp,
+          wood: state.wood, stone: state.stone, food: state.food, seeds: state.seeds, parts: state.parts,
+          medicine: state.medicine, morale: state.morale, collection: state.collection, weapon: state.weapon,
+          event: state.event, eventThreat: state.eventThreat, eventShield: state.eventShield, mapRevision: MAP.revision,
+          player: state.player, buildings: state.buildings, resources: state.resources, landmarks: state.landmarks,
+          npcs: state.npcs.map(serializeNpc), visitedRegions: state.visitedRegions, areaFlags: state.areaFlags, roleVacancies: state.roleVacancies, tempCoordination: !!state.tempCoordination
+        };
+        localStorage.setItem(SAVE_KEY, JSON.stringify(safe));
+      } catch (e) { /* localStorage may be unavailable in private contexts */ }
+    }
+    function loadProgress() {
+      try {
+        let raw = null;
+        for (const key of [SAVE_KEY, ...LEGACY_SAVE_KEYS]) {
+          raw = localStorage.getItem(key);
+          if (raw) break;
+        }
+        if (!raw) return;
+        const saved = JSON.parse(raw); if (!saved || typeof saved !== 'object') return;
+        ['day','hour','minute','energy','hp','wood','stone','food','seeds','parts','medicine','morale'].forEach(k => { if (Number.isFinite(saved[k])) state[k] = saved[k]; });
+        if (saved.collection) Object.keys(collectionCaps).forEach(k => { state.collection[k] = Math.max(0, Math.min(collectionCaps[k], Number(saved.collection[k]) || 0)); });
+        const allowedSavedEvent = saved.event && (eventPool.some(e => e.id === saved.event.id) || DYNAMIC_EVENT_IDS.has(saved.event.id));
+        if (allowedSavedEvent) state.event = { ...(eventPool.find(e => e.id === saved.event.id) || saved.event), ...saved.event, handled: !!saved.event.handled, result: saved.event.result || '' };
+        if (Number.isFinite(saved.eventThreat)) state.eventThreat = Math.max(-2, Math.min(2, saved.eventThreat));
+        if (Number.isFinite(saved.eventShield)) state.eventShield = Math.max(0, saved.eventShield);
+        if (saved.weapon && weaponInfo[saved.weapon.id]) state.weapon.id = saved.weapon.id;
+        const savedVersion = Number(saved.version) || 0;
+        const legacyMapSave = savedVersion < SAVE_VERSION || saved.mapRevision !== MAP.revision;
+        if (saved.player && Number.isFinite(saved.player.x) && Number.isFinite(saved.player.y)) state.player = { x: clampToMap(saved.player.x, MAP.cols), y: clampToMap(saved.player.y, MAP.rows) };
+        if (saved.visitedRegions && typeof saved.visitedRegions === 'object') state.visitedRegions = { core: true, ...Object.fromEntries(Object.keys(REGION_DEFS).filter(k => saved.visitedRegions[k]).map(k => [k, true])) };
+        if (saved.areaFlags && typeof saved.areaFlags === 'object') { const validFlags = Object.keys(saved.areaFlags).filter(key => /^(eastOutpost|riverBank)-day-\d+$/.test(key)); state.areaFlags = Object.fromEntries(validFlags.map(key => [key, !!saved.areaFlags[key]])); }
+        if (saved.roleVacancies && typeof saved.roleVacancies === 'object') state.roleVacancies = Object.fromEntries(Object.keys(saved.roleVacancies).filter(key => NPC_TEMPLATES[key]).map(key => [key, { role: key, openedDay: Number(saved.roleVacancies[key]?.openedDay) || state.day }]));
+        if (typeof saved.tempCoordination === 'boolean') state.tempCoordination = saved.tempCoordination;
+        if (Array.isArray(saved.buildings)) state.buildings = saved.buildings.filter(b => inBounds(b.x, b.y) && (b.type === 'shelter' || buildInfo[b.type]));
+        if (Array.isArray(saved.resources)) state.resources = saved.resources.filter(r => inBounds(r.x, r.y) && r.amount > 0);
+        if (Array.isArray(saved.landmarks)) state.landmarks.forEach(l => { const old = saved.landmarks.find(x => x.x === l.x && x.y === l.y && x.type === l.type) || saved.landmarks.find(x => x.x === l.x && x.y === l.y); if (old) l.found = !!old.found; });
+        if (legacyMapSave) appendMissingExpansionContent();
+        state.mapRevision = MAP.revision;
+        if (Array.isArray(saved.npcs)) state.npcs.forEach(n => { const old = saved.npcs.find(x => x.id === n.id); if (old) Object.assign(n, normalizeNpc(n, old)); });
+        state.roleVacancies = state.roleVacancies || {};
+        state.npcs.filter(n => !npcIsActive(n)).forEach(n => { state.roleVacancies[n.id] = state.roleVacancies[n.id] || { role: n.id, openedDay: state.day }; if (n.actingRole) state.roleVacancies[n.actingRole] = state.roleVacancies[n.actingRole] || { role: n.actingRole, openedDay: state.day }; });
+      } catch (e) { /* ignore malformed or unavailable saves */ }
+    }
+    loadProgress();
+    markRegionVisited(state.player.x, state.player.y, false);
+    state.playerVisual = { x: state.player.x, y: state.player.y };
+
+    function tileKey(x, y) { return `${x},${y}`; }
+    function getBuilding(x, y) { return state.buildings.find(b => b.x === x && b.y === y); }
+    function getResource(x, y) { return state.resources.find(r => r.x === x && r.y === y && r.amount > 0); }
+    function getZombie(x, y) { return state.zombies.find(z => z.x === x && z.y === y && z.hp > 0); }
+    function npcIsActive(npc) { return npc && npc.lifeState !== 'dead'; }
+    function npcHasRole(npc, roleId) { return npcIsActive(npc) && (npc.id === roleId || npc.actingRole === roleId); }
+    function getNpc(x, y) { return state.npcs.find(n => npcIsActive(n) && n.x === x && n.y === y); }
+    function npcLifeLabel(npc) {
+      if (!npcIsActive(npc)) return '已死亡 · 岗位空缺';
+      if (npc.lifeState === 'critical') return '重伤 · HP ' + npc.hp + '/' + npc.maxHp;
+      if (npc.lifeState === 'injured') return '受伤 · HP ' + npc.hp + '/' + npc.maxHp;
+      return '健康 · HP ' + npc.hp + '/' + npc.maxHp;
+    }
+    function syncNpcLifeState(npc) {
+      if (!npc) return;
+      if (npc.hp <= 0) { npc.hp = 0; npc.lifeState = 'dead'; npc.combatStatus = 'dead'; npc.behaviorState = 'dead'; npc.supportRequested = false; npc.order = null; return; }
+      npc.lifeState = npc.hp < 30 ? 'critical' : npc.hp < npc.maxHp ? 'injured' : 'healthy';
+    }
+    function getLandmark(x, y) { return state.landmarks.find(l => l.x === x && l.y === y && !l.found); }
+    function getCampArea(x, y) { return CAMP_AREAS.find(area => area.x === x && area.y === y); }
+    function inBounds(x, y) { return Number.isFinite(x) && Number.isFinite(y) && x >= 0 && x < MAP.cols && y >= 0 && y < MAP.rows; }
+    function clampToMap(value, axis) { return Math.max(0, Math.min(axis - 1, Number.isFinite(value) ? Math.round(value) : 0)); }
+    function isDesktopPanorama() { return typeof window !== 'undefined' && window.innerWidth >= 900; }
+    function getMapViewport() {
+      if (isDesktopPanorama()) return { x: 0, y: 0 };
+      if (state.player.x < MAP.legacyCols && state.player.y < MAP.legacyRows) return { x: 0, y: 0 };
+      const x = Math.max(0, Math.min(MAP.cols - MAP.viewCols, state.player.x - Math.floor(MAP.viewCols / 2)));
+      const y = Math.max(0, Math.min(MAP.rows - MAP.viewRows, state.player.y - Math.floor(MAP.viewRows / 2)));
+      return { x, y };
+    }
+    function getNightViewport() {
+      if (isDesktopPanorama()) return { x: 0, y: 0 };
+      const battle = state.nightBattle;
+      const active = battle ? battle.enemies.filter(e => !e.dead && !e.reached) : [];
+      const lead = active.sort((a, b) => b.progress - a.progress)[0];
+      const focusX = lead ? battleEnemyPosition(lead).x : state.player.x;
+      const anchorX = focusX > state.player.x + Math.floor(MAP.viewCols / 2) ? focusX : state.player.x;
+      const x = Math.max(0, Math.min(MAP.cols - MAP.viewCols, anchorX - Math.floor(MAP.viewCols / 2)));
+      const y = Math.max(0, Math.min(MAP.rows - MAP.viewRows, state.player.y - Math.floor(MAP.viewRows / 2)));
+      return { x, y };
+    }
+    function getRenderViewport(night = false) {
+      const base = night ? getNightViewport() : getMapViewport();
+      return { ...base, cols: isDesktopPanorama() ? MAP.cols : MAP.viewCols, rows: isDesktopPanorama() ? MAP.rows : MAP.viewRows };
+    }
+    function getMapRegion(x, y) {
+      return REGION_DEFS[regionKeyAt(x, y)]?.name || '营地核心';
+    }
+    function regionKeyAt(x, y) {
+      if (x >= 14 && y < 7) return 'ruins';
+      if (y >= 7) return 'south';
+      if (x >= 10) return 'east';
+      return 'core';
+    }
+    function markRegionVisited(x, y, announce = true) {
+      const key = regionKeyAt(x, y);
+      if (state.visitedRegions[key]) return false;
+      state.visitedRegions[key] = true;
+      if (announce && REGION_DEFS[key]) { log(`你进入了${REGION_DEFS[key].name}，地图信息已记录。`); toast(`发现区域：${REGION_DEFS[key].name}`); }
+      return true;
+    }
+    function isRegionVisible(x, y) {
+      const key = regionKeyAt(x, y);
+      if (state.visitedRegions[key]) return true;
+      return Math.abs(x - state.player.x) + Math.abs(y - state.player.y) <= 1;
+    }
+    function deterministicDecor(x, y) {
+      const terrain = terrainAt(x, y);
+      const n = Math.abs((x * 37 + y * 19 + x * y * 7) % 23);
+      if (terrain === 'water') return n % 4 === 0 ? '💧' : '';
+      if (terrain === 'forest') return n % 5 === 0 ? '🌿' : n % 7 === 0 ? '🍂' : '';
+      if (terrain === 'wetland') return n % 4 === 0 ? '🌾' : n % 9 === 0 ? '🪷' : '';
+      if (terrain === 'farmland') return n % 5 === 0 ? '🌱' : '';
+      if (terrain === 'ruins') return n % 3 === 0 ? '🪨' : n % 8 === 0 ? '🧱' : '';
+      return n % 11 === 0 ? '·' : '';
+    }
+    function npcStateSummary(npc) {
+      if (!npc) return '';
+      const need = npc.needs || {};
+      const pressure = need.stress >= 70 ? '紧张' : need.fatigue >= 70 ? '疲惫' : need.hunger >= 70 ? '饥饿' : '稳定';
+      return `${npcLifeLabel(npc)} · ${npc.scheduleState || '工作中'} · ${pressure} · 信任 ${npc.relations?.trustToPlayer || 0}`;
+    }
+    function rememberNpc(npc, event, deltaTrust = 0) {
+      if (!npc) return;
+      npc.memory = npc.memory || { helpedByPlayer: 0, witnessedDeaths: 0, failedOrders: 0, importantEvents: [] };
+      npc.memory.importantEvents = [...(npc.memory.importantEvents || []), `第${state.day}天：${event}`].slice(-8);
+      if (deltaTrust) npc.relations = {...npc.relations, trustToPlayer: Math.max(-100, Math.min(100, (npc.relations?.trustToPlayer || 0) + deltaTrust))};
+    }
+    function npcRoleEfficiency(npc) { return npc?.actingRole ? .72 : 1; }
+    function npcOrderModifier(npc, orderId) {
+      if (!npc) return 1;
+      const trust = (npc.relations?.trustToPlayer || 0) / 100;
+      const personality = orderId === 'patrol' ? npc.personality.riskTolerance : orderId === 'guard' ? npc.personality.duty : npc.personality.compassion;
+      const alliesPresent = (npc.relations?.allies || []).filter(id => state.npcs.some(other => other.id === id && npcIsActive(other))).length;
+      const rivalsPresent = (npc.relations?.rivals || []).filter(id => state.npcs.some(other => other.id === id && npcIsActive(other))).length;
+      return Math.max(.62, Math.min(1.2, (1 + trust * .08 + (personality - 50) / 500 + alliesPresent * .035 - rivalsPresent * .045) * npcRoleEfficiency(npc)));
+    }
+    function updateNpcRoutine(minutes = 0) {
+      const hour = state.hour + state.minute / 60;
+      state.npcs.filter(npcIsActive).forEach(npc => {
+        npc.needs = npc.needs || { hunger: 18, fatigue: 12, stress: 8 };
+        npc.needs.hunger = Math.min(100, npc.needs.hunger + minutes * .018);
+        npc.needs.fatigue = Math.min(100, npc.needs.fatigue + minutes * (hour >= 22 || hour < 6 ? .004 : .012));
+        npc.needs.stress = Math.min(100, Math.max(0, npc.needs.stress + (state.morale < 35 ? minutes * .02 : -minutes * .006)));
+        const schedule = hour < 8 ? '休整' : hour < 12 ? '岗位工作' : hour < 14 ? '用餐' : hour < 18 ? '岗位工作' : '回到居住区';
+        npc.scheduleState = npc.combatStatus === 'ready' ? schedule : npc.scheduleState;
+        if (Math.round(state.minute) === 0 && state.hour % 2 === 0) {
+          const destination = schedule === '回到居住区' || schedule === '休整' || schedule === '用餐' ? npc.homeZone : npc.workZone;
+          const area = CAMP_AREAS.find(item => item.zone === destination);
+          if (area && Math.abs(area.x - npc.x) + Math.abs(area.y - npc.y) > 0) stepNpcRoutineToward(npc, area);
+        }
+      });
+    }
+    function terrainAt(x, y) {
+      if ((x === 0 && (y === 3 || y === 4)) || (x === 9 && y === 2) || (y >= 9 && x >= 4 && x <= 6)) return 'water';
+      if ((y === 3 && x > 1 && x < 8) || (x === 5 && y > 0 && y < 6) || (x >= 10 && y === 3)) return 'path';
+      if (y >= 7) return y >= 9 ? 'farmland' : 'wetland';
+      if (x >= 10) return x >= 14 ? 'ruins' : 'forest';
+      return 'grass';
+    }
+    function applyTerrain(cell, x, y) {
+      const terrain = terrainAt(x, y);
+      cell.classList.add('terrain-' + terrain);
+      if (terrain === 'path') cell.classList.add('path');
+      if (terrain === 'water') cell.classList.add('water');
+      return terrain;
+    }
+    function updateMapLocationLabel() {
+      const label = $('mapRegionLabel');
+      if (!label) return;
+      const region = getMapRegion(state.player.x, state.player.y);
+      label.textContent = region + ' · ' + (state.player.x + 1) + '/' + MAP.cols + '列 · ' + (state.player.y + 1) + '/' + MAP.rows + '行';
+    }
+    function appendMissingExpansionContent() {
+      EXPANSION_RESOURCES.forEach(item => {
+        if (!state.resources.some(r => r.x === item.x && r.y === item.y)) state.resources.push({...item});
+      });
+      EXPANSION_LANDMARKS.forEach(item => {
+        if (!state.landmarks.some(l => l.x === item.x && l.y === item.y && l.type === item.type)) state.landmarks.push({...item});
+      });
+    }
+    function isBlocked(x, y) {
+      return !!getBuilding(x, y) || !!getNpc(x, y) || !!getLandmark(x, y) || !!getZombie(x, y) || (terrainAt(x, y) === 'water' && (x >= MAP.legacyCols || y >= MAP.legacyRows));
+    }
+    function log(text, kind = '') {
+      state.logs.unshift({text, kind});
+      state.logs = state.logs.slice(0, 5);
+    }
+    function toast(text) {
+      const el = $('toast'); el.textContent = text; el.classList.add('show');
+      clearTimeout(toast.timer); toast.timer = setTimeout(() => el.classList.remove('show'), 1800);
+    }
+    function pushFx(type, text, x = state.player.x, y = state.player.y, tone = '') {
+      const effect = { id: ++state.effectSeq, type, text, x, y, tone, at: Date.now() };
+      state.effects = [...(state.effects || []).filter(item => Date.now() - item.at < 1400), effect].slice(-20);
+      clearTimeout(pushFx.timer);
+      pushFx.timer = setTimeout(() => {
+        state.effects = (state.effects || []).filter(item => Date.now() - item.at < 1100);
+        if (state.night && state.nightBattle) renderNightWorld(); else renderWorld();
+      }, 1120);
+      return effect;
+    }
+    function renderWorldEffects(world, viewport) {
+      if (!world || !viewport) return;
+      const now = Date.now();
+      (state.effects || []).filter(effect => now - effect.at < 1100 && effect.x >= viewport.x && effect.x < viewport.x + viewport.cols && effect.y >= viewport.y && effect.y < viewport.y + viewport.rows).forEach(effect => {
+        const el = document.createElement('span');
+        el.className = `world-effect ${effect.type}${effect.tone ? ' ' + effect.tone : ''}`;
+        el.style.left = `${((effect.x - viewport.x + .5) / viewport.cols) * 100}%`;
+        el.style.top = `${((effect.y - viewport.y + .35) / viewport.rows) * 100}%`;
+        el.textContent = effect.text;
+        world.appendChild(el);
+      });
+    }
+    function formatTime() { return `${String(state.hour).padStart(2,'0')}:${String(state.minute).padStart(2,'0')}`; }
+    function advance(minutes) {
+      state.minute += minutes;
+      while (state.minute >= 60) { state.minute -= 60; state.hour += 1; }
+      if (state.hour >= 18) state.hour = 18;
+      updateNpcRoutine(minutes);
+      renderHud();
+    }
+    function spendEnergy(amount) {
+      if (state.energy < amount) { toast('体力不够；食物只能在体力尚未耗尽时使用'); return false; }
+      state.energy -= amount; return true;
+    }
+    function renderInventory() {
+      const panel = $('inventoryOverlay');
+      if (!panel) return;
+      $('inventoryWood').textContent = state.wood;
+      $('inventoryStone').textContent = state.stone;
+      $('inventoryFood').textContent = state.food;
+      $('inventorySeeds').textContent = state.seeds;
+      $('inventoryParts').textContent = state.parts;
+      $('inventoryMedicine').textContent = state.medicine;
+      const weapon = weaponInfo[state.weapon.id] || weaponInfo.rustAxe;
+      $('inventoryWeapon').textContent = weapon.name;
+      $('inventoryWeaponDetail').textContent = `伤害 ${weapon.damage} · 夜战按 F 或空格攻击`;
+      $('inventoryCollection').textContent = `磁带 ${state.collection.tape}/2 · 蓝图 ${state.collection.blueprint}/3 · 遗物 ${state.collection.relic}/3`;
+      panel.classList.toggle('open', !!state.inventoryOpen);
+      panel.setAttribute('aria-hidden', state.inventoryOpen ? 'false' : 'true');
+    }
+    function toggleInventory(force = null) {
+      stopInteractionRepeat();
+      state.inventoryOpen = force === null ? !state.inventoryOpen : !!force;
+      renderInventory();
+      if (state.inventoryOpen) $('inventoryClose')?.focus();
+    }
+    function renderHud() {
+      $('dayLabel').textContent = `第 ${state.day}/5 天`;
+      $('timeLabel').textContent = `${formatTime()} · ${state.night ? '尸潮' : '晴'}`;
+      $('woodValue').textContent = state.wood;
+      $('stoneValue').textContent = state.stone;
+      $('foodValue').textContent = state.food;
+      $('seedValue').textContent = state.seeds;
+      $('partsValue').textContent = state.parts;
+      $('hpValue').textContent = state.hp;
+      $('energyValue').textContent = state.energy;
+      $('energyBar').style.width = `${state.energy}%`;
+      const eatButtons = [$('eatBtn'), $('eatBtnAction')].filter(Boolean);
+      const staminaDepleted = state.energy <= 0;
+      const eatDisabled = state.night || !!state.gameOver || staminaDepleted;
+      eatButtons.forEach((e…5339 tokens truncated…ea.zone]?.name || '营地区域'} · 可用设施`; hint = describeInteraction({kind:'area', item:area});
+      }
+      const preview = interactionCandidates()[0];
+      if (preview && !areas.length) hint = describeInteraction(preview) || hint;
+      if (state.interactionFocus) hint += ' · 已锁定，再按 E 执行';
+      if (!actions.length) { hideContext(); return; }
+      if (actions.length > 1) hint += ' · 也可按 1-' + Math.min(9, actions.length) + ' 选择';
+      $('contextIcon').textContent = icon;
+      $('contextTitle').textContent = title;
+      $('contextHint').textContent = hint;
+      $('contextActions').innerHTML = actions.join('');
+      panel.classList.add('show');
+    }
+    function triggerContextActionByIndex(index) {
+      const button = document.querySelector(`#contextActions [data-context-index="${index}"]`);
+      if (button && !button.disabled) { button.click(); return true; }
+      return false;
+    }
+    function renderEvolution() {
+      const b = state.selectedBuilding;
+      const hasBuilding = !!b;
+      $('evolveTitle').textContent = hasBuilding ? `${buildInfo[b.type]?.name || '建筑'} · 选择进化` : '建筑进化';
+      $('evolveHint').textContent = hasBuilding ? `当前选择：${buildInfo[b.type]?.name || b.type}` : '先点击地图中的墙、塔、菜畦或灯';
+      document.querySelectorAll('[data-evolve]').forEach(card => {
+        const info = evolutionInfo[card.dataset.evolve];
+        const npcId = requiredBond[card.dataset.evolve];
+        const npc = state.npcs.find(n => npcHasRole(n, npcId));
+        const blueprintReady = state.collection.blueprint >= (requiredBlueprint[card.dataset.evolve] || 0);
+        const canUse = hasBuilding && b.type === info.from && !state.night && !state.gameOver && blueprintReady && !!npc && npc.lifeState !== 'dead' && npc.bond >= 1;
+        card.disabled = !canUse;
+        card.style.borderColor = canUse ? 'rgba(247,164,77,.5)' : '';
+        card.title = !hasBuilding ? '先选择一个基础建筑' : b.type !== info.from ? `需要${buildInfo[info.from].name}` : !blueprintReady ? `需要蓝图 ${requiredBlueprint[card.dataset.evolve]} 片` : (!npc || npc.bond < 1) ? `需要${npcId === 'carpenter' ? '阿梁' : npcId === 'doctor' ? '苏禾' : '阿默'}建立羁绊` : info.desc;
+      });
+    }
+    function renderSurvivors() {
+      const living = state.npcs.filter(npcIsActive);
+      const nearby = living.filter(n => Math.abs(n.x - state.player.x) + Math.abs(n.y - state.player.y) <= 1);
+      const injured = living.filter(n => n.lifeState !== 'healthy').length;
+      const dead = state.npcs.length - living.length;
+      $('npcRosterSummary').textContent = living.length + '/' + state.npcs.length + (injured ? ' · 伤' + injured : '') + (dead ? ' · 亡' + dead : '');
+      $('npcHint').textContent = '在营地：' + living.length + '/' + state.npcs.length + ' · ' + (nearby.length ? '附近：' + nearby.map(n => n.name).join('、') : '靠近地图中的人物后请求支援');
+      $('survivorList').innerHTML = state.npcs.map(n => {
+        const near = nearby.some(item => item.id === n.id);
+        const dead = !npcIsActive(n);
+        const status = dead ? '已死亡 · 岗位空缺' : n.supportRequested ? '已请求 · ' + getNpcOrderInfo(n).name : near ? '可立即请求并下达命令' : '靠近后交互';
+        const disabled = dead ? 'disabled' : '';
+        const zoneName = CAMP_ZONES[n.homeZone]?.name || '营地';
+        const actingLabel = n.actingRole ? `暂代${NPC_TEMPLATES[n.actingRole]?.role || n.actingRole}` : '';
+        const detail = dead ? '该角色不会在清晨自动恢复；后续需要继任者接替岗位。' : n.desc + ' · 常驻' + zoneName + (actingLabel ? ' · ' + actingLabel : '') + (n.lastReport ? ' · ' + n.lastReport : '');
+        const condition = dead ? '功能失效' : npcStateSummary(n) + (actingLabel ? ' · ' + actingLabel : '') + ' · 羁绊 ' + n.bond + '/3';
+        return '<button class="survivor-card ' + (near ? 'near' : '') + ' ' + (n.supportRequested ? 'supported' : '') + ' ' + (dead ? 'dead' : '') + ' ' + (n.lifeState === 'injured' ? 'injured' : '') + ' ' + (n.lifeState === 'critical' ? 'critical' : '') + '" data-npc="' + n.id + '" ' + disabled + '><div class="survivor-icon">' + n.icon + '</div><b>' + n.name + ' · ' + n.role + '</b><span>' + detail + '</span><em>' + status + ' · ' + condition + '</em></button>';
+      }).join('');
+      document.querySelectorAll('[data-npc]').forEach(card => card.addEventListener('click', () => interactNpc(card.dataset.npc)));
+    }
+    function render() { renderHud(); renderWorld(); renderSurvivors(); renderContext(); renderLogs(); saveProgress(); }
+
+    function grantCollection(kind, amount = 1) {
+      const cap = collectionCaps[kind] || Infinity;
+      const before = state.collection[kind] || 0;
+      state.collection[kind] = Math.min(cap, before + amount);
+      if (state.collection[kind] === cap && before < cap) log(`${kind === 'tape' ? '旧磁带' : kind === 'blueprint' ? '蓝图碎片' : '旧时代遗物'}收藏完成，探索奖励已记入收藏册。`, '');
+      return state.collection[kind] - before;
+    }
+    function discoverLandmark(landmark) {
+      if (!landmark || landmark.found) return;
+      if (!spendEnergy(4)) return;
+      landmark.found = true;
+      clearInteractionFocus();
+      const rewards = {
+        radioTower: ['旧广播塔', () => { grantCollection('tape'); state.parts += 1; }],
+        oldCar: ['锈蚀卡车', () => { grantCollection('relic'); state.parts += 2; }],
+        vault: ['地下储藏柜', () => { grantCollection('blueprint'); state.parts += 3; }],
+        watchPost: ['东侧废弃岗亭', () => { grantCollection('relic'); state.parts += 1; state.morale = Math.min(100, state.morale + 2); }],
+        waterMill: ['废弃水车', () => { state.food += 2; state.seeds += 1; }],
+        supplyDepot: ['旧补给库', () => { state.parts += 2; state.medicine += 1; }]
+      };
+      const [name, reward] = rewards[landmark.type] || ['未知地标', () => {}];
+      reward();
+      advance(20);
+      log(`你探索了${name}，收藏册有了新的记录。`);
+      toast(`${name}已探索，发现稀有物资`);
+      render();
+    }
+    function resolveEvent(choice) {
+      if (state.night || state.gameOver || !state.event || state.event.handled) return;
+      const event = state.event;
+      let result = '';
+      if (event.id === 'ration') {
+        const living = state.npcs.filter(npcIsActive);
+        if (choice === 'a') {
+          if (state.food < 1) { toast('食物不足，无法分餐'); return; }
+          state.food -= 1;
+          living.forEach(n => { n.needs = n.needs || {hunger:18,fatigue:12,stress:8}; n.needs.hunger = Math.max(0, n.needs.hunger - 28); n.needs.stress = Math.max(0, n.needs.stress - 9); rememberNpc(n, '参加配给分餐', 1); });
+          state.morale = Math.min(100, state.morale + 2);
+          result = '唐婶把最后一锅热食分给大家。饥饿和紧张都缓和了一些，食物 -1，士气 +2。';
+        } else {
+          living.forEach(n => { n.needs = n.needs || {hunger:18,fatigue:12,stress:8}; n.needs.stress = Math.min(100, n.needs.stress + 5); rememberNpc(n, '接受保留库存的决定', -1); });
+          state.morale = Math.max(0, state.morale - 3);
+          result = '你把库存锁进仓库。今晚的物资更充足，但每个人都带着压力回到岗位，士气 -3。';
+        }
+      } else if (event.id === 'triage') {
+        const patient = state.npcs.filter(npcIsActive).filter(n => n.lifeState !== 'healthy').sort((a, b) => a.hp - b.hp)[0];
+        if (choice === 'a') {
+          if (state.medicine < 1) { toast('药草不足，先去采集或探索地标'); return; }
+          if (!patient) { toast('当前没有需要急救的伤员'); return; }
+          state.medicine -= 1;
+          patient.hp = Math.min(patient.maxHp, patient.hp + 18); patient.wounds = (patient.wounds || []).map(w => ({...w, healed: patient.hp >= 70 ? true : w.healed})); syncNpcLifeState(patient);
+          patient.needs = patient.needs || {hunger:18,fatigue:12,stress:8}; patient.needs.stress = Math.max(0, patient.needs.stress - 14); patient.lastReport = '晨间优先救治 +' + 18 + ' HP'; rememberNpc(patient, '接受晨间优先救治', 3); pushFx('heal', '+18 ' + patient.name, patient.x, patient.y, 'heal');
+          result = `苏禾先为${patient.name}处理了伤势，生命值 +18，药草 -1。`;
+        } else {
+          if (patient) { patient.needs = patient.needs || {hunger:18,fatigue:12,stress:8}; patient.needs.fatigue = Math.max(0, patient.needs.fatigue - 18); patient.needs.stress = Math.min(100, patient.needs.stress + 2); patient.lastReport = '晨间休整，暂缓用药'; rememberNpc(patient, '接受休整并暂缓用药', 0); }
+          state.morale = Math.max(0, state.morale - 1);
+          result = '你让伤员先睡一会儿，把药草留给更危险的时刻。士气 -1，伤员疲劳 -18。';
+        }
+      } else if (event.id === 'tension') {
+        const living = state.npcs.filter(npcIsActive);
+        if (choice === 'a') {
+          living.forEach(n => { n.needs = n.needs || {hunger:18,fatigue:12,stress:8}; n.needs.stress = Math.max(0, n.needs.stress - 20); rememberNpc(n, '参加换防短会', 1); });
+          state.morale = Math.min(100, state.morale + 4); advance(15);
+          result = '你让每个人用一句话说明昨夜的压力，换防终于重新排好。全员压力下降，士气 +4。';
+        } else {
+          living.forEach(n => { n.needs = n.needs || {hunger:18,fatigue:12,stress:8}; n.needs.stress = Math.min(100, n.needs.stress + 4); });
+          state.eventThreat = Math.min(2, state.eventThreat + 1); result = '换防被匆忙结束。没人再争论，但压力 +4，仓促的脚步声让今晚尸群推进略快。';
+        }
+      } else if (event.id === 'supply') {
+        if (choice === 'a') {
+          if (!spendEnergy(6)) return;
+          state.food += 3; state.parts += 1; state.eventThreat = 1;
+          result = '你翻出 3 份食物和 1 个零件，但响动让今晚的尸潮多来了一只。';
+        } else { state.morale = Math.min(100, state.morale + 2); result = '你记下补给箱的位置，先把平安留给今晚。士气 +2。'; }
+      } else if (event.id === 'storm') {
+        if (choice === 'a') {
+          if (state.wood < 4) { toast('木材不够，无法加固防线'); return; }
+          state.wood -= 4; state.eventShield = 8; result = '你把木板和油布钉牢，本夜第一次撞击被缓冲。';
+        } else {
+          if (state.food < 1) { toast('没有食物可守住火种'); return; }
+          state.food -= 1; state.morale = Math.min(100, state.morale + 5); result = '火种没有熄灭，大家围在一起熬过黑雨。士气 +5。';
+        }
+      } else if (event.id === 'signal') {
+        if (choice === 'a') {
+          if (!spendEnergy(5)) return;
+          const found = grantCollection('blueprint'); state.eventThreat = -1;
+          result = found ? '你调谐出一段旧工程蓝图，信号也误导了部分尸群。蓝图 +1，尸潮 -1。' : '你调谐出重复的蓝图残页，信号仍误导了部分尸群。尸潮 -1。';
+        } else { state.morale = Math.min(100, state.morale + 1); result = '你关闭收音机，营地暂时保持安静。士气 +1。'; }
+      } else if (event.id === 'screamer') {
+        if (choice === 'a') {
+          if (state.parts < 2) { toast('零件不够，无法布置静音陷阱'); return; }
+          state.parts -= 2; state.eventThreat = -2; result = '静音陷阱绊住了尖啸者，林子里重新安静下来。尸潮 -2。';
+        } else { state.morale = Math.max(0, state.morale - 3); state.eventShield = 4; result = '你熄灭火光躲过第一声尖啸，但大家的心情跌了下去。士气 -3，本夜损失 -4。'; }
+      }
+      event.handled = true; event.result = result; log(result, choice === 'a' && event.id === 'supply' ? 'warn' : '');
+      toast('今日异动已处理'); render();
+    }
+    function toggleEvolution() {
+      if (state.selectedBuilding && contextDistance(state.selectedBuilding) > 1) { toast('靠近建筑后才能查看进化路线'); return; }
+      $('evolveDrawer').classList.toggle('open');
+      renderEvolution();
+      if (!state.selectedBuilding) toast('先点击地图里的墙、塔、菜畦或灯');
+    }
+    function evolveBuilding(id) {
+      const info = evolutionInfo[id], b = state.selectedBuilding;
+      if (!info || !b) { toast('先选择一个基础建筑'); return; }
+      if (b.type !== info.from) { toast(`这条路线需要${buildInfo[info.from].name}`); return; }
+      if (state.night || state.gameOver) return;
+      const npcId = requiredBond[id], npc = state.npcs.find(n => npcHasRole(n, npcId));
+      if (!npc || npc.lifeState === 'dead' || npc.bond < 1) { toast(`先和${npcId === 'carpenter' ? '阿梁' : npcId === 'doctor' ? '苏禾' : '阿默'}建立羁绊，且该幸存者必须仍在营地`); return; }
+      if (state.collection.blueprint < requiredBlueprint[id]) { toast(`需要蓝图 ${requiredBlueprint[id]} 片`); return; }
+      if (state.wood < info.wood || state.stone < info.stone || state.parts < info.parts) { toast(`材料不足：木 ${info.wood} · 石 ${info.stone} · 零件 ${info.parts}`); return; }
+      state.wood -= info.wood; state.stone -= info.stone; state.parts -= info.parts;
+      b.type = id;
+      if (id === 'spikeWall') b.hp = 4;
+      if (id === 'flameTower') delete b.hp;
+      if (id === 'greenhouse') { b.planted = !!b.planted; b.growth = b.growth || 0; b.ready = !!b.ready; }
+      log(`${buildInfo[info.from].name}进化为${info.name}：${info.desc}`);
+      toast(`${info.name}完成进化`); $('evolveDrawer').classList.remove('open'); advance(30); render();
+    }
+    function chooseWeapon(id) {
+      const info = weaponInfo[id];
+      if (!info || state.weapon.id !== 'rustAxe' || state.night || state.gameOver) return;
+      if (state.parts < (info.parts || 0) || state.wood < (info.wood || 0) || state.collection.tape < (info.tapes || 0)) { toast('材料或收藏品不足，无法完成武器进化'); return; }
+      state.parts -= info.parts || 0; state.wood -= info.wood || 0;
+      state.weapon.id = id; log(`旧斧头进化为${info.name}：${info.desc}`); toast(`${info.name}已装备`); advance(20); render();
+    }
+    function spawnResource() {
+      const types = ['tree','rock','berry','scrap','herb'];
+      for (let tries = 0; tries < 40; tries += 1) {
+        const x = Math.floor(Math.random() * MAP.cols), y = Math.floor(Math.random() * MAP.rows);
+        const terrain = terrainAt(x, y);
+        if (terrain === 'water' || getCampArea(x,y) || getBuilding(x,y) || getNpc(x,y) || getResource(x,y) || getLandmark(x,y) || (state.player.x === x && state.player.y === y)) continue;
+        state.resources.push({x, y, type: types[Math.floor(Math.random() * types.length)], amount: 2});
+        return;
+      }
+    }
+
+    function interactionTargetAt(x, y) {
+      if (!inBounds(x, y)) return null;
+      const npc = getNpc(x, y);
+      const resource = getResource(x, y);
+      const building = getBuilding(x, y);
+      const landmark = getLandmark(x, y);
+      const area = getCampArea(x, y);
+      if (npc) return { kind: 'npc', item: npc, priority: 1 };
+      if (resource) return { kind: 'resource', item: resource, priority: 2 };
+      if (building && (building.type === 'garden' || building.type === 'greenhouse')) return { kind: 'crop', item: building, priority: 3 };
+      if (building && (building.type === 'wall' || building.type === 'spikeWall') && (building.hp || 0) < (building.type === 'spikeWall' ? 4 : 3)) return { kind: 'repair', item: building, priority: 4 };
+      if (landmark) return { kind: 'landmark', item: landmark, priority: 5 };
+      if (building) return { kind: 'building', item: building, priority: 6 };
+      if (area) return { kind: 'area', item: area, priority: 7 };
+      return null;
+    }
+    function interactionCandidates() {
+      const offsets = [[0,0],[1,0],[-1,0],[0,1],[0,-1]];
+      return offsets.map(([dx,dy]) => {
+        const target = interactionTargetAt(state.player.x + dx, state.player.y + dy);
+        return target ? {...target, distance: Math.abs(dx) + Math.abs(dy)} : null;
+      }).filter(Boolean).sort((a,b) => facingPriority(a) - facingPriority(b) || a.priority - b.priority || a.distance - b.distance);
+    }
+    function interactCampArea(area) {
+      if (!area || state.night || state.gameOver) return;
+      markRegionVisited(area.x, area.y, false);
+      const zone = area.zone;
+      if (zone === 'command') {
+        const vacancies = Object.keys(state.roleVacancies || {}).filter(role => !(state.npcs || []).some(n => npcHasRole(n, role)));
+        const commander = state.npcs.find(n => npcHasRole(n, 'commander'));
+        const sergeant = state.npcs.find(n => npcHasRole(n, 'sergeant'));
+        state.morale = Math.min(100, state.morale + (vacancies.length ? 1 : 2));
+        if (vacancies.length) {
+          log(`指挥简报：${vacancies.map(role => NPC_TEMPLATES[role]?.role || role).join('、')}岗位待补，${state.tempCoordination ? '今晚由你临时协调。' : '清晨将尝试安排继任。'}`);
+          toast(`指挥简报：${vacancies.length} 个岗位空缺`);
+        } else {
+          log(`指挥简报：${commander?.name || '指挥链'}${sergeant ? '与' + sergeant.name : ''}已完成换防安排，士气 +2。`);
+          toast('指挥简报已更新');
+        }
+        advance(15); render(); return;
+      }
+      if (zone === 'infirmary') {
+        const patient = state.npcs.filter(npcIsActive).sort((a, b) => a.hp - b.hp)[0];
+        if (patient && patient.lifeState !== 'healthy' && state.medicine > 0) {
+          state.medicine -= 1; const heal = 22; patient.hp = Math.min(patient.maxHp, patient.hp + heal); patient.wounds = patient.wounds.map(w => ({...w, healed: patient.hp >= 70 ? true : w.healed})); syncNpcLifeState(patient); rememberNpc(patient, '在医务室接受治疗', 2); pushFx('heal', `+${heal} ${patient.name}`, patient.x, patient.y, 'heal'); advance(20); log(`医务室为${patient.name}处理了伤势，生命值 +${heal}。`); toast('治疗完成'); render(); return;
+        }
+        if (state.hp < 100 && state.medicine > 0) { state.medicine -= 1; state.hp = Math.min(100, state.hp + 18); advance(20); toast('医务室处理了你的伤口，生命值 +18'); render(); return; }
+        toast('医务室目前没有需要处理的伤员，或药草不足'); return;
+      }
+      if (zone === 'workshop') { state.selectedBuilding = state.buildings.find(b => contextDistance(b) <= 1 && b.type !== 'shelter') || state.selectedBuilding; toggleEvolution(); toast('工坊：可以修理墙体或查看建筑进化'); return; }
+      if (zone === 'warehouse') { toggleInventory(true); toast(`仓库库存：木材 ${state.wood} · 食物 ${state.food} · 药草 ${state.medicine}`); return; }
+      if (zone === 'residence') {
+        if (state.food <= 0) { toast('居住区缺少食物，无法组织晚餐'); return; }
+        state.food -= 1; state.morale = Math.min(100, state.morale + 5); state.npcs.filter(npcIsActive).forEach(n => { n.needs = n.needs || {hunger:18,fatigue:12,stress:8}; n.needs.hunger = Math.max(0, n.needs.hunger - 28); n.needs.stress = Math.max(0, n.needs.stress - 8); rememberNpc(n, '参加营地晚餐', 1); }); advance(30); log('居住区组织了一次集体晚餐，大家的饥饿和紧张都缓解了。'); toast('集体晚餐：士气 +5'); render(); return;
+      }
+      if (zone === 'barracks') { const guards = state.npcs.filter(n => npcIsActive(n) && ['guardJi','guardChen','guardJiang','sergeant','commander'].includes(n.id)); if (!guards.length) { toast('兵营目前没有可训练的守卫'); return; } guards.forEach(n => { n.morale = Math.min(100, n.morale + 6); n.needs.stress = Math.max(0, (n.needs?.stress || 0) - 5); rememberNpc(n, '在兵营完成换防训练', 1); }); state.morale = Math.min(100, state.morale + 2); advance(30); log('兵营完成了换防训练，守门人员士气提高。'); toast('换防训练完成'); render(); return; }
+      if (zone === 'farmland') { state.selectedBuilding = state.buildings.find(b => b.type === 'garden' || b.type === 'greenhouse'); toast('农田：靠近菜畦后按 E 播种或收获'); renderContext(); return; }
+      if (['eastOutpost','riverBank'].includes(zone)) {
+        const flag = `${zone}-day-${state.day}`;
+        if (state.areaFlags[flag]) { toast('今天已经完成过这里的巡查'); return; }
+        if (!spendEnergy(2)) return;
+        state.areaFlags[flag] = true; state.noiseEvents = [...state.noiseEvents, {x: area.x, y: area.y, kind:'scout', day: state.day, at: Date.now()}].slice(-12); markRegionVisited(area.x, area.y, true); advance(10);
+        toast(zone === 'eastOutpost' ? '前哨记录了东侧尸群路线' : '河湾附近发现了可用水路'); render(); return;
+      }
+      if (['eastGate','northGate','serviceGate'].includes(zone)) { state.morale = Math.min(100, state.morale + 1); advance(15); toast(`${CAMP_ZONES[zone].name}完成一次巡检，防线记录已更新`); render(); return; }
+      toast(`${CAMP_ZONES[zone]?.name || '营地区域'}：目前平稳`);
+    }
+    function executeInteraction(target) {
+      if (!target) return false;
+      if (target.kind === 'npc') { interactNpc(target.item.id); return true; }
+      if (target.kind === 'resource') { gather(target.item); return true; }
+      if (target.kind === 'crop') { plantOrHarvest(target.item); return true; }
+      if (target.kind === 'repair') { repairBuilding(target.item); return true; }
+      if (target.kind === 'landmark') { discoverLandmark(target.item); return true; }
+      if (target.kind === 'building') {
+        state.selectedBuilding = target.item;
+        if (target.item.type === 'shelter') toggleWeaponPanel(true); else toggleEvolution();
+        return true;
+      }
+      if (target.kind === 'area') { interactCampArea(target.item); return true; }
+      return false;
+    }
+    function interact() {
+      if (state.gameOver) return;
+      if (state.inventoryOpen) { toggleInventory(false); return; }
+      if (state.night) {
+        const nearby = nightNearbyEnemies();
+        if (nearby.length) nightAttack(); else toast('靠近尸群后按 E 交互；F 或空格可直接攻击');
+        return;
+      }
+      if (state.buildMode) {
+        const target = state.hoverTarget;
+        if (target && Math.abs(target.x - state.player.x) + Math.abs(target.y - state.player.y) <= 1) { placeBuilding(target.x, target.y); return; }
+        toast('建造模式下，把鼠标移到相邻空地后按 E 放置');
+        return;
+      }
+      const hovered = state.hoverTarget && Math.abs(state.hoverTarget.x - state.player.x) + Math.abs(state.hoverTarget.y - state.player.y) <= 1 ? interactionTargetAt(state.hoverTarget.x, state.hoverTarget.y) : null;
+      const candidates = interactionCandidates();
+      const target = hovered || candidates[0];
+      if (target && target.kind !== 'npc') {
+        const key = interactionTargetKey(target, target.item?.x, target.item?.y);
+        if (!state.interactionFocus || state.interactionFocus.key !== key) { setInteractionFocus(target, target.item?.x, target.item?.y); toast('已锁定目标，再按 E 执行'); renderWorld(); renderContext(); return; }
+      }
+      if (target && executeInteraction(target)) { clearInteractionFocus(); return; }
+      const zombie = [[0,0],[1,0],[-1,0],[0,1],[0,-1]].map(([dx,dy]) => getZombie(state.player.x + dx, state.player.y + dy)).find(Boolean);
+      if (zombie) { toast('附近有僵尸；按 F 或空格攻击，E 保留给交互'); return; }
+      if (candidates.length > 1) { renderContext(); toast('附近有多个目标，先用鼠标点选目标，再按 E'); return; }
+      toast('附近没有可交互目标');
+    }
+    function repeatableInteractionTarget() {
+      if (state.night || state.gameOver || state.inventoryOpen || state.buildMode) return null;
+      const target = interactionCandidates()[0];
+      if (!target) return null;
+      if (target.kind === 'resource' && state.energy >= 12) return target;
+      if (target.kind === 'repair' && state.energy >= 20 && state.wood >= 2) return target;
+      if (target.kind === 'crop' && target.item.ready && state.energy >= 8) return target;
+      return null;
+    }
+    function stopInteractionRepeat() {
+      if (state.interactionRepeatTimer) clearInterval(state.interactionRepeatTimer);
+      state.interactionRepeatTimer = null;
+    }
+    function startInteractionRepeat() {
+      if (state.interactionRepeatTimer || state.night || state.gameOver) return;
+      if (!repeatableInteractionTarget()) return;
+      state.interactionRepeatTimer = setInterval(() => {
+        if (state.inventoryOpen || state.buildMode || !repeatableInteractionTarget()) { stopInteractionRepeat(); return; }
+        interact();
+      }, 420);
+    }
+
+    function handleCellClick(x, y) {
+      if (state.night) return;
+      if (!isRegionVisible(x, y)) { state.selected = null; state.hoverTarget = null; hideContext(); toast('尚未探索该区域，先走近边缘'); renderWorld(); return; }
+      if (state.buildMode) {
+        if (!state.selectedBuild) { toast('先从下方选一个建筑'); return; }
+        placeBuilding(x,y); return;
+      }
+      state.selected = {x,y}; state.selectedNpc = null;
+      const r = getResource(x,y), b = getBuilding(x,y), z = getZombie(x,y), n = getNpc(x,y), landmark = getLandmark(x,y), area = getCampArea(x,y);
+      setInteractionFocus(interactionTargetAt(x, y), x, y);
+      if (r) toast(r.type === 'tree' ? '一棵能换木材的树' : r.type === 'rock' ? '石头，靠近后可采集' : '野莓，今天的食物');
+      else if (b) { state.selectedBuilding = b; toast(b.type === 'shelter' ? '临时营地：每晚保护 8 点防线' : `${buildInfo[b.type].name}：${b.type === 'tower' || b.type === 'flameTower' ? '夜间会自动攻击' : '点击进化按钮查看路径'}`); }
+      else if (z) { state.combatTargetId = z.id || null; toast('已锁定僵尸！靠近后按 F 或攻击按钮处理它'); }
+      else if (n) { state.selectedNpc = n.id; toast(`${n.name}：${n.desc}。靠近后点下方卡片请求支援`); }
+      else if (landmark) { const distance = Math.abs(landmark.x - state.player.x) + Math.abs(landmark.y - state.player.y); if (distance > 1) toast(`靠近${landmark.name}（还差 ${distance - 1} 格）`); else discoverLandmark(landmark); }
+      else if (area) toast(CAMP_ZONES[area.zone].name + '：' + (['eastGate','northGate','serviceGate'].includes(area.zone) ? '营地防线和换防通道' : '幸存者日常活动区域'));
+      else state.selectedBuilding = null;
+      contextDismissedAt = null;
+      renderWorld();
+      renderEvolution();
+      renderContext();
+    }
+    function move(dx,dy) {
+      if (state.night) { moveNight(dx, dy); return; }
+      if (dx || dy) state.facing = Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 'right' : 'left') : (dy > 0 ? 'down' : 'up');
+      const nx = state.player.x + dx, ny = state.player.y + dy;
+      if (!inBounds(nx, ny) || isBlocked(nx,ny)) { toast('那里走不通'); return; }
+      const visualFrom = {...(state.playerVisual || state.player)};
+      if (!spendEnergy(3)) return;
+      state.player.x = nx; state.player.y = ny; state.playerVisual = { x: nx, y: ny }; state.hoverTarget = null; contextDismissedAt = null; state.npcTalkOpen = null; clearInteractionFocus(); markRegionVisited(nx, ny, true); advance(15);
+      const z = getZombie(nx,ny); if (z) toast('撞见僵尸了，快攻击！');
+      render(); animatePlayerTo(visualFrom, {x: nx, y: ny});
+    }
+    function gather(preferred = null) {
+      if (state.night) return;
+      const spots = [[state.player.x,state.player.y],[state.player.x+1,state.player.y],[state.player.x-1,state.player.y],[state.player.x,state.player.y+1],[state.player.x,state.player.y-1]];
+      const target = preferred || spots.map(([x,y]) => getResource(x,y)).find(Boolean);
+      if (!target) { toast('附近没有可采集的资源'); return; }
+      if (!spendEnergy(12)) return;
+      const gain = target.type === 'tree' ? 4 : target.type === 'rock' ? 3 : target.type === 'scrap' ? 2 : 2;
+      target.amount -= 1;
+      if (target.type === 'tree') state.wood += gain;
+      if (target.type === 'rock') state.stone += gain;
+      if (target.type === 'berry') state.food += gain;
+      if (target.type === 'scrap') state.parts += gain;
+      if (target.type === 'herb') state.medicine += gain;
+      advance(30);
+      const resourceName = { tree:'树林', rock:'碎石堆', berry:'野莓丛', scrap:'废车堆', herb:'药草地' }[target.type] || '地面';
+      const resourceUnit = { tree:'木材', rock:'石材', berry:'食物', scrap:'零件', herb:'药草' }[target.type] || '资源';
+      log(`你从${resourceName}带回了 ${gain} 份${resourceUnit}。`);
+      toast(`采集完成 +${gain}`); render();
+    }
+    function eatFood() {
+      if (state.night || state.gameOver) return;
+      if (state.energy <= 0) { toast('体力已经耗尽，食物无法让你重新行动；请等到清晨'); return; }
+      if (state.food <= 0) { toast('没有食物了'); return; }
+      if (state.energy >= 100 && state.hp >= 100) { toast('现在不需要补给'); return; }
+      state.food -= 1;
+      const energyGain = Math.min(24, 100 - state.energy);
+      state.energy = Math.min(100, state.energy + 24);
+      const doctorBonus = state.npcs.some(n => npcHasRole(n, 'doctor') && n.bond >= 3) ? 6 : 0;
+      const hpGain = 6 + doctorBonus;
+      state.hp = Math.min(100, state.hp + hpGain);
+      log(`你吃了一份食物，体力 +${energyGain}，生命值 +${hpGain}${doctorBonus ? '（苏禾的营养配方）' : ''}。`);
+      toast(`补给完成：体力 +${energyGain}，生命 +${hpGain}`); render();
+    }
+    function plantOrHarvest(preferred = null) {
+      if (state.night) return;
+      const spots = [[state.player.x,state.player.y],[state.player.x+1,state.player.y],[state.player.x-1,state.player.y],[state.player.x,state.player.y+1],[state.player.x,state.player.y-1]];
+      const garden = preferred || spots.map(([x,y]) => getBuilding(x,y)).find(b => b && (b.type === 'garden' || b.type === 'greenhouse'));
+      if (!garden) { toast('靠近菜畦后才能播种或收获'); return; }
+      if (garden.ready) {
+        if (!spendEnergy(8)) return;
+        garden.ready = false; garden.planted = false; garden.growth = 0; state.food += 3;
+        const herbBonus = garden.type === 'greenhouse' ? 1 : 0; state.medicine += herbBonus; advance(20);
+        log(`你收获了${garden.type === 'greenhouse' ? '药草温室' : '菜畦'}，获得 3 份食物${herbBonus ? '和 1 份药草' : ''}。`); toast(`收获完成 +3 食物${herbBonus ? ' · +1 药草' : ''}`); render(); return;
+      }
+      if (garden.planted) { toast(`作物还在生长（${garden.growth}/2），每天早晨会长大一格`); return; }
+      if (state.seeds <= 0) { toast('没有种子了'); return; }
+      if (!spendEnergy(6)) return;
+      state.seeds -= 1; garden.planted = true; garden.growth = 0; advance(20);
+      log('你在菜畦里播下一颗种子，记得活到两天后。'); toast('播种完成'); render();
+    }
+    function repairBuilding(preferred = null) {
+      if (state.night || state.gameOver) return;
+      const wall = preferred || state.buildings.find(b => contextDistance(b) <= 1 && (b.type === 'wall' || b.type === 'spikeWall') && (b.hp || 0) < (b.type === 'spikeWall' ? 4 : 3));
+      if (!wall) { toast('靠近受损墙体后才能修理'); return; }
+      if (state.wood < 2) { toast('木材不够，无法修理墙体'); return; }
+      state.wood -= 2;
+      const maxHp = wall.type === 'spikeWall' ? 4 : 3;
+      wall.hp = Math.min(maxHp, (wall.hp || 0) + 1);
+      advance(20);
+      log(`你修理了${buildInfo[wall.type].name}，防线耐久 +1。`);
+      toast('墙体修理完成'); render();
+    }
+    function setNpcOrder(id, orderId) {
+      if (state.night || state.gameOver) return;
+      const npc = state.npcs.find(n => n.id === id); if (!npc) return;
+      if (!npcIsActive(npc)) { toast(npc.name + '已经死亡，无法接受命令'); return; }
+      const order = getNpcOrderInfo(npc, orderId);
+      if (order.id !== orderId) { toast('这个幸存者没有这条命令'); return; }
+      const distance = Math.abs(npc.x - state.player.x) + Math.abs(npc.y - state.player.y);
+      if (distance > 1) { toast(`靠近${npc.name}后才能下达命令`); return; }
+      if (!npc.supportRequested) {
+        if (!spendEnergy(4)) return;
+        npc.supportRequested = true; npc.bond = Math.min(3, npc.bond + 1); rememberNpc(npc, `接受了「${order.name}」命令`, 3); npc.memory.helpedByPlayer = (npc.memory.helpedByPlayer || 0) + 1; advance(15);
+        log(`${npc.name}接受了今晚的任务，羁绊提升至 ${npc.bond}/3。`);
+      }
+      npc.order = order.id;
+      npc.lastReport = `已接受${order.name}，当前信任 ${npc.relations?.trustToPlayer || 0}`;
+      log(`${npc.name}今晚执行「${order.name}」：${order.desc}`);
+      toast(`${npc.name}已设为${order.name}`); render();
+    }
+    function interactNpc(id) {
+      if (state.night || state.gameOver) return;
+      const npc = state.npcs.find(n => n.id === id); if (!npc) return;
+      if (!npcIsActive(npc)) { toast(npc.name + '已经死亡，岗位暂时空缺'); return; }
+      state.selectedNpc = id;
+      const distance = Math.abs(npc.x - state.player.x) + Math.abs(npc.y - state.player.y);
+      if (distance > 1) { toast(`靠近${npc.name}（还差 ${distance - 1} 格）`); renderWorld(); renderSurvivors(); return; }
+      const confirmed = state.npcTalkOpen === id;
+      state.npcTalkOpen = confirmed ? null : id;
+      if (npc.supportRequested) { rememberNpc(npc, '玩家再次询问当前命令', 1); toast(`${npc.name}当前命令：${getNpcOrderInfo(npc).name}；状态卡已打开，可重新下达命令`); renderContext(); renderSurvivors(); return; }
+      if (!confirmed) { toast(`${npc.name}：${npcStateSummary(npc)}。再次按 E 确认请求支援`); renderContext(); renderSurvivors(); return; }
+      if (!spendEnergy(4)) return;
+      npc.supportRequested = true; npc.order = npc.order || defaultNpcOrder[npc.actingRole || npc.id] || 'guard'; npc.bond = Math.min(3, npc.bond + 1); advance(15);
+      rememberNpc(npc, '玩家请求支援', 3); npc.memory.helpedByPlayer = (npc.memory.helpedByPlayer || 0) + 1; npc.lastReport = `等待执行${getNpcOrderInfo(npc).name}`; state.npcTalkOpen = null;
+      log(`${npc.name}加入今晚防守：${npc.desc}。羁绊提升至 ${npc.bond}/3。`);
+      toast(`${npc.name}已请求支援`); render();
+    }
+    function attack() {
+      if (state.night && state.zombies.length === 0) return;
+      const adjacent = state.zombies.filter(z => Math.abs(z.x-state.player.x) + Math.abs(z.y-state.player.y) <= 1 && z.hp > 0);
+      const locked = adjacent.find(z => z.id && z.id === state.combatTargetId);
+      const z = locked || adjacent[0];
+      if (!z) { toast('没有相邻僵尸'); return; }
+      state.combatTargetId = z.id || null;
+      if (!spendEnergy(8)) return;
+      const weapon = weaponInfo[state.weapon.id] || weaponInfo.rustAxe;
+      z.hp -= weapon.damage; z.hitUntil = Date.now() + 420; z.lastDamage = weapon.damage; z.hit = true; pushFx('damage', `-${weapon.damage}`, z.x, z.y, 'hit'); advance(10);
+      if (z.hp <= 0) {
+        state.zombieKills += 1; state.morale = Math.min(100, state.morale+4);
+        const salvage = state.weapon.id === 'hookBlade' && state.zombieKills % 2 === 0 ? 1 : 0; state.parts += salvage;
+        pushFx('death', '💥', z.x, z.y, 'death'); state.combatTargetId = null;
+        clearInteractionFocus(); log(`你用${weapon.name}解决了一只僵尸${salvage ? '，并回收了 1 个零件' : ''}，士气上升。`); toast(`击倒僵尸 +1${salvage ? ' · 零件 +1' : ''}`);
+      }
+      else { state.hp = Math.max(0, state.hp - 8); pushFx('player-hit', '-8', state.player.x, state.player.y, 'danger'); log('僵尸反咬了一口，生命值 -8。','danger'); toast('受伤了'); }
+      render();
+    }
+    function placeBuilding(x,y) {
+      const info = buildInfo[state.selectedBuild];
+      if (terrainAt(x, y) === 'water' || getBuilding(x,y) || getResource(x,y) || getZombie(x,y) || getNpc(x,y) || getCampArea(x,y) || (state.player.x === x && state.player.y === y)) { toast('这里没有空位'); return; }
+      if (state.wood < info.wood || state.stone < info.stone) { toast('资源不够，先去采集'); return; }
+      state.wood -= info.wood; state.stone -= info.stone;
+      state.buildings.push({x,y,type:state.selectedBuild, hp: state.selectedBuild === 'wall' ? 3 : undefined, ...(state.selectedBuild === 'garden' ? {planted:false,growth:0,ready:false} : {})});
+      log(`你建好了${info.name}，今晚的防线更稳了。`);
+      toast(`${info.name}已建成`); state.selectedBuild = null; state.buildMode = false; $('buildDrawer').classList.remove('open');
+      advance(45); render();
+    }
+    function toggleBuild() {
+      stopInteractionRepeat();
+      if (state.night || state.gameOver) { toast('夜间不能建造'); return; }
+      state.buildMode = !state.buildMode; state.selected = null; state.selectedBuild = null;
+      $('buildDrawer').classList.toggle('open', state.buildMode);
+      $('buildBtn').textContent = state.buildMode ? '✕ 关闭建造' : '🛠 建造';
+      render();
+    }
+    function selectBuild(type) {
+      state.selectedBuild = type; state.buildMode = true;
+      document.querySelectorAll('.build-card').forEach(c => c.classList.toggle('selected', c.dataset.build === type));
+      $('buildHint').textContent = `已选${buildInfo[type].name}，点击地图空地放置。`;
+      renderWorld(); renderContext();
+    }
+    function battleEnemyIcon(enemy) {
+      return enemy.kind === 'brute' ? '🧟‍♂️' : enemy.kind === 'runner' ? '🏃‍♂️' : '🧟';
+    }
+    function battleEnemyPosition(enemy) {
+      const steps = MAP.battle.entryX - MAP.battle.targetX;
+      const progressStep = Math.floor(Math.min(99, enemy.progress) / (100 / steps));
+      return { x: Math.max(MAP.battle.targetX, MAP.battle.entryX - progressStep), y: MAP.battle.laneRows[enemy.lane % MAP.battle.laneRows.length] };
+    }
+    function enemyPhaseAt(progress) { return progress >= 84 ? 'contact' : progress >= 48 ? 'approach' : 'far'; }
+    function updateEnemyBehavior(enemy, battle) {
+      if (!enemy || enemy.dead || enemy.reached) return;
+      const previous = enemy.phase || enemyPhaseAt(enemy.progress);
+      const phase = enemyPhaseAt(enemy.progress);
+      const noise = Math.max(0, Math.min(2, battle.noiseLevel || 0));
+      enemy.phase = phase;
+      enemy.state = phase;
+      enemy.baseSpeed = Number.isFinite(enemy.baseSpeed) ? enemy.baseSpeed : enemy.speed;
+      let speed = enemy.baseSpeed;
+      // 分层行为：快速感染者在接近阶段换道，装甲僵尸接触时蓄力，普通僵尸保持稳定推进。
+      if (enemy.kind === 'runner') {
+        speed *= phase === 'approach' ? 1.24 : phase === 'contact' ? 1.08 : 1;
+        if (phase === 'approach' && battle.tick % 4 === 0 && enemy.lastLaneShiftTick !== battle.tick) {
+          enemy.lane = (enemy.lane + (enemy.id % 2 ? 1 : 2)) % MAP.battle.laneRows.length;
+          enemy.lastLaneShiftTick = battle.tick; enemy.behavior = 'flank';
+          const p = battleEnemyPosition(enemy); pushFx('npc-state', '↗ 侧袭', p.x, p.y, 'danger');
+        }
+      } else if (enemy.kind === 'brute') {
+        speed *= phase === 'far' ? .88 : phase === 'approach' ? .96 : 1;
+        enemy.impactReady = phase === 'contact' && battle.tick % 3 === 0;
+        enemy.behavior = enemy.impactReady ? 'impact' : 'armored';
+      } else {
+        enemy.behavior = phase === 'contact' ? 'press' : 'advance';
+      }
+      if (noise) {
+        speed += noise * (enemy.kind === 'runner' ? .7 : enemy.kind === 'brute' ? .25 : .4);
+        enemy.noiseAttracted = true;
+      }
+      enemy.speed = Math.max(.5, speed);
+      if (previous !== phase) {
+        const p = battleEnemyPosition(enemy);
+        pushFx('npc-state', phase === 'contact' ? '⚠ 接触' : phase === 'approach' ? '↗ 接近' : '… 远处', p.x, p.y, phase === 'contact' ? 'danger' : '');
+      }
+    }
+    function syncBattleZombies() {
+      const b = state.nightBattle;
+      state.zombies = b ? b.enemies.filter(e => !e.dead && !e.reached).map(e => ({ id: e.id, ...battleEnemyPosition(e), hp: e.hp })) : [];
+    }
+    function supportNpcForRole(battle, roleId) {
+      if (!battle) return null;
+      return battle.supportIds.map(id => state.npcs.find(n => n.id === id)).find(n => npcHasRole(n, roleId)) || null;
+    }
+    function supportOrderForRole(battle, roleId) {
+      const npc = supportNpcForRole(battle, roleId);
+      return npc ? (battle.supportOrders[npc.id] || getNpcOrderInfo(npc).id) : null;
+    }
+
+    function nightNearbyEnemies() {
+      const b = state.nightBattle;
+      if (!b) return [];
+      return b.enemies.filter(enemy => !enemy.dead && !enemy.reached).map(enemy => ({ enemy, position: battleEnemyPosition(enemy) })).filter(item => Math.abs(item.position.x - state.player.x) + Math.abs(item.position.y - state.player.y) <= 1);
+    }
+    function nightEnemyAt(x, y) {
+      const b = state.nightBattle;
+      return b?.enemies.find(enemy => !enemy.dead && !enemy.reached && tileKey(battleEnemyPosition(enemy).x, battleEnemyPosition(enemy).y) === tileKey(x, y)) || null;
+    }
+    function renderNightControls() {
+      const b = state.nightBattle;
+      if (!b) return;
+      const nearby = nightNearbyEnemies();
+      const nightViewport = getRenderViewport(true);
+      const playerVisible = state.player.x >= nightViewport.x && state.player.x < nightViewport.x + nightViewport.cols && state.player.y >= nightViewport.y && state.player.y < nightViewport.y + nightViewport.rows;
+      const nightViewHint = playerVisible ? '你在地图 ' + (state.player.x + 1) + '列 · ' + (state.player.y + 1) + '行；' : '你在' + getMapRegion(state.player.x, state.player.y) + '，当前视野偏向东侧尸群；向右移动即可追上。';
+      $('nightPlayerReadout').textContent = nightViewHint + (nearby.length ? '身边有 ' + nearby.length + ' 只可攻击目标。' : '移动到尸群旁边后才能攻击。');
+      $('nightAttackReadout').textContent = b.resolved ? '本轮已经结算。' : nearby.length ? `可攻击 ${nearby.length} 只 · 脉冲斧会同时命中 2 只。` : '先用 WASD/方向键靠近红色尸群，再按 F、空格或攻击按钮。';
+      $('nightAttackBtn').disabled = b.resolved || nearby.length === 0;
+      $('nightAttackBtn').style.opacity = b.resolved || nearby.length === 0 ? '.5' : '1';
+      $('nightAttackBtn').textContent = nearby.length ? `🪓 攻击附近目标（${nearby.length}）` : '🚶 先靠近尸群';
+    }
+    function moveNight(dx, dy) {
+      const b = state.nightBattle;
+      if (!state.night || !b || b.resolved) return;
+      if (dx || dy) state.facing = Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 'right' : 'left') : (dy > 0 ? 'down' : 'up');
+      const nx = state.player.x + dx, ny = state.player.y + dy;
+      if (!inBounds(nx, ny)) { toast('不能离开农场边界'); return; }
+      const building = getBuilding(nx, ny);
+      if (building) { toast(building.type === 'shelter' ? '营地是防线核心，不能穿过' : '建筑占据了这格，绕到尸群旁边'); return; }
+      if (getNpc(nx, ny) || getLandmark(nx, ny)) { toast('这格有人或地标，不能直接穿过'); return; }
+      const visualFrom = {...(state.playerVisual || state.player)};
+      state.player.x = nx; state.player.y = ny; state.playerVisual = { x: nx, y: ny }; state.hoverTarget = null; state.npcTalkOpen = null; clearInteractionFocus(); markRegionVisited(nx, ny, true);
+      const nearby = nightNearbyEnemies();
+      toast(nearby.length ? `靠近了 ${nearby.length} 只僵尸，可以攻击` : '你调整了夜间站位');
+      renderBattleLane(); animatePlayerTo(visualFrom, {x: nx, y: ny});
+    }
+    function npcCombatLabel(npc) {
+      if (!npcIsActive(npc)) return '死亡';
+      if (npc.combatStatus === 'fleeing') return '撤退中';
+      if (npc.combatStatus === 'fled') return '已撤回';
+      if (npc.combatStatus === 'hurt') return '受伤 ' + Math.max(0, npc.combatHp || 0);
+      return '执行中';
+    }
+    function markNpcDead(npc, battle, autoFeed) {
+      const deathX = npc.x, deathY = npc.y;
+      const formerActingRole = npc.actingRole;
+      npc.hp = 0; npc.combatHp = 0; npc.lifeState = 'dead'; npc.combatStatus = 'dead'; npc.behaviorState = 'dead';
+      npc.supportRequested = false; npc.order = null; npc.currentOrder = null; npc.scheduleState = '阵亡'; npc.lastReport = '夜战阵亡，岗位永久空缺'; npc.actingRole = null; npc.actingFor = null;
+      npc.memory = {...npc.memory, importantEvents: [...(npc.memory.importantEvents || []), '第' + state.day + '天夜战死亡'].slice(-8)};
+      state.roleVacancies = state.roleVacancies || {}; state.roleVacancies[npc.id] = { role: npc.id, openedDay: state.day }; if (formerActingRole) state.roleVacancies[formerActingRole] = { role: formerActingRole, openedDay: state.day };
+      battle.npcDeaths = (battle.npcDeaths || 0) + 1;
+      state.morale = Math.max(0, state.morale - 12);
+      state.npcs.filter(other => other.id !== npc.id && npcIsActive(other)).forEach(other => { other.memory = other.memory || {}; other.memory.witnessedDeaths = (other.memory.witnessedDeaths || 0) + 1; other.needs = other.needs || {hunger:18,fatigue:12,stress:8}; other.needs.stress = Math.min(100, other.needs.stress + 12); const relationShock = (other.relations?.allies || []).includes(npc.id) ? 8 : (other.relations?.rivals || []).includes(npc.id) ? 2 : 0; other.needs.stress = Math.min(100, other.needs.stress + relationShock); rememberNpc(other, `目睹${npc.name}阵亡`, (other.relations?.allies || []).includes(npc.id) ? -2 : -1); });
+      autoFeed.push(npc.name + ' 阵亡，岗位永久空缺');
+      pushFx('death', '💀 ' + npc.name, deathX, deathY, 'death');
+      log(npc.name + ' 在尸潮中阵亡。岗位功能消失，营地士气 -12。', 'danger');
+    }
+    function updateNpcPressure(npc, battle) {
+      if (!npcIsActive(npc) || npc.combatStatus === 'fled' || npc.combatStatus === 'fleeing') return;
+      const threats = battle.enemies.filter(e => !e.dead && !e.reached).reduce((sum, e) => {
+        const p = battleEnemyPosition(e);
+        const distance = Math.abs(p.x - npc.x) + Math.abs(p.y - npc.y);
+        return sum + (distance <= 1 ? 18 : distance <= 2 ? 8 : 2);
+      }, 0);
+      const injury = Math.max(0, 100 - (npc.combatHp ?? npc.hp)) * 0.45;
+      const morale = (100 - Math.min(100, Math.max(0, npc.morale ?? state.morale))) * 0.22;
+      const needs = npc.needs || { hunger: 18, fatigue: 12, stress: 8 };
+      const needPressure = needs.hunger * .12 + needs.fatigue * .16 + needs.stress * .28;
+      const deaths = (battle.npcDeaths || 0) * 8;
+      const p = threats + injury + morale + needPressure + deaths - (npc.personality.courage * 0.22) - (npc.personality.discipline * 0.18) - (npc.personality.riskTolerance * 0.1);
+      const threshold = 48 + npc.personality.duty * 0.18;
+      npc.escapePressure = Math.round(Math.max(0, p));
+      if (p >= threshold && npc.combatStatus !== 'fled') {
+        npc.combatStatus = 'fleeing'; npc.behaviorState = 'flee'; npc.scheduleState = '撤退';
+        rememberNpc(npc, '判断风险过高并开始撤退', -2); npc.memory.failedOrders = (npc.memory.failedOrders || 0) + 1; npc.lastReport = '压力过高，正在撤退';
+        battle.npcEvents.push(npc.name + '判断继续坚守风险过高，开始撤退');
+        pushFx('npc-state', '🏃 ' + npc.name + '撤退', npc.x, npc.y, 'danger');
+      }
+    }
+    function applyNpcCombatDamage(npc, damage, battle, autoFeed, source = '僵尸') {
+      if (!npcIsActive(npc)) return;
+      const hitX = npc.x, hitY = npc.y, beforeLife = npc.lifeState;
+      npc.combatHp = Math.max(0, (Number.isFinite(npc.combatHp) ? npc.combatHp : npc.hp) - damage);
+      npc.hp = npc.combatHp;
+      npc.needs = npc.needs || {hunger:18,fatigue:12,stress:8}; npc.needs.stress = Math.min(100, npc.needs.stress + Math.round(damage * .35));
+      pushFx('damage', `-${damage}`, hitX, hitY, 'npc-state');
+      if (npc.combatHp <= 0) { markNpcDead(npc, battle, autoFeed); return; }
+      const kind = npc.combatHp < 30 ? 'critical' : npc.combatHp < 70 ? 'bleeding' : 'bruise';
+      if (!npc.wounds.some(w => w.kind === kind && !w.healed)) npc.wounds.push({ kind, severity: Math.max(1, 100 - npc.combatHp), healed: false, day: state.day });
+      syncNpcLifeState(npc); npc.combatStatus = 'hurt'; npc.behaviorState = 'combat';
+      if (beforeLife !== npc.lifeState || npc.lifeState === 'critical') pushFx('npc-state', npc.lifeState === 'critical' ? '⚠ 重伤' : '💢 受伤', hitX, hitY, npc.lifeState === 'critical' ? 'danger' : '');
+      autoFeed.push(source + '攻击' + npc.name + ' -' + damage);
+      updateNpcPressure(npc, battle);
+    }
+    function stepNpcRoutineToward(npc, target) {
+      if (!npc || !target) return false;
+      const dx = target.x - npc.x, dy = target.y - npc.y;
+      const options = [];
+      if (Math.abs(dx) >= Math.abs(dy) && dx) options.push([Math.sign(dx), 0]);
+      if (dy) options.push([0, Math.sign(dy)]);
+      if (dx && !options.some(([sx, sy]) => sx && sy === 0)) options.push([Math.sign(dx), 0]);
+      if (dy && !options.some(([sx, sy]) => sx === 0 && sy)) options.push([0, Math.sign(dy)]);
+      for (const [sx, sy] of options) {
+        const nx = npc.x + sx, ny = npc.y + sy;
+        if (!inBounds(nx, ny) || (nx === state.player.x && ny === state.player.y)) continue;
+        const building = getBuilding(nx, ny);
+        const area = getCampArea(nx, ny);
+        if (building || (area && !(area.x === target.x && area.y === target.y))) continue;
+        if (getResource(nx, ny) || getLandmark(nx, ny) || terrainAt(nx, ny) === 'water') continue;
+        const occupant = getNpc(nx, ny);
+        if (occupant && occupant.id !== npc.id) continue;
+        npc.x = nx; npc.y = ny;
+        return true;
+      }
+      return false;
+    }
+
+    function stepNpcToward(npc, target) {
+      const options = [];
+      const dx = target.x - npc.x, dy = target.y - npc.y;
+      if (Math.abs(dx) >= Math.abs(dy) && dx) options.push([Math.sign(dx), 0]);
+      if (dy) options.push([0, Math.sign(dy)]);
+      if (dy && !options.some(([x, y]) => x === 0 && y)) options.push([0, Math.sign(dy)]);
+      if (dx && !options.some(([x, y]) => x && y === 0)) options.push([Math.sign(dx), 0]);
+      for (const [sx, sy] of options) {
+        const nx = clampToMap(npc.x + sx, MAP.cols), ny = clampToMap(npc.y + sy, MAP.rows);
+        const building = getBuilding(nx, ny);
+        if (!building || building.type === 'wall' || building.type === 'spikeWall') { npc.x = nx; npc.y = ny; return; }
+      }
+    }
+    function runNpcCombat(b, autoFeed) {
+      const activeNpcs = state.npcs.filter(n => n.supportRequested && npcIsActive(n) && n.combatStatus !== 'fled');
+      activeNpcs.forEach(npc => {
+        npc.combatHp = Number.isFinite(npc.combatHp) ? npc.combatHp : npc.hp;
+        npc.morale = Math.max(0, Math.min(100, npc.morale + Math.round((state.morale - npc.morale) * 0.08)));
+        updateNpcPressure(npc, b);
+        if (npc.combatStatus === 'fleeing') {
+          stepNpcToward(npc, {x: 2, y: 2});
+          if (npc.x === 2 && npc.y === 2) { npc.combatStatus = 'fled'; npc.scheduleState = '回到居住区'; npc.lastReport = '已撤回营地，等待清晨复盘'; autoFeed.push(`${npc.name} 已撤回营地`); }
+          return;
+        }
+        const enemies = b.enemies.filter(e => !e.dead && !e.reached).map(enemy => ({ enemy, position: battleEnemyPosition(enemy), distance: Math.abs(battleEnemyPosition(enemy).x - npc.x) + Math.abs(battleEnemyPosition(enemy).y - npc.y) })).sort((a, c) => a.distance - c.distance);
+        const target = enemies[0];
+        const order = b.supportOrders[npc.id] || 'guard';
+        if (order === 'patrol' && target && target.distance > 1) stepNpcToward(npc, target.position);
+        if (order === 'cover' && Math.abs(npc.x - state.player.x) + Math.abs(npc.y - state.player.y) > 2) stepNpcToward(npc, state.player);
+        if (target && target.distance <= 2 && b.tick % 2 === 0) {
+          const baseDamage = order === 'patrol' ? (npcHasRole(npc, 'carpenter') ? 22 : 16) : order === 'guard' ? (npcHasRole(npc, 'carpenter') ? 16 : 11) : 9;
+          const damage = Math.round(baseDamage * npcOrderModifier(npc, order));
+          const targetPos = {...target.position};
+          target.enemy.hp -= damage; target.enemy.lastDamage = damage; target.enemy.hit = true; b.autoShots += 1;
+          pushFx('damage', `-${damage}`, targetPos.x, targetPos.y, 'hit');
+          autoFeed.push(`${npc.name} ${getNpcOrderInfo(npc).name} -${damage}`);
+          if (target.enemy.hp <= 0) { target.enemy.hp = 0; target.enemy.dead = true; b.autoKills += 1; b.kills += 1; pushFx('death', '💥', targetPos.x, targetPos.y, 'death'); autoFeed.push(`${npc.name} 击退了僵尸`); }
+        }
+      });
+      if (b.tick % 2 === 0) {
+        state.npcs.filter(n => n.supportRequested && npcIsActive(n) && n.combatStatus !== 'fled' && n.combatStatus !== 'fleeing').forEach(npc => {
+          const contact = b.enemies.filter(e => !e.dead && !e.reached).map(enemy => ({ enemy, position: battleEnemyPosition(enemy) })).sort((a, c) => Math.abs(a.position.x - npc.x) + Math.abs(a.position.y - npc.y) - (Math.abs(c.position.x - npc.x) + Math.abs(c.position.y - npc.y)))[0];
+          if (!contact) return;
+          const distance = Math.abs(contact.position.x - npc.x) + Math.abs(contact.position.y - npc.y);
+          if (distance <= 1) {
+            const hurt = contact.enemy.damage || 6;
+            applyNpcCombatDamage(npc, hurt, b, autoFeed, contact.enemy.kind === 'brute' ? '装甲僵尸' : '僵尸');
+            if (npcIsActive(npc) && npc.combatStatus === 'fleeing') autoFeed.push(npc.name + ' 受伤，执行撤退命令');
+          }
+        });
+      }
+    }
+    function renderNightWorld() {
+      const world = $('nightWorld');
+      const b = state.nightBattle;
+      if (!world || !b) return;
+      world.innerHTML = ''; world.classList.toggle('panorama', isDesktopPanorama()); updateMapLocationLabel();
+      const viewport = getRenderViewport(true);
+      const activeEnemies = b.enemies.filter(e => !e.dead && !e.reached);
+      const enemyAt = new Map();
+      activeEnemies.forEach(enemy => { enemyAt.set(tileKey(...Object.values(battleEnemyPosition(enemy))), enemy); });
+      const impact = b.lastImpact ? tileKey(b.lastImpact.x, b.lastImpact.y) : null;
+      for (let y = viewport.y; y < viewport.y + viewport.rows; y++) {
+        for (let x = viewport.x; x < viewport.x + viewport.cols; x++) {
+          const cell = document.createElement('div');
+          cell.className = 'tile';
+          cell.dataset.x = x; cell.dataset.y = y;
+          applyTerrain(cell, x, y);
+          if (x === MAP.battle.entryX && MAP.battle.laneRows.includes(y)) cell.classList.add('night-entry');
+          if (impact === tileKey(x, y)) cell.classList.add('night-impact');
+          cell.innerHTML = '<i class="ground-speck"></i><i class="ground-speck s2"></i>';
+          const building = getBuilding(x, y), resource = getResource(x, y), npc = getNpc(x, y), landmark = getLandmark(x, y), area = getCampArea(x, y), enemy = enemyAt.get(tileKey(x, y));
+          if (!isRegionVisible(x, y) && !enemy) { cell.classList.add('fogged'); cell.innerHTML += '<span class="map-decor">🌫️</span>'; world.appendChild(cell); continue; }
+          const focused = state.interactionFocus && state.interactionFocus.x === x && state.interactionFocus.y === y;
+          const lockedCombat = enemy && state.combatTargetId && enemy.id === state.combatTargetId;
+          if (focused || lockedCombat) cell.classList.add('target-lock');
+          if (building) {
+            const icons = { shelter:'🏚️', wall:'🧱', spikeWall:'🪵', tower:'🗼', flameTower:'🔥', garden:(building.ready ? '🌽' : building.planted ? '🌱' : '🪴'), greenhouse:(building.ready ? '🌿' : building.planted ? '🌱' : '🪴'), lamp:'🏮', beacon:'📡' };
+            const tag = building.type === 'shelter' ? '营地' : (building.type === 'garden' || building.type === 'greenhouse') ? (building.ready ? '可收获' : building.planted ? `生长 ${building.growth}/2` : '待播种') : buildInfo[building.type].name;
+            cell.innerHTML += `<span class="entity">${icons[building.type]}</span><span class="tag">${tag}</span>`;
+            if (building.hp) cell.innerHTML += `<span class="hp"><i style="width:${Math.min(100, building.hp / (building.type === 'spikeWall' ? 4 : 3) * 100)}%"></i></span>`;
+          } else if (resource) {
+            const icons = { tree:'🌲', rock:'🪨', berry:'🫐', scrap:'🔩', herb:'🌿' };
+            const labels = { tree:'木材', rock:'石头', berry:'食物', scrap:'零件', herb:'药草' };
+            cell.innerHTML += `<span class="entity">${icons[resource.type]}</span><span class="tag">${labels[resource.type]}</span>`;
+          } else if (landmark) {
+            cell.classList.add('highlight'); cell.innerHTML += `<span class="entity">${landmark.icon}</span><span class="tag">${landmark.name}</span>`;
+          } else if (npc) {
+            cell.classList.add('npc', npc.lifeState || 'healthy'); const order = npc.supportRequested ? getNpcOrderInfo(npc) : null;
+            const status = npc.combatStatus === 'fleeing' ? '撤退中' : npc.combatStatus === 'fled' ? '已撤回' : npc.combatStatus === 'hurt' ? `受伤 ${Math.max(0, npc.combatHp || 0)}` : '';
+            cell.innerHTML += `<span class="entity">${npc.icon}</span><span class="tag">${npc.name}</span>${order ? `<span class="night-order">${order.name}</span>` : ''}${status ? `<span class="night-npc-status ${npc.combatStatus === 'fleeing' || npc.combatStatus === 'fled' ? 'flee' : 'hurt'}">${status}</span>` : ''}`;
+          } else if (area) {
+            cell.classList.add('camp-area', 'zone-' + area.zone); cell.innerHTML += '<span class="entity">' + area.icon + '</span><span class="tag">' + CAMP_ZONES[area.zone].short + '</span>';
+          }
+          if (enemy) {
+            const phase = enemy.phase || enemyPhaseAt(enemy.progress);
+            const phaseLabel = enemy.behavior === 'flank' ? '侧袭' : enemy.behavior === 'impact' ? '蓄力' : phase === 'contact' ? '接触' : phase === 'approach' ? '接近' : '远处';
+            cell.classList.add('night-zombie-tile', 'zombie-' + phase);
+            const width = Math.max(0, Math.min(100, enemy.hp / enemy.maxHp * 100));
+            cell.innerHTML += `<span class="entity night-enemy"><b class="night-zombie-phase">${phaseLabel}</b>${battleEnemyIcon(enemy)}<small><i style="width:${width}%"></i></small></span>`;
+          }
+          if (state.player.x === x && state.player.y === y) { cell.classList.add('player'); cell.innerHTML += '<span class="tag">你</span>'; }
+          world.appendChild(cell);
+        }
+      }
+      renderPlayerMarker(world, viewport);
+      renderWorldEffects(world, viewport);
+      const furthest = b.enemies.reduce((max, enemy) => Math.max(max, enemy.progress), 0);
+      const live = activeEnemies.length;
+      const status = b.resolved ? '尸潮已结算' : live ? `${live} 只僵尸在同一张地图上推进` : '防线正在清空尸群';
+      $('nightMapStatus').textContent = status;
+      $('battleMapReadout').textContent = b.resolved ? `最终损伤 ${b.finalDamage || 0}；地图上的墙体、营地和 NPC 支援均已计入。` : `东侧入口 → 防线瓶颈 → 营地；最前尸群推进 ${Math.round(furthest)}%，防线余量 ${Math.max(0, b.barrier)}/${b.barrierMax}。`;
+      renderNightControls();
+    }
+    function renderBattleLane() {
+      const b = state.nightBattle;
+      if (!b) return;
+      renderNightWorld();
+      const lane = $('battleLane');
+      const live = b.enemies.filter(e => !e.dead && !e.reached).length;
+      const defeated = b.enemies.filter(e => e.dead).length;
+      const breached = b.enemies.filter(e => e.reached).length;
+      const furthest = b.enemies.reduce((max, e) => Math.max(max, e.progress), 0);
+      const progress = b.resolved ? 100 : Math.min(100, Math.round(furthest));
+      $('waveBar').style.width = `${progress}%`;
+      $('waveProgressText').textContent = `${progress}%`;
+      $('threatMarker').style.left = `${Math.max(18, Math.min(100, 18 + progress * .82))}%`;
+      $('waveZombies').textContent = `${live}`;
+      const liveDamage = b.resolved ? (b.finalDamage || 0) : b.campDamage;
+      $('waveDamage').textContent = liveDamage ? `-${liveDamage}` : '0';
+      $('waveDefense').textContent = `${Math.max(0, Math.round(b.defense))}`;
+      $('waveSupport').textContent = `${b.supportIds.length}`;
+      $('barrierText').textContent = `防线余量 ${Math.max(0, b.barrier)}/${b.barrierMax}`;
+      $('autoDefenseText').textContent = `自动射击 ${b.autoShots} 次 · 清除 ${b.autoKills} 只`;
+      if (b.resolved) {
+        $('battleStage').textContent = '尸潮结算';
+        const playerKills = Math.max(0, b.kills - b.autoKills);
+        $('battleDetail').textContent = b.breaches ? `自动塔清除 ${b.autoKills} 只，玩家补刀 ${playerKills} 只，${b.breaches} 只撞上营地` : `自动塔和玩家补刀清除了全部 ${b.count} 只`;
+        $('playerAttackHint').textContent = `本轮损伤 ${b.finalDamage || 0}；建筑自动攻击与玩家补刀均已计入。`;
+      } else {
+        $('battleDetail').textContent = live ? `剩余 ${live} 只 · 已清除 ${defeated} · 已突破 ${breached}` : breached ? `所有幸存者都已冲到防线，正在结算` : '自动防线已清空尸群';
+        $('battleStage').textContent = progress < 48 ? '远处来袭' : progress < 84 ? '接触防线' : breached ? '已有敌人突破' : '最后一段冲刺';
+        $('playerAttackHint').textContent = live ? `建筑会自动攻击；你只能控制自己。${state.weapon.id === 'pulseAxe' ? '脉冲斧本次可同时打击 2 只。' : '抓住尸群靠近前的窗口补刀。'}` : breached ? '尸群已撞上营地，等待本轮结算。' : '你和自动防线一起守住了这一波。';
+      }
+      const feed = $('towerFeed');
+      const messages = b.feed.slice(-4);
+      feed.innerHTML = messages.map(m => `<span>${m}</span>`).join('');
+      lane.innerHTML = '<span class="lane-gate">🏚️</span>' + b.enemies.map(enemy => {
+        const left = Math.max(6, Math.min(85, 6 + enemy.progress * .79));
+        const top = 22 + enemy.lane * 27;
+        const cls = `lane-zombie${enemy.dead ? ' dead' : ''}${enemy.hit ? ' hit' : ''}`;
+        const width = Math.max(0, Math.min(100, enemy.hp / enemy.maxHp * 100));
+        const stateLabel = enemy.dead ? '×' : enemy.reached ? '!' : '';
+        const damageText = enemy.lastDamage ? `<b class="lane-damage">-${enemy.lastDamage}</b>` : '';
+        enemy.hit = false;
+        enemy.lastDamage = 0;
+        return `<span class="${cls}" style="left:${left}%;top:${top}%" title="${enemy.kind === 'brute' ? '装甲僵尸' : enemy.kind === 'runner' ? '快速感染者' : '普通僵尸'} ${Math.ceil(enemy.hp)}%">${damageText}${battleEnemyIcon(enemy)}${stateLabel ? `<b>${stateLabel}</b>` : ''}<small><i style="width:${width}%"></i></small></span>`;
+      }).join('');
+    }
+    function startBattleLoop() {
+      clearInterval(battleTimer);
+      battleTimer = setInterval(battleTick, 620);
+    }
+    function battleTick() {
+      const b = state.nightBattle;
+      if (!b || b.resolved) return;
+      b.tick += 1;
+      const doctorOrder = supportOrderForRole(b, 'doctor');
+      const active = b.enemies.filter(e => !e.dead && !e.reached);
+      active.forEach(enemy => updateEnemyBehavior(enemy, b));
+      const autoFeed = [];
+      b.towers.forEach(tower => {
+        if (b.tick % tower.cadence !== 0) return;
+        const target = active.filter(e => !e.dead && !e.reached).sort((a, c) => c.progress - a.progress)[0];
+        if (!target) return;
+        const targetPos = battleEnemyPosition(target);
+        target.hp -= tower.damage;
+        target.lastDamage = tower.damage;
+        target.hit = true;
+        pushFx('damage', `-${tower.damage}`, targetPos.x, targetPos.y, 'hit');
+        b.autoShots += 1;
+        autoFeed.push(`${tower.name} -${tower.damage}`);
+        if (target.hp <= 0) {
+          target.hp = 0; target.dead = true; b.autoKills += 1; b.kills += 1;
+          pushFx('death', '💥', targetPos.x, targetPos.y, 'death');
+          autoFeed.push(`${tower.name} 击破`);
+        }
+      });
+      if (b.patrolCount && b.tick % 2 === 0) {
+        const patrolTarget = b.enemies.filter(e => !e.dead && !e.reached).sort((a, c) => c.progress - a.progress)[0];
+        if (patrolTarget) {
+          const patrolDamage = 18 + b.patrolCount * 8;
+          const targetPos = battleEnemyPosition(patrolTarget);
+          patrolTarget.hp -= patrolDamage; patrolTarget.lastDamage = patrolDamage; patrolTarget.hit = true; b.autoShots += 1;
+          pushFx('damage', `-${patrolDamage}`, targetPos.x, targetPos.y, 'hit');
+          autoFeed.push(`巡逻队 -${patrolDamage}`);
+          if (patrolTarget.hp <= 0) { patrolTarget.hp = 0; patrolTarget.dead = true; b.autoKills += 1; b.kills += 1; pushFx('death', '💥', targetPos.x, targetPos.y, 'death'); autoFeed.push('巡逻队击破目标'); }
+        }
+      }
+      runNpcCombat(b, autoFeed);
+      active.forEach(enemy => {
+        if (enemy.dead || enemy.reached) return;
+        enemy.progress = Math.min(100, enemy.progress + enemy.speed);
+        if (enemy.progress >= 100) {
+          if (doctorOrder === 'patrol' && !b.doctorInterceptUsed) {
+            b.doctorInterceptUsed = true; const interceptPos = battleEnemyPosition(enemy); enemy.dead = true; enemy.hp = 0; b.autoKills += 1; b.kills += 1; pushFx('death', '💥', interceptPos.x, interceptPos.y, 'death'); autoFeed.push('苏禾巡逻拦下突破者'); return;
+          }
+          enemy.reached = true; b.breaches += 1;
+          const barrierCost = enemy.kind === 'brute' ? (enemy.impactReady ? 3 : 2) : 1;
+          const blocked = Math.min(b.barrier, barrierCost);
+          b.barrier -= blocked;
+          const leak = Math.max(0, enemy.damage + (enemy.impactReady ? 4 : 0) - blocked * 7);
+          b.campDamage += leak;
+          b.defense = Math.max(0, b.defense - blocked * 2 - (leak ? 5 : 0));
+          const wall = state.buildings.filter(x => (x.type === 'wall' || x.type === 'spikeWall') && (x.hp || 1) > 0).sort((a, c) => (a.hp || 1) - (c.hp || 1))[0];
+          if (wall && blocked > 0 && wall.hp) wall.hp = Math.max(0, wall.hp - blocked);
+          b.lastImpact = { x: MAP.battle.wallX, y: MAP.battle.laneRows[enemy.lane % MAP.battle.laneRows.length] };
+          pushFx('breach', leak ? `突破 -${leak}` : '挡住冲击', b.lastImpact.x, b.lastImpact.y, leak ? 'danger' : '');
+          autoFeed.push(leak ? `突破！营地 -${leak}` : '防线挡住冲击');
+        }
+      });
+      if (autoFeed.length) b.feed.push(...autoFeed);
+      if (b.npcEvents.length) b.feed.push(...b.npcEvents.splice(0));
+      syncBattleZombies();
+      renderBattleLane();
+      renderWorld();
+      const stillAdvancing = b.enemies.some(e => !e.dead && !e.reached);
+      if (!stillAdvancing) resolveNight(b.count, b.defense);
+    }
+    function endDay() {
+      if (state.night) return;
+      stopInteractionRepeat();
+      toggleInventory(false);
+      state.night = true; state.buildMode = false; $('buildDrawer').classList.remove('open'); $('evolveDrawer').classList.remove('open'); $('eventPanel').classList.remove('open'); $('collectionPanel').classList.remove('open'); $('survivorPanel')?.classList.remove('open'); toggleWeaponPanel(false);
+      $('nightOverlay').classList.add('show'); $('continueBtn').disabled = true; $('continueBtn').style.opacity = '.6'; $('nightAttackBtn').disabled = false; $('nightAttackBtn').style.opacity = '1';
+      const activeSupports = state.npcs.filter(n => n.supportRequested && npcIsActive(n));
+      activeSupports.forEach(n => { n.dayX = n.x; n.dayY = n.y; n.combatHp = n.hp; n.combatStatus = 'active'; n.scheduleState = '夜间防守'; const order = getNpcOrderInfo(n).id; n.behaviorState = order === 'patrol' ? 'patrol' : order === 'cover' ? 'cover' : 'guard'; n.currentOrder = order; });
+      const supportOrders = Object.fromEntries(activeSupports.map(n => [n.id, getNpcOrderInfo(n).id]));
+      const carpenterHolder = activeSupports.find(n => npcHasRole(n, 'carpenter'));
+      const radioHolder = activeSupports.find(n => npcHasRole(n, 'radio'));
+      const hasCarpenter = !!carpenterHolder;
+      const hasRadio = !!radioHolder;
+      const carpenterEfficiency = npcRoleEfficiency(carpenterHolder);
+      const radioEfficiency = npcRoleEfficiency(radioHolder);
+      const radioOrder = supportOrderForRole({ supportIds: activeSupports.map(n => n.id), supportOrders }, 'radio');
+      const radioReduction = radioHolder && radioEfficiency >= .9 ? 1 : 0;
+      const hasBeacon = state.buildings.some(b => b.type === 'beacon');
+      const guardCount = Object.values(supportOrders).filter(order => order === 'guard').length;
+      const patrolCount = Object.values(supportOrders).filter(order => order === 'patrol').length;
+      const coverCount = Object.values(supportOrders).filter(order => order === 'cover').length;
+      const noiseLevel = Math.min(2, (state.noiseEvents || []).filter(event => event.day === state.day || (!event.day && Date.now() - (event.at || 0) < 1000 * 60 * 60 * 8)).length);
+      const count = Math.max(1, 3 + state.day - radioReduction - (radioOrder === 'guard' ? 1 : 0) - (hasBeacon && radioReduction ? 1 : 0) + state.eventThreat + noiseLevel);
+      const supportText = activeSupports.length ? activeSupports.map(n => { const order = getNpcOrderInfo(n); return n.name + '·' + order.name; }).join(' · ') : '未请求支援';
+      const wallCount = state.buildings.filter(b => b.type === 'wall' || b.type === 'spikeWall').length;
+      const spikeCount = state.buildings.filter(b => b.type === 'spikeWall').length;
+      const commanderActive = activeSupports.some(n => npcHasRole(n, 'commander'));
+      const sergeantActive = activeSupports.some(n => npcHasRole(n, 'sergeant'));
+      const coordinationBonus = (commanderActive ? 4 : 0) + (sergeantActive ? 2 : 0);
+      const barrierMax = Math.max(1, 1 + wallCount + spikeCount * 2 + (hasCarpenter ? Math.max(1, Math.round(carpenterEfficiency)) : 0) + guardCount * 2 + coordinationBonus);
+      const defense = 8 + state.buildings.reduce((sum,b) => sum + (b.type === 'shelter' ? 8 : buildInfo[b.type]?.defense || 0), 0) + Math.round(state.morale/20) + (hasCarpenter ? Math.round(6 * carpenterEfficiency) : 0) + guardCount * 3 + coverCount * 2 + coordinationBonus + (state.tempCoordination ? 1 : 0);
+      const startProgress = radioOrder === 'guard' ? 0 : 3;
+      const enemies = Array.from({length: count}, (_, i) => {
+        const kind = i % 5 === 0 && state.day >= 3 ? 'brute' : i % 4 === 0 ? 'runner' : 'normal';
+        const baseSpeed = kind === 'brute' ? 4.3 : kind === 'runner' ? 7.5 : 5.4;
+        return { id: i + 1, lane: i % 3, kind, progress: startProgress + (i % 3) * 4, hp: kind === 'brute' ? 150 : kind === 'runner' ? 75 : 100, maxHp: kind === 'brute' ? 150 : kind === 'runner' ? 75 : 100, speed: baseSpeed, baseSpeed, damage: kind === 'brute' ? 14 : kind === 'runner' ? 6 : 7, phase: enemyPhaseAt(startProgress + (i % 3) * 4), state: 'far', dead: false, reached: false, hit: false };
+      });
+      const towers = state.buildings.filter(b => b.type === 'tower' || b.type === 'flameTower').map((tower, index) => ({ name: tower.type === 'flameTower' ? '火油塔' : `瞭望塔 ${index + 1}`, damage: tower.type === 'flameTower' ? 56 : 32, cadence: tower.type === 'flameTower' ? 1 : 2 }));
+      state.nightBattle = { count, defense, kills: 0, autoKills: 0, autoShots: 0, breaches: 0, campDamage: 0, finalDamage: 0, barrier: barrierMax, barrierMax, supportIds: activeSupports.map(n => n.id), supportOrders, guardCount, patrolCount, coverCount, noiseLevel, doctorInterceptUsed: false, eventShield: state.eventShield, enemies, towers, tick: 0, feed: [], npcEvents: [], npcDeaths: 0, resolved: false };
+      $('nightTitle').textContent = '月亮升起来了'; $('nightCopy').textContent = activeSupports.length ? `僵尸正从林子里涌出来。本夜援防：${activeSupports.map(n => n.name).join('、')}。建筑会自动开火，你负责补刀。` : '僵尸正从林子里涌出来。建筑会自动开火，但防线不会替你处理所有威胁。'; $('nightIcon').textContent = '🌕';
+      $('supportDetail').textContent = `本夜援防：${supportText}`;
+      syncBattleZombies(); renderBattleLane(); render(); startBattleLoop();
+    }
+    function resolveNight(count, defense) {
+      const b = state.nightBattle;
+      if (!b || b.resolved) return;
+      b.resolved = true; clearInterval(battleTimer); battleTimer = null;
+      const doctorOrder = supportOrderForRole(b, 'doctor');
+      const radioRoleOrder = supportOrderForRole(b, 'radio');
+      const carpenterRoleOrder = supportOrderForRole(b, 'carpenter');
+      const doctorHolder = supportNpcForRole(b, 'doctor');
+      const radioHolder = supportNpcForRole(b, 'radio');
+      const carpenterHolder = supportNpcForRole(b, 'carpenter');
+      const doctorActive = !!doctorHolder;
+      const doctorEfficiency = npcRoleEfficiency(doctorHolder);
+      const radioEfficiency = npcRoleEfficiency(radioHolder);
+      const carpenterEfficiency = npcRoleEfficiency(carpenterHolder);
+      let damage = Math.max(0, Math.round(b.campDamage - (b.eventShield || 0)));
+      if (doctorActive) damage = Math.floor(damage * (1 - 0.3 * doctorEfficiency));
+      if (doctorOrder === 'guard') damage = Math.floor(damage * (1 - 0.18 * doctorEfficiency));
+      if (radioRoleOrder === 'cover') damage = Math.max(0, damage - Math.round(3 * radioEfficiency));
+      if (carpenterRoleOrder === 'cover') damage = Math.max(0, damage - Math.round(2 * carpenterEfficiency));
+      state.npcs.forEach(npc => {
+        if (!b.supportIds.includes(npc.id) || !npcIsActive(npc)) return;
+        if (Number.isFinite(npc.combatHp)) { npc.hp = Math.max(0, Math.min(npc.maxHp, npc.combatHp)); syncNpcLifeState(npc); }
+        npc.needs = npc.needs || {hunger:18,fatigue:12,stress:8}; npc.needs.fatigue = Math.min(100, npc.needs.fatigue + 24); npc.needs.stress = Math.min(100, npc.needs.stress + (npc.combatStatus === 'fled' ? 6 : 3));
+        const orderName = getNpcOrderInfo(npc).name;
+        if (npc.combatStatus === 'fled' || npc.combatStatus === 'fleeing') { npc.memory.failedOrders = (npc.memory.failedOrders || 0) + 1; npc.lastReport = `${orderName}未完成，已撤回`; rememberNpc(npc, `${orderName}未完成并撤回`, -2); }
+        else { npc.lastReport = `${orderName}完成，尸潮损失 ${damage}`; rememberNpc(npc, `${orderName}完成`, damage > 0 ? 1 : 3); }
+      });
+      state.zombies = [];
+      state.hp = Math.max(0, state.hp - damage);
+      if (damage > 0) { state.morale = Math.max(0, state.morale - 8); log(`尸潮有 ${b.breaches} 只突破防线，生命值 -${damage}。明早要补墙。`, 'danger'); }
+      else { state.morale = Math.min(100, state.morale + 6); log('自动防线顶住了尸潮，大家第一次睡了个整觉。'); }
+      let hungerDamage = 0;
+      if (state.food > 0) state.food -= 1; else { hungerDamage = 5; state.hp = Math.max(0, state.hp - hungerDamage); log('储备食物耗尽，大家在饥饿中熬过一夜。', 'warn'); }
+      if (doctorActive && state.hp > 0) { const heal = Math.round((doctorOrder === 'cover' ? 14 : 8) * doctorEfficiency); state.hp = Math.min(100, state.hp + heal); log('苏禾在火线后处理伤口，生命值 +' + heal + '。'); }
+      const doctor = supportNpcForRole(b, 'doctor') || state.npcs.find(n => npcHasRole(n, 'doctor'));
+      const patient = state.npcs.filter(n => npcIsActive(n) && n.lifeState !== 'healthy' && !npcHasRole(n, 'doctor')).sort((a, c) => a.hp - c.hp)[0];
+      if (doctor && patient) {
+        const heal = Math.round((doctorOrder === 'cover' ? 20 : 12) * doctorEfficiency);
+        patient.hp = Math.min(patient.maxHp, patient.hp + heal);
+        patient.wounds = patient.wounds.map(w => ({...w, healed: patient.hp >= 70 ? true : w.healed}));
+        syncNpcLifeState(patient); patient.combatHp = patient.hp;
+        rememberNpc(patient, '接受苏禾治疗', 2); patient.lastReport = `苏禾治疗 +${heal}`; log('苏禾为' + patient.name + '处理伤势，生命值 +' + heal + '。');
+      }
+      const totalDamage = damage + hungerDamage;
+      b.finalDamage = totalDamage;
+      const playerKills = Math.max(0, b.kills - b.autoKills);
+      $('waveBar').style.width = '100%'; $('waveProgressText').textContent = '100%'; $('waveZombies').textContent = '0'; $('waveDamage').textContent = totalDamage ? `-${totalDamage}` : '0'; $('battleStage').textContent = '尸潮结算'; $('battleDetail').textContent = b.breaches ? `自动塔清除 ${b.autoKills} 只，玩家补刀 ${playerKills} 只，${b.breaches} 只撞上营地` : `自动塔和玩家补刀清除了全部 ${b.count} 只`; $('threatMarker').style.left = '100%'; $('continueBtn').disabled = false; $('continueBtn').style.opacity = '1'; $('nightAttackBtn').disabled = true; $('nightAttackBtn').style.opacity = '.45';
+      if (state.hp <= 0) { state.gameOver = 'lose'; $('nightTitle').textContent = '营地失守'; $('nightCopy').textContent = '火种熄灭了。下一局先观察自动防线的伤害数字，再决定白天建墙还是升级炮塔。'; $('nightIcon').textContent = '💀'; $('continueBtn').textContent = '重新开始'; }
+      else if (state.day >= 5) { state.gameOver = 'win'; $('nightTitle').textContent = '无线电重新亮起'; $('nightCopy').textContent = '你守住了五天五夜，远处终于传来了回应。尸潮之下，农场活了下来。'; $('nightIcon').textContent = '📻'; $('continueBtn').textContent = '完成挑战，重新开始'; }
+      else { $('nightTitle').textContent = totalDamage ? '防线被咬开了！' : '平安熬过一夜'; $('nightCopy').textContent = totalDamage ? `本轮自动防守造成 ${totalDamage} 点损失。天亮后可修墙、升塔，再为下一波做准备。` : '炮塔、墙体和你的补刀把最危险的一波挡在了外面。'; $('nightIcon').textContent = totalDamage ? '🩸' : '🌅'; $('continueBtn').textContent = '继续到清晨'; }
+      state.eventShield = 0; state.eventThreat = 0; renderBattleLane(); render();
+    }
+    function assignMorningSuccessors() {
+      state.roleVacancies = state.roleVacancies || {};
+      const priorities = {
+        commander: ['sergeant'],
+        sergeant: ['guardJi', 'guardJiang', 'guardChen'],
+        doctor: ['cook', 'quartermaster'],
+        radio: ['quartermaster', 'cook'],
+        carpenter: ['quartermaster', 'guardJiang'],
+        quartermaster: ['cook', 'guardChen'],
+        cook: ['quartermaster', 'guardJi']
+      };
+      Object.keys(state.roleVacancies).forEach(roleId => {
+        if (state.npcs.some(n => npcHasRole(n, roleId))) { delete state.roleVacancies[roleId]; return; }
+        const candidateIds = priorities[roleId] || ['guardJi', 'guardChen', 'guardJiang', 'cook', 'quartermaster'];
+        const candidate = candidateIds.map(id => state.npcs.find(n => n.id === id)).find(n => npcIsActive(n) && n.lifeState === 'healthy' && !n.actingRole && n.id !== roleId);
+        if (!candidate) return;
+        if (candidate.id !== roleId) state.roleVacancies[candidate.id] = state.roleVacancies[candidate.id] || { role: candidate.id, openedDay: state.day };
+        candidate.actingRole = roleId; candidate.actingFor = roleId; candidate.bond = Math.max(1, candidate.bond || 0); candidate.scheduleState = '继任培训'; candidate.lastReport = `暂代${NPC_TEMPLATES[roleId]?.role || roleId}`;
+        rememberNpc(candidate, `接替${NPC_TEMPLATES[roleId]?.name || roleId}的岗位`, 1);
+        log(`${candidate.name}开始暂代${NPC_TEMPLATES[roleId]?.role || roleId}，岗位功能恢复但仍处于继任培训期。`);
+        delete state.roleVacancies[roleId];
+      });
+      state.tempCoordination = !state.npcs.some(n => npcHasRole(n, 'commander')) && !state.npcs.some(n => npcHasRole(n, 'sergeant'));
+      if (state.tempCoordination) log('指挥官与士官长暂时缺席，玩家将临时协调今晚的防线。');
+    }
+
+
+    function nightAttack() {
+      const b = state.nightBattle;
+      if (!b || b.resolved) return;
+      const weapon = weaponInfo[state.weapon.id] || weaponInfo.rustAxe;
+      const candidates = b.enemies.filter(e => !e.dead && !e.reached).map(enemy => ({ enemy, position: battleEnemyPosition(enemy) })).filter(item => Math.abs(item.position.x - state.player.x) + Math.abs(item.position.y - state.player.y) <= 1).sort((a, c) => c.enemy.progress - a.enemy.progress);
+      const locked = candidates.find(item => item.enemy.id === state.combatTargetId);
+      const ordered = locked ? [locked, ...candidates.filter(item => item !== locked)] : candidates;
+      const targets = ordered.slice(0, state.weapon.id === 'pulseAxe' ? 2 : 1).map(item => item.enemy);
+      if (!targets.length) { toast('先靠近地图中的红色尸群，再按攻击'); return; }
+      state.combatTargetId = targets[0].id || null;
+      const coverMultiplier = 1 + (b.coverCount || 0) * 0.15;
+      targets.forEach(target => {
+        const hitDamage = Math.round((weapon.nightDamage || weapon.damage) * coverMultiplier);
+        target.hp -= hitDamage; target.lastDamage = hitDamage; target.hit = true;
+        const pos = battleEnemyPosition(target); pushFx('damage', `-${hitDamage}`, pos.x, pos.y, 'hit');
+        if (target.hp <= 0) { target.hp = 0; target.dead = true; b.kills += 1; state.zombieKills += 1; if (state.combatTargetId === target.id) { state.combatTargetId = null; clearInteractionFocus(); } pushFx('death', '💥', pos.x, pos.y, 'death'); }
+      });
+      if (state.weapon.id === 'hookBlade' && state.zombieKills % 2 === 0) { state.parts += 1; b.feed.push('捕兽钩回收 +1 零件'); }
+      b.feed.push(`你用${weapon.name}补刀 ${targets.length} 只${b.coverCount ? ' · NPC掩护生效' : ''}`);
+      syncBattleZombies(); renderNightWorld(); renderBattleLane(); renderWorld(); renderHud();
+    }
+    function continueMorning() {
+      if (state.gameOver) { window.location.reload(); return; }
+      clearInterval(battleTimer); battleTimer = null;
+      $('nightOverlay').classList.remove('show'); state.night = false; state.day += 1; state.hour = 6; state.minute = 0; state.energy = 100;
+      spawnResource();
+      assignMorningSuccessors();
+      const gardens = state.buildings.filter(b => b.type === 'garden' || b.type === 'greenhouse').length;
+      let ready = 0;
+      state.buildings.filter(b => (b.type === 'garden' || b.type === 'greenhouse') && b.planted && !b.ready).forEach(g => { g.growth += 1; if (g.growth >= 2) { g.ready = true; ready += 1; } });
+      const jobs = [];
+      state.npcs.forEach(n => {
+        if (!npcIsActive(n)) { n.supportRequested = false; n.order = null; n.currentOrder = null; return; }
+        if (Number.isFinite(n.dayX)) { n.x = n.dayX; n.y = n.dayY; }
+        const recovery = n.lifeState === 'critical' ? 4 : n.lifeState === 'injured' ? 8 : 0;
+        if (recovery) { n.hp = Math.min(n.maxHp, n.hp + recovery); syncNpcLifeState(n); }
+        n.combatHp = n.hp; n.combatStatus = 'ready'; n.behaviorState = 'work'; n.escapePressure = 0;
+        n.scheduleState = '休整';
+        n.supportRequested = false;
+        n.order = null; n.currentOrder = null;
+        if (n.bond >= 1 && npcHasRole(n, 'carpenter')) { const gain = n.actingRole ? 1 : 2; state.wood += gain; n.lastReport = `清晨修整了 ${gain} 木材`; jobs.push(`${n.name}修整了 ${gain} 木材`); }
+        if (n.bond >= 1 && npcHasRole(n, 'doctor')) { if (!n.actingRole) state.medicine += 1; n.lastReport = n.actingRole ? '继任培训中，暂不额外产出药草' : '清晨整理了 1 药草'; jobs.push(n.actingRole ? `${n.name}正在培训医务岗位` : `${n.name}整理了 1 药草`); }
+        if (n.bond >= 1 && npcHasRole(n, 'radio')) { state.morale = Math.min(100, state.morale + 2); n.lastReport = '带来一条安全路线'; jobs.push(`${n.name}带来一条安全路线`); }
+        if (n.bond >= 1 && npcHasRole(n, 'quartermaster')) {
+          const active = state.npcs.filter(npcIsActive);
+          active.forEach(item => { item.needs = item.needs || { hunger: 18, fatigue: 12, stress: 8 }; item.needs.hunger = Math.max(0, item.needs.hunger - 5); });
+          n.lastReport = '重新盘点了补给优先级'; jobs.push('周岚重新盘点了补给优先级');
+        }
+        if (n.bond >= 1 && npcHasRole(n, 'cook')) {
+          state.morale = Math.min(100, state.morale + 2);
+          state.npcs.filter(npcIsActive).forEach(item => { item.needs = item.needs || { hunger: 18, fatigue: 12, stress: 8 }; item.needs.stress = Math.max(0, item.needs.stress - 3); });
+          n.lastReport = '把火堆和农务安排妥当'; jobs.push('唐婶把火堆和农务安排妥当');
+        }
+        if (n.bond >= 1 && npcHasRole(n, 'commander')) { state.morale = Math.min(100, state.morale + 3); n.lastReport = '完成晨间防线调度'; jobs.push(`${n.name}完成晨间防线调度`); }
+        if (n.bond >= 1 && npcHasRole(n, 'sergeant')) { state.morale = Math.min(100, state.morale + 1); n.lastReport = '完成换防训练计划'; jobs.push(`${n.name}完成换防训练计划`); }
+        if (n.bond >= 1 && ['guardJi','guardChen','guardJiang'].includes(n.id)) { n.lastReport = '完成外围巡检'; jobs.push(`${n.name}完成外围巡检`); }
+      });
+      state.hp = Math.min(100, state.hp + 12); state.morale = Math.min(100, state.morale + 3);
+      const dynamicEvent = refreshDynamicNpcEvent();
+      const next = dynamicEvent || eventPool[(state.day + Math.floor(Math.random() * eventPool.length)) % eventPool.length];
+      state.event = {...next, handled: false};
+      log(`第 ${state.day} 天清晨，${ready ? `${ready} 块种植地可以收获。` : gardens ? '种植地又长高了一格。' : '风很冷，但火还在。'}${jobs.length ? ` ${jobs.join('，')}。` : ''}`);
+      toast(`第 ${state.day} 天开始`); render();
+    }
+
+    function toggleEventPanel() {
+      $('eventPanel').classList.toggle('open');
+      if ($('eventPanel').classList.contains('open')) $('eventPanel').scrollIntoView({behavior:'smooth', block:'nearest'});
+    }
+    function toggleCollectionPanel() {
+      $('collectionPanel').classList.toggle('open');
+      if ($('collectionPanel').classList.contains('open')) $('collectionPanel').scrollIntoView({behavior:'smooth', block:'nearest'});
+    }
+    function toggleSurvivorPanel() {
+      $('survivorPanel').classList.toggle('open');
+      if ($('survivorPanel').classList.contains('open')) $('survivorPanel').scrollIntoView({behavior:'smooth', block:'nearest'});
+    }
+    function toggleWeaponPanel(open = null) {
+      const panel = $('weaponPanel');
+      if (!panel) return;
+      panel.classList.toggle('open', open === null ? !panel.classList.contains('open') : open);
+      if (panel.classList.contains('open')) panel.scrollIntoView({behavior:'smooth', block:'nearest'});
+    }
+    function mapTileFromEvent(event) {
+      const tile = event.target.closest?.('.tile');
+      if (!tile || !tile.dataset.x || !tile.dataset.y) return null;
+      return { tile, x: Number(tile.dataset.x), y: Number(tile.dataset.y) };
+    }
+    function updateMapHover(event) {
+      const hit = mapTileFromEvent(event);
+      const world = event.currentTarget;
+      world.querySelector('.tile.cursor')?.classList.remove('cursor');
+      if (!hit) { state.hoverTarget = null; return; }
+      state.hoverTarget = { x: hit.x, y: hit.y };
+      hit.tile.classList.add('cursor');
+    }
+    function handleMapClick(event) {
+      const hit = mapTileFromEvent(event);
+      if (!hit) return;
+      state.hoverTarget = { x: hit.x, y: hit.y };
+      if (state.night) {
+        const distance = Math.abs(hit.x - state.player.x) + Math.abs(hit.y - state.player.y);
+        const target = nightEnemyAt(hit.x, hit.y);
+        if (target) { state.combatTargetId = target.id; state.interactionFocus = { key: `nightEnemy:${target.id}:${hit.x},${hit.y}`, kind: 'nightEnemy', x: hit.x, y: hit.y }; toast(`已锁定${target.kind === 'brute' ? '装甲僵尸' : target.kind === 'runner' ? '快速感染者' : '僵尸'}，靠近后按 F 攻击`); if (Math.abs(hit.x - state.player.x) + Math.abs(hit.y - state.player.y) <= 1) nightAttack(); }
+        else toast(distance <= 1 ? '这里没有可攻击的尸群' : '先用 WASD 靠近目标');
+        return;
+      }
+      handleCellClick(hit.x, hit.y);
+    }
+    function handleMapContextMenu(event) {
+      event.preventDefault();
+      const hit = mapTileFromEvent(event);
+      if (!hit) return;
+      state.hoverTarget = { x: hit.x, y: hit.y };
+      if (!state.night && !isRegionVisible(hit.x, hit.y)) { state.hoverTarget = null; hideContext(); toast('尚未探索该区域，先走近边缘'); return; }
+      const distance = Math.abs(hit.x - state.player.x) + Math.abs(hit.y - state.player.y);
+      if (state.night) { const target = nightEnemyAt(hit.x, hit.y); if (target) { state.combatTargetId = target.id; state.interactionFocus = { key: `nightEnemy:${target.id}:${hit.x},${hit.y}`, kind: 'nightEnemy', x: hit.x, y: hit.y }; if (distance <= 1) nightAttack(); else toast('已锁定尸群，先用 WASD 靠近'); } else toast('右键交互也需要先靠近目标'); return; }
+      if (distance > 1) { toast('先用 WASD 靠近目标，再按 E 交互'); return; }
+      const target = interactionTargetAt(hit.x, hit.y);
+      if (state.buildMode && state.selectedBuild) placeBuilding(hit.x, hit.y);
+      else if (target) executeInteraction(target);
+      else toast('这里没有可交互目标');
+    }
+    function bindMapInput(id) {
+      const world = $(id);
+      if (!world || world.dataset.inputBound) return;
+      world.dataset.inputBound = 'true';
+      world.addEventListener('pointermove', updateMapHover);
+      world.addEventListener('pointerleave', (event) => { world.querySelector('.tile.cursor')?.classList.remove('cursor'); state.hoverTarget = null; });
+      world.addEventListener('click', handleMapClick);
+      world.addEventListener('contextmenu', handleMapContextMenu);
+    }
+    bindMapInput('world');
+    bindMapInput('nightWorld');
+    $('inventoryClose').addEventListener('click', () => toggleInventory(false));
+    $('inventoryContinue').addEventListener('click', () => toggleInventory(false));
+    $('inventoryEat').addEventListener('click', () => { toggleInventory(false); eatFood(); });
+    $('inventoryBuild').addEventListener('click', () => { toggleInventory(false); toggleBuild(); });
+    $('inventoryOverlay').addEventListener('click', (event) => { if (event.target === $('inventoryOverlay')) toggleInventory(false); });
+    $('contextClose').addEventListener('click', () => { contextDismissedAt = tileKey(state.player.x, state.player.y); hideContext(); });
+    $('contextActions').addEventListener('click', (event) => {
+      const button = event.target.closest('[data-context-action]');
+      if (!button || button.disabled) return;
+      const action = button.dataset.contextAction;
+      const nearbyNpc = state.npcs.find(n => npcIsActive(n) && contextDistance(n) <= 1);
+      const nearbyLandmark = state.landmarks.find(l => !l.found && contextDistance(l) <= 1);
+      const nearbyBuilding = state.buildings.find(b => b.type !== 'shelter' && contextDistance(b) <= 1);
+      const nearbyShelter = state.buildings.find(b => b.type === 'shelter' && contextDistance(b) <= 1);
+      if (action === 'attack') attack();
+      else if (action === 'npc' && nearbyNpc) interactNpc(nearbyNpc.id);
+      else if (action === 'npcOrder') setNpcOrder(button.dataset.npcId, button.dataset.order);
+      else if (action === 'gather') gather();
+      else if (action === 'crop') plantOrHarvest();
+      else if (action === 'repair') repairBuilding();
+      else if (action === 'landmark' && nearbyLandmark) discoverLandmark(nearbyLandmark);
+      else if (action === 'area') { const nearbyArea = CAMP_AREAS.find(a => contextDistance(a) <= 1); if (nearbyArea) interactCampArea(nearbyArea); }
+      else if (action === 'evolve' && nearbyBuilding) { state.selectedBuilding = nearbyBuilding; toggleEvolution(); }
+      else if (action === 'weapon' && nearbyShelter) { state.selectedBuilding = nearbyShelter; toggleWeaponPanel(); }
+    });
+    $('eventToggle').addEventListener('click', toggleEventPanel);
+    $('collectionToggle').addEventListener('click', toggleCollectionPanel);
+    $('survivorToggle').addEventListener('click', toggleSurvivorPanel);
+    $('gatherBtn').addEventListener('click', gather);
+    $('buildBtn').addEventListener('click', toggleBuild);
+    $('attackBtn').addEventListener('click', attack);
+    $('cropBtn').addEventListener('click', plantOrHarvest);
+    $('eatBtn').addEventListener('click', eatFood);
+    $('eatBtnAction').addEventListener('click', eatFood);
+    $('endDayBtn').addEventListener('click', endDay);
+    $('continueBtn').addEventListener('click', continueMorning);
+    $('nightAttackBtn').addEventListener('click', nightAttack);
+    $('eventChoiceA').addEventListener('click', () => resolveEvent('a'));
+    $('eventChoiceB').addEventListener('click', () => resolveEvent('b'));
+    $('evolveBtn').addEventListener('click', toggleEvolution);
+    document.querySelectorAll('[data-evolve]').forEach(card => card.addEventListener('click', () => evolveBuilding(card.dataset.evolve)));
+    document.querySelectorAll('[data-weapon]').forEach(card => card.addEventListener('click', () => chooseWeapon(card.dataset.weapon)));
+    document.querySelectorAll('.build-card').forEach(card => card.addEventListener('click', () => selectBuild(card.dataset.build)));
+    document.querySelectorAll('[data-dir]').forEach(btn => btn.addEventListener('click', () => { const [dx,dy] = dirs[btn.dataset.dir]; move(dx,dy); }));
+    document.querySelectorAll('[data-night-dir]').forEach(btn => btn.addEventListener('click', () => { const [dx,dy] = dirs[btn.dataset.nightDir]; moveNight(dx,dy); }));
+    const heldDirections = new Map();
+    let heldMovementFrame = null;
+    let lastHeldMoveAt = 0;
+    const heldMoveInterval = 240;
+    function currentHeldDirection() {
+      const newest = [...heldDirections.entries()].sort((a, b) => b[1] - a[1])[0];
+      return newest ? newest[0] : null;
+    }
+    function stopHeldMovement() {
+      if (heldMovementFrame) cancelAnimationFrame(heldMovementFrame);
+      heldMovementFrame = null;
+      heldDirections.clear();
+    }
+    function runHeldMovement(now) {
+      const key = currentHeldDirection();
+      if (!key || state.inventoryOpen || state.gameOver) { heldMovementFrame = null; if (state.inventoryOpen || state.gameOver) heldDirections.clear(); return; }
+      if (now - lastHeldMoveAt >= heldMoveInterval) {
+        const direction = { w:'up', a:'left', s:'down', d:'right', ArrowUp:'up', ArrowLeft:'left', ArrowDown:'down', ArrowRight:'right' }[key];
+        const [dx, dy] = dirs[direction];
+        move(dx, dy);
+        lastHeldMoveAt = now;
+      }
+      heldMovementFrame = requestAnimationFrame(runHeldMovement);
+    }
+    function startHeldMovement() {
+      if (!heldMovementFrame) { lastHeldMoveAt = performance.now(); heldMovementFrame = requestAnimationFrame(runHeldMovement); }
+    }
+    document.addEventListener('keydown', (e) => {
+      if (e.target && ['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) return;
+      const lower = e.key.toLowerCase();
+      const direction = ({ ArrowUp:'up', ArrowDown:'down', ArrowLeft:'left', ArrowRight:'right', w:'up', a:'left', s:'down', d:'right' }[e.key] || { w:'up', a:'left', s:'down', d:'right' }[lower]);
+      if (direction) {
+        if (state.inventoryOpen) { e.preventDefault(); return; }
+        e.preventDefault();
+        const heldKey = ['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key) ? e.key : lower;
+        if (!heldDirections.has(heldKey)) {
+          heldDirections.set(heldKey, performance.now());
+          const [dx, dy] = dirs[direction];
+          move(dx, dy);
+          lastHeldMoveAt = performance.now();
+        }
+        startHeldMovement();
+        return;
+      }
+      if (lower === 'e' && e.repeat) { e.preventDefault(); startInteractionRepeat(); return; }
+      if (e.repeat) return;
+      if (lower === 'escape') {
+        if (state.inventoryOpen) toggleInventory(false);
+        else if (state.buildMode) toggleBuild();
+        else { hideContext(); $('evolveDrawer')?.classList.remove('open'); $('weaponPanel')?.classList.remove('open'); }
+        return;
+      }
+      if (lower === 'b') { e.preventDefault(); toggleInventory(); return; }
+      if (state.inventoryOpen) { e.preventDefault(); return; }
+      if (/^[1-9]$/.test(e.key) && $('contextPanel')?.classList.contains('show')) { e.preventDefault(); triggerContextActionByIndex(Number(e.key) - 1); return; }
+      if (lower === 'e') { e.preventDefault(); interact(); }
+      else if (lower === 'c') { e.preventDefault(); toggleBuild(); }
+      else if (lower === 'r') { e.preventDefault(); eatFood(); }
+      else if (lower === 'g') { e.preventDefault(); gather(); }
+      else if (lower === 'f' || e.key === ' ') { e.preventDefault(); state.night ? nightAttack() : attack(); }
+      else if (lower === 'n' && !state.night) { e.preventDefault(); endDay(); }
+    });
+    document.addEventListener('keyup', (e) => {
+      const lower = e.key.toLowerCase();
+      if (lower === 'e') stopInteractionRepeat();
+      if (heldDirections.has(e.key)) heldDirections.delete(e.key);
+      if (heldDirections.has(lower)) heldDirections.delete(lower);
+      if (!heldDirections.size) stopHeldMovement();
+    });
+    window.addEventListener('blur', stopHeldMovement);
+    window.addEventListener('blur', stopInteractionRepeat);
+    document.addEventListener('visibilitychange', () => { if (document.hidden) { stopHeldMovement(); stopInteractionRepeat(); } });
+
+    let pointerId = null;
+    $('joystick').addEventListener('pointerdown', (e) => { pointerId = e.pointerId; $('joystick').setPointerCapture(pointerId); moveStick(e); });
+    $('joystick').addEventListener('pointermove', (e) => { if (e.pointerId === pointerId) moveStick(e); });
+    $('joystick').addEventListener('pointerup', (e) => { if (e.pointerId !== pointerId) return; const rect = $('joystick').getBoundingClientRect(); const dx = e.clientX - (rect.left + rect.width/2), dy = e.clientY - (rect.top + rect.height/2); const angle = Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 'right' : 'left') : (dy > 0 ? 'down' : 'up'); const [mx,my]=dirs[angle]; move(mx,my); $('stick').style.left='35px'; $('stick').style.top='35px'; pointerId=null; });
+    function moveStick(e) { const rect = $('joystick').getBoundingClientRect(); const cx=rect.left+rect.width/2, cy=rect.top+rect.height/2; let dx=e.clientX-cx, dy=e.clientY-cy; const max=31; const len=Math.hypot(dx,dy)||1; if(len>max){dx=dx/len*max;dy=dy/len*max;} $('stick').style.left=`${35+dx}px`; $('stick').style.top=`${35+dy}px`; }
+    let resizeTimer = null;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => render(), 120);
+    });
+    render();
+  </script>
+</body>
+</html>
