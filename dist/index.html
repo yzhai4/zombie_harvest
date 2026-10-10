@@ -2169,7 +2169,7 @@
         if (saved.relayProject && typeof saved.relayProject === 'object') state.relayProject = { ...state.relayProject, ...saved.relayProject, materialNeed: { ...state.relayProject.materialNeed, ...(saved.relayProject.materialNeed || {}) }, materialProgress: { ...state.relayProject.materialProgress, ...(saved.relayProject.materialProgress || {}) } };
         if (saved.hordeForecast && typeof saved.hordeForecast === 'object') state.hordeForecast = { ...state.hordeForecast, ...saved.hordeForecast };
         if (saved.collection) Object.keys(collectionCaps).forEach(k => { state.collection[k] = Math.max(0, Math.min(collectionCaps[k], Number(saved.collection[k]) || 0)); });
-        if (Array.isArray(saved.npcEvents)) state.npcEvents = saved.npcEvents.slice(-20);
+        if (Array.isArray(saved.npcEvents)) state.npcEvents = saved.npcEvents.filter(item => item && typeof item === 'object' && typeof item.id === 'string').slice(-20);
         const allowedSavedEvent = saved.event && (eventPool.some(e => e.id === saved.event.id) || DYNAMIC_EVENT_IDS.has(saved.event.id) || saved.event.npcEvent);
         if (allowedSavedEvent) { state.event = { ...(eventPool.find(e => e.id === saved.event.id) || saved.event), ...saved.event, handled: !!saved.event.handled, result: saved.event.result || '' }; state.eventInstance = createEventInstance(state.event.id, { instanceId: saved.event.instanceId || `event-${state.event.id}-restored`, handled: !!state.event.handled, status: state.event.handled ? 'resolved' : 'active' }); }
         if (saved.eventInstance && typeof saved.eventInstance === 'object') state.eventInstance = { ...state.eventInstance, ...saved.eventInstance };
