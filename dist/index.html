@@ -4110,6 +4110,7 @@
       toast(`${CAMP_ZONES[zone]?.name || '营地区域'}：目前平稳`);
     }
     function executeInteraction(target) {
+      if (state.night) { toast('尸潮进行中：当前只能移动和攻击'); return false; }
       if (!target) return false;
       if (target.kind === 'npc') { interactNpc(target.item.id); return true; }
       if (target.kind === 'resource') { gather(target.item); return true; }
