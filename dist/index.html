@@ -4224,6 +4224,12 @@
 
     function handleCellClick(x, y) {
       if (state.gameOver) return;
+      if (state.night) {
+        const threat = getZombieNear(x, y);
+        if (threat) { state.combatTargetId = threat.id || null; toast('已锁定尸潮目标，靠近后攻击'); }
+        else toast('尸潮进行中：当前只能移动和攻击');
+        return;
+      }
       if (!isRegionVisible(x, y)) { state.selected = null; state.hoverTarget = null; hideContext(); toast('尚未探索该区域，先走近边缘'); renderWorld(); return; }
       if (state.buildMode) {
         if (!state.selectedBuild) { toast('先从下方选一个建筑'); return; }
