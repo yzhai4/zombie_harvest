@@ -1346,13 +1346,19 @@
     }
     function loadProgress() {
       try {
-        let raw = null;
+        let saved = null;
         for (const key of [SAVE_KEY, ...LEGACY_SAVE_KEYS]) {
-          raw = localStorage.getItem(key);
-          if (raw) break;
+          const candidate = localStorage.getItem(key);
+          if (!candidate) continue;
+          try {
+            const parsed = JSON.parse(candidate);
+            if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+              saved = parsed;
+              break;
+            }
+          } catch (e) { /* try the next compatible save slot */ }
         }
-        if (!raw) return;
-        const saved = JSON.parse(raw); if (!saved || typeof saved !== 'object') return;
+        if (!saved) return;
         ['day','hour','minute','energy','hp','wood','stone','food','seeds','parts','medicine','morale'].forEach(k => { if (Number.isFinite(saved[k])) state[k] = saved[k]; });
         if (saved.collection) Object.keys(collectionCaps).forEach(k => { state.collection[k] = Math.max(0, Math.min(collectionCaps[k], Number(saved.collection[k]) || 0)); });
         const allowedSavedEvent = saved.event && (eventPool.some(e => e.id === saved.event.id) || DYNAMIC_EVENT_IDS.has(saved.event.id));
