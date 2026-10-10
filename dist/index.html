@@ -4479,7 +4479,8 @@
       if (enemy.kind === 'runner') {
         speed *= phase === 'approach' ? 1.24 : phase === 'contact' ? 1.08 : 1;
         if (phase === 'approach' && battle.tick % 4 === 0 && enemy.lastLaneShiftTick !== battle.tick) {
-          enemy.lane = (enemy.lane + (enemy.id % 2 ? 1 : 2)) % MAP.battle.laneRows.length;
+          const laneSeed = Number(String(enemy.id).split(':').pop()) || 0;
+          enemy.lane = (enemy.lane + (laneSeed % 2 ? 1 : 2)) % MAP.battle.laneRows.length;
           enemy.lastLaneShiftTick = battle.tick; enemy.behavior = 'flank';
           const p = battleEnemyPosition(enemy); pushFx('npc-state', '↗ 侧袭', p.x, p.y, 'danger');
         }
