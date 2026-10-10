@@ -5,7 +5,8 @@
 ## 当前基线
 
 - 来源：Sites 项目「尸潮农场」
-- 当前生产版本：v76
+- Sites 快照：v76（源码同步编号）
+- 游戏内产品版本：v1.7（页面显示编号）
 - Sites 提交：`ea24e579ba5bfe32cacb8695a054d61da406e512`
 - 入口：`dist/index.html`
 - 站点：https://zombie-harvest.jimmy-vaughanowl.chatgpt.site/
