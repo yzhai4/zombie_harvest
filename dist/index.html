@@ -5604,6 +5604,7 @@
       if (lower === 'b') { e.preventDefault(); if (infoModalOpen) closeInfoModal(); else openInfoModal('overview'); return; }
       if (infoModalOpen && (lower === 'c' || lower === 'e' || lower === 'r' || lower === 'f' || lower === 'n' || e.key === ' ')) closeInfoModal();
       if (state.inventoryOpen) { e.preventDefault(); return; }
+      if (state.night && ['e', 'c', 'r', 'g'].includes(lower)) { e.preventDefault(); toast('尸潮进行中：当前只能移动和攻击'); return; }
       if (/^[1-9]$/.test(e.key) && $('contextPanel')?.classList.contains('show')) { e.preventDefault(); triggerContextActionByIndex(Number(e.key) - 1); return; }
       if (lower === 'e') { e.preventDefault(); interact(); }
       else if (lower === 'c') { e.preventDefault(); toggleBuild(); }
