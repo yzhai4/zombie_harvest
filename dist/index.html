@@ -1524,9 +1524,14 @@
     }
     function appendMissingExpansionContent() {
       const strategic = [{x:10,y:1,type:'bunker',w:2,h:2,hp:12},{x:14,y:3,type:'depot',w:2,h:2,hp:10},{x:15,y:5,type:'tower',hp:5}];
-      strategic.forEach(item => { if (!state.buildings.some(b => b.x === item.x && b.y === item.y)) state.buildings.push({...item}); });
+      const overlapsBuilding = (a, b) => {
+        const af = buildingFootprint(a), bf = buildingFootprint(b);
+        return a.x < b.x + bf.w && a.x + af.w > b.x && a.y < b.y + bf.h && a.y + af.h > b.y;
+      };
+      strategic.forEach(item => { if (!state.buildings.some(b => overlapsBuilding(b, item))) state.buildings.push({...item}); });
       EXPANSION_RESOURCES.forEach(item => {
-        if (!state.resources.some(r => r.x === item.x && r.y === item.y)) state.resources.push({...item});
+        const occupied = state.buildings.some(b => buildingContains(b, item.x, item.y)) || state.npcs.some(n => npcIsActive(n) && n.x === item.x && n.y === item.y);
+        if (!occupied && !state.resources.some(r => r.x === item.x && r.y === item.y)) state.resources.push({...item});
       });
       EXPANSION_LANDMARKS.forEach(item => {
         if (!state.landmarks.some(l => l.x === item.x && l.y === item.y && l.type === item.type)) state.landmarks.push({...item});
