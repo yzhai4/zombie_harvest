@@ -4393,7 +4393,7 @@
     }
     function interactNpc(id, options = {}) { return actionCommand('npc.interact','npc.interacted',{npcId:id},()=>interactNpcReducer(id),options); }
     function attackNearestThreat() {
-      if (state.night && nightNearbyEnemies().length) { nightAttack(); return; }
+      if (state.night) { nightAttack(); return; }
       attack();
     }
     function attackReducer() {
