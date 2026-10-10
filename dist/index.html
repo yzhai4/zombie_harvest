@@ -5280,6 +5280,7 @@
       if (!gameStarted) return;
       if (state.inventoryOpen && action !== 'inventory' && action !== 'hud') return;
       if (state.gameOver && ['build','interact','attack','eat','endday'].includes(action)) { toast('这一局已经结束'); return; }
+      if (state.night && ['build', 'interact', 'eat', 'endday'].includes(action)) { toast('尸潮进行中：当前只能移动和攻击'); return; }
       if (action === 'status') openInfoModal('overview');
       else if (action === 'inventory') openInfoModal('inventory');
       else if (action === 'build') { if (infoModalOpen) closeInfoModal(); toggleBuild(); }
