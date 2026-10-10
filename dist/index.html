@@ -2187,14 +2187,14 @@
         if (saved.areaFlags && typeof saved.areaFlags === 'object') { const validFlags = Object.keys(saved.areaFlags).filter(key => /^(eastOutpost|riverBank)-day-\d+$/.test(key)); state.areaFlags = Object.fromEntries(validFlags.map(key => [key, !!saved.areaFlags[key]])); }
         if (saved.roleVacancies && typeof saved.roleVacancies === 'object') state.roleVacancies = Object.fromEntries(Object.keys(saved.roleVacancies).filter(key => NPC_TEMPLATES[key]).map(key => [key, { role: key, openedDay: Number(saved.roleVacancies[key]?.openedDay) || state.day }]));
         if (typeof saved.tempCoordination === 'boolean') state.tempCoordination = saved.tempCoordination;
-        if (Array.isArray(saved.buildings)) state.buildings = saved.buildings.filter(b => inBounds(b.x, b.y) && (b.type === 'shelter' || buildInfo[b.type]));
-        if (Array.isArray(saved.resources)) state.resources = saved.resources.filter(r => inBounds(r.x, r.y) && r.amount > 0);
-        if (Array.isArray(saved.landmarks)) state.landmarks.forEach(l => { const old = saved.landmarks.find(x => x.x === l.x && x.y === l.y && x.type === l.type) || saved.landmarks.find(x => x.x === l.x && x.y === l.y); if (old) l.found = !!old.found; });
+        if (Array.isArray(saved.buildings)) state.buildings = saved.buildings.filter(b => b && typeof b === 'object' && inBounds(b.x, b.y) && (b.type === 'shelter' || buildInfo[b.type]));
+        if (Array.isArray(saved.resources)) state.resources = saved.resources.filter(r => r && typeof r === 'object' && inBounds(r.x, r.y) && r.amount > 0);
+        if (Array.isArray(saved.landmarks)) state.landmarks.forEach(l => { const old = saved.landmarks.find(x => x && typeof x === 'object' && x.x === l.x && x.y === l.y && x.type === l.type) || saved.landmarks.find(x => x && typeof x === 'object' && x.x === l.x && x.y === l.y); if (old) l.found = !!old.found; });
         const legacyRadioFound = Number(saved.version) < 15 && !saved.specialItems && !saved.relayProject && state.landmarks.some(l => l.type === 'radioTower' && l.found);
         if (legacyRadioFound && state.relayProject.status === 'unknown') { state.specialItems.relayCore = 1; state.relayProject.status = 'core-recovered'; state.relayProject.coreItemId = 'item-relayCore-001'; state.__relayMigration = { fromVersion: Number(saved.version) || 0, migration: 'radioTower-to-relayCore', itemId: 'relayCore' }; }
         if (legacyMapSave) appendMissingExpansionContent();
         state.mapRevision = MAP.revision;
-        if (Array.isArray(saved.npcs)) state.npcs.forEach(n => { const old = saved.npcs.find(x => x.id === n.id); if (old) Object.assign(n, normalizeNpc(n, old)); });
+        if (Array.isArray(saved.npcs)) state.npcs.forEach(n => { const old = saved.npcs.find(x => x && typeof x === 'object' && x.id === n.id); if (old) Object.assign(n, normalizeNpc(n, old)); });
         state.roleVacancies = state.roleVacancies || {};
         state.npcs.filter(n => !npcIsActive(n)).forEach(n => { state.roleVacancies[n.id] = state.roleVacancies[n.id] || { role: n.id, openedDay: state.day }; if (n.actingRole) state.roleVacancies[n.actingRole] = state.roleVacancies[n.actingRole] || { role: n.actingRole, openedDay: state.day }; });
         if (saved.settings && typeof saved.settings === 'object') state.settings = { ...state.settings, continuousWorld: P0_FEATURES.continuousWorld };
