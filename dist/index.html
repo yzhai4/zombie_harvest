@@ -3250,8 +3250,12 @@
       document.querySelectorAll('[data-weapon]').forEach(btn => { const info = weaponInfo[btn.dataset.weapon]; btn.disabled = state.weapon.id !== 'rustAxe' || !!state.gameOver; btn.style.borderColor = state.weapon.id === btn.dataset.weapon ? 'var(--green)' : ''; if (info && state.weapon.id !== 'rustAxe') btn.title = '已选择一条进化路线'; });
       const attackBtn = $('attackBtn');
       const liveZombies = getWorldZombies().filter(z => z.hp > 0).length;
-      attackBtn.disabled = !!state.gameOver || liveZombies === 0;
-      attackBtn.innerHTML = liveZombies ? '🪓 攻击<small>相邻僵尸</small>' : '🪓 攻击<small>附近暂无尸群</small>';
+      const nearbyNightThreats = state.night ? nightNearbyEnemies().length : 0;
+      const attackAvailable = state.night ? nearbyNightThreats > 0 : liveZombies > 0;
+      attackBtn.disabled = !!state.gameOver || !attackAvailable;
+      attackBtn.innerHTML = state.night
+        ? (attackAvailable ? '🪓 补刀<small>尸潮目标</small>' : '🪓 补刀<small>暂无可攻击目标</small>')
+        : (liveZombies ? '🪓 攻击<small>相邻僵尸</small>' : '🪓 攻击<small>附近暂无尸群</small>');
       const walls = state.buildings.filter(b => b.type === 'wall' || b.type === 'spikeWall').length;
       const supports = state.npcs.filter(n => n.supportRequested && npcIsActive(n)).length;
       const missionDone = walls >= 3 && supports >= 1;
@@ -5516,7 +5520,7 @@
     document.querySelectorAll('[data-hud-action]').forEach(button => button.addEventListener('click', () => runHudAction(button.dataset.hudAction)));
     $('gatherBtn').addEventListener('click', gather);
     $('buildBtn').addEventListener('click', toggleBuild);
-    $('attackBtn').addEventListener('click', attack);
+    $('attackBtn').addEventListener('click', attackNearestThreat);
     $('cropBtn').addEventListener('click', plantOrHarvest);
     $('eatBtn').addEventListener('click', eatFood);
     $('eatBtnAction').addEventListener('click', eatFood);
@@ -5536,8 +5540,8 @@
     document.querySelectorAll('[data-evolve]').forEach(card => card.addEventListener('click', () => evolveBuilding(card.dataset.evolve)));
     document.querySelectorAll('[data-weapon]').forEach(card => card.addEventListener('click', () => chooseWeapon(card.dataset.weapon)));
     document.querySelectorAll('.build-card').forEach(card => card.addEventListener('click', () => selectBuild(card.dataset.build)));
-    document.querySelectorAll('[data-dir]').forEach(btn => btn.addEventListener('click', () => { if (!gameStarted) return; const [dx,dy] = dirs[btn.dataset.dir]; move(dx,dy); }));
-    document.querySelectorAll('[data-night-dir]').forEach(btn => btn.addEventListener('click', () => { const [dx,dy] = dirs[btn.dataset.nightDir]; move(dx,dy); }));
+    document.querySelectorAll('[data-dir]').forEach(btn => btn.addEventListener('click', () => { if (!gameStarted) return; const [dx,dy] = dirs[btn.dataset.dir]; state.night ? moveNight(dx,dy) : move(dx,dy); }));
+    document.querySelectorAll('[data-night-dir]').forEach(btn => btn.addEventListener('click', () => { const [dx,dy] = dirs[btn.dataset.nightDir]; moveNight(dx,dy); }));
     const heldDirections = new Map();
     let heldMovementFrame = null;
     let lastHeldMoveAt = 0;
@@ -5561,7 +5565,7 @@
       if (now - lastHeldMoveAt >= heldMoveInterval) {
         const direction = { w:'up', a:'left', s:'down', d:'right', ArrowUp:'up', ArrowLeft:'left', ArrowDown:'down', ArrowRight:'right' }[key];
         const [dx, dy] = dirs[direction];
-        move(dx, dy);
+        state.night ? moveNight(dx, dy) : move(dx, dy);
         lastHeldMoveAt = now;
       }
       heldMovementFrame = requestAnimationFrame(runHeldMovement);
@@ -5581,7 +5585,7 @@
         if (!heldDirections.has(heldKey)) {
           heldDirections.set(heldKey, performance.now());
           const [dx, dy] = dirs[direction];
-          move(dx, dy);
+          state.night ? moveNight(dx, dy) : move(dx, dy);
           lastHeldMoveAt = performance.now();
         }
         startHeldMovement();
