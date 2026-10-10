@@ -5628,7 +5628,7 @@
     window.addEventListener('blur', stopInteractionRepeat);
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) { stopHeldMovement(); stopInteractionRepeat(); requestCheckpoint('visibility-hidden', { immediate: true }); }
-      else { const elapsed = Math.max(0, Date.now() - worldLastTickAt); const catchup = Math.min(MAX_BACKGROUND_CATCHUP_MINUTES, Math.floor(elapsed / 60000)); if (catchup > 0 && !state.worldMeta.clock.paused) advance(catchup); worldLastTickAt = Date.now(); requestCheckpoint('visibility-visible', { immediate: true }); }
+      else { const elapsed = Math.max(0, Date.now() - worldLastTickAt); const catchup = Math.min(MAX_BACKGROUND_CATCHUP_MINUTES, Math.floor(elapsed / 60000)); if (catchup > 0 && !state.worldMeta.clock.paused && !state.night) advance(catchup); worldLastTickAt = Date.now(); requestCheckpoint('visibility-visible', { immediate: true }); }
     });
     window.addEventListener('pagehide', () => requestCheckpoint('pagehide', { immediate: true }));
 
