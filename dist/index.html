@@ -4818,6 +4818,7 @@
       battleTimer = setInterval(battleTick, 620);
     }
     function battleTick() {
+      if (document.hidden) return;
       const b = state.nightBattle;
       if (!b || b.resolved) return;
       b.tick += 1;
@@ -5634,7 +5635,7 @@
     let pointerId = null;
     $('joystick').addEventListener('pointerdown', (e) => { if (!gameStarted) return; pointerId = e.pointerId; $('joystick').setPointerCapture(pointerId); moveStick(e); });
     $('joystick').addEventListener('pointermove', (e) => { if (e.pointerId === pointerId) moveStick(e); });
-    $('joystick').addEventListener('pointerup', (e) => { if (e.pointerId !== pointerId) return; const rect = $('joystick').getBoundingClientRect(); const dx = e.clientX - (rect.left + rect.width/2), dy = e.clientY - (rect.top + rect.height/2); const angle = Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 'right' : 'left') : (dy > 0 ? 'down' : 'up'); const [mx,my]=dirs[angle]; move(mx,my); $('stick').style.left='35px'; $('stick').style.top='35px'; pointerId=null; });
+    $('joystick').addEventListener('pointerup', (e) => { if (e.pointerId !== pointerId) return; const rect = $('joystick').getBoundingClientRect(); const dx = e.clientX - (rect.left + rect.width/2), dy = e.clientY - (rect.top + rect.height/2); const angle = Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 'right' : 'left') : (dy > 0 ? 'down' : 'up'); const [mx,my]=dirs[angle]; state.night ? moveNight(mx,my) : move(mx,my); $('stick').style.left='35px'; $('stick').style.top='35px'; pointerId=null; });
     function moveStick(e) { const rect = $('joystick').getBoundingClientRect(); const cx=rect.left+rect.width/2, cy=rect.top+rect.height/2; let dx=e.clientX-cx, dy=e.clientY-cy; const max=31; const len=Math.hypot(dx,dy)||1; if(len>max){dx=dx/len*max;dy=dy/len*max;} $('stick').style.left=`${35+dx}px`; $('stick').style.top=`${35+dy}px`; }
     let resizeTimer = null;
     window.addEventListener('resize', () => {
