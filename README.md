@@ -7,7 +7,7 @@
 - 来源：Sites 项目「尸潮农场」
 - Sites 快照：v76（源码同步编号；入口 dist/index.html 已从 Sites 源快照导入）
 - 游戏内产品版本：以当前页面运行时显示为准
-- Sites 提交：`ea24e579ba5bfe32cacb8695a054d61da406e512`；入口导入提交：`e5242f75f033b281fb08e0cc2d1e16a1fbb25f6c`；最新兼容性修正：`92a3178c4c55d973f7b547637169e4c2d162af18`
+- Sites 提交：`ea24e579ba5bfe32cacb8695a054d61da406e512`；入口导入提交：`e5242f75f033b281fb08e0cc2d1e16a1fbb25f6c`；最新兼容性修正：`f0af0bc845e6b92c0bf862597f88a6260a236fc7`
 - 入口：`dist/index.html`
 - 站点：https://zombie-harvest.jimmy-vaughanowl.chatgpt.site/
 - 访问级别：公开访问
