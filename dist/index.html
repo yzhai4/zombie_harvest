@@ -2114,7 +2114,7 @@
       return merged;
     }
     const savedAtBootSnapshot = hasStoredSave();
-    function progressSaveAllowed() { return !(state.night && state.nightBattle?.resolved); }
+    function progressSaveAllowed() { return !(state.night && state.nightBattle && !state.nightBattle.resolved); }
     function checksum(value) { let h = 2166136261; const text = JSON.stringify(value); for (let i = 0; i < text.length; i += 1) { h ^= text.charCodeAt(i); h = Math.imul(h, 16777619); } return (h >>> 0).toString(16); }
     let checkpointTimer = null;
     function requestCheckpoint(reason = 'mutation', options = {}) { if (!gameStarted) return; state.worldMeta.lastCheckpointReason = reason; if (options.immediate) { clearTimeout(checkpointTimer); checkpointTimer = null; saveProgress({ force: true, reason }); return; } clearTimeout(checkpointTimer); checkpointTimer = setTimeout(() => { checkpointTimer = null; saveProgress({ force: true, reason }); }, 650); }
