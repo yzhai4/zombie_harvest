@@ -1223,6 +1223,7 @@
         <button class="status-tab" type="button" role="tab" data-info-tab="mental" aria-selected="false">心智 / SAN</button>
         <button class="status-tab" type="button" role="tab" data-info-tab="resources" aria-selected="false">资源</button>
         <button class="status-tab" type="button" role="tab" data-info-tab="events" aria-selected="false">任务 / 事件</button>
+        <button class="status-tab" type="button" role="tab" data-info-tab="plan" aria-selected="false">计划会</button>
         <button class="status-tab" type="button" role="tab" data-info-tab="map" aria-selected="false">地图</button>
         <button class="status-tab" type="button" role="tab" data-info-tab="build" aria-selected="false">建设 / 中继</button>
         <button class="status-tab" type="button" role="tab" data-info-tab="log" aria-selected="false">日志</button>
@@ -1249,6 +1250,7 @@
         <section class="status-pane" id="infoPaneMental" data-info-pane="mental" role="tabpanel"><h3 class="status-pane-title">心智与 SAN</h3><p class="status-pane-help">SAN 是个人长期心理承受度；压力、尸潮、伤亡和外围暴露会消耗它，安全整备、同伴支持和营地生活会缓慢恢复。它影响感知、岗位稳定和 NPC 事件，不会把玩家硬锁在地图外。</p><div class="mental-summary-grid"><div class="status-overview-card"><span>玩家 SAN</span><b id="playerSanValue">稳定 72</b><small id="playerSanDetail" class="status-card-detail">最近变化：醒来时，营地仍然安全</small></div><div class="status-overview-card"><span>营地心智</span><b id="campSanValue">平均 72</b><small id="campSanDetail" class="status-card-detail">最低 72 · 暂无失稳人员</small></div></div><div class="status-overview-note" id="mentalChangeFeed" style="margin-top:10px">最近心智变化：暂无记录。</div><div class="status-overview-note" id="mentalAdvice" style="margin-top:8px">恢复建议：回到 shelter、指挥所或居住区，让营地承担心理恢复。</div><div class="mental-thresholds"><b>阶段</b><span>稳定 ≥70 · 不安 45–69 · 惊惧 25–44 · 濒临崩溃 10–24 · 失稳 0–9</span></div><div id="mentalNpcList" class="mental-npc-list"></div></section>
         <section class="status-pane" id="infoPaneResources" data-info-pane="resources" role="tabpanel"><h3 class="status-pane-title">物资与仓储</h3><p class="status-pane-help">木材、石材、食物、种子、零件和营地评价集中在这里，主地图只保留生命、体力和即时危险。</p><div id="infoResourcesMount"></div></section>
         <section class="status-pane" id="infoPaneEvents" data-info-pane="events" role="tabpanel"><h3 class="status-pane-title">任务 / 事件</h3><p class="status-pane-help">保留一个当前目标；完整事件选择和奖励在此页处理。</p><div id="infoEventsMount"></div></section>
+        <section class="status-pane" id="infoPanePlan" data-info-pane="plan" role="tabpanel"><h3 class="status-pane-title">营地计划会</h3><p class="status-pane-help">尸潮结算后生成候选方案。玩家白天可用 1 点指挥点支持、否决或修改，若不干预则由营地自治执行。</p><div id="infoPlanMount"></div></section>
         <section class="status-pane" id="infoPaneMap" data-info-pane="map" role="tabpanel"><h3 class="status-pane-title">地图与图例</h3><p class="status-pane-help">地图标签用于规划，不会替代主地图上的就近交互。打开终端时世界仍会以低频更新。</p><div class="status-map-card"><div><b>图例</b><p>🧑 幸存者 · 🧟 僵尸 · 🌲 资源 · 🏚️ 建筑 · 📡 地标<br>绿色是营地，黄色是当前目标，红色代表危险。</p></div><div><b>当前位置</b><p id="overviewLocation">营地核心 · 12/36 列</p><p id="overviewFrontierDetail" style="margin-top:6px">外围压力：可控 0 · 回营地整备会让前线降温。</p><p style="margin-top:6px">想执行操作时关闭终端，靠近对象后按 E；终端只承载规划信息。</p></div></div></section>
         <section class="status-pane" id="infoPaneBuild" data-info-pane="build" role="tabpanel"><h3 class="status-pane-title">建设 / 广播中继链</h3><p class="status-pane-help">中继、施工阶段、材料需求和成员分工都收进这一页，避免常驻面板挡住地图。</p><div id="infoBuildMount"></div></section>
         <section class="status-pane" id="infoPaneLog" data-info-pane="log" role="tabpanel"><h3 class="status-pane-title">日志与每日记录</h3><div id="infoLogMount"></div></section>
@@ -1327,11 +1329,36 @@
       {x: 30, y: 20, type: 'waterTower', name: '旧水塔', icon: '🚰', found: false},
       {x: 19, y: 18, type: 'settlementGate', name: '南侧聚落门', icon: '🏚️', found: false}
     ]);
+    // Optional content catalogs.  These entries describe the world contracts;
+    // they do not spawn entities or alter the current scenario until an event
+    // explicitly references their stable IDs.
+    const FACTION_DEFS = Object.freeze({
+      camp: Object.freeze({ id: 'camp', name: '农场营地', tags: ['settlement', 'player-adjacent'], defaultRelation: 0, leaderNpcId: 'commander' }),
+      redline: Object.freeze({ id: 'redline', name: '红线猎队', tags: ['militia', 'trade'], defaultRelation: -10, leaderNpcId: 'sergeant' }),
+      riverfolk: Object.freeze({ id: 'riverfolk', name: '河湾互助会', tags: ['civilian', 'agriculture'], defaultRelation: 5, leaderNpcId: 'cook' }),
+      blackSoil: Object.freeze({ id: 'blackSoil', name: '黑土菌群', tags: ['zombie-ecology', 'resonance'], defaultRelation: -80, leaderNpcId: null })
+    });
+    const OUTPOST_DEFS = Object.freeze({
+      watchPost: Object.freeze({ id: 'watchPost', landmarkType: 'watchPost', name: '东侧废弃岗亭', factionId: 'camp', guardSlots: 1, captureRequires: [{ type: 'landmark_exists', id: 'watchPost' }], supplyDistanceReduction: 0.2, upkeep: { food: 1 }, tags: ['watch', 'early-warning'] }),
+      waterMill: Object.freeze({ id: 'waterMill', landmarkType: 'waterMill', name: '废弃水车', factionId: 'riverfolk', guardSlots: 2, captureRequires: [{ type: 'landmark_exists', id: 'waterMill' }], supplyDistanceReduction: 0.35, upkeep: { food: 1 }, tags: ['water', 'production'] }),
+      checkpoint: Object.freeze({ id: 'checkpoint', landmarkType: 'checkpoint', name: '高速检查站', factionId: 'redline', guardSlots: 2, captureRequires: [{ type: 'landmark_exists', id: 'checkpoint' }], supplyDistanceReduction: 0.4, upkeep: { food: 2 }, tags: ['trade', 'road'] }),
+      settlementGate: Object.freeze({ id: 'settlementGate', landmarkType: 'settlementGate', name: '南侧聚落门', factionId: 'riverfolk', guardSlots: 2, captureRequires: [{ type: 'landmark_exists', id: 'settlementGate' }], supplyDistanceReduction: 0.3, upkeep: { food: 1 }, tags: ['refugee', 'diplomacy'] })
+    });
+    const TECH_NODE_DEFS = Object.freeze({
+      defense_t1: Object.freeze({ id: 'defense_t1', branch: 'defense', tier: 1, cost: 30, requires: [], unlocks: ['spikeWall'], sourceTags: ['workshop', 'watchPost'] }),
+      signal_t1: Object.freeze({ id: 'signal_t1', branch: 'signal', tier: 1, cost: 30, requires: [], unlocks: ['pulseAxe'], sourceTags: ['relay-chain-001', 'radioRelay'] }),
+      signal_t2: Object.freeze({ id: 'signal_t2', branch: 'signal', tier: 2, cost: 60, requires: ['signal_t1'], unlocks: ['pulseAxeMk2'], sourceTags: ['relay-chain-001', 'relayCore'], specialItem: 'relayCore' }),
+      medicine_t1: Object.freeze({ id: 'medicine_t1', branch: 'medicine', tier: 1, cost: 30, requires: [], unlocks: ['greenhouse'], sourceTags: ['hospitalRuins'] }),
+      logistics_t1: Object.freeze({ id: 'logistics_t1', branch: 'logistics', tier: 1, cost: 30, requires: [], unlocks: ['depot'], sourceTags: ['supplyDepot', 'waterMill'] })
+    });
     let battleTimer = null;
     let worldTimer = null;
     let worldLastTickAt = 0;
     const MAX_BACKGROUND_CATCHUP_MINUTES = 30;
     let worldTickCounter = 0;
+    // Content registries are deliberately data-only.  Legacy reducers still
+    // read buildInfo/weaponInfo, while new content can target the stable IDs
+    // below without changing those reducers.
     const buildInfo = {
       bunker: { name: '加固指挥所', icon: '🏢', wood: 20, stone: 12, defense: 24, footprint: [2,2], turret: false },
       depot: { name: '多格物资库', icon: '🏭', wood: 16, stone: 10, defense: 12, footprint: [2,2], turret: false },
@@ -1351,11 +1378,21 @@
       greenhouse: { from: 'garden', name: '药草温室', wood: 5, stone: 3, parts: 2, desc: '每次收获额外获得 1 份药草。' },
       beacon: { from: 'lamp', name: '求救信标', wood: 4, stone: 4, parts: 3, desc: '若有广播员支援，尸潮再减少 1 只。' }
     };
-    const weaponInfo = {
-      rustAxe: { name: '生锈斧', damage: 50, nightDamage: 100, desc: '可靠但笨重的旧斧头。' },
-      hookBlade: { name: '捕兽钩', damage: 70, nightDamage: 120, parts: 5, wood: 2, desc: '击杀尸潮后有机会回收零件。' },
-      pulseAxe: { name: '脉冲斧', damage: 55, nightDamage: 200, parts: 8, tapes: 1, desc: '一次挥击可清理 2 只僵尸。' }
+    const BUILDING_DEFS = Object.fromEntries(Object.entries(buildInfo).map(([id, info]) => [id, Object.freeze({
+      id, category: id.includes('tower') || id === 'wall' || id === 'spikeWall' ? 'defense' : ['garden', 'greenhouse'].includes(id) ? 'production' : id === 'relayStation' || id === 'beacon' ? 'signal' : 'support',
+      tags: id === 'relayStation' || id === 'beacon' ? ['signal', 'story'] : id === 'bunker' ? ['core', 'defense'] : ['camp'],
+      costs: { wood: Number(info.wood) || 0, stone: Number(info.stone) || 0, parts: Number(info.parts) || 0 },
+      defense: Number(info.defense) || 0, footprint: info.footprint ? [...info.footprint] : [1, 1], turret: !!info.turret,
+      requires: [], materialSources: ['farm', 'ruins'], maintenance: {}, storyHooks: []
+    })]));
+    const WEAPON_DEFS = {
+      rustAxe: Object.freeze({ id: 'rustAxe', family: 'axe', name: '生锈斧', damage: 50, damageRange: { min: 45, max: 55 }, nightDamage: 100, attackInterval: 1, staminaCost: 5, durability: 100, damageTypes: ['slash'], tags: ['starter', 'heavy'], penetration: 0, knockback: 0.7, statusEffects: [], activeAbility: null, passive: null, ammo: null, heat: { max: 0, perUse: 0, coolRate: 0 }, repair: { materials: ['scrap'], uses: 1 }, recipe: [], techRequired: null, storyHooks: [], weakAgainst: ['armored'], assetKeys: { icon: 'rustAxe.icon', sprite: 'rustAxe.sprite', attack: 'rustAxe.attack', sfx: 'rustAxe.attack.sfx' }, rarity: 'common', desc: '可靠但笨重的旧斧头。' }),
+      hookBlade: Object.freeze({ id: 'hookBlade', family: 'hook', name: '捕兽钩', damage: 70, damageRange: { min: 60, max: 80 }, nightDamage: 120, attackInterval: 0.85, staminaCost: 5, durability: 90, damageTypes: ['slash'], tags: ['bleed', 'salvage'], penetration: 0.05, knockback: 0.45, statusEffects: ['bleed'], activeAbility: null, passive: 'salvage', ammo: null, heat: { max: 0, perUse: 0, coolRate: 0 }, repair: { materials: ['scrap'], uses: 1 }, recipe: ['parts', 'wood'], techRequired: null, storyHooks: ['supply-depot'], weakAgainst: ['swarm'], assetKeys: { icon: 'hookBlade.icon', sprite: 'hookBlade.sprite', attack: 'hookBlade.attack', sfx: 'hookBlade.attack.sfx' }, rarity: 'crafted', parts: 5, wood: 2, desc: '击杀尸潮后有机会回收零件。' }),
+      pulseAxe: Object.freeze({ id: 'pulseAxe', family: 'axe', name: '脉冲斧', damage: 55, damageRange: { min: 50, max: 60 }, nightDamage: 200, attackInterval: 1.1, staminaCost: 8, durability: 70, damageTypes: ['blunt', 'pulse'], tags: ['pulse', 'anti-resonance'], penetration: 0.2, knockback: 1.1, statusEffects: ['stun', 'resonance_mark'], activeAbility: 'discharge', passive: 'resonance_break', ammo: { kind: 'relay_charge', max: 3, perUse: 1 }, heat: { max: 40, perUse: 8, coolRate: 5 }, repair: { materials: ['parts', 'tape'], uses: 1 }, recipe: ['parts', 'tape'], techRequired: 'signal_t1', storyHooks: ['relay-chain-001'], weakAgainst: ['swarm', 'long_fights'], assetKeys: { icon: 'pulseAxe.icon', sprite: 'pulseAxe.sprite', attack: 'pulseAxe.attack', sfx: 'pulseAxe.attack.sfx' }, rarity: 'prototype', parts: 8, tapes: 1, desc: '一次挥击可清理 2 只僵尸。' }),
+      pulseAxeMk2: Object.freeze({ id: 'pulseAxeMk2', family: 'axe', name: '脉冲斧 Mk.II', damage: 68, damageRange: { min: 60, max: 76 }, nightDamage: 240, attackInterval: 0.95, staminaCost: 12, durability: 55, damageTypes: ['blunt', 'pulse'], tags: ['pulse', 'anti-resonance', 'heavy'], penetration: 0.3, knockback: 1.4, statusEffects: ['stun', 'resonance_mark'], activeAbility: 'discharge', passive: 'resonance_break', ammo: { kind: 'relay_charge', max: 3, perUse: 1 }, heat: { max: 60, perUse: 12, coolRate: 4 }, repair: { materials: ['scrap', 'relay_core'], uses: 1 }, recipe: ['scrap', 'relay_core'], techRequired: 'signal_t2', storyHooks: ['relay-chain-001'], weakAgainst: ['swarm', 'long_fights'], assetKeys: { icon: 'pulseAxeMk2.icon', sprite: 'pulseAxeMk2.sprite', attack: 'pulseAxeMk2.attack', sfx: 'pulseAxeMk2.attack.sfx' }, rarity: 'prototype', enabled: false, desc: '扩展槽位示例：需要中继核心和信号科技。' })
     };
+    // weaponInfo remains the compatibility name used by the current UI and reducers.
+    const weaponInfo = WEAPON_DEFS;
     // 地图上的图标按“岗位/威胁类型”分层，保证玩家一眼能区分物流、医疗、守卫和尸群。
     // 这里使用内置符号与 CSS 像素化外框，避免引入未审计的外部素材依赖；后续可无缝替换为同名 sprite。
     const ENTITY_VISUALS = Object.freeze({
@@ -1571,14 +1608,20 @@
       return null;
     }
     function registerDynamicNpcEvent(event) {
-      if (!event?.npcEvent) return;
-      const npc = state.npcs.find(item => item.id === event.npcEvent.npcId);
+      if (!event) return;
+      const npc = event.npcEvent ? state.npcs.find(item => item.id === event.npcEvent.npcId) : null;
+      const defId = event.defId || (event.npcEvent ? `npc.${event.npcEvent.chainId || event.id}` : event.id);
+      if (!eventDefinition(defId)) registerEventDefinition({ id: defId, title: event.title, icon: event.icon, text: event.text, phase: 'DAY', nightAllowed: false, actors: event.npcEvent ? [event.npcEvent.npcId] : ['player-1'], gate: { phase: 'DAY', nightAllowed: false }, choices: [
+        { id: 'a', label: event.a, hint: event.aHint, commandType: 'event.resolve', effects: [{ type: 'reducer', key: event.npcEvent?.chainId || event.id, eventType: 'npc.event.resolved' }] },
+        { id: 'b', label: event.b, hint: event.bHint, commandType: 'event.resolve', effects: [{ type: 'reducer', key: event.npcEvent?.chainId || event.id, eventType: 'npc.event.resolved' }] }
+      ], observability: { summary: '事件结果写入事件账本和每日总结' } });
+      event.defId = defId;
       if (!npc) return;
       const eventId = `${event.id}.${npc.id}.${state.day}`;
       event.id = eventId;
-      state.npcEvents = [...(state.npcEvents || []).filter(item => item.id !== eventId), { id: eventId, npcId: npc.id, step: event.npcEvent.step || 0, openedAt: worldMinute(), status: 'active', event }].slice(-20);
+      state.npcEvents = [...(state.npcEvents || []).filter(item => item.id !== eventId), { id: eventId, defId, npcId: npc.id, step: event.npcEvent.step || 0, openedAt: worldMinute(), status: 'active', event }].slice(-20);
       npc.eventChain = npc.eventChain || { step: 0, cooldown: 0, active: null, resolved: [] };
-      npc.eventChain.active = { id: eventId, step: event.npcEvent.step || 0, openedAt: worldMinute(), status: 'active' };
+      npc.eventChain.active = { id: eventId, defId, step: event.npcEvent.step || 0, openedAt: worldMinute(), status: 'active' };
     }
 
     const NPC_TEMPLATES = Object.freeze({
@@ -1592,6 +1635,16 @@
       guardJiang: { id: 'guardJiang', name: '蒋锋', role: '士兵', icon: '⚔️', position: {x: 17, y: 10}, fallbackPoint: {x: 2, y: 2}, desc: '好胜冲动，可能脱离岗位追击', personality: { courage: 88, duty: 48, compassion: 36, discipline: 38, riskTolerance: 94, loyalty: 58 } },
       quartermaster: { id: 'quartermaster', name: '周岚', role: '后勤官', icon: '📦', position: {x: 16, y: 9}, fallbackPoint: {x: 2, y: 2}, desc: '管理食物、弹药和药品的优先级', personality: { courage: 44, duty: 84, compassion: 54, discipline: 88, riskTolerance: 24, loyalty: 66 } },
       cook: { id: 'cook', name: '唐婶', role: '炊事与农务', icon: '🧺', position: {x: 11, y: 14}, fallbackPoint: {x: 2, y: 2}, desc: '照料农务和火堆，稳定营地士气', personality: { courage: 60, duty: 80, compassion: 88, discipline: 70, riskTolerance: 42, loyalty: 82 } }
+    });
+    const NPC_ROLE_DEFS = Object.freeze(Object.fromEntries(Object.values(NPC_TEMPLATES).map(template => [template.id, Object.freeze({
+      id: template.id, role: template.role, name: template.name, tier: ['commander', 'radio', 'doctor'].includes(template.id) ? 'hero' : 'ordinary',
+      fallbackPoint: { ...template.fallbackPoint }, productionKeys: [template.id], replaceable: template.id !== 'commander', storyCritical: ['commander', 'radio', 'doctor'].includes(template.id)
+    })])));
+    const NPC_STORY_DEFS = Object.freeze({
+      carpenter: Object.freeze({ npcId: 'carpenter', tier: 'ordinary', promotedTier: 'hero', role: 'carpenter', traits: ['builder', 'duty'], storyArcs: ['wall-duty'], affinityThresholds: [25, 50, 80], commandUnlock: { type: 'hero-promotion', requires: ['campTrust>=60', 'wall-duty'] }, campEffects: [{ type: 'production', key: 'construction', value: 0.1 }], deathBranches: ['replacement-builder'], absenceBranches: ['construction-slow'], abilitySlots: ['field-skill', 'camp-passive'] }),
+      doctor: Object.freeze({ npcId: 'doctor', tier: 'hero', promotedTier: 'hero', role: 'doctor', traits: ['healer', 'compassion'], storyArcs: ['triage-load'], affinityThresholds: [25, 50, 80], commandUnlock: { type: 'hero-node', requires: ['triage-load'] }, campEffects: [{ type: 'production', key: 'medicine', value: 0.12 }], deathBranches: ['medical-degradation'], absenceBranches: ['triage-skipped'], abilitySlots: ['field-skill', 'camp-passive'] }),
+      radio: Object.freeze({ npcId: 'radio', tier: 'hero', promotedTier: 'hero', role: 'radio', traits: ['signal', 'risk-taker'], storyArcs: ['signal-static', 'relay-chain-001'], affinityThresholds: [25, 50, 80], commandUnlock: { type: 'hero-node', requires: ['relay-chain-001'] }, campEffects: [{ type: 'production', key: 'signal', value: 0.15 }], deathBranches: ['signal-blind'], absenceBranches: ['forecast-degraded'], abilitySlots: ['field-skill', 'camp-passive'] }),
+      commander: Object.freeze({ npcId: 'commander', tier: 'hero', promotedTier: 'hero', role: 'commander', traits: ['leader', 'discipline'], storyArcs: ['command-trust'], affinityThresholds: [25, 50, 80], commandUnlock: { type: 'hero-node', requires: ['campTrust>=60'] }, campEffects: [{ type: 'production', key: 'coordination', value: 0.15 }], deathBranches: ['successor-crisis'], absenceBranches: ['plan-vote-degraded'], abilitySlots: ['field-skill', 'camp-passive'] })
     });
 
     // 关键 NPC 使用可审计的分层外观数据：基础身份、岗位服装和当前装备彼此独立，
@@ -1745,6 +1798,7 @@
       weapon: { id: 'rustAxe' },
       player: { x: 11, y: 11 }, playerVisual: { x: 11, y: 11 }, facing: 'down', combatTargetId: null, hoverTarget: null, interactionFocus: null, npcTalkOpen: null, interactionRepeatTimer: null, moveTweenFrame: null, visitedRegions: { core: true }, areaFlags: {}, roleVacancies: {}, tempCoordination: false, noiseEvents: [], inventoryOpen: false, selected: null, buildMode: false, selectedBuild: null, night: false, zombieKills: 0, mapRevision: MAP.revision, effects: [], effectSeq: 0,
       world: { version: 1, totalMinutes: 0, lastRationDay: 1, lastDailyUpkeepDay: 1, frontierExposure: 0, frontierClock: 0, frontierPackBucket: -1, frontierPackSeq: 0 },
+      contentState: { contentVersion: 2, meters: { campCollapse: 0, resonancePressure: 25, campTrust: 0 }, unlockedTech: [], unlockedWeapons: ['rustAxe'], unlockedBlueprints: [], flags: {}, scheduledEvents: [], triggeredEvents: [], activeChains: {}, completedChains: [], appliedEffects: [], outposts: {}, history: [], commandPoints: 0, commandPointsMax: 0, commandPointsGrantedDay: 0, autonomyWeights: { defense: 40, harvest: 25, logistics: 20, research: 10, diplomacy: 5 }, planMeeting: { version: 1, status: 'idle', meetingDay: 0, instanceId: null, source: 'summary', candidates: [], selectedId: null, playerAction: null, committedDay: null, resolvedDay: null, autonomyResult: null, history: [] } },
       buildings: [{x:10,y:10,type:'shelter'}, {x:7,y:14,type:'garden',planted:false,growth:0,ready:false}, {x:18,y:7,type:'wall', hp:3}, {x:18,y:8,type:'wall', hp:3}, {x:10,y:7,type:'bunker',w:2,h:2,hp:12}, {x:14,y:8,type:'depot',w:2,h:2,hp:10}, {x:18,y:6,type:'tower',hp:5}],
       // Expansion templates are immutable catalogs; clone each item so exploration
       // cannot mutate the catalog and contaminate resets or later migrations.
@@ -1772,7 +1826,7 @@
       logs: [{text:'营地里还有十位幸存者，先认识他们，再决定谁守哪一面墙。', kind:''},{text:'醒来时，收音机只剩下一个频道：附近会有尸潮。', kind:''}]
     };
 
-    state.event = {...eventPool[0], handled: false};
+    state.event = {...eventPool[0], defId: eventPool[0].id, definitionVersion: 1, handled: false};
 
     // P0 world model: one fact store, stable identities, deterministic event ledger.
     // Continuous coordinates are now the live simulation path. Keep this flag
@@ -1918,7 +1972,13 @@
       Object.keys(delta.domains || {}).forEach(key => { standing.domains[key] = clampSocial((standing.domains[key] || 0) + Number(delta.domains[key] || 0)); });
       const changed = ['prestige', 'merit', 'fear', 'legitimacy', 'contribution'].some(key => before[key] !== standing[key]) || Object.keys(delta.domains || {}).some(key => before.domains[key] !== standing.domains[key]);
       if (changed) recordWorldEvent('player.standingChanged', { delta: stableClone(delta), before, after: stableClone(standing), visibility: meta.visibility || 'public', reason: meta.reason || 'world-action', witnesses: meta.witnesses || [] }, { actorId: meta.actorId || 'player-1' });
+      if (changed) adjustCampTrust(Math.max(0, Number(delta.legitimacy) || 0) + Math.max(0, Number(delta.contribution) || 0) * 0.5, meta.reason || '公开行动');
       return standing;
+    }
+    function adjustCampTrust(delta = 0, reason = '营地关系变化', actorId = 'player-1') {
+      ensureContentState(); const before = Number(state.contentState.meters.campTrust) || 0; const after = Math.max(0, Math.min(100, Math.round((before + Number(delta || 0)) * 10) / 10));
+      if (after === before) return after; state.contentState.meters.campTrust = after;
+      recordWorldEvent('camp.trustChanged', { before, after, delta: after - before, reason }, { actorId, defId: 'camp-plan-meeting-001' }); return after;
     }
     function updateNpcRelation(npc, delta = {}, reason = '关系变化', meta = {}) {
       if (!npc) return null;
@@ -1930,6 +1990,7 @@
         relation.knowledgeOfPlayer.facts = [...new Set([...(relation.knowledgeOfPlayer.facts || []), ...(meta.facts || [])])].slice(-12);
         relation.knowledgeOfPlayer.lastHeardAt = worldMinute();
         recordWorldEvent('npc.relationChanged', { npcId: npc.id, delta: stableClone(delta), before, after: stableClone(relation), reason, visibility: meta.visibility || 'witnessed', witnesses: meta.witnesses || [npc.id] }, { actorId: meta.actorId || 'player-1' });
+        adjustCampTrust(Math.max(0, Number(delta.trustToPlayer) || 0) * 0.5 + Math.max(0, Number(delta.respectToPlayer) || 0) * 0.25, reason, meta.actorId || 'player-1');
       }
       return relation;
     }
@@ -1950,16 +2011,467 @@
     function nextRandom() { const m = state.worldMeta || (state.worldMeta = { seed: WORLD_SEED, rngState: WORLD_SEED, eventSeq: 0, commandSeq: 0, events: [], seenCommands: [], replay: { seed: WORLD_SEED, commands: [] }, feedback: [], clock: { paused:false, rate:1, phaseMinutes:0, scheduleMinutes:0 } }); let x = (state.worldMeta.rngState >>> 0); x = (Math.imul(1664525, x) + 1013904223) >>> 0; state.worldMeta.rngState = x; return x / 4294967296; }
     function randomInt(max) { return Math.floor(nextRandom() * Math.max(1, max)); }
     function stableClone(value) { return JSON.parse(JSON.stringify(value)); }
-    function selectWorldSnapshot() { return { version: SAVE_VERSION, day: state.day, hour: state.hour, minute: state.minute, energy: state.energy, sanity: state.sanity, sanityClock: state.sanityClock, sanityLastReason: state.sanityLastReason, staminaExhaustedDay: state.staminaExhaustedDay, staminaExhaustedAt: state.staminaExhaustedAt, campaign: stableClone(state.campaign), campStanding: stableClone(state.campStanding), specialItems: stableClone(state.specialItems), relayProject: stableClone(state.relayProject), hordeForecast: stableClone(state.hordeForecast), player: { ...stableClone(state.player), id: 'player-1' }, motion: stableClone(state.motion), buildings: stableClone(state.buildings), resources: stableClone(state.resources), landmarks: stableClone(state.landmarks), npcs: stableClone(state.npcs), npcEvents: stableClone(state.npcEvents || []), worldZombies: stableClone(state.worldZombies), world: stableClone(state.world), staminaRules: stableClone(state.staminaRules), quests: stableClone(state.quests), worldMeta: stableClone({...state.worldMeta, events: state.worldMeta.events.slice(-200), feedback: []}) }; }
+    function selectWorldSnapshot() { return { version: SAVE_VERSION, day: state.day, hour: state.hour, minute: state.minute, energy: state.energy, sanity: state.sanity, sanityClock: state.sanityClock, sanityLastReason: state.sanityLastReason, staminaExhaustedDay: state.staminaExhaustedDay, staminaExhaustedAt: state.staminaExhaustedAt, campaign: stableClone(state.campaign), campStanding: stableClone(state.campStanding), specialItems: stableClone(state.specialItems), relayProject: stableClone(state.relayProject), hordeForecast: stableClone(state.hordeForecast), contentState: stableClone(state.contentState), player: { ...stableClone(state.player), id: 'player-1' }, motion: stableClone(state.motion), buildings: stableClone(state.buildings), resources: stableClone(state.resources), landmarks: stableClone(state.landmarks), npcs: stableClone(state.npcs), npcEvents: stableClone(state.npcEvents || []), worldZombies: stableClone(state.worldZombies), world: stableClone(state.world), staminaRules: stableClone(state.staminaRules), quests: stableClone(state.quests), worldMeta: stableClone({...state.worldMeta, events: state.worldMeta.events.slice(-200), feedback: []}) }; }
     const WorldFacts = { get current() { return state; }, snapshot() { return Object.freeze(selectWorldSnapshot()); }, entity(id) { return [state.player, ...state.npcs, ...state.buildings, ...state.resources, ...state.landmarks, ...state.worldZombies].find(x => x?.id === id) || null; } };
     const WorldSnapshot = { capture: () => WorldFacts.snapshot() };
-    const EVENT_DEFS = Object.freeze(Object.fromEntries(eventPool.map(def => [def.id, Object.freeze({ id: def.id, title: def.title, choices: def.choices?.map(choice => choice.id) || [] })])));
-    function createEventInstance(defId, overrides = {}) { const def = EVENT_DEFS[defId] || { id: defId }; const instanceId = overrides.instanceId || `event-${defId}-${state.day}-${state.worldMeta.eventSeq + 1}`; return { instanceId, defId: def.id, status: 'active', createdAt: worldMinute(), handled: false, ...overrides }; }
+    const EVENT_DEFINITION_VERSION = 1;
+    const EVENT_DEFS = Object.create(null);
+    function normalizeEventGate(gate = {}) {
+      return Object.freeze({ phase: gate.phase || 'DAY', nightAllowed: gate.nightAllowed === true, preconditions: Array.isArray(gate.preconditions) ? [...gate.preconditions] : [] });
+    }
+    function normalizeEventEffect(effect = {}) {
+      const payload = effect.payload && typeof effect.payload === 'object' ? stableClone(effect.payload) : {};
+      return Object.freeze({ type: effect.type || 'reducer', key: effect.key || null, eventType: effect.eventType || null, amount: Number.isFinite(Number(effect.amount)) ? Number(effect.amount) : null, payload });
+    }
+    function normalizeEventChoice(choice = {}, fallbackId = 'a', legacy = {}) {
+      const id = String(choice.id || fallbackId);
+      const effects = Array.isArray(choice.effects) ? choice.effects.map(normalizeEventEffect) : [];
+      return Object.freeze({ id, label: choice.label || legacy.label || id, hint: choice.hint || legacy.hint || '', commandType: choice.commandType || 'event.resolve', reducer: choice.reducer || 'resolveEventReducer', requires: Array.isArray(choice.requires) ? [...choice.requires] : [], effects });
+    }
+    function normalizeEventEffects(effects = {}) {
+      return Object.freeze(Object.fromEntries(Object.entries(effects || {}).map(([choiceId, list]) => [choiceId, Object.freeze((Array.isArray(list) ? list : [list]).filter(Boolean).map(normalizeEventEffect))])));
+    }
+    function registerEventDefinition(raw = {}) {
+      const id = String(raw.defId || raw.id || '').trim();
+      if (!id) return null;
+      const legacyChoices = Array.isArray(raw.choices) && raw.choices.length ? raw.choices : ['a', 'b'].map(choiceId => normalizeEventChoice({}, choiceId, { label: raw[choiceId] || choiceId, hint: raw[`${choiceId}Hint`] || '' }));
+      const choices = legacyChoices.map((choice, index) => normalizeEventChoice(choice, ['a', 'b', 'c'][index] || `choice-${index + 1}`, { label: raw[choice.id] || choice.id, hint: raw[`${choice.id}Hint`] || '' }));
+      const def = Object.freeze({
+        id, defId: id, definitionVersion: Number(raw.definitionVersion) || EVENT_DEFINITION_VERSION,
+        title: raw.title || id, icon: raw.icon || '📣', text: raw.text || '', phase: raw.phase || 'DAY',
+        actors: Array.isArray(raw.actors) ? [...raw.actors] : [], preconditions: Array.isArray(raw.preconditions) ? [...raw.preconditions] : [],
+        gate: normalizeEventGate(raw.gate || { phase: raw.phase || 'DAY', nightAllowed: raw.nightAllowed === true, preconditions: raw.preconditions }),
+        choices, effects: normalizeEventEffects(raw.effects || Object.fromEntries(choices.map(choice => [choice.id, choice.effects]))),
+        observability: raw.observability || {}, timeout: raw.timeout || null, nightAllowed: raw.nightAllowed === true
+      });
+      EVENT_DEFS[id] = def;
+      return def;
+    }
+    eventPool.forEach(def => registerEventDefinition(def));
+    registerEventDefinition({ id: 'relay-chain-001', title: '广播中继链', icon: '📡', phase: 'DAY', actors: ['player-1', 'radio', 'carpenter', 'quartermaster', 'commander'], gate: { phase: 'DAY', nightAllowed: false, preconditions: ['relayProject exists'] }, choices: [
+      { id: 'recover', label: '恢复广播核心', commandType: 'landmark.discover', effects: [{ type: 'fact', key: 'relayCore', eventType: 'special.itemRecovered' }] },
+      { id: 'handoff', label: '交给营地长官', commandType: 'relay.coreHandoff', effects: [{ type: 'fact', key: 'briefed', eventType: 'relay.coreHandedOff' }] },
+      { id: 'stage', label: '筹料并施工', commandType: 'relay.projectAdvance', effects: [{ type: 'fact', key: 'construction', eventType: 'relay.constructionStarted' }, { type: 'resource', key: 'materials' }] },
+      { id: 'online', label: '上线预警', commandType: 'relay.projectAdvance', effects: [{ type: 'fact', key: 'online', eventType: 'relay.stationOnline' }, { type: 'forecast', key: 'hordeForecast' }] }
+    ], observability: { summary: '中继上线后显示提前量、路线和岗位值守' } });
+    registerEventDefinition({ id: 'npc.sanity', title: '心智防线出现裂缝', icon: '🧠', phase: 'DAY', actors: ['npc'], gate: { phase: 'DAY', nightAllowed: false, preconditions: ['npc.sanity <= 45'] }, choices: [
+      { id: 'a', label: '召开安抚短会', hint: '推进 15 分钟，恢复目标 NPC 与全员心智', effects: [{ type: 'sanity', key: 'target', amount: 10, eventType: 'npc.event.resolved' }, { type: 'morale', key: 'camp', amount: 2 }] },
+      { id: 'b', label: '继续压住问题', hint: '不耗时，但心智下降，下一轮威胁推进更快', effects: [{ type: 'sanity', key: 'target', amount: -6, eventType: 'npc.event.resolved' }, { type: 'threat', key: 'eventThreat', amount: 1 }] }
+    ], observability: { summary: '每日总结显示 SAN 变化原因和后续威胁' } });
+    registerEventDefinition({ id: 'npc.sanity-player', title: '你的心智正在失稳', icon: '🧠', phase: 'DAY', actors: ['player-1'], gate: { phase: 'DAY', nightAllowed: false, preconditions: ['player.sanity <= 30'] }, choices: [
+      { id: 'a', label: '回营静坐', hint: '推进 15 分钟，个人 SAN +10，外围压力 -8', effects: [{ type: 'sanity', key: 'player', amount: 10 }] },
+      { id: 'b', label: '咬牙继续', hint: '不耗时，但个人 SAN -6，下一轮威胁 +1', effects: [{ type: 'sanity', key: 'player', amount: -6 }, { type: 'threat', key: 'eventThreat', amount: 1 }] }
+    ] });
+    function eventDefinition(defId) { return defId ? EVENT_DEFS[defId] || null : null; }
+    function createEventInstance(defId, overrides = {}) {
+      const requestedDefId = overrides.defId || defId;
+      const def = eventDefinition(requestedDefId) || registerEventDefinition({ id: requestedDefId, title: requestedDefId });
+      const instanceId = overrides.instanceId || `event-${requestedDefId}-${state.day}-${state.worldMeta.eventSeq + 1}`;
+      return { instanceId, defId: def.id, definitionVersion: def.definitionVersion, status: 'active', createdAt: worldMinute(), handled: false, gate: def.gate, ...overrides };
+    }
+    function currentEventDefinition() { return eventDefinition(state.eventInstance?.defId || state.event?.defId || state.event?.id); }
+    function eventGateCheck(choiceId = null) {
+      const def = currentEventDefinition();
+      if (!def) return { ok: false, reason: 'event-definition-missing' };
+      if (state.night && !def.gate.nightAllowed) return { ok: false, reason: 'night-lock' };
+      if (state.eventInstance?.status === 'resolved' || state.event?.handled) return { ok: false, reason: 'event-already-resolved' };
+      if (choiceId && !def.choices.some(choice => choice.id === choiceId)) return { ok: false, reason: 'choice-not-defined' };
+      return { ok: true, definition: def };
+    }
     state.eventInstance = createEventInstance(state.event.id, { instanceId: 'event-initial' });
-    function recordWorldEvent(type, payload = {}, meta = {}) { const wm = state.worldMeta; const event = { eventId: `evt-${String(++wm.eventSeq).padStart(6, '0')}`, seq: wm.eventSeq, type, actorId: meta.actorId || 'system', commandId: meta.commandId || null, causationId: meta.causationId || wm.activeCommandId || null, tick: { world: worldMinute(), phase: wm.clock.phaseMinutes, schedule: wm.clock.scheduleMinutes }, payload: stableClone(payload) }; wm.events.push(event); if (wm.events.length > 500) wm.events.splice(0, wm.events.length - 500); wm.lastEventId = event.eventId; applyQuestEvent(event); return event; }
-    const EventDef = EVENT_DEFS;
-    const EventInstance = { create: createEventInstance };
-    const EventRecord = { append: recordWorldEvent };
+    function recordWorldEvent(type, payload = {}, meta = {}) { const wm = state.worldMeta; const def = eventDefinition(meta.defId); const event = { eventId: `evt-${String(++wm.eventSeq).padStart(6, '0')}`, seq: wm.eventSeq, type, actorId: meta.actorId || 'system', commandId: meta.commandId || null, causationId: meta.causationId || wm.activeCommandId || null, tick: { world: worldMinute(), phase: wm.clock.phaseMinutes, schedule: wm.clock.scheduleMinutes }, payload: stableClone(payload) }; if (meta.defId || meta.instanceId || meta.effects) { event.defId = meta.defId || def?.id || null; event.definitionVersion = meta.definitionVersion || def?.definitionVersion || EVENT_DEFINITION_VERSION; event.instanceId = meta.instanceId || state.eventInstance?.instanceId || null; event.effects = stableClone(meta.effects || []); } wm.events.push(event); if (wm.events.length > 500) wm.events.splice(0, wm.events.length - 500); wm.lastEventId = event.eventId; applyQuestEvent(event); return event; }
+     // Optional content is registered separately from the legacy event pool.
+     // A chain can therefore be added without changing event reducers or the
+     // current relay quest. Effects are interpreted by one reducer below.
+     const EVENT_CHAIN_DEFS = Object.freeze({
+       'watermill-002': Object.freeze({
+         chainId: 'watermill-002', category: 'side', phase: ['day_4', 'day_10'], priority: 40,
+         startConditions: [{ type: 'landmark_exists', id: 'waterMill' }, { type: 'camp_trust', min: 25 }],
+         nodes: [{ nodeId: 'repair_gate', choices: [{ id: 'repair', label: '修复水车闸门', requirements: ['scrap>=20', 'carpenter_alive'], effects: [
+           { op: 'adjust_resource', key: 'scrap', value: -20 }, { op: 'adjust_meter', key: 'campCollapse', value: -4 }, { op: 'unlock', key: 'watermill_t2' }
+         ] }, { id: 'salvage', label: '拆下水车零件', requirements: ['scrap>=0'], effects: [
+           { op: 'addResource', key: 'parts', value: 3 }, { op: 'adjust_meter', key: 'resonancePressure', value: 3 }
+         ] }]}],
+         autonomy: { resultId: 'camp_survey', effects: [{ op: 'adjustMeter', key: 'campCollapse', value: 1 }, { op: 'recordHistory', key: 'watermill_autonomy_logged', payload: { route: 'survey-only' } }] },
+         fallback: { ifMissingNpc: 'watermill_damaged', ifInsufficientPopulation: 'ledger_only', ifExpired: 'watermill_damaged', ifSkipped: 'ledger_only' },
+         hooks: ['onDayStart', 'onOutpostSecured'], optional: true
+       }),
+       'camp-plan-meeting-001': Object.freeze({
+         chainId: 'camp-plan-meeting-001', category: 'system', phase: ['day_1', 'day_13'], priority: 100,
+         startConditions: [],
+         nodes: [{ nodeId: 'plan_choice', choices: [
+           { id: 'support', label: '支持计划', requirements: [], effects: [{ op: 'recordHistory', key: 'camp-plan-meeting-001:support', payload: { route: 'player' } }] },
+           { id: 'autonomy', label: '交给营地自治', requirements: [], effects: [{ op: 'recordHistory', key: 'camp-plan-meeting-001:autonomy', payload: { route: 'autonomy' } }] }
+         ]}],
+         autonomy: { resultId: 'autonomy', effects: [{ op: 'recordHistory', key: 'camp-plan-meeting-001:autonomy', payload: { route: 'autonomy' } }] },
+         fallback: { ifMissingNpc: 'ledger_only', ifInsufficientPopulation: 'ledger_only', ifExpired: 'ledger_only', ifSkipped: 'ledger_only' }, hooks: [], optional: false
+       })
+     });
+     const PLAN_DEFS = Object.freeze({
+       'plan-defend-core-001': { id: 'plan-defend-core-001', category: 'defense', title: '收缩核心防线', proposerId: 'commander', basePriority: 38, cost: 1, expected: '核心建筑承压下降，夜间失守风险降低', risk: '外围采集与前哨推进放缓', affectedRoles: ['commander', 'sergeant', 'guardJi', 'guardChen'], effects: [{ op: 'adjustMeter', key: 'campCollapse', value: -3 }, { op: 'recordHistory', key: 'plan-defend-core-001:applied', payload: { category: 'defense' } }] },
+       'plan-research-signal-001': { id: 'plan-research-signal-001', category: 'research', title: '校准共振信标', proposerId: 'radio', basePriority: 32, cost: 1, expected: '中继预警更稳定，共振压力下降', risk: '需要把人员留在指挥频道', affectedRoles: ['radio', 'commander', 'doctor'], effects: [{ op: 'adjustMeter', key: 'resonancePressure', value: -4 }, { op: 'recordHistory', key: 'plan-research-signal-001:applied', payload: { category: 'research' } }] },
+       'plan-repair-watermill-001': { id: 'plan-repair-watermill-001', category: 'logistics', title: '修复水车与排水沟', proposerId: 'carpenter', basePriority: 29, cost: 1, expected: '营地物资周转更平稳，崩溃压力下降', risk: '木材会优先投入基础设施', affectedRoles: ['carpenter', 'quartermaster', 'cook'], effects: [{ op: 'adjustMeter', key: 'campCollapse', value: -2 }, { op: 'addResource', key: 'food', value: 1 }, { op: 'recordHistory', key: 'plan-repair-watermill-001:applied', payload: { category: 'logistics' } }] },
+       'plan-forage-outskirts-001': { id: 'plan-forage-outskirts-001', category: 'harvest', title: '向外围补采一轮', proposerId: 'quartermaster', basePriority: 25, cost: 1, expected: '补回食物与种子，缓解短期配给', risk: '外围暴露增加，共振压力小幅上升', affectedRoles: ['quartermaster', 'cook', 'guardJi'], effects: [{ op: 'addResource', key: 'food', value: 2 }, { op: 'addResource', key: 'seeds', value: 1 }, { op: 'adjustMeter', key: 'resonancePressure', value: 2 }, { op: 'recordHistory', key: 'plan-forage-outskirts-001:applied', payload: { category: 'harvest' } }] },
+       'plan-medical-rotation-001': { id: 'plan-medical-rotation-001', category: 'logistics', title: '安排医疗轮换', proposerId: 'doctor', basePriority: 27, cost: 1, expected: '伤员更快恢复，营地精神压力下降', risk: '一名守卫暂时离岗协助医务', affectedRoles: ['doctor', 'sergeant', 'cook'], effects: [{ op: 'addResource', key: 'medicine', value: 1 }, { op: 'adjustMeter', key: 'campCollapse', value: -1 }, { op: 'recordHistory', key: 'plan-medical-rotation-001:applied', payload: { category: 'medical' } }] },
+       'plan-relay-priority-001': { id: 'plan-relay-priority-001', category: 'research', title: '把中继优先级调到前线', proposerId: 'radio', basePriority: 34, cost: 1, expected: '提前识别下一波路线，降低共振压力', risk: '短期会增加外围行动的暴露', affectedRoles: ['radio', 'sergeant', 'guardJiang'], effects: [{ op: 'adjustMeter', key: 'resonancePressure', value: -3 }, { op: 'adjustMeter', key: 'campCollapse', value: 1 }, { op: 'recordHistory', key: 'plan-relay-priority-001:applied', payload: { category: 'research' } }] }
+     });
+     const PLAN_VOTE_PROFILES = Object.freeze({
+       commander: { defense: 8, logistics: 5, research: 3, harvest: 1 }, sergeant: { defense: 7, logistics: 3, research: 2, harvest: 1 }, radio: { research: 9, defense: 3, logistics: 2, harvest: 1 }, doctor: { logistics: 7, research: 3, defense: 2, harvest: 1 }, carpenter: { defense: 5, logistics: 6, harvest: 3, research: 1 }, quartermaster: { logistics: 7, harvest: 6, defense: 3, research: 2 }, cook: { harvest: 7, logistics: 5, defense: 2, research: 1 }, guardJi: { defense: 6, logistics: 3, harvest: 2, research: 1 }, guardChen: { defense: 4, logistics: 3, harvest: 2, research: 1 }, guardJiang: { defense: 8, harvest: 3, logistics: 2, research: 1 }
+     });
+     function planMeetingState() { ensureContentState(); return state.contentState.planMeeting; }
+     function campTrustValue() { ensureContentState(); return Math.max(0, Math.min(100, Number(state.contentState.meters.campTrust) || 0)); }
+     function commandPointCap(trust = campTrustValue(), collapse = Number(state.contentState?.meters?.campCollapse) || 0) { const base = trust >= 80 ? 4 : trust >= 60 ? 3 : trust >= 20 ? 2 : 0; return Math.max(0, base - (collapse >= 70 ? 1 : 0)); }
+     function refreshCommandPoints(reason = 'day-start') {
+       ensureContentState(); const cap = commandPointCap(); const before = Number(state.contentState.commandPoints) || 0;
+       state.contentState.commandPointsMax = cap; state.contentState.commandPoints = cap; state.contentState.commandPointsGrantedDay = state.day;
+       if (before !== cap || reason === 'initial') recordWorldEvent('plan.commandPoints.refreshed', { day: state.day, before, after: cap, cap, reason, campTrust: campTrustValue(), campCollapse: state.contentState.meters.campCollapse }, { actorId: 'camp-autonomy', defId: 'camp-plan-meeting-001' });
+       return cap;
+     }
+     function planNpcVoteWeight(npc) {
+       if (!npc || !npcIsActive(npc)) return 0;
+       const story = NPC_STORY_DEFS[npc.id]; const heroVoter = story?.tier === 'hero' || ['commander', 'sergeant', 'radio', 'doctor'].includes(npc.id) || npc.promotedTier === 'hero';
+       if (!heroVoter) return 0;
+       let weight = npc.id === 'commander' ? 3 : npc.id === 'sergeant' ? 2 : 1;
+       if (npc.lifeState === 'critical' || npc.lifeState === 'injured') weight *= 0.5;
+       return weight;
+     }
+     function planCandidateScore(def, npc) {
+       const profile = PLAN_VOTE_PROFILES[npc?.id] || {};
+       const weights = state.contentState.autonomyWeights || {};
+       const collapse = Number(state.contentState.meters.campCollapse) || 0;
+       const resonance = Number(state.contentState.meters.resonancePressure) || 0;
+       const food = foodSituation();
+       let score = Number(def.basePriority) || 0;
+       score += (Number(profile[def.category]) || 0) * 2 + (Number(weights[def.category]) || 0) / 10;
+       if (collapse >= 55 && def.category === 'defense') score += 12;
+       if (resonance >= 55 && def.category === 'research') score += 10;
+       if (food.level === '紧张' || food.level === '短缺') score += def.category === 'harvest' || def.id === 'plan-medical-rotation-001' ? 9 : 0;
+       if (npc?.relations?.trustToCommander < 25 && npc.id !== 'commander') score -= 1;
+       return score;
+     }
+     function generatePlanMeeting(options = {}) {
+       ensureContentState(); const plan = planMeetingState();
+       if (!options.force && plan.status === 'candidate' && Number(plan.meetingDay) === Number(state.day)) return { ok: true, duplicate: true, plan };
+       if (!options.force && Number(state.day) > 13) return { ok: false, reason: 'plan-window-closed' };
+       const activeVoters = (state.npcs || []).filter(npc => planNpcVoteWeight(npc) > 0).sort((a, b) => String(a.id).localeCompare(String(b.id)));
+       const defs = Object.values(PLAN_DEFS).map(def => ({ ...def, effects: stableClone(def.effects) }));
+       const ranked = defs.map(def => {
+         const ballots = activeVoters.map(npc => ({ npcId: npc.id, weight: planNpcVoteWeight(npc), score: planCandidateScore(def, npc) }));
+         return { ...def, votes: ballots.reduce((sum, ballot) => sum + (ballot.score >= 30 ? ballot.weight : 0), 0), voteWeight: ballots.reduce((sum, ballot) => sum + ballot.weight, 0), ballots };
+       }).sort((a, b) => (b.votes - a.votes) || (b.basePriority - a.basePriority) || a.id.localeCompare(b.id));
+       const candidates = ranked.slice(0, 3).map((candidate, index) => ({ id: candidate.id, title: candidate.title, category: candidate.category, proposerId: candidate.proposerId, cost: candidate.cost, expected: candidate.expected, risk: candidate.risk, affectedRoles: candidate.affectedRoles, votes: Number(candidate.votes), voteWeight: Number(candidate.voteWeight), ballots: candidate.ballots, rank: index + 1, validDay: state.day, effects: candidate.effects }));
+       const selected = candidates[0];
+       plan.status = 'candidate'; plan.version = 1; plan.meetingDay = state.day; plan.instanceId = `camp-plan-meeting-001:d${state.day}`; plan.source = options.source || 'summary'; plan.candidates = candidates; plan.selectedId = selected?.id || null; plan.playerAction = null; plan.committedDay = null; plan.resolvedDay = null; plan.autonomyResult = null;
+       const payload = { instanceId: plan.instanceId, meetingDay: plan.meetingDay, source: plan.source, campTrust: campTrustValue(), commandPoints: state.contentState.commandPoints, meters: stableClone(state.contentState.meters), candidates: stableClone(candidates), selectedId: plan.selectedId };
+       recordWorldEvent('plan.meeting.candidates', payload, { actorId: 'camp-autonomy', defId: 'camp-plan-meeting-001', instanceId: plan.instanceId });
+       return { ok: true, plan };
+     }
+     function commitPlanMeeting(action = 'support', planId = null) {
+       return dispatchCommand({ type: 'plan.meeting.commit', actorId: 'player-1', payload: { action, planId } }, () => {
+         ensureContentState(); const plan = planMeetingState(); const target = planId || plan.selectedId;
+         if (state.night) return { ok: false, reason: 'night-lock' };
+         if (plan.status !== 'candidate' || Number(plan.meetingDay) !== Number(state.day)) return { ok: false, reason: 'plan-not-open' };
+         if (Number(state.contentState.commandPoints) < 1) return { ok: false, reason: 'command-points-empty' };
+         if (!['support', 'deny', 'modify'].includes(action)) return { ok: false, reason: 'plan-action-invalid' };
+         const candidate = plan.candidates.find(item => item.id === target);
+         if (!candidate) return { ok: false, reason: 'plan-choice-missing' };
+         const before = Number(state.contentState.commandPoints); state.contentState.commandPoints = Math.max(0, before - 1);
+         plan.status = 'committed'; plan.playerAction = action; plan.selectedId = action === 'deny' ? (plan.candidates[1]?.id || plan.candidates[0]?.id || null) : target; plan.committedDay = state.day;
+         const payload = { instanceId: plan.instanceId, meetingDay: plan.meetingDay, action, selectedId: plan.selectedId, pointsBefore: before, pointsAfter: state.contentState.commandPoints, candidates: stableClone(plan.candidates) };
+         return { payload, defId: 'camp-plan-meeting-001', instanceId: plan.instanceId };
+       }, { eventType: 'plan.meeting.committed', defId: 'camp-plan-meeting-001', instanceId: planMeetingState().instanceId });
+     }
+     function executePlanMeeting(options = {}) {
+       ensureContentState(); const plan = planMeetingState();
+       if (!['candidate', 'committed'].includes(plan.status) || Number(plan.meetingDay) >= Number(state.day)) return { ok: false, reason: 'plan-not-due' };
+       const candidate = plan.candidates.find(item => item.id === plan.selectedId) || plan.candidates[0];
+       if (!candidate) return { ok: false, reason: 'plan-candidate-missing' };
+       const before = { meters: stableClone(state.contentState.meters), food: state.food, seeds: state.seeds, medicine: state.medicine };
+       const effectId = `plan:${plan.meetingDay}:${candidate.id}`;
+       const result = applyContentEffects(candidate.effects || [], { effectId, actorId: plan.playerAction ? 'player-1' : 'camp-autonomy', defId: 'camp-plan-meeting-001', record: false });
+       const after = { meters: stableClone(state.contentState.meters), food: state.food, seeds: state.seeds, medicine: state.medicine };
+       if (!result.ok) { plan.status = 'resolved'; plan.autonomyResult = { route: 'fallback', reason: result.reason }; plan.resolvedDay = state.day; recordWorldEvent('plan.meeting.fallback', { instanceId: plan.instanceId, selectedId: candidate.id, reason: result.reason, before, after }, { actorId: 'camp-autonomy', defId: 'camp-plan-meeting-001', instanceId: plan.instanceId }); return { ok: false, reason: result.reason, fallback: true }; }
+       plan.status = 'resolved'; plan.resolvedDay = state.day; plan.autonomyResult = { route: plan.playerAction || 'autonomy', selectedId: candidate.id, effectId, results: stableClone(result.results) }; plan.history = [...(plan.history || []), { meetingDay: plan.meetingDay, resolvedDay: state.day, selectedId: candidate.id, action: plan.playerAction || 'autonomy', effectId }].slice(-30);
+       const payload = { instanceId: plan.instanceId, meetingDay: plan.meetingDay, resolvedDay: state.day, route: plan.playerAction || 'autonomy', selectedId: candidate.id, effectId, before, after, candidates: stableClone(plan.candidates), results: stableClone(result.results) };
+       recordWorldEvent('plan.meeting.resolved', payload, { actorId: plan.playerAction ? 'player-1' : 'camp-autonomy', defId: 'camp-plan-meeting-001', instanceId: plan.instanceId, effects: candidate.effects || [] });
+       return { ok: true, payload };
+     }
+     function preparePlanMeetingAtSummary() { if (!state.night || !state.nightBattle?.resolved) return { ok: false, reason: 'summary-not-ready' }; return generatePlanMeeting({ source: 'summary' }); }
+     function runPlanMeetingDayStart() { const executed = executePlanMeeting({ source: 'day-start' }); refreshCommandPoints('day-start'); return executed; }
+     const EventDef = { get: eventDefinition, register: registerEventDefinition, all: EVENT_DEFS, chains: EVENT_CHAIN_DEFS };
+     const EventInstance = { create: createEventInstance };
+     const EventRecord = { append: recordWorldEvent };
+     const CONTENT_KINDS = Object.freeze(['weapon', 'eventChain', 'npcStory', 'techNode', 'building', 'faction', 'outpost', 'npcRole']);
+     const CONTENT_EXTENSIONS = Object.fromEntries(CONTENT_KINDS.map(kind => [kind, Object.create(null)]));
+     const CONTENT_EFFECT_OPS = Object.freeze(['addResource', 'adjust_resource', 'adjustMeter', 'adjust_meter', 'modifyRelation', 'unlockTech', 'unlockWeapon', 'unlock', 'scheduleEvent', 'assignJob', 'damageBuilding', 'captureOutpost', 'recordHistory']);
+     const CONTENT_SCHEMA_VERSION = 2;
+     function migrateContentState(raw = {}) {
+       const next = stableClone(raw || {}); const fromVersion = Number(next.contentVersion) || 0;
+       if (fromVersion < 1) { next.unlockedTech = Array.isArray(next.unlockedTech) ? next.unlockedTech : []; next.unlockedWeapons = Array.isArray(next.unlockedWeapons) ? next.unlockedWeapons : []; next.unlockedBlueprints = Array.isArray(next.unlockedBlueprints) ? next.unlockedBlueprints : []; next.triggeredEvents = Array.isArray(next.triggeredEvents) ? next.triggeredEvents : []; }
+       if (fromVersion < 2) {
+         next.meters = { campCollapse: 0, resonancePressure: 25, campTrust: 0, ...(next.meters || {}) };
+         next.commandPoints = Number.isFinite(Number(next.commandPoints)) ? Number(next.commandPoints) : 0;
+         next.commandPointsMax = Number.isFinite(Number(next.commandPointsMax)) ? Number(next.commandPointsMax) : 0;
+         next.commandPointsGrantedDay = Number.isFinite(Number(next.commandPointsGrantedDay)) ? Number(next.commandPointsGrantedDay) : 0;
+         next.autonomyWeights = { defense: 40, harvest: 25, logistics: 20, research: 10, diplomacy: 5, ...(next.autonomyWeights || {}) };
+         next.planMeeting = { version: 1, status: 'idle', meetingDay: 0, instanceId: null, source: 'summary', candidates: [], selectedId: null, playerAction: null, committedDay: null, resolvedDay: null, autonomyResult: null, history: [], ...(next.planMeeting || {}) };
+       }
+       next.contentVersion = CONTENT_SCHEMA_VERSION; return next;
+     }
+     function ensureContentState() {
+       const defaults = { contentVersion: CONTENT_SCHEMA_VERSION, meters: { campCollapse: 0, resonancePressure: 25, campTrust: 0 }, unlockedTech: [], unlockedWeapons: ['rustAxe'], unlockedBlueprints: [], flags: {}, scheduledEvents: [], triggeredEvents: [], activeChains: {}, completedChains: [], appliedEffects: [], outposts: {}, history: [], commandPoints: 0, commandPointsMax: 0, commandPointsGrantedDay: 0, autonomyWeights: { defense: 40, harvest: 25, logistics: 20, research: 10, diplomacy: 5 }, planMeeting: { version: 1, status: 'idle', meetingDay: 0, instanceId: null, source: 'summary', candidates: [], selectedId: null, playerAction: null, committedDay: null, resolvedDay: null, autonomyResult: null, history: [] } };
+       state.contentState = migrateContentState({ ...defaults, ...(state.contentState || {}), meters: { ...defaults.meters, ...(state.contentState?.meters || {}) }, flags: { ...defaults.flags, ...(state.contentState?.flags || {}) }, activeChains: { ...defaults.activeChains, ...(state.contentState?.activeChains || {}) }, outposts: { ...defaults.outposts, ...(state.contentState?.outposts || {}) }, autonomyWeights: { ...defaults.autonomyWeights, ...(state.contentState?.autonomyWeights || {}) }, planMeeting: { ...defaults.planMeeting, ...(state.contentState?.planMeeting || {}) } });
+       state.contentState.unlockedTech = [...new Set((Array.isArray(state.contentState.unlockedTech) ? state.contentState.unlockedTech : []).filter(Boolean))];
+       state.contentState.unlockedWeapons = [...new Set(['rustAxe', ...(Array.isArray(state.contentState.unlockedWeapons) ? state.contentState.unlockedWeapons : [])].filter(Boolean))];
+       state.contentState.unlockedBlueprints = [...new Set((Array.isArray(state.contentState.unlockedBlueprints) ? state.contentState.unlockedBlueprints : []).filter(Boolean))];
+       state.contentState.scheduledEvents = Array.isArray(state.contentState.scheduledEvents) ? state.contentState.scheduledEvents.slice(-50) : [];
+       state.contentState.triggeredEvents = Array.isArray(state.contentState.triggeredEvents) ? [...new Set(state.contentState.triggeredEvents)].slice(-100) : [];
+       state.contentState.completedChains = Array.isArray(state.contentState.completedChains) ? [...new Set(state.contentState.completedChains)].slice(-100) : [];
+       state.contentState.appliedEffects = Array.isArray(state.contentState.appliedEffects) ? [...new Set(state.contentState.appliedEffects)].slice(-200) : [];
+       state.contentState.history = Array.isArray(state.contentState.history) ? state.contentState.history.slice(-100) : [];
+       state.contentState.commandPoints = Math.max(0, Math.floor(Number(state.contentState.commandPoints) || 0));
+       state.contentState.commandPointsMax = Math.max(0, Math.floor(Number(state.contentState.commandPointsMax) || 0));
+       state.contentState.commandPointsGrantedDay = Math.max(0, Math.floor(Number(state.contentState.commandPointsGrantedDay) || 0));
+       state.contentState.autonomyWeights = Object.fromEntries(Object.entries(defaults.autonomyWeights).map(([key, value]) => [key, Math.max(0, Number(state.contentState.autonomyWeights?.[key]) || value)]));
+       const plan = state.contentState.planMeeting;
+       state.contentState.planMeeting = { ...defaults.planMeeting, ...(plan && typeof plan === 'object' ? plan : {}) };
+       if (!['idle', 'candidate', 'committed', 'resolved'].includes(state.contentState.planMeeting.status)) state.contentState.planMeeting.status = 'idle';
+       state.contentState.planMeeting.candidates = Array.isArray(state.contentState.planMeeting.candidates) ? state.contentState.planMeeting.candidates.slice(0, 6) : [];
+       state.contentState.planMeeting.history = Array.isArray(state.contentState.planMeeting.history) ? state.contentState.planMeeting.history.slice(-30) : [];
+       Object.keys(defaults.meters).forEach(key => { state.contentState.meters[key] = Math.max(0, Math.min(100, Number(state.contentState.meters[key]) || 0)); });
+       return state.contentState;
+     }
+     function contentRegistryBase(kind) {
+       const tables = { weapon: WEAPON_DEFS, eventChain: EVENT_CHAIN_DEFS, npcStory: NPC_STORY_DEFS, techNode: TECH_NODE_DEFS, building: BUILDING_DEFS, faction: FACTION_DEFS, outpost: OUTPOST_DEFS, npcRole: NPC_ROLE_DEFS };
+       return tables[kind] || {};
+     }
+     function contentId(raw = {}) { return String(raw.id || raw.chainId || raw.npcId || '').trim(); }
+     function validateContentDefinition(kind, raw = {}) {
+       const id = contentId(raw); const issues = [];
+       if (!CONTENT_KINDS.includes(kind)) issues.push(`unknown-kind:${kind}`);
+       if (!id || !/^[a-z][a-z0-9]*(?:[-_][a-z0-9]+)*$/i.test(id)) issues.push('invalid-stable-id');
+       if (kind === 'eventChain') {
+         if (!Array.isArray(raw.phase) || !raw.phase.length) issues.push('event-phase-missing');
+         if (!Array.isArray(raw.nodes) || !raw.nodes.length) issues.push('event-nodes-missing');
+         if (!raw.fallback || typeof raw.fallback !== 'object') issues.push('event-fallback-missing');
+         const choices = (raw.nodes || []).flatMap(node => Array.isArray(node.choices) ? node.choices : []);
+         if (!choices.length || !choices.some(choice => Array.isArray(choice.effects) && choice.effects.length)) issues.push('event-choice-effects-missing');
+         ['ifMissingNpc', 'ifInsufficientPopulation', 'ifExpired', 'ifSkipped'].forEach(key => { if (!raw.fallback?.[key]) issues.push(`event-fallback-${key}-missing`); });
+       }
+       if (kind === 'npcStory' && (!raw.npcId || !Array.isArray(raw.storyArcs) || !Array.isArray(raw.deathBranches) || !Array.isArray(raw.absenceBranches) || !raw.voteProfile || !raw.commandUnlock || !Array.isArray(raw.campEffects))) issues.push('npc-story-contract-missing');
+       if (kind === 'weapon' && (!raw.family || !raw.damage || !Number.isFinite(Number(raw.damage.min)) || !Number.isFinite(Number(raw.damage.max)) || !raw.damageTypes || !raw.tags || !raw.recipe || !('durability' in raw) || !Array.isArray(raw.weakAgainst) || !raw.assetKeys)) issues.push('weapon-contract-missing');
+       if (kind === 'building' && (!raw.category || !(raw.costs || raw.buildCost) || !raw.footprint || !('hp' in raw) || !('slots' in raw) && !raw.labor?.slots || !raw.coverage)) issues.push('building-contract-missing');
+       if (kind === 'techNode' && (!raw.branch || !Number.isFinite(Number(raw.tier)) || !raw.unlocks || !Array.isArray(raw.prerequisites || raw.requires))) issues.push('tech-contract-missing');
+       if (kind === 'faction' && (!raw.id || !Array.isArray(raw.tags) || !('defaultRelation' in raw))) issues.push('faction-contract-missing');
+       if (kind === 'outpost' && (!raw.id || !(raw.landmarkType || raw.id) || !Number.isFinite(Number(raw.guardSlots ?? raw.garrison?.max ?? 0)) || !('supplyDistanceReduction' in raw))) issues.push('outpost-contract-missing');
+       if (kind === 'npcRole' && (!raw.role || !raw.tier)) issues.push('npc-role-contract-missing');
+       return { ok: issues.length === 0, id, issues };
+     }
+     function registerContent(kind, raw = {}) {
+       const check = validateContentDefinition(kind, raw);
+       if (!check.ok) return { ok: false, ...check };
+       if (contentDefinition(kind, check.id)) return { ok: false, id: check.id, issues: ['duplicate-stable-id'] };
+       const normalized = { ...raw, id: check.id };
+       if (kind === 'building') { normalized.costs = raw.costs || raw.buildCost || {}; normalized.footprint = Array.isArray(raw.footprint) ? raw.footprint : [Number(raw.footprint?.w) || 1, Number(raw.footprint?.h) || 1]; normalized.slots = raw.slots ?? raw.labor?.slots ?? 0; }
+       if (kind === 'techNode') { normalized.requires = raw.requires || raw.prerequisites || []; }
+       if (kind === 'outpost') { normalized.landmarkType = raw.landmarkType || raw.id; normalized.guardSlots = Number(raw.guardSlots ?? raw.garrison?.max ?? 0); normalized.captureRequires = raw.captureRequires || []; }
+       const definition = Object.freeze({ ...stableClone(normalized), definitionVersion: Number(raw.definitionVersion) || 1 });
+       CONTENT_EXTENSIONS[kind][check.id] = definition;
+       if (kind === 'weapon') WEAPON_DEFS[check.id] = definition;
+       if (kind === 'building') {
+         BUILDING_DEFS[check.id] = definition;
+         if (!buildInfo[check.id]) buildInfo[check.id] = { name: definition.name || check.id, icon: definition.icon || '🏗️', wood: Number(definition.costs?.wood) || 0, stone: Number(definition.costs?.stone) || 0, parts: Number(definition.costs?.parts) || 0, defense: Number(definition.defense) || 0, footprint: definition.footprint || [1, 1], turret: !!definition.turret };
+       }
+       return { ok: true, id: check.id, definition };
+     }
+     function contentDefinition(kind, id) { return CONTENT_EXTENSIONS[kind]?.[id] || contentRegistryBase(kind)[id] || null; }
+     function contentRequirementsMet(requirements = []) {
+       const list = Array.isArray(requirements) ? requirements : [requirements];
+       return list.every(requirement => {
+         if (typeof requirement !== 'string') return true;
+         if (requirement.startsWith('player_tool:')) return !!state.contentState?.flags?.[requirement] || state.player?.tools?.includes(requirement.slice('player_tool:'.length)) === true;
+         if (requirement.startsWith('tech:')) return state.contentState?.unlockedTech?.includes(requirement.slice('tech:'.length)) === true;
+         if (requirement.startsWith('flag:')) return !!state.contentState?.flags?.[requirement.slice('flag:'.length)];
+         const match = requirement.match(/^([a-zA-Z_][\w-]*)(?:([<>]=?|=)(-?\d+(?:\.\d+)?))?$/);
+         if (!match) return false;
+         const key = match[1]; const operator = match[2]; const target = Number(match[3]);
+         if (key === 'carpenter_alive' || key === 'doctor_alive' || key === 'radio_alive' || key === 'commander_alive') return !!state.npcs?.some(npc => npc.id === key.replace('_alive', '') && npcIsActive(npc));
+         if (key === 'camp_trust') { const trust = Number(state.contentState?.meters?.campTrust) || 0; return compare(trust, operator, target); }
+         if (key === 'scrap') return compare(Number(state.parts) || 0, operator, target);
+         const value = Number(state[key] ?? state.contentState?.meters?.[key] ?? state.contentState?.flags?.[key] ?? 0);
+         return operator ? compare(value, operator, target) : !!value;
+       });
+     }
+     function compare(value, operator, target) { if (operator === '>=') return value >= target; if (operator === '<=') return value <= target; if (operator === '>') return value > target; if (operator === '<') return value < target; return value === target; }
+     function contentPhaseAllows(definition) {
+       const phases = Array.isArray(definition?.phase) ? definition.phase : [];
+       if (!phases.length) return true;
+       const days = phases.map(phase => String(phase).match(/^day_(\d+)$/i)?.[1]).filter(Boolean).map(Number);
+       if (!days.length) return true;
+       const minDay = Math.min(...days); const maxDay = Math.max(...days);
+       return state.day >= minDay && state.day <= maxDay;
+     }
+     function applyContentEffect(effect = {}, meta = {}) {
+       ensureContentState();
+       const op = effect.op || effect.type; const key = effect.key || effect.id; const value = Number(effect.value ?? effect.amount ?? 0);
+       if (!CONTENT_EFFECT_OPS.includes(op)) return { ok: false, reason: `unknown-effect:${op}` };
+       if (op === 'addResource' || op === 'adjust_resource') { const resourceKey = key === 'scrap' ? 'parts' : key; if (!Object.prototype.hasOwnProperty.call(state, resourceKey) || !Number.isFinite(Number(state[resourceKey]))) return { ok: false, reason: `unknown-resource:${key}` }; state[resourceKey] = Math.max(0, Number(state[resourceKey]) + value); return { ok: true, op, key: resourceKey, value }; }
+       if (op === 'adjustMeter' || op === 'adjust_meter') { const meter = key || 'campCollapse'; if (!Object.prototype.hasOwnProperty.call(state.contentState.meters, meter)) return { ok: false, reason: `meter-missing:${meter}` }; const before = Number(state.contentState.meters[meter]) || 0; state.contentState.meters[meter] = Math.max(0, Math.min(100, before + value)); return { ok: true, op, key: meter, before, after: state.contentState.meters[meter] }; }
+       if (op === 'modifyRelation') { const npc = state.npcs?.find(item => item.id === (effect.npcId || effect.targetId)); if (!npc) return { ok: false, reason: 'npc-missing' }; updateNpcRelation(npc, effect.delta || { [key]: value }, effect.reason || '内容事件'); return { ok: true, op, npcId: npc.id }; }
+       if (op === 'unlockTech') { const techId = key; const tech = contentDefinition('techNode', techId); if (!tech) return { ok: false, reason: `tech-missing:${techId}` }; state.contentState.unlockedTech = [...new Set([...state.contentState.unlockedTech, techId])]; const unlocked = (Array.isArray(tech.unlocks) ? tech.unlocks : Object.values(tech.unlocks || {}).flat()).filter(Boolean); unlocked.forEach(unlockId => { if (contentDefinition('weapon', unlockId)) state.contentState.unlockedWeapons = [...new Set([...state.contentState.unlockedWeapons, unlockId])]; else state.contentState.unlockedBlueprints = [...new Set([...state.contentState.unlockedBlueprints, unlockId])]; }); return { ok: true, op, key: techId, unlocks: unlocked }; }
+       if (op === 'unlockWeapon' || (op === 'unlock' && contentDefinition('weapon', key))) { const weaponId = key; if (!contentDefinition('weapon', weaponId)) return { ok: false, reason: `weapon-missing:${weaponId}` }; state.contentState.unlockedWeapons = [...new Set([...state.contentState.unlockedWeapons, weaponId])]; return { ok: true, op: 'unlockWeapon', key: weaponId }; }
+       if (op === 'unlock') { state.contentState.flags[key] = true; return { ok: true, op, key }; }
+       if (op === 'scheduleEvent') { const item = { id: effect.eventId || key, dueDay: Number(effect.dueDay) || state.day, payload: stableClone(effect.payload || {}) }; state.contentState.scheduledEvents = [...state.contentState.scheduledEvents.filter(event => event.id !== item.id), item].slice(-50); state.contentState.triggeredEvents = state.contentState.triggeredEvents.filter(eventId => eventId !== item.id); return { ok: true, op, key: item.id }; }
+       if (op === 'assignJob') { const npc = state.npcs?.find(item => item.id === (effect.npcId || effect.targetId)); if (!npc || !npcIsActive(npc)) return { ok: false, reason: 'npc-missing-or-inactive' }; if (!contentDefinition('npcRole', key)) return { ok: false, reason: `role-missing:${key}` }; const incumbent = state.npcs?.find(item => item.id !== npc.id && npcIsActive(item) && item.contentJob === key); if (incumbent && effect.allowShared !== true) return { ok: false, reason: `role-occupied:${key}` }; npc.contentJob = key; return { ok: true, op, npcId: npc.id, job: key }; }
+       if (op === 'damageBuilding') { const building = state.buildings?.find(item => item.id === (effect.buildingId || effect.targetId)); if (!building) return { ok: false, reason: 'building-missing' }; building.hp = Math.max(0, Number(building.hp || 0) - Math.max(0, value)); return { ok: true, op, buildingId: building.id }; }
+       if (op === 'captureOutpost') { const outpostId = key; const outpost = contentDefinition('outpost', outpostId); if (!outpost) return { ok: false, reason: `outpost-missing:${outpostId}` }; if (!(outpost.captureRequires || []).every(contentConditionMet)) return { ok: false, reason: 'outpost-capture-requirement' }; const guards = [...new Set(effect.guardNpcIds || [])]; if (guards.length > Number(outpost.guardSlots || 0)) return { ok: false, reason: 'outpost-guard-slots' }; if (guards.some(npcId => !state.npcs?.some(npc => npc.id === npcId && npcIsActive(npc)))) return { ok: false, reason: 'outpost-guard-missing' }; if (outpost.garrisonRequired && !guards.length) return { ok: false, reason: 'outpost-garrison-required' }; state.contentState.outposts[outpostId] = { status: 'secured', guardNpcIds: guards, securedAt: worldMinute() }; return { ok: true, op, key: outpostId }; }
+       if (op === 'recordHistory') { const entry = { id: key || `content-${worldMinute()}`, at: worldMinute(), payload: stableClone(effect.payload || {}), actorId: meta.actorId || 'system' }; state.contentState.history = [...state.contentState.history, entry].slice(-100); recordWorldEvent('content.history', entry, { actorId: entry.actorId }); return { ok: true, op, key: entry.id }; }
+       return { ok: false, reason: `unhandled-effect:${op}` };
+     }
+     function applyContentEffects(effects = [], meta = {}) {
+       ensureContentState();
+       const list = Array.isArray(effects) ? effects : [effects];
+       const effectId = meta.effectId || meta.commandId || null;
+       if (effectId && state.contentState.appliedEffects.includes(effectId)) return { ok: true, duplicate: true, effectId, results: [] };
+       const invalid = list.find(effect => !CONTENT_EFFECT_OPS.includes(effect?.op || effect?.type));
+       if (invalid) return { ok: false, reason: `unknown-effect:${invalid?.op || invalid?.type}` };
+       const rollback = {
+         contentState: stableClone(state.contentState),
+         npcs: stableClone(state.npcs || []),
+         buildings: stableClone(state.buildings || []),
+         resources: stableClone(state.resources || []),
+         specialItems: stableClone(state.specialItems || {}),
+         roleVacancies: stableClone(state.roleVacancies || {}),
+         quests: stableClone(state.quests || []),
+         campStanding: stableClone(state.campStanding || {}),
+         worldEvents: stableClone(state.worldMeta?.events || []),
+         worldEventSeq: state.worldMeta?.eventSeq || 0,
+         worldLastEventId: state.worldMeta?.lastEventId || null,
+         scalars: Object.fromEntries(['wood', 'stone', 'food', 'seeds', 'medicine', 'parts', 'tapes', 'morale', 'hp'].map(key => [key, state[key]]))
+       };
+       const results = list.map(effect => applyContentEffect(effect, meta));
+       const failed = results.find(result => !result.ok);
+       if (failed) {
+         state.contentState = rollback.contentState;
+         state.npcs = rollback.npcs;
+         state.buildings = rollback.buildings;
+         state.resources = rollback.resources;
+         state.specialItems = rollback.specialItems;
+         state.roleVacancies = rollback.roleVacancies;
+         state.quests = rollback.quests;
+         state.campStanding = rollback.campStanding;
+         if (state.worldMeta) { state.worldMeta.events = rollback.worldEvents; state.worldMeta.eventSeq = rollback.worldEventSeq; state.worldMeta.lastEventId = rollback.worldLastEventId; }
+         Object.entries(rollback.scalars).forEach(([key, value]) => { state[key] = value; });
+         return { ok: false, reason: failed.reason, results, rolledBack: true };
+       }
+       list.filter(effect => (effect?.op || effect?.type) === 'captureOutpost').forEach(effect => runContentHook('onOutpostSecured', { outpostId: effect.key || effect.id, actorId: meta.actorId || 'system' }));
+       if (effectId) state.contentState.appliedEffects = [...state.contentState.appliedEffects, effectId].slice(-200);
+       if (meta.record !== false) recordWorldEvent('content.effects.applied', { effects: stableClone(list), results }, { actorId: meta.actorId || 'system', defId: meta.defId || null, effects: list });
+       return { ok: true, results };
+     }
+     function contentConditionMet(condition = {}) {
+       if (typeof condition === 'string') return contentRequirementsMet(condition);
+       if (!condition || typeof condition !== 'object') return true;
+       if (condition.type === 'landmark_exists') return !!state.landmarks?.some(item => item.type === condition.id && item.found !== false);
+       if (condition.type === 'camp_trust') return (Number(state.contentState?.meters?.campTrust) || 0) >= Number(condition.min || 0);
+       if (condition.type === 'npc_alive') return !!state.npcs?.some(npc => npc.id === condition.id && npcIsActive(npc));
+       if (condition.type === 'flag') return !!state.contentState?.flags?.[condition.id] === (condition.value !== false);
+       if (condition.type === 'day_between') return state.day >= Number(condition.min || 1) && state.day <= Number(condition.max || 999);
+       return true;
+     }
+     function runContentHook(hook, meta = {}) {
+       ensureContentState();
+       const started = [];
+       const expired = [];
+       const chains = Object.values({ ...EVENT_CHAIN_DEFS, ...CONTENT_EXTENSIONS.eventChain }).sort((a, b) => String(a.chainId || a.id).localeCompare(String(b.chainId || b.id)));
+       if (hook === 'onDayStart') Object.values(state.contentState.activeChains).slice().forEach(active => { const definition = contentDefinition('eventChain', active.chainId); const phaseDays = (definition?.phase || []).map(phase => Number(String(phase).match(/^day_(\d+)$/i)?.[1])).filter(Number.isFinite); if (definition && phaseDays.length && !contentPhaseAllows(definition) && state.day > Math.max(...phaseDays)) { const result = resolveContentFallback(active.chainId, 'ifExpired', { actorId: meta.actorId || 'camp-autonomy' }); if (result.ok) expired.push(active.chainId); } });
+       chains.filter(definition => Array.isArray(definition.hooks) && definition.hooks.includes(hook) && contentPhaseAllows(definition)).forEach(definition => {
+         const result = startContentChain(definition.chainId || definition.id, { actorId: meta.actorId || 'system' });
+         if (result.ok && !result.duplicate) started.push(result.active.chainId);
+       });
+       const due = state.contentState.scheduledEvents.filter(event => Number(event.dueDay) <= Number(state.day) && !state.contentState.triggeredEvents.includes(event.id));
+       if (due.length) {
+         due.slice().sort((a, b) => String(a.id).localeCompare(String(b.id))).forEach(event => {
+           const chainId = event.payload?.chainId;
+           const chainResult = chainId ? startContentChain(chainId, { actorId: meta.actorId || 'system' }) : null;
+           recordWorldEvent('content.scheduled.triggered', { eventId: event.id, payload: event.payload || {}, hook, chainResult }, { actorId: meta.actorId || 'system', defId: event.payload?.defId || chainId || null });
+         });
+         const dueIds = new Set(due.map(event => event.id));
+         state.contentState.scheduledEvents = state.contentState.scheduledEvents.filter(event => !dueIds.has(event.id));
+         state.contentState.triggeredEvents = [...new Set([...state.contentState.triggeredEvents, ...due.map(event => event.id)])].slice(-100);
+       }
+       if (started.length || expired.length || due.length) recordWorldEvent('content.hook', { hook, started, expired, triggered: due.map(event => event.id) }, { actorId: meta.actorId || 'system' });
+       return { ok: true, hook, started, expired, triggered: due.map(event => event.id) };
+     }
+     function startContentChain(chainId, meta = {}) {
+       ensureContentState();
+       const definition = contentDefinition('eventChain', chainId);
+       if (!definition) return { ok: false, reason: 'chain-missing' };
+       if (state.contentState.completedChains.includes(chainId)) return { ok: false, reason: 'chain-completed' };
+       if (state.contentState.activeChains[chainId]) return { ok: true, duplicate: true, active: state.contentState.activeChains[chainId] };
+       if (!contentPhaseAllows(definition)) return { ok: false, reason: 'phase-window' };
+       if (!(definition.startConditions || []).every(contentConditionMet)) return { ok: false, reason: 'start-condition' };
+       const firstNode = definition.nodes?.[0];
+       if (!firstNode) return { ok: false, reason: 'chain-node-missing' };
+       const active = { chainId, nodeId: firstNode.nodeId, status: 'active', startedAt: worldMinute(), actorId: meta.actorId || 'player-1' };
+       state.contentState.activeChains[chainId] = active;
+       recordWorldEvent('content.chain.started', { chainId, nodeId: firstNode.nodeId }, { actorId: meta.actorId || 'player-1', defId: chainId });
+       return { ok: true, active };
+     }
+     function resolveContentChain(chainId, nodeId, choiceId, meta = {}) {
+       ensureContentState();
+       const definition = contentDefinition('eventChain', chainId); const active = state.contentState.activeChains[chainId];
+       const node = definition?.nodes?.find(item => item.nodeId === nodeId); const choice = node?.choices?.find(item => item.id === choiceId);
+       if (!definition || !active || active.nodeId !== nodeId || !choice) return { ok: false, reason: 'chain-choice-missing' };
+       if (choice.next && !definition.nodes?.some(item => item.nodeId === choice.next)) return { ok: false, reason: 'chain-next-node-missing' };
+       if (!contentRequirementsMet(choice.requirements || [])) return { ok: false, reason: 'choice-requirement' };
+       const result = applyContentEffects(choice.effects || [], { actorId: meta.actorId || 'player-1', defId: chainId, effectId: `${chainId}:${nodeId}:${choiceId}` });
+       if (!result.ok) return result;
+       if (choice.next) {
+         active.nodeId = choice.next;
+         active.history = [...(active.history || []), { nodeId, choiceId, at: worldMinute() }].slice(-20);
+         recordWorldEvent('content.chain.choice', { chainId, nodeId, choiceId, nextNodeId: choice.next, results: result.results }, { actorId: meta.actorId || 'player-1', defId: chainId, effects: choice.effects || [] });
+         return { ok: true, chainId, nodeId, choiceId, nextNodeId: choice.next, active, results: result.results };
+       }
+       delete state.contentState.activeChains[chainId];
+       state.contentState.completedChains = [...new Set([...state.contentState.completedChains, chainId])].slice(-100);
+       recordWorldEvent('content.chain.resolved', { chainId, nodeId, choiceId, results: result.results }, { actorId: meta.actorId || 'player-1', defId: chainId, effects: choice.effects || [] });
+       return { ok: true, chainId, nodeId, choiceId, results: result.results };
+     }
+     function resolveContentFallback(chainId, reason = 'ifSkipped', meta = {}) {
+       ensureContentState();
+       const definition = contentDefinition('eventChain', chainId); const active = state.contentState.activeChains[chainId];
+       if (!definition) return { ok: false, reason: 'chain-missing' };
+       if (state.contentState.completedChains.includes(chainId)) return { ok: true, duplicate: true, chainId, reason };
+       const fallbackSpec = definition.fallback?.[reason] || definition.fallback?.ifSkipped || 'ledger_only';
+       const fallbackId = typeof fallbackSpec === 'string' ? fallbackSpec : (fallbackSpec?.id || 'ledger_only');
+       const fallbackEffects = Array.isArray(fallbackSpec) ? fallbackSpec : (fallbackSpec?.effects || definition.fallbackEffects?.[fallbackId] || []);
+       const effectResult = applyContentEffects(fallbackEffects, { actorId: meta.actorId || 'camp-autonomy', defId: chainId, effectId: `${chainId}:fallback:${reason}` });
+       if (!effectResult.ok) return effectResult;
+       if (active) delete state.contentState.activeChains[chainId];
+       state.contentState.completedChains = [...new Set([...state.contentState.completedChains, chainId])].slice(-100);
+       const payload = { chainId, reason, fallbackId, active: !!active, results: effectResult.results || [] };
+       recordWorldEvent('content.chain.fallback', payload, { actorId: meta.actorId || 'camp-autonomy', defId: chainId, effects: fallbackEffects });
+       state.contentState.history = [...state.contentState.history, { id: `${chainId}:fallback:${reason}`, at: worldMinute(), payload, actorId: meta.actorId || 'camp-autonomy' }].slice(-100);
+       return { ok: true, ...payload };
+     }
+     function resolveContentAutonomy(chainId, meta = {}) {
+       ensureContentState();
+       const definition = contentDefinition('eventChain', chainId); const autonomy = definition?.autonomy;
+       if (!definition || !autonomy) return { ok: false, reason: 'autonomy-missing' };
+       if (state.contentState.completedChains.includes(chainId)) return { ok: true, duplicate: true, chainId };
+       const result = applyContentEffects(autonomy.effects || [], { actorId: meta.actorId || 'camp-autonomy', defId: chainId, effectId: `${chainId}:autonomy:${state.day}` });
+       if (!result.ok) return result;
+       delete state.contentState.activeChains[chainId];
+       state.contentState.completedChains = [...new Set([...state.contentState.completedChains, chainId])].slice(-100);
+       const payload = { chainId, resultId: autonomy.resultId || 'autonomous', results: result.results };
+       recordWorldEvent('content.chain.autonomy', payload, { actorId: meta.actorId || 'camp-autonomy', defId: chainId, effects: autonomy.effects || [] });
+       state.contentState.history = [...state.contentState.history, { id: `${chainId}:autonomy:${state.day}`, at: worldMinute(), payload, actorId: meta.actorId || 'camp-autonomy' }].slice(-100);
+       return { ok: true, ...payload };
+     }
+     function registerContentPack(pack = {}) { const results = []; Object.entries(pack).forEach(([kind, definitions]) => { (Array.isArray(definitions) ? definitions : Object.values(definitions || {})).forEach(definition => results.push(registerContent(kind, definition))); }); return { ok: results.every(result => result.ok), results }; }
+     const ContentRegistry = { kinds: CONTENT_KINDS, plans: PLAN_DEFS, register: registerContent, registerPack: registerContentPack, get: contentDefinition, validate: validateContentDefinition, applyEffects: applyContentEffects, startChain: startContentChain, resolveChain: resolveContentChain, resolveFallback: resolveContentFallback, resolveAutonomy: resolveContentAutonomy, runHook: runContentHook, planMeeting: { state: planMeetingState, generate: generatePlanMeeting, commit: commitPlanMeeting, execute: executePlanMeeting }, all(kind) { return { ...contentRegistryBase(kind), ...CONTENT_EXTENSIONS[kind] }; } };
+     if (typeof window !== 'undefined') window.ZombieHarvestContent = ContentRegistry;
     const FeedbackRouter = { route(event) { if (!event) return; state.worldMeta.feedback.push({ eventId: event.eventId, type: event.type }); if (state.worldMeta.feedback.length > 40) state.worldMeta.feedback.shift(); } };
     function appendFeedbackEvent(type, payload = {}, meta = {}) { const event = recordWorldEvent(type, payload, meta); FeedbackRouter.route(event); return event; }
     const CommandBus = { dispatch(command, reducer, options = {}) {
@@ -1992,7 +2504,7 @@
         return { ok: false, commandId, reason: result.reason || 'reducer-rejected' };
       }
       const data = result && typeof result === 'object' && (result.payload || result.eventType || Object.prototype.hasOwnProperty.call(result, 'result')) ? result : { result };
-      const event = ephemeral ? null : recordWorldEvent(options.eventType || data.eventType || `command.${command.type}`, data.payload || { result: data.result }, { commandId, causationId: command.causationId || previous, actorId: command.actorId });
+      const event = ephemeral ? null : recordWorldEvent(options.eventType || data.eventType || `command.${command.type}`, data.payload || { result: data.result }, { commandId, causationId: command.causationId || previous, actorId: command.actorId, defId: options.defId || data.defId || null, instanceId: options.instanceId || data.instanceId || null, definitionVersion: options.definitionVersion || data.definitionVersion || null, effects: options.effects || data.effects || null });
       if (event) FeedbackRouter.route(event);
       if (!ephemeral && options.checkpoint !== false) requestCheckpoint(`command:${command.type}`);
       return { ok: true, commandId, event, result: data.result ?? result };
@@ -2002,20 +2514,20 @@
     function setWorldRate(rate = 1) { state.worldMeta.clock.rate = Math.max(0.25, Math.min(4, Number(rate) || 1)); recordWorldEvent('clock.rateChanged', { rate: state.worldMeta.clock.rate }); requestCheckpoint('clock'); }
     const QUEST_DEFS = Object.freeze({
       'camp-chain-001': { id: 'camp-chain-001', title: '营地因果链', steps: [{ id: 'collect', eventType: 'resource.collected' }, { id: 'repair', eventType: 'building.repaired' }, { id: 'threat', eventType: 'threat.started' }] },
-      'relay-chain-001': { id: 'relay-chain-001', title: '广播中继链', prerequisites: [], steps: [
-        { id: 'recover-relay-core', eventType: 'special.itemRecovered', predicate: event => event.payload?.itemId === 'relayCore' },
-        { id: 'brief-commander', eventType: 'relay.coreHandedOff', predicate: event => event.payload?.itemId === 'relayCore' },
-        { id: 'start-construction', eventType: 'relay.constructionStarted', predicate: event => event.payload?.projectId === 'camp-relay-001' },
-        { id: 'relay-online', eventType: 'relay.stationOnline', predicate: event => event.payload?.projectId === 'camp-relay-001' }
+      'relay-chain-001': { id: 'relay-chain-001', title: '广播中继链', definitionVersion: EVENT_DEFINITION_VERSION, prerequisites: [], steps: [
+        { id: 'recover-relay-core', defId: 'relay-chain-001', eventType: 'special.itemRecovered', predicate: event => event.payload?.itemId === 'relayCore' },
+        { id: 'brief-commander', defId: 'relay-chain-001', eventType: 'relay.coreHandedOff', predicate: event => event.payload?.itemId === 'relayCore' },
+        { id: 'start-construction', defId: 'relay-chain-001', eventType: 'relay.constructionStarted', predicate: event => event.payload?.projectId === 'camp-relay-001' },
+        { id: 'relay-online', defId: 'relay-chain-001', eventType: 'relay.stationOnline', predicate: event => event.payload?.projectId === 'camp-relay-001' }
       ] }
     });
     function ensureQuestInstances() { if (!Array.isArray(state.quests)) state.quests = []; Object.values(QUEST_DEFS).forEach(def => { if (!state.quests.some(q => q.id === def.id)) state.quests.push({ id: def.id, defId: def.id, status: 'active', stepIndex: 0, completedSteps: [], rewardClaimed: false }); }); }
     function applyQuestEvent(event) { if (!Array.isArray(state.quests)) return; state.quests.forEach(q => { const def = QUEST_DEFS[q.defId]; const step = def?.steps?.[q.stepIndex]; if (!step || q.status !== 'active' || step.eventType !== event.type || (step.predicate && !step.predicate(event))) return; q.completedSteps = [...new Set([...(q.completedSteps || []), step.id])]; q.stepIndex += 1; if (q.stepIndex >= def.steps.length) { q.status = 'completed'; q.rewardClaimed = true; state.parts = Math.max(0, Number(state.parts || 0)) + 1; recordWorldEvent('quest.completed', { questId: q.id, reward: 'parts+1' }, { actorId: 'system', causationId: event.eventId }); } }); }
-    ensureStableIds(); ensureSocialFacts(); ensureRelayFacts(); ensureQuestInstances();
+    ensureStableIds(); ensureSocialFacts(); ensureRelayFacts(); ensureContentState(); refreshCommandPoints('initial'); ensureQuestInstances();
 
-    // v18 adds the player/NPC SAN state; v17's exhaustion timestamp and older
-    // saves remain readable, with missing mental state fields receiving safe defaults.
-    const SAVE_VERSION = 18;
+    // v20 adds the plan-meeting state; v19's content registry and v18's SAN state and older
+    // saves remain readable, with missing content fields receiving safe defaults.
+    const SAVE_VERSION = 20;
     const SAVE_KEY = 'zombie-harvest-progress-v12';
     const LEGACY_SAVE_KEYS = ['zombie-harvest-progress-v11', 'zombie-harvest-progress-v10', 'zombie-harvest-progress-v9', 'zombie-harvest-progress-v8', 'zombie-harvest-progress-v7'];
     // Explicit, non-persistent playtest mode. It is opt-in through ?playtest=relay,
@@ -2123,7 +2635,7 @@
       try {
         ensureStableIds();
         const payload = {
-          version: SAVE_VERSION, day: state.day, hour: state.hour, minute: state.minute, energy: state.energy, sanity: state.sanity, sanityClock: state.sanityClock, sanityLastReason: state.sanityLastReason, staminaExhaustedDay: state.staminaExhaustedDay, staminaExhaustedAt: state.staminaExhaustedAt, hp: state.hp, campaign: state.campaign, campStanding: state.campStanding, specialItems: state.specialItems, relayProject: state.relayProject, hordeForecast: state.hordeForecast,
+          version: SAVE_VERSION, day: state.day, hour: state.hour, minute: state.minute, energy: state.energy, sanity: state.sanity, sanityClock: state.sanityClock, sanityLastReason: state.sanityLastReason, staminaExhaustedDay: state.staminaExhaustedDay, staminaExhaustedAt: state.staminaExhaustedAt, hp: state.hp, campaign: state.campaign, campStanding: state.campStanding, specialItems: state.specialItems, relayProject: state.relayProject, hordeForecast: state.hordeForecast, contentState: state.contentState,
           wood: state.wood, stone: state.stone, food: state.food, seeds: state.seeds, parts: state.parts, medicine: state.medicine, morale: state.morale,
           collection: state.collection, weapon: state.weapon, event: state.event, eventInstance: state.eventInstance, npcEvents: state.npcEvents || [], eventThreat: state.eventThreat, eventShield: state.eventShield,
           mapRevision: MAP.revision, night: !!state.night, nightBattle: state.nightBattle, player: state.player, motion: state.motion, buildings: state.buildings,
@@ -2141,7 +2653,7 @@
       state.wood = 24; state.stone = 12; state.food = 20; state.seeds = 3; state.parts = 8; state.medicine = 1; state.morale = 72;
       state.player = { x: 19, y: 3 }; Object.defineProperty(state.player, 'id', { value: 'player-1', writable: true, configurable: true, enumerable: false });
       state.playerVisual = { ...state.player }; state.facing = 'left'; state.night = false; state.nightBattle = null; state.gameOver = null;
-      state.specialItems = { relayCore: 0 };
+      state.specialItems = { relayCore: 0 }; state.contentState = { contentVersion: 2, meters: { campCollapse: 0, resonancePressure: 25, campTrust: 0 }, unlockedTech: [], unlockedWeapons: ['rustAxe'], unlockedBlueprints: [], flags: {}, scheduledEvents: [], triggeredEvents: [], activeChains: {}, completedChains: [], appliedEffects: [], outposts: {}, history: [], commandPoints: 0, commandPointsMax: 0, commandPointsGrantedDay: 0, autonomyWeights: { defense: 40, harvest: 25, logistics: 20, research: 10, diplomacy: 5 }, planMeeting: { version: 1, status: 'idle', meetingDay: 0, instanceId: null, source: 'summary', candidates: [], selectedId: null, playerAction: null, committedDay: null, resolvedDay: null, autonomyResult: null, history: [] } };
       state.relayProject = { id: 'camp-relay-001', status: 'unknown', coreItemId: null, handoffAt: null, materialNeed: { wood: 10, parts: 5, stone: 4 }, materialProgress: { wood: 0, parts: 0, stone: 0 }, materialClock: 0, workMinutes: 0, targetMinutes: 180, buildingId: 'bld-relay-station', assignedNpcIds: ['radio', 'carpenter', 'quartermaster'], sharedSightBonus: 2, sharedRangeBonus: 4, forecastLeadMinutes: 180, routeId: 'eastern-breach' };
       state.hordeForecast = { confidence: 0, leadMinutes: 0, routeId: 'eastern-breach', source: 'camp-observation', updatedAt: 0 };
       state.landmarks.forEach(landmark => { landmark.found = false; });
@@ -2161,6 +2673,7 @@
           try { const parsed = JSON.parse(raw); const candidate = parsed?.payload && parsed.checksum ? (checksum(parsed.payload) === parsed.checksum ? parsed.payload : null) : parsed; if (candidate && typeof candidate === 'object') { saved = candidate; break; } } catch (e) { try { localStorage.setItem(`${key}.corrupt`, raw); } catch (ignore) {} }
         }
         if (!saved) return;
+        if (!saved.contentState || typeof saved.contentState !== 'object' || Number(saved.contentState.contentVersion) < CONTENT_SCHEMA_VERSION) state.__contentMigration = { fromVersion: Number(saved.contentState?.contentVersion) || 0, migration: 'contentState-default-v2-plan-meeting', contentVersion: CONTENT_SCHEMA_VERSION };
         ['day','hour','minute','energy','sanity','sanityClock','staminaExhaustedDay','staminaExhaustedAt','hp','wood','stone','food','seeds','parts','medicine','morale'].forEach(k => { if (Number.isFinite(saved[k])) state[k] = saved[k]; });
         state.sanity = clampSanity(state.sanity, 72); state.sanityClock = Math.max(0, Number(state.sanityClock) || 0); state.sanityLastReason = typeof saved.sanityLastReason === 'string' ? saved.sanityLastReason : '旧存档迁移：默认心理稳定度';
         if (saved.campaign && typeof saved.campaign === 'object') state.campaign = { ...state.campaign, ...saved.campaign, title: '我是大救星', scenarioId: saved.campaign.scenarioId || 'zombie-farm', scenarioTitle: saved.campaign.scenarioTitle || '尸潮农场' };
@@ -2168,10 +2681,11 @@
         if (saved.specialItems && typeof saved.specialItems === 'object') state.specialItems = { ...state.specialItems, ...saved.specialItems };
         if (saved.relayProject && typeof saved.relayProject === 'object') state.relayProject = { ...state.relayProject, ...saved.relayProject, materialNeed: { ...state.relayProject.materialNeed, ...(saved.relayProject.materialNeed || {}) }, materialProgress: { ...state.relayProject.materialProgress, ...(saved.relayProject.materialProgress || {}) } };
         if (saved.hordeForecast && typeof saved.hordeForecast === 'object') state.hordeForecast = { ...state.hordeForecast, ...saved.hordeForecast };
+        if (saved.contentState && typeof saved.contentState === 'object') state.contentState = { ...state.contentState, ...saved.contentState, meters: { ...state.contentState.meters, ...(saved.contentState.meters || {}) }, flags: { ...state.contentState.flags, ...(saved.contentState.flags || {}) }, outposts: { ...state.contentState.outposts, ...(saved.contentState.outposts || {}) } };
         if (saved.collection) Object.keys(collectionCaps).forEach(k => { state.collection[k] = Math.max(0, Math.min(collectionCaps[k], Number(saved.collection[k]) || 0)); });
         if (Array.isArray(saved.npcEvents)) state.npcEvents = saved.npcEvents.filter(item => item && typeof item === 'object' && typeof item.id === 'string').slice(-20);
         const allowedSavedEvent = saved.event && (eventPool.some(e => e.id === saved.event.id) || DYNAMIC_EVENT_IDS.has(saved.event.id) || saved.event.npcEvent);
-        if (allowedSavedEvent) { state.event = { ...(eventPool.find(e => e.id === saved.event.id) || saved.event), ...saved.event, handled: !!saved.event.handled, result: saved.event.result || '' }; state.eventInstance = createEventInstance(state.event.id, { instanceId: saved.event.instanceId || `event-${state.event.id}-restored`, handled: !!state.event.handled, status: state.event.handled ? 'resolved' : 'active' }); }
+        if (allowedSavedEvent) { const restoredDefId = saved.event.defId || (saved.event.npcEvent ? `npc.${saved.event.npcEvent.chainId || saved.event.id}` : saved.event.id); registerDynamicNpcEvent({ ...saved.event, defId: restoredDefId }); state.event = { ...(eventPool.find(e => e.id === saved.event.id) || saved.event), ...saved.event, defId: restoredDefId, handled: !!saved.event.handled, result: saved.event.result || '' }; state.eventInstance = createEventInstance(restoredDefId, { defId: restoredDefId, instanceId: saved.eventInstance?.instanceId || saved.event.instanceId || `event-${state.event.id}-restored`, handled: !!state.event.handled, status: state.event.handled ? 'resolved' : 'active' }); }
         if (saved.eventInstance && typeof saved.eventInstance === 'object') state.eventInstance = { ...state.eventInstance, ...saved.eventInstance };
         if (Number.isFinite(saved.eventThreat)) state.eventThreat = Math.max(-2, Math.min(2, saved.eventThreat));
         if (Number.isFinite(saved.eventShield)) state.eventShield = Math.max(0, saved.eventShield);
@@ -2203,6 +2717,7 @@
         if (saved.worldMeta && typeof saved.worldMeta === 'object') state.worldMeta = { ...state.worldMeta, ...saved.worldMeta, clock: { ...state.worldMeta.clock, ...(saved.worldMeta.clock || {}) }, events: Array.isArray(saved.worldMeta.events) ? saved.worldMeta.events.slice(-500) : [], seenCommands: Array.isArray(saved.worldMeta.seenCommands) ? saved.worldMeta.seenCommands.slice(-500) : [], replay: { seed: Number(saved.worldMeta.replay?.seed) || state.worldMeta.seed, commands: Array.isArray(saved.worldMeta.replay?.commands) ? saved.worldMeta.replay.commands.slice(-500) : [] } };
         if (Array.isArray(saved.quests)) state.quests = saved.quests.map(quest => ({ ...quest, completedSteps: Array.isArray(quest.completedSteps) ? quest.completedSteps : [] }));
         if (state.__relayMigration) { recordWorldEvent('save.migrated', state.__relayMigration, { actorId: 'system' }); delete state.__relayMigration; }
+        if (state.__contentMigration) { recordWorldEvent('save.migrated', state.__contentMigration, { actorId: 'system' }); delete state.__contentMigration; }
       } catch (e) { /* ignore malformed or unavailable saves */ }
     }
     // Isolated relay playtests must start from the built-in initial state. Reading
@@ -2214,7 +2729,7 @@
     // food or morning recovery.
     state.staminaExhaustedDay = null;
     state.staminaExhaustedAt = null;
-    prepareRelayPlaytest(); ensureStableIds(); ensureSocialFacts(); ensureRelayFacts(); ensureQuestInstances();
+    prepareRelayPlaytest(); ensureStableIds(); ensureSocialFacts(); ensureRelayFacts(); ensureContentState(); refreshCommandPoints('initial'); ensureQuestInstances();
     const relayQuest = state.quests.find(quest => quest.defId === 'relay-chain-001');
     if (relayQuest) {
       const relayStep = { 'core-recovered': 1, briefed: 2, staging: 3, building: 3, online: 4 }[state.relayProject.status] || 0;
@@ -2467,7 +2982,8 @@
       const step = npc.eventChain.step;
       const def = chain[step];
       const eventId = `npc.${npc.id}.${def.chainId}.${step}`;
-      const event = { id: eventId, icon: npc.icon, title: `${def.title} · ${npc.name}`, text: def.text(npc), a: def.a, aHint: def.aHint, b: def.b, bHint: def.bHint, handled: false, npcEvent: { npcId: npc.id, chainId: def.chainId, step } };
+      const event = { id: eventId, defId: `npc.${def.chainId}`, icon: npc.icon, title: `${def.title} · ${npc.name}`, text: def.text(npc), a: def.a, aHint: def.aHint, b: def.b, bHint: def.bHint, handled: false, npcEvent: { npcId: npc.id, chainId: def.chainId, step } };
+      if (!eventDefinition(event.defId)) registerEventDefinition({ id: event.defId, title: def.title, icon: npc.icon, text: event.text, phase: 'DAY', gate: { phase: 'DAY', nightAllowed: false }, actors: [npc.id], choices: [{ id: 'a', label: def.a, hint: def.aHint }, { id: 'b', label: def.b, hint: def.bHint }] });
       const queued = (state.npcEvents || []).some(item => item.id === eventId && (item.status === 'queued' || item.status === 'active'));
       if (queued) return false;
       if (state.event && !state.event.handled) {
@@ -2477,10 +2993,10 @@
         return true;
       }
       state.event = event;
-      state.eventInstance = createEventInstance(eventId, { payload: stableClone(event), actorId: npc.id });
+      state.eventInstance = createEventInstance(event.defId, { defId: event.defId, instanceId: eventId, payload: stableClone(event), actorId: npc.id });
       npc.eventChain.active = { id: eventId, step, openedAt: worldMinute() };
       state.npcEvents = [...(state.npcEvents || []), { id: eventId, npcId: npc.id, step, openedAt: worldMinute(), status: 'active' }].slice(-20);
-      recordWorldEvent('npc.event.triggered', { eventId, npcId: npc.id, step, pressure: Math.round(npcPressure(npc)) }, { actorId: npc.id });
+      recordWorldEvent('npc.event.triggered', { eventId, npcId: npc.id, step, pressure: Math.round(npcPressure(npc)) }, { actorId: npc.id, defId: event.defId || `npc.${def.chainId}`, instanceId: eventId, effects: eventDefinition(event.defId || `npc.${def.chainId}`)?.choices?.map(choice => choice.effects) || [] });
       log(`${npc.name}提出了一个需要你介入的问题：${def.title}`, 'warn');
       return true;
     }
@@ -2490,7 +3006,7 @@
       const npc = state.npcs.find(item => item.id === next.npcId);
       if (!npc || !npcIsActive(npc)) { next.status = 'cancelled'; return false; }
       state.event = { ...next.event, handled: false };
-      state.eventInstance = createEventInstance(state.event.id, { payload: stableClone(state.event), actorId: npc.id });
+      state.eventInstance = createEventInstance(state.event.defId || `npc.${next.event.npcEvent?.chainId || 'event'}`, { defId: state.event.defId, instanceId: next.id, payload: stableClone(state.event), actorId: npc.id });
       next.status = 'active';
       npc.eventChain = npc.eventChain || { step: 0, cooldown: 0, active: null, resolved: [] };
       npc.eventChain.active = { id: next.id, step: next.step, openedAt: next.openedAt, status: 'active' };
@@ -2561,7 +3077,9 @@
       npc.eventChain.cooldown = meta.chainId === 'sanity' ? 360 : 180;
       npc.eventChain.active = null;
       state.npcEvents = (state.npcEvents || []).map(item => item.id === event.id ? { ...item, status: 'resolved', choice, resolvedAt: worldMinute() } : item);
-      recordWorldEvent('npc.event.resolved', { eventId: event.id, npcId: npc.id, choice }, { actorId: npc.id });
+      const def = eventDefinition(event.defId || state.eventInstance?.defId || `npc.${meta.chainId}`);
+      const effects = def?.choices?.find(item => item.id === choice)?.effects || [];
+      recordWorldEvent('npc.event.resolved', { eventId: event.id, npcId: npc.id, choice }, { actorId: npc.id, defId: def?.id || null, instanceId: state.eventInstance?.instanceId || event.id, definitionVersion: def?.definitionVersion || EVENT_DEFINITION_VERSION, effects });
       return result;
     }
     function perceptionProfile(actor) {
@@ -2860,13 +3378,27 @@
         const af = buildingFootprint(a), bf = buildingFootprint(b);
         return a.x < b.x + bf.w && a.x + af.w > b.x && a.y < b.y + bf.h && a.y + af.h > b.y;
       };
-      strategic.forEach(item => { if (!state.buildings.some(b => overlapsBuilding(b, item))) state.buildings.push({...item}); });
+      const footprintCells = item => {
+        const fp = buildingFootprint(item);
+        return Array.from({length: fp.h}, (_, dy) => Array.from({length: fp.w}, (_, dx) => ({x: item.x + dx, y: item.y + dy}))).flat();
+      };
+      const occupiedCell = (x, y, ignore = null) => {
+        if (!inBounds(x, y) || terrainAt(x, y) === 'water' || (state.player.x === x && state.player.y === y)) return true;
+        if (state.buildings.some(b => b !== ignore && buildingContains(b, x, y))) return true;
+        if (state.resources.some(r => r.amount > 0 && r.x === x && r.y === y)) return true;
+        if (state.npcs.some(n => npcIsActive(n) && n.x === x && n.y === y)) return true;
+        if (state.landmarks.some(l => l.x === x && l.y === y)) return true;
+        if (CAMP_AREAS.some(area => area.x === x && area.y === y)) return true;
+        return !!getZombie(x, y);
+      };
+      const canAppendBuilding = item => !state.buildings.some(b => overlapsBuilding(b, item)) && footprintCells(item).every(cell => !occupiedCell(cell.x, cell.y));
+      strategic.forEach(item => { if (canAppendBuilding(item)) state.buildings.push({...item}); });
       EXPANSION_RESOURCES.forEach(item => {
-        const occupied = state.buildings.some(b => buildingContains(b, item.x, item.y)) || state.npcs.some(n => npcIsActive(n) && n.x === item.x && n.y === item.y);
-        if (!occupied && !state.resources.some(r => r.x === item.x && r.y === item.y)) state.resources.push({...item});
+        if (!occupiedCell(item.x, item.y) && !state.resources.some(r => r.x === item.x && r.y === item.y)) state.resources.push({...item});
       });
       EXPANSION_LANDMARKS.forEach(item => {
-        if (!state.landmarks.some(l => l.x === item.x && l.y === item.y && l.type === item.type)) state.landmarks.push({...item});
+        const duplicate = state.landmarks.some(l => l.x === item.x && l.y === item.y && l.type === item.type);
+        if (!duplicate && !occupiedCell(item.x, item.y)) state.landmarks.push({...item});
       });
     }
     function isBlocked(x, y) {
@@ -3022,6 +3554,7 @@
       if (shortage) {
         applyFoodShortageToPeople(shortage);
         state.morale = Math.max(0, state.morale - Math.min(6, 2 + shortage));
+        applyContentEffects([{ op: 'adjustMeter', key: 'campCollapse', value: Math.min(4, shortage) }], { effectId: `camp:ration:${state.day}`, actorId: 'camp-autonomy', defId: 'camp-plan-meeting-001' });
         log(`第 ${state.day} 天配给缺口 ${shortage} 份，营地稳定度下降。`, 'warn');
       } else {
         log(`第 ${state.day} 天分发 ${ration} 份每日配给，营地维持基本运转。`);
@@ -3040,8 +3573,10 @@
       state.world.lastDailyUpkeepDay = Number.isFinite(state.world.lastDailyUpkeepDay) ? state.world.lastDailyUpkeepDay : Math.max(1, state.day - 1);
       if (state.world.lastDailyUpkeepDay === state.day) return false;
       state.world.lastDailyUpkeepDay = state.day;
+      runPlanMeetingDayStart();
       spawnResource();
       assignMorningSuccessors();
+      runContentHook('onDayStart', { actorId: 'camp-autonomy' });
       const gardens = state.buildings.filter(b => b.type === 'garden' || b.type === 'greenhouse').length;
       let ready = 0;
       state.buildings.filter(b => (b.type === 'garden' || b.type === 'greenhouse') && b.planted && !b.ready).forEach(g => { g.growth += 1; if (g.growth >= 2) { g.ready = true; ready += 1; } });
@@ -3072,8 +3607,8 @@
       const next = dynamicEvent || eventPool[(state.day + randomInt(eventPool.length)) % eventPool.length];
       if (!eventActive) {
         registerDynamicNpcEvent(next);
-        state.event = {...next, handled: false};
-        state.eventInstance = createEventInstance(next.id, { payload: stableClone(next) });
+        state.event = {...next, handled: false, defId: next.defId || next.id};
+        state.eventInstance = createEventInstance(state.event.defId, { defId: state.event.defId, instanceId: next.id !== state.event.defId ? next.id : undefined, payload: stableClone(next) });
       }
       log(`第 ${state.day} 天，${ready ? `${ready} 块种植地可以收获。` : gardens ? '种植地又长高了一格。' : '风很冷，但火还在。'}${jobs.length ? ` ${jobs.join('，')}。` : ''}`);
       return true;
@@ -3211,7 +3746,29 @@
       $('relayCrewText').innerHTML = `项目成员：${crew.join(' · ')}`;
       $('relayPanelHint').textContent = status === 'online' ? '广播中继站已经把尸潮路线和共享索敌接入营地。' : '这条链会把一次探索，转成营地全局的防御优势。';
     }
+    function planCategoryLabel(category) { return ({ defense: '防御', harvest: '采集', logistics: '后勤', research: '研究', diplomacy: '外交', medical: '医疗' }[category] || category || '综合'); }
+    function renderPlanMeeting() {
+      const mount = $('infoPlanMount'); if (!mount) return;
+      ensureContentState(); const plan = planMeetingState(); const meters = state.contentState.meters || {};
+      const canAct = !state.night && !state.gameOver && plan.status === 'candidate' && Number(plan.meetingDay) === Number(state.day) && Number(state.contentState.commandPoints) > 0;
+      const header = `<div class="status-overview-grid"><div class="status-overview-card"><span>营地信任</span><b>${Math.round(meters.campTrust || 0)}</b></div><div class="status-overview-card"><span>指挥点</span><b>${state.contentState.commandPoints}/${state.contentState.commandPointsMax}</b></div><div class="status-overview-card"><span>营地崩溃</span><b>${Math.round(meters.campCollapse || 0)}</b></div><div class="status-overview-card"><span>共振压力</span><b>${Math.round(meters.resonancePressure || 0)}</b></div></div>`;
+      let body = '';
+      if (plan.status === 'idle') body = '<div class="status-overview-note">下一轮尸潮结算后，指挥所会生成计划会候选。</div>';
+      else if (plan.status === 'candidate') {
+        body = `<div class="status-overview-note">第 ${plan.meetingDay} 天候选 · ${state.night ? '先关闭尸潮报告，白天再做决定。' : canAct ? '可消耗 1 点指挥点作出决定。' : '当前无法再提交决定。'}</div><div class="event-choice-list">${(plan.candidates || []).map(candidate => { const selected = candidate.id === plan.selectedId; const proposer = state.npcs?.find(npc => npc.id === candidate.proposerId)?.name || candidate.proposerId; return `<article class="event-choice-card" style="${selected ? 'border-color:var(--green);' : ''}"><strong>${candidate.rank}. ${candidate.title}</strong><small>${planCategoryLabel(candidate.category)} · 提案：${proposer} · 票权 ${candidate.votes}/${candidate.voteWeight}</small><p>${candidate.expected}；风险：${candidate.risk}</p><div style="display:flex;gap:6px;flex-wrap:wrap"><button type="button" data-plan-action="support" data-plan-id="${candidate.id}" ${canAct ? '' : 'disabled'}>支持</button><button type="button" data-plan-action="modify" data-plan-id="${candidate.id}" ${canAct ? '' : 'disabled'}>修改后执行</button>${selected ? `<button type="button" data-plan-action="deny" data-plan-id="${candidate.id}" ${canAct ? '' : 'disabled'}>否决主案</button>` : ''}</div></article>`; }).join('')}</div>`;
+      } else if (plan.status === 'committed') body = `<div class="status-overview-note">已在第 ${plan.committedDay} 天提交“${plan.candidates?.find(item => item.id === plan.selectedId)?.title || plan.selectedId}”，将在下一次日界执行。</div>`;
+      else { const result = plan.autonomyResult || {}; body = `<div class="status-overview-note">第 ${plan.resolvedDay || '?'} 天已执行：${plan.candidates?.find(item => item.id === plan.selectedId)?.title || plan.selectedId || '无'} · 路线 ${result.route || '自治'}。</div>`; }
+      mount.innerHTML = header + body;
+    }
+    function handlePlanMeetingAction(event) {
+      const button = event.target.closest('[data-plan-action]'); if (!button || button.disabled) return;
+      const result = commitPlanMeeting(button.dataset.planAction, button.dataset.planId);
+      if (!result.ok) toast(result.reason === 'command-points-empty' ? '指挥点不足，计划会只能旁听' : '计划会暂时无法提交');
+      else toast(button.dataset.planAction === 'deny' ? '已否决主案，交由候选备选执行' : '计划已提交，下一次日界执行');
+      renderPlanMeeting(); renderHud();
+    }
     function renderHud() {
+      if (infoModalOpen && infoModalTab === 'plan') renderPlanMeeting();
       $('dayLabel').textContent = `第 ${state.day} 天`;
       const lightLabel = state.hour >= 18 || state.hour < 6 ? '夜' : state.hour < 8 ? '清晨' : state.hour < 17 ? '日间' : '黄昏';
       $('timeLabel').textContent = `${formatTime()} · ${lightLabel}${state.night ? ' · 实时战况' : ''}`;
@@ -3572,9 +4129,23 @@
       const panel = $('contextPanel');
       if (!panel) return;
       if (state.gameOver || state.buildMode) { hideContext(); return; }
+      const nearby = (items) => items.filter(item => contextDistance(item) <= 1.25);
+      // During a live night encounter the legacy context menu must never expose
+      // daytime interactions. Keep only the player attack affordance; movement
+      // remains on the dedicated night controls and the hidden battle layer.
+      if (state.night) {
+        const zombies = nearby(getWorldZombies().filter(z => z.hp > 0));
+        if (!zombies.length) { hideContext(); return; }
+        const attackDisabled = state.energy < 5;
+        $('contextIcon').textContent = '🧟';
+        $('contextTitle').textContent = `尸潮接触 · ${zombies.length} 只僵尸`;
+        $('contextHint').textContent = '尸潮进行中：当前只能移动和攻击。';
+        $('contextActions').innerHTML = `<button class="context-action attack" data-context-action="attack" data-context-index="0" ${attackDisabled ? 'disabled' : ''}><kbd class="action-index">1</kbd>🪓 攻击相邻僵尸<small>使用${weaponInfo[state.weapon.id].name} · -5行动体力</small></button>`;
+        panel.classList.add('show');
+        return;
+      }
       const here = tileKey(state.player.x, state.player.y);
       if (contextDismissedAt === here) { hideContext(); return; }
-      const nearby = (items) => items.filter(item => contextDistance(item) <= 1.25);
       const zombies = nearby(getWorldZombies().filter(z => z.hp > 0));
       const npcs = nearby(state.npcs.filter(npcIsActive));
       const resources = nearby(state.resources.filter(r => r.amount > 0));
@@ -3672,6 +4243,11 @@
       panel.classList.add('show');
     }
     function triggerContextActionByIndex(index) {
+      if (state.night) {
+        if (index === 0) { attackNearestThreat(); return true; }
+        guardNightAction();
+        return false;
+      }
       const button = document.querySelector(`#contextActions [data-context-index="${index}"]`);
       if (button && !button.disabled) { button.click(); return true; }
       return false;
@@ -3680,51 +4256,13 @@
       const b = state.selectedBuilding;
       const hasBuilding = !!b;
       $('evolveTitle').textContent = hasBuilding ? `${buildInfo[b.type]?.name || '建筑'} · 选择进化` : '建筑进化';
-      $('evolveHint').textContent = hasBuilding ? `当前选择：${buildInfo[b.type]?.name || b.type}` : '先点击地图中的墙、塔、菜畦或灯';
-      document.querySelectorAll('[data-evolve]').forEach(card => {
-        const info = evolutionInfo[card.dataset.evolve];
-        const npcId = requiredBond[card.dataset.evolve];
-        const npc = state.npcs.find(n => npcHasRole(n, npcId));
-        const blueprintReady = state.collection.blueprint >= (requiredBlueprint[card.dataset.evolve] || 0);
-        const canUse = hasBuilding && b.type === info.from && !state.night && !state.gameOver && blueprintReady && !!npc && npc.lifeState !== 'dead' && npc.bond >= 1;
-        card.disabled = !canUse;
-        card.style.borderColor = canUse ? 'rgba(247,164,77,.5)' : '';
-        card.title = !hasBuilding ? '先选择一个基础建筑' : b.type !== info.from ? `需要${buildInfo[info.from].name}` : !blueprintReady ? `需要蓝图 ${requiredBlueprint[card.dataset.evolve]} 片` : (!npc || npc.bond < 1) ? `需要${npcId === 'carpenter' ? '阿梁' : npcId === 'doctor' ? '苏禾' : '阿默'}建立羁绊` : info.desc;
-      });
-    }
-    function renderMentalTerminal() {
-      const playerDef = sanityState(state.sanity);
-      const playerSan = Math.round(sanityValue('player'));
-      const campAvg = averageNpcSanity();
-      const campMin = lowestNpcSanity();
-      if ($('playerSanValue')) { $('playerSanValue').textContent = `${playerDef.label} ${playerSan}`; $('playerSanValue').style.color = playerDef.color; }
-      if ($('playerSanDetail')) $('playerSanDetail').textContent = `最近变化：${state.sanityLastReason || '暂无记录'}`;
-      if ($('campSanValue')) { $('campSanValue').textContent = `平均 ${campAvg}`; $('campSanValue').style.color = sanityState(campAvg).color; }
-      if ($('campSanDetail')) $('campSanDetail').textContent = `最低 ${campMin} · ${state.npcs.filter(n => npcIsActive(n) && sanityValue(n) < 25).length ? '有人已经进入失稳边缘' : '暂无失稳人员'}`;
-      if ($('mentalChangeFeed')) $('mentalChangeFeed').textContent = `最近心智变化：${state.sanityLastReason || '暂无玩家 SAN 变化记录。'}；营地平均 SAN ${campAvg}。`;
+      $('evolveHint').textContent = hasBuilding ? `当前选择：${buildInfo[b.type]?.name || b.type}` : '先点击地图中的墙、塔、菜畦talChangeFeed')) $('mentalChangeFeed').textContent = `最近心智变化：${state.sanityLastReason || '暂无玩家 SAN 变化记录。'}；营地平均 SAN ${campAvg}。`;
       if ($('mentalAdvice')) {
         const advice = playerSan < 45 ? '当前建议：先回 shelter 或居住区恢复心智，再安排高风险外围行动。' : campMin < 45 ? '当前建议：查看角色页，优先处理 SAN 最低的幸存者。' : '当前建议：继续保持中继、支援和集体生活，避免让压力在外围累积。';
         $('mentalAdvice').textContent = advice;
       }
       if ($('mentalNpcList')) {
-        $('mentalNpcList').innerHTML = state.npcs.filter(npcIsActive).sort((a, b) => sanityValue(a) - sanityValue(b)).map(npc => {
-          const def = sanityState(npc.sanity);
-          return `<div class="mental-npc-card"><b>${npc.icon} ${npc.name} · SAN ${Math.round(npc.sanity)} · ${def.label}</b><span>${npc.sanityLastReason || '最近没有单独的心智记录'} · ${npc.scheduleState || '工作中'}</span></div>`;
-        }).join('');
-      }
-    }
-    function renderSurvivors() {
-      const living = state.npcs.filter(npcIsActive);
-      const nearby = living.filter(n => distanceBetween(n, state.player) <= 1.25);
-      const injured = living.filter(n => n.lifeState !== 'healthy').length;
-      const dead = state.npcs.length - living.length;
-      $('npcRosterSummary').textContent = living.length + '/' + state.npcs.length + (injured ? ' · 伤' + injured : '') + (dead ? ' · 亡' + dead : '');
-      $('npcHint').textContent = '在营地：' + living.length + '/' + state.npcs.length + ' · ' + (nearby.length ? '附近：' + nearby.map(n => n.name).join('、') : '靠近地图中的人物后请求支援');
-      $('survivorList').innerHTML = state.npcs.map(n => {
-        const near = nearby.some(item => item.id === n.id);
-        const dead = !npcIsActive(n);
-        const status = dead ? '已死亡 · 岗位空缺' : n.supportRequested ? '已请求 · ' + getNpcOrderInfo(n).name : near ? '可立即请求并下达命令' : '靠近后交互';
-        const disabled = dead ? 'disabled' : '';
+        $('mentalNpcList').innerHTML = state.npcs.filter(npcIsActive).sort((a, b) => sanityValabled = dead ? 'disabled' : '';
         const zoneName = CAMP_ZONES[n.homeZone]?.name || '营地';
         const actingLabel = n.actingRole ? `暂代${NPC_TEMPLATES[n.actingRole]?.role || n.actingRole}` : '';
         const detail = dead ? '该角色不会自动恢复；后续需要继任者接替岗位。' : n.desc + ' · 常驻' + zoneName + (actingLabel ? ' · ' + actingLabel : '') + (n.lastReport ? ' · ' + n.lastReport : '');
@@ -3735,91 +4273,25 @@
     }
     function render() { renderHud(); renderWorld(); if (infoModalOpen && infoModalTab === 'survivors') renderSurvivors(); if (infoModalOpen && infoModalTab === 'mental') renderMentalTerminal(); renderContext(); if (infoModalOpen && infoModalTab === 'log') renderLogs(); }
 
-    function actionCommand(type, eventType, payload, reducer, options = {}) { return dispatchCommand({ type, commandId: options.commandId, actorId: options.actorId || 'player-1', payload }, reducer, { eventType, validate: () => state.gameOver ? { ok: false, reason: 'game-over' } : { ok: true } }); }
-    function grantCollection(kind, amount = 1) {
-      const cap = collectionCaps[kind] || Infinity;
-      const before = state.collection[kind] || 0;
-      state.collection[kind] = Math.min(cap, before + amount);
-      if (state.collection[kind] === cap && before < cap) log(`${kind === 'tape' ? '旧磁带' : kind === 'blueprint' ? '蓝图碎片' : '旧时代遗物'}收藏完成，探索奖励已记入收藏册。`, '');
-      return state.collection[kind] - before;
+    const NIGHT_ACTION_MESSAGE = '尸潮进行中：当前只能移动和攻击';
+    function isNightRestrictedAction(options = {}) { return !!state.night && options.allowNight !== true; }
+    function guardNightAction(options = {}) {
+      if (!isNightRestrictedAction(options)) return true;
+      hideContext();
+      toast(NIGHT_ACTION_MESSAGE);
+      return false;
     }
-    function relayOnline() { return state.relayProject?.status === 'online'; }
-    function relayActiveParticipants() { ensureRelayFacts(); return state.relayProject.assignedNpcIds.map(id => state.npcs.find(npc => npcIsActive(npc) && (npc.id === id || npcHasRole(npc, id)))).filter(npcIsActive); }
-    function relayStationBuilding() { return state.buildings.find(building => building.id === state.relayProject?.buildingId || building.type === 'relayStation') || null; }
-    function ensureRelayStationBuilding() {
-      ensureRelayFacts();
-      let station = relayStationBuilding();
-      if (!station) {
-        station = { id: state.relayProject.buildingId, x: 12, y: 0, type: 'relayStation', w: 2, h: 2, hp: 8, active: false, projectStatus: state.relayProject.status };
-        state.buildings.push(station);
-      }
-      station.id = state.relayProject.buildingId; station.type = 'relayStation'; station.w = 2; station.h = 2; station.hp = Math.max(0, Number(station.hp) || 8); station.active = relayOnline(); station.relayEnabled = station.active; station.projectStatus = state.relayProject.status;
-      return station;
-    }
-    function relayTakeMaterial(kind, amount, sourceTypes = []) {
-      ensureRelayFacts();
-      const project = state.relayProject;
-      const need = Math.max(0, Number(project.materialNeed[kind]) || 0);
-      const current = Math.max(0, Number(project.materialProgress[kind]) || 0);
-      let remaining = Math.max(0, Math.min(Number(amount) || 0, need - current));
-      let gained = 0;
-      const stock = Math.max(0, Number(state[kind]) || 0);
-      const fromStock = Math.min(stock, remaining);
-      state.__relayMaterialSources = Array.isArray(state.__relayMaterialSources) ? state.__relayMaterialSources : [];
-      if (fromStock) { state[kind] -= fromStock; remaining -= fromStock; gained += fromStock; state.__relayMaterialSources.push({ resourceId: `stock.${kind}`, sourceType: 'inventory', amount: fromStock }); }
-      if (remaining && sourceTypes.length) {
-        for (const resource of state.resources.filter(item => sourceTypes.includes(item.type) && item.amount > 0)) {
-          const take = Math.min(Number(resource.amount) || 0, remaining);
-          if (!take) continue;
-          resource.amount -= take; remaining -= take; gained += take; state.__relayMaterialSources.push({ resourceId: resource.id, sourceType: resource.type, amount: take });
-          if (!remaining) break;
-        }
-      }
-      if (gained) project.materialProgress[kind] = Math.min(need, current + gained);
-      return gained;
-    }
-    function relayHandoffReducer() {
-      ensureRelayFacts();
-      const project = state.relayProject;
-      if (project.status !== 'core-recovered' || Number(state.specialItems.relayCore) < 1) return { ok: false, reason: 'relay-core-unavailable' };
-      const commander = state.npcs.find(npc => npcIsActive(npc) && npcHasRole(npc, 'commander'));
-      if (!commander) return { ok: false, reason: 'commander-unavailable' };
-      if (distanceBetween(commander, state.player) > 1.25) return { ok: false, reason: 'commander-too-far' };
-      state.specialItems.relayCore = 0;
-      project.status = 'briefed';
-      project.handoffAt = worldMinute();
-      project.coreItemId = project.coreItemId || 'item-relayCore-001';
-      commander.lastReport = '已接收 relayCore，广播员、木匠和后勤官开始筹备中继站';
-      commander.scheduleState = '中继项目调度';
-      updateNpcRelation(commander, { trustToPlayer: 2, respectToPlayer: 2 }, '交付 relayCore', { facts: ['relayCore-handed-off'], actorId: 'player-1' });
-      applyStandingDelta({ prestige: 2, merit: 3, contribution: 2, domains: { recon: 2, defense: 1 } }, { reason: '向营地长官交付 relayCore', visibility: 'public' });
+    function nightActionResult() { return { ok: false, reason: 'night-lock' }; }
+    functione.__relayMaterialSources) ? state.__relayMaterialSources : [];
+      if (fromStock) { state[kind] -= fromStock; remaining -= fromStock; gained += fromStock; state.__relayMaterialSources.push({ resourceId: `stock.${kind}`, sourceType: 'inventory', amount: { reason: '向营地长官交付 relayCore', visibility: 'public' });
       return { payload: { projectId: project.id, itemId: 'relayCore', itemInstanceId: project.coreItemId, commanderId: commander.id, status: project.status } };
     }
     function handoffRelayCore(options = {}) {
-      return dispatchCommand({ type: 'relay.coreHandoff', commandId: options.commandId, actorId: options.actorId || 'player-1', payload: { projectId: state.relayProject?.id || 'camp-relay-001', itemId: 'relayCore' } }, () => relayHandoffReducer(), {
-        eventType: 'relay.coreHandedOff',
-        validate: () => {
-          if (state.gameOver) return { ok: false, reason: 'game-over' };
-          const commander = state.npcs.find(npc => npcIsActive(npc) && npcHasRole(npc, 'commander'));
-          if (!commander) return { ok: false, reason: 'commander-unavailable' };
-          if (distanceBetween(commander, state.player) > 1.25) return { ok: false, reason: 'commander-too-far' };
-          if (state.relayProject?.status !== 'core-recovered' || Number(state.specialItems?.relayCore) < 1) return { ok: false, reason: 'relay-core-unavailable' };
-          return { ok: true };
-        }
-      });
-    }
-    function relayMaterialsReady() {
-      const project = state.relayProject;
-      return ['wood', 'parts', 'stone'].every(kind => Number(project.materialProgress[kind]) >= Number(project.materialNeed[kind]));
-    }
-    function updateRelayForecast() {
-      ensureRelayFacts();
-      const project = state.relayProject;
-      const online = project.status === 'online';
-      const previous = state.hordeForecast || {};
-      const next = { ...previous, confidence: online ? 92 : project.status === 'building' ? 58 : 18, leadMinutes: online ? project.forecastLeadMinutes : 0, routeId: online ? 'relay-guided-west' : 'eastern-breach', source: online ? 'relay-station' : 'camp-observation', updatedAt: worldMinute() };
+      if (!guardNightAction(options)) return nightActionResult();
+      const relayMeta = relayEventMeta('handoff', options.actorId || 'player-1');
+      return dispatchCommand({ type: 'relay.coreHandoff', commandId: options.commandId, a online ? 92 : project.status === 'building' ? 58 : 18, leadMinutes: online ? project.forecastLeadMinutes : 0, routeId: online ? 'relay-guided-west' : 'eastern-breach', source: online ? 'relay-station' : 'camp-observation', updatedAt: worldMinute() };
       state.hordeForecast = next;
-      if (online && (previous.routeId !== next.routeId || previous.source !== next.source || previous.confidence !== next.confidence)) recordWorldEvent('threat.forecastChanged', { projectId: project.id, forecast: stableClone(next), routeId: next.routeId }, { actorId: 'radio' });
+      if (online && (previous.routeId !== next.routeId || previous.source !== next.source || previous.confidence !== next.confidence)) recordWorldEvent('threat.forecastChanged', { projectId: project.id, forecast: stableClone(next), routeId: next.routeId }, relayEventMeta('online', 'radio'));
       state.campaign = state.campaign || {};
       state.campaign.phase = online ? 'relay-online' : state.campaign.phase === 'relay-online' ? 'omen' : state.campaign.phase;
     }
@@ -3837,7 +4309,7 @@
       if (project.status === 'briefed') {
         project.status = 'staging';
         participants.forEach(npc => { npc.scheduleState = '中继筹料'; npc.behaviorState = 'work'; npc.lastReport = '正在为广播中继站筹料'; });
-        recordWorldEvent('relay.constructionStarted', { projectId: project.id, assignedNpcIds: project.assignedNpcIds, materialNeed: stableClone(project.materialNeed) });
+        recordWorldEvent('relay.constructionStarted', { projectId: project.id, assignedNpcIds: project.assignedNpcIds, materialNeed: stableClone(project.materialNeed) }, relayEventMeta('stage'));
         log('广播员、木匠和后勤官开始为广播中继站筹料。');
       }
       project.materialClock = (Number(project.materialClock) || 0) + Math.max(0, Number(minutes) || 0);
@@ -3852,13 +4324,13 @@
         if (radio) { const parts = relayTakeMaterial('parts', 1, ['scrap']); if (parts) reports.push(`阿默回收电子零件 ${parts}`); }
         if (radio && Number(project.materialProgress.parts) >= Number(project.materialNeed.parts)) { const stone = relayTakeMaterial('stone', 1, ['rock']); if (stone) reports.push(`阿默找到基座石料 ${stone}`); }
         project.lastMaterialAt = worldMinute();
-        if (reports.length) { recordWorldEvent('relay.materialsGathered', { projectId: project.id, at: project.lastMaterialAt, progress: stableClone(project.materialProgress), reports, sources: (state.__relayMaterialSources || []).splice(0) }, { actorId: 'system' }); log(`中继筹料：${reports.join('，')}。`); }
+        if (reports.length) { recordWorldEvent('relay.materialsGathered', { projectId: project.id, at: project.lastMaterialAt, progress: stableClone(project.materialProgress), reports, sources: (state.__relayMaterialSources || []).splice(0) }, relayEventMeta('stage')); log(`中继筹料：${reports.join('，')}。`); }
       }
       if (relayMaterialsReady() && project.status === 'staging') {
         project.status = 'building'; project.materialClock = 0; project.workMinutes = 0;
         const station = ensureRelayStationBuilding(); station.projectStatus = 'building';
         participants.forEach(npc => { npc.scheduleState = '中继施工'; npc.behaviorState = 'work'; npc.lastReport = '正在施工广播中继站'; });
-        recordWorldEvent('relay.materialsCommitted', { projectId: project.id, materialProgress: stableClone(project.materialProgress), buildingId: station.id });
+        recordWorldEvent('relay.materialsCommitted', { projectId: project.id, materialProgress: stableClone(project.materialProgress), buildingId: station.id }, relayEventMeta('stage'));
         log('中继站材料齐备，广播员、木匠和后勤官开始施工。');
       }
       if (project.status === 'building') {
@@ -3870,7 +4342,7 @@
           participants.forEach(npc => { npc.scheduleState = '广播中继站值守'; npc.behaviorState = 'work'; npc.lastReport = '广播中继站已启用，正在共享尸群坐标'; });
           updateRelayForecast();
           applyStandingDelta({ prestige: 3, merit: 5, contribution: 3, legitimacy: 2, domains: { defense: 2, recon: 4 } }, { reason: '广播中继站启用', visibility: 'public' });
-          recordWorldEvent('relay.stationOnline', { projectId: project.id, buildingId: station.id, sharedSightBonus: project.sharedSightBonus, sharedRangeBonus: project.sharedRangeBonus, forecast: stableClone(state.hordeForecast), routeId: state.hordeForecast.routeId });
+          recordWorldEvent('relay.stationOnline', { projectId: project.id, buildingId: station.id, sharedSightBonus: project.sharedSightBonus, sharedRangeBonus: project.sharedRangeBonus, forecast: stableClone(state.hordeForecast), routeId: state.hordeForecast.routeId }, relayEventMeta('online'));
           log('广播中继站启用：幸存者开始共享更远的索敌范围，尸潮路线出现新的预测窗口。');
           pushFx('signal', '📡 中继启用', station.x, station.y, 'info');
         }
@@ -3878,6 +4350,7 @@
       updateRelayForecast();
     }
     function discoverLandmarkReducer(landmark) {
+      if (!guardNightAction()) return nightActionResult();
       const target = typeof landmark === 'string' ? state.landmarks.find(item => item.id === landmark) : state.landmarks.find(item => item.id === landmark?.id) || landmark;
       if (!target || target.found) return { ok: false, reason: 'already-discovered' };
       ensureRelayFacts();
@@ -3891,7 +4364,7 @@
             state.specialItems.relayCore = 1;
             state.relayProject.status = 'core-recovered';
             state.relayProject.coreItemId = 'item-relayCore-001';
-            recordWorldEvent('special.itemRecovered', { itemId: 'relayCore', itemInstanceId: state.relayProject.coreItemId, sourcePoiId: target.id, sourceType: target.type }, { actorId: 'player-1' });
+            recordWorldEvent('special.itemRecovered', { itemId: 'relayCore', itemInstanceId: state.relayProject.coreItemId, sourcePoiId: target.id, sourceType: target.type }, relayEventMeta('recover', 'player-1'));
           }
           state.parts += 1;
         }],
@@ -3914,6 +4387,7 @@
     }
     function discoverLandmark(landmark = null, options = {}) { return actionCommand('landmark.discover','landmark.discovered',{landmarkId: landmark?.id || landmark || null},()=>discoverLandmarkReducer(landmark?.id || landmark),options); }
     function resolveEventReducer(choice) {
+      if (!guardNightAction()) return nightActionResult();
       if (state.gameOver || !state.event || state.event.handled) return;
       const event = state.event;
       let result = '';
@@ -3942,65 +4416,34 @@
           if (state.medicine < 1) { toast('药草不足，先去采集或探索地标'); return; }
           if (!patient) { toast('当前没有需要急救的伤员'); return; }
           state.medicine -= 1;
-          patient.hp = Math.min(patient.maxHp, patient.hp + 18); patient.wounds = (patient.wounds || []).map(w => ({...w, healed: patient.hp >= 70 ? true : w.healed})); syncNpcLifeState(patient);
-          patient.needs = patient.needs || {hunger:18,fatigue:12,stress:8}; patient.needs.stress = Math.max(0, patient.needs.stress - 14); patient.lastReport = '优先救治 +' + 18 + ' HP'; rememberNpc(patient, '接受优先救治', 3); pushFx('heal', '+18 ' + patient.name, patient.x, patient.y, 'heal');
+          patient.hp = Math.min(patient.maxHp, patient.hp + 18); patiess - 14); patient.lastReport = '优先救治 +' + 18 + ' HP'; rememberNpc(patient, '接受优先救治', 3); pushFx('heal', '+18 ' + patient.name, patient.x, patient.y, 'heal');
           result = `苏禾先为${patient.name}处理了伤势，生命值 +18，药草 -1。`;
         } else {
-          if (patient) { patient.needs = patient.needs || {hunger:18,fatigue:12,stress:8}; patient.needs.fatigue = Math.max(0, patient.needs.fatigue - 18); patient.needs.stress = Math.min(100, patient.needs.stress + 2); patient.lastReport = '休整，暂缓用药'; rememberNpc(patient, '接受休整并暂缓用药', 0); }
+          if (p, '接受休整并暂缓用药', 0); }
           state.morale = Math.max(0, state.morale - 1);
           result = '你让伤员先睡一会儿，把药草留给更危险的时刻。士气 -1，伤员疲劳 -18。';
         }
       } else if (event.id === 'tension') {
         const living = state.npcs.filter(npcIsActive);
-        if (choice === 'a') {
-          living.forEach(n => { n.needs = n.needs || {hunger:18,fatigue:12,stress:8}; n.needs.stress = Math.max(0, n.needs.stress - 20); rememberNpc(n, '参加换防短会', 1); });
-          state.morale = Math.min(100, state.morale + 4); advance(15);
-          result = '你让每个人用一句话说明上一轮压力，换防终于重新排好。全员压力下降，士气 +4。';
-        } else {
-          living.forEach(n => { n.needs = n.needs || {hunger:18,fatigue:12,stress:8}; n.needs.stress = Math.min(100, n.needs.stress + 4); });
-          state.eventThreat = Math.min(2, state.eventThreat + 1); result = '换防被匆忙结束。没人再争论，但压力 +4，仓促的脚步声让下一波威胁推进略快。';
-        }
-      } else if (event.id === 'supply') {
-        if (choice === 'a') {
-          if (!spendEnergy(4)) return;
-          state.food += 3; state.parts += 1; state.eventThreat = 1;
-          result = '你翻出 3 份食物和 1 个零件，但响动让下一轮尸潮多来了一只。';
-        } else { state.morale = Math.min(100, state.morale + 2); result = '你记下补给箱的位置，先把平安留给下一轮威胁。士气 +2。'; }
-      } else if (event.id === 'storm') {
-        if (choice === 'a') {
-          if (state.wood < 4) { toast('木材不够，无法加固防线'); return; }
-          state.wood -= 4; state.eventShield = 8; result = '你把木板和油布钉牢，这次遭遇的第一次撞击被缓冲。';
-        } else {
-          if (state.food < 1) { toast('没有食物可守住火种'); return; }
-          state.food -= 1; state.morale = Math.min(100, state.morale + 5); result = '火种没有熄灭，大家围在一起熬过黑雨。士气 +5。';
-        }
-      } else if (event.id === 'signal') {
-        if (choice === 'a') {
-          if (!spendEnergy(4)) return;
-          const found = grantCollection('blueprint'); state.eventThreat = -1;
-          result = found ? '你调谐出一段旧工程蓝图，信号也误导了部分尸群。蓝图 +1，尸潮 -1。' : '你调谐出重复的蓝图残页，信号仍误导了部分尸群。尸潮 -1。';
-        } else { state.morale = Math.min(100, state.morale + 1); result = '你关闭收音机，营地暂时保持安静。士气 +1。'; }
+     '; }
       } else if (event.id === 'screamer') {
         if (choice === 'a') {
           if (state.parts < 2) { toast('零件不够，无法布置静音陷阱'); return; }
           state.parts -= 2; state.eventThreat = -2; result = '静音陷阱绊住了尖啸者，林子里重新安静下来。尸潮 -2。';
         } else { state.morale = Math.max(0, state.morale - 3); state.eventShield = 4; result = '你熄灭火光躲过第一声尖啸，但大家的心情跌了下去。士气 -3，这次遭遇损失 -4。'; }
       }
-      event.handled = true; event.result = result; log(result, choice === 'a' && event.id === 'supply' ? 'warn' : '');
-      if (event.npcEvent) {
-        const record = (state.npcEvents || []).find(item => item.id === event.id);
-        if (record) { record.status = 'resolved'; record.choice = choice; record.resolvedAt = worldMinute(); }
-      }
-      activateQueuedNpcEvent();
+      event.handled = true; event.result = result; log(result, choice === 'a' && event.id === 'supply' ? 'warn' : '');NpcEvent();
       toast('今日异动已处理'); render();
     }
     function toggleEvolution() {
+      if (!guardNightAction()) return;
       if (state.selectedBuilding && contextDistance(state.selectedBuilding) > 1) { toast('靠近建筑后才能查看进化路线'); return; }
       $('evolveDrawer').classList.toggle('open');
       renderEvolution();
       if (!state.selectedBuilding) toast('先点击地图里的墙、塔、菜畦或灯');
     }
     function evolveBuildingReducer(id) {
+      if (!guardNightAction()) return nightActionResult();
       const info = evolutionInfo[id], b = state.selectedBuilding;
       if (!info || !b) { toast('先选择一个基础建筑'); return; }
       if (b.type !== info.from) { toast(`这条路线需要${buildInfo[info.from].name}`); return; }
@@ -4008,17 +4451,13 @@
       const npcId = requiredBond[id], npc = state.npcs.find(n => npcHasRole(n, npcId));
       if (!npc || npc.lifeState === 'dead' || npc.bond < 1) { toast(`先和${npcId === 'carpenter' ? '阿梁' : npcId === 'doctor' ? '苏禾' : '阿默'}建立羁绊，且该幸存者必须仍在营地`); return; }
       if (state.collection.blueprint < requiredBlueprint[id]) { toast(`需要蓝图 ${requiredBlueprint[id]} 片`); return; }
-      if (state.wood < info.wood || state.stone < info.stone || state.parts < info.parts) { toast(`材料不足：木 ${info.wood} · 石 ${info.stone} · 零件 ${info.parts}`); return; }
-      state.wood -= info.wood; state.stone -= info.stone; state.parts -= info.parts;
-      b.type = id;
-      if (id === 'spikeWall') b.hp = 4;
-      if (id === 'flameTower') delete b.hp;
-      if (id === 'greenhouse') { b.planted = !!b.planted; b.growth = b.growth || 0; b.ready = !!b.ready; }
+      if (state.wood < info.wood || state.stone < info.stone || state.parts < info.parts) { toast(`材料不足：木 ${info.wood} · 石 ${info.stone} · 零件 ${info.parts}`); retu b.growth = b.growth || 0; b.ready = !!b.ready; }
       log(`${buildInfo[info.from].name}进化为${info.name}：${info.desc}`);
       toast(`${info.name}完成进化`); $('evolveDrawer').classList.remove('open'); advance(30); render();
     }
     function evolveBuilding(id, options = {}) { return actionCommand('building.evolve','building.evolved',{buildingId: state.selectedBuilding?.id || null, evolutionId: id},()=>evolveBuildingReducer(id),options); }
     function chooseWeaponReducer(id) {
+      if (!guardNightAction()) return nightActionResult();
       const info = weaponInfo[id];
       if (!info || state.weapon.id !== 'rustAxe' || state.gameOver) return;
       if (state.parts < (info.parts || 0) || state.wood < (info.wood || 0) || state.collection.tape < (info.tapes || 0)) { toast('材料或收藏品不足，无法完成武器进化'); return; }
@@ -4063,6 +4502,7 @@
       }).sort((a,b) => facingPriority(a) - facingPriority(b) || a.priority - b.priority || a.distance - b.distance);
     }
     function interactCampArea(area) {
+      if (!guardNightAction()) return nightActionResult();
       if (!area || state.gameOver) return;
       markRegionVisited(area.x, area.y, false);
       const zone = area.zone;
@@ -4125,6 +4565,7 @@
       return false;
     }
     function interactBuildingReducer(building) {
+      if (!guardNightAction()) return nightActionResult();
       if (!building) return { ok: false, reason: 'missing-building' };
       const type = building.type;
       state.selectedBuilding = building;
@@ -4181,6 +4622,8 @@
       if (state.night) {
         const nearby = nightNearbyEnemies();
         if (nearby.length) { nightAttack(); return; }
+        toast(NIGHT_ACTION_MESSAGE);
+        return;
       }
       if (state.buildMode) {
         const target = state.hoverTarget;
@@ -4279,6 +4722,7 @@
       }, { eventType: 'movement.applied', ephemeral: true, checkpoint: false });
     }
     function gatherReducer(preferred = null) {
+      if (!guardNightAction()) return nightActionResult();
       setPlayerAction('work', 760);
       if (state.gameOver) return;
       const spots = [[state.player.x,state.player.y],[state.player.x+1,state.player.y],[state.player.x-1,state.player.y],[state.player.x,state.player.y+1],[state.player.x,state.player.y-1]];
@@ -4301,8 +4745,9 @@
       log(`你从${resourceName}带回了 ${gain} 份${resourceUnit}。`);
       toast(`采集完成 +${gain}`); render();
     }
-    function gather(preferred = null, options = {}) { return dispatchCommand({ type: 'resource.collect', commandId: options.commandId, payload: { resourceId: preferred?.id || null } }, () => { const before = { wood: state.wood, stone: state.stone, food: state.food, parts: state.parts }; const result = gatherReducer(preferred); return { result, payload: { resourceId: preferred?.id || null, delta: { wood: state.wood - before.wood, stone: state.stone - before.stone, food: state.food - before.food, parts: state.parts - before.parts } } }; }, { eventType: 'resource.collected' }); }
+    function gather(preferred = null, options = {}) { if (!guardNightAction(options)) return nightActionResult(); return dispatchCommand({ type: 'resource.collect', commandId: options.commandId, payload: { resourceId: preferred?.id || null } }, () => { const before = { wood: state.wood, stone: state.stone, food: state.food, parts: state.parts }; const result = gatherReducer(preferred); return { result, payload: { resourceId: preferred?.id || null, delta: { wood: state.wood - before.wood, stone: state.stone - before.stone, food: state.food - before.food, parts: state.parts - before.parts } } }; }, { eventType: 'resource.collected' }); }
     function eatFoodReducer() {
+      if (!guardNightAction()) return nightActionResult();
       setPlayerAction('rest', 680);
       if (state.gameOver) return;
       if (state.food <= 0) { toast('没有食物了'); return; }
@@ -4320,6 +4765,7 @@
     }
     function eatFood(options = {}) { return actionCommand('player.eat','player.ate',{},()=>eatFoodReducer(),options); }
     function plantOrHarvestReducer(preferred = null) {
+      if (!guardNightAction()) return nightActionResult();
       setPlayerAction('work', 760);
       if (state.gameOver) return;
       const spots = [[state.player.x,state.player.y],[state.player.x+1,state.player.y],[state.player.x-1,state.player.y],[state.player.x,state.player.y+1],[state.player.x,state.player.y-1]];
@@ -4338,6 +4784,7 @@
       log('你在菜畦里播下一颗种子，记得活到两天后。'); toast('播种完成'); render();
     }
     function repairBuildingReducer(preferred = null) {
+      if (!guardNightAction()) return nightActionResult();
       setPlayerAction('work', 760);
       if (state.gameOver) return;
       const wall = preferred || state.buildings.find(b => contextDistance(b) <= 1 && (b.type === 'wall' || b.type === 'spikeWall') && (b.hp || 0) < (b.type === 'spikeWall' ? 4 : 3));
@@ -4352,9 +4799,10 @@
       log(`你修理了${buildInfo[wall.type].name}，防线耐久 +1。`);
       toast('墙体修理完成'); render();
     }
-    function repairBuilding(preferred = null, options = {}) { return dispatchCommand({ type: 'building.repair', commandId: options.commandId, payload: { buildingId: preferred?.id || null } }, () => { const before = { wood: state.wood, stone: state.stone, food: state.food, parts: state.parts }; const result = repairBuildingReducer(preferred); return { result, payload: { buildingId: preferred?.id || null, delta: { wood: state.wood - before.wood, stone: state.stone - before.stone, food: state.food - before.food, parts: state.parts - before.parts } } }; }, { eventType: 'building.repaired' }); }
+    function repairBuilding(preferred = null, options = {}) { if (!guardNightAction(options)) return nightActionResult(); return dispatchCommand({ type: 'building.repair', commandId: options.commandId, payload: { buildingId: preferred?.id || null } }, () => { const before = { wood: state.wood, stone: state.stone, food: state.food, parts: state.parts }; const result = repairBuildingReducer(preferred); return { result, payload: { buildingId: preferred?.id || null, delta: { wood: state.wood - before.wood, stone: state.stone - before.stone, food: state.food - before.food, parts: state.parts - before.parts } } }; }, { eventType: 'building.repaired' }); }
     function plantOrHarvest(preferred = null, options = {}) { return actionCommand('crop.change','crop.changed',{buildingId:preferred?.id || null},()=>plantOrHarvestReducer(preferred),options); }
     function setNpcOrderReducer(id, orderId) {
+      if (!guardNightAction()) return nightActionResult();
       if (state.gameOver) return;
       const npc = state.npcs.find(n => n.id === id); if (!npc) return;
       if (!npcIsActive(npc)) { toast(npc.name + '已经死亡，无法接受命令'); return; }
@@ -4382,6 +4830,7 @@
     }
     function setNpcOrder(id, orderId, options = {}) { return actionCommand('npc.order','npc.orderChanged',{npcId:id,orderId},()=>setNpcOrderReducer(id,orderId),options); }
     function interactNpcReducer(id) {
+      if (!guardNightAction()) return nightActionResult();
       if (state.gameOver) return;
       const npc = state.npcs.find(n => n.id === id); if (!npc) return;
       if (!npcIsActive(npc)) { toast(npc.name + '已经死亡，岗位暂时空缺'); return; }
@@ -4448,6 +4897,7 @@
     function placeBuilding(x,y, options = {}) { return actionCommand('building.construct','building.constructed',{x,y,buildingType:state.selectedBuild},()=>placeBuildingReducer(x,y),options); }
     function toggleBuild() {
       stopInteractionRepeat();
+      if (!guardNightAction()) return;
       if (state.gameOver) { toast('当前无法建造'); return; }
       state.buildMode = !state.buildMode; state.selected = null; state.selectedBuild = null;
       $('buildDrawer').classList.toggle('open', state.buildMode);
@@ -4455,6 +4905,7 @@
       render();
     }
     function selectBuild(type) {
+      if (!guardNightAction()) return;
       state.selectedBuild = type; state.buildMode = true;
       document.querySelectorAll('.build-card').forEach(c => c.classList.toggle('selected', c.dataset.build === type));
       $('buildHint').textContent = `已选${buildInfo[type].name}，点击地图空地放置。`;
@@ -4879,7 +5330,10 @@
           b.defense = Math.max(0, b.defense - blocked * 2 - (leak ? 5 : 0));
           const wall = state.buildings.filter(x => (x.type === 'wall' || x.type === 'spikeWall') && (x.hp || 1) > 0).sort((a, c) => (a.hp || 1) - (c.hp || 1))[0];
           if (wall && blocked > 0 && wall.hp) { const wallLost = Math.min(wall.hp, blocked); wall.hp = Math.max(0, wall.hp - blocked); b.wallDamage = (b.wallDamage || 0) + wallLost; }
-          b.lastImpact = { x: MAP.battle.wallX, y: MAP.battle.laneRows[enemy.lane % MAP.battle.laneRows.length] };
+          // Keep the breach marker on the same lane projection used by the
+          // enemy sprite. Relay-guided west routes use their own lane set.
+          const impactPosition = battleEnemyPosition(enemy);
+          b.lastImpact = { x: MAP.battle.wallX, y: impactPosition.y };
           pushFx('breach', leak ? `突破 -${leak}` : '挡住冲击', b.lastImpact.x, b.lastImpact.y, leak ? 'danger' : '');
           autoFeed.push(leak ? `突破！营地 -${leak}` : '防线挡住冲击');
         }
@@ -4892,8 +5346,15 @@
       const stillAdvancing = b.enemies.some(e => !e.dead && !e.reached);
       if (!stillAdvancing) resolveNight(b.count, b.defense);
     }
-    function resolveEvent(choice, options = {}) { return dispatchCommand({ type: 'event.resolve', commandId: options.commandId, payload: { choice } }, () => { const resolvingId = state.event?.id || null; const result = resolveEventReducer(choice); if (state.event?.id === resolvingId) state.eventInstance = { ...(state.eventInstance || {}), status: 'resolved', handled: true, choice }; return { result, payload: { choice, eventId: resolvingId, instanceId: state.eventInstance?.instanceId || null } }; }, { eventType: 'event.resolved' }); }
+    function resolveEvent(choice, options = {}) {
+      if (!guardNightAction(options)) return nightActionResult();
+      const instance = state.eventInstance || {};
+      const def = currentEventDefinition();
+      const effects = def?.choices?.find(item => item.id === choice)?.effects || [];
+      return dispatchCommand({ type: 'event.resolve', commandId: options.commandId, payload: { choice } }, () => { const resolvingId = state.event?.id || null; const result = resolveEventReducer(choice); if (state.event?.id === resolvingId) state.eventInstance = { ...(state.eventInstance || {}), status: 'resolved', handled: true, choice }; return { result, payload: { choice, eventId: resolvingId, instanceId: instance.instanceId || null, defId: def?.id || null, definitionVersion: def?.definitionVersion || EVENT_DEFINITION_VERSION, effects } }; }, { eventType: 'event.resolved', defId: def?.id || null, instanceId: instance.instanceId || null, definitionVersion: def?.definitionVersion || EVENT_DEFINITION_VERSION, effects, validate: () => eventGateCheck(choice) });
+    }
     function startThreatEncounterReducer() {
+      if (!guardNightAction()) return nightActionResult();
       if (state.night) return;
       stopInteractionRepeat();
       // From this point onward battleTick is the only active simulation clock.
@@ -4997,6 +5458,7 @@
       }
       const totalDamage = damage + hungerDamage;
       b.finalDamage = totalDamage;
+      applyContentEffects([{ op: 'adjustMeter', key: 'campCollapse', value: totalDamage ? Math.min(8, Math.max(1, Math.ceil(totalDamage / 5))) : -1 }], { effectId: `camp:threat:${b.instanceId}`, actorId: 'camp-autonomy', defId: 'camp-plan-meeting-001' });
       const playerKills = Math.max(0, b.kills - b.autoKills);
       const impactLines = [];
       if (b.breaches && totalDamage) impactLines.push(`有 ${b.breaches} 只僵尸突破防线，营地生命值损失 ${totalDamage}。`);
@@ -5028,6 +5490,7 @@
       document.body.classList.remove('threat-map-active'); $('nightOverlay').classList.add('show', 'summary-mode');
       renderWorld(); renderNightControls(); render();
       recordWorldEvent('threat.resolved', { threatId: b.instanceId || null, kills: b.kills, breaches: b.breaches, damage: totalDamage, routeId: crisisRoute, finalCrisisRoute: state.campaign.finalCrisisRoute });
+      preparePlanMeetingAtSummary();
       requestCheckpoint('threat-resolved');
     }
     function assignMorningSuccessors() {
@@ -5078,7 +5541,7 @@
       b.feed.push(`你用${weapon.name}补刀 ${targets.length} 只${b.coverCount ? ' · NPC掩护生效' : ''}`);
       syncBattleZombies(); renderWorld(); renderNightControls(); renderBattleLane(); if (!document.body.classList.contains('threat-map-active')) renderNightWorld(); renderHud(); recordWorldEvent('threat.playerAttack', { threatId: b.instanceId || null, targets: targets.map(t => t.id), weapon: state.weapon.id }); requestCheckpoint('threat-player-attack');
     }
-    function startThreatEncounter(options = {}) { return dispatchCommand({ type: 'threat.start', commandId: options.commandId }, () => { const result = startThreatEncounterReducer(); return { result, payload: { day: state.day, hour: state.hour, enemyCount: state.nightBattle?.enemies?.length || 0 } }; }, { eventType: 'threat.started' }); }
+    function startThreatEncounter(options = {}) { if (!guardNightAction(options)) return nightActionResult(); return dispatchCommand({ type: 'threat.start', commandId: options.commandId }, () => { const result = startThreatEncounterReducer(); return { result, payload: { day: state.day, hour: state.hour, enemyCount: state.nightBattle?.enemies?.length || 0 } }; }, { eventType: 'threat.started' }); }
     function continueMorningReducer() {
       if (state.gameOver) { clearAllSaves(); window.location.reload(); return; }
       clearInterval(battleTimer); battleTimer = null;
@@ -5135,8 +5598,8 @@
         const next = dynamicEvent || eventPool[(state.day + randomInt(eventPool.length)) % eventPool.length];
         if (!eventActive) {
           registerDynamicNpcEvent(next);
-          state.event = {...next, handled: false};
-          state.eventInstance = createEventInstance(next.id, { payload: stableClone(next) });
+          state.event = {...next, handled: false, defId: next.defId || next.id};
+          state.eventInstance = createEventInstance(state.event.defId, { defId: state.event.defId, instanceId: next.id !== state.event.defId ? next.id : undefined, payload: stableClone(next) });
         }
         log(`第 ${state.day} 天，${ready ? `${ready} 块种植地可以收获。` : gardens ? '种植地又长高了一格。' : '风很冷，但火还在。'}${jobs.length ? ` ${jobs.join('，')}。` : ''}`);
       }
@@ -5144,7 +5607,7 @@
       toast(`继续世界 · 第 ${state.day} 天 ${formatTime()}`); render();
     }
 
-    function continueMorning(options = {}) { return actionCommand('threat.close','threat.closed',{threatId: state.nightBattle?.instanceId || null},()=>continueMorningReducer(),options); }
+    function continueMorning(options = {}) { return actionCommand('threat.close','threat.closed',{threatId: state.nightBattle?.instanceId || null},()=>continueMorningReducer(),{...options, allowNight: true}); }
 
     function clearAllSaves() {
       stopWorldSimulation();
@@ -5227,7 +5690,7 @@
       infoModalMounted = true;
     }
     function activateInfoTab(tab = 'overview') {
-      const allowed = new Set(['overview','survivors','mental','resources','events','map','build','log','inventory']);
+      const allowed = new Set(['overview','survivors','mental','resources','events','plan','map','build','log','inventory']);
       infoModalTab = allowed.has(tab) ? tab : 'overview';
       document.querySelectorAll('[data-info-tab]').forEach(button => {
         const active = button.dataset.infoTab === infoModalTab;
@@ -5238,6 +5701,7 @@
       if (infoModalTab === 'survivors') renderSurvivors();
       if (infoModalTab === 'mental') renderMentalTerminal();
       if (infoModalTab === 'events') renderEvent();
+      if (infoModalTab === 'plan') renderPlanMeeting();
       if (infoModalTab === 'resources') { renderCollections(); renderHud(); }
       if (infoModalTab === 'build') renderRelayPanel();
       if (infoModalTab === 'log') renderLogs();
@@ -5436,6 +5900,7 @@
     function toggleWeaponPanel(open = null) {
       const panel = $('weaponPanel');
       if (!panel) return;
+      if (state.night && open !== false) { guardNightAction(); return; }
       panel.classList.toggle('open', open === null ? !panel.classList.contains('open') : open);
       if (panel.classList.contains('open')) panel.scrollIntoView({behavior:'smooth', block:'nearest'});
     }
@@ -5499,12 +5964,14 @@
     $('openInfoBtn').addEventListener('click', () => openInfoModal('overview'));
     $('infoModalClose').addEventListener('click', closeInfoModal);
     $('infoModal').addEventListener('click', (event) => { if (event.target === $('infoModal')) closeInfoModal(); });
+    $('infoPlanMount')?.addEventListener('click', handlePlanMeetingAction);
     document.querySelectorAll('[data-info-tab]').forEach(button => button.addEventListener('click', () => openInfoModal(button.dataset.infoTab)));
     $('contextClose').addEventListener('click', () => { contextDismissedAt = tileKey(state.player.x, state.player.y); hideContext(); });
     $('contextActions').addEventListener('click', (event) => {
       const button = event.target.closest('[data-context-action]');
       if (!button || button.disabled) return;
       const action = button.dataset.contextAction;
+      if (state.night && action !== 'attack') { guardNightAction(); return; }
       const nearbyNpc = state.npcs.find(n => npcIsActive(n) && contextDistance(n) <= 1);
       const nearbyLandmark = state.landmarks.find(l => !l.found && contextDistance(l) <= 1);
       const nearbyBuilding = state.buildings.find(b => contextDistance(b) <= 1);
@@ -5658,3 +6125,4 @@
   </script>
 </body>
 </html>
+
