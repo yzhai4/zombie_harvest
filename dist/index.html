@@ -4256,13 +4256,51 @@
       const b = state.selectedBuilding;
       const hasBuilding = !!b;
       $('evolveTitle').textContent = hasBuilding ? `${buildInfo[b.type]?.name || '建筑'} · 选择进化` : '建筑进化';
-      $('evolveHint').textContent = hasBuilding ? `当前选择：${buildInfo[b.type]?.name || b.type}` : '先点击地图中的墙、塔、菜畦talChangeFeed')) $('mentalChangeFeed').textContent = `最近心智变化：${state.sanityLastReason || '暂无玩家 SAN 变化记录。'}；营地平均 SAN ${campAvg}。`;
+      $('evolveHint').textContent = hasBuilding ? `当前选择：${buildInfo[b.type]?.name || b.type}` : '先点击地图中的墙、塔、菜畦或灯';
+      document.querySelectorAll('[data-evolve]').forEach(card => {
+        const info = evolutionInfo[card.dataset.evolve];
+        const npcId = requiredBond[card.dataset.evolve];
+        const npc = state.npcs.find(n => npcHasRole(n, npcId));
+        const blueprintReady = state.collection.blueprint >= (requiredBlueprint[card.dataset.evolve] || 0);
+        const canUse = hasBuilding && b.type === info.from && !state.night && !state.gameOver && blueprintReady && !!npc && npc.lifeState !== 'dead' && npc.bond >= 1;
+        card.disabled = !canUse;
+        card.style.borderColor = canUse ? 'rgba(247,164,77,.5)' : '';
+        card.title = !hasBuilding ? '先选择一个基础建筑' : b.type !== info.from ? `需要${buildInfo[info.from].name}` : !blueprintReady ? `需要蓝图 ${requiredBlueprint[card.dataset.evolve]} 片` : (!npc || npc.bond < 1) ? `需要${npcId === 'carpenter' ? '阿梁' : npcId === 'doctor' ? '苏禾' : '阿默'}建立羁绊` : info.desc;
+      });
+    }
+    function renderMentalTerminal() {
+      const playerDef = sanityState(state.sanity);
+      const playerSan = Math.round(sanityValue('player'));
+      const campAvg = averageNpcSanity();
+      const campMin = lowestNpcSanity();
+      if ($('playerSanValue')) { $('playerSanValue').textContent = `${playerDef.label} ${playerSan}`; $('playerSanValue').style.color = playerDef.color; }
+      if ($('playerSanDetail')) $('playerSanDetail').textContent = `最近变化：${state.sanityLastReason || '暂无记录'}`;
+      if ($('campSanValue')) { $('campSanValue').textContent = `平均 ${campAvg}`; $('campSanValue').style.color = sanityState(campAvg).color; }
+      if ($('campSanDetail')) $('campSanDetail').textContent = `最低 ${campMin} · ${state.npcs.filter(n => npcIsActive(n) && sanityValue(n) < 25).length ? '有人已经进入失稳边缘' : '暂无失稳人员'}`;
+      if ($('mentalChangeFeed')) $('mentalChangeFeed').textContent = `最近心智变化：${state.sanityLastReason || '暂无玩家 SAN 变化记录。'}；营地平均 SAN ${campAvg}。`;
       if ($('mentalAdvice')) {
         const advice = playerSan < 45 ? '当前建议：先回 shelter 或居住区恢复心智，再安排高风险外围行动。' : campMin < 45 ? '当前建议：查看角色页，优先处理 SAN 最低的幸存者。' : '当前建议：继续保持中继、支援和集体生活，避免让压力在外围累积。';
         $('mentalAdvice').textContent = advice;
       }
       if ($('mentalNpcList')) {
-        $('mentalNpcList').innerHTML = state.npcs.filter(npcIsActive).sort((a, b) => sanityValabled = dead ? 'disabled' : '';
+        $('mentalNpcList').innerHTML = state.npcs.filter(npcIsActive).sort((a, b) => sanityValue(a) - sanityValue(b)).map(npc => {
+          const def = sanityState(npc.sanity);
+          return `<div class="mental-npc-card"><b>${npc.icon} ${npc.name} · SAN ${Math.round(npc.sanity)} · ${def.label}</b><span>${npc.sanityLastReason || '最近没有单独的心智记录'} · ${npc.scheduleState || '工作中'}</span></div>`;
+        }).join('');
+      }
+    }
+    function renderSurvivors() {
+      const living = state.npcs.filter(npcIsActive);
+      const nearby = living.filter(n => distanceBetween(n, state.player) <= 1.25);
+      const injured = living.filter(n => n.lifeState !== 'healthy').length;
+      const dead = state.npcs.length - living.length;
+      $('npcRosterSummary').textContent = living.length + '/' + state.npcs.length + (injured ? ' · 伤' + injured : '') + (dead ? ' · 亡' + dead : '');
+      $('npcHint').textContent = '在营地：' + living.length + '/' + state.npcs.length + ' · ' + (nearby.length ? '附近：' + nearby.map(n => n.name).join('、') : '靠近地图中的人物后请求支援');
+      $('survivorList').innerHTML = state.npcs.map(n => {
+        const near = nearby.some(item => item.id === n.id);
+        const dead = !npcIsActive(n);
+        const status = dead ? '已死亡 · 岗位空缺' : n.supportRequested ? '已请求 · ' + getNpcOrderInfo(n).name : near ? '可立即请求并下达命令' : '靠近后交互';
+        const disabled = dead ? 'disabled' : '';
         const zoneName = CAMP_ZONES[n.homeZone]?.name || '营地';
         const actingLabel = n.actingRole ? `暂代${NPC_TEMPLATES[n.actingRole]?.role || n.actingRole}` : '';
         const detail = dead ? '该角色不会自动恢复；后续需要继任者接替岗位。' : n.desc + ' · 常驻' + zoneName + (actingLabel ? ' · ' + actingLabel : '') + (n.lastReport ? ' · ' + n.lastReport : '');
@@ -4282,14 +4320,104 @@
       return false;
     }
     function nightActionResult() { return { ok: false, reason: 'night-lock' }; }
-    functione.__relayMaterialSources) ? state.__relayMaterialSources : [];
-      if (fromStock) { state[kind] -= fromStock; remaining -= fromStock; gained += fromStock; state.__relayMaterialSources.push({ resourceId: `stock.${kind}`, sourceType: 'inventory', amount: { reason: '向营地长官交付 relayCore', visibility: 'public' });
+    function actionCommand(type, eventType, payload, reducer, options = {}) {
+      if (!guardNightAction(options)) return nightActionResult();
+      return dispatchCommand({ type, commandId: options.commandId, actorId: options.actorId || 'player-1', payload }, reducer, {
+        eventType,
+        validate: () => {
+          if (state.gameOver) return { ok: false, reason: 'game-over' };
+          if (isNightRestrictedAction(options)) return { ok: false, reason: 'night-lock' };
+          return { ok: true };
+        }
+      });
+    }
+    function grantCollection(kind, amount = 1) {
+      const cap = collectionCaps[kind] || Infinity;
+      const before = state.collection[kind] || 0;
+      state.collection[kind] = Math.min(cap, before + amount);
+      if (state.collection[kind] === cap && before < cap) log(`${kind === 'tape' ? '旧磁带' : kind === 'blueprint' ? '蓝图碎片' : '旧时代遗物'}收藏完成，探索奖励已记入收藏册。`, '');
+      return state.collection[kind] - before;
+    }
+    function relayOnline() { return state.relayProject?.status === 'online'; }
+    function relayEventMeta(effectKey, actorId = 'system') { const def = eventDefinition('relay-chain-001'); return { actorId, defId: 'relay-chain-001', definitionVersion: def?.definitionVersion || EVENT_DEFINITION_VERSION, instanceId: state.relayProject?.id || 'camp-relay-001', effects: def?.effects?.[effectKey] || def?.choices?.find(choice => choice.id === effectKey)?.effects || [] }; }
+    function relayActiveParticipants() { ensureRelayFacts(); return state.relayProject.assignedNpcIds.map(id => state.npcs.find(npc => npcIsActive(npc) && (npc.id === id || npcHasRole(npc, id)))).filter(npcIsActive); }
+    function relayStationBuilding() { return state.buildings.find(building => building.id === state.relayProject?.buildingId || building.type === 'relayStation') || null; }
+    function ensureRelayStationBuilding() {
+      ensureRelayFacts();
+      let station = relayStationBuilding();
+      if (!station) {
+        station = { id: state.relayProject.buildingId, x: 12, y: 0, type: 'relayStation', w: 2, h: 2, hp: 8, active: false, projectStatus: state.relayProject.status };
+        state.buildings.push(station);
+      }
+      station.id = state.relayProject.buildingId; station.type = 'relayStation'; station.w = 2; station.h = 2; station.hp = Math.max(0, Number(station.hp) || 8); station.active = relayOnline(); station.relayEnabled = station.active; station.projectStatus = state.relayProject.status;
+      return station;
+    }
+    function relayTakeMaterial(kind, amount, sourceTypes = []) {
+      ensureRelayFacts();
+      const project = state.relayProject;
+      const need = Math.max(0, Number(project.materialNeed[kind]) || 0);
+      const current = Math.max(0, Number(project.materialProgress[kind]) || 0);
+      let remaining = Math.max(0, Math.min(Number(amount) || 0, need - current));
+      let gained = 0;
+      const stock = Math.max(0, Number(state[kind]) || 0);
+      const fromStock = Math.min(stock, remaining);
+      state.__relayMaterialSources = Array.isArray(state.__relayMaterialSources) ? state.__relayMaterialSources : [];
+      if (fromStock) { state[kind] -= fromStock; remaining -= fromStock; gained += fromStock; state.__relayMaterialSources.push({ resourceId: `stock.${kind}`, sourceType: 'inventory', amount: fromStock }); }
+      if (remaining && sourceTypes.length) {
+        for (const resource of state.resources.filter(item => sourceTypes.includes(item.type) && item.amount > 0)) {
+          const take = Math.min(Number(resource.amount) || 0, remaining);
+          if (!take) continue;
+          resource.amount -= take; remaining -= take; gained += take; state.__relayMaterialSources.push({ resourceId: resource.id, sourceType: resource.type, amount: take });
+          if (!remaining) break;
+        }
+      }
+      if (gained) project.materialProgress[kind] = Math.min(need, current + gained);
+      return gained;
+    }
+    function relayHandoffReducer() {
+      if (!guardNightAction()) return nightActionResult();
+      ensureRelayFacts();
+      const project = state.relayProject;
+      if (project.status !== 'core-recovered' || Number(state.specialItems.relayCore) < 1) return { ok: false, reason: 'relay-core-unavailable' };
+      const commander = state.npcs.find(npc => npcIsActive(npc) && npcHasRole(npc, 'commander'));
+      if (!commander) return { ok: false, reason: 'commander-unavailable' };
+      if (distanceBetween(commander, state.player) > 1.25) return { ok: false, reason: 'commander-too-far' };
+      state.specialItems.relayCore = 0;
+      project.status = 'briefed';
+      project.handoffAt = worldMinute();
+      project.coreItemId = project.coreItemId || 'item-relayCore-001';
+      commander.lastReport = '已接收 relayCore，广播员、木匠和后勤官开始筹备中继站';
+      commander.scheduleState = '中继项目调度';
+      updateNpcRelation(commander, { trustToPlayer: 2, respectToPlayer: 2 }, '交付 relayCore', { facts: ['relayCore-handed-off'], actorId: 'player-1' });
+      applyStandingDelta({ prestige: 2, merit: 3, contribution: 2, domains: { recon: 2, defense: 1 } }, { reason: '向营地长官交付 relayCore', visibility: 'public' });
       return { payload: { projectId: project.id, itemId: 'relayCore', itemInstanceId: project.coreItemId, commanderId: commander.id, status: project.status } };
     }
     function handoffRelayCore(options = {}) {
       if (!guardNightAction(options)) return nightActionResult();
       const relayMeta = relayEventMeta('handoff', options.actorId || 'player-1');
-      return dispatchCommand({ type: 'relay.coreHandoff', commandId: options.commandId, a online ? 92 : project.status === 'building' ? 58 : 18, leadMinutes: online ? project.forecastLeadMinutes : 0, routeId: online ? 'relay-guided-west' : 'eastern-breach', source: online ? 'relay-station' : 'camp-observation', updatedAt: worldMinute() };
+      return dispatchCommand({ type: 'relay.coreHandoff', commandId: options.commandId, actorId: options.actorId || 'player-1', payload: { projectId: state.relayProject?.id || 'camp-relay-001', itemId: 'relayCore' } }, () => relayHandoffReducer(), {
+        eventType: 'relay.coreHandedOff', defId: relayMeta.defId, instanceId: relayMeta.instanceId, definitionVersion: relayMeta.definitionVersion, effects: relayMeta.effects,
+        validate: () => {
+          if (state.gameOver) return { ok: false, reason: 'game-over' };
+          if (isNightRestrictedAction(options)) return { ok: false, reason: 'night-lock' };
+          const commander = state.npcs.find(npc => npcIsActive(npc) && npcHasRole(npc, 'commander'));
+          if (!commander) return { ok: false, reason: 'commander-unavailable' };
+          if (distanceBetween(commander, state.player) > 1.25) return { ok: false, reason: 'commander-too-far' };
+          if (state.relayProject?.status !== 'core-recovered' || Number(state.specialItems?.relayCore) < 1) return { ok: false, reason: 'relay-core-unavailable' };
+          return { ok: true };
+        }
+      });
+    }
+    function relayMaterialsReady() {
+      const project = state.relayProject;
+      return ['wood', 'parts', 'stone'].every(kind => Number(project.materialProgress[kind]) >= Number(project.materialNeed[kind]));
+    }
+    function updateRelayForecast() {
+      ensureRelayFacts();
+      const project = state.relayProject;
+      const online = project.status === 'online';
+      const previous = state.hordeForecast || {};
+      const next = { ...previous, confidence: online ? 92 : project.status === 'building' ? 58 : 18, leadMinutes: online ? project.forecastLeadMinutes : 0, routeId: online ? 'relay-guided-west' : 'eastern-breach', source: online ? 'relay-station' : 'camp-observation', updatedAt: worldMinute() };
       state.hordeForecast = next;
       if (online && (previous.routeId !== next.routeId || previous.source !== next.source || previous.confidence !== next.confidence)) recordWorldEvent('threat.forecastChanged', { projectId: project.id, forecast: stableClone(next), routeId: next.routeId }, relayEventMeta('online', 'radio'));
       state.campaign = state.campaign || {};
@@ -4416,23 +4544,56 @@
           if (state.medicine < 1) { toast('药草不足，先去采集或探索地标'); return; }
           if (!patient) { toast('当前没有需要急救的伤员'); return; }
           state.medicine -= 1;
-          patient.hp = Math.min(patient.maxHp, patient.hp + 18); patiess - 14); patient.lastReport = '优先救治 +' + 18 + ' HP'; rememberNpc(patient, '接受优先救治', 3); pushFx('heal', '+18 ' + patient.name, patient.x, patient.y, 'heal');
+          patient.hp = Math.min(patient.maxHp, patient.hp + 18); patient.wounds = (patient.wounds || []).map(w => ({...w, healed: patient.hp >= 70 ? true : w.healed})); syncNpcLifeState(patient);
+          patient.needs = patient.needs || {hunger:18,fatigue:12,stress:8}; patient.needs.stress = Math.max(0, patient.needs.stress - 14); patient.lastReport = '优先救治 +' + 18 + ' HP'; rememberNpc(patient, '接受优先救治', 3); pushFx('heal', '+18 ' + patient.name, patient.x, patient.y, 'heal');
           result = `苏禾先为${patient.name}处理了伤势，生命值 +18，药草 -1。`;
         } else {
-          if (p, '接受休整并暂缓用药', 0); }
+          if (patient) { patient.needs = patient.needs || {hunger:18,fatigue:12,stress:8}; patient.needs.fatigue = Math.max(0, patient.needs.fatigue - 18); patient.needs.stress = Math.min(100, patient.needs.stress + 2); patient.lastReport = '休整，暂缓用药'; rememberNpc(patient, '接受休整并暂缓用药', 0); }
           state.morale = Math.max(0, state.morale - 1);
           result = '你让伤员先睡一会儿，把药草留给更危险的时刻。士气 -1，伤员疲劳 -18。';
         }
       } else if (event.id === 'tension') {
         const living = state.npcs.filter(npcIsActive);
-     '; }
+        if (choice === 'a') {
+          living.forEach(n => { n.needs = n.needs || {hunger:18,fatigue:12,stress:8}; n.needs.stress = Math.max(0, n.needs.stress - 20); rememberNpc(n, '参加换防短会', 1); });
+          state.morale = Math.min(100, state.morale + 4); advance(15);
+          result = '你让每个人用一句话说明上一轮压力，换防终于重新排好。全员压力下降，士气 +4。';
+        } else {
+          living.forEach(n => { n.needs = n.needs || {hunger:18,fatigue:12,stress:8}; n.needs.stress = Math.min(100, n.needs.stress + 4); });
+          state.eventThreat = Math.min(2, state.eventThreat + 1); result = '换防被匆忙结束。没人再争论，但压力 +4，仓促的脚步声让下一波威胁推进略快。';
+        }
+      } else if (event.id === 'supply') {
+        if (choice === 'a') {
+          if (!spendEnergy(4)) return;
+          state.food += 3; state.parts += 1; state.eventThreat = 1;
+          result = '你翻出 3 份食物和 1 个零件，但响动让下一轮尸潮多来了一只。';
+        } else { state.morale = Math.min(100, state.morale + 2); result = '你记下补给箱的位置，先把平安留给下一轮威胁。士气 +2。'; }
+      } else if (event.id === 'storm') {
+        if (choice === 'a') {
+          if (state.wood < 4) { toast('木材不够，无法加固防线'); return; }
+          state.wood -= 4; state.eventShield = 8; result = '你把木板和油布钉牢，这次遭遇的第一次撞击被缓冲。';
+        } else {
+          if (state.food < 1) { toast('没有食物可守住火种'); return; }
+          state.food -= 1; state.morale = Math.min(100, state.morale + 5); result = '火种没有熄灭，大家围在一起熬过黑雨。士气 +5。';
+        }
+      } else if (event.id === 'signal') {
+        if (choice === 'a') {
+          if (!spendEnergy(4)) return;
+          const found = grantCollection('blueprint'); state.eventThreat = -1;
+          result = found ? '你调谐出一段旧工程蓝图，信号也误导了部分尸群。蓝图 +1，尸潮 -1。' : '你调谐出重复的蓝图残页，信号仍误导了部分尸群。尸潮 -1。';
+        } else { state.morale = Math.min(100, state.morale + 1); result = '你关闭收音机，营地暂时保持安静。士气 +1。'; }
       } else if (event.id === 'screamer') {
         if (choice === 'a') {
           if (state.parts < 2) { toast('零件不够，无法布置静音陷阱'); return; }
           state.parts -= 2; state.eventThreat = -2; result = '静音陷阱绊住了尖啸者，林子里重新安静下来。尸潮 -2。';
         } else { state.morale = Math.max(0, state.morale - 3); state.eventShield = 4; result = '你熄灭火光躲过第一声尖啸，但大家的心情跌了下去。士气 -3，这次遭遇损失 -4。'; }
       }
-      event.handled = true; event.result = result; log(result, choice === 'a' && event.id === 'supply' ? 'warn' : '');NpcEvent();
+      event.handled = true; event.result = result; log(result, choice === 'a' && event.id === 'supply' ? 'warn' : '');
+      if (event.npcEvent) {
+        const record = (state.npcEvents || []).find(item => item.id === event.id);
+        if (record) { record.status = 'resolved'; record.choice = choice; record.resolvedAt = worldMinute(); }
+      }
+      activateQueuedNpcEvent();
       toast('今日异动已处理'); render();
     }
     function toggleEvolution() {
@@ -4451,7 +4612,12 @@
       const npcId = requiredBond[id], npc = state.npcs.find(n => npcHasRole(n, npcId));
       if (!npc || npc.lifeState === 'dead' || npc.bond < 1) { toast(`先和${npcId === 'carpenter' ? '阿梁' : npcId === 'doctor' ? '苏禾' : '阿默'}建立羁绊，且该幸存者必须仍在营地`); return; }
       if (state.collection.blueprint < requiredBlueprint[id]) { toast(`需要蓝图 ${requiredBlueprint[id]} 片`); return; }
-      if (state.wood < info.wood || state.stone < info.stone || state.parts < info.parts) { toast(`材料不足：木 ${info.wood} · 石 ${info.stone} · 零件 ${info.parts}`); retu b.growth = b.growth || 0; b.ready = !!b.ready; }
+      if (state.wood < info.wood || state.stone < info.stone || state.parts < info.parts) { toast(`材料不足：木 ${info.wood} · 石 ${info.stone} · 零件 ${info.parts}`); return; }
+      state.wood -= info.wood; state.stone -= info.stone; state.parts -= info.parts;
+      b.type = id;
+      if (id === 'spikeWall') b.hp = 4;
+      if (id === 'flameTower') delete b.hp;
+      if (id === 'greenhouse') { b.planted = !!b.planted; b.growth = b.growth || 0; b.ready = !!b.ready; }
       log(`${buildInfo[info.from].name}进化为${info.name}：${info.desc}`);
       toast(`${info.name}完成进化`); $('evolveDrawer').classList.remove('open'); advance(30); render();
     }
@@ -6125,4 +6291,3 @@
   </script>
 </body>
 </html>
-
