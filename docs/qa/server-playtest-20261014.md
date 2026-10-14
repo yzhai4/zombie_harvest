@@ -10,7 +10,7 @@
 - `index.html` SHA-256：`db0eecc574ca930d435c36eed052010360a85fe1cbc634c50463fd77547fa2c9`
 - `actor-sprites.js` SHA-256：`be4cf51de3f5d6b1aaf2811565ba0435a4ceb18f015bd7753fa9871a23ab1962`
 - 公网 `GET /`：HTTP 200，标题为“我是大救星 · 尸潮农场”。
-- 18080 端口仅回环可用；公网入口使用 80 端口。
+- 18080 端口仅回环可用；公网入口使用 80 端口，由 `zfarm-v82.service` 管理，`systemctl is-enabled/is-active` 均为通过。
 
 ## 真实浏览器环境
 
