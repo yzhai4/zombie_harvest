@@ -7,7 +7,7 @@
 
 ## 部署证据
 
-- `index.html` SHA-256：`3597b3e8283cb06e5c22a9e552d824343b9aa745e60750838b6b39554fe57797`
+- `index.html` SHA-256：`2a0b92a8ca2a2be0209b0e949c86fffd155c90fdba8cec824a39be7bfc02d0ba`
 - `actor-sprites.js` SHA-256：`be4cf51de3f5d6b1aaf2811565ba0435a4ceb18f015bd7753fa9871a23ab1962`
 - 公网 `GET /`：HTTP 200，标题为“我是大救星 · 尸潮农场”。
 - 18080 端口仅回环可用；公网入口使用 80 端口，由 `zfarm-v82.service` 管理，`systemctl is-enabled/is-active` 均为通过。

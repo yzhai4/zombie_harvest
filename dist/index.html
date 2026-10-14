@@ -2349,6 +2349,63 @@
        if (npc.actingRole || npc.contentJob) return false;
        return !['commander', 'sergeant', 'doctor', 'radio', 'carpenter', 'quartermaster', 'cook'].includes(npc.id);
      }
+      function outpostDefinitionFor(landmarkOrId) {
+        const outpostId = typeof landmarkOrId === 'string' ? landmarkOrId : landmarkOrId?.type;
+        return outpostId ? (contentDefinition('outpost', outpostId) || OUTPOST_DEFS[outpostId] || null) : null;
+      }
+      function getOutpostLandmark(outpostId) {
+        return state.landmarks?.find(landmark => landmark.type === outpostId && landmark.found === true) || null;
+      }
+      function getOutpostNear(x, y, radius = 0.85) {
+        return nearestEntityAt(state.landmarks || [], x, y, radius, landmark => landmark.found === true && !!outpostDefinitionFor(landmark));
+      }
+      // Candidate order is intentionally stable: roster order is the authored
+      // camp order, with healthy NPCs preferred over injured ones. This keeps
+      // a one-click capture deterministic while preserving fixed population.
+      function selectOutpostGuards(outpostId) {
+        const def = outpostDefinitionFor(outpostId);
+        const slots = Math.max(0, Number(def?.guardSlots) || 0);
+        if (!slots) return [];
+        return (state.npcs || []).filter(npc => outpostGuardEligible(npc, outpostId))
+          .sort((a, b) => Number(a.lifeState !== 'healthy') - Number(b.lifeState !== 'healthy'))
+          .slice(0, slots);
+      }
+      function outpostCaptureGate(outpostId, options = {}) {
+        ensureContentState();
+        const def = outpostDefinitionFor(outpostId);
+        if (!def) return { ok: false, reason: 'outpost-missing', label: '据点定义缺失' };
+        const landmark = getOutpostLandmark(outpostId);
+        if (!landmark) return { ok: false, reason: 'outpost-not-discovered', label: '先探索并发现这个据点' };
+        if (options.nearby !== false && distanceBetween(landmark, state.player) > 1.25) return { ok: false, reason: 'outpost-too-far', label: '靠近据点后才能接管' };
+        const existing = state.contentState.outposts?.[outpostId];
+        if (existing?.status === 'secured') return { ok: false, reason: 'outpost-already-secured', label: '据点已被营地控制' };
+        if ((state.npcs || []).filter(npcIsActive).length < 3) return { ok: false, reason: 'outpost-minimum-population', label: '活跃幸存者少于 3 人，不能分出守军' };
+        const guards = Array.isArray(options.guardNpcIds) ? options.guardNpcIds.map(id => state.npcs.find(npc => npc.id === id)).filter(Boolean) : selectOutpostGuards(outpostId);
+        const slots = Math.max(0, Number(def.guardSlots) || 0);
+        if (!guards.length || (slots > 0 && guards.length > slots)) return { ok: false, reason: 'outpost-guard-slots', label: `需要从可用幸存者中安排 ${slots} 名守军`, def, landmark, guards, slots };
+        if (guards.some(npc => !outpostGuardEligible(npc, outpostId))) return { ok: false, reason: 'outpost-guard-busy', label: '候选守军正在核心岗位或其他据点值守', def, landmark, guards, slots };
+        if (state.energy < 6) return { ok: false, reason: 'energy', label: '行动体力不足（需要 6）', def, landmark, guards, slots };
+        return { ok: true, def, landmark, guards: guards.slice(0, slots || guards.length), slots };
+      }
+      function captureOutpostReducer(outpostId, guardNpcIds = null, options = {}) {
+        if (!guardNightAction(options)) return nightActionResult();
+        const gate = outpostCaptureGate(outpostId, { guardNpcIds });
+        if (!gate.ok) return { ok: false, reason: gate.reason };
+        const effectId = options.commandId || `outpost.capture:${outpostId}:${worldMinute()}`;
+        const effectResult = applyContentEffects([{ op: 'captureOutpost', key: outpostId, guardNpcIds: gate.guards.map(npc => npc.id) }], { effectId, actorId: options.actorId || 'player-1', defId: `outpost-garrison:${outpostId}` });
+        if (!effectResult.ok) return effectResult;
+        spendEnergy(6);
+        advance(30);
+        const names = gate.guards.map(npc => npc.name).join('、');
+        log(`${gate.def.name}已纳入营地：${names}负责驻守，守军占用固定人口。`, 'good');
+        return { payload: { outpostId, guardNpcIds: gate.guards.map(npc => npc.id), guardSlots: gate.slots, energyCost: 6, minutes: 30, population: outpostPopulationLedger() } };
+      }
+      function captureOutpost(outpostId, guardNpcIds = null, options = {}) {
+        const result = actionCommand('outpost.capture', 'outpost.captured', { outpostId, guardNpcIds: guardNpcIds || null }, () => captureOutpostReducer(outpostId, guardNpcIds, options), options);
+        if (result?.ok) { toast(`${outpostDefinitionFor(outpostId)?.name || '据点'}已接管 · 守军已派驻`); clearInteractionFocus(); render(); }
+        else if (result?.reason) toast(outpostCaptureGate(outpostId, { guardNpcIds, nearby: true }).label || '当前无法接管据点');
+        return result;
+      }
      function applyOutpostUpkeep(day = state.day) {
        ensureContentState();
        normalizeOutpostAssignments();
@@ -2952,6 +3009,7 @@
       npc.lifeState = npc.hp < 30 ? 'critical' : npc.hp < npc.maxHp ? 'injured' : 'healthy';
     }
     function getLandmark(x, y) { return state.landmarks.find(l => l.x === x && l.y === y && !l.found); }
+      function getKnownOutpost(x, y) { return state.landmarks.find(l => l.x === x && l.y === y && l.found === true && !!outpostDefinitionFor(l)); }
     function getCampArea(x, y) { return CAMP_AREAS.find(area => area.x === x && area.y === y); }
     function inBounds(x, y) { return Number.isFinite(x) && Number.isFinite(y) && x >= 0 && x < MAP.cols && y >= 0 && y < MAP.rows; }
     function clampToMap(value, axis) { return Math.max(0, Math.min(axis - 1, Number.isFinite(value) ? Math.round(value) : 0)); }
@@ -4237,7 +4295,7 @@
           if (!visible) { cell.classList.add('fogged'); cell.innerHTML += '<span class="map-decor">🌫️</span>'; world.appendChild(cell); continue; }
           const decor = deterministicDecor(x, y);
           if (decor) cell.innerHTML += `<span class="map-decor">${decor}</span>`;
-          const building = getBuilding(x,y), resource = getResource(x,y), zombie = getZombie(x,y), battleEnemy = state.nightBattle?.enemies.find(enemy => !enemy.dead && !enemy.reached && tileKey(battleEnemyPosition(enemy).x, battleEnemyPosition(enemy).y) === tileKey(x,y)), npc = getNpc(x,y), landmark = getLandmark(x,y), area = getCampArea(x,y);
+          const building = getBuilding(x,y), resource = getResource(x,y), zombie = getZombie(x,y), battleEnemy = state.nightBattle?.enemies.find(enemy => !enemy.dead && !enemy.reached && tileKey(battleEnemyPosition(enemy).x, battleEnemyPosition(enemy).y) === tileKey(x,y)), npc = getNpc(x,y), landmark = getLandmark(x,y) || getKnownOutpost(x,y), area = getCampArea(x,y);
           const focused = state.interactionFocus && state.interactionFocus.x === x && state.interactionFocus.y === y;
           const lockedCombat = zombie && state.combatTargetId && zombie.id === state.combatTargetId;
           if (focused || lockedCombat) cell.classList.add('target-lock');
@@ -4324,7 +4382,7 @@
       state.interactionFocus = target ? { key: interactionTargetKey(target, x, y), kind: target.kind, x, y } : null;
     }
     function clearInteractionFocus() { state.interactionFocus = null; }
-    function describeInteraction(target) {
+      function describeInteraction(target) {
       if (!target) return '';
       const item = target.item;
       if (target.kind === 'resource') { const gain = item.type === 'tree' ? 4 : item.type === 'rock' ? 3 : 2; const unit = {tree:'木材',rock:'石材',berry:'食物',scrap:'零件',herb:'药草'}[item.type] || '资源'; return `预演：消耗 8 行动体力 · 推进 30 分钟 · 预计 ${unit} +${gain}`; }
@@ -4332,6 +4390,10 @@
       if (target.kind === 'repair') return '预演：消耗 14 行动体力、2 木材 · 推进 20 分钟 · 防线耐久 +1';
       if (target.kind === 'npc') return `状态卡：${npcStateSummary(item)} · 再按一次 E 确认请求支援`;
       if (target.kind === 'landmark') return '预演：消耗 3 行动体力 · 推进 20 分钟 · 触发一次探索奖励或噪声';
+      if (target.kind === 'outpost') {
+        const gate = outpostCaptureGate(target.item.type, { nearby: true });
+        return gate.ok ? `预演：派驻 ${gate.guards.map(npc => npc.name).join('、')} · 消耗 6 行动体力 · 推进 30 分钟` : `据点接管 Gate：${gate.label}`;
+      }
       if (target.kind === 'area') return `预演：${CAMP_ZONES[item.zone]?.name || '营地设施'}的功能交互，不会改变位置`;
       if (target.kind === 'building') return buildingInteractionDescription(item);
       return '预演：打开当前建筑的管理面板，不消耗体力';
@@ -4371,6 +4433,7 @@
       const resources = nearby(state.resources.filter(r => r.amount > 0));
       const buildings = nearby(state.buildings);
       const landmarks = nearby(state.landmarks.filter(l => !l.found));
+      const outposts = nearby(state.landmarks.filter(l => l.found === true && !!outpostDefinitionFor(l)));
       const areas = nearby(CAMP_AREAS);
       const nearShelter = buildings.some(b => b.type === 'shelter');
       const nearEvolvable = buildings.some(b => b.type !== 'shelter');
@@ -4436,6 +4499,14 @@
         const l = landmarks[0]; icon = l.icon; title = `${l.name} · 地标`; hint = '探索会消耗体力，但可能找到收藏品、蓝图和零件。';
         add(`🔎 探索${l.name}`, '消耗 3 行动体力 · 记录到收藏册', 'landmark', 'primary', state.energy < 3);
       }
+      if (outposts.length) {
+        const outpost = outposts[0];
+        const def = outpostDefinitionFor(outpost);
+        const gate = outpostCaptureGate(outpost.type, { nearby: true });
+        icon = outpost.icon || '🏕️'; title = `${def?.name || outpost.name} · 据点`;
+        add(gate.ok ? `🏕️ 接管${def?.name || outpost.name}` : `🏕️ ${def?.name || outpost.name}`, gate.ok ? `派驻 ${gate.guards.map(npc => npc.name).join('、')} · 消耗 6 行动体力 · 推进 30 分钟` : `接管 Gate：${gate.label}`, 'captureOutpost', 'primary', !gate.ok);
+        hint = gate.ok ? '据点会占用固定人口，并在每日清晨消耗维护食物。' : `当前无法接管：${gate.label}`;
+      }
       if (areas.length) {
         const area = areas[0];
         add(`${area.icon} ${CAMP_ZONES[area.zone]?.name || '营地区域'}`, describeInteraction({kind:'area', item:area}), 'area', 'primary');
@@ -4448,6 +4519,8 @@
         const r = resources[0]; const names = {tree:'树林',rock:'碎石堆',berry:'野莓丛',scrap:'废车堆',herb:'药草地'}; icon = ({tree:'🌲',rock:'🪨',berry:'🫐',scrap:'🔩',herb:'🌿'})[r.type] || '🧺'; title = `${names[r.type] || '资源'} · 可采集`; hint = '按 E 采集附近资源。';
       } else if (buildings.length && !buildings.some(b => b.type === 'garden' || b.type === 'greenhouse')) {
         const b = buildings[0]; icon = b.type === 'shelter' ? '🏚️' : buildInfo[b.type].icon; title = `${buildInfo[b.type]?.name || '建筑'} · 可管理`; hint = '建筑靠近时显示播种、进化或武器配置。';
+      } else if (outposts.length) {
+        const outpost = outposts[0]; const def = outpostDefinitionFor(outpost); icon = outpost.icon || '🏕️'; title = `${def?.name || outpost.name} · 据点`; hint = describeInteraction({ kind: 'outpost', item: outpost });
       } else if (landmarks.length) {
         const l = landmarks[0]; icon = l.icon; title = `${l.name} · 地标`; hint = '探索会消耗体力，但可能找到收藏品、蓝图和零件。';
       } else if (areas.length) {
@@ -4874,18 +4947,20 @@
       const resource = getResourceNear(x, y);
       const building = getBuilding(x, y);
       const landmark = getLandmarkNear(x, y);
+      const outpost = getOutpostNear(x, y);
       const area = nearestEntityAt(CAMP_AREAS, x, y, 0.85);
       if (npc) return { kind: 'npc', item: npc, priority: 1 };
       if (resource) return { kind: 'resource', item: resource, priority: 2 };
       if (building && (building.type === 'garden' || building.type === 'greenhouse')) return { kind: 'crop', item: building, priority: 3 };
       if (building && (building.type === 'wall' || building.type === 'spikeWall') && (building.hp || 0) < (building.type === 'spikeWall' ? 4 : 3)) return { kind: 'repair', item: building, priority: 4 };
       if (landmark) return { kind: 'landmark', item: landmark, priority: 5 };
+      if (outpost) return { kind: 'outpost', item: outpost, priority: 5 };
       if (building) return { kind: 'building', item: building, priority: 6 };
       if (area) return { kind: 'area', item: area, priority: 7 };
       return null;
     }
     function interactionCandidates() {
-      const points = [...state.npcs.filter(npcIsActive), ...state.resources.filter(r => r.amount > 0), ...state.buildings, ...state.landmarks.filter(l => !l.found), ...CAMP_AREAS];
+      const points = [...state.npcs.filter(npcIsActive), ...state.resources.filter(r => r.amount > 0), ...state.buildings, ...state.landmarks.filter(l => !l.found || (l.found === true && !!outpostDefinitionFor(l))), ...CAMP_AREAS];
       const seen = new Set();
       return points.map(point => interactionTargetAt(point.x, point.y)).filter(Boolean).filter(target => {
         const key = `${target.kind}:${target.item?.id || target.item?.type || ''}:${target.item?.x},${target.item?.y}`;
@@ -4949,6 +5024,7 @@
       if (target.kind === 'crop') { plantOrHarvest(target.item); return true; }
       if (target.kind === 'repair') { repairBuilding(target.item); return true; }
       if (target.kind === 'landmark') { discoverLandmark(target.item); return true; }
+      if (target.kind === 'outpost') { captureOutpost(target.item.type); return true; }
       if (target.kind === 'building') {
         interactBuilding(target.item);
         return true;
@@ -5573,7 +5649,7 @@
           if (x === MAP.battle.entryX && MAP.battle.laneRows.includes(y)) cell.classList.add('night-entry');
           if (impact === tileKey(x, y)) cell.classList.add('night-impact');
           cell.innerHTML = '<i class="ground-speck"></i><i class="ground-speck s2"></i>';
-          const building = getBuilding(x, y), resource = getResource(x, y), npc = getNpc(x, y), landmark = getLandmark(x, y), area = getCampArea(x, y), enemy = enemyAt.get(tileKey(x, y));
+          const building = getBuilding(x, y), resource = getResource(x, y), npc = getNpc(x, y), landmark = getLandmark(x, y) || getKnownOutpost(x, y), area = getCampArea(x, y), enemy = enemyAt.get(tileKey(x, y));
           if (!isRegionVisible(x, y) && !enemy) { cell.classList.add('fogged'); cell.innerHTML += '<span class="map-decor">🌫️</span>'; world.appendChild(cell); continue; }
           const focused = state.interactionFocus && state.interactionFocus.x === x && state.interactionFocus.y === y;
           const lockedCombat = enemy && state.combatTargetId && enemy.id === state.combatTargetId;
@@ -6369,6 +6445,7 @@
       if (state.night && action !== 'attack') { guardNightAction(); return; }
       const nearbyNpc = state.npcs.find(n => npcIsActive(n) && contextDistance(n) <= 1);
       const nearbyLandmark = state.landmarks.find(l => !l.found && contextDistance(l) <= 1);
+      const nearbyOutpost = state.landmarks.find(l => l.found === true && !!outpostDefinitionFor(l) && contextDistance(l) <= 1);
       const nearbyBuilding = state.buildings.find(b => contextDistance(b) <= 1);
       const nearbyShelter = state.buildings.find(b => b.type === 'shelter' && contextDistance(b) <= 1);
       if (action === 'attack') attackNearestThreat();
@@ -6376,6 +6453,7 @@
       else if (action === 'npcOrder') setNpcOrder(button.dataset.npcId, button.dataset.order);
       else if (action === 'relayHandoff') handoffRelayCore();
       else if (action === 'promoteHero') { const result = promoteNpcHero(button.dataset.npcId); if (result.ok) { hideContext(); render(); requestCheckpoint('npc-promotion'); } else toast(result.reason === 'command-points-empty' ? '指挥点不足，暂不能完成晋升' : '该 NPC 尚未满足晋升条件'); }
+      else if (action === 'captureOutpost' && nearbyOutpost) captureOutpost(button.dataset.outpostId || nearbyOutpost.type);
       else if (action === 'gather') gather();
       else if (action === 'crop') plantOrHarvest();
       else if (action === 'repair') repairBuilding();
