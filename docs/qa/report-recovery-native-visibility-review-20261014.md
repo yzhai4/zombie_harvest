@@ -8,7 +8,7 @@
 
 在服务器实际安装的 Playwright Python SDK，`BrowserType.connect_over_cdp` 存在 `no_defaults` 参数。其说明明确：`True` 跳过 existing default browser context 的 focus/media 等默认覆盖；之后新建的 `browser.new_context()` 不受这一选项影响。实际 `playwright/driver/package/lib/coreBundle.js` 39020–39024 附近也仅在 `browserOptions.noDefaults && context === browser._defaultContext` 成立时跳过 `Emulation.setFocusEmulationEnabled(enabled: true)`。因此 native 分支必须持续使用 CDP 返回的原 default context，不能新建 context 后仍称 native。
 
-根执行者独立探针原 JSON：`/home/ubuntu/.cache/zfarm-qa/native-default-context-visibility-probe-20261014.json`，SHA256 `d124166d3854e4b05d52da7428ffd2723c470081b819dd247e99ee7979bfa89b`。原 helper SHA256 `760ef83c906392099fe4774a02fa9a69e6aa0de58497ddbf5dedaec2f4d5b049`。本独审读取原件后确认：真实新 tab 前台时 `hidden`，返回时 `visible`；事件均 `isTrusted: true`，performance 时间为 60.399999998509884 与 2936.5，实际隐藏约 **2876.1ms**。探针声明 `gameplayExecuted: false`，没有注入 visibility property 或 dispatch 合成事件。
+根执行者独立探针原 JSON：`native-default-context-visibility-probe-20261014.json`，SHA256 `d124166d3854e4b05d52da7428ffd2723c470081b819dd247e99ee7979bfa89b`。原 helper SHA256 `760ef83c906392099fe4774a02fa9a69e6aa0de58497ddbf5dedaec2f4d5b049`。本独审读取原件后确认：真实新 tab 前台时 `hidden`，返回时 `visible`；事件均 `isTrusted: true`，performance 时间为 60.399999998509884 与 2936.5，实际隐藏约 **2876.1ms**。探针声明 `gameplayExecuted: false`，没有注入 visibility property 或 dispatch 合成事件。
 
 该探针仅证明原生 visibility 方法可行；不是游戏 B16、跨午夜或 ≥60000ms catch-up 通过证据。窗口 headed/Xvfb/Openbox 单独存在，也不足以消除非 default context 的焦点模拟。
 
@@ -30,6 +30,8 @@ v3 沿 v2 的证据规则：原 writer21 和四真实 writer18 输入有原 byte
 
 新 B1 比较关闭后四 DAY 按钮 visible/enabled，并实际开/关建造 drawer；成功采木材单独来自 DAY-control 的真实公开路线、增加木材、唯一 resource.collected receipt 与 exact resource.collect replay。B1 未在原报告位置采集，不能借另一场景称其已采集。B15 保留真实 pending650ms、generation/ID 和 trusted restart deadline 证据。
 
+后续新48-case运行中发现四者都 visible 的条件与原 UI 不匹配：cropBtn 的 utility row 在生产v81与412c原本均全局隐藏，实际种田入口为近菜畦动态 contextActions。原 v3 false 保留，独立源归因与下一契约建议见 [crop控件审查](report-recovery-crop-control-20261014.md)。这不改变原生方法审查，也不允许把当前整轮称通过。
+
 整体 gate 直接要求完整非空 planned matrix、无 notRun、全部实际 case passed、完整 contract groups、四真实18全部完成；再结合 completed、actual checks、无 errors/pageErrors/非 favicon 资源错误决定退出状态。native infra 或清理失败必须失败，不能用根探针补成整轮通过。
 
 ## 冻结与后续证据
@@ -42,7 +44,7 @@ v3 沿 v2 的证据规则：原 writer21 和四真实 writer18 输入有原 byte
 | report_recovery_full.py | `725cca14f9d8909a37ba88433962e0ac9376af1d5a236011ba826e2082f2f077` |
 | report_recovery_fixtures.py | `41474fc24c1dd14a256ce2ae8bd074ab40b672a2810eb489d31dbf4f06177390` |
 
-对冻结 full.py 实际 class/function AST 提取的独立 **28 项 method mock 控制全部通过**：接受同 generation 的可信事件/准确 duration，拒不可信或缺事件/反向时间，拒非法端口/path；仅 existing default context，额外 context/非 blank 原页失败无 fallback；owned launch/new process group/路径边界；清理幂等；owned group 仍存活时保留 profile 且明确失败。输出 `C:/Users/DELL/.cache/zfarm-report-recovery-review/native-v3-frozen-independent-controls.json`，SHA256 `16d265d45a771409975931c98b899a7a04f466b744a03d0deb24b466a26a4495`，声明 `gameplayExecuted:false`、`realBrowserLaunched:false`、`mockProcessOnly:true`。
+对冻结 full.py 实际 class/function AST 提取的独立 **28 项 method mock 控制全部通过**：接受同 generation 的可信事件/准确 duration，拒不可信或缺事件/反向时间，拒非法端口/path；仅 existing default context，额外 context/非 blank 原页失败无 fallback；owned launch/new process group/路径边界；清理幂等；owned group 仍存活时保留 profile 且明确失败。输出 `native-v3-frozen-independent-controls.json`，SHA256 `16d265d45a771409975931c98b899a7a04f466b744a03d0deb24b466a26a4495`，声明 `gameplayExecuted:false`、`realBrowserLaunched:false`、`mockProcessOnly:true`。
 
 另外只读用冻结 fixture module、三份21和四份18原输入构建矩阵，确认 **48 unique planned cases、仅1场 native B16、其余47场分别通常隔离 context**，没有多场共用 native profile。输出私有 `native-v3-frozen-matrix.json`，是离线矩阵控制，不是48场已执行。
 
@@ -50,4 +52,4 @@ v3 沿 v2 的证据规则：原 writer21 和四真实 writer18 输入有原 byte
 
 **实际 infra 探针已 exit0。** 本独审从服务器复制其已结束原 JSON `recovery-412c/infrastructure/native-session-probe.json`，原 SHA256 `5835d312fc94bb0c8e1e891815e58d6fc9d073f10393b99cc87c60a3bef1daab`。实际 trusted hidden/visible 时间为 61.899999998509884/2971.800000000745，约 **2909.9ms**；`ownedProcessStopped`、`ownedProcessGroupStopped`、`profileRemoved` 都 true，`profileRetained:false`，`cleanupErrors:[]`。`ownedGroupKillUsed:true` 明示实际组清理使用 SIGKILL，而非仅主 PID 退出就删 profile。仍是 `gameplayExecuted:false`，不能替代游戏 B16 或60秒追赶。
 
-最终意见：无阻塞 v3 方法的已知缺陷，三SHA保持冻结，真实 infra 门禁已结束且合格。根执行者新48-case已启动，session79876/PID166426，报告 `recovery-412c/browser/run-20261014T211705Z-043adff1/report.json` 仍 running；不读正在变动的文件来给完成结论。后续实际 browser 应保存 served412c SHA、完整 report/rawStorage/input/原生 trace/截图与 terminal exit，独审后才能裁定 B16。首轮291a报告与失败不改，短探针不替代整轮或长后台证据。
+最终意见：v3方法冻结和真实infra门禁合格。新48-case逻辑run `run-20261014T211705Z-043adff1` 已真实terminal exit1，原report SHA `60b93f3e121072c5d53e1138b9d95471a857e17fae089b6444654f077e7377a8`；7条crop可见性失败保留。原B16 trace独审确有可信hidden→visible2889ms和实际owned cleanup，但其case仍因crop失败，未判完整B16或整轮通过。完整原工件审计见[第二轮browser审计](report-recovery-browser-second-20261014.md)。首轮291a与本轮v3失败均不改，短探针与2.8秒游戏隐藏不替代长后台证据。

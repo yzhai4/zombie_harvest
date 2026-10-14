@@ -1,7 +1,7 @@
 # 已结算报告启动恢复与失守重开
 
-**状态：** active  
-**范围：** 真实 loader、报告关闭、旧档迁移与会话重开；源码已修复，完整browser门禁仍active
+**状态：** validated（冻结412c/v4报告恢复主题）；发布及严格三日另验  
+**范围：** 真实 loader、报告关闭、旧档迁移与会话重开；源码与完整browser门禁通过，历史失败记录保留
 
 8a4基线源码中，`loadProgress` 读取 `saved.nightBattle.resolved` 时把 `state.night` 设为 false，但 `startFromSave` 仅在 `state.night && state.nightBattle` 分支恢复 summary-mode。独立boot-save baseline已实际复现：134项检查79通过/55失败，普通DAY对照通过，完整/矛盾报告恢复和失守重开失败。原始失败与其工件见[baseline QA](../qa/server-report-recovery-20261014.md)，不得由后续结果覆盖。
 
@@ -24,3 +24,11 @@
 实际恢复报告还漏写防线和支援DOM，显示模板0。新候选仅从保存defense和合法唯一supportIds投影并渲染；缺项显示未记录。新冻结HTML SHA `412c69fd80e79e8b307511798c4d6bf5bee712116dbb45c3df5c951ad3100ba8` 已接dist，177源码检查与43/27/16通过；原轨迹hash仍为 `c5d6c772` / `66c9368d`，保存投影9档仍为 `4aec7a31`。这是源码证据，新browser尚未执行。
 
 旧B16没有观察到实际visibility事件。根代理用安装包primary source和独立data页面探针确认普通Playwright context默认模拟焦点，existing default context的公开 `connect_over_cdp(no_defaults=True)` 路线可产生trusted hidden→visible。该探针约2.876秒且未执行游戏；不能代称B16或≥60秒catch-up通过。下一48场景runner正在独审，原生路径只用于B16并严格清理独占临时Chrome/profile。详见[基础设施证据](../qa/native-visibility-infrastructure-20261014.md)。本问题仍active，Sites v81和公开测试服务尚未替换。
+
+最新48场景v3已终止exit1，1641/1634/7，原report SHA `60b93f3e121072c5d53e1138b9d95471a857e17fae089b6444654f077e7377a8`；七个false都是把生产与开发一直隐藏的备用cropBtn当成常驻公开按钮。实际B16原生事件同generation可信、隐藏2889ms及owned清理通过，四真实18与其它1634检查无false；原整轮仍FAILED，不用源码/infra或下一版改判。下一v4 tester保持四控件禁用解除，另走真实菜畦入口并以点击前实际保存核收获、plot变化和unique command/event因果。发布仍等待新冻结全矩阵与单构建三日，不修改runtime/CSS过关。
+
+## 完整browser出口已通过
+
+冻结412c/v4逻辑run `run-20261014T214131Z-5c844377` 真正exit0：48/48场、1682/1682检查、errors0、notRun=[]；原report SHA `73aca16ee41438041fb9fba1955d6abf719f583f72a82290b7d34d118ae6cb36`。独审21完整性/48关键事实通过，758原工件跨机逐bytes/SHA一致。公开成熟菜畦收获食物+3和两reload、B15 queued checkpoint公开重开竞态、B16可信短隐藏/清理、四真实18迁移/两reload、缺报告统计显示未记录全部获得实际证据，见[第三轮独审](../qa/report-recovery-browser-third-20261014.md)。
+
+本问题主题validated；v1/v3原FAILED保持。≥60秒后台追赶和storage失败路径仍属于源码控制范围，新严格三日与生产发布是另外门禁，不能从这48场推定整个v82–v90完成。

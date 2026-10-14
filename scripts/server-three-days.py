@@ -276,10 +276,18 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--headed", action="store_true", help="show the isolated browser window")
     parser.add_argument("--timeout", type=int, default=GLOBAL_SECONDS, help="total run budget in seconds (default: 600)")
     parser.add_argument("--finish-hour", type=int, choices=range(0, 24), default=6)
+    parser.add_argument("--expect-html-sha256", help="require this exact SHA256 for every main document response")
+    parser.add_argument("--strict-fresh", action="store_true", help="require a new profile, one pinned build, daily reloads and day-four dawn")
     args = parser.parse_args()
     if args.timeout <= 0:
         parser.error("--timeout must be positive")
     args.resume = not args.fresh
+    if args.expect_html_sha256 is not None:
+        if not re.fullmatch(r"[a-fA-F0-9]{64}", args.expect_html_sha256):
+            parser.error("--expect-html-sha256 must be a complete SHA256")
+        args.expect_html_sha256 = args.expect_html_sha256.lower()
+    if args.strict_fresh and (not args.fresh or not args.expect_html_sha256 or args.finish_hour < 6):
+        parser.error("--strict-fresh requires --fresh, --expect-html-sha256 and --finish-hour >= 6")
     return args
 
 
@@ -293,7 +301,22 @@ class Runner:
         self.stop_heartbeat = threading.Event()
         self.page = None
         self.last_save = None
+        self.document_responses = []
         self.artifacts = QA_ROOT / "artifacts" / args.out.stem
+        if args.strict_fresh:
+            # Check before launching Chrome or touching an existing report.
+            # --fresh must never clear another run's persistent profile.
+            if args.profile.exists() and (not args.profile.is_dir() or any(args.profile.iterdir())):
+                raise RuntimeError("strict-fresh profile must be new or empty")
+            if args.out.exists() or args.checkpoint.exists() or args.out.resolve() == args.checkpoint.resolve():
+                raise RuntimeError("strict-fresh output and checkpoint must be distinct new files")
+            if self.artifacts.exists() and (not self.artifacts.is_dir() or any(self.artifacts.iterdir())):
+                raise RuntimeError("strict-fresh artifacts must be new or empty")
+            profile = args.profile.resolve()
+            if profile == self.artifacts.resolve() or profile in self.artifacts.resolve().parents or self.artifacts.resolve() in profile.parents:
+                raise RuntimeError("strict-fresh profile must be separate from artifact storage")
+            if any(profile == target.resolve() or profile in target.resolve().parents for target in (args.out, args.checkpoint)):
+                raise RuntimeError("strict-fresh reports must be outside the browser profile")
         self.artifacts.mkdir(parents=True, exist_ok=True, mode=0o700)
         self.result = {
             "runner": "server-three-days", "mode": MODE, "url": args.url,
@@ -308,6 +331,11 @@ class Runner:
             "checks": [], "errors": [], "consoleErrors": [], "httpErrors": [], "actions": [],
             "nightDays": [], "calendarTransitions": [], "snapshots": [], "completedStages": [], "navigationSegments": {},
         }
+        if args.strict_fresh:
+            self.result["strictFresh"] = {"version": 1, "enabled": True, "initialProfileEmpty": True,
+                "expectedHtmlSha256": args.expect_html_sha256, "requiredReloadDays": [1, 2, 3], "minimumFinalHour": 6}
+            self.result["runnerSha256"] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+            self.result["documentResponses"] = []
         if args.resume:
             saved = json.loads(args.checkpoint.read_text(encoding="utf-8"))
             if saved.get("mode") != MODE or saved.get("url") != args.url or saved.get("profile") != str(args.profile.resolve()):
@@ -357,9 +385,27 @@ class Runner:
         self.check(stage + " camp existence invariants", active >= 3 and payload["hp"] > 0 and collapse < 90,
                    {"activeNpcCount": active, "campHp": payload["hp"], "campCollapse": collapse})
 
+    def observe_document_response(self, response) -> None:
+        if not self.args.strict_fresh:
+            return
+        request = response.request
+        if request.resource_type == "document" and request.is_navigation_request() and request.frame == self.page.main_frame:
+            self.document_responses.append(response)
+            self.result["documentResponses"].append({"index": len(self.document_responses) - 1,
+                "url": response.url, "status": response.status, "htmlSha256": None, "stage": None})
+
     def record_build(self, response, stage: str) -> None:
         self.check(stage + " actual served HTML request succeeds", response is not None and response.status == 200,
                    response.status if response is not None else None)
+        document_index = None
+        if self.args.strict_fresh:
+            document_index = len(self.result.get("buildSessions", []))
+            # Playwright maps the same public Request object for response
+            # events and navigation results. An extra/unattributed document
+            # cannot silently inherit the most recently recorded build SHA.
+            self.check(stage + " matches the next observed main-frame document",
+                len(self.document_responses) == document_index + 1
+                and self.document_responses[document_index].request == response.request)
         html_sha = hashlib.sha256(response.body()).hexdigest()
         if self.args.resume:
             session = self.result["resumeSessions"][-1]
@@ -367,7 +413,35 @@ class Runner:
             session["lastHtmlSha256"] = html_sha
         self.result["htmlSha256"] = html_sha
         self.result.setdefault("buildSessions", []).append({"atUnix": time.time(), "htmlSha256": html_sha,
-            "stage": stage, "mode": "fresh" if self.args.fresh else "resume"})
+            "stage": stage, "mode": "fresh" if self.args.fresh else "resume", "status": response.status,
+            "documentIndex": document_index})
+        if document_index is not None:
+            self.result["documentResponses"][document_index].update({"htmlSha256": html_sha, "stage": stage})
+        if self.args.expect_html_sha256:
+            self.check(stage + " served HTML matches the frozen SHA256", html_sha == self.args.expect_html_sha256,
+                {"expected": self.args.expect_html_sha256, "actual": html_sha})
+
+    def check_strict_fresh_completion(self) -> None:
+        if not self.args.strict_fresh:
+            return
+        expected = self.args.expect_html_sha256
+        documents = self.result["documentResponses"]
+        builds = self.result.get("buildSessions", [])
+        self.check("strict fresh every observed document has its actual pinned body",
+            bool(documents) and len(documents) == len(builds) and all(
+                document["index"] == index and document["status"] == 200 and document["htmlSha256"] == expected
+                and document["stage"] == builds[index]["stage"] and builds[index]["documentIndex"] == index
+                for index, document in enumerate(documents)))
+        self.check("strict fresh all save snapshots retain the same known build",
+            bool(self.result["snapshots"]) and all(item.get("htmlSha256") == expected for item in self.result["snapshots"]))
+        stages = self.result["completedStages"]
+        self.check("strict fresh explicit reload coverage on calendar days one two three",
+            all(stage in stages for stage in ("day-1-reload", "calendar-day-2-reload", "calendar-day-3-reload")))
+        payload = self.last_save["envelope"]["payload"]
+        self.check("strict fresh final save reaches calendar day four dawn",
+            payload["day"] == 4 and clock_minutes(payload) >= 3 * 1440 + 6 * 60,
+            {key: payload[key] for key in ("day", "hour", "minute")})
+        self.check("strict fresh has no resumed browser session", not self.result.get("resumeSessions"))
 
     def calendar(self) -> int:
         self.guard()
@@ -1363,11 +1437,13 @@ class Runner:
                 self.page.on("console", lambda msg: self.result["consoleErrors"].append({"text": msg.text, "location": msg.location}) if msg.type == "error" else None)
                 self.page.on("requestfailed", lambda request: self.result.setdefault("requestErrors", []).append({"url": request.url, "resourceType": request.resource_type, "failure": request.failure}))
                 self.page.on("response", lambda response: self.result["httpErrors"].append(f"{response.status}:{response.url}") if response.status >= 400 else None)
+                self.page.on("response", self.observe_document_response)
                 try:
                     self.record_build(self.page.goto(self.args.url, wait_until="domcontentloaded", timeout=self.timeout()), "initial document")
                     if self.args.fresh:
-                        self.page.locator("#resetSaveBtn").click(timeout=self.timeout())
-                        self.page.wait_for_load_state("domcontentloaded", timeout=self.timeout())
+                        with self.page.expect_navigation(wait_until="domcontentloaded", timeout=self.timeout()) as reset_navigation:
+                            self.page.locator("#resetSaveBtn").click(timeout=self.timeout())
+                        self.record_build(reset_navigation.value, "fresh public reset document")
                     self.page.locator("#continueSaveBtn").click(timeout=self.timeout())
                     self.page.wait_for_timeout(100)
                     initial = self.settle_save(self.calendar())
@@ -1378,6 +1454,9 @@ class Runner:
                     self.reconcile_pending(initial)
                     self.resume_boundary_refresh()
                     self.setup()
+                    if self.args.strict_fresh:
+                        self.check("strict fresh day-one reload occurs before the first encounter", self.calendar() // 1440 + 1 == 1)
+                        self.refresh_check("day-1-reload")
                     self.barracks()
                     self.calendar_progress()
                     final = self.settle_save(self.calendar())
@@ -1388,6 +1467,7 @@ class Runner:
                                and any(action["type"] == "harvest" for action in self.result["actions"]))
                     self.check("calendar day four reached", final["envelope"]["payload"]["day"] == 4)
                     self.refresh_check("final-day-four-reload")
+                    self.check_strict_fresh_completion()
                     self.result["state"] = {"day": self.last_save["envelope"]["payload"]["day"], "hour": self.last_save["envelope"]["payload"]["hour"],
                                             "minute": self.last_save["envelope"]["payload"]["minute"], "food": self.last_save["envelope"]["payload"]["food"],
                                             "npcCount": len(self.last_save["envelope"]["payload"]["npcs"]), "checksum": self.last_save["envelope"]["checksum"]}
@@ -1431,6 +1511,8 @@ if __name__ == "__main__":
         # produce a machine-readable report and a failing exit status.
         report = {"runner": "server-three-days", "mode": MODE, "url": arguments.url, "ok": False,
                   "checks": [], "errors": [f"{type(failure).__name__}:{failure}"]}
-        write_json(arguments.out, report)
+        # A rejected strict-fresh path must not overwrite another run's report.
+        if not arguments.strict_fresh or not arguments.out.exists():
+            write_json(arguments.out, report)
         print(json.dumps(report, ensure_ascii=False), flush=True)
         raise SystemExit(1)

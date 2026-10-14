@@ -57,6 +57,8 @@ node scripts/replay-harness.mjs --self-test
 
 多日完成后以 `scripts/verify-three-days-artifacts.mjs` 只读核验原报告和完整保存工件，失败/阶段缺失仍 exit1，负控单列。保存校验之外，核对连续账本、具体计划/粮食来源、三场遭遇、真实收获和固定人口。未知源码 hash、多构建恢复、缺历史日期显式刷新必须披露，当前日补验不能改写历史结果。
 
+声称“单构建从头三日”时，runner与artifact Gate都显式使用`--strict-fresh --expect-html-sha256 SHA`：启动前全新空profile/输出，逐main-document实际response同SHA（含公开reset内部navigation）、每份snapshot同SHA、DAY1/2/3各自真实reload及新tick去重、原final保存day4≥06:00、零resume。source-ready/合成方法控制不计游戏通过，默认恢复模式的旧结果保持原合同。
+
 跨机器归档先确认原runner确实终止，再用 `scripts/export-three-days-artifacts.mjs` 导出声明工件和不变原报告；不复制浏览器profile/凭据，不写入仓库或网页根。迁移后用manifest重新绑定路径并运行同一独立Gate，核对原字节SHA/FNV和实际coverage；导出成功不代表游戏通过。Windows私有输出须核验真实ACL，chmod不能代替。
 
 发布对账读取实际生产writer的SAVE/CONTENT与完整字段，不用Sites版本号推定schema。旧档回归要包含真实旧writer产生的保存；开发新档删字段/改版本只算派生负控。新增系统缺省与损坏字段分开，amount0耗尽资源和原人口/伤亡/日历事实不得因严格校验被丢弃或补造。
@@ -64,5 +66,7 @@ node scripts/replay-harness.mjs --self-test
 候选先以不可变字节副本和SHA执行既有源码回归，再接入dist和浏览器。隔离源码测试遇到新增会话依赖时加载实际控制器/Gate，并明确设置测试会话；不得mock新Gate。修改HUD/报告控件时必须执行实际renderer，断言关闭后操作按钮恢复；把该renderer替换为空函数会隐藏界面回归。静态、VM与真实browser证据分别记录，不互相代称。
 
 后台/visibility验收先观察实际hidden/visible及可信事件，不凭bringToFront或窗口最小化推断。检查自动化框架是否默认模拟焦点；如需原生行为，以支持的API及独立context方法证明，不通过改document.hidden或伪事件让测试通过。短隐藏只证明其实际时长，不代称≥60秒catch-up。所有owned browser/profile/display在finally清理，profile不混入工件归档。
+
+UI验收先对账当前生产CSS与真实可见入口，区分legacy隐藏备用控件和公开交互。禁止为了通过测试显示旧备用按钮或点击hidden按钮。恢复后可检查四legacy控件disabled解除，但种植/收获要经公开近田context路线另验；先保存精确close/补偿事实，再为导航和作物行动分别取实际生命周期保存基线。空payload成功receipt不能自证产粮：须有真实food/同plot变化及unique commandId/replay/事件因果关联。
 
 AI 或实验变更还必须提供：baseline、变体、seed 集、失败重试策略、成本/延迟统计和 held-out 结果。

@@ -54,6 +54,10 @@ READ_PUBLIC = """({key, keys}) => {
       kills:text('summaryKills'),breaches:text('summaryBreaches'),damage:text('summaryDamage'),morale:text('summaryMorale'),
       walls:text('summaryWalls'),npcDeaths:text('summaryNpcDeaths'),feed:text('summaryFeed'),
       defense:text('waveDefense'),support:text('waveSupport'),buttons,
+      contextCrop:(()=>{const e=document.querySelector('#contextActions [data-context-action="crop"]');
+        if(!e)return {present:false,visible:false,enabled:false,text:''};
+        const r=e.getBoundingClientRect(),s=getComputedStyle(e);return {present:true,
+          visible:!!(r.width&&r.height)&&s.display!=='none'&&s.visibility!=='hidden',enabled:!e.disabled,text:e.textContent||''};})(),
       reportVisible:visible('nightOverlay'),startVisible:visible('startOverlay'),recoveryStatus:text('recoveryStatus'),
       buildDrawerVisible:visible('buildDrawer'),buildDrawerClass:document.querySelector('#buildDrawer')?.className||'',
       recoveryNotice:text('recoveryNotice'),recoveryNoticeVisible:visible('recoveryNotice')}};
@@ -158,6 +162,7 @@ class Runner:
                        "cases": {}, "artifacts": [], "plannedCases": PLANNED_CASES,
                        "notYetImplemented": ["B3", "B4", "B5", "B6", "B7", "B10", "B11", "B12", "B13", "B14", "B16"]}
         self.result["suite"] = getattr(args,"suite","initial")
+        self.result["testerRevision"] = "v4-public-context-harvest"
         self.result["browserMode"] = "headed-native-window" if getattr(args,"headed",False) else "headless"
         self.result["nativeDisplayConfigured"] = bool(os.environ.get("DISPLAY"))
         self.result["nativeVisibilityRequested"] = bool(getattr(args,"native_visibility",False))
@@ -682,9 +687,11 @@ def developer_negative_controls() -> None:
         elif label=="incomplete-release":changed["releaseCoverageComplete"]=False
         assert not full_outcome_gate(changed,label!="require18-absent")["ok"]
         controls.append({"name":"report-coverage-"+label,"rejectedWithRegisteredDiagnostic":True,"syntheticReportOnly":True})
+    from report_recovery_full import crop_method_controls
+    crop_controls=crop_method_controls()
     print(json.dumps({"mode": "developer-negative-controls", "gameplayExecuted": False,
                       "realScreenshotsCaptured": False, "temporaryArtifactsRemoved": True,
-                      "controls": controls, "ok": True}), flush=True)
+                      "controls": controls,"cropEvidenceMethodControls":crop_controls,"ok":True}), flush=True)
 
 
 def parse_args() -> argparse.Namespace:

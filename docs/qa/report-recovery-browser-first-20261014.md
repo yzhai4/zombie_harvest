@@ -4,7 +4,7 @@
 
 **运行时：** `291a75441548e25801c4140d2b6e26dea1f5c1d938de7b408d9c4fb972bfe893`。源/fixture/observer为明确新ephemeral browser fixture模式，不是自然三日路线；current-writer首开及B15公开实战单列。冻结runner SHA见 [独立runner审查](report-recovery-full-runner-review-20261014.md)。
 
-**原报告：** `/home/ubuntu/.cache/zfarm-qa/recovery-291a/browser/run-20261014T202704Z-a1f47969/report.json`；SHA256=`e5caf27e869bb7e25f5b740506ba069ab11d4658d033cb118cea3874e74ceb80`，elapsed586.398秒。根执行者提供SSH15776 exit1；独立SSH ps未发现Python PID145033。读取terminal原报告并在原服务器工件上只读审计，无改profile、runtime、报告或截图。
+**原报告：** `run-20261014T202704Z-a1f47969 / report.json`；SHA256=`e5caf27e869bb7e25f5b740506ba069ab11d4658d033cb118cea3874e74ceb80`，elapsed586.398秒。根执行者提供SSH15776 exit1；独立SSH ps未发现Python PID145033。读取terminal原报告并在原服务器工件上只读审计，无改profile、runtime、报告或截图。
 
 ## 完整性核验
 
@@ -14,7 +14,7 @@
 
 pageErrors/httpErrors/consoleErrors/requestFailures均为空。此新轮没有资源错误，不改写旧MAIN的9条未知404来源。report.ok=false、releaseCoverageComplete=false仍原样；没有把审计检查通过提升为浏览器通过。
 
-完整私有输出 `C:/Users/DELL/.cache/zfarm-report-recovery-review/first-terminal-independent-audit.json`，SHA256=`735483fc4e3dff2ba0a16d3ad8ff331fa17a7a2b48e9756e5542861a1394d570`；含所有328观察与PNG的SHA、原source/inputs及准确失败表。关键事实独立输出 `first-terminal-critical-independent.json`，SHA256=`8259cabf53a2f57a870a9c4e6bd385430c9a9639835a03074ddf940c87aefa74`，16项具体恢复/迁移事实复核通过；只证明列出的事实，不取代失败总体结论。
+完整私有输出 `first-terminal-independent-audit.json`，SHA256=`735483fc4e3dff2ba0a16d3ad8ff331fa17a7a2b48e9756e5542861a1394d570`；含所有328观察与PNG的SHA、原source/inputs及准确失败表。关键事实独立输出 `first-terminal-critical-independent.json`，SHA256=`8259cabf53a2f57a870a9c4e6bd385430c9a9639835a03074ddf940c87aefa74`，16项具体恢复/迁移事实复核通过；只证明列出的事实，不取代失败总体结论。
 
 ## 12个原失败的归因
 

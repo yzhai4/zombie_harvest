@@ -63,7 +63,7 @@ L0 的 commander/radio/doctor 是起始英雄，缺新 hero 字段时按已批�
 
 14个明确离线变更的相邻负控（day2、minute1、world1、非零commandSeq、非空seen/replay/ledger、两维护日0、contentState显式null/数组、九人roster、缺旧needs、当前SAVE21 world0）都拒绝，无安装、registry变更或interval；这些负控重新计算合法测试FNV和镜像，拒绝原因来自world-calendar、roster或旧域完整性，而不是错checksum。
 
-独立小审查程序及完整输出位于本机私有 `C:/Users/DELL/.cache/zfarm-report-recovery-review/`：independent-boundary-cases.mjs / independent-boundary-c28.json，并分别保留原八项、三项嵌套、真实旧档和合法资源/计划的c28输出。没有改候选或原QA工件。
+独立小审查程序及完整输出保存在私有QA归档：`independent-boundary-cases.mjs` / `independent-boundary-c28.json`，并分别保留原八项、三项嵌套、真实旧档和合法资源/计划的c28输出。没有改候选或原QA工件。
 
 ## c28最后新增的必要校验缺口
 
@@ -79,7 +79,7 @@ L0 的 commander/radio/doctor 是起始英雄，缺新 hero 字段时按已批�
 
 ## 最终291a独立冻结意见
 
-本次独立从唯一实现者候选读取不可变快照，最终SHA256=`291a75441548e25801c4140d2b6e26dea1f5c1d938de7b408d9c4fb972bfe893`；复验结束后再次读取候选SHA仍一致。根执行者另保存相同字节QA副本 `C:/Users/DELL/.cache/zfarm-private-evidence-20261014/recovery-291a/dist/index.html`，浏览器QA应锚定这一份，不把980或3f93结果代称最终291a。
+本次独立从唯一实现者候选读取不可变快照，最终SHA256=`291a75441548e25801c4140d2b6e26dea1f5c1d938de7b408d9c4fb972bfe893`；复验结束后再次读取候选SHA仍一致。根执行者另保存相同字节QA副本 `recovery-291a / dist/index.html`，浏览器QA应锚定这一份，不把980或3f93结果代称最终291a。
 
 | 精确291a的独立执行 | 实际结果与范围 |
 | --- | --- |
@@ -95,7 +95,7 @@ L0 的 commander/radio/doctor 是起始英雄，缺新 hero 字段时按已批�
 
 980→291a的独立源码diff仅为SAVE19/content1显式非idle计划拒绝：不允许将未来authority记录归零。SAVE19/20仍是声明的TEST-ONLY适配范围，当前真实生产旧兼容证据仅四份SAVE18原件；不能据此宣称所有历史19/20档已验证。
 
-归档76原件只读导出到本机专用私有QA副本，来源report SHA=`62ad36b2c7add9d2e36148655cd1755de25c42563e7861e66dce887bcc2ab564`，zip SHA=`5f0f97d336c0ce8bcb24c31a9c9f112600595e515e8cb99308001e04e94371f3`。完整独立摘要 `C:/Users/DELL/.cache/zfarm-report-recovery-review/final-independent-review-291a.json` 含每项输出SHA，SOURCE checker输出SHA=`141083da9f0e5254b260e659475869e5b78c02b1f9a916374d7e2d09d7f2af34`；76原档兼容输出SHA=`73b04721a927d5d11b6d76d0b233b8ae24d6837e4684e1672b0f8c27a79d9e88`。
+归档76原件只读导出到本机专用私有QA副本，来源report SHA=`62ad36b2c7add9d2e36148655cd1755de25c42563e7861e66dce887bcc2ab564`，zip SHA=`5f0f97d336c0ce8bcb24c31a9c9f112600595e515e8cb99308001e04e94371f3`。完整独立摘要 `final-independent-review-291a.json` 含每项输出SHA，SOURCE checker输出SHA=`141083da9f0e5254b260e659475869e5b78c02b1f9a916374d7e2d09d7f2af34`；76原档兼容输出SHA=`73b04721a927d5d11b6d76d0b233b8ae24d6837e4684e1672b0f8c27a79d9e88`。
 
 **建议：** 冻结精确291a进入独立B1–B16浏览器QA。本审查未修改dist/server/profile，未发布。B15真实650ms排队退出竞态、实际损坏档/备份与保存失败、跨午夜/visibility、公开报告关闭可用性和真实旧档迁移两次reload仍须各自浏览器证据。旧76工件仍含10份sourceUnknown、历史day2刷新缺口和recovered run限制，不可改称single-build连续通过。源码准备正确不能替代这些运行证据。
 

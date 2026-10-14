@@ -1,6 +1,6 @@
 # B1–B16 与真实生产 SAVE18：完整验收脚本准备
 
-**状态：v1 首轮已在独立 QA 终止exit1；以下 v2 修正尚未运行 browser。** 本文件不替换[初始失败 baseline](server-report-recovery-20261014.md)，不更新 current-state 或 calendar QA。关联[设计卡](../scripts/resolved-report-recovery-001.md)与[架构裁定](../decisions/ADR-20261014-report-recovery-review.md)。
+**状态：v1与v3独立 QA 均保留终止失败原件；v4 tester源码、方法检查及独立复审已通过，尚未运行 browser。** 本文件不替换[初始失败 baseline](server-report-recovery-20261014.md)，不更新 current-state 或 calendar QA。关联[设计卡](../scripts/resolved-report-recovery-001.md)与[架构裁定](../decisions/ADR-20261014-report-recovery-review.md)。
 
 ## 文件与执行边界
 
@@ -47,8 +47,8 @@ native timer/RNG/visibility observer 在 loader 前安装，仅原样委托浏�
 | --- | --- | --- | --- |
 | current-writer | 1 | 无seed新context公开开始→立即真实reload；日期/world/FNV一致且没有世界tick、新迁移或遭遇收益；两次reload可继续 | INITIAL_PROGRESS_STATE与真实start路径，不靠test手动锚定world |
 | DAY | 1 | 真实日间开始、时间推进；公开WASD沿(8.2,11.5)→(8.2,8.2)，实际木材增加且新resource.collected精确join resource.collect；两次reload正常 | timer至多一个；采集成功属于本例，不能冒称B1在无资源位置采集 |
-| B1 | 1 | 完整报告、2tick静止、公开close、具体唯一event/replay、SAN首次+3；四DAY按钮可见启用、真实公开开/关建造抽屉；reload2无重结算 | close事务与Gate；UI disabled=false不代替实际交互 |
-| B2 | 1 | 只改night=false仍报告，同B1；只允许一次resolved-night-flag迁移，checksum/日期/实例严格核 | 分类不能凭night代替closed |
+| B1 | 1 | 完整报告、2tick静止、公开close、具体唯一event/replay、SAN首次+3；四legacy按钮disabled解除、三常驻按钮可见启用；真实开/关建造抽屉后公开移动到原成熟菜畦；动态crop可见启用并实际收获，保存与唯一crop/replay/20分钟因果相符；两reload以收获后实际保存为基线 | close与收获分别核因果和资源；隐藏重复cropBtn不能算公开入口；空crop receipt不能代替实际收获 |
+| B2 | 1 | 只改night=false仍报告，公开close及DAY按钮恢复；只允许一次resolved-night-flag迁移，checksum/日期/实例严格核；真实收获只在B1运行 | 分类不能凭night代替closed |
 | B3 | 1 | 真实closed附同实例残留battle；清瞬态，源CP/库存/计划/岗位不退回；迁移一次 | alreadyclosed install原子性 |
 | B4 | 7 | exact空close兼容；错command/threat/type、非空缺ID、缺replay、重复command阻断恢复 | 精确join与全局集合校验 |
 | B5 | 5 | legacy id和显式start引用各恢复；错旧id、完全无引用、错seq不因唯一resolved猜测；首次document明确notice，迁移/reload2去重 | 特定旧writer公式、顺序、唯一replay；同分钟多候选负例属于源码覆盖 |
@@ -92,6 +92,22 @@ B15 的真实 race 要求同时满足：native requestCheckpoint650ms仍pending�
 截图独审还发现真正的291a报告UI缺项：原保存defense74却显示模板waveDefense0，缺supportIds却显示waveSupport0。v2新增这两个实际DOM断言，预期会使未修该UI的291a失败。不能靠修验收误判宣称旧构建整体通过；runtime需另行冻结修正构建后真实重跑。
 
 full顶层ok现在同时要求releaseCoverageComplete、preparedCaseCount一致、48例全部attempted且passed、所有非空契约组通过、明确`--require-production18`及四份真实18原件实际完成。空矩阵、漏case、缺第四原件或仅部分通过都exit1。7项合成report负控只测此判定器，绝不进入actualChecks或冒充游戏回放。
+
+## v3原件与v4真实种植入口
+
+root报告v3已terminal exit1：645.028秒、48/48例attempted、1641checks/1634passed/7failed，原report SHA256 `60b93f3e121072c5d53e1138b9d95471a857e17fae089b6444654f077e7377a8`。七项false均是新加的“四按钮都可见”断言；原件保持failed，不将它重标为游戏通过。
+
+只读核对真正v81 `f3488457`/HTML11f25与冻结412c，两者最终CSS均是 `.utility-row { display:none }`，旧cropBtn一直在该行。可用播种/收获入口是靠近菜畦后动态生成的 `#contextActions [data-context-action="crop"]`。v4只改tester：保留四legacy按钮disabled解除验收，严格检查gather/build/endDay三常驻按钮可见启用，将cropBtn的真实visible/enabled记录为legacy-hidden重复控件。没有改CSS、点击隐藏控件或事后注入存档。
+
+仅B1在原close tick、唯一threat.closed/replay、一次SAN补偿以及同分钟经济检查完成后，再公开开/关建造抽屉并WASD移动到真实输入已有的(7,14)成熟garden。路线以可见位置标记确认，必要点击可见菜畦地图格显示context；实际reload通过源注册pagehide/visibility-hidden写出当前位置的合法保存，作为点击前基线，再公开开始并点击可见启用的“收获”。导航前close保存、导航后的生命周期保存、收获动作与收获后保存分别保存，不用旧report FNV推测动作净收益。
+
+当前真实crop.changed payload为 `{}`，公开context对应crop.change.payload.buildingId为null。v4不添加或臆造delta：要求同一原garden ready/planted真且growth2，实际收获后ready/planted假且growth0；完整连续事件窗口内只有一个新crop.changed，精确join唯一crop.change与seenCommands；嵌套time.advanced的20分钟回执及world.advance replay必须causationId关联该crop命令，并位于crop receipt之前、同一world tick。允许另外真实自然clock receipt，累计分钟必须与实际保存日期差相等。
+
+食物核账要求 `收获后food - 点击前food + 已记录NPC取餐food = 3`；只接受原真实NPC ID、actorId相符、准确三字段且每次1份的npc.need.fulfilled。本路线采用冻结源码clock/NPC/relay的非食物事件白名单；地标探索、content效果、未来未知事件，或白名单事件载荷出现额外嵌套food字段都拒绝。额外吃饭、供给事件、其它crop、日界配给/维护也拒绝该窗口，不能用互相抵消把失败采集算成功。没有NPC取餐时实际food必须严格+3。两次reload从收获后实际保存核同一已收获garden、没有新crop命令/receipt、收益保留及真实NPC消耗；所有time receipt必须唯一join world.advance且总分钟等于实际日期差，无time receipt只能保持同分钟。原close/SAN回执仍精确保留，后续20分钟与正常DAY tick不解释为再次close或补偿。原真实人口ID集合保持唯一不补换人，收获及reload不消耗种子；连续账本严格等于 `(旧events + 新连续events).slice(-300)`，保留旧字段和值及整个数组顺序，拒绝新旧事件交错。
+
+v4增加39项合成**比较器方法控制**，明确 `syntheticComparisonWitnesses=true / gameplayExecuted=false / browserStarted=false`：拒绝receipt-only/noop、错garden、无收益、重复crop/replay、捏造buildingId、错20分钟因果、缺账本窗口/clock/seen、旧tail改写或交错、地标/content/未来未知供给、伪非食物载荷和坏NPC餐量；正常NPC餐量与合法clock可单独核账，人口替换、种子误扣、reload日期无clock/未join或分钟不符、重收、garden回退、丢收益和新close均拒绝。它们不进入actualChecks，也不更改48场景人数。三Python编译、六嵌入JS编译、五CLI负控与正parse、全部七真实源fixture及冻结412c的177项真实函数源码checks已通过；均不是新的browser游戏结果。真实B1收获和整套v4通过仍待root冻结并运行。
+
+独立只读复审实际重跑39方法控制并加7项变形控制通过；此前识别的新旧账本交错、reload无receipt却日期推进及种子丢失均已拒绝，未知food事件仍failclosed。点击前实际生命周期基线、实际postharvest两reload与导航前原close/SAN分离的时序未发现阻塞。该结论只允许冻结新tester开展真实48例，不能称B1已经完成browser收获或整套游戏通过。
 
 ## 运行方式（需 root 冻结通知）
 

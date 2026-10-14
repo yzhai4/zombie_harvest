@@ -4,6 +4,8 @@
 **基线：** `zfarm-world-1.0` 文档基线；工作树存在未提交运行时变更  
 **状态：** active
 
+**最新验收入口：** 报告恢复 v4 已完成真实 browser 48/48 场、1682/1682 检查；独审与758原工件跨机SHA均通过。严格单构建三日首轮已真实FAILED（第二日保存同步超时），原94保存及profile保留，下一诊断不放宽判据。下面逐轮记录保留历史失败和检查时点；当前生产仍为公开 Sites v81，GitHub 草稿 head fd812/CI63。
+
 ## 可验证事实
 
 - 当前游戏是 Web/Canvas 竖切片，规则、UI 和内容注册仍主要位于 `dist/index.html`。
@@ -84,3 +86,27 @@ B16无visibility事件的infra原因已核安装包primary source：普通PWR co
 新48场景full已从独立412c字节启动一次，报告标识 `run-20261014T211705Z-043adff1`；root按既定心跳/轮询观察同一进程，没有重开或热换脚本。冻结三脚本main `0a76f30d9ce1e138fdecf50fae65a7d57d9bfa7eb7380396e0327104e717fe72`、fixtures `41474fc24c1dd14a256ce2ae8bd074ab40b672a2810eb489d31dbf4f06177390`、full `725cca14f9d8909a37ba88433962e0ac9376af1d5a236011ba826e2082f2f077`；14份资产/输入/runner跨机逐路径SHA和字节数一致，实际loopbackHTTP为412c。fixture契约检查39+8+1通过但未执行游戏。冻结类的实际data-page探针exit0，trusted hidden→visible约2909.9ms，独占主PID/group/profile均已清理；该探针仍非B16游戏通过。
 
 此轮running阶段已观察B1/B2新增可见性断言失败：采集/建造/推进visible且enabled，cropBtn enabled但hidden。生产v81原HTML11f25在CSS243、本412c在CSS248都故意隐藏utility-row，实际作物由近菜畦contextActions入口提供。正在独审测试是否误把历史隐藏的备用按钮当成公开入口；不修改正在运行的v3，不把这些失败重标成功。下一修订须验真实公开作物路由和四控件禁用解除，不能改CSS或点击hidden按钮过关。Sites此次已再次确认public/active v81及实际浏览器主菜单，没有部署新版本。
+
+412c/v3源码检查点已推入PR #4 head `fd8120146ff0a2120bc1873aa898f7d3abf50a40`、tree `f3b4c37614ccf5b09eaafd04cc7c2b0410ba7264`，17明确文件的Git blob SHA全部匹配；branch与draft PR fresh读一致。CI #63/run38639915967/job116112499673精确fd812 success，decoded日志确认412c/177及43/27/16、三原golden和55静态fallback、Python语法，不含实际browser。48此时仍running、旧crop可见性false保留；v4只修改下一tester并增加公开菜畦收获证据，不能冒称旧轮通过。完整长期目标保持active。
+
+48 v3现已真正终止exit1，645.028秒、48/48 attempted、1641检查/1634通过/7失败，41case passed/7failed、notRun=[]；所有false均为“all four DAY controls visibly enabled after real close”，整轮仍FAILED。原report SHA `60b93f3e121072c5d53e1138b9d95471a857e17fae089b6444654f077e7377a8` 已小原件复制并核本机同SHA。原报告实际B16 native trusted hidden→visible同generation、2889ms，主PID/group/profile清理均true；真实650ms队列/B15竞态及四真实SAVE18原件均无其它false，但不等于整轮pass或≥60秒catch-up。
+
+隔离412c服务已停止，public80仍active/8a4，Sites仍公开v81。服务器原run共750文件/618954266字节，无零字节文件；大归档正在单次SCP传输，不重复启动，跨机器全SHA与独立原件审计尚待完成。v4 owner正修tester并加B1真实公开成熟菜畦收获，禁止改CSS/runtime、hidden click或伪造receipt delta；需冻结新三SHA再重跑全矩阵。新单构建三日仍未跑。新增plan-voter架构审查与meeting-version ADR仅proposed，L0/contentVersion/运行时未改，完整v82–v90目标继续active。
+
+v3独立服务器终止原件审计已完成：21条证据完整性控制通过、35条关键事实中34通过/1复现crop可见性false。343观察/343PNG、7真实输入及47派生输入核SHA/FNV声明；288条只通过当前FNV/schema/calendar读取（可能包含loader拒绝的逻辑负例），不称安全可继续档。独审目视六张原图并核跨机SHA，B7防线74/缺支援未记录成立；第二轮整轮FAILED不改。大归档仍同一transfer处理中，无重复启动。
+
+v4唯一owner与独审最终冻结：main `32273364d4ae4373938d005ab70bad95bd42f6b41f79020da85d4ce348878845`、fixtures `c9ec8771a76b2e6e8581cf3fa2c9edb6b667410e5f62448acc66201a51467e8e`、full `a1d1c54d10e82dc2c9e7a7f2b098d245f170ada27a08140223a913db0988f483`。root新QA14文件逐字节跨机核验、实际loopbackHTTP412c、39+8+1 fixture/source契约通过；39合成方法与7独立变形控制非gameplay。新增收获比较器拒未知food、交错ledger、无收据clock与seed变化；原生会话四个方法AST与已实跑v3完全相同。
+
+新完整48已启动一次，逻辑run `run-20261014T214131Z-5c844377`，不热换脚本/源码。初期292/292、8场景，真实B1公开菜畦收获与刷新已进入实际检查，但整轮仍running、独审待terminal；不拿局部早期结果称发布门禁完成。源码repo head仍fd812/CI63（v3），尚未保存/CI验证v4。三日预审发现旧runner没有强制逐document source SHA、fresh内部reload漏记录、首日显式reload缺少、Gate未硬要求singleKnownBuild/清晨；正在保留旧字节后补严格fresh模式，不改旧三日profile/439/Gate90原证据。
+
+v3唯一大归档现已真正exit0，root本机私有输出750文件/618954266字节逐路径/bytes/SHA与服务器manifest全部吻合、零字节0，原report仍60b93，不重复传输也不重写FAILED。v4持续同一PID/handle，阶段27场景/925检查均pass、无errors；完整结果仍待terminal。严格fresh三日tester正在最小改造，旧3e9921/b4b945原字节已保留且旧模式对原attempt9仍完全相同90+2输出，不冒称旧恢复三日为新的单构建回归。
+
+## 报告恢复正式验收与严格三日启动
+
+报告恢复v4现已真正terminal exit0：658.887秒、48/48场景、1682/1682检查、errors0、notRun=[]，原report SHA `73aca16ee41438041fb9fba1955d6abf719f583f72a82290b7d34d118ae6cb36`。独审直接核原件21完整性控制与48关键事实通过；真实公开收获food7→10、同plot清空、两reload、B15已排队650ms重开竞态、B16可信原生隐藏2873ms与清理、四真实SAVE18迁移均通过。原两个full FAILED不改；≥60秒后台追赶与平衡仍未获得browser证据。详见 `docs/qa/report-recovery-browser-third-20261014.md`。
+
+原终止run758文件/627794851字节以一次175064549字节tgz传输并安全解包到私有证据目录；archive SHA `28844905df3e1c366de078291e895e57b6a9a0828109707480d7a24393d83c59`，全部原路径/bytes/SHA与服务器manifest相同，原report不变、没有profile/凭据。归档成功不是新增游戏检查。
+
+严格三日已从冻结HTML412c与actor be4cf51d启动一次；runner SHA `293fc76c7479cb16989510c7d2aad3e116f763f36786d52ca91c009b88229c2e`、verifier SHA `4cca9356ceba55e47d9ac6c4ec0d08b62e926d2f7df2d29930f5af62f80b7434`。全新私有profile、loopback8783，显式fresh/strict-fresh/expected SHA、预算1800秒、day4清晨≥06:00；15秒实际心跳、约30秒父轮询同一进程，无重启或热换。DAY1显式reload与day2日界已实际进入，但整轮仍running，不拿前缀为三日通过。方法15/21与独审19/31仅是严格tester/source-ready证据，旧模式90+2保持。完整v82–v90仍active。
+
+该严格首轮现已真实exit1：694.23秒、359已执行检查均true，第二日下一公开训练前保存同步超时。原report SHA `366444feeee25a99f613bdf1245e7c40a5246b774bd4a9f44bc08b6a4aefc0b9`；strict独立Gate104/113，九项失败均完整性/后续阶段缺失，94原snapshot同412c、已观察DAY1/2 reload和day2日界。实际原PID不存在，profile/原报告不重开、不改FAILED；根因尚未确定，下一tester只加失败观测，不放宽原判据。详见 `docs/qa/fresh-three-days-first-20261014.md`。最小计划会业务候选fb871在私有目录48源码检查与独审通过，公开低信任UI一致性正另做候选；尚未集成当前dist或服务。全十人剧本卡及MeetingV2仍proposed。

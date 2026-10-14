@@ -7,8 +7,11 @@
 | LLM 规划器越权或信息泄露 | 高 | 中 | 先做 Intent schema、观察投影和 Safety Gate | `docs/long-term-plan.md` |
 | Colab 运行时回收导致实验不完整 | 中 | 高 | 分片、checkpoint、run manifest 和外部 artifact | `docs/colab-t4-evaluation.md` |
 | 自动指标与人工戏剧性评价冲突 | 高 | 中 | 建立 held-out 和人工评审集 | `docs/experiments/README.md` |
-| 三日日历单构建从头回归仍缺 | 高 | 恢复路线已通过 | 原profile439/Gate90通过；新冻结构建补早期源码hash与day2显式刷新，不改历史失败 | `docs/qa/calendar-public-actions-20261014.md` |
-| resolved报告在loader与start分支条件不一致，失守重开不可达 | 高 | 独立浏览器已复现 | 正常DAY对照已通过；修完整报告/loss启动分类与会话退出，再覆盖B1–B16 | `PROB-20261014-resolved-report-boot` |
-| 严格恢复候选拒绝实际Sites SAVE18或耗尽资源 | 高 | 首轮独立审查已暴露 | 用真实生产writer四份原件验证pre-content适配、amount0及初始world0零水位；无虚构人口/奖励 | `docs/qa/production18-source-fixtures-20261014.md` |
-| browser把历史隐藏备用crop按钮当成公开入口 | 中 | 新48首轮running已发现 | 保留v3原失败；核生产/开发CSS与真实近菜畦contextActions，再独立冻结修订tester，不能改样式过关 | `docs/qa/report-recovery-full-contracts-20261014.md` |
+| 三日日历单构建从头回归仍缺 | 高 | 严格首轮第二日超时 | 原恢复439/Gate90保留；新strict首轮359检查/94保存与Gate104/113仍FAILED，补只读失败采样定位原因，不放宽合同 | `docs/qa/fresh-three-days-first-20261014.md` |
+| ≥60秒原生后台追赶尚无browser证据 | 中 | 仅源码控制与短隐藏通过 | native B16实际2873ms；另做真实长隐藏补验，不能把短隐藏或伪clock称长catch-up | `docs/qa/report-recovery-browser-third-20261014.md` |
+| 计划干预权限与同日实例可重生成 | 高 | 源码VM已复现 | 最小私有候选拒trust<60并冻结同日非idle；需独审、公开UI一致性、集成及本主题browser | `PROB-20261014-plan-integrity` |
 | 晋升英雄字段/断粮状态与计划投影未对齐 | 中 | 已确认源码差异 | 先统一设计冲突，再实现单一英雄/食物投影 | `PROB-20261014-plan-voter-projection` |
+
+## 已通过主题与历史失败
+
+报告恢复、失守重开、真实SAVE18/amount0适配与公开菜畦入口已在冻结412c/v4完整browser和独审通过：48/48场、1682/1682检查，见 `docs/qa/report-recovery-browser-third-20261014.md`。v1/v3原失败、旧crop错误预期及其原件保留；新通过不追溯修改历史结果，也不代表严格三日、14天全链或生产已经发布。

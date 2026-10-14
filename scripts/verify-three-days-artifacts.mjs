@@ -8,6 +8,8 @@
  *   --allowed-root PRIVATE_DIR [--allowed-root OTHER_PRIVATE_DIR]
  * Optional --developer-negative-controls mutates a verified real plan pair
  * only in memory. Those validator controls are separate from gameplay evidence.
+ * --strict-fresh --expect-html-sha256 SHA adds fresh-run requirements; default
+ * verification preserves the original recovered-run evidence contract.
  */
 import { readFileSync, realpathSync, statSync } from 'node:fs';
 import path from 'node:path';
@@ -274,16 +276,84 @@ function verifyHarvest(before, after) {
   return { day: 3, actualFoodReward: 3, npcFoodConsumed: eaten, eventId: events[0].eventId };
 }
 
+export function verifyStrictFreshSource(report, records, expectedSha) {
+  need(sha(expectedSha), 'STRICT_EXPECTED_SOURCE_SHA_REQUIRED');
+  const expected = expectedSha.toLowerCase();
+  need(report.strictFresh?.version === 1 && report.strictFresh.enabled === true
+    && report.strictFresh.initialProfileEmpty === true
+    && report.strictFresh.expectedHtmlSha256 === expected, 'STRICT_FRESH_RUNNER_CONTRACT_MISSING');
+  equal(report.strictFresh.requiredReloadDays, [1, 2, 3], 'STRICT_FRESH_RELOAD_POLICY_MISMATCH');
+  need(report.strictFresh.minimumFinalHour === 6
+    && (report.resumeSessions === undefined || Array.isArray(report.resumeSessions) && report.resumeSessions.length === 0),
+  'STRICT_FRESH_RESUME_OR_DAWN_POLICY_MISMATCH');
+  need(report.htmlSha256 === expected && Array.isArray(report.buildSessions) && report.buildSessions.length > 0
+    && Array.isArray(report.documentResponses) && report.documentResponses.length === report.buildSessions.length,
+  'STRICT_FRESH_DOCUMENT_EVIDENCE_MISSING');
+  let gameUrl;
+  try { gameUrl = new URL(report.url); } catch { throw new ArtifactError('STRICT_FRESH_ORIGIN_INVALID'); }
+  need(['http:', 'https:'].includes(gameUrl.protocol) && !gameUrl.search, 'STRICT_FRESH_ORIGIN_INVALID');
+  const required = ['initial document', 'fresh public reset document', 'day-1-reload reload',
+    'calendar-day-2-reload reload', 'calendar-day-3-reload reload', 'calendar-day-4-reload reload', 'final-day-four-reload reload'];
+  for (const stage of required) need(report.buildSessions.filter(build => build.stage === stage).length === 1, 'STRICT_FRESH_REQUIRED_DOCUMENT_MISSING');
+  for (const [index, document] of report.documentResponses.entries()) {
+    const build = report.buildSessions[index];
+    need(object(document) && object(build) && document.index === index && build.documentIndex === index
+      && document.status === 200 && build.status === 200 && document.htmlSha256 === expected
+      && build.htmlSha256 === expected && document.stage === build.stage && build.mode === 'fresh', 'STRICT_FRESH_DOCUMENT_UNKNOWN_OR_CHANGED');
+    try { need(new URL(document.url).href === gameUrl.href, 'STRICT_FRESH_DOCUMENT_ORIGIN_CHANGED'); }
+    catch (error) { if (error instanceof ArtifactError) throw error; throw new ArtifactError('STRICT_FRESH_DOCUMENT_ORIGIN_CHANGED'); }
+  }
+  need(Array.isArray(report.snapshots) && report.snapshots.length > 0 && records.length === report.snapshots.length
+    && records.every(record => record.metadata.htmlSha256 === expected), 'STRICT_FRESH_SNAPSHOT_SOURCE_UNKNOWN_OR_CHANGED');
+  return { expectedHtmlSha256: expected, verifiedDocuments: report.documentResponses.length, verifiedSnapshots: records.length, resumeSessions: 0 };
+}
+
+export function verifyStrictFreshReload(before, after, day) {
+  need(before.day === day && after.day === day && worldMinute(after) > worldMinute(before), 'STRICT_FRESH_RELOAD_WRONG_DAY_OR_STALE_SAVE');
+  const events = newEvents(before, after);
+  const advances = events.filter(event => event.type === 'time.advanced');
+  need(advances.length > 0 && !events.some(event => ['plan.meeting.resolved', 'plan.meeting.fallback', 'camp.area.interacted',
+    'crop.changed', 'resource.collected', 'event.resolved', 'npc.event.resolved', 'player.ate'].includes(event.type)
+    || event.type.startsWith('threat.')), 'STRICT_FRESH_RELOAD_HAS_ACTION_OR_SETTLEMENT');
+  let minutes = 0;
+  for (const event of advances) {
+    const command = commandFor(after, event, 'world.advance');
+    need(Number.isFinite(event.payload?.minutes) && event.payload.minutes >= 1 && event.payload.minutes <= 5
+      && event.causationId === null && command.payload?.minutes === event.payload.minutes
+      && event.payload.day === day && worldMinute(event.payload) === event.tick.world, 'STRICT_FRESH_RELOAD_NOT_NATURAL_TICK');
+    minutes += event.payload.minutes;
+  }
+  need(worldMinute(after) - worldMinute(before) === minutes, 'STRICT_FRESH_RELOAD_CLOCK_TRACE_MISMATCH');
+  for (const key of ['commandPoints', 'commandPointsMax', 'commandPointsGrantedDay']) {
+    equal(after.contentState[key], before.contentState[key], 'STRICT_FRESH_RELOAD_CP_CHANGED');
+  }
+  equal(after.contentState.planMeeting, before.contentState.planMeeting, 'STRICT_FRESH_RELOAD_PLAN_CHANGED');
+  for (const key of ['lastRationDay', 'lastDailyUpkeepDay']) equal(after.world[key], before.world[key], 'STRICT_FRESH_RELOAD_DAILY_MARKER_CHANGED');
+  const consumption = events.filter(event => event.type === 'npc.need.fulfilled' && event.payload?.need === 'hunger');
+  need(consumption.every(event => Number.isFinite(event.payload.food) && event.payload.food >= 0), 'STRICT_FRESH_RELOAD_INVALID_MEAL');
+  const consumed = consumption.reduce((sum, event) => sum + event.payload.food, 0);
+  equal(after.food, before.food - consumed, 'STRICT_FRESH_RELOAD_FOOD_OR_RATION_CHANGED');
+  return { day, naturalMinutes: minutes, timeEventIds: advances.map(event => event.eventId), legitimateNpcFood: consumed };
+}
+
+export function verifyStrictFreshFinal(final) {
+  need(final?.day === 4 && worldMinute(final) >= 3 * 1440 + 6 * 60, 'STRICT_FRESH_FINAL_BEFORE_DAY_FOUR_DAWN');
+  return { day: final.day, hour: final.hour, minute: final.minute };
+}
+
 function parseArgs(argv) {
-  const args = { roots: [], negativeControls: false };
+  const args = { roots: [], negativeControls: false, strictFresh: false };
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === '--help') return { help: true };
     if (argv[i] === '--developer-negative-controls') { args.negativeControls = true; continue; }
-    need(['--report', '--allowed-root'].includes(argv[i]) && typeof argv[i + 1] === 'string' && !argv[i + 1].startsWith('--'), 'INVALID_CLI_ARGUMENTS');
+    if (argv[i] === '--strict-fresh') { need(!args.strictFresh, 'DUPLICATE_STRICT_FRESH_ARGUMENT'); args.strictFresh = true; continue; }
+    need(['--report', '--allowed-root', '--expect-html-sha256'].includes(argv[i]) && typeof argv[i + 1] === 'string' && !argv[i + 1].startsWith('--'), 'INVALID_CLI_ARGUMENTS');
     if (argv[i] === '--report') { need(!args.report, 'DUPLICATE_REPORT_ARGUMENT'); args.report = argv[++i]; }
+    else if (argv[i] === '--expect-html-sha256') { need(!args.expectedHtmlSha256, 'DUPLICATE_EXPECTED_SHA_ARGUMENT'); args.expectedHtmlSha256 = argv[++i].toLowerCase(); }
     else args.roots.push(argv[++i]);
   }
   need(args.report && args.roots.length > 0, 'REPORT_AND_ALLOWED_ROOT_REQUIRED');
+  need(args.strictFresh ? sha(args.expectedHtmlSha256) : !args.expectedHtmlSha256, 'STRICT_EXPECTED_SHA_ARGUMENT_MISMATCH');
   return args;
 }
 
@@ -338,6 +408,12 @@ export function verifyReport(args) {
   output.coverage.sourceHashes = [...sources].sort();
   output.coverage.unknownSourceSnapshots = unknownSources;
   output.coverage.singleKnownBuild = sources.size === 1 && unknownSources === 0;
+  if (args.strictFresh) check('strict-fresh-every-document-and-snapshot-is-the-pinned-build', () => {
+    const detail = verifyStrictFreshSource(report, records, args.expectedHtmlSha256);
+    need(output.coverage.singleKnownBuild && output.coverage.sourceHashes[0] === args.expectedHtmlSha256.toLowerCase(), 'STRICT_FRESH_NOT_SINGLE_KNOWN_BUILD');
+    output.coverage.strictFreshSingleBuild = true;
+    return detail;
+  });
   check('snapshot-calendar-and-watermarks-never-rewind', () => {
     need(records.length === report.snapshots.length && records.length > 0, 'SNAPSHOT_EVIDENCE_INCOMPLETE');
     for (let i = 1; i < records.length; i++) need(records[i].minute >= records[i - 1].minute
@@ -416,6 +492,20 @@ export function verifyReport(args) {
     equal(report.state?.npcCount, final.payload.npcs.length, 'FINAL_REPORT_POPULATION_MISMATCH');
     return { day: final.payload.day, hour: final.payload.hour, minute: final.payload.minute };
   });
+  if (args.strictFresh) {
+    output.coverage.strictFreshReloadDays = [];
+    for (const [day, stage] of [[1, 'day-1-reload'], [2, 'calendar-day-2-reload'], [3, 'calendar-day-3-reload']]) {
+      check(`strict-fresh-calendar-day-${day}-explicit-reload-with-new-natural-save`, () => {
+        need(report.completedStages?.includes(stage), 'STRICT_FRESH_REQUIRED_RELOAD_STAGE_MISSING');
+        const afters = byStage(stage), befores = byStage(stage + '-before-refresh');
+        need(afters.length === 1 && befores.length === 1 && befores[0].index < afters[0].index, 'STRICT_FRESH_RELOAD_PAIR_MISSING_OR_DUPLICATE');
+        const detail = verifyStrictFreshReload(befores[0].payload, afters[0].payload, day);
+        output.coverage.strictFreshReloadDays.push(day);
+        return detail;
+      });
+    }
+    check('strict-fresh-final-original-save-reaches-day-four-dawn', () => verifyStrictFreshFinal(byStage('complete').at(-1)?.payload));
+  }
   check('overlapping-snapshot-receipts-agree', () => {
     const merged = new Map();
     for (const record of records) for (const event of record.payload.worldMeta.events) {
@@ -471,7 +561,7 @@ function main() {
   try {
     const args = parseArgs(process.argv.slice(2));
     if (args.help) {
-      console.log('Usage: node verify-three-days-artifacts.mjs --report REPORT.json --allowed-root DIR [--allowed-root DIR] [--developer-negative-controls]');
+      console.log('Usage: node verify-three-days-artifacts.mjs --report REPORT.json --allowed-root DIR [--allowed-root DIR] [--developer-negative-controls] [--strict-fresh --expect-html-sha256 SHA]');
       return;
     }
     output = verifyReport(args);

@@ -67,6 +67,8 @@
 
 多日 runner 完成后，用 `scripts/verify-three-days-artifacts.mjs` 只读核验原始报告与完整保存工件。检查 FNV、日历/事件水位、连续账本、前一夜具体计划实例及效果/粮食来源、三场遭遇、真实收获和固定人口；报告失败或阶段缺失必须保持 exit1。人为负控单列，不能计入实际回放。早期快照缺源码 hash、恢复使用多个构建或缺某日显式刷新时，分别披露覆盖限制；当前日补验不能改写历史日期的结果。
 
+单构建从头三日须在runner和只读Gate中显式启用`--strict-fresh --expect-html-sha256 SHA`。检查全新空profile/输出、含公开reset的每次main-document response与全部保存同源码SHA、DAY1/2/3各自真实reload和新clock/去重、原final保存day4≥06:00、零resume。不能只靠主报告声明fresh或source-ready检查推定通过；旧恢复结果继续按原默认合同保留。
+
 需跨机器保存证据时，在操作系统确认原runner终止后执行 `scripts/export-three-days-artifacts.mjs`，只复制报告明确引用的保存和截图，并保存不变的原报告、逐工件SHA/FNV及路径映射。输出是新空私有目录，不能位于网页根或仓库；不复制profile、cookie和密钥。Windows以真实ACL验证私有权限。迁移后使用 `--source-manifest` 重绑定新路径，再跑同一独立Gate并比较覆盖和逐项结果；允许根目录参数的差异单列，不能把迁移或导出成功当成游戏验收通过。
 
 历史说明：v79 之前的 `EVENT_DEFS` 曾主要保存标题和选择 ID；当前版本已提供事件契约、内容注册表和扩展效果接口。后续仍需把新主线/支线逐条注册并补回归夹具，不能继续堆叠按 ID 分支。
@@ -108,5 +110,7 @@ v80 冻结状态边界；v81 接入营地自治与计划会；v82 接入 NPC 属
 每轮只选择一个主主题，允许一个配套验证主题。主题结束时必须产生以下四类结果中的至少三类：可运行代码、验证证据、问题/决策记录、实验或发布报告。失败也要记录，不能用下一轮提交覆盖失败原因。
 
 候选运行时先复制到独立不再编辑的QA目录，以文件SHA核对源码回归、浏览器响应和发布字节。隔离源码测试加载真实的新会话控制器/Gate，测试模式只是显式环境夹具。被修改的HUD/报告renderer不能被空函数替代：除报告冻结外，还验关闭后采集、建造、种植及推进按钮恢复。源码检查、保存投影与真实browser分别列出范围。
+
+可见性验收先对账生产CSS和当前公开入口。旧utility-row中的cropBtn被设计隐藏，disabled解除不等于该备用按钮应可见；作物需通过近菜畦contextActions真实验证，不改CSS、hidden click或运行中造成熟度。原close/SAN补偿先按精确账本取证，随后导航与实际收获各取新的真实保存基线。crop.changed空payload或no-op receipt不能代替实际food/plot变化、唯一crop.change重放和causationId关联；后续刷新用真实行动后存档，不把作物行动混作关闭奖励或自然时钟。
 
 AI 规划器只产生结构化意图，不能写入 `GameState`。游戏主循环必须能在没有 GPU、没有外部 LLM 和网络失败时通过规则策略继续运行。Colab 只执行有 manifest、checkpoint 和分片结果的可恢复任务，不作为线上常驻后端。

@@ -240,6 +240,244 @@ def new_events(payload, prior):
     return [e for e in payload["worldMeta"]["events"] if e["seq"] > prior["worldMeta"]["eventSeq"]]
 
 
+def continuous_events(payload, prior):
+    """Evidence projection: accept only the complete actual saved event window."""
+    events = new_events(payload, prior)
+    return events if ([e["seq"] for e in events] == list(range(prior["worldMeta"]["eventSeq"] + 1,
+                                                             payload["worldMeta"]["eventSeq"] + 1))
+        and payload["worldMeta"]["events"] == (prior["worldMeta"]["events"] + events)[-300:]) else None
+
+
+def accounted_food(events, before):
+    """Recorded NPC meals are the only allowed competing food change here."""
+    # Frozen-source nonfood events reachable from the clock/NPC/relay loops.
+    # Unknown types fail closed, including landmark.discovered and all content
+    # effect/history events: a blacklist cannot prove a +3 crop yield.
+    nonfood = {"time.advanced","sanity.changed","sanity.thresholdCrossed","npc.work.completed","npc.work.blocked",
+        "npc.event.triggered","npc.event.cancelled","npc.promotion.eligible","frontier.zombieSpawned","threat.forecastChanged",
+        "relay.projectBlocked","relay.constructionStarted","relay.materialsGathered","relay.materialsCommitted","relay.stationOnline"}
+    def food_field(value):
+        if isinstance(value, dict):return any("food" in str(k).lower() or food_field(v) for k,v in value.items())
+        if isinstance(value, list):return any(food_field(v) for v in value)
+        return False
+    unsupported = [e for e in events if
+        (e["type"] != "npc.need.fulfilled" and
+            (e["type"] not in nonfood and not (e["type"] == "quest.completed" and e.get("payload", {}).get("reward") == "parts+1")
+             or food_field(e.get("payload", {}))))
+        or (e["type"] == "npc.need.fulfilled" and (e.get("payload", {}).get("need") != "hunger"
+            or set(e.get("payload", {})) != {"npcId","need","food"}))]
+    ids = {n["id"] for n in before["npcs"]}
+    meals = [e for e in events if e["type"] == "npc.need.fulfilled" and e.get("payload", {}).get("need") == "hunger"]
+    meals_valid = all(e["payload"].get("npcId") in ids and type(e["payload"].get("food")) is int
+                      and e["payload"]["food"] == 1 and e.get("actorId") == e["payload"]["npcId"] for e in meals)
+    return {"ok": not unsupported and meals_valid, "unsupported": unsupported, "meals": meals,
+            "npcFoodConsumed": sum(e["payload"].get("food", 0) for e in meals) if meals_valid else None}
+
+
+def day_control_evidence(controls):
+    return {"legacyDisabledCleared": all(controls.get(k, {}).get("enabled") is True for k in ("gatherBtn","buildBtn","cropBtn","endDayBtn")),
+            "publicThreeVisibleEnabled": all(controls.get(k, {}).get("visible") is True and controls.get(k, {}).get("enabled") is True
+                for k in ("gatherBtn","buildBtn","endDayBtn"))}
+
+
+def clock_window_evidence(before, after, events):
+    """Actual saved clock receipts must join uniquely and explain all minutes."""
+    clocks=[e for e in events if e["type"]=="time.advanced"]
+    joined=all(len([c for c in after["worldMeta"]["replay"]["commands"] if c["commandId"]==e["commandId"]
+        and c["type"]=="world.advance" and c.get("payload",{}).get("minutes")==e.get("payload",{}).get("minutes")])==1
+        and type(e.get("payload",{}).get("minutes")) in (int,float) and e["payload"]["minutes"]>0 for e in clocks)
+    minutes=sum(e.get("payload",{}).get("minutes",0) for e in clocks) if joined else None
+    return {"ok":joined and minutes==minute(after)-minute(before),"clockReceipts":clocks,
+            "clockMinutes":minutes,"actualCalendarDelta":minute(after)-minute(before)}
+
+
+def public_crop_evidence(before, after, garden_id):
+    """Check actual pre/post artifacts, not a crop reducer or invented receipt.
+
+    The current public context handler supplies buildingId=null and the real
+    crop.changed receipt has no delta. Positive yield therefore needs the same
+    garden transition, accounted food and the exact nested advance/replay join.
+    """
+    window = continuous_events(after, before)
+    events = window or []
+    crops = [e for e in events if e["type"] == "crop.changed"]
+    event = crops[0] if len(crops) == 1 else None
+    command_id = event.get("commandId") if event else None
+    commands = [c for c in after["worldMeta"]["replay"]["commands"] if c["commandId"] == command_id] if command_id else []
+    before_crop_commands = {c["commandId"] for c in before["worldMeta"]["replay"]["commands"] if c["type"] == "crop.change"}
+    new_crop_commands = [c for c in after["worldMeta"]["replay"]["commands"] if c["type"] == "crop.change" and c["commandId"] not in before_crop_commands]
+    advances = [e for e in events if e["type"] == "time.advanced" and e.get("causationId") == command_id] if command_id else []
+    advance = advances[0] if len(advances) == 1 else None
+    advance_commands = [c for c in after["worldMeta"]["replay"]["commands"] if advance and c["commandId"] == advance["commandId"]]
+    clock=clock_window_evidence(before,after,events)
+    old_gardens = [b for b in before["buildings"] if b.get("id") == garden_id]
+    new_gardens = [b for b in after["buildings"] if b.get("id") == garden_id]
+    old = old_gardens[0] if len(old_gardens) == 1 else {}
+    actual = new_gardens[0] if len(new_gardens) == 1 else {}
+    before_ids=[n["id"] for n in before["npcs"]];after_ids=[n["id"] for n in after["npcs"]]
+    food = accounted_food([e for e in events if e["type"] != "crop.changed"], before)
+    stable_day = before["day"] == after["day"] and all(before["world"].get(k) == after["world"].get(k)
+        for k in ("lastRationDay", "lastDailyUpkeepDay"))
+    checks = {
+        "complete actual harvest event window": window is not None and bool(window),
+        "harvest preserves the same unique source NPC identities": len(before_ids)==len(set(before_ids))
+            and len(after_ids)==len(set(after_ids)) and sorted(before_ids)==sorted(after_ids),
+        "same mature garden actually becomes harvested": bool(old and actual) and old.get("type") == "garden"
+            and old.get("ready") is True and old.get("planted") is True and old.get("growth", 0) >= 2
+            and all(actual.get(k) == old.get(k) for k in ("id", "x", "y", "type"))
+            and actual.get("ready") is False and actual.get("planted") is False and actual.get("growth") == 0,
+        "harvesting the mature garden does not spend seeds": after["seeds"]==before["seeds"],
+        "one new crop receipt joins one exact public crop command": bool(command_id) and len(crops) == 1 and len(commands) == 1
+            and event.get("actorId") == "player-1"
+            and commands[0]["type"] == "crop.change" and commands[0].get("payload") == {"buildingId": None}
+            and commands[0].get("actorId") == "player-1" and len(new_crop_commands) == 1 and new_crop_commands[0] == commands[0]
+            and after["worldMeta"]["seenCommands"].count(command_id) == 1,
+        "harvest advances twenty minutes by its own causal replay": bool(advance and event) and len(advance_commands) == 1
+            and advance.get("payload", {}).get("minutes") == 20 and advance_commands[0]["type"] == "world.advance"
+            and advance_commands[0].get("payload") == {"minutes": 20} and advance["seq"] < event["seq"]
+            and advance["tick"]["world"] == event["tick"]["world"],
+        "harvest observation time is backed by all actual clock commands": bool(clock["clockReceipts"]) and clock["ok"],
+        "harvest food gain is exactly three after recorded NPC meals": stable_day and food["ok"]
+            and after["food"] - before["food"] + food["npcFoodConsumed"] == 3,
+    }
+    return {"ok": all(checks.values()), "checks": checks, "gardenBefore": old, "gardenAfter": actual,
+            "beforeMinute": minute(before), "afterMinute": minute(after), "beforeEventSeq": before["worldMeta"]["eventSeq"],
+            "afterEventSeq": after["worldMeta"]["eventSeq"], "foodBefore": before["food"], "foodAfter": after["food"],
+            "foodAccounting": food, "receipts": crops, "commands": commands, "causalAdvance": advances,
+            "causalAdvanceCommands": advance_commands, "clockEvidence":clock}
+
+
+def public_crop_reload_evidence(before, after, garden_id):
+    """Pure artifact comparison for no repeated harvest after actual reload."""
+    window = continuous_events(after, before)
+    events = window or []
+    old = [b for b in before["buildings"] if b.get("id") == garden_id]
+    actual = [b for b in after["buildings"] if b.get("id") == garden_id]
+    food = accounted_food(events, before)
+    clock=clock_window_evidence(before,after,events)
+    before_ids=[n["id"] for n in before["npcs"]];after_ids=[n["id"] for n in after["npcs"]]
+    checks = {
+        "reload has a complete saved event window since harvest": window is not None,
+        "reload calendar delta is backed by all exact clock replay joins": clock["ok"],
+        "reload retains the same unique source NPC identities": len(before_ids)==len(set(before_ids))
+            and len(after_ids)==len(set(after_ids)) and sorted(before_ids)==sorted(after_ids),
+        "reload keeps the exact harvested garden": len(old) == len(actual) == 1 and actual[0] == old[0]
+            and actual[0].get("ready") is False and actual[0].get("planted") is False and actual[0].get("growth") == 0,
+        "reload retains the actual post-harvest seed inventory": after["seeds"]==before["seeds"],
+        "reload never repeats crop receipt or command": not any(e["type"] == "crop.changed" for e in events)
+            and [c for c in after["worldMeta"]["replay"]["commands"] if c["type"] == "crop.change"]
+                == [c for c in before["worldMeta"]["replay"]["commands"] if c["type"] == "crop.change"],
+        "reload food retains harvest yield with only recorded NPC meals": before["day"] == after["day"] and food["ok"]
+            and all(before["world"].get(k) == after["world"].get(k) for k in ("lastRationDay", "lastDailyUpkeepDay"))
+            and after["food"] == before["food"] - food["npcFoodConsumed"],
+    }
+    return {"ok": all(checks.values()), "checks": checks, "foodAccounting": food,"clockEvidence":clock,
+            "beforeMinute": minute(before), "afterMinute": minute(after), "foodBefore": before["food"], "foodAfter": after["food"]}
+
+
+def close_receipts_unchanged(before, after):
+    wanted = lambda e: e["type"] == "threat.closed" or e["type"] == "sanity.changed" and e.get("payload", {}).get("targetId") == "player-1" and e.get("payload", {}).get("reason") == "尸潮结束后回到营地"
+    return [e for e in after["worldMeta"]["events"] if wanted(e)] == [e for e in before["worldMeta"]["events"] if wanted(e)]
+
+
+def crop_method_controls():
+    """Synthetic comparison witnesses only; never booted or gameplay results."""
+    checks=[]
+    controls={k:{"visible":k!="cropBtn","enabled":True} for k in ("gatherBtn","buildBtn","cropBtn","endDayBtn")}
+    assert all(day_control_evidence(controls).values())
+    for key,field in (("cropBtn","enabled"),("gatherBtn","visible"),("buildBtn","enabled"),("endDayBtn","visible")):
+        bad=copy.deepcopy(controls);bad[key][field]=False
+        assert not all(day_control_evidence(bad).values())
+        checks.append("day-controls-reject-"+key+"-"+field)
+    before={"day":3,"hour":1,"minute":0,"food":5,"seeds":2,"npcs":[{"id":"developer-only-npc"}],
+        "buildings":[{"id":"developer-only-garden","x":7,"y":14,"type":"garden","ready":True,"planted":True,"growth":2}],
+        "world":{"lastRationDay":3,"lastDailyUpkeepDay":3},
+        "worldMeta":{"eventSeq":10,"events":[],"seenCommands":[],"replay":{"commands":[]}}}
+    after=copy.deepcopy(before);after["minute"]=20;after["food"]=8
+    after["buildings"][0].update(ready=False,planted=False,growth=0)
+    after["worldMeta"].update(eventSeq=12,seenCommands=["developer-crop","developer-advance"],events=[
+        {"seq":11,"type":"time.advanced","commandId":"developer-advance","causationId":"developer-crop","tick":{"world":2960},"payload":{"minutes":20}},
+        {"seq":12,"type":"crop.changed","actorId":"player-1","commandId":"developer-crop","tick":{"world":2960},"payload":{}}])
+    after["worldMeta"]["replay"]["commands"]=[{"commandId":"developer-crop","type":"crop.change","actorId":"player-1","payload":{"buildingId":None}},
+        {"commandId":"developer-advance","type":"world.advance","payload":{"minutes":20}}]
+    garden="developer-only-garden"
+    assert public_crop_evidence(before,after,garden)["ok"]
+    checks.append("accept-empty-real-shaped-crop-payload-with-positive-artifact-evidence")
+    for label in ("noop-garden","wrong-garden","food-no-yield","seed-spent","changed-roster","duplicate-crop","wrong-replay-type","duplicate-replay",
+                  "invented-buildingId","wrong-causation","wrong-duration","missing-window","wrong-clock-total","missing-seen-command",
+                  "unknown-food-action","landmark-food","content-food","future-food","nonfood-type-food-payload","bad-NPC-meal"):
+        bad=copy.deepcopy(after)
+        if label=="noop-garden":bad["buildings"]=copy.deepcopy(before["buildings"])
+        elif label=="wrong-garden":bad["buildings"][0]["id"]="unrelated-garden"
+        elif label=="food-no-yield":bad["food"]=before["food"]
+        elif label=="seed-spent":bad["seeds"]-=1
+        elif label=="changed-roster":bad["npcs"][0]["id"]="unrelated-NPC"
+        elif label=="duplicate-crop":
+            bad["worldMeta"]["eventSeq"]+=1;e=copy.deepcopy(bad["worldMeta"]["events"][-1]);e["seq"]=13;bad["worldMeta"]["events"].append(e)
+        elif label=="wrong-replay-type":bad["worldMeta"]["replay"]["commands"][0]["type"]="resource.collect"
+        elif label=="duplicate-replay":bad["worldMeta"]["replay"]["commands"].append(copy.deepcopy(bad["worldMeta"]["replay"]["commands"][0]))
+        elif label=="invented-buildingId":bad["worldMeta"]["replay"]["commands"][0]["payload"]["buildingId"]=garden
+        elif label=="wrong-causation":bad["worldMeta"]["events"][0]["causationId"]="unrelated-command"
+        elif label=="wrong-duration":bad["worldMeta"]["events"][0]["payload"]["minutes"]=1
+        elif label=="missing-window":bad["worldMeta"]["events"].pop(0)
+        elif label=="wrong-clock-total":bad["minute"]=22
+        elif label=="missing-seen-command":bad["worldMeta"]["seenCommands"].remove("developer-crop")
+        else:
+            bad["worldMeta"]["eventSeq"]+=1
+            variants={"unknown-food-action":("player.ate",{}),"landmark-food":("landmark.discovered",{"landmarkType":"waterMill"}),
+                "content-food":("content.effects.applied",{"effects":[{"op":"adjustResource","key":"food","value":2}]}),
+                "future-food":("developer-only-future-event",{}),"nonfood-type-food-payload":("npc.work.completed",{"delta":{"food":2}}),
+                "bad-NPC-meal":("npc.need.fulfilled",{"npcId":"developer-only-npc","need":"hunger","food":True})}
+            kind,data=variants[label]
+            bad["worldMeta"]["events"].append({"seq":13,"type":kind,"payload":data})
+        assert not public_crop_evidence(before,bad,garden)["ok"],"crop evidence accepted "+label
+        checks.append("reject-"+label)
+    meal=copy.deepcopy(after);meal["food"]-=1;meal["worldMeta"]["eventSeq"]=13
+    meal["worldMeta"]["events"].append({"seq":13,"type":"npc.need.fulfilled","actorId":"developer-only-npc","payload":{"npcId":"developer-only-npc","need":"hunger","food":1}})
+    assert public_crop_evidence(before,meal,garden)["ok"]
+    checks.append("account-recorded-NPC-meal-without-inventing-crop-delta")
+    old_before=copy.deepcopy(before);old_after=copy.deepcopy(after)
+    old={"seq":10,"type":"developer-only-original","payload":{"unchanged":True}}
+    old_before["worldMeta"]["events"]=[old];old_after["worldMeta"]["events"].insert(0,copy.deepcopy(old))
+    assert public_crop_evidence(old_before,old_after,garden)["ok"]
+    interleaved=copy.deepcopy(old_after);interleaved["worldMeta"]["events"][0:2]=list(reversed(interleaved["worldMeta"]["events"][0:2]))
+    assert not public_crop_evidence(old_before,interleaved,garden)["ok"]
+    checks.append("reject-old-new-ledger-interleave")
+    old_after["worldMeta"]["events"][0]["payload"]["unchanged"]=False
+    assert not public_crop_evidence(old_before,old_after,garden)["ok"]
+    checks.append("reject-rewritten-retained-old-ledger")
+    assert public_crop_reload_evidence(after,after,garden)["ok"]
+    clock_after=copy.deepcopy(after);clock_after["minute"]+=1;clock_after["worldMeta"]["eventSeq"]+=1
+    clock_after["worldMeta"]["events"].append({"seq":13,"type":"time.advanced","commandId":"developer-reload-clock","payload":{"minutes":1}})
+    clock_after["worldMeta"]["replay"]["commands"].append({"commandId":"developer-reload-clock","type":"world.advance","payload":{"minutes":1}})
+    assert public_crop_reload_evidence(after,clock_after,garden)["ok"]
+    checks.append("reload-accept-exact-real-shaped-natural-clock-join")
+    for label in ("minute-without-clock","unjoined-clock","wrong-clock-total","seed-inventory-changed"):
+        bad=copy.deepcopy(clock_after)
+        if label=="minute-without-clock":bad=copy.deepcopy(after);bad["minute"]+=1
+        elif label=="unjoined-clock":bad["worldMeta"]["replay"]["commands"].pop()
+        elif label=="wrong-clock-total":bad["minute"]+=1
+        else:bad["seeds"]-=1
+        assert not public_crop_reload_evidence(after,bad,garden)["ok"],"reload evidence accepted "+label
+        checks.append("reload-reject-"+label)
+    for label in ("repeat-crop","garden-reset","changed-roster","lost-food","missing-window"):
+        bad=copy.deepcopy(after)
+        if label=="garden-reset":bad["buildings"]=copy.deepcopy(before["buildings"])
+        elif label=="changed-roster":bad["npcs"][0]["id"]="unrelated-NPC"
+        elif label=="lost-food":bad["food"]-=1
+        elif label=="missing-window":bad["worldMeta"]["eventSeq"]+=1
+        else:
+            bad["worldMeta"]["eventSeq"]+=1
+            bad["worldMeta"]["events"].append({"seq":13,"type":"crop.changed","payload":{}})
+        assert not public_crop_reload_evidence(after,bad,garden)["ok"],"reload evidence accepted "+label
+        checks.append("reload-reject-"+label)
+    close=copy.deepcopy(after);close["worldMeta"]["events"].append({"seq":13,"type":"threat.closed","payload":{"threatId":"developer-only-threat"}})
+    assert not close_receipts_unchanged(after,close)
+    checks.append("reject-new-close-during-public-crop-route")
+    return {"mode":"developer-crop-evidence-controls","syntheticComparisonWitnesses":True,"gameplayExecuted":False,
+            "browserStarted":False,"controls":checks,"ok":True}
+
+
 def active_intervals(trace):
     active = {}
     for event in trace:
@@ -304,6 +542,11 @@ def fixture_source_checks(args):
     rows=cases(sources["day"],sources["resolved"],sources["closed"])
     assert sources==unchanged and len({r["key"] for r in rows})==len(rows)
     assert {r["group"] for r in rows}=={"DAY",*["B"+str(n) for n in range(1,17)]}
+    crop_rows=[r for r in rows if r.get("public_crop_route")]
+    assert len(crop_rows)==1 and crop_rows[0]["key"]=="B1-complete-resolved"
+    assert len([b for b in crop_rows[0]["payload"]["buildings"] if b["type"]=="garden" and b["x"]==7 and b["y"]==14
+                and b.get("ready") is True and b.get("planted") is True and b.get("growth")==2])==1
+    crop_controls=crop_method_controls()
     original_ids={n["id"] for n in sources["resolved"]["payload"]["npcs"]}
     # Development controls for the comparison itself, not game execution.
     source_projection = copy.deepcopy(sources["resolved"]["payload"])
@@ -382,6 +625,7 @@ def fixture_source_checks(args):
         "sources":meta,"declaredCases":len(rows),"currentWriterInitialCaseDeclared":True,"matrix":[{"key":r["key"],"group":r["group"],"expectedPhase":r["phase"],"mutations":r["mutations"]} for r in rows],
         "sourceNegativeControls":negative,"B7DisplayContracts":{"receiptPresent":"exact kills4/breaches2/damage0; wall/NPC deaths unrecorded","battleAndReceiptAbsent":"all five unrecorded; real event identity/seq retained","offlineMutationsExplicit":True},
         "wholeSourceComparisonNegativeControls":["quests","resident-relations","command-history","ledger-middle-delete"],"originalsUnmodified":True,"nativeObserverDelegation":True,
+        "publicCropCase":"B1-complete-resolved","cropEvidenceMethodControls":crop_controls,
         "production18compatSources":legacy_meta,"production18compatBrowserStatus":"not-run","production18compatDeclaredCases":len(legacy_rows),
         "production18compatMatrix":[{"key":r["key"],"expectedPhase":r["phase"],"mutations":r["mutations"]} for r in legacy_rows],
         "production18AdapterNegativeControls":legacy_negatives,"production18WriterProvenance":legacy_provenance,"production18InitialWriterProvenance":initial_provenance,"ok":True},ensure_ascii=True),flush=True)
@@ -624,7 +868,18 @@ class FullSuite:
             self.r.result["cases"][row["key"]]["closeObservationLimit"] = "natural-DAY-time-advanced; exact compensation proven by close-linked receipt, no permanent resource/SAN equality claim"
         after_close=self.snapshot(page, row, "after-public-close")
         controls={k:after_close["dom"]["buttons"][k] for k in ("gatherBtn","buildBtn","cropBtn","endDayBtn")}
-        self.check(row,"all four DAY controls visibly enabled after real close",all(v["visible"] and v["enabled"] for v in controls.values()),controls)
+        control_evidence=day_control_evidence(controls)
+        self.check(row,"all four legacy DAY controls have disabled cleared after real close",control_evidence["legacyDisabledCleared"],controls)
+        self.check(row,"three constant public DAY controls visibly enabled after real close",
+                   control_evidence["publicThreeVisibleEnabled"],controls)
+        self.r.result["cases"][row["key"]]["cropControlPolicy"]={"legacyCropButton":controls["cropBtn"],
+            "legacyHidden":not controls["cropBtn"]["visible"],
+            "meaning":"legacy-hidden duplicate; not clicked or treated as a public entry",
+            "publicSelector":'#contextActions [data-context-action="crop"]',"cssModified":False,"hiddenClick":False}
+        self.r.result["cases"][row["key"]]["publicCloseEvidence"]={"originalReportMinute":minute(expected),
+            "closeObservationMinute":minute(p),"closeObservationEventSeq":p["worldMeta"]["eventSeq"],
+            "closeReceipt":events,"closeCommands":command,"SANCompensation":compensation,
+            "resourceEqualityScope":"navigation/action-before; same-minute close observation only"}
         if row["group"]=="B1":
             self.r.result["cases"][row["key"]]["publicGatherCoverage"]={"B1":"DAY gather button visible/enabled only; no positive collection claimed at report position",
                 "actualSuccessCase":"DAY-control explicit public tree route with positive wood/receipt/replay"}
@@ -639,7 +894,81 @@ class FullSuite:
                 dismissed=self.snapshot(page,row,"after-close-public-build-dismiss")
                 self.check(row,"public build drawer actually closes",not dismissed["dom"]["buildDrawerVisible"] and "open" not in dismissed["dom"]["buildDrawerClass"])
         self.r.result["cases"][row["key"]]["publicCloseExecuted"] = True
+        if row.get("public_crop_route"):
+            return self.public_post_close_harvest(page,row,p)
         return copy.deepcopy(p)
+
+    def public_post_close_harvest(self,page,row,close_baseline):
+        """B1 actual visible crop action; the original close facts stay separate."""
+        case=self.r.result["cases"][row["key"]]
+        original=[b for b in row["payload"]["buildings"] if b["type"]=="garden" and b["x"]==7 and b["y"]==14]
+        self.check(row,"B1 authentic input has the original mature garden",len(original)==1 and original[0].get("ready") is True
+                   and original[0].get("planted") is True and original[0].get("growth")==2,original,fatal=True)
+        garden_id=original[0]["id"]
+        page.keyboard.press("Escape")
+        start=self.r.position(page);route=[]
+        for x,y in ((start[0],11.6),(8.2,11.6),(8.2,13.4),(7.2,13.4),(7.2,14.2)):
+            previous=self.r.position(page);self.r.navigate(page,x,y);actual=self.r.position(page)
+            route.append({"waypoint":[x,y],"before":list(previous),"after":list(actual),"feedback":"visible location-label/connected player-marker"})
+        case["publicCropRoute"]={"waypoints":route,"target":{"id":garden_id,"x":7,"y":14},"input":"public WASD and visible map click"}
+        position=self.r.position(page)
+        self.check(row,"B1 public garden waypoint reached",abs(position[0]-7.2)<.3 and abs(position[1]-14.2)<.3,list(position),fatal=True)
+        tile='#world .tile[data-x="7"][data-y="14"]'
+        if not self.accessible(page,tile):
+            self.blocked(row,"visible original garden map tile after report close")
+            raise AssertionError("original garden public map tile unavailable")
+        page.locator(tile).click()
+        selector='#contextActions [data-context-action="crop"]'
+        if not self.accessible(page,selector):
+            self.blocked(row,"visible enabled mature garden context action after close")
+            raise AssertionError("original garden public crop action unavailable")
+        route_dom=self.snapshot(page,row,"after-close-public-garden-route")
+        self.check(row,"actual dynamic crop entry is visible enabled harvest",route_dom["dom"]["contextCrop"]["visible"]
+                   and route_dom["dom"]["contextCrop"]["enabled"] and "收获" in route_dom["dom"]["contextCrop"]["text"],route_dom["dom"]["contextCrop"],fatal=True)
+        # A real reload writes the current route position via registered
+        # lifecycle handlers. This is the pre-click food/calendar baseline;
+        # the still-seeded old report is never used as a harvest checkpoint.
+        baseline=self.flush(page,row,"before-public-harvest-real-lifecycle-save")
+        baseline_file=self.r.result["artifacts"][-1]["file"]
+        before=self.primary(baseline)
+        self.check(row,"harvest baseline is an actual legal lifecycle checkpoint",before is not None
+                   and baseline["envelope"].get("reason") in ("pagehide","visibility-hidden")
+                   and before.get("night") is False and before.get("nightBattle") is None
+                   and abs(before["player"]["x"]-position[0])<.35 and abs(before["player"]["y"]-position[1])<.35
+                   and before["worldMeta"]["eventSeq"]>=close_baseline["worldMeta"]["eventSeq"]
+                   and before["energy"]>=6 and close_receipts_unchanged(close_baseline,before),
+                   {"reason":baseline["envelope"].get("reason"),"checksum":baseline["envelope"].get("checksum")},fatal=True)
+        if not self.accessible(page,"#continueSaveBtn"):
+            self.blocked(row,"public start from pre-harvest lifecycle checkpoint")
+            raise AssertionError("public start unavailable after crop baseline reload")
+        page.locator("#continueSaveBtn").click()
+        page.locator(tile).click()
+        if not self.accessible(page,selector):
+            self.blocked(row,"visible crop action restored at saved garden position")
+            raise AssertionError("public crop action missing after actual route reload")
+        action_before=self.snapshot(page,row,"before-public-harvest-visible-action")
+        action_file=self.r.result["artifacts"][-1]["file"]
+        self.check(row,"public restored crop action still says enabled harvest",action_before["dom"]["contextCrop"]["visible"]
+                   and action_before["dom"]["contextCrop"]["enabled"] and "收获" in action_before["dom"]["contextCrop"]["text"],action_before["dom"]["contextCrop"],fatal=True)
+        page.locator(selector).click()
+        self.r.settle(page,lambda o:any(e["type"]=="crop.changed" for e in new_events(o["envelope"]["payload"],before)))
+        actual=self.snapshot(page,row,"after-actual-public-harvest")
+        after_file=self.r.result["artifacts"][-1]["file"]
+        after=self.primary(actual)
+        self.check(row,"harvest result is an actual legal saved envelope",after is not None,fatal=True)
+        evidence=public_crop_evidence(before,after,garden_id)
+        for name,ok in evidence["checks"].items():self.check(row,"B1 "+name,ok,evidence)
+        self.check(row,"public navigation and crop do not repeat original close or SAN compensation",close_receipts_unchanged(close_baseline,after))
+        case["publicHarvest"]={"scope":"B1 public crop after exact close; not another close/compensation",
+            "beforeChecksum":baseline["envelope"]["checksum"],"afterChecksum":actual["envelope"]["checksum"],
+            "actionDate":({"day":evidence["receipts"][0]["tick"]["world"]//1440+1,
+                "hour":evidence["receipts"][0]["tick"]["world"]%1440//60,"minute":evidence["receipts"][0]["tick"]["world"]%60} if evidence["receipts"] else None),
+            "beforeDate":{k:before[k] for k in ("day","hour","minute")},"afterDate":{k:after[k] for k in ("day","hour","minute")},
+            "originalCloseMinute":minute(close_baseline),"gardenId":garden_id,"evidence":evidence,
+            "beforeLifecycleArtifact":baseline_file,"beforeVisibleActionArtifact":action_file,"afterHarvestArtifact":after_file,
+            "reloadBaseline":"actual post-harvest saved envelope","postBootStateInjection":False}
+        self.r.persist()
+        return copy.deepcopy(after)
 
     def public_day_gather(self,page,row):
         """Actual public route from genuine DAY; no B1 success is inferred."""
@@ -988,8 +1317,12 @@ class FullSuite:
                     if p is not None and minute(p)==minute(closed):
                         self.check(row,"same-minute reload keeps exact SAN "+str(repeat),p["sanity"]==closed["sanity"])
                     elif p is not None:
-                        self.check(row,"natural DAY time since close is backed by actual clock events "+str(repeat),minute(p)>minute(closed)
+                        self.check(row,"natural DAY time since reload baseline is backed by actual clock events "+str(repeat),minute(p)>minute(closed)
                                    and any(e["type"]=="time.advanced" for e in new_events(p,closed)))
+                    if row.get("public_crop_route") and p is not None:
+                        harvest=public_crop_reload_evidence(closed,p,case["publicHarvest"]["gardenId"])
+                        for name,ok in harvest["checks"].items():self.check(row,"B1 "+name+" "+str(repeat),ok,harvest)
+                        self.check(row,"B1 reload retains exact original close and SAN receipts "+str(repeat),close_receipts_unchanged(closed,p))
                 if not self.accessible(page,"#continueSaveBtn"):
                     self.blocked(row,"public start after actual reload")
                     break

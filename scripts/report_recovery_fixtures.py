@@ -52,7 +52,7 @@ def cases(day_envelope, resolved_envelope, closed_envelope):
         return row["payload"]
 
     add("DAY-control", "DAY", day, "day", public_gather_route=True)
-    add("B1-complete-resolved", "B1", resolved, "report", close=True)
+    add("B1-complete-resolved", "B1", resolved, "report", close=True, public_crop_route=True)
     p = add("B2-contradictory-night-false", "B2", resolved, "report", ["night=false; requires one resolved-night-flag migration"], close=True,
         migration=True,migration_instance=threat_id,migration_reason="resolved-night-flag")
     p["night"] = False
