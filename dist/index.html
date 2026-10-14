@@ -1708,6 +1708,38 @@
     // 每个 NPC 都有自己的生存需求和一条可推进的个人事件链。
     // 事件只描述候选事实，真正的资源、关系和压力变化仍由 resolveEventReducer 统一结算。
     const NPC_NEED_DEFAULTS = Object.freeze({ hunger: 18, fatigue: 12, stress: 8, energy: 82, social: 28, safety: 18 });
+    const NPC_ATTRIBUTE_DEFAULTS = Object.freeze({ production: 50, weaponSkill: 50, armorSkill: 50, turretSkill: 50, buildSkill: 50, medicalSkill: 50, researchSkill: 50, logisticsSkill: 50, commandSkill: 50 });
+    const NPC_HERO_SKILLS = Object.freeze({ carpenter: 'repair-squad', doctor: 'triage-burst', radio: 'signal-triangulation', commander: 'sector-command', sergeant: 'drill-sergeant', quartermaster: 'ration-ledger', cook: 'fireline', guardJi: 'gate-oath', guardChen: 'safe-withdrawal', guardJiang: 'overreach' });
+    const NPC_HERO_PASSIVES = Object.freeze({ carpenter: 'construction-crew', doctor: 'medical-triage', radio: 'early-warning', commander: 'command-radius', sergeant: 'guard-discipline', quartermaster: 'inventory-priority', cook: 'camp-morale', guardJi: 'steady-gate', guardChen: 'withdrawal-cover', guardJiang: 'assault-window' });
+    function npcAttributeProfile(id, template = NPC_TEMPLATES[id]) {
+      const p = template?.personality || {};
+      const role = template?.role || '';
+      return { ...NPC_ATTRIBUTE_DEFAULTS,
+        production: Math.round((Number(p.duty) || 50) * .55 + (Number(p.discipline) || 50) * .45),
+        weaponSkill: Math.round((Number(p.courage) || 50) * .65 + (Number(p.riskTolerance) || 50) * .35),
+        armorSkill: Math.round((Number(p.duty) || 50) * .55 + (Number(p.discipline) || 50) * .45),
+        turretSkill: Math.round((Number(p.discipline) || 50) * .7 + (Number(p.duty) || 50) * .3),
+        buildSkill: role === '木匠' ? 78 : Math.round((Number(p.duty) || 50) * .45 + (Number(p.discipline) || 50) * .35 + (Number(p.compassion) || 50) * .2),
+        medicalSkill: role === '医生' ? 86 : role === '炊事与农务' ? 62 : Math.round((Number(p.compassion) || 50) * .55 + (Number(p.discipline) || 50) * .45),
+        researchSkill: role === '广播员' ? 78 : Math.round((Number(p.discipline) || 50) * .5 + (Number(p.riskTolerance) || 50) * .5),
+        logisticsSkill: ['后勤官', '炊事与农务'].includes(role) ? 82 : Math.round((Number(p.duty) || 50) * .65 + (Number(p.discipline) || 50) * .35),
+        commandSkill: ['营地长官', '士官长'].includes(role) ? 86 : Math.round((Number(p.duty) || 50) * .6 + (Number(p.discipline) || 50) * .4)
+      };
+    }
+    function npcHeroState(npc) { return npc?.hero || { tier: 'ordinary', status: 'locked', progress: 0, activeSkill: null, passiveSkill: null, promotedDay: null }; }
+    function npcHeroLabel(npc) {
+      const hero = npcHeroState(npc);
+      if (hero.status === 'promoted') return `英雄 · ${hero.activeSkill || NPC_HERO_SKILLS[npc.id] || '岗位专长'}`;
+      if (hero.status === 'eligible') return `可晋升 · 进度 ${Math.round(hero.progress || 0)}%`;
+      return hero.tier === 'hero' ? '英雄' : `普通 · 晋升 ${Math.round(hero.progress || 0)}%`;
+    }
+    function npcSkillSummary(npc) {
+      const a = npc?.attributes || {};
+      const role = npc?.actingRole || npc?.id;
+      const key = role === 'carpenter' ? 'buildSkill' : role === 'doctor' ? 'medicalSkill' : role === 'radio' ? 'researchSkill' : ['quartermaster', 'cook'].includes(role) ? 'logisticsSkill' : 'commandSkill';
+      const labels = { buildSkill: '建造', medicalSkill: '医疗', researchSkill: '科研', logisticsSkill: '后勤', commandSkill: '指挥' };
+      return `${labels[key] || '岗位'} ${Math.round(a[key] || 50)} · 战斗 ${Math.round(a.weaponSkill || 50)}`;
+    }
     const NPC_EVENT_CHAINS = Object.freeze({
       carpenter: [
         { chainId: 'wall-duty', title: '木墙出现裂缝', text: n => `${n.name}发现东门墙体在夜里裂开了一道缝。他想现在修，还是先把木材留给更大的缺口？`, a: '🪵 立即修补', aHint: '消耗 2 木材，阿梁压力 -16，关系 +1', b: '📦 暂缓修补', bHint: '不消耗材料，阿梁压力 +12，下一次维护更紧张' },
@@ -1782,7 +1814,7 @@
         lifeState: 'healthy', wounds: [], morale: 72, behaviorState: 'work',
         currentOrder: null, fallbackPoint: {...template.fallbackPoint}, inventory: { medicine: 0, ammo: 2 },
         appearance: npcAppearanceProfile(id), equipment: npcAppearanceProfile(id).equipment,
-        personality: {...template.personality}, relations: { trustToPlayer: 0, trustToCommander: 0, bondToPlayer: 0, respectToPlayer: 0, fearOfPlayer: 0, resentmentOfPlayer: 0, loyaltyToCamp: template.personality.loyalty, loyaltyToCommander: Math.max(45, template.personality.loyalty - 4), belongingToCamp: Math.max(35, template.personality.loyalty - 8), values: { safety: 50, order: template.personality.discipline, compassion: template.personality.compassion, autonomy: 50, truth: 50 }, knowledgeOfPlayer: { facts: [], lastHeardAt: 0 }, opinionFlags: {}, allies: ({ guardJi: ['guardChen'], guardChen: ['guardJi'], guardJiang: [], commander: ['sergeant'], sergeant: ['commander'], quartermaster: ['cook'], cook: ['quartermaster'] }[id] || []), rivals: ({ guardJiang: ['guardChen'], guardChen: ['guardJiang'] }[id] || []) },
+        personality: {...template.personality}, attributes: npcAttributeProfile(id, template), hero: { tier: ['commander', 'radio', 'doctor'].includes(id) ? 'hero' : 'ordinary', status: ['commander', 'radio', 'doctor'].includes(id) ? 'promoted' : 'locked', progress: ['commander', 'radio', 'doctor'].includes(id) ? 100 : 0, activeSkill: ['commander', 'radio', 'doctor'].includes(id) ? NPC_HERO_SKILLS[id] : null, passiveSkill: ['commander', 'radio', 'doctor'].includes(id) ? NPC_HERO_PASSIVES[id] : null, promotedDay: ['commander', 'radio', 'doctor'].includes(id) ? 1 : null }, relations: { trustToPlayer: 0, trustToCommander: 0, bondToPlayer: 0, respectToPlayer: 0, fearOfPlayer: 0, resentmentOfPlayer: 0, loyaltyToCamp: template.personality.loyalty, loyaltyToCommander: Math.max(45, template.personality.loyalty - 4), belongingToCamp: Math.max(35, template.personality.loyalty - 8), values: { safety: 50, order: template.personality.discipline, compassion: template.personality.compassion, autonomy: 50, truth: 50 }, knowledgeOfPlayer: { facts: [], lastHeardAt: 0 }, opinionFlags: {}, allies: ({ guardJi: ['guardChen'], guardChen: ['guardJi'], guardJiang: [], commander: ['sergeant'], sergeant: ['commander'], quartermaster: ['cook'], cook: ['quartermaster'] }[id] || []), rivals: ({ guardJiang: ['guardChen'], guardChen: ['guardJiang'] }[id] || []) },
         memory: { helpedByPlayer: 0, witnessedDeaths: 0, failedOrders: 0, importantEvents: [] },
         needs: { ...NPC_NEED_DEFAULTS }, sanity: 72, sanityClock: 0, sanityLastReason: '营地仍然安全', scheduleState: 'work', lastReport: '', actingRole: null, actingFor: null,
         eventChain: { step: 0, cooldown: 0, active: null, resolved: [] },
@@ -1798,7 +1830,7 @@
       weapon: { id: 'rustAxe' },
       player: { x: 11, y: 11 }, playerVisual: { x: 11, y: 11 }, facing: 'down', combatTargetId: null, hoverTarget: null, interactionFocus: null, npcTalkOpen: null, interactionRepeatTimer: null, moveTweenFrame: null, visitedRegions: { core: true }, areaFlags: {}, roleVacancies: {}, tempCoordination: false, noiseEvents: [], inventoryOpen: false, selected: null, buildMode: false, selectedBuild: null, night: false, zombieKills: 0, mapRevision: MAP.revision, effects: [], effectSeq: 0,
       world: { version: 1, totalMinutes: 0, lastRationDay: 1, lastDailyUpkeepDay: 1, frontierExposure: 0, frontierClock: 0, frontierPackBucket: -1, frontierPackSeq: 0 },
-      contentState: { contentVersion: 2, meters: { campCollapse: 0, resonancePressure: 25, campTrust: 0 }, unlockedTech: [], unlockedWeapons: ['rustAxe'], unlockedBlueprints: [], flags: {}, scheduledEvents: [], triggeredEvents: [], activeChains: {}, completedChains: [], appliedEffects: [], outposts: {}, history: [], commandPoints: 0, commandPointsMax: 0, commandPointsGrantedDay: 0, autonomyWeights: { defense: 40, harvest: 25, logistics: 20, research: 10, diplomacy: 5 }, planMeeting: { version: 1, status: 'idle', meetingDay: 0, instanceId: null, source: 'summary', candidates: [], selectedId: null, playerAction: null, committedDay: null, resolvedDay: null, autonomyResult: null, history: [] } },
+      contentState: { contentVersion: 3, meters: { campCollapse: 0, resonancePressure: 25, campTrust: 0 }, unlockedTech: [], unlockedWeapons: ['rustAxe'], unlockedBlueprints: [], flags: {}, scheduledEvents: [], triggeredEvents: [], activeChains: {}, completedChains: [], appliedEffects: [], outposts: {}, history: [], npcRoster: { promotedNpcIds: [], promotionHistory: [] }, commandPoints: 0, commandPointsMax: 0, commandPointsGrantedDay: 0, autonomyWeights: { defense: 40, harvest: 25, logistics: 20, research: 10, diplomacy: 5 }, planMeeting: { version: 1, status: 'idle', meetingDay: 0, instanceId: null, source: 'summary', candidates: [], selectedId: null, playerAction: null, committedDay: null, resolvedDay: null, autonomyResult: null, history: [] } },
       buildings: [{x:10,y:10,type:'shelter'}, {x:7,y:14,type:'garden',planted:false,growth:0,ready:false}, {x:18,y:7,type:'wall', hp:3}, {x:18,y:8,type:'wall', hp:3}, {x:10,y:7,type:'bunker',w:2,h:2,hp:12}, {x:14,y:8,type:'depot',w:2,h:2,hp:10}, {x:18,y:6,type:'tower',hp:5}],
       // Expansion templates are immutable catalogs; clone each item so exploration
       // cannot mutate the catalog and contaminate resets or later migrations.
@@ -1992,7 +2024,44 @@
         recordWorldEvent('npc.relationChanged', { npcId: npc.id, delta: stableClone(delta), before, after: stableClone(relation), reason, visibility: meta.visibility || 'witnessed', witnesses: meta.witnesses || [npc.id] }, { actorId: meta.actorId || 'player-1' });
         adjustCampTrust(Math.max(0, Number(delta.trustToPlayer) || 0) * 0.5 + Math.max(0, Number(delta.respectToPlayer) || 0) * 0.25, reason, meta.actorId || 'player-1');
       }
+      evaluateNpcPromotion(npc, reason);
       return relation;
+    }
+    function evaluateNpcPromotion(npc, reason = 'progress') {
+      if (!npc || !npcIsActive(npc)) return { ok: false, reason: 'npc-inactive' };
+      const story = NPC_STORY_DEFS[npc.id];
+      if (!story || story.tier === 'hero' || story.promotedTier !== 'hero') return { ok: false, reason: 'no-promotion-track' };
+      npc.hero = npc.hero || { tier: 'ordinary', status: 'locked', progress: 0, activeSkill: null, passiveSkill: null, promotedDay: null };
+      const chain = NPC_EVENT_CHAINS[npc.id] || [];
+      const chainProgress = chain.length ? Math.min(1, Number(npc.eventChain?.step || 0) / chain.length) : 0;
+      const affinity = Number(npc.relations?.trustToPlayer || 0);
+      const campTrust = Number(state.contentState?.meters?.campTrust || 0);
+      const trustGate = story.commandUnlock?.requires?.some(requirement => String(requirement).startsWith('campTrust')) ? campTrust >= 60 : campTrust >= 40;
+      const progress = Math.round(Math.min(100, chainProgress * 45 + Math.min(1, affinity / 25) * 35 + (trustGate ? 20 : 0)));
+      npc.hero.progress = progress;
+      if (npc.hero.status !== 'promoted' && progress >= 100) {
+        npc.hero.status = 'eligible';
+        recordWorldEvent('npc.promotion.eligible', { npcId: npc.id, progress, reason }, { actorId: npc.id, defId: `npc-promotion:${npc.id}` });
+        log(`${npc.name}满足英雄晋升条件，等待玩家在白天确认。`, 'good');
+      }
+      return { ok: true, progress, eligible: npc.hero.status === 'eligible' || npc.hero.status === 'promoted' };
+    }
+    function promoteNpcHero(npcId) {
+      if (state.night) return { ok: false, reason: 'night-lock' };
+      const npc = state.npcs.find(item => item.id === npcId);
+      const status = evaluateNpcPromotion(npc, 'player-request');
+      if (!status.ok || !status.eligible || npc.hero.status === 'promoted') return { ok: false, reason: status.reason || 'promotion-not-ready' };
+      if (Number(state.contentState?.commandPoints || 0) < 1) return { ok: false, reason: 'command-points-empty' };
+      state.contentState.commandPoints = Math.max(0, Number(state.contentState.commandPoints) - 1);
+      npc.hero = { ...npc.hero, tier: 'hero', status: 'promoted', progress: 100, activeSkill: NPC_HERO_SKILLS[npc.id] || '岗位专长', passiveSkill: NPC_HERO_PASSIVES[npc.id] || '营地被动', promotedDay: state.day };
+      npc.attributes = { ...npc.attributes, commandSkill: Math.min(100, (npc.attributes?.commandSkill || 50) + 8), production: Math.min(100, (npc.attributes?.production || 50) + 8) };
+      ensureContentState();
+      state.contentState.npcRoster.promotedNpcIds = [...new Set([...(state.contentState.npcRoster.promotedNpcIds || []), npc.id])].slice(-10);
+      state.contentState.npcRoster.promotionHistory = [...(state.contentState.npcRoster.promotionHistory || []), { npcId: npc.id, day: state.day, activeSkill: npc.hero.activeSkill, passiveSkill: npc.hero.passiveSkill }].slice(-30);
+      recordWorldEvent('npc.promotion.completed', { npcId: npc.id, day: state.day, activeSkill: npc.hero.activeSkill, passiveSkill: npc.hero.passiveSkill }, { actorId: 'player-1', defId: `npc-promotion:${npc.id}` });
+      rememberNpc(npc, `晋升为英雄：${npc.hero.activeSkill}`, 3);
+      log(`${npc.name}晋升为英雄，获得主动技能「${npc.hero.activeSkill}」和营地被动「${npc.hero.passiveSkill}」。`, 'good');
+      return { ok: true, npcId: npc.id };
     }
     function deriveNpcAttitude(npc) {
       if (!npc) return { cooperation: 0, obedience: 0, support: 0, defectionRisk: 0, label: '未知' };
@@ -2204,7 +2273,7 @@
      const CONTENT_KINDS = Object.freeze(['weapon', 'eventChain', 'npcStory', 'techNode', 'building', 'faction', 'outpost', 'npcRole']);
      const CONTENT_EXTENSIONS = Object.fromEntries(CONTENT_KINDS.map(kind => [kind, Object.create(null)]));
      const CONTENT_EFFECT_OPS = Object.freeze(['addResource', 'adjust_resource', 'adjustMeter', 'adjust_meter', 'modifyRelation', 'unlockTech', 'unlockWeapon', 'unlock', 'scheduleEvent', 'assignJob', 'damageBuilding', 'captureOutpost', 'recordHistory']);
-     const CONTENT_SCHEMA_VERSION = 2;
+    const CONTENT_SCHEMA_VERSION = 3;
      function migrateContentState(raw = {}) {
        const next = stableClone(raw || {}); const fromVersion = Number(next.contentVersion) || 0;
        if (fromVersion < 1) { next.unlockedTech = Array.isArray(next.unlockedTech) ? next.unlockedTech : []; next.unlockedWeapons = Array.isArray(next.unlockedWeapons) ? next.unlockedWeapons : []; next.unlockedBlueprints = Array.isArray(next.unlockedBlueprints) ? next.unlockedBlueprints : []; next.triggeredEvents = Array.isArray(next.triggeredEvents) ? next.triggeredEvents : []; }
@@ -2219,8 +2288,8 @@
        next.contentVersion = CONTENT_SCHEMA_VERSION; return next;
      }
      function ensureContentState() {
-       const defaults = { contentVersion: CONTENT_SCHEMA_VERSION, meters: { campCollapse: 0, resonancePressure: 25, campTrust: 0 }, unlockedTech: [], unlockedWeapons: ['rustAxe'], unlockedBlueprints: [], flags: {}, scheduledEvents: [], triggeredEvents: [], activeChains: {}, completedChains: [], appliedEffects: [], outposts: {}, history: [], commandPoints: 0, commandPointsMax: 0, commandPointsGrantedDay: 0, autonomyWeights: { defense: 40, harvest: 25, logistics: 20, research: 10, diplomacy: 5 }, planMeeting: { version: 1, status: 'idle', meetingDay: 0, instanceId: null, source: 'summary', candidates: [], selectedId: null, playerAction: null, committedDay: null, resolvedDay: null, autonomyResult: null, history: [] } };
-       state.contentState = migrateContentState({ ...defaults, ...(state.contentState || {}), meters: { ...defaults.meters, ...(state.contentState?.meters || {}) }, flags: { ...defaults.flags, ...(state.contentState?.flags || {}) }, activeChains: { ...defaults.activeChains, ...(state.contentState?.activeChains || {}) }, outposts: { ...defaults.outposts, ...(state.contentState?.outposts || {}) }, autonomyWeights: { ...defaults.autonomyWeights, ...(state.contentState?.autonomyWeights || {}) }, planMeeting: { ...defaults.planMeeting, ...(state.contentState?.planMeeting || {}) } });
+      const defaults = { contentVersion: CONTENT_SCHEMA_VERSION, meters: { campCollapse: 0, resonancePressure: 25, campTrust: 0 }, unlockedTech: [], unlockedWeapons: ['rustAxe'], unlockedBlueprints: [], flags: {}, scheduledEvents: [], triggeredEvents: [], activeChains: {}, completedChains: [], appliedEffects: [], outposts: {}, history: [], npcRoster: { promotedNpcIds: [], promotionHistory: [] }, commandPoints: 0, commandPointsMax: 0, commandPointsGrantedDay: 0, autonomyWeights: { defense: 40, harvest: 25, logistics: 20, research: 10, diplomacy: 5 }, planMeeting: { version: 1, status: 'idle', meetingDay: 0, instanceId: null, source: 'summary', candidates: [], selectedId: null, playerAction: null, committedDay: null, resolvedDay: null, autonomyResult: null, history: [] } };
+      state.contentState = migrateContentState({ ...defaults, ...(state.contentState || {}), meters: { ...defaults.meters, ...(state.contentState?.meters || {}) }, flags: { ...defaults.flags, ...(state.contentState?.flags || {}) }, activeChains: { ...defaults.activeChains, ...(state.contentState?.activeChains || {}) }, outposts: { ...defaults.outposts, ...(state.contentState?.outposts || {}) }, npcRoster: { ...defaults.npcRoster, ...(state.contentState?.npcRoster || {}) }, autonomyWeights: { ...defaults.autonomyWeights, ...(state.contentState?.autonomyWeights || {}) }, planMeeting: { ...defaults.planMeeting, ...(state.contentState?.planMeeting || {}) } });
        state.contentState.unlockedTech = [...new Set((Array.isArray(state.contentState.unlockedTech) ? state.contentState.unlockedTech : []).filter(Boolean))];
        state.contentState.unlockedWeapons = [...new Set(['rustAxe', ...(Array.isArray(state.contentState.unlockedWeapons) ? state.contentState.unlockedWeapons : [])].filter(Boolean))];
        state.contentState.unlockedBlueprints = [...new Set((Array.isArray(state.contentState.unlockedBlueprints) ? state.contentState.unlockedBlueprints : []).filter(Boolean))];
@@ -2229,6 +2298,9 @@
        state.contentState.completedChains = Array.isArray(state.contentState.completedChains) ? [...new Set(state.contentState.completedChains)].slice(-100) : [];
        state.contentState.appliedEffects = Array.isArray(state.contentState.appliedEffects) ? [...new Set(state.contentState.appliedEffects)].slice(-200) : [];
        state.contentState.history = Array.isArray(state.contentState.history) ? state.contentState.history.slice(-100) : [];
+       state.contentState.npcRoster = { ...defaults.npcRoster, ...(state.contentState.npcRoster || {}) };
+       state.contentState.npcRoster.promotedNpcIds = [...new Set(Array.isArray(state.contentState.npcRoster.promotedNpcIds) ? state.contentState.npcRoster.promotedNpcIds : [])].slice(-10);
+       state.contentState.npcRoster.promotionHistory = Array.isArray(state.contentState.npcRoster.promotionHistory) ? state.contentState.npcRoster.promotionHistory.slice(-30) : [];
        state.contentState.commandPoints = Math.max(0, Math.floor(Number(state.contentState.commandPoints) || 0));
        state.contentState.commandPointsMax = Math.max(0, Math.floor(Number(state.contentState.commandPointsMax) || 0));
        state.contentState.commandPointsGrantedDay = Math.max(0, Math.floor(Number(state.contentState.commandPointsGrantedDay) || 0));
@@ -2527,7 +2599,7 @@
 
     // v20 adds the plan-meeting state; v19's content registry and v18's SAN state and older
     // saves remain readable, with missing content fields receiving safe defaults.
-    const SAVE_VERSION = 20;
+    const SAVE_VERSION = 21;
     const SAVE_KEY = 'zombie-harvest-progress-v12';
     const LEGACY_SAVE_KEYS = ['zombie-harvest-progress-v11', 'zombie-harvest-progress-v10', 'zombie-harvest-progress-v9', 'zombie-harvest-progress-v8', 'zombie-harvest-progress-v7'];
     // Explicit, non-persistent playtest mode. It is opt-in through ?playtest=relay,
@@ -2578,7 +2650,7 @@
         id: npc.id, x: npc.x, y: npc.y, maxHp: npc.maxHp, hp: npc.hp, lifeState: npc.lifeState,
         wounds: npc.wounds, morale: npc.morale, behaviorState: npc.behaviorState, currentOrder: npc.currentOrder,
         fallbackPoint: npc.fallbackPoint, homeZone: npc.homeZone, workZone: npc.workZone, inventory: npc.inventory, appearance: npc.appearance, equipment: npc.equipment, personality: npc.personality, relations: npc.relations,
-        memory: npc.memory, bond: npc.bond, supportRequested: npc.supportRequested, order: npc.order || null, simMoveClock: npc.simMoveClock || 0, needClock: npc.needClock || 0, workClock: npc.workClock || 0, workPulseSeq: npc.workPulseSeq || 0, workHistory: Array.isArray(npc.workHistory) ? npc.workHistory.slice(-8) : [], motionTarget: npc.motionTarget ? { x: npc.motionTarget.x, y: npc.motionTarget.y } : null
+        memory: npc.memory, attributes: npc.attributes, hero: npc.hero, bond: npc.bond, supportRequested: npc.supportRequested, order: npc.order || null, simMoveClock: npc.simMoveClock || 0, needClock: npc.needClock || 0, workClock: npc.workClock || 0, workPulseSeq: npc.workPulseSeq || 0, workHistory: Array.isArray(npc.workHistory) ? npc.workHistory.slice(-8) : [], motionTarget: npc.motionTarget ? { x: npc.motionTarget.x, y: npc.motionTarget.y } : null
         , needs: npc.needs, sanity: npc.sanity, sanityClock: npc.sanityClock || 0, sanityLastReason: npc.sanityLastReason || '', scheduleState: npc.scheduleState, lastReport: npc.lastReport, actingRole: npc.actingRole || null, actingFor: npc.actingFor || null, eventChain: npc.eventChain || { step: 0, cooldown: 0, active: null, resolved: [] }, perception: npc.perception || { clock: 0, targetId: null, targetAt: 0, contacts: {}, sharedUntil: 0 }
       };
     }
@@ -2596,6 +2668,15 @@
       merged.wounds = Array.isArray(merged.wounds) ? merged.wounds.slice(0, 4) : [];
       merged.fallbackPoint = merged.fallbackPoint && Number.isFinite(merged.fallbackPoint.x) && Number.isFinite(merged.fallbackPoint.y) ? merged.fallbackPoint : {...NPC_TEMPLATES[npc.id].fallbackPoint};
       merged.personality = {...NPC_TEMPLATES[npc.id].personality, ...(merged.personality || {})};
+      merged.attributes = { ...npcAttributeProfile(npc.id), ...(merged.attributes || {}) };
+      Object.keys(NPC_ATTRIBUTE_DEFAULTS).forEach(key => { const value = Number(merged.attributes[key]); merged.attributes[key] = Number.isFinite(value) ? Math.max(0, Math.min(100, value)) : NPC_ATTRIBUTE_DEFAULTS[key]; });
+      const baseHero = createNpcState(npc.id).hero;
+      merged.hero = { ...baseHero, ...(merged.hero || {}) };
+      merged.hero.tier = merged.hero.tier === 'hero' ? 'hero' : 'ordinary';
+      merged.hero.status = ['locked', 'eligible', 'promoted'].includes(merged.hero.status) ? merged.hero.status : (merged.hero.tier === 'hero' ? 'promoted' : 'locked');
+      merged.hero.progress = Math.max(0, Math.min(100, Number(merged.hero.progress) || 0));
+      merged.hero.activeSkill = merged.hero.activeSkill || (merged.hero.status === 'promoted' ? NPC_HERO_SKILLS[npc.id] || null : null);
+      merged.hero.passiveSkill = merged.hero.passiveSkill || (merged.hero.status === 'promoted' ? NPC_HERO_PASSIVES[npc.id] || null : null);
       const defaultAppearance = npcAppearanceProfile(npc.id);
       merged.appearance = { ...defaultAppearance, ...(merged.appearance || {}), palette: { ...defaultAppearance.palette, ...(merged.appearance?.palette || {}) }, equipment: { ...defaultAppearance.equipment, ...(merged.appearance?.equipment || {}) } };
       merged.equipment = { ...merged.appearance.equipment, ...(merged.equipment || {}) };
@@ -2653,7 +2734,7 @@
       state.wood = 24; state.stone = 12; state.food = 20; state.seeds = 3; state.parts = 8; state.medicine = 1; state.morale = 72;
       state.player = { x: 19, y: 3 }; Object.defineProperty(state.player, 'id', { value: 'player-1', writable: true, configurable: true, enumerable: false });
       state.playerVisual = { ...state.player }; state.facing = 'left'; state.night = false; state.nightBattle = null; state.gameOver = null;
-      state.specialItems = { relayCore: 0 }; state.contentState = { contentVersion: 2, meters: { campCollapse: 0, resonancePressure: 25, campTrust: 0 }, unlockedTech: [], unlockedWeapons: ['rustAxe'], unlockedBlueprints: [], flags: {}, scheduledEvents: [], triggeredEvents: [], activeChains: {}, completedChains: [], appliedEffects: [], outposts: {}, history: [], commandPoints: 0, commandPointsMax: 0, commandPointsGrantedDay: 0, autonomyWeights: { defense: 40, harvest: 25, logistics: 20, research: 10, diplomacy: 5 }, planMeeting: { version: 1, status: 'idle', meetingDay: 0, instanceId: null, source: 'summary', candidates: [], selectedId: null, playerAction: null, committedDay: null, resolvedDay: null, autonomyResult: null, history: [] } };
+      state.specialItems = { relayCore: 0 }; state.contentState = { contentVersion: 3, meters: { campCollapse: 0, resonancePressure: 25, campTrust: 0 }, unlockedTech: [], unlockedWeapons: ['rustAxe'], unlockedBlueprints: [], flags: {}, scheduledEvents: [], triggeredEvents: [], activeChains: {}, completedChains: [], appliedEffects: [], outposts: {}, history: [], npcRoster: { promotedNpcIds: [], promotionHistory: [] }, commandPoints: 0, commandPointsMax: 0, commandPointsGrantedDay: 0, autonomyWeights: { defense: 40, harvest: 25, logistics: 20, research: 10, diplomacy: 5 }, planMeeting: { version: 1, status: 'idle', meetingDay: 0, instanceId: null, source: 'summary', candidates: [], selectedId: null, playerAction: null, committedDay: null, resolvedDay: null, autonomyResult: null, history: [] } };
       state.relayProject = { id: 'camp-relay-001', status: 'unknown', coreItemId: null, handoffAt: null, materialNeed: { wood: 10, parts: 5, stone: 4 }, materialProgress: { wood: 0, parts: 0, stone: 0 }, materialClock: 0, workMinutes: 0, targetMinutes: 180, buildingId: 'bld-relay-station', assignedNpcIds: ['radio', 'carpenter', 'quartermaster'], sharedSightBonus: 2, sharedRangeBonus: 4, forecastLeadMinutes: 180, routeId: 'eastern-breach' };
       state.hordeForecast = { confidence: 0, leadMinutes: 0, routeId: 'eastern-breach', source: 'camp-observation', updatedAt: 0 };
       state.landmarks.forEach(landmark => { landmark.found = false; });
@@ -2904,7 +2985,14 @@
       npc.memory.importantEvents = [...(npc.memory.importantEvents || []), `第${state.day}天：${event}`].slice(-8);
       if (deltaTrust) npc.relations = {...npc.relations, trustToPlayer: clampSocial((npc.relations?.trustToPlayer || 0) + deltaTrust), bondToPlayer: clampSocial((npc.relations?.bondToPlayer || 0) + deltaTrust * .7), respectToPlayer: clampSocial((npc.relations?.respectToPlayer || 0) + (deltaTrust > 0 ? deltaTrust * .25 : 0))};
     }
-    function npcRoleEfficiency(npc) { return npc?.actingRole ? .72 : 1; }
+    function npcRoleEfficiency(npc) {
+      if (!npc) return 1;
+      const role = npc.actingRole || npc.id;
+      const heroBonus = npcHeroState(npc).status === 'promoted' ? .06 : 0;
+      const skillKey = ['guard', 'patrol'].includes(npc.order) ? 'weaponSkill' : role === 'carpenter' ? 'buildSkill' : role === 'doctor' ? 'medicalSkill' : role === 'radio' ? 'researchSkill' : role === 'quartermaster' || role === 'cook' ? 'logisticsSkill' : 'production';
+      const skillBonus = ((Number(npc.attributes?.[skillKey]) || 50) - 50) / 500;
+      return (npc.actingRole ? .72 : 1) * Math.max(.8, Math.min(1.16, 1 + skillBonus + heroBonus));
+    }
     function npcOrderModifier(npc, orderId) {
       if (!npc) return 1;
       const trust = (npc.relations?.trustToPlayer || 0) / 100;
@@ -3079,6 +3167,7 @@
       state.npcEvents = (state.npcEvents || []).map(item => item.id === event.id ? { ...item, status: 'resolved', choice, resolvedAt: worldMinute() } : item);
       const def = eventDefinition(event.defId || state.eventInstance?.defId || `npc.${meta.chainId}`);
       const effects = def?.choices?.find(item => item.id === choice)?.effects || [];
+      evaluateNpcPromotion(npc, `event:${meta.chainId}`);
       recordWorldEvent('npc.event.resolved', { eventId: event.id, npcId: npc.id, choice }, { actorId: npc.id, defId: def?.id || null, instanceId: state.eventInstance?.instanceId || event.id, definitionVersion: def?.definitionVersion || EVENT_DEFINITION_VERSION, effects });
       return result;
     }
@@ -4176,6 +4265,8 @@
         const npc = npcs[0]; icon = npc.icon; title = `${npc.name} · ${npc.role}`; hint = npc.desc;
         const currentOrder = getNpcOrderInfo(npc);
         add(npc.supportRequested ? `✅ 已请求 · ${currentOrder.name}` : `🤝 请求${npc.name}支援`, npc.supportRequested ? `当前命令：${currentOrder.name} · 羁绊 ${npc.bond}/3` : `先选命令或消耗 2 行动体力 · 羁绊 ${npc.bond}/3`, 'npc', 'primary', !!npc.supportRequested || state.energy < 2);
+        evaluateNpcPromotion(npc, 'context');
+        if (npc.hero?.status === 'eligible') { const promoteIndex = actionIndex++; actions.push(`<button class="context-action primary" data-context-action="promoteHero" data-context-index="${promoteIndex}" data-npc-id="${npc.id}" ${Number(state.contentState?.commandPoints || 0) < 1 ? 'disabled' : ''}><kbd class="action-index">${promoteIndex + 1}</kbd>⭐ 晋升为英雄<small>消耗 1 指挥点 · ${npcHeroLabel(npc)}</small></button>`); }
         if (npcHasRole(npc, 'commander') && state.relayProject?.status === 'core-recovered' && Number(state.specialItems?.relayCore) > 0) add('📡 交付 relayCore', '交给营地长官，启动中继站筹备', 'relayHandoff', 'primary');
         getNpcOrders(npc).forEach(order => {
           const selected = npc.supportRequested && currentOrder.id === order.id;
@@ -4303,8 +4394,8 @@
         const disabled = dead ? 'disabled' : '';
         const zoneName = CAMP_ZONES[n.homeZone]?.name || '营地';
         const actingLabel = n.actingRole ? `暂代${NPC_TEMPLATES[n.actingRole]?.role || n.actingRole}` : '';
-        const detail = dead ? '该角色不会自动恢复；后续需要继任者接替岗位。' : n.desc + ' · 常驻' + zoneName + (actingLabel ? ' · ' + actingLabel : '') + (n.lastReport ? ' · ' + n.lastReport : '');
-        const condition = dead ? '功能失效' : npcStateSummary(n) + ` · SAN ${Math.round(sanityValue(n))} · ${sanityLabel(n.sanity)}` + (actingLabel ? ' · ' + actingLabel : '') + ' · 羁绊 ' + n.bond + '/3';
+        const detail = dead ? '该角色不会自动恢复；后续需要继任者接替岗位。' : n.desc + ' · 常驻' + zoneName + ' · ' + npcSkillSummary(n) + (actingLabel ? ' · ' + actingLabel : '') + (n.lastReport ? ' · ' + n.lastReport : '');
+        const condition = dead ? '功能失效' : npcStateSummary(n) + ` · SAN ${Math.round(sanityValue(n))} · ${sanityLabel(n.sanity)}` + (actingLabel ? ' · ' + actingLabel : '') + ` · ${npcHeroLabel(n)} · 羁绊 ` + n.bond + '/3';
         return '<button class="survivor-card ' + (near ? 'near' : '') + ' ' + (n.supportRequested ? 'supported' : '') + ' ' + (dead ? 'dead' : '') + ' ' + (n.lifeState === 'injured' ? 'injured' : '') + ' ' + (n.lifeState === 'critical' ? 'critical' : '') + '" data-npc="' + n.id + '" ' + disabled + '><div class="survivor-icon">' + actorSprite('npc', n.id, n.facing || 'down', n.lifeState === 'healthy' ? 'idle' : 'hurt', actorFrame(), npcActorVisual(n)) + '</div><b>' + n.name + ' · ' + n.role + '</b><span>' + detail + '</span><em>' + status + ' · ' + condition + '</em></button>';
       }).join('');
       document.querySelectorAll('[data-npc]').forEach(card => card.addEventListener('click', () => interactNpc(card.dataset.npc)));
@@ -5659,6 +5750,7 @@
       preparePlanMeetingAtSummary();
       requestCheckpoint('threat-resolved');
     }
+    function npcFulfillsRole(npc, roleId) { return npcIsActive(npc) && (npc.actingRole || npc.id) === roleId; }
     function assignMorningSuccessors() {
       state.roleVacancies = state.roleVacancies || {};
       const priorities = {
@@ -5671,7 +5763,7 @@
         cook: ['quartermaster', 'guardJi']
       };
       Object.keys(state.roleVacancies).forEach(roleId => {
-        if (state.npcs.some(n => npcHasRole(n, roleId))) { delete state.roleVacancies[roleId]; return; }
+        if (state.npcs.some(n => npcFulfillsRole(n, roleId))) { delete state.roleVacancies[roleId]; return; }
         const candidateIds = priorities[roleId] || ['guardJi', 'guardChen', 'guardJiang', 'cook', 'quartermaster'];
         const candidate = candidateIds.map(id => state.npcs.find(n => n.id === id)).find(n => npcIsActive(n) && n.lifeState === 'healthy' && !n.actingRole && n.id !== roleId);
         if (!candidate) return;
@@ -6146,6 +6238,7 @@
       else if (action === 'npc' && nearbyNpc) interactNpc(nearbyNpc.id);
       else if (action === 'npcOrder') setNpcOrder(button.dataset.npcId, button.dataset.order);
       else if (action === 'relayHandoff') handoffRelayCore();
+      else if (action === 'promoteHero') { const result = promoteNpcHero(button.dataset.npcId); if (result.ok) { hideContext(); render(); requestCheckpoint('npc-promotion'); } else toast(result.reason === 'command-points-empty' ? '指挥点不足，暂不能完成晋升' : '该 NPC 尚未满足晋升条件'); }
       else if (action === 'gather') gather();
       else if (action === 'crop') plantOrHarvest();
       else if (action === 'repair') repairBuilding();
@@ -6291,3 +6384,4 @@
   </script>
 </body>
 </html>
+

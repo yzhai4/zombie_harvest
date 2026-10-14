@@ -65,7 +65,19 @@ SAN 数值、阶段、最近变化原因和全体 NPC 心智排序都放在状�
 4. **P3 表现与素材**：在规则接口冻结后再统一像素素材、序列帧、音效、粒子、加载和移动端布局，素材变更不得改变碰撞锚点或事件语义。
 5. **引擎评估**：只有当性能、实体规模、编辑器/素材需求、原生发布/多人需求、规则冻结这五类中至少两类同时满足，且 P1 有完整存档夹具时，才比较 Cocos/Phaser/Pixi 并做小型迁移验证。
 
-历史阶段已以广播中继链三日竖切片完成样板验证；v80 设计冻结与状态边界已落地，v81 计划会 runtime 已接入，当前下一阶段是 v82 NPC 属性、英雄晋升与岗位替代。
+历史阶段已以广播中继链三日竖切片完成样板验证；v80 设计冻结与状态边界已落地，v81 计划会 runtime 已接入，v82 当前已完成 SAVE21/CONTENT3、NPC 属性默认值、英雄晋升入口、岗位替代投影和五日 NPC 回放夹具。
+
+## v86–v90 长期扩展
+
+v85 完成后，路线进入“游戏系统 + AI/Agent 基础设施 + 科研实验”双主线。详细出口见 `docs/long-term-plan.md`，记忆和实验规则见 `docs/project-memory.md` 与 `docs/experiments/README.md`。
+
+- **v86 GameCore：** 从单文件渲染入口抽离 GameState、CommandBus、reducer、事件账本、内容注册表和回放运行器；先保持 Web/Canvas，不同时迁移引擎。
+- **v87 RolePlanner：** 计划会先接一个可替换规划器，再接母巢首脑；LLM 只输出受 Gate 校验的 `Intent`，规则 AI 是无模型 fallback。
+- **v88 Evaluation Lab：** headless 多 seed 运行、事件链覆盖、节奏和成本指标、JSON/CSV/Markdown 报告。
+- **v89 Design Optimization：** 在 held-out seed 和人工剧情评审保护下搜索数值、冷却、波次、事件权重和有限 prompt 变体。
+- **v90 Open Source：** 抽出 `event-chain-core`、`role-agent-runtime` 和 `gameplay-eval-lab`，同时保留尸潮农场作为完整示例。
+
+Colab T4 只作为可恢复的批量实验 worker；稳定线上服务、常驻 API 和玩家连接使用受控 VM 或其他托管运行时。所有远程任务必须有 manifest、checkpoint、run idempotency 和可下载结果。
 
 ## v80–v85 整体路线（尸潮农场）
 

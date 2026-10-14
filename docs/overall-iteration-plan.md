@@ -1,6 +1,6 @@
 # 尸潮农场整体迭代计划
 
-**版本基线：** `zfarm-world-1.0` / `SAVE_VERSION=20` / `CONTENT_SCHEMA_VERSION=2`  
+**版本基线：** `zfarm-world-1.0` / `SAVE_VERSION=21` / `CONTENT_SCHEMA_VERSION=3`  
 **目标窗口：** day 1–16，day 14 为最终尸潮基准  
 **适用范围：** Web/Canvas 规则验证平台；不在本计划中迁移引擎或引入多人持久化。
 
@@ -8,7 +8,7 @@
 
 仓库已经具备昼夜循环、广播中继样板链、SAN、事件契约、事件账本、回放、内容注册表、事务效果和保存迁移。`WEAPON_DEFS`、`EVENT_CHAIN_DEFS`、`NPC_STORY_DEFS`、`TECH_NODE_DEFS`、`BUILDING_DEFS`、`FACTION_DEFS`、`OUTPOST_DEFS`、`NPC_ROLE_DEFS` 与 11–16 模板是基础设施。
 
-v81 已接入 `campCollapse` 的配给/夜战账本、commandPoints 权限刷新、计划会候选/英雄投票/玩家提交/自治执行、计划会 UI、存档迁移与回放投影。仍需开发：14 天时钟与最终尸潮结算、`resonancePressure` 的完整内容链、十名 NPC 属性/英雄晋升/岗位替代、科技建筑据点和支线注册、动态 UI 卡片、近景/远景实体预算验收。当前 UI 仍有硬编码卡片，不能把扩展接口误认为完整自治系统。
+v81 已接入 `campCollapse` 的配给/夜战账本、commandPoints 权限刷新、计划会候选/英雄投票/玩家提交/自治执行、计划会 UI、存档迁移与回放投影。v82 正在接入 NPC 属性、英雄晋升和岗位继任的 SAVE21/CONTENT3 契约。仍需开发：14 天时钟与最终尸潮结算、`resonancePressure` 的完整内容链、科技建筑据点和支线注册、动态 UI 卡片、近景/远景实体预算验收。当前 UI 仍有硬编码卡片，不能把扩展接口误认为完整自治系统。
 
 ## 统一设计输入
 

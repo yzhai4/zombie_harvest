@@ -84,5 +84,13 @@ v80 冻结状态边界；v81 接入营地自治与计划会；v82 接入 NPC 属
 
 ## 工作流技能
 
-跨内容、运行时、验证和发布的整轮任务使用 `.codex/skills/zombie-harvest-iteration/SKILL.md`；单纯新增或修改主线、支线、NPC、势力、科技、建筑和武器时使用 `.codex/skills/zombie-harvest-content/SKILL.md`。完整技能要求每轮回填六视角评估矩阵，并根据重复出现的流程缺口更新技能或 references。
+跨内容、运行时、验证、AI、实验和发布的整轮任务使用 `.codex/skills/zombie-harvest-iteration/SKILL.md`；单纯新增或修改主线、支线、NPC、势力、科技、建筑和武器时使用 `.codex/skills/zombie-harvest-content/SKILL.md`。完整技能要求每轮回填六视角评估矩阵，并根据重复出现的流程缺口更新技能或 references。
+
+## 长期开发与科研闭环
+
+项目长期路线见 `docs/long-term-plan.md`；记忆边界见 `docs/project-memory.md`；实验记录格式见 `docs/experiments/README.md`；Colab T4 的运行边界见 `docs/colab-t4-evaluation.md`。
+
+每轮只选择一个主主题，允许一个配套验证主题。主题结束时必须产生以下四类结果中的至少三类：可运行代码、验证证据、问题/决策记录、实验或发布报告。失败也要记录，不能用下一轮提交覆盖失败原因。
+
+AI 规划器只产生结构化意图，不能写入 `GameState`。游戏主循环必须能在没有 GPU、没有外部 LLM 和网络失败时通过规则策略继续运行。Colab 只执行有 manifest、checkpoint 和分片结果的可恢复任务，不作为线上常驻后端。
 

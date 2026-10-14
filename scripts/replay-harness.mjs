@@ -14,8 +14,8 @@ import { fileURLToPath } from 'node:url';
 // v81 adds the content-state plan meeting contract to the save envelope.
 // Keep the harness version in lockstep with the browser reducer so fixtures
 // catch accidental downgrades while still allowing migration of v79/v80 saves.
-export const SAVE_VERSION = 20;
-export const CONTENT_SCHEMA_VERSION = 2;
+export const SAVE_VERSION = 21;
+export const CONTENT_SCHEMA_VERSION = 3;
 export const WORLD_SEED = 481516234;
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -31,7 +31,6 @@ export function checksum(value) {
   }
   return (hash >>> 0).toString(16);
 }
-
 /** Stable object key ordering for replay hashes across Node/browser versions. */
 export function canonical(value) {
   if (Array.isArray(value)) return value.map(canonical);
@@ -84,6 +83,7 @@ const DEFAULT_CONTENT_STATE = Object.freeze({
     history: []
   },
   unlockedTech: [], unlockedWeapons: ['rustAxe'], unlockedBlueprints: [], flags: {},
+  npcRoster: { promotedNpcIds: [], promotionHistory: [] },
   scheduledEvents: [], triggeredEvents: [], activeChains: {}, completedChains: [],
   appliedEffects: [], outposts: {}, history: []
 });
@@ -105,7 +105,8 @@ export function migrateContentState(raw = {}) {
     contentVersion: CONTENT_SCHEMA_VERSION,
     meters: { ...defaults.meters, ...sourceMeters, ...(sourceMeters.campTrust == null && source.campTrust != null ? { campTrust: source.campTrust } : {}) },
     autonomyWeights: { ...defaults.autonomyWeights, ...(source.autonomyWeights || {}) },
-    planMeeting: { ...defaults.planMeeting, ...sourcePlan }
+    planMeeting: { ...defaults.planMeeting, ...sourcePlan },
+    npcRoster: { ...defaults.npcRoster, ...(source.npcRoster || {}) }
   };
   // Arrays/records are part of the stable shape.  A malformed legacy field
   // should not make replay non-deterministic or crash the loader.
@@ -117,6 +118,8 @@ export function migrateContentState(raw = {}) {
   }
   if (!Array.isArray(state.planMeeting.candidates)) state.planMeeting.candidates = [];
   if (!Array.isArray(state.planMeeting.history)) state.planMeeting.history = [];
+  state.npcRoster.promotedNpcIds = [...new Set(Array.isArray(state.npcRoster.promotedNpcIds) ? state.npcRoster.promotedNpcIds : [])].slice(-10);
+  state.npcRoster.promotionHistory = Array.isArray(state.npcRoster.promotionHistory) ? state.npcRoster.promotionHistory.slice(-30) : [];
   state.commandPoints = Math.max(0, Number(state.commandPoints) || 0);
   state.commandPointsMax = Math.max(0, Number(state.commandPointsMax) || 0);
   state.commandPointsGrantedDay = Math.max(0, Number(state.commandPointsGrantedDay) || 0);
@@ -274,7 +277,24 @@ export function fixtureEnvelopes() {
     },
     worldMeta: { clock: { paused: false, rate: 1, phaseMinutes: 110, scheduleMinutes: 1010 } }
   }), 'fixture-night-resolved');
-  return { valid, 'corrupt-checksum': corruptChecksum, 'active-event': activeEvent, 'night-unresolved': nightUnresolved, 'night-resolved': nightResolved };
+  const fiveDayNpc = makeEnvelope(basePayload({
+    day: 5,
+    hour: 7,
+    contentState: migrateContentState({ ...DEFAULT_CONTENT_STATE, npcRoster: { promotedNpcIds: ['carpenter'], promotionHistory: [{ npcId: 'carpenter', day: 5, activeSkill: 'repair-squad' }] } }).state,
+    npcs: [
+      { id: 'carpenter', lifeState: 'healthy', attributes: { buildSkill: 86, production: 72 }, hero: { tier: 'hero', status: 'promoted', progress: 100, activeSkill: 'repair-squad', passiveSkill: 'construction-crew', promotedDay: 5 } },
+      { id: 'sergeant', lifeState: 'healthy', actingRole: 'commander', actingFor: 'commander', scheduleState: '继任培训', hero: { tier: 'ordinary', status: 'locked', progress: 0, activeSkill: null, passiveSkill: null, promotedDay: null } }
+    ],
+    roleVacancies: {},
+    worldMeta: {
+      events: [
+        ...basePayload().worldMeta.events,
+        event('npc.promotion.completed', 3, { npcId: 'carpenter', day: 5, activeSkill: 'repair-squad' }, 'cmd-000003')
+      ],
+      eventSeq: 3
+    }
+  }), 'fixture-five-day-npc');
+  return { valid, 'corrupt-checksum': corruptChecksum, 'active-event': activeEvent, 'night-unresolved': nightUnresolved, 'night-resolved': nightResolved, 'five-day-npc': fiveDayNpc };
 }
 
 export function writeFixtures(directory = FIXTURE_DIR) {
@@ -354,6 +374,10 @@ export function replayProjection(payload) {
     planMeetingDay: Number(plan.meetingDay || 0),
     planSelected: plan.selectedId || null,
     planPlayerAction: plan.playerAction || null,
+    promotedNpcIds: [...new Set(content.npcRoster?.promotedNpcIds || [])].sort(),
+    promotionCount: Array.isArray(content.npcRoster?.promotionHistory) ? content.npcRoster.promotionHistory.length : 0,
+    npcActiveCount: Array.isArray(payload?.npcs) ? payload.npcs.filter(npc => npc && npc.lifeState !== 'dead').length : 0,
+    successorRoles: Object.fromEntries((Array.isArray(payload?.npcs) ? payload.npcs : []).filter(npc => npc?.actingRole).map(npc => [npc.actingRole, npc.id]).sort()),
     commandCount: 0,
     commandTypes: [],
     choices: [],
@@ -400,6 +424,10 @@ export function replayProjection(payload) {
     payload: item.payload || null
   })).sort((left, right) => left.seq - right.seq) : [];
   for (const item of events) {
+    if (item.type === 'npc.promotion.completed') {
+      const eventPayload = item.payload && typeof item.payload === 'object' ? item.payload : {};
+      if (eventPayload.npcId) projection.promotedNpcIds = [...new Set([...projection.promotedNpcIds, String(eventPayload.npcId)])].sort();
+    }
     if (!/^plan\.meeting\.(committed|resolved|fallback)$/.test(String(item.type || ''))) continue;
     const eventPayload = item.payload && typeof item.payload === 'object' ? item.payload : {};
     if (eventPayload.status) projection.planStatus = String(eventPayload.status);
@@ -458,6 +486,9 @@ export function selfTest() {
   assert.equal(reports['night-unresolved'].saveAllowed, false);
   assert.equal(reports['night-unresolved'].nightUnresolved, true);
   assert.equal(reports['night-resolved'].saveAllowed, true);
+  assert.equal(reports['five-day-npc'].accepted, true);
+  assert.deepEqual(reports['five-day-npc'].replay.projection.promotedNpcIds, ['carpenter']);
+  assert.equal(reports['five-day-npc'].replay.projection.successorRoles.commander, 'sergeant');
   const legacy = migrateContentState({ contentVersion: 1, meters: { campCollapse: 7, resonancePressure: 31 } });
   assert.equal(legacy.migrated, true);
   assert.equal(legacy.state.contentVersion, CONTENT_SCHEMA_VERSION);
@@ -467,7 +498,7 @@ export function selfTest() {
   const replayB = replayProjection(reports.valid.payload).hash;
   assert.equal(replayA, replayB);
   // Golden hash: changes require an explicit replay-contract review.
-  assert.equal(replayA, '1e15b5e1');
+  assert.equal(replayA, 'afa81420');
   return { fixtureCount: Object.keys(reports).length, replayHash: replayA };
 }
 

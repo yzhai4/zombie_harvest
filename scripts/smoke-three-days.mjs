@@ -90,9 +90,13 @@ function runStaticSmoke(options) {
     ['SAN state', /sanityLastReason/.test(source) && /adjustSanity\s*\(/.test(source)],
     ['night guard', /NIGHT_ACTION_MESSAGE/.test(source) && /function\s+guardNightAction\s*\(/.test(source)],
     ['night closure', /threat\.started/.test(source) && /threat\.resolved/.test(source) && /threat\.closed/.test(source)],
-    ['plan meeting schema', /planMeeting/.test(source) && /commandPoints/.test(source) && /CONTENT_SCHEMA_VERSION = 2/.test(source)],
+    ['plan meeting schema', /planMeeting/.test(source) && /commandPoints/.test(source) && /CONTENT_SCHEMA_VERSION = 3/.test(source)],
     ['plan meeting lifecycle', /generatePlanMeeting\s*\(/.test(source) && /commitPlanMeeting\s*\(/.test(source) && /executePlanMeeting\s*\(/.test(source)],
     ['plan meeting tab', /data-info-tab=["']plan["']/.test(source) && /infoPlanMount/.test(source)],
+    ['npc attribute schema', /NPC_ATTRIBUTE_DEFAULTS/.test(source) && /npcAttributeProfile\s*\(/.test(source)],
+    ['npc promotion lifecycle', /evaluateNpcPromotion\s*\(/.test(source) && /promoteNpcHero\s*\(/.test(source) && /npcRoster/.test(source)],
+    ['npc succession lifecycle', /assignMorningSuccessors\s*\(/.test(source) && /npcFulfillsRole\s*\(/.test(source) && /actingRole/.test(source) && /roleVacancies/.test(source)],
+    ['five-day NPC replay fixture', /five-day-npc/.test(readFileSync(path.join(ROOT, 'scripts', 'replay-harness.mjs'), 'utf8')) && /promotionHistory/.test(readFileSync(path.join(ROOT, 'scripts', 'replay-harness.mjs'), 'utf8'))],
   ];
   for (const [name, ok] of contracts) check(result, name, ok);
   check(result, 'static night guard script available', existsSync(path.join(ROOT, 'scripts', 'check-night-guard.mjs')));

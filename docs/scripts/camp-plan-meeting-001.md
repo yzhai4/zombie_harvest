@@ -1,6 +1,6 @@
 # camp-plan-meeting-001：营地自治计划会
 
-- **内容版本：** `zfarm-world-1.0` / `contentVersion: 1`（事件内容版本；运行时 `CONTENT_SCHEMA_VERSION=2`）
+- **内容版本：** `zfarm-world-1.0` / `contentVersion: 1`（事件内容版本；运行时 `CONTENT_SCHEMA_VERSION=3`）
 - **实现目标：** v81
 - **状态：** v81 runtime 已接线；候选/投票/commandPoints/玩家提交/自治执行、存档迁移、回放投影和计划会 UI 已进入开发基线；完整 NPC 晋升、势力外交和多结局效果仍按 v82–v85 继续扩展
 - **类型：** `system` / `autonomy`，可重复的每日事件链
