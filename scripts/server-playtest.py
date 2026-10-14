@@ -134,12 +134,18 @@ def main() -> None:
 
         summary_class = page.locator("#nightOverlay").get_attribute("class") or ""
         night_resolved = "summary-mode" in summary_class
+        summary_kills = ""
+        summary_breaches = ""
+        summary_damage = ""
         check("night started", night_started)
         check("night summary", night_resolved)
         if night_resolved:
             check("daily summary", page.locator("#dailySummary").is_visible())
             check("summary damage", page.locator("#summaryDamage").inner_text() != "")
             check("summary continuation enabled", page.locator("#continueBtn").is_enabled())
+            summary_kills = page.locator("#summaryKills").inner_text() if page.locator("#summaryKills").count() else ""
+            summary_breaches = page.locator("#summaryBreaches").inner_text() if page.locator("#summaryBreaches").count() else ""
+            summary_damage = page.locator("#summaryDamage").inner_text() if page.locator("#summaryDamage").count() else ""
             page.locator("#continueBtn").click()
             try:
                 page.wait_for_function(
@@ -151,16 +157,33 @@ def main() -> None:
         morning_classes = page.locator("body").get_attribute("class") or ""
         check("returned to daytime", "threat-map-active" not in morning_classes and not page.locator("#nightOverlay").is_visible())
 
+        # Verify the public continuation path with the same save created by
+        # the actions above.  Reloading the document must expose the continue
+        # affordance and restore the same morning snapshot; this catches a
+        # regression where the UI reports a checkpoint but boot migration
+        # silently falls back to a fresh game.
+        morning_day = page.locator("#dayLabel").inner_text()
+        morning_time = page.locator("#timeLabel").inner_text()
+        page.reload(wait_until="domcontentloaded", timeout=30000)
+        page.locator("#continueSaveBtn").wait_for(state="visible", timeout=5000)
+        check("save continuation available after reload", page.locator("#continueSaveBtn").is_enabled())
+        page.locator("#continueSaveBtn").click()
+        page.wait_for_timeout(350)
+        check("saved state resumes after reload", page.locator("#dayLabel").inner_text() == morning_day)
+        check("saved time resumes after reload", page.locator("#timeLabel").inner_text() == morning_time)
+
         result["state"] = {
             "day": page.locator("#dayLabel").inner_text(),
             "time": page.locator("#timeLabel").inner_text(),
             "beforeWood": before,
-            "bodyClasses": page.locator("body").get_attribute("class"),
+            "bodyClasses": page.locator("body").get_attribute("class") or "",
             "nightStarted": night_started,
             "nightResolved": night_resolved,
-            "nightKills": page.locator("#summaryKills").inner_text() if page.locator("#summaryKills").count() else "",
-            "nightBreaches": page.locator("#summaryBreaches").inner_text() if page.locator("#summaryBreaches").count() else "",
-            "nightDamage": page.locator("#summaryDamage").inner_text() if page.locator("#summaryDamage").count() else "",
+            "nightKills": summary_kills,
+            "nightBreaches": summary_breaches,
+            "nightDamage": summary_damage,
+            "resumedDay": page.locator("#dayLabel").inner_text(),
+            "resumedTime": page.locator("#timeLabel").inner_text(),
         }
         browser.close()
 

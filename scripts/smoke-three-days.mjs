@@ -99,6 +99,10 @@ function runStaticSmoke(options) {
     ['npc promotion UI gate', /data-context-action=\"promoteHero\"/.test(source) && /commandPoints/.test(source) && /npc\.hero\?\.status\s*===\s*['\"]eligible['\"]/.test(source)],
     ['npc succession lifecycle', /assignMorningSuccessors\s*\(/.test(source) && /npcFulfillsRole\s*\(/.test(source) && /actingRole/.test(source) && /roleVacancies/.test(source)],
     ['five-day NPC replay fixture', /five-day-npc/.test(readFileSync(path.join(ROOT, 'scripts', 'replay-harness.mjs'), 'utf8')) && /promotionHistory/.test(readFileSync(path.join(ROOT, 'scripts', 'replay-harness.mjs'), 'utf8'))],
+    ['outpost garrison ledger', /outpostPopulationLedger\s*\(/.test(source) && /garrisonedOutpostId/.test(source) && /captureOutpost/.test(source)],
+    ['outpost upkeep lifecycle', /applyOutpostUpkeep\s*\(/.test(source) && /outpost\.upkeep/.test(source) && /lastUpkeepDay/.test(source)],
+    ['outpost camp-role exclusion', /function\s+npcHasRole\([\s\S]*?!npc\.garrisonedOutpostId/.test(source) && /function\s+npcFulfillsRole\([\s\S]*?!npc\.garrisonedOutpostId/.test(source)],
+    ['outpost replay fixture', /outpost-garrison/.test(readFileSync(path.join(ROOT, 'scripts', 'replay-harness.mjs'), 'utf8')) && /garrisonedNpcIds/.test(readFileSync(path.join(ROOT, 'scripts', 'replay-harness.mjs'), 'utf8'))],
   ];
   for (const [name, ok] of contracts) check(result, name, ok);
   check(result, 'static night guard script available', existsSync(path.join(ROOT, 'scripts', 'check-night-guard.mjs')));

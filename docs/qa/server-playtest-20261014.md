@@ -1,4 +1,4 @@
-# v82 服务器真实浏览器回归
+# v83 前置切片服务器真实浏览器回归
 
 **日期：** 2026-10-14  
 **测试地址：** `http://82.157.208.167/`  
@@ -7,7 +7,7 @@
 
 ## 部署证据
 
-- `index.html` SHA-256：`db0eecc574ca930d435c36eed052010360a85fe1cbc634c50463fd77547fa2c9`
+- `index.html` SHA-256：`3597b3e8283cb06e5c22a9e552d824343b9aa745e60750838b6b39554fe57797`
 - `actor-sprites.js` SHA-256：`be4cf51de3f5d6b1aaf2811565ba0435a4ceb18f015bd7753fa9871a23ab1962`
 - 公网 `GET /`：HTTP 200，标题为“我是大救星 · 尸潮农场”。
 - 18080 端口仅回环可用；公网入口使用 80 端口，由 `zfarm-v82.service` 管理，`systemctl is-enabled/is-active` 均为通过。
@@ -15,12 +15,12 @@
 ## 真实浏览器环境
 
 - Ubuntu 服务器上的 Google Chrome 155.0.8059.79。
-- Python Playwright 1.64.0，使用无头 Chrome 连接公网部署目录的本机回环服务。
+- Python Playwright 1.64.0，使用无头 Chrome 直接访问公网 `http://82.157.208.167/`；同一脚本也支持回环地址复测。
 - 每次测试先清空 `localStorage/sessionStorage`，避免旧存档污染结果。
 
 ## 通过场景
 
-`server-playtest-result-20261014.json` 记录了 19 项通过：
+`server-playtest-result-20261014.json` 记录了 22 项通过：
 
 1. 页面标题与游戏入口加载。
 2. 点击“开始新游戏”后启动层关闭。
@@ -41,14 +41,17 @@
 17. 总结显示伤害字段。
 18. 总结继续按钮可用。
 19. 点击关闭报告后回到白天状态。
+20. 重新加载后显示“继续存档”入口。
+21. 继续存档后恢复相同天数。
+22. 继续存档后恢复相同时间。
 
-最终状态为第 1 天 `06:32 · 清晨`，`body` 已移除 `threat-map-active`。本次夜间记录为击杀 1、突破 4、伤害 -7。资源请求没有游戏文件 404；浏览器自动请求 favicon 的 404 已作为预期噪声忽略。
+最终状态为第 1 天 `06:32 · 清晨`，重新加载后 `body` 已移除 `threat-map-active`，且天数和时间与关闭夜间总结前的白天快照一致。本次夜间记录为击杀 1、突破 4、伤害 -7。资源请求没有游戏文件 404；浏览器自动请求 favicon 的 404 已作为预期噪声忽略。
 
-## 后续补测
+## 运行入口
 
-本轮验证了白天入口、NPC 角色卡、晋升门控、采集、建造、夜间控制、自动结算、总结关闭和回到白天；存档继续和满足条件后的实际晋升仍待下一轮脚本继续覆盖。Playwright smoke 已具备可复用入口：
+Playwright smoke 已具备可复用入口：
 
 ```text
-python scripts/server-playtest.py
+ZFARM_TEST_URL=http://82.157.208.167/ /home/ubuntu/zfarm-v82-a4ec/venv/bin/python3 /home/ubuntu/zfarm-v82-a4ec/server-playtest.py
 ```
 

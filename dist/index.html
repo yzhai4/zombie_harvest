@@ -2287,6 +2287,95 @@
        }
        next.contentVersion = CONTENT_SCHEMA_VERSION; return next;
      }
+     // Outpost assignments are derived from the fixed NPC roster.  The
+     // assignment marker lives on the NPC so a guard cannot be counted both
+     // at camp and in an outpost after a save/reload or a repeated effect.
+     function outpostPopulationLedger() {
+       const roster = Array.isArray(state.npcs) ? state.npcs : [];
+       const living = roster.filter(npcIsActive);
+       const garrisoned = living.filter(npc => typeof npc.garrisonedOutpostId === 'string' && npc.garrisonedOutpostId);
+       return {
+         livingRoster: living.length,
+         workEligible: living.filter(npc => npc.lifeState === 'healthy' && !npc.garrisonedOutpostId).length,
+         campLocal: living.filter(npc => !npc.garrisonedOutpostId).length,
+         garrisoned: garrisoned.length
+       };
+     }
+     function normalizeOutpostAssignments() {
+       if (!state.contentState || !state.contentState.outposts || !Array.isArray(state.npcs)) return {};
+       const records = state.contentState.outposts;
+       const assigned = new Set();
+       // The content record is authoritative on load; clear stale reverse
+       // markers before rebuilding a one-to-one assignment map.
+       state.npcs.forEach(npc => { if (npc?.garrisonedOutpostId) delete npc.garrisonedOutpostId; });
+       Object.entries(records).forEach(([outpostId, raw]) => {
+         if (!raw || typeof raw !== 'object') { delete records[outpostId]; return; }
+         const def = contentDefinition('outpost', outpostId) || OUTPOST_DEFS[outpostId] || {};
+         const max = Math.max(0, Number(raw.guardSlots ?? def.guardSlots ?? 0));
+         const before = Array.isArray(raw.guardNpcIds) ? raw.guardNpcIds : [];
+         const guards = [];
+         before.forEach(npcId => {
+           if (guards.length >= max || assigned.has(npcId)) return;
+           const npc = state.npcs.find(item => item.id === npcId);
+           if (!npc || !npcIsActive(npc)) return;
+           guards.push(npcId); assigned.add(npcId); npc.garrisonedOutpostId = outpostId;
+         });
+         raw.guardNpcIds = guards;
+         raw.status = ['secured', 'strained', 'vacant'].includes(raw.status) ? raw.status : 'secured';
+         raw.guardSlots = max;
+         raw.lastUpkeepDay = Number.isFinite(Number(raw.lastUpkeepDay)) ? Number(raw.lastUpkeepDay) : 0;
+         if (raw.status !== 'vacant' && before.length > 0 && guards.length === 0) raw.status = 'vacant';
+       });
+       return records;
+     }
+     function releaseNpcFromOutpost(npc, reason = 'released') {
+       const outpostId = npc?.garrisonedOutpostId;
+       if (!outpostId) return false;
+       const outpost = state.contentState?.outposts?.[outpostId];
+       if (outpost) {
+         outpost.guardNpcIds = (Array.isArray(outpost.guardNpcIds) ? outpost.guardNpcIds : []).filter(id => id !== npc.id);
+         if (!outpost.guardNpcIds.length) outpost.status = 'vacant';
+         outpost.vacancyReason = reason;
+       }
+       delete npc.garrisonedOutpostId;
+       recordWorldEvent('outpost.guardReleased', { outpostId, npcId: npc.id, reason, population: outpostPopulationLedger() }, { actorId: 'system' });
+       return true;
+     }
+     function outpostGuardEligible(npc, outpostId) {
+       if (!npcIsActive(npc)) return false;
+       if (npc.garrisonedOutpostId && npc.garrisonedOutpostId !== outpostId) return false;
+       // Core jobs cannot silently disappear when a content effect assigns a
+       // guard.  A future command may add an explicit handoff first.
+       if (npc.actingRole || npc.contentJob) return false;
+       return !['commander', 'sergeant', 'doctor', 'radio', 'carpenter', 'quartermaster', 'cook'].includes(npc.id);
+     }
+     function applyOutpostUpkeep(day = state.day) {
+       ensureContentState();
+       normalizeOutpostAssignments();
+       Object.entries(state.contentState.outposts || {}).forEach(([outpostId, record]) => {
+         if (!record || !['secured', 'strained'].includes(record.status)) return;
+         if (Number(record.lastUpkeepDay) === Number(day)) return;
+         const def = contentDefinition('outpost', outpostId) || OUTPOST_DEFS[outpostId] || {};
+         const food = Math.max(0, Number(def.upkeep?.food) || 0);
+         record.lastUpkeepDay = Number(day);
+         const guards = (record.guardNpcIds || []).filter(npcId => state.npcs?.some(npc => npc.id === npcId && npcIsActive(npc)));
+         record.guardNpcIds = guards;
+         if (!guards.length) {
+           record.status = 'vacant'; record.lastUpkeepResult = 'vacant';
+           record.vacancyReason = record.vacancyReason || 'no-active-guard';
+           recordWorldEvent('outpost.upkeep', { outpostId, day, food, paid: 0, status: record.status, population: outpostPopulationLedger() }, { actorId: 'system' });
+           return;
+         }
+         if (Number(state.food) >= food) {
+           state.food = Math.max(0, Number(state.food) - food); record.status = 'secured'; record.lastUpkeepResult = 'paid';
+         } else {
+           record.status = 'strained'; record.lastUpkeepResult = 'shortage';
+           const before = Number(state.contentState.meters.campCollapse) || 0;
+           state.contentState.meters.campCollapse = Math.min(100, before + 2);
+         }
+         recordWorldEvent('outpost.upkeep', { outpostId, day, food, paid: record.lastUpkeepResult === 'paid' ? food : 0, status: record.status, population: outpostPopulationLedger() }, { actorId: 'system' });
+       });
+     }
      function ensureContentState() {
       const defaults = { contentVersion: CONTENT_SCHEMA_VERSION, meters: { campCollapse: 0, resonancePressure: 25, campTrust: 0 }, unlockedTech: [], unlockedWeapons: ['rustAxe'], unlockedBlueprints: [], flags: {}, scheduledEvents: [], triggeredEvents: [], activeChains: {}, completedChains: [], appliedEffects: [], outposts: {}, history: [], npcRoster: { promotedNpcIds: [], promotionHistory: [] }, commandPoints: 0, commandPointsMax: 0, commandPointsGrantedDay: 0, autonomyWeights: { defense: 40, harvest: 25, logistics: 20, research: 10, diplomacy: 5 }, planMeeting: { version: 1, status: 'idle', meetingDay: 0, instanceId: null, source: 'summary', candidates: [], selectedId: null, playerAction: null, committedDay: null, resolvedDay: null, autonomyResult: null, history: [] } };
       state.contentState = migrateContentState({ ...defaults, ...(state.contentState || {}), meters: { ...defaults.meters, ...(state.contentState?.meters || {}) }, flags: { ...defaults.flags, ...(state.contentState?.flags || {}) }, activeChains: { ...defaults.activeChains, ...(state.contentState?.activeChains || {}) }, outposts: { ...defaults.outposts, ...(state.contentState?.outposts || {}) }, npcRoster: { ...defaults.npcRoster, ...(state.contentState?.npcRoster || {}) }, autonomyWeights: { ...defaults.autonomyWeights, ...(state.contentState?.autonomyWeights || {}) }, planMeeting: { ...defaults.planMeeting, ...(state.contentState?.planMeeting || {}) } });
@@ -2310,6 +2399,7 @@
        if (!['idle', 'candidate', 'committed', 'resolved'].includes(state.contentState.planMeeting.status)) state.contentState.planMeeting.status = 'idle';
        state.contentState.planMeeting.candidates = Array.isArray(state.contentState.planMeeting.candidates) ? state.contentState.planMeeting.candidates.slice(0, 6) : [];
        state.contentState.planMeeting.history = Array.isArray(state.contentState.planMeeting.history) ? state.contentState.planMeeting.history.slice(-30) : [];
+       normalizeOutpostAssignments();
        Object.keys(defaults.meters).forEach(key => { state.contentState.meters[key] = Math.max(0, Math.min(100, Number(state.contentState.meters[key]) || 0)); });
        return state.contentState;
      }
@@ -2396,7 +2486,23 @@
        if (op === 'scheduleEvent') { const item = { id: effect.eventId || key, dueDay: Number(effect.dueDay) || state.day, payload: stableClone(effect.payload || {}) }; state.contentState.scheduledEvents = [...state.contentState.scheduledEvents.filter(event => event.id !== item.id), item].slice(-50); state.contentState.triggeredEvents = state.contentState.triggeredEvents.filter(eventId => eventId !== item.id); return { ok: true, op, key: item.id }; }
        if (op === 'assignJob') { const npc = state.npcs?.find(item => item.id === (effect.npcId || effect.targetId)); if (!npc || !npcIsActive(npc)) return { ok: false, reason: 'npc-missing-or-inactive' }; if (!contentDefinition('npcRole', key)) return { ok: false, reason: `role-missing:${key}` }; const incumbent = state.npcs?.find(item => item.id !== npc.id && npcIsActive(item) && item.contentJob === key); if (incumbent && effect.allowShared !== true) return { ok: false, reason: `role-occupied:${key}` }; npc.contentJob = key; return { ok: true, op, npcId: npc.id, job: key }; }
        if (op === 'damageBuilding') { const building = state.buildings?.find(item => item.id === (effect.buildingId || effect.targetId)); if (!building) return { ok: false, reason: 'building-missing' }; building.hp = Math.max(0, Number(building.hp || 0) - Math.max(0, value)); return { ok: true, op, buildingId: building.id }; }
-       if (op === 'captureOutpost') { const outpostId = key; const outpost = contentDefinition('outpost', outpostId); if (!outpost) return { ok: false, reason: `outpost-missing:${outpostId}` }; if (!(outpost.captureRequires || []).every(contentConditionMet)) return { ok: false, reason: 'outpost-capture-requirement' }; const guards = [...new Set(effect.guardNpcIds || [])]; if (guards.length > Number(outpost.guardSlots || 0)) return { ok: false, reason: 'outpost-guard-slots' }; if (guards.some(npcId => !state.npcs?.some(npc => npc.id === npcId && npcIsActive(npc)))) return { ok: false, reason: 'outpost-guard-missing' }; if (outpost.garrisonRequired && !guards.length) return { ok: false, reason: 'outpost-garrison-required' }; state.contentState.outposts[outpostId] = { status: 'secured', guardNpcIds: guards, securedAt: worldMinute() }; return { ok: true, op, key: outpostId }; }
+       if (op === 'captureOutpost') {
+         const outpostId = key; const outpost = contentDefinition('outpost', outpostId);
+         if (!outpost) return { ok: false, reason: `outpost-missing:${outpostId}` };
+         if (!(outpost.captureRequires || []).every(contentConditionMet)) return { ok: false, reason: 'outpost-capture-requirement' };
+         if (state.contentState.outposts[outpostId]?.status && state.contentState.outposts[outpostId].status !== 'vacant') return { ok: false, reason: 'outpost-already-secured' };
+         const guards = [...new Set(Array.isArray(effect.guardNpcIds) ? effect.guardNpcIds : [])];
+         if (guards.length > Number(outpost.guardSlots || 0)) return { ok: false, reason: 'outpost-guard-slots' };
+         if ((outpost.garrisonRequired || Number(outpost.guardSlots || 0) > 0) && !guards.length) return { ok: false, reason: 'outpost-garrison-required' };
+         const livingRoster = state.npcs?.filter(npcIsActive).length || 0;
+         if (livingRoster < 3) return { ok: false, reason: 'outpost-minimum-population' };
+         const guardObjects = guards.map(npcId => state.npcs?.find(npc => npc.id === npcId));
+         if (guardObjects.some(npc => !outpostGuardEligible(npc, outpostId))) return { ok: false, reason: 'outpost-guard-busy' };
+         guardObjects.forEach(npc => { npc.garrisonedOutpostId = outpostId; npc.scheduleState = '据点驻守'; npc.supportRequested = false; npc.order = null; npc.currentOrder = null; npc.lastReport = `驻守${outpost.name || outpostId}`; });
+         state.contentState.outposts[outpostId] = { status: 'secured', guardNpcIds: guards, guardSlots: Number(outpost.guardSlots || 0), securedAt: worldMinute(), lastUpkeepDay: 0, lastUpkeepResult: null, vacancyReason: null };
+         recordWorldEvent('outpost.secured', { outpostId, guardNpcIds: guards, population: outpostPopulationLedger() }, { actorId: meta.actorId || 'system' });
+         return { ok: true, op, key: outpostId, guardNpcIds: guards, population: outpostPopulationLedger() };
+       }
        if (op === 'recordHistory') { const entry = { id: key || `content-${worldMinute()}`, at: worldMinute(), payload: stableClone(effect.payload || {}), actorId: meta.actorId || 'system' }; state.contentState.history = [...state.contentState.history, entry].slice(-100); recordWorldEvent('content.history', entry, { actorId: entry.actorId }); return { ok: true, op, key: entry.id }; }
        return { ok: false, reason: `unhandled-effect:${op}` };
      }
@@ -2651,7 +2757,7 @@
         wounds: npc.wounds, morale: npc.morale, behaviorState: npc.behaviorState, currentOrder: npc.currentOrder,
         fallbackPoint: npc.fallbackPoint, homeZone: npc.homeZone, workZone: npc.workZone, inventory: npc.inventory, appearance: npc.appearance, equipment: npc.equipment, personality: npc.personality, relations: npc.relations,
         memory: npc.memory, attributes: npc.attributes, hero: npc.hero, bond: npc.bond, supportRequested: npc.supportRequested, order: npc.order || null, simMoveClock: npc.simMoveClock || 0, needClock: npc.needClock || 0, workClock: npc.workClock || 0, workPulseSeq: npc.workPulseSeq || 0, workHistory: Array.isArray(npc.workHistory) ? npc.workHistory.slice(-8) : [], motionTarget: npc.motionTarget ? { x: npc.motionTarget.x, y: npc.motionTarget.y } : null
-        , needs: npc.needs, sanity: npc.sanity, sanityClock: npc.sanityClock || 0, sanityLastReason: npc.sanityLastReason || '', scheduleState: npc.scheduleState, lastReport: npc.lastReport, actingRole: npc.actingRole || null, actingFor: npc.actingFor || null, eventChain: npc.eventChain || { step: 0, cooldown: 0, active: null, resolved: [] }, perception: npc.perception || { clock: 0, targetId: null, targetAt: 0, contacts: {}, sharedUntil: 0 }
+        , needs: npc.needs, sanity: npc.sanity, sanityClock: npc.sanityClock || 0, sanityLastReason: npc.sanityLastReason || '', scheduleState: npc.scheduleState, lastReport: npc.lastReport, actingRole: npc.actingRole || null, actingFor: npc.actingFor || null, garrisonedOutpostId: npc.garrisonedOutpostId || null, eventChain: npc.eventChain || { step: 0, cooldown: 0, active: null, resolved: [] }, perception: npc.perception || { clock: 0, targetId: null, targetAt: 0, contacts: {}, sharedUntil: 0 }
       };
     }
     function normalizeNpc(npc, saved = {}) {
@@ -2699,6 +2805,9 @@
       merged.lastReport = typeof merged.lastReport === 'string' ? merged.lastReport : '';
       merged.actingRole = typeof merged.actingRole === 'string' && NPC_TEMPLATES[merged.actingRole] ? merged.actingRole : null;
       merged.actingFor = typeof merged.actingFor === 'string' && NPC_TEMPLATES[merged.actingFor] ? merged.actingFor : null;
+      // Keep custom-pack IDs through save migration; normalizeOutpostAssignments
+      // later removes markers that have no corresponding record.
+      merged.garrisonedOutpostId = typeof merged.garrisonedOutpostId === 'string' && merged.garrisonedOutpostId.trim() ? merged.garrisonedOutpostId.trim() : null;
       merged.lifeState = merged.hp <= 0 ? 'dead' : ['healthy','injured','critical'].includes(merged.lifeState) ? merged.lifeState : merged.hp < 60 ? 'injured' : 'healthy';
       merged.supportRequested = merged.lifeState !== 'dead' && !!merged.supportRequested;
       merged.order = merged.lifeState === 'dead' ? null : merged.order;
@@ -2829,7 +2938,7 @@
     function getWorldZombies() { return [...(state.worldZombies || []), ...(state.night ? state.zombies : [])]; }
     function getZombie(x, y) { return getWorldZombies().find(z => z.x === x && z.y === y && z.hp > 0); }
     function npcIsActive(npc) { return npc && npc.lifeState !== 'dead'; }
-    function npcHasRole(npc, roleId) { return npcIsActive(npc) && (npc.id === roleId || npc.actingRole === roleId); }
+    function npcHasRole(npc, roleId) { return npcIsActive(npc) && !npc.garrisonedOutpostId && (npc.id === roleId || npc.actingRole === roleId); }
     function getNpc(x, y) { return state.npcs.find(n => npcIsActive(n) && n.x === x && n.y === y); }
     function npcLifeLabel(npc) {
       if (!npcIsActive(npc)) return '已死亡 · 岗位空缺';
@@ -3089,22 +3198,43 @@
       return true;
     }
     function activateQueuedNpcEvent() {
-      const next = (state.npcEvents || []).find(item => item.status === 'queued');
-      if (!next?.event) return false;
-      const npc = state.npcs.find(item => item.id === next.npcId);
-      if (!npc || !npcIsActive(npc)) { next.status = 'cancelled'; return false; }
-      state.event = { ...next.event, handled: false };
-      state.eventInstance = createEventInstance(state.event.defId || `npc.${next.event.npcEvent?.chainId || 'event'}`, { defId: state.event.defId, instanceId: next.id, payload: stableClone(state.event), actorId: npc.id });
-      next.status = 'active';
-      npc.eventChain = npc.eventChain || { step: 0, cooldown: 0, active: null, resolved: [] };
-      npc.eventChain.active = { id: next.id, step: next.step, openedAt: next.openedAt, status: 'active' };
-      log(`${npc.name}的问题现在需要你处理：${state.event.title}`, 'warn');
-      return true;
+      // A queued event can outlive its NPC (for example, the NPC may die in
+      // the night battle before the current event is resolved). Skip every
+      // cancelled entry until a live NPC is found so one death cannot wedge
+      // the global event slot and starve unrelated queued events.
+      const queued = (state.npcEvents || []).filter(item => item.status === 'queued');
+      for (const next of queued) {
+        if (!next?.event) { next.status = 'cancelled'; next.cancelReason = 'event-missing'; continue; }
+        const npc = state.npcs.find(item => item.id === next.npcId);
+        if (!npc || !npcIsActive(npc)) {
+          next.status = 'cancelled'; next.cancelReason = 'npc-inactive'; next.cancelledAt = worldMinute();
+          recordWorldEvent('npc.event.cancelled', { eventId: next.id, npcId: next.npcId, reason: next.cancelReason }, { actorId: 'camp-autonomy', instanceId: next.id });
+          continue;
+        }
+        state.event = { ...next.event, handled: false };
+        state.eventInstance = createEventInstance(state.event.defId || `npc.${next.event.npcEvent?.chainId || 'event'}`, { defId: state.event.defId, instanceId: next.id, payload: stableClone(state.event), actorId: npc.id });
+        next.status = 'active';
+        npc.eventChain = npc.eventChain || { step: 0, cooldown: 0, active: null, resolved: [] };
+        npc.eventChain.active = { id: next.id, step: next.step, openedAt: next.openedAt, status: 'active' };
+        log(`${npc.name}的问题现在需要你处理：${state.event.title}`, 'warn');
+        return true;
+      }
+      return false;
     }
     function resolveNpcEvent(event, choice) {
       const meta = event?.npcEvent;
       const npc = meta ? state.npcs.find(item => item.id === meta.npcId) : null;
       if (!npc || !meta) return '';
+      // The NPC may have become inactive while this event was waiting behind
+      // a night encounter. Do not apply needs, relation or resource effects
+      // to a dead/absent actor; resolve the slot as a visible degradation so
+      // the event chain remains replayable and the player can continue.
+      if (!npcIsActive(npc)) {
+        const record = (state.npcEvents || []).find(item => item.id === event.id);
+        if (record) { record.status = 'cancelled'; record.cancelReason = 'npc-inactive'; record.cancelledAt = worldMinute(); }
+        recordWorldEvent('npc.event.cancelled', { eventId: event.id, npcId: npc.id, choice, reason: 'npc-inactive' }, { actorId: 'camp-autonomy', instanceId: event.id, defId: event.defId || null });
+        return `${npc.name}已经不在营地，原事件降级为记录，未执行额外效果。`;
+      }
       const living = state.npcs.filter(npcIsActive);
       const adjustAll = delta => living.forEach(item => adjustNpcNeeds(item, delta));
       let result = '';
@@ -3665,6 +3795,7 @@
       runPlanMeetingDayStart();
       spawnResource();
       assignMorningSuccessors();
+      applyOutpostUpkeep(state.day);
       runContentHook('onDayStart', { actorId: 'camp-autonomy' });
       const gardens = state.buildings.filter(b => b.type === 'garden' || b.type === 'greenhouse').length;
       let ready = 0;
@@ -4394,8 +4525,9 @@
         const disabled = dead ? 'disabled' : '';
         const zoneName = CAMP_ZONES[n.homeZone]?.name || '营地';
         const actingLabel = n.actingRole ? `暂代${NPC_TEMPLATES[n.actingRole]?.role || n.actingRole}` : '';
-        const detail = dead ? '该角色不会自动恢复；后续需要继任者接替岗位。' : n.desc + ' · 常驻' + zoneName + ' · ' + npcSkillSummary(n) + (actingLabel ? ' · ' + actingLabel : '') + (n.lastReport ? ' · ' + n.lastReport : '');
-        const condition = dead ? '功能失效' : npcStateSummary(n) + ` · SAN ${Math.round(sanityValue(n))} · ${sanityLabel(n.sanity)}` + (actingLabel ? ' · ' + actingLabel : '') + ` · ${npcHeroLabel(n)} · 羁绊 ` + n.bond + '/3';
+        const garrisonedLabel = n.garrisonedOutpostId ? ` · 驻守${OUTPOST_DEFS[n.garrisonedOutpostId]?.name || n.garrisonedOutpostId}` : '';
+        const detail = dead ? '该角色不会自动恢复；后续需要继任者接替岗位。' : n.desc + ' · 常驻' + zoneName + ' · ' + npcSkillSummary(n) + (actingLabel ? ' · ' + actingLabel : '') + garrisonedLabel + (n.lastReport ? ' · ' + n.lastReport : '');
+        const condition = dead ? '功能失效' : npcStateSummary(n) + ` · SAN ${Math.round(sanityValue(n))} · ${sanityLabel(n.sanity)}` + (actingLabel ? ' · ' + actingLabel : '') + garrisonedLabel + ` · ${npcHeroLabel(n)} · 羁绊 ` + n.bond + '/3';
         return '<button class="survivor-card ' + (near ? 'near' : '') + ' ' + (n.supportRequested ? 'supported' : '') + ' ' + (dead ? 'dead' : '') + ' ' + (n.lifeState === 'injured' ? 'injured' : '') + ' ' + (n.lifeState === 'critical' ? 'critical' : '') + '" data-npc="' + n.id + '" ' + disabled + '><div class="survivor-icon">' + actorSprite('npc', n.id, n.facing || 'down', n.lifeState === 'healthy' ? 'idle' : 'hurt', actorFrame(), npcActorVisual(n)) + '</div><b>' + n.name + ' · ' + n.role + '</b><span>' + detail + '</span><em>' + status + ' · ' + condition + '</em></button>';
       }).join('');
       document.querySelectorAll('[data-npc]').forEach(card => card.addEventListener('click', () => interactNpc(card.dataset.npc)));
@@ -4682,7 +4814,10 @@
       event.handled = true; event.result = result; log(result, choice === 'a' && event.id === 'supply' ? 'warn' : '');
       if (event.npcEvent) {
         const record = (state.npcEvents || []).find(item => item.id === event.id);
-        if (record) { record.status = 'resolved'; record.choice = choice; record.resolvedAt = worldMinute(); }
+        // resolveNpcEvent may have degraded the event because its NPC became
+        // inactive during the night; preserve that terminal reason instead
+        // of overwriting it with a misleading successful resolution.
+        if (record && record.status !== 'cancelled') { record.status = 'resolved'; record.choice = choice; record.resolvedAt = worldMinute(); }
       }
       activateQueuedNpcEvent();
       toast('今日异动已处理'); render();
@@ -5292,6 +5427,7 @@
       const deathX = npc.x, deathY = npc.y;
       const formerActingRole = npc.actingRole;
       npc.hp = 0; npc.combatHp = 0; npc.lifeState = 'dead'; npc.combatStatus = 'dead'; npc.behaviorState = 'dead';
+      releaseNpcFromOutpost(npc, 'death');
       npc.supportRequested = false; npc.order = null; npc.currentOrder = null; npc.scheduleState = '阵亡'; npc.lastReport = '战斗阵亡，岗位永久空缺'; npc.actingRole = null; npc.actingFor = null;
       npc.memory = {...npc.memory, importantEvents: [...(npc.memory.importantEvents || []), '第' + state.day + '天战斗死亡'].slice(-8)};
       state.roleVacancies = state.roleVacancies || {}; state.roleVacancies[npc.id] = { role: npc.id, openedDay: state.day }; if (formerActingRole) state.roleVacancies[formerActingRole] = { role: formerActingRole, openedDay: state.day };
@@ -5750,7 +5886,7 @@
       preparePlanMeetingAtSummary();
       requestCheckpoint('threat-resolved');
     }
-    function npcFulfillsRole(npc, roleId) { return npcIsActive(npc) && (npc.actingRole || npc.id) === roleId; }
+    function npcFulfillsRole(npc, roleId) { return npcIsActive(npc) && !npc.garrisonedOutpostId && (npc.actingRole || npc.id) === roleId; }
     function assignMorningSuccessors() {
       state.roleVacancies = state.roleVacancies || {};
       const priorities = {
@@ -5765,7 +5901,7 @@
       Object.keys(state.roleVacancies).forEach(roleId => {
         if (state.npcs.some(n => npcFulfillsRole(n, roleId))) { delete state.roleVacancies[roleId]; return; }
         const candidateIds = priorities[roleId] || ['guardJi', 'guardChen', 'guardJiang', 'cook', 'quartermaster'];
-        const candidate = candidateIds.map(id => state.npcs.find(n => n.id === id)).find(n => npcIsActive(n) && n.lifeState === 'healthy' && !n.actingRole && n.id !== roleId);
+        const candidate = candidateIds.map(id => state.npcs.find(n => n.id === id)).find(n => npcIsActive(n) && n.lifeState === 'healthy' && !n.actingRole && !n.garrisonedOutpostId && n.id !== roleId);
         if (!candidate) return;
         if (candidate.id !== roleId) state.roleVacancies[candidate.id] = state.roleVacancies[candidate.id] || { role: candidate.id, openedDay: state.day };
         candidate.actingRole = roleId; candidate.actingFor = roleId; candidate.bond = Math.max(1, candidate.bond || 0); candidate.scheduleState = '继任培训'; candidate.lastReport = `暂代${NPC_TEMPLATES[roleId]?.role || roleId}`;
@@ -5816,6 +5952,7 @@
       if (runDailyUpkeep) {
         spawnResource();
         assignMorningSuccessors();
+        applyOutpostUpkeep(state.day);
       }
       const gardens = runDailyUpkeep ? state.buildings.filter(b => b.type === 'garden' || b.type === 'greenhouse').length : 0;
       let ready = 0;

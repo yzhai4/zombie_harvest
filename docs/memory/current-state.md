@@ -14,16 +14,17 @@
 
 ## 当前工作树注意事项
 
-- 代码、交接文档、夹具和 validator 已统一到 `SAVE_VERSION=21`、`CONTENT_SCHEMA_VERSION=3`；v82 新增 NPC 属性、英雄状态和 `npcRoster` 迁移默认值。
-- v82 当前仍是运行时竖切片：英雄晋升条件、指挥点消耗、岗位效率、角色卡展示和岗位继任投影已接入；完整十人主动技能/死亡分支仍待补齐，五日晋升与岗位替代夹具已接入。
+- 代码、交接文档、夹具和 validator 已统一到 `SAVE_VERSION=21`、`CONTENT_SCHEMA_VERSION=3`；v82 接入 NPC 属性、英雄状态和 `npcRoster` 迁移默认值，v83 前置切片接入据点守军人口账本与每日 upkeep。
+- 当前运行时仍是竖切片：英雄晋升条件、指挥点消耗、岗位效率、角色卡展示、岗位继任、据点固定人口占用、守军死亡释放和每日维护已接入；完整十人主动技能、据点捕获 UI、势力奖励和最终尸潮仍待补齐。
+- NPC 个人事件在结算前会重新检查活动状态；死亡/失踪事件会取消并写账本，队列会继续寻找可用 NPC，不再被失效首项卡住。
 
 ## 最近验证
 
 - `node scripts/check-night-guard.mjs`：通过。
-- `node scripts/replay-harness.mjs --self-test`：通过，6 个夹具，当前 hash `afa81420`；五日夹具覆盖 `carpenter` 晋升与 `sergeant -> commander` 暂代。
+- `node scripts/replay-harness.mjs --self-test`：通过，8 个夹具，当前 hash `1a0b69b8`；覆盖五日 NPC 晋升/暂代、死亡 NPC 事件取消和据点守军 upkeep 投影。
 - `node scripts/validate-content.mjs`：通过，SAVE21/CONTENT3 已对齐。
-- `node scripts/smoke-three-days.mjs`：46 项通过；Playwright 本机不可用，服务器真实浏览器已覆盖关键闭环。
+- `node scripts/smoke-three-days.mjs`：50 项通过；Playwright 本机不可用，服务器真实浏览器已覆盖关键闭环。
 - GitHub draft PR `#4` 已创建，GitHub Actions workflow 通过；Sites 生产仍保持原版本。
-- 服务器真实浏览器 smoke 已通过 19 项，覆盖 NPC 角色卡与首日晋升门控、夜间总结关闭与回到白天，记录在 `docs/qa/server-playtest-20261014.md`；线上 Sites 可公开访问，但浏览器插件对大型 Canvas 页面仍会超时。
+- 服务器真实浏览器 smoke 已通过 22 项，覆盖 NPC 角色卡与首日晋升门控、夜间总结、回到白天和刷新后继续存档，记录在 `docs/qa/server-playtest-20261014.md`；线上 Sites 可公开访问，但浏览器插件对大型 Canvas 页面仍会超时。
 - 服务器 80 端口由 `zfarm-v82.service` 托管，systemd `enabled/active` 均已验证。
 
