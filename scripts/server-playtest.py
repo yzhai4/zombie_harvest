@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 import os
+import time
 from pathlib import Path
 
 from playwright.sync_api import sync_playwright
@@ -15,6 +16,7 @@ from playwright.sync_api import sync_playwright
 
 BASE_URL = os.environ.get("ZFARM_TEST_URL", "http://127.0.0.1/")
 OUT = Path(os.environ.get("ZFARM_TEST_OUT", "/home/ubuntu/zfarm-v82-a4ec/server-playtest-result.json"))
+NIGHT_TIMEOUT_MS = int(os.environ.get("ZFARM_NIGHT_TIMEOUT_MS", "35000"))
 
 
 def main() -> None:
@@ -50,6 +52,23 @@ def main() -> None:
         check("started", page.locator("#startOverlay").get_attribute("aria-hidden") == "true")
         check("day label", page.locator("#dayLabel").inner_text().startswith("第"))
 
+        # v82 NPC slice: read the same role cards a player sees.  This is a
+        # runtime check against a fresh game state, so it does not seed a save
+        # or mutate hidden state to manufacture promotion eligibility.
+        page.locator("#survivorToggle").click()
+        page.wait_for_timeout(100)
+        npc_cards = page.locator("#survivorList .survivor-card")
+        npc_text = npc_cards.all_inner_texts()
+        check("npc roster cards", npc_cards.count() == 10)
+        check("npc attribute summaries", len(npc_text) == 10 and all("· 战斗" in text for text in npc_text))
+        check("starting heroes shown", sum("英雄 ·" in text for text in npc_text) >= 3)
+        check("ordinary promotion progress shown", sum("普通 · 晋升 0%" in text for text in npc_text) >= 1)
+        # At day one no ordinary survivor is eligible; the promotion affordance
+        # must therefore remain absent from the live context action list.
+        check("promotion gate before eligibility", page.locator('[data-context-action="promoteHero"]').count() == 0)
+        page.locator("#infoModalClose").click()
+        page.wait_for_timeout(100)
+
         if not page.locator("#eventChoiceA").is_visible():
             page.locator("#eventToggle").click()
             page.wait_for_timeout(100)
@@ -72,6 +91,7 @@ def main() -> None:
 
         page.locator("#endDayBtn").click()
         page.wait_for_timeout(900)
+        night_started = False
         check(
             "night or summary",
             page.locator("#nightOverlay").is_visible()
@@ -79,18 +99,62 @@ def main() -> None:
             or "threat-map-active" in (page.locator("body").get_attribute("class") or ""),
         )
         check("night movement controls", page.locator('[data-night-dir="right"]').count() > 0)
-        if page.locator('[data-night-dir="right"]').is_visible():
-            page.locator('[data-night-dir="right"]').click()
-            page.wait_for_timeout(150)
-        if page.locator("#nightAttackBtn").is_enabled():
-            page.locator("#nightAttackBtn").click()
-            page.wait_for_timeout(150)
+
+        # Drive the actual night encounter through the public controls.  The
+        # player starts close to the camp wall while the horde advances from
+        # the east, so small left/up pulses keep the avatar in the battle lane
+        # as enemies enter range.  Attack only when the UI enables it; this
+        # avoids mutating state from page.evaluate and exercises the same route
+        # a player uses with WASD/F.
+        night_deadline = time.monotonic() + NIGHT_TIMEOUT_MS / 1000
+        while time.monotonic() < night_deadline:
+            body_classes = page.locator("body").get_attribute("class") or ""
+            summary = page.locator("#nightOverlay").get_attribute("class") or ""
+            if "summary-mode" in summary:
+                break
+            if "threat-map-active" in body_classes:
+                night_started = True
+                attack = page.locator("#nightAttackBtn")
+                live_attack = page.locator("#nightLiveAttackBtn")
+                if attack.is_enabled():
+                    attack.click()
+                elif live_attack.count() and live_attack.is_enabled():
+                    live_attack.click()
+                else:
+                    # One short movement pulse per polling interval is enough
+                    # to follow the projected lane without racing the battle
+                    # timer.  If a wall blocks the pulse, the next direction
+                    # still leaves the encounter running.
+                    for direction in ("left", "up"):
+                        button = page.locator(f'[data-night-dir="{direction}"]')
+                        if button.count() and button.is_visible() and not button.is_disabled():
+                            button.click()
+                            break
+            page.wait_for_timeout(300)
+
+        summary_class = page.locator("#nightOverlay").get_attribute("class") or ""
+        night_resolved = "summary-mode" in summary_class
+        check("night started", night_started)
+        check("night resolved", night_resolved)
+        if night_resolved:
+            check("daily summary", page.locator("#dailySummary").is_visible())
+            check("summary damage", page.locator("#summaryDamage").inner_text() != "")
+            check("summary continuation enabled", page.locator("#continueBtn").is_enabled())
+            page.locator("#continueBtn").click()
+            page.wait_for_timeout(500)
+        morning_classes = page.locator("body").get_attribute("class") or ""
+        check("returned to daytime", "threat-map-active" not in morning_classes and not page.locator("#nightOverlay").is_visible())
 
         result["state"] = {
             "day": page.locator("#dayLabel").inner_text(),
             "time": page.locator("#timeLabel").inner_text(),
             "beforeWood": before,
             "bodyClasses": page.locator("body").get_attribute("class"),
+            "nightStarted": night_started,
+            "nightResolved": night_resolved,
+            "nightKills": page.locator("#summaryKills").inner_text() if page.locator("#summaryKills").count() else "",
+            "nightBreaches": page.locator("#summaryBreaches").inner_text() if page.locator("#summaryBreaches").count() else "",
+            "nightDamage": page.locator("#summaryDamage").inner_text() if page.locator("#summaryDamage").count() else "",
         }
         browser.close()
 
