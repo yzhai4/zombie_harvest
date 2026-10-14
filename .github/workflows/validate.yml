@@ -21,19 +21,22 @@ jobs:
         run: |
           node --check dist/actor-sprites.js
           node --check prototype/mobile-zombie-game/game.js
-          python - <<'PY'
-          from pathlib import Path
-          import re
-          html = Path('dist/index.html').read_text(encoding='utf-8')
-          scripts = re.findall(r'<script(?:\\s[^>]*)?>(.*?)</script>', html, re.S | re.I)
-          for i, script in enumerate(scripts):
-              Path(f'/tmp/zombie-inline-{i}.js').write_text(script, encoding='utf-8')
-          print(f'extracted {len(scripts)} inline scripts')
-          PY
-          for script in /tmp/zombie-inline-*.js; do node --check "$script"; done
+          node scripts/check-inline-syntax.mjs
       - name: Check deployable entrypoints
         run: |
           test -s dist/index.html
           test -s prototype/mobile-zombie-game/index.html
           grep -q '<html' dist/index.html
           grep -q '<html' prototype/mobile-zombie-game/index.html
+      - name: Validate content and night boundaries
+        run: |
+          node scripts/validate-content.mjs
+          node scripts/check-night-guard.mjs
+      - name: Execute registered-chain reducers
+        run: node scripts/check-content-chain.mjs
+      - name: Verify save projections and static smoke
+        run: |
+          node scripts/replay-harness.mjs --self-test
+          node scripts/smoke-three-days.mjs
+      - name: Check browser runner syntax
+        run: python -m py_compile scripts/server-playtest.py scripts/server-content-chain.py

@@ -236,6 +236,10 @@
     .panel-toggle:active { transform: scale(.97); }
     .event-panel { display: none; }
     .event-panel.open { display: block; }
+    .event-source { display:flex; align-items:center; gap:8px; margin:0 0 10px; color:var(--muted); font-size:10px; }
+    .event-source[hidden], #eventExtraChoices[hidden] { display:none; }
+    .event-source select { flex:1; min-width:0; padding:7px; border:1px solid var(--line); border-radius:9px; background:#172b30; color:var(--cream); font:inherit; }
+    #eventExtraChoices { margin-top:6px; }
     .survivor-panel, .collection-panel, .weapon-panel { display: none; }
     .survivor-panel.open { display: block; }
     .collection-panel.open { display: block; }
@@ -1070,8 +1074,10 @@
     </section>
 
     <section class="event-panel hud-window" id="eventPanel">
+      <label class="event-source" id="eventSourceRow" hidden>处理事项<select id="eventSourceSelect" aria-label="选择处理事项"></select></label>
       <div class="event-head"><div class="event-icon" id="eventIcon">📦</div><div class="event-copy"><b id="eventTitle">今日异动：废弃补给箱</b><span id="eventText">围栏外有一个被雨水泡过的补给箱。声音会把东西引过来，但里面可能有能救命的物资。</span></div><div class="event-state" id="eventState">待处理</div></div>
       <div class="event-actions"><button class="event-choice" id="eventChoiceA">🔎 搜索补给箱<small>消耗 6 体力，获得食物和零件</small></button><button class="event-choice" id="eventChoiceB">🚶 安静绕开<small>不消耗体力，士气 +2</small></button></div>
+      <div class="event-actions" id="eventExtraChoices" hidden></div>
     </section>
 
     <section class="world-wrap">
@@ -2154,11 +2160,12 @@
      // current relay quest. Effects are interpreted by one reducer below.
      const EVENT_CHAIN_DEFS = Object.freeze({
        'watermill-002': Object.freeze({
+         title: '水车闸门', description: '营地发现了旧水车。修补闸门能缓解营地压力；拆下部件可以补充零件，却会增加共振压力。', definitionVersion: 2,
          chainId: 'watermill-002', category: 'side', phase: ['day_4', 'day_10'], priority: 40,
          startConditions: [{ type: 'landmark_exists', id: 'waterMill' }, { type: 'camp_trust', min: 25 }],
-         nodes: [{ nodeId: 'repair_gate', choices: [{ id: 'repair', label: '修复水车闸门', requirements: ['scrap>=20', 'carpenter_alive'], effects: [
+         nodes: [{ nodeId: 'repair_gate', title: '修复还是拆解？', text: '修补闸门需要阿梁参与，并从营地库存拿出 20 份零件。拆解能立即回收 3 份零件，同时留下更高的共振压力。', choices: [{ id: 'repair', label: '修复水车闸门', hint: '零件 -20 · 营地崩溃压力最多 -4 · 记录闸门修复', requirements: ['scrap>=20', 'carpenter_alive'], effects: [
            { op: 'adjust_resource', key: 'scrap', value: -20 }, { op: 'adjust_meter', key: 'campCollapse', value: -4 }, { op: 'unlock', key: 'watermill_t2' }
-         ] }, { id: 'salvage', label: '拆下水车零件', requirements: ['scrap>=0'], effects: [
+         ] }, { id: 'salvage', label: '拆下水车零件', hint: '零件 +3 · 共振压力 +3 · 结束水车支线', requirements: ['scrap>=0'], effects: [
            { op: 'addResource', key: 'parts', value: 3 }, { op: 'adjust_meter', key: 'resonancePressure', value: 3 }
          ] }]}],
          autonomy: { resultId: 'camp_survey', effects: [{ op: 'adjustMeter', key: 'campCollapse', value: 1 }, { op: 'recordHistory', key: 'watermill_autonomy_logged', payload: { route: 'survey-only' } }] },
@@ -2473,8 +2480,13 @@
          if (!Array.isArray(raw.phase) || !raw.phase.length) issues.push('event-phase-missing');
          if (!Array.isArray(raw.nodes) || !raw.nodes.length) issues.push('event-nodes-missing');
          if (!raw.fallback || typeof raw.fallback !== 'object') issues.push('event-fallback-missing');
-         const choices = (raw.nodes || []).flatMap(node => Array.isArray(node.choices) ? node.choices : []);
-         if (!choices.length || !choices.some(choice => Array.isArray(choice.effects) && choice.effects.length)) issues.push('event-choice-effects-missing');
+         const nodes = Array.isArray(raw.nodes) ? raw.nodes : [];
+         if (nodes.some(node => !node || typeof node.nodeId !== 'string' || !node.nodeId || !Array.isArray(node.choices))) issues.push('event-node-contract-invalid');
+         if (new Set(nodes.map(node => node?.nodeId)).size !== nodes.length) issues.push('event-node-id-duplicate');
+         const choices = nodes.flatMap(node => Array.isArray(node?.choices) ? node.choices : []);
+         if (!choices.length || !choices.some(choice => Array.isArray(choice?.effects) && choice.effects.length)) issues.push('event-choice-effects-missing');
+         if (choices.some(choice => !choice || typeof choice.id !== 'string' || !choice.id || choice.requirements !== undefined && (!Array.isArray(choice.requirements) || choice.requirements.some(requirement => typeof requirement !== 'string')))) issues.push('event-choice-requirements-invalid');
+         if (nodes.some(node => Array.isArray(node?.choices) && new Set(node.choices.map(choice => choice?.id)).size !== node.choices.length)) issues.push('event-choice-id-duplicate');
          ['ifMissingNpc', 'ifInsufficientPopulation', 'ifExpired', 'ifSkipped'].forEach(key => { if (!raw.fallback?.[key]) issues.push(`event-fallback-${key}-missing`); });
        }
        if (kind === 'npcStory' && (!raw.npcId || !Array.isArray(raw.storyArcs) || !Array.isArray(raw.deathBranches) || !Array.isArray(raw.absenceBranches) || !raw.voteProfile || !raw.commandUnlock || !Array.isArray(raw.campEffects))) issues.push('npc-story-contract-missing');
@@ -2507,7 +2519,7 @@
      function contentRequirementsMet(requirements = []) {
        const list = Array.isArray(requirements) ? requirements : [requirements];
        return list.every(requirement => {
-         if (typeof requirement !== 'string') return true;
+         if (typeof requirement !== 'string') return false;
          if (requirement.startsWith('player_tool:')) return !!state.contentState?.flags?.[requirement] || state.player?.tools?.includes(requirement.slice('player_tool:'.length)) === true;
          if (requirement.startsWith('tech:')) return state.contentState?.unlockedTech?.includes(requirement.slice('tech:'.length)) === true;
          if (requirement.startsWith('flag:')) return !!state.contentState?.flags?.[requirement.slice('flag:'.length)];
@@ -2534,7 +2546,7 @@
        ensureContentState();
        const op = effect.op || effect.type; const key = effect.key || effect.id; const value = Number(effect.value ?? effect.amount ?? 0);
        if (!CONTENT_EFFECT_OPS.includes(op)) return { ok: false, reason: `unknown-effect:${op}` };
-       if (op === 'addResource' || op === 'adjust_resource') { const resourceKey = key === 'scrap' ? 'parts' : key; if (!Object.prototype.hasOwnProperty.call(state, resourceKey) || !Number.isFinite(Number(state[resourceKey]))) return { ok: false, reason: `unknown-resource:${key}` }; state[resourceKey] = Math.max(0, Number(state[resourceKey]) + value); return { ok: true, op, key: resourceKey, value }; }
+       if (op === 'addResource' || op === 'adjust_resource') { const resourceKey = key === 'scrap' ? 'parts' : key; if (!Object.prototype.hasOwnProperty.call(state, resourceKey) || !Number.isFinite(Number(state[resourceKey]))) return { ok: false, reason: `unknown-resource:${key}` }; const before = Number(state[resourceKey]); state[resourceKey] = Math.max(0, before + value); return { ok: true, op, key: resourceKey, value, before, after: state[resourceKey] }; }
        if (op === 'adjustMeter' || op === 'adjust_meter') { const meter = key || 'campCollapse'; if (!Object.prototype.hasOwnProperty.call(state.contentState.meters, meter)) return { ok: false, reason: `meter-missing:${meter}` }; const before = Number(state.contentState.meters[meter]) || 0; state.contentState.meters[meter] = Math.max(0, Math.min(100, before + value)); return { ok: true, op, key: meter, before, after: state.contentState.meters[meter] }; }
        if (op === 'modifyRelation') { const npc = state.npcs?.find(item => item.id === (effect.npcId || effect.targetId)); if (!npc) return { ok: false, reason: 'npc-missing' }; updateNpcRelation(npc, effect.delta || { [key]: value }, effect.reason || '内容事件'); return { ok: true, op, npcId: npc.id }; }
        if (op === 'unlockTech') { const techId = key; const tech = contentDefinition('techNode', techId); if (!tech) return { ok: false, reason: `tech-missing:${techId}` }; state.contentState.unlockedTech = [...new Set([...state.contentState.unlockedTech, techId])]; const unlocked = (Array.isArray(tech.unlocks) ? tech.unlocks : Object.values(tech.unlocks || {}).flat()).filter(Boolean); unlocked.forEach(unlockId => { if (contentDefinition('weapon', unlockId)) state.contentState.unlockedWeapons = [...new Set([...state.contentState.unlockedWeapons, unlockId])]; else state.contentState.unlockedBlueprints = [...new Set([...state.contentState.unlockedBlueprints, unlockId])]; }); return { ok: true, op, key: techId, unlocks: unlocked }; }
@@ -2615,11 +2627,12 @@
        return true;
      }
      function runContentHook(hook, meta = {}) {
+       const gate = contentChainRuntimeGate(); if (!gate.ok) return gate;
        ensureContentState();
        const started = [];
        const expired = [];
        const chains = Object.values({ ...EVENT_CHAIN_DEFS, ...CONTENT_EXTENSIONS.eventChain }).sort((a, b) => String(a.chainId || a.id).localeCompare(String(b.chainId || b.id)));
-       if (hook === 'onDayStart') Object.values(state.contentState.activeChains).slice().forEach(active => { const definition = contentDefinition('eventChain', active.chainId); const phaseDays = (definition?.phase || []).map(phase => Number(String(phase).match(/^day_(\d+)$/i)?.[1])).filter(Number.isFinite); if (definition && phaseDays.length && !contentPhaseAllows(definition) && state.day > Math.max(...phaseDays)) { const result = resolveContentFallback(active.chainId, 'ifExpired', { actorId: meta.actorId || 'camp-autonomy' }); if (result.ok) expired.push(active.chainId); } });
+       if (hook === 'onDayStart') Object.values(state.contentState.activeChains).filter(active => active && active.status === 'active' && typeof active.chainId === 'string').sort((a, b) => a.chainId.localeCompare(b.chainId)).forEach(active => { const definition = contentDefinition('eventChain', active.chainId); const phaseDays = (definition?.phase || []).map(phase => Number(String(phase).match(/^day_(\d+)$/i)?.[1])).filter(Number.isFinite); if (definition && phaseDays.length && !contentPhaseAllows(definition) && state.day > Math.max(...phaseDays)) { const result = resolveContentFallback(active.chainId, 'ifExpired', { actorId: meta.actorId || 'camp-autonomy' }); if (result.ok) expired.push(active.chainId); } });
        chains.filter(definition => Array.isArray(definition.hooks) && definition.hooks.includes(hook) && contentPhaseAllows(definition)).forEach(definition => {
          const result = startContentChain(definition.chainId || definition.id, { actorId: meta.actorId || 'system' });
          if (result.ok && !result.duplicate) started.push(result.active.chainId);
@@ -2638,35 +2651,59 @@
        if (started.length || expired.length || due.length) recordWorldEvent('content.hook', { hook, started, expired, triggered: due.map(event => event.id) }, { actorId: meta.actorId || 'system' });
        return { ok: true, hook, started, expired, triggered: due.map(event => event.id) };
      }
+     function contentChainRuntimeGate() {
+       if (state.night) return { ok: false, reason: 'night-lock' };
+       if (state.gameOver) return { ok: false, reason: 'game-over' };
+       return { ok: true };
+     }
      function startContentChain(chainId, meta = {}) {
+       const gate = contentChainRuntimeGate(); if (!gate.ok) return gate;
        ensureContentState();
        const definition = contentDefinition('eventChain', chainId);
        if (!definition) return { ok: false, reason: 'chain-missing' };
+       if (!contentPhaseAllows(definition)) return { ok: false, reason: 'phase-window' };
        if (state.contentState.completedChains.includes(chainId)) return { ok: false, reason: 'chain-completed' };
        if (state.contentState.activeChains[chainId]) return { ok: true, duplicate: true, active: state.contentState.activeChains[chainId] };
-       if (!contentPhaseAllows(definition)) return { ok: false, reason: 'phase-window' };
        if (!(definition.startConditions || []).every(contentConditionMet)) return { ok: false, reason: 'start-condition' };
        const firstNode = definition.nodes?.[0];
        if (!firstNode) return { ok: false, reason: 'chain-node-missing' };
-       const active = { chainId, nodeId: firstNode.nodeId, status: 'active', startedAt: worldMinute(), actorId: meta.actorId || 'player-1' };
+       const active = { chainId, nodeId: firstNode.nodeId, status: 'active', startedAt: worldMinute(), actorId: meta.actorId || 'player-1', resolvedNodeIds: [] };
        state.contentState.activeChains[chainId] = active;
        recordWorldEvent('content.chain.started', { chainId, nodeId: firstNode.nodeId }, { actorId: meta.actorId || 'player-1', defId: chainId });
        return { ok: true, active };
      }
      function resolveContentChain(chainId, nodeId, choiceId, meta = {}) {
+       const gate = contentChainRuntimeGate(); if (!gate.ok) return gate;
        ensureContentState();
        const definition = contentDefinition('eventChain', chainId); const active = state.contentState.activeChains[chainId];
+       if (definition && !contentPhaseAllows(definition)) return { ok: false, reason: 'phase-window' };
+       if (state.contentState.completedChains.includes(chainId)) return { ok: false, reason: 'chain-completed' };
        const node = definition?.nodes?.find(item => item.nodeId === nodeId); const choice = node?.choices?.find(item => item.id === choiceId);
-       if (!definition || !active || active.nodeId !== nodeId || !choice) return { ok: false, reason: 'chain-choice-missing' };
+       if (!definition || !active || active.status !== 'active' || active.nodeId !== nodeId || !choice) return { ok: false, reason: 'chain-choice-missing' };
+       const history = Array.isArray(active.history) ? active.history.filter(entry => entry && typeof entry.nodeId === 'string' && typeof entry.choiceId === 'string') : [];
+       // Presentation history is bounded; settled-node facts are not. Older
+       // saves can rebuild this optional set from history and effect receipts.
+       const definedNodeIds = [...new Set((definition.nodes || []).map(item => item.nodeId).filter(id => typeof id === 'string'))];
+       const settled = new Set([...(Array.isArray(active.resolvedNodeIds) ? active.resolvedNodeIds : []), ...history.map(entry => entry.nodeId)]);
+       definition.nodes.forEach(item => { if ((item.choices || []).some(option => state.contentState.appliedEffects.includes(`${chainId}:${item.nodeId}:${option.id}`))) settled.add(item.nodeId); });
+       const resolvedNodeIds = definedNodeIds.filter(id => settled.has(id));
+       if (resolvedNodeIds.includes(nodeId)) return { ok: false, reason: 'chain-node-resolved' };
        if (choice.next && !definition.nodes?.some(item => item.nodeId === choice.next)) return { ok: false, reason: 'chain-next-node-missing' };
-       if (!contentRequirementsMet(choice.requirements || [])) return { ok: false, reason: 'choice-requirement' };
+       const requirements = choice.requirements === undefined ? [] : choice.requirements;
+       if (!Array.isArray(requirements) || requirements.some(requirement => typeof requirement !== 'string')) return { ok: false, reason: 'choice-contract' };
+       if (!contentRequirementsMet(requirements)) return { ok: false, reason: 'choice-requirement' };
+       if (state.contentState.appliedEffects.includes(`${chainId}:${nodeId}:${choiceId}`)) return { ok: false, reason: 'chain-choice-already-applied' };
        const result = applyContentEffects(choice.effects || [], { actorId: meta.actorId || 'player-1', defId: chainId, effectId: `${chainId}:${nodeId}:${choiceId}` });
        if (!result.ok) return result;
        if (choice.next) {
-         active.nodeId = choice.next;
-         active.history = [...(active.history || []), { nodeId, choiceId, at: worldMinute() }].slice(-20);
+         // Effects normalize contentState, so the pre-effect active reference
+         // belongs to an older snapshot. Advance the authoritative instance.
+         const current = state.contentState.activeChains[chainId];
+         current.nodeId = choice.next;
+         current.history = [...history, { nodeId, choiceId, at: worldMinute() }].slice(-20);
+         current.resolvedNodeIds = definedNodeIds.filter(id => id === nodeId || resolvedNodeIds.includes(id));
          recordWorldEvent('content.chain.choice', { chainId, nodeId, choiceId, nextNodeId: choice.next, results: result.results }, { actorId: meta.actorId || 'player-1', defId: chainId, effects: choice.effects || [] });
-         return { ok: true, chainId, nodeId, choiceId, nextNodeId: choice.next, active, results: result.results };
+         return { ok: true, chainId, nodeId, choiceId, nextNodeId: choice.next, active: current, results: result.results };
        }
        delete state.contentState.activeChains[chainId];
        state.contentState.completedChains = [...new Set([...state.contentState.completedChains, chainId])].slice(-100);
@@ -2674,10 +2711,15 @@
        return { ok: true, chainId, nodeId, choiceId, results: result.results };
      }
      function resolveContentFallback(chainId, reason = 'ifSkipped', meta = {}) {
+       const gate = contentChainRuntimeGate(); if (!gate.ok) return gate;
        ensureContentState();
        const definition = contentDefinition('eventChain', chainId); const active = state.contentState.activeChains[chainId];
        if (!definition) return { ok: false, reason: 'chain-missing' };
+       if (!['ifMissingNpc', 'ifInsufficientPopulation', 'ifExpired', 'ifSkipped'].includes(reason)) return { ok: false, reason: 'fallback-reason' };
+       const phaseDays = (definition.phase || []).map(phase => Number(String(phase).match(/^day_(\d+)$/i)?.[1])).filter(Number.isFinite);
+       if (reason === 'ifExpired' ? !phaseDays.length || state.day <= Math.max(...phaseDays) : !contentPhaseAllows(definition)) return { ok: false, reason: 'phase-window' };
        if (state.contentState.completedChains.includes(chainId)) return { ok: true, duplicate: true, chainId, reason };
+       if (!active || active.status !== 'active') return { ok: false, reason: 'chain-not-started' };
        const fallbackSpec = definition.fallback?.[reason] || definition.fallback?.ifSkipped || 'ledger_only';
        const fallbackId = typeof fallbackSpec === 'string' ? fallbackSpec : (fallbackSpec?.id || 'ledger_only');
        const fallbackEffects = Array.isArray(fallbackSpec) ? fallbackSpec : (fallbackSpec?.effects || definition.fallbackEffects?.[fallbackId] || []);
@@ -2691,10 +2733,13 @@
        return { ok: true, ...payload };
      }
      function resolveContentAutonomy(chainId, meta = {}) {
+       const gate = contentChainRuntimeGate(); if (!gate.ok) return gate;
        ensureContentState();
        const definition = contentDefinition('eventChain', chainId); const autonomy = definition?.autonomy;
        if (!definition || !autonomy) return { ok: false, reason: 'autonomy-missing' };
+       if (!contentPhaseAllows(definition)) return { ok: false, reason: 'phase-window' };
        if (state.contentState.completedChains.includes(chainId)) return { ok: true, duplicate: true, chainId };
+       if (state.contentState.activeChains[chainId]?.status !== 'active') return { ok: false, reason: 'chain-not-started' };
        const result = applyContentEffects(autonomy.effects || [], { actorId: meta.actorId || 'camp-autonomy', defId: chainId, effectId: `${chainId}:autonomy:${state.day}` });
        if (!result.ok) return result;
        delete state.contentState.activeChains[chainId];
@@ -4345,7 +4390,138 @@
       $('logList').innerHTML = state.logs.map(l => `<div class="log-line ${l.kind}"><i></i><span>${l.text}</span></div>`).join('');
       $('logCount').textContent = `记录 ${state.logs.length} 条`;
     }
+    let eventPanelSelection = 'auto';
+    let eventPanelReceipt = null;
+    function eventContentChainViews() {
+      ensureContentState();
+      return Object.entries(state.contentState.activeChains || {}).flatMap(([chainId, active]) => {
+        if (!active || typeof active.chainId !== 'string' || chainId !== active.chainId || active.status !== 'active' || state.contentState.completedChains.includes(active.chainId)) return [];
+        const definition = contentDefinition('eventChain', active.chainId);
+        const node = definition?.nodes?.find(item => item.nodeId === active.nodeId);
+        return definition && node ? [{ active, definition, node, choices: Array.isArray(node.choices) ? node.choices : [] }] : [];
+      }).sort((a, b) => (Number(b.definition.priority) || 0) - (Number(a.definition.priority) || 0) || String(a.active.chainId).localeCompare(String(b.active.chainId)));
+    }
+    function activeContentChainView(views = eventContentChainViews()) {
+      if (eventPanelSelection === 'daily' || eventPanelSelection === 'receipt' && eventPanelReceipt) return null;
+      const selected = views.find(view => `chain:${view.active.chainId}` === eventPanelSelection);
+      if (selected) return selected;
+      eventPanelSelection = 'auto';
+      return state.event && !state.event.handled ? null : views[0] || null;
+    }
+    function renderEventSources(views, selected) {
+      const select = $('eventSourceSelect');
+      const options = [{ id: 'daily', title: `${state.event?.title || '今日异动'}${state.event?.handled ? '（已处理）' : ''}` }, ...views.map(view => ({ id: `chain:${view.active.chainId}`, title: view.definition.title || view.definition.name || '营地支线' })), ...(eventPanelReceipt ? [{ id: 'receipt', title: `已处理：${eventPanelReceipt.title}` }] : [])];
+      select.replaceChildren(...options.map(item => { const option = document.createElement('option'); option.value = item.id; option.textContent = item.title; return option; }));
+      select.value = eventPanelSelection === 'receipt' && eventPanelReceipt ? 'receipt' : selected ? `chain:${selected.active.chainId}` : 'daily';
+      $('eventSourceRow').hidden = views.length === 0 && !eventPanelReceipt;
+    }
+    function eventUiText(value) {
+      return String(value || '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
+    }
+    function contentChainChoiceGate(choice) {
+      if (state.night) return { ok: false, reason: 'night-lock', label: '尸潮进行中，白天事件暂时冻结' };
+      if (state.gameOver) return { ok: false, reason: 'game-over', label: '本局已经结束' };
+      const chain = activeContentChainView();
+      if (chain && !contentPhaseAllows(chain.definition)) return { ok: false, reason: 'phase-window', label: '已错过这条支线的处理时间' };
+      const requirements = choice?.requirements === undefined ? [] : choice.requirements;
+      if (!Array.isArray(requirements) || requirements.some(requirement => typeof requirement !== 'string')) return { ok: false, reason: 'choice-contract', label: '这条路线暂时不可用' };
+      const unmet = requirements.filter(requirement => !contentRequirementsMet([requirement]));
+      if (unmet.length) {
+        const labels = { carpenter_alive: '需要阿梁参与', doctor_alive: '需要医生参与', radio_alive: '需要广播员参与', commander_alive: '需要指挥官参与' };
+        const summary = unmet.map(requirement => labels[requirement] || (/^scrap>=(\d+)$/.test(requirement) ? `需要 ${requirement.match(/\d+/)[0]} 份零件` : '当前条件未满足'));
+        return { ok: false, reason: 'choice-requirement', label: [...new Set(summary)].join(' · ') };
+      }
+      return { ok: true };
+    }
+    function resolveContentChainCommand(chainId, nodeId, choiceId, options = {}) {
+      const gate = contentChainRuntimeGate(); if (!gate.ok) return gate;
+      return dispatchCommand({ type: 'content.chain.resolve', commandId: options.commandId, actorId: options.actorId || 'player-1', payload: { chainId, nodeId, choiceId } }, () => {
+        const result = resolveContentChain(chainId, nodeId, choiceId, { actorId: options.actorId || 'player-1' });
+        return result.ok ? { result } : result;
+      }, { eventType: 'content.chain.command', defId: chainId, validate: contentChainRuntimeGate });
+    }
+    function contentChainOutcomeText(result) {
+      const resources = { wood: '木材', stone: '石材', food: '食物', seeds: '种子', medicine: '药品', parts: '零件' };
+      const meters = { campCollapse: '营地崩溃压力', resonancePressure: '共振压力', campTrust: '营地信任' };
+      const signed = value => `${value >= 0 ? '+' : ''}${value}`;
+      return (result?.results || []).map(effect => {
+        if (effect.op === 'addResource' || effect.op === 'adjust_resource') return `${resources[effect.key] || '物资'} ${signed(Number.isFinite(effect.before) && Number.isFinite(effect.after) ? effect.after - effect.before : effect.value)}`;
+        if (effect.op === 'adjustMeter' || effect.op === 'adjust_meter') return `${meters[effect.key] || '营地状态'} ${signed(effect.after - effect.before)}`;
+        if (effect.op === 'unlock' && effect.key === 'watermill_t2') return '闸门修复已记录';
+        if (effect.op === 'unlockTech') return '新的科技已解锁';
+        return null;
+      }).filter(Boolean).join(' · ') || '营地已记录这次选择。';
+    }
+    function bindEventChoice(button, source, choiceId, nodeId = '') {
+      button.dataset.eventSource = source;
+      button.dataset.eventChoiceId = choiceId || '';
+      button.dataset.eventNodeId = nodeId;
+      button.dataset.eventInstanceId = source === 'daily' ? state.eventInstance?.instanceId || state.event?.id || '' : '';
+    }
+    function handleEventChoice(choiceKey, displayed = null) {
+      if (eventPanelSelection === 'receipt') return;
+      const chain = activeContentChainView();
+      if (chain) {
+        const choice = chain.choices[typeof choiceKey === 'number' ? choiceKey : choiceKey === 'a' ? 0 : 1];
+        if (!choice) return;
+        if (displayed && (displayed.eventSource !== `chain:${chain.active.chainId}` || displayed.eventNodeId !== chain.active.nodeId || displayed.eventChoiceId !== choice.id)) { renderEvent(); return; }
+        const gate = contentChainChoiceGate(choice);
+        if (!gate.ok) { toast(gate.label); return; }
+        const result = resolveContentChainCommand(chain.active.chainId, chain.active.nodeId, choice.id);
+        const resolved = result?.result || result;
+        if (result?.ok && resolved?.ok !== false) {
+          const title = chain.definition.title || chain.definition.name || '营地支线';
+          const outcome = contentChainOutcomeText(resolved);
+          eventPanelReceipt = { title, text: `${choice.label || '继续'}：${outcome}${resolved?.nextNodeId ? '。选择处理事项可继续这条支线。' : '。这条支线已经结束。'}` };
+          eventPanelSelection = 'receipt';
+          log(`${title} · ${eventPanelReceipt.text}`);
+          toast('已处理这条支线选择');
+          render();
+        } else toast(resolved?.reason === 'choice-requirement' ? '当前资源或条件不足' : '支线暂时无法推进');
+        return;
+      }
+      if (displayed && (displayed.eventSource !== 'daily' || displayed.eventInstanceId !== (state.eventInstance?.instanceId || state.event?.id || ''))) { renderEvent(); return; }
+      resolveEvent(choiceKey);
+    }
     function renderEvent() {
+      const views = eventContentChainViews();
+      const chain = activeContentChainView(views);
+      renderEventSources(views, chain);
+      const extras = $('eventExtraChoices');
+      extras.replaceChildren();
+      extras.hidden = true;
+      if (eventPanelSelection === 'receipt' && eventPanelReceipt) {
+        $('eventIcon').textContent = '✅';
+        $('eventTitle').textContent = eventPanelReceipt.title;
+        $('eventText').textContent = eventPanelReceipt.text;
+        $('eventState').textContent = '已处理';
+        $('eventChoiceA').innerHTML = '✅ 选择已记录<small>在上方选择其他事项继续</small>';
+        $('eventChoiceB').innerHTML = '营地继续运转<small>你可以关闭面板继续行动</small>';
+        $('eventChoiceA').disabled = $('eventChoiceB').disabled = true;
+        return;
+      }
+      if (chain) {
+        const choices = chain.choices;
+        const renderChoice = (choice, index) => {
+          if (!choice) return '暂无可选路线<small>等待营地状态更新</small>';
+          const gate = contentChainChoiceGate(choice);
+          const hint = choice.hint || choice.description || '选择后将继续这条支线';
+          return `${eventUiText(choice.label || '继续')}<small>${eventUiText(gate.ok ? hint : `🔒 ${gate.label}`)}</small>`;
+        };
+        $('eventIcon').textContent = '📜';
+        $('eventTitle').textContent = chain.definition.title || chain.definition.name || '营地支线';
+        $('eventText').textContent = chain.node.text || chain.definition.description || '营地正等待你的决定。你也可以先处理其他事项。';
+        $('eventState').textContent = chain.node.title || '等待决定';
+        $('eventChoiceA').innerHTML = renderChoice(choices[0], 0);
+        $('eventChoiceB').innerHTML = renderChoice(choices[1], 1);
+        $('eventChoiceA').disabled = !choices[0] || !contentChainChoiceGate(choices[0]).ok;
+        $('eventChoiceB').disabled = !choices[1] || !contentChainChoiceGate(choices[1]).ok;
+        bindEventChoice($('eventChoiceA'), `chain:${chain.active.chainId}`, choices[0]?.id, chain.active.nodeId);
+        bindEventChoice($('eventChoiceB'), `chain:${chain.active.chainId}`, choices[1]?.id, chain.active.nodeId);
+        choices.slice(2).forEach((choice, offset) => { const button = document.createElement('button'); button.type = 'button'; button.className = 'event-choice'; button.dataset.chainChoiceIndex = String(offset + 2); button.innerHTML = renderChoice(choice, offset + 2); button.disabled = !contentChainChoiceGate(choice).ok; bindEventChoice(button, `chain:${chain.active.chainId}`, choice.id, chain.active.nodeId); extras.appendChild(button); });
+        extras.hidden = choices.length <= 2;
+        return;
+      }
       const event = state.event || eventPool[0];
       $('eventIcon').textContent = event.icon;
       $('eventTitle').textContent = event.title;
@@ -4353,8 +4529,10 @@
       $('eventState').textContent = event.handled ? '已处理' : '待处理';
       $('eventChoiceA').innerHTML = `${event.handled ? '✅ 已完成' : event.a}<small>${event.handled ? '今天不再重复触发' : event.aHint}</small>`;
       $('eventChoiceB').innerHTML = `${event.handled ? '🕯️ 记录结果' : event.b}<small>${event.handled ? '等待明天的新异动' : event.bHint}</small>`;
-      $('eventChoiceA').disabled = !!event.handled || !!state.gameOver;
-      $('eventChoiceB').disabled = !!event.handled || !!state.gameOver;
+      $('eventChoiceA').disabled = !!event.handled || !!state.gameOver || !!state.night;
+      $('eventChoiceB').disabled = !!event.handled || !!state.gameOver || !!state.night;
+      bindEventChoice($('eventChoiceA'), 'daily', 'a');
+      bindEventChoice($('eventChoiceB'), 'daily', 'b');
     }
     function renderCollections() {
       $('tapeValue').textContent = `${state.collection.tape}/2`;
@@ -6485,8 +6663,10 @@
     $('closeSettingsBtn').addEventListener('click', () => toggleStartSettings(false));
     $('settingsReduceMotion').addEventListener('change', (event) => { const settings = readSettings(); settings.reduceMotion = event.target.checked; saveSettings(settings); applySettings(); });
     $('settingsCompactHud').addEventListener('change', (event) => { const settings = readSettings(); settings.compactHud = event.target.checked; saveSettings(settings); applySettings(); });
-    $('eventChoiceA').addEventListener('click', () => resolveEvent('a'));
-    $('eventChoiceB').addEventListener('click', () => resolveEvent('b'));
+    $('eventChoiceA').addEventListener('click', event => handleEventChoice('a', { ...event.currentTarget.dataset }));
+    $('eventChoiceB').addEventListener('click', event => handleEventChoice('b', { ...event.currentTarget.dataset }));
+    $('eventSourceSelect').addEventListener('change', event => { eventPanelSelection = event.target.value; renderEvent(); });
+    $('eventExtraChoices').addEventListener('click', event => { const button = event.target.closest('[data-chain-choice-index]'); if (button && !button.disabled) handleEventChoice(Number(button.dataset.chainChoiceIndex), { ...button.dataset }); });
     $('evolveBtn').addEventListener('click', toggleEvolution);
     document.querySelectorAll('[data-evolve]').forEach(card => card.addEventListener('click', () => evolveBuilding(card.dataset.evolve)));
     document.querySelectorAll('[data-weapon]').forEach(card => card.addEventListener('click', () => chooseWeapon(card.dataset.weapon)));
@@ -6599,4 +6779,3 @@
   </script>
 </body>
 </html>
-

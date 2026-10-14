@@ -7,7 +7,7 @@
 
 ## 部署证据
 
-- `index.html` SHA-256：`2a0b92a8ca2a2be0209b0e949c86fffd155c90fdba8cec824a39be7bfc02d0ba`
+- `index.html` SHA-256：`698b2149ed8bf89f77471b1b4a59c66cb383040a22dfeb3e4bc7925d65f48305`
 - `actor-sprites.js` SHA-256：`be4cf51de3f5d6b1aaf2811565ba0435a4ceb18f015bd7753fa9871a23ab1962`
 - 公网 `GET /`：HTTP 200，标题为“我是大救星 · 尸潮农场”。
 - 18080 端口仅回环可用；公网入口使用 80 端口，由 `zfarm-v82.service` 管理，`systemctl is-enabled/is-active` 均为通过。
@@ -54,4 +54,3 @@ Playwright smoke 已具备可复用入口：
 ```text
 ZFARM_TEST_URL=http://82.157.208.167/ /home/ubuntu/zfarm-v82-a4ec/venv/bin/python3 /home/ubuntu/zfarm-v82-a4ec/server-playtest.py
 ```
-

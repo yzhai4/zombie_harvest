@@ -106,6 +106,8 @@ function runStaticSmoke(options) {
     ['outpost upkeep lifecycle', /applyOutpostUpkeep\s*\(/.test(source) && /outpost\.upkeep/.test(source) && /lastUpkeepDay/.test(source)],
     ['outpost camp-role exclusion', /function\s+npcHasRole\([\s\S]*?!npc\.garrisonedOutpostId/.test(source) && /function\s+npcFulfillsRole\([\s\S]*?!npc\.garrisonedOutpostId/.test(source)],
     ['outpost replay fixture', /outpost-garrison/.test(readFileSync(path.join(ROOT, 'scripts', 'replay-harness.mjs'), 'utf8')) && /garrisonedNpcIds/.test(readFileSync(path.join(ROOT, 'scripts', 'replay-harness.mjs'), 'utf8'))],
+    ['active content chain event UI', /function\s+activeContentChainView\s*\(/.test(source) && /function\s+handleEventChoice\s*\(/.test(source) && /resolveContentChainCommand\s*\(/.test(source)],
+    ['active content chain replay fixture', /activeChains/.test(readFileSync(path.join(ROOT, 'scripts', 'replay-harness.mjs'), 'utf8')) && /watermill-002/.test(readFileSync(path.join(ROOT, 'scripts', 'replay-harness.mjs'), 'utf8'))],
   ];
   for (const [name, ok] of contracts) check(result, name, ok);
   check(result, 'static night guard script available', existsSync(path.join(ROOT, 'scripts', 'check-night-guard.mjs')));
@@ -235,4 +237,3 @@ if (playwright.error) {
   result = await runBrowserSmoke(options, playwright);
 }
 process.exitCode = result.ok ? 0 : 1;
-

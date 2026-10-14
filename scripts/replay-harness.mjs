@@ -358,7 +358,23 @@ export function fixtureEnvelopes() {
       eventSeq: 4
     }
   }), 'fixture-outpost-garrison');
-  return { valid, 'corrupt-checksum': corruptChecksum, 'active-event': activeEvent, 'night-unresolved': nightUnresolved, 'night-resolved': nightResolved, 'five-day-npc': fiveDayNpc, 'npc-dead-event': npcDeadEvent, 'outpost-garrison': outpostGarrison };
+  const watermillChain = makeEnvelope(basePayload({
+    day: 4,
+    contentState: migrateContentState({
+      ...DEFAULT_CONTENT_STATE,
+      meters: { ...DEFAULT_CONTENT_STATE.meters, campTrust: 25 },
+      activeChains: { 'watermill-002': { chainId: 'watermill-002', nodeId: 'repair_gate', status: 'active', startedAt: 4320, actorId: 'camp-autonomy' } }
+    }).state,
+    worldMeta: {
+      events: [
+        ...basePayload().worldMeta.events,
+        event('content.chain.started', 3, { chainId: 'watermill-002', nodeId: 'repair_gate' }, 'cmd-000003')
+      ],
+      eventSeq: 3,
+      lastEventId: 'evt-000003'
+    }
+  }), 'fixture-watermill-chain');
+  return { valid, 'corrupt-checksum': corruptChecksum, 'active-event': activeEvent, 'night-unresolved': nightUnresolved, 'night-resolved': nightResolved, 'five-day-npc': fiveDayNpc, 'npc-dead-event': npcDeadEvent, 'outpost-garrison': outpostGarrison, 'watermill-chain': watermillChain };
 }
 
 export function writeFixtures(directory = FIXTURE_DIR) {
@@ -444,6 +460,8 @@ export function replayProjection(payload) {
     successorRoles: Object.fromEntries((Array.isArray(payload?.npcs) ? payload.npcs : []).filter(npc => npc?.actingRole).map(npc => [npc.actingRole, npc.id]).sort()),
     garrisonedNpcIds: (Array.isArray(payload?.npcs) ? payload.npcs : []).filter(npc => npc?.garrisonedOutpostId).map(npc => `${npc.garrisonedOutpostId}:${npc.id}`).sort(),
     outposts: Object.fromEntries(Object.entries(content.outposts || {}).map(([id, value]) => [id, { status: value?.status || 'secured', guardNpcIds: [...new Set(value?.guardNpcIds || [])].sort(), lastUpkeepDay: Number(value?.lastUpkeepDay || 0) }]).sort(([a], [b]) => a.localeCompare(b))),
+    activeChainIds: Object.keys(content.activeChains || {}).sort(),
+    completedChainIds: [...new Set(content.completedChains || [])].sort(),
     commandCount: 0,
     commandTypes: [],
     choices: [],
@@ -562,6 +580,8 @@ export function selfTest() {
   assert.deepEqual(reports['outpost-garrison'].replay.projection.garrisonedNpcIds, ['watchPost:guardJi']);
   assert.equal(reports['outpost-garrison'].replay.projection.outposts.watchPost.status, 'secured');
   assert.equal(reports['outpost-garrison'].replay.projection.outposts.watchPost.lastUpkeepDay, 2);
+  assert.equal(reports['watermill-chain'].accepted, true);
+  assert.deepEqual(reports['watermill-chain'].replay.projection.activeChainIds, ['watermill-002']);
   const legacy = migrateContentState({ contentVersion: 1, meters: { campCollapse: 7, resonancePressure: 31 } });
   assert.equal(legacy.migrated, true);
   assert.equal(legacy.state.contentVersion, CONTENT_SCHEMA_VERSION);
@@ -576,7 +596,7 @@ export function selfTest() {
   const replayB = replayProjection(reports.valid.payload).hash;
   assert.equal(replayA, replayB);
   // Golden hash: changes require an explicit replay-contract review.
-  assert.equal(replayA, '1a0b69b8');
+  assert.equal(replayA, '4aec7a31');
   return { fixtureCount: Object.keys(reports).length, replayHash: replayA };
 }
 
@@ -624,4 +644,3 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     process.exitCode = 1;
   }
 }
-
