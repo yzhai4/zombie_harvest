@@ -23,6 +23,7 @@ jobs:
           node --check prototype/mobile-zombie-game/game.js
           node scripts/check-inline-syntax.mjs
           node --check scripts/verify-three-days-artifacts.mjs
+          node --check scripts/export-three-days-artifacts.mjs
       - name: Check deployable entrypoints
         run: |
           test -s dist/index.html

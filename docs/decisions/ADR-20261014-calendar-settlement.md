@@ -1,6 +1,6 @@
 # 日历结算、每日权限与明确报告事实
 
-**状态：** active；源码与单局/显式夹具已核验，连续三日日历体验 Gate 尚未完成。  
+**状态：** validated（源码、单局/显式夹具及恢复后的三日日历）；新的单构建连续路线待补。  
 **范围：** SAVE21 / CONTENT3；纯 reducer 和 renderer 的迁移前契约。
 
 ## 决策
@@ -20,6 +20,8 @@
 普通世界自然 tick 的保存约12秒一次。测试读取允许并记录最多1分钟 DOM 超前，同时仍要求动作的新seq/具体收据/状态变化、保存FNV/schema/savedAt一致；这不是“UI和保存当前状态完全相同”的声明。多日原始保存再由独立artifact Gate检查前一夜计划instance/meeting/choice因果，避免日期巧合造成假通过。
 
 失败、跨构建和恢复历史均保留。三日公开训练路线强化SAN/士气，不能支撑平衡或自动夜夜尸潮结论；新close Gate也不能替代旧resolved报告的loader兼容验收。后者见 `PROB-20261014-resolved-report-boot`。
+
+最终attempt9为439项当前runner检查通过、独立原工件Gate90/90，最后保存第4天06:36 / eventSeq2746。76份原保存及92次具体训练收据已核验，原失败保持。早期10份源码hash未知与历史day2显式刷新缺口仍披露，不能据此声称单一已知构建连续通过。证据见 `docs/qa/calendar-public-actions-20261014.md`；本决策不关闭下一报告恢复主题。
 
 ## 回滚
 

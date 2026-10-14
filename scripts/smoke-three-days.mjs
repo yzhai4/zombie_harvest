@@ -41,6 +41,7 @@ function parseArgs(argv) {
     else if (arg === '--report') options.report = argv[++i] || null;
     else if (arg === '--python') options.python = argv[++i] || options.python;
     else if (arg === '--chrome') options.chrome = argv[++i] || null;
+    else if (arg === '--verbose') options.verbose = true;
     else if (arg === '--profile') options.profile = argv[++i] || null;
     else if (arg === '--checkpoint') options.checkpoint = argv[++i] || null;
     else if (arg === '--resume') options.resume = true;
@@ -50,7 +51,7 @@ function parseArgs(argv) {
       if (!Number.isFinite(options.totalTimeoutSeconds) || options.totalTimeoutSeconds <= 0) throw new Error('--total-timeout must be positive seconds');
     }
     else if (arg === '--help' || arg === '-h') {
-      console.log('Usage: node scripts/smoke-three-days.mjs [--url URL] [--headed] [--strict-browser] [--python EXE] [--chrome EXE] [--profile DIR] [--checkpoint FILE] [--resume|--fresh] [--total-timeout SECONDS] [--report FILE]');
+      console.log('Usage: node scripts/smoke-three-days.mjs [--url URL] [--headed] [--strict-browser] [--python EXE] [--chrome EXE] [--profile DIR] [--checkpoint FILE] [--resume|--fresh] [--total-timeout SECONDS] [--report FILE] [--verbose]');
       process.exit(0);
     } else throw new Error(`unknown option: ${arg}`);
   }
@@ -73,7 +74,12 @@ function finish(result, options) {
   const passed = result.checks.filter(item => item.ok).length;
   const failed = result.checks.length - passed;
   console.log(`[${result.ok ? 'PASS' : 'FAIL'}] ${result.runner} (${result.mode}) · ${passed} passed · ${failed} failed`);
-  for (const item of result.checks) console.log(`  ${item.ok ? '✓' : '✗'} ${item.name}${item.detail ? ` — ${item.detail}` : ''}`);
+  const displayed = options.verbose ? result.checks : result.checks.filter(item => !item.ok).slice(0, 20);
+  for (const item of displayed) {
+    const detail = options.verbose && item.detail ? ` — ${typeof item.detail === 'string' ? item.detail : JSON.stringify(item.detail)}` : '';
+    console.log(`  ${item.ok ? '✓' : '✗'} ${item.name}${detail}`);
+  }
+  if (!options.verbose && failed > displayed.length) console.log(`  ${failed - displayed.length} further failed checks are retained in the full report.`);
   for (const warning of result.warnings) console.warn(`  ! ${warning}`);
   if (result.errors.length) for (const error of result.errors) console.error(`  × ${error}`);
   if (options.report) writeFileSync(path.resolve(options.report), `${JSON.stringify(result, null, 2)}\n`);

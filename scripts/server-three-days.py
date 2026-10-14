@@ -26,6 +26,22 @@ from playwright.sync_api import sync_playwright
 
 
 SAVE_KEY = "zombie-harvest-progress-v12"
+
+
+def is_known_favicon_404(url: str, status: int, game_url: str) -> bool:
+    """Only the browser's exact same-origin default favicon is diagnostic-only."""
+    candidate, game = urlsplit(url), urlsplit(game_url)
+    return status == 404 and (candidate.scheme, candidate.netloc) == (game.scheme, game.netloc) and candidate.path == "/favicon.ico"
+
+
+def is_known_favicon_console(message, game_url: str) -> bool:
+    # Old text-only errors have no attributable URL and are never whitelisted.
+    if not isinstance(message, dict) or not re.search(r"\b404\b", str(message.get("text", ""))):
+        return False
+    location = message.get("location")
+    return isinstance(location, dict) and is_known_favicon_404(str(location.get("url", "")), 404, game_url)
+
+
 MODE = "public-action-calendar-progression"
 ACTION_SECONDS = 30
 ENCOUNTER_SECONDS = 60
@@ -157,6 +173,96 @@ def complete_event_window(previous: dict, current: dict) -> list[dict] | None:
     return events if [event["seq"] for event in events] == list(range(since + 1, until + 1)) else None
 
 
+def linked_world_advance(event: dict, payload: dict) -> bool:
+    try:
+        if type(event["payload"]["minutes"]) not in (int, float):
+            return False
+        commands = [command for command in payload["worldMeta"]["replay"]["commands"]
+                    if event.get("commandId") and command.get("commandId") == event["commandId"]]
+        return len(commands) == 1 and commands[0].get("type") == "world.advance" and commands[0].get("actorId") == "player-1" \
+            and (commands[0].get("payload") or {}).get("minutes") == event["payload"]["minutes"] \
+            and clock_minutes(event["payload"]) == event["tick"]["world"]
+    except (KeyError, TypeError, ValueError):
+        return False
+
+
+def natural_window_evidence(before: dict, payload: dict) -> dict | None:
+    """Prove a retained interval contains only natural clock advances."""
+    try:
+        if payload["worldMeta"]["eventSeq"] == before["worldMeta"]["eventSeq"]:
+            return {"minutes": 0, "eventIds": []} if clock_minutes(payload) == clock_minutes(before) else None
+        events = complete_event_window(before, payload)
+        if events is None or any(event["type"] == "camp.area.interacted" for event in events):
+            return None
+        ticks = [event for event in events if event["type"] == "time.advanced"]
+        if any(not linked_world_advance(event, payload) or event.get("causationId") is not None
+               or not 1 <= event["payload"]["minutes"] <= 5 for event in ticks):
+            return None
+        cursor = clock_minutes(before)
+        for event in ticks:
+            cursor += event["payload"]["minutes"]
+            if event["tick"]["world"] != cursor:
+                return None
+        minutes = sum(event["payload"]["minutes"] for event in ticks)
+        return {"minutes": minutes, "eventIds": [event["eventId"] for event in ticks]} \
+            if clock_minutes(payload) - clock_minutes(before) == minutes else None
+    except (KeyError, TypeError, ValueError):
+        return None
+
+
+def area_action_evidence(before: dict, payload: dict, zone: str, expected_minutes: int = 30) -> dict | None:
+    """Bind one area action to its real command and complete clock trajectory."""
+    try:
+        events = complete_event_window(before, payload)
+        if events is None:
+            return None
+        receipts = [event for event in events if event["type"] == "camp.area.interacted"]
+        if len(receipts) != 1:
+            return None
+        receipt = receipts[0]
+        detail = receipt["payload"]
+        begin, end = detail["before"]["time"], detail["after"]["time"]
+        if any(type(detail.get(key)) not in (int, float) or not math.isfinite(detail[key]) for key in ("x", "y")):
+            return None
+        commands = [command for command in payload["worldMeta"]["replay"]["commands"]
+                    if receipt.get("commandId") and command.get("commandId") == receipt["commandId"]]
+        if len(commands) != 1 or commands[0].get("type") != "camp.area.interact" or commands[0].get("actorId") != "player-1":
+            return None
+        command_payload = commands[0].get("payload") or {}
+        if detail.get("zone") != zone or command_payload.get("zone") != zone or detail.get("minutes") != expected_minutes \
+                or end - begin != expected_minutes or receipt["tick"]["world"] != end \
+                or any(command_payload.get(key) != detail.get(key) for key in ("x", "y")):
+            return None
+        advances = [event for event in events if event["type"] == "time.advanced"]
+        if any(not linked_world_advance(event, payload) for event in advances):
+            return None
+        cursor = clock_minutes(before)
+        for event in advances:
+            cursor += event["payload"]["minutes"]
+            if event["tick"]["world"] != cursor:
+                return None
+        action_ticks = [event for event in advances if event.get("causationId") == receipt["commandId"]]
+        if len(action_ticks) != 1:
+            return None
+        action_tick = action_ticks[0]
+        if action_tick["payload"]["minutes"] != expected_minutes or action_tick["tick"]["world"] != end or action_tick["seq"] >= receipt["seq"]:
+            return None
+        natural = [event for event in advances if event is not action_tick]
+        if any(event.get("causationId") is not None or not 1 <= event["payload"]["minutes"] <= 5 for event in natural):
+            return None
+        pre = [event for event in natural if event["seq"] < action_tick["seq"] and event["tick"]["world"] <= begin]
+        post = [event for event in natural if event["seq"] > receipt["seq"] and event["tick"]["world"] > end]
+        if len(pre) + len(post) != len(natural):
+            return None
+        pre_minutes, post_minutes = (sum(event["payload"]["minutes"] for event in group) for group in (pre, post))
+        if clock_minutes(before) + pre_minutes != begin or end + post_minutes != clock_minutes(payload):
+            return None
+        return {"receipt": receipt, "actionTick": action_tick, "naturalMinutesBefore": pre_minutes, "naturalMinutesAfter": post_minutes,
+                "naturalEventIdsBefore": [event["eventId"] for event in pre], "naturalEventIdsAfter": [event["eventId"] for event in post]}
+    except (KeyError, TypeError, ValueError):
+        return None
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     mode = parser.add_mutually_exclusive_group()
@@ -210,7 +316,8 @@ class Runner:
             previous_errors = list(self.result.get("errors", []))
             self.result["errors"] = []
             self.result.setdefault("resumeSessions", []).append({"atUnix": time.time(), "previousErrors": previous_errors,
-                "previousFailedChecks": [item for item in self.result["checks"] if not item["ok"]], "previousHtmlSha256": self.result.get("htmlSha256")})
+                "previousFailedChecks": [item for item in self.result["checks"] if not item["ok"]], "previousHtmlSha256": self.result.get("htmlSha256"),
+                "previousStage": saved.get("stage"), "previousLastVerifiedSave": saved.get("lastVerifiedSave")})
             self.result["checks"] = [item for item in self.result["checks"] if item["ok"]]
             self.expected_checkpoint = saved.get("lastVerifiedSave")
         else:
@@ -465,25 +572,129 @@ class Runner:
     def area_action(self, label: str, expected_minutes: int = 30) -> None:
         self.close_panels()
         button = self.page.locator('#contextActions [data-context-action="area"]').filter(has_text=label)
-        before_save = self.settle_save(self.calendar())["envelope"]["payload"]
-        before = self.calendar()
-        before_seq = before_save["worldMeta"]["eventSeq"]
         zone = "barracks" if label == "兵营" else "residence"
         button.wait_for(state="visible", timeout=self.timeout())
         self.check(f"public {label} affordance", button.count() == 1, self.position())
+        before_observed = self.settle_save(self.calendar())
+        before_save = before_observed["envelope"]["payload"]
+        before, before_seq = clock_minutes(before_save), before_save["worldMeta"]["eventSeq"]
+        if zone == "barracks":
+            self.check("new public training has no unresolved earlier attempt", not self.result.get("pendingTrainingAction"))
+            self.result["pendingTrainingAction"] = {"zone": zone, "expectedMinutes": expected_minutes,
+                "beforeSnapshotIndex": len(self.result["snapshots"]), "beforeMinute": before, "beforeEventSeq": before_seq,
+                "source": "public-training-before-click"}
+            self.persist(f"day-{before_save['day']}-training-before-action", before_observed)
         button.click(timeout=self.timeout())
         self.page.wait_for_function("""target => {
           const d=+(document.querySelector('#dayLabel').textContent.match(/第\\s*(\\d+)/)||[])[1];
           const t=document.querySelector('#timeLabel').textContent.match(/(\\d+):(\\d+)/);
           return (d-1)*1440+(+t[1])*60+(+t[2]) >= target;
         }""", arg=before + expected_minutes, timeout=self.timeout())
-        after = self.calendar()
-        saved = self.settle_save(after, before_seq + 1, predicate=lambda payload: any(
-            event["payload"].get("minutes") == expected_minutes for event in matching_events(payload, "camp.area.interacted", before_seq, zone=zone)))
-        receipts = matching_events(saved["envelope"]["payload"], "camp.area.interacted", before_seq, zone=zone)
-        self.check(f"public {label} action persisted its specific receipt", len(receipts) == 1 and receipts[0]["payload"]["minutes"] == expected_minutes, receipts)
-        self.result["actions"].append({"type": "barracks-training" if label == "兵营" else "residence-dinner", "before": before, "after": after,
-                                         "publicExpectedMinutes": expected_minutes, "eventId": receipts[0]["eventId"]})
+        # Do not lock the save to an instantaneous post-click DOM clock.
+        # The exact receipt plus its full causal clock trace establishes cost.
+        saved = self.settle_save(before + expected_minutes, before_seq + 1,
+                                predicate=lambda payload: area_action_evidence(before_save, payload, zone, expected_minutes) is not None)
+        evidence = area_action_evidence(before_save, saved["envelope"]["payload"], zone, expected_minutes)
+        self.check(f"public {label} action persisted its exact causal receipt", evidence is not None, evidence)
+        if zone == "barracks":
+            self.record_training_action(self.result["pendingTrainingAction"], before_observed, saved, evidence)
+        else:
+            receipt = evidence["receipt"]
+            self.result["actions"].append({"type": "residence-dinner", "before": receipt["payload"]["before"]["time"],
+                "after": receipt["payload"]["after"]["time"], "observedAfterMinute": saved["minute"],
+                "publicExpectedMinutes": expected_minutes, "eventId": receipt["eventId"], "commandId": receipt["commandId"],
+                "naturalMinutesBefore": evidence["naturalMinutesBefore"], "naturalMinutesAfter": evidence["naturalMinutesAfter"]})
+
+    def record_training_action(self, pending: dict, before: dict, observed: dict, evidence: dict, recovered: bool = False) -> None:
+        receipt = evidence["receipt"]
+        index = pending["beforeSnapshotIndex"]
+        metadata = self.result["snapshots"][index]
+        self.check("training evidence retains original before snapshot watermark", metadata["eventSeq"] == pending["beforeEventSeq"]
+                   and before["minute"] == pending["beforeMinute"] and before["envelope"]["checksum"] == metadata["checksum"])
+        existing = [action for action in self.result["actions"] if action.get("eventId") == receipt["eventId"]
+                    or action.get("commandId") == receipt["commandId"]]
+        self.check("training receipt is recorded at most once", len(existing) <= 1
+                   and (not existing or existing[0]["type"] == "barracks-training"
+                        and existing[0].get("eventId") == receipt["eventId"]
+                        and existing[0].get("commandId") == receipt["commandId"]), receipt["eventId"])
+        if not existing:
+            self.result["actions"].append({"type": "barracks-training", "before": receipt["payload"]["before"]["time"],
+                "after": receipt["payload"]["after"]["time"], "observedAfterMinute": observed["minute"],
+                "publicExpectedMinutes": pending["expectedMinutes"], "eventId": receipt["eventId"], "commandId": receipt["commandId"],
+                "beforeSnapshotIndex": index, "beforeSnapshotSource": "verified-runner-snapshot", "beforeEventSeq": pending["beforeEventSeq"],
+                "beforePrimaryMinute": before["minute"], "beforeSnapshotProvenance": {key: metadata.get(key) for key in ("stage", "path", "checksum", "htmlSha256")},
+                "naturalMinutesBefore": evidence["naturalMinutesBefore"], "naturalMinutesAfter": evidence["naturalMinutesAfter"],
+                "naturalEventIdsBefore": evidence["naturalEventIdsBefore"], "naturalEventIdsAfter": evidence["naturalEventIdsAfter"],
+                "actionAdvanceEventId": evidence["actionTick"]["eventId"], "recoveredFromPrimarySave": recovered})
+        self.result.pop("pendingTrainingAction", None)
+        self.survival(observed["envelope"]["payload"], "after verified public training")
+        self.persist(f"training-{'resumed' if recovered else 'verified'}-{receipt['eventId']}", observed)
+
+    def training_before(self, pending: dict) -> dict:
+        index = pending["beforeSnapshotIndex"]
+        before = self.transition_snapshot(index)
+        payload = before["envelope"]["payload"]
+        metadata = self.result["snapshots"][index]
+        source_hash = metadata.get("htmlSha256")
+        self.check("training original artifact keeps its schema/time/seq/source binding", payload["version"] == 21
+                   and payload["contentState"]["contentVersion"] == 3 and payload["worldMeta"]["eventSeq"] == pending["beforeEventSeq"]
+                   and before["minute"] == pending["beforeMinute"] and isinstance(source_hash, str)
+                   and re.fullmatch(r"[a-f0-9]{64}", source_hash) is not None and source_hash == self.result.get("htmlSha256"), index)
+        return before
+
+    def reconcile_training(self, observed: dict) -> None:
+        """Consume saved training once; infer legacy attempts only from files."""
+        payload = observed["envelope"]["payload"]
+        pending = self.result.get("pendingTrainingAction")
+        if not pending and self.args.resume and self.result.get("resumeSessions"):
+            session = self.result["resumeSessions"][-1]
+            failed_stage = re.fullmatch(r"failed-day-(\d+)-public-training", session.get("previousStage") or "")
+            watermark = session.get("previousLastVerifiedSave")
+            timed_out = any("primary save did not catch up" in error for error in session.get("previousErrors", []))
+            if failed_stage and watermark and timed_out and not session.get("legacyTrainingReconciled"):
+                failed_day = int(failed_stage[1])
+                candidates = [(index, item) for index, item in enumerate(self.result["snapshots"])
+                              if item["day"] == failed_day and item["eventSeq"] <= watermark["eventSeq"]
+                              and (item["day"] - 1) * 1440 + item["hour"] * 60 + item["minute"] <= watermark["minute"]]
+                self.check("legacy failed training has an original full before artifact", bool(candidates),
+                           {"failedStage": session["previousStage"], "watermarkOnly": watermark})
+                index, metadata = candidates[-1]
+                pending = {"zone": "barracks", "expectedMinutes": 30, "beforeSnapshotIndex": index,
+                    "beforeMinute": (metadata["day"] - 1) * 1440 + metadata["hour"] * 60 + metadata["minute"],
+                    "beforeEventSeq": metadata["eventSeq"], "source": "legacy-failed-public-training",
+                    "failedCheckpointWatermark": watermark, "failedStage": session["previousStage"],
+                    "legacyResumeSessionIndex": len(self.result["resumeSessions"]) - 1}
+                # The watermark describes the old runner's last observation;
+                # it never supplies or reconstructs a GameState payload.
+                self.result["pendingTrainingAction"] = pending
+                self.persist("legacy-training-original-artifact-pending")
+        if not pending:
+            return
+        self.check("pending training retains its public barracks contract", pending.get("zone") == "barracks" and pending.get("expectedMinutes") == 30)
+        before = self.training_before(pending)
+        previous = before["envelope"]["payload"]
+        receipts = matching_events(payload, "camp.area.interacted", previous["worldMeta"]["eventSeq"])
+        if receipts:
+            evidence = area_action_evidence(previous, payload, "barracks", 30)
+            self.check("resumed training retains exact area/nested-advance/natural-clock evidence", evidence is not None,
+                       {"beforeSnapshotIndex": pending["beforeSnapshotIndex"], "receipts": receipts})
+            self.result.setdefault("trainingRecoveryHistory", []).append({"beforeSnapshotIndex": pending["beforeSnapshotIndex"],
+                "source": pending["source"], "eventId": evidence["receipt"]["eventId"], "commandId": evidence["receipt"]["commandId"],
+                "naturalMinutesBefore": evidence["naturalMinutesBefore"], "naturalMinutesAfter": evidence["naturalMinutesAfter"],
+                "failedCheckpointWatermark": pending.get("failedCheckpointWatermark"), "status": "committed-receipt-consumed"})
+            if "legacyResumeSessionIndex" in pending:
+                self.result["resumeSessions"][pending["legacyResumeSessionIndex"]]["legacyTrainingReconciled"] = True
+            self.record_training_action(pending, before, observed, evidence, recovered=True)
+        else:
+            natural = natural_window_evidence(previous, payload)
+            self.check("uncommitted training has complete saved natural-clock evidence", natural is not None)
+            self.result.setdefault("trainingRecoveryHistory", []).append({"beforeSnapshotIndex": pending["beforeSnapshotIndex"],
+                "source": pending["source"], "status": "no-committed-area-receipt", "naturalMinutes": natural["minutes"],
+                "naturalEventIds": natural["eventIds"]})
+            if "legacyResumeSessionIndex" in pending:
+                self.result["resumeSessions"][pending["legacyResumeSessionIndex"]]["legacyTrainingReconciled"] = True
+            self.result.pop("pendingTrainingAction", None)
+            self.persist("training-resumed-uncommitted", observed)
 
     def barracks(self) -> None:
         # Return to the unobstructed row before moving left; a direct diagonal
@@ -927,6 +1138,7 @@ class Runner:
     def reconcile_pending(self, observed: dict) -> None:
         """Recover only from the actual profile save, never reapply saved data."""
         payload = observed["envelope"]["payload"]
+        self.reconcile_training(observed)
         pending_attack = self.result.get("pendingNavigationAttack")
         if pending_attack:
             # Upgrade old pending receipts only from their exact verified
@@ -1148,7 +1360,8 @@ class Runner:
                 self.page = context.pages[0] if context.pages else context.new_page()
                 self.page.set_default_timeout(ACTION_SECONDS * 1000)
                 self.page.on("pageerror", lambda error: self.result["errors"].append(f"pageerror:{error}"))
-                self.page.on("console", lambda msg: self.result["consoleErrors"].append(msg.text) if msg.type == "error" else None)
+                self.page.on("console", lambda msg: self.result["consoleErrors"].append({"text": msg.text, "location": msg.location}) if msg.type == "error" else None)
+                self.page.on("requestfailed", lambda request: self.result.setdefault("requestErrors", []).append({"url": request.url, "resourceType": request.resource_type, "failure": request.failure}))
                 self.page.on("response", lambda response: self.result["httpErrors"].append(f"{response.status}:{response.url}") if response.status >= 400 else None)
                 try:
                     self.record_build(self.page.goto(self.args.url, wait_until="domcontentloaded", timeout=self.timeout()), "initial document")
@@ -1179,10 +1392,18 @@ class Runner:
                                             "minute": self.last_save["envelope"]["payload"]["minute"], "food": self.last_save["envelope"]["payload"]["food"],
                                             "npcCount": len(self.last_save["envelope"]["payload"]["npcs"]), "checksum": self.last_save["envelope"]["checksum"]}
                     self.result["trainingActions"] = sum(action["type"] == "barracks-training" for action in self.result["actions"])
-                    bad_http = [entry for entry in self.result["httpErrors"] if "/favicon.ico" not in entry]
+                    bad_http = [entry for entry in self.result["httpErrors"] if not (match := re.fullmatch(r"(\d{3}):(https?://.+)", entry)) or not is_known_favicon_404(match.group(2), int(match.group(1)), self.args.url)]
                     if bad_http:
                         self.result["errors"].append("game-resource-http-errors:" + " | ".join(bad_http))
-                    self.result["ok"] = not self.result["errors"] and all(item["ok"] for item in self.result["checks"]) and not [message for message in self.result["consoleErrors"] if "404" not in message]
+                    bad_console = [message for message in self.result["consoleErrors"] if not is_known_favicon_console(message, self.args.url)]
+                    if bad_console:
+                        self.result["errors"].append("game-console-errors:" + json.dumps(bad_console, ensure_ascii=False))
+                    if self.result.get("requestErrors"):
+                        self.result["errors"].append("game-resource-request-failures:" + json.dumps(self.result["requestErrors"], ensure_ascii=False))
+                    known_favicon = len(self.result["consoleErrors"]) - len(bad_console)
+                    if known_favicon:
+                        self.result.setdefault("warnings", []).append(f"{known_favicon} exact same-origin favicon 404 messages retained with their locations")
+                    self.result["ok"] = not self.result["errors"] and all(item["ok"] for item in self.result["checks"])
                     self.persist("complete", self.last_save, complete=True)
                 finally:
                     context.close()

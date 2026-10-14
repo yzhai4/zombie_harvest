@@ -1,0 +1,87 @@
+{
+  "runner": "server-three-days",
+  "mode": "public-action-calendar-progression",
+  "url": "http://82.157.208.167/",
+  "profile": "isolated-profile",
+  "startedAtUnix": 1791997835.6495025,
+  "limits": {
+    "actionSeconds": 30,
+    "encounterSeconds": 60,
+    "globalSeconds": 600,
+    "heartbeatSeconds": 15,
+    "parentPollingSeconds": 30
+  },
+  "policy": {
+    "newGameViaPublicReset": true,
+    "saveInjection": false,
+    "hiddenStateMutation": false,
+    "internalFunctionCalls": false,
+    "primarySaveReadOnly": true
+  },
+  "routeSideEffects": [
+    "Each barracks interaction advances 30 minutes, raises player SAN by 2 and morale by 2.",
+    "Training raises active guards' SAN/morale and lowers stress; this route is not a balance evaluation.",
+    "Residence dinner consumes one food while lowering all active NPC hunger; ordinary crop and resource rewards are retained."
+  ],
+  "checks": [
+    {
+      "name": "new game starts on calendar day one",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "new game fixed roster is ten",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "initial public supply event",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "supply A gives three actual food",
+      "ok": false,
+      "detail": null
+    }
+  ],
+  "errors": [
+    "AssertionError:supply A gives three actual food: None"
+  ],
+  "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 404 (File not found)"
+  ],
+  "httpErrors": [],
+  "actions": [],
+  "nightDays": [],
+  "calendarTransitions": [],
+  "snapshots": [
+    {
+      "stage": "started-or-resumed",
+      "path": "private-qa/00-started-or-resumed-save.json",
+      "checksum": "93cc9e89",
+      "day": 1,
+      "hour": 6,
+      "minute": 10,
+      "eventSeq": 11
+    }
+  ],
+  "completedStages": [],
+  "rosterIds": [
+    "carpenter",
+    "commander",
+    "cook",
+    "doctor",
+    "guardChen",
+    "guardJi",
+    "guardJiang",
+    "quartermaster",
+    "radio",
+    "sergeant"
+  ],
+  "ok": false,
+  "elapsedSeconds": 15.233,
+  "finishedAtUnix": 1791997850.8819969,
+  "rawReportSha256": "6a397f0ae095dfd71255e61e0296b3d9155de3539e516558cd51d21f90098b6c",
+  "pathSanitization": "Private host paths removed from the published evidence; original report retained locally."
+}
