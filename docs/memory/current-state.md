@@ -1,6 +1,6 @@
 # 当前状态
 
-**更新时间：** 2026-10-13  
+**更新时间：** 2026-10-14  
 **基线：** `zfarm-world-1.0` 文档基线；工作树存在未提交运行时变更  
 **状态：** active
 
@@ -22,5 +22,6 @@
 - `node scripts/check-night-guard.mjs`：通过。
 - `node scripts/replay-harness.mjs --self-test`：通过，6 个夹具，当前 hash `afa81420`；五日夹具覆盖 `carpenter` 晋升与 `sergeant -> commander` 暂代。
 - `node scripts/validate-content.mjs`：通过，SAVE21/CONTENT3 已对齐。
-- `node scripts/smoke-three-days.mjs`：43 项通过；Playwright 不可用。
+- `node scripts/smoke-three-days.mjs`：44 项通过；Playwright 不可用。
+- GitHub draft PR `#4` 已创建，CI workflow run `46` 通过；Sites 生产仍保持原版本。
 
