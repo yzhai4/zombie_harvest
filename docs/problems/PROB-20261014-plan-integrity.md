@@ -1,8 +1,10 @@
 # 计划会权限与同日实例完整性
 
-状态：**私有最小规则候选与独立 UI 候选已完成源码回归，尚未集成或进行本主题浏览器验收**。日期：2026-10-14。
+状态：**最终phase-safe候选已集成dist58a4并完成源码/renderer方法，本主题浏览器待执行**。日期：2026-10-14。下文私有切片记录保留历史状态。
 
 这是完整 v82 前置 bugfix。十名个人链、主动技能、有效票投影、MeetingV2 及新权重仍未实现于本候选。
+
+最新集成：58a4只含两个业务处和renderer三行变化，逆向字节证明还原412c。新48规则/69实际renderer、原177/43/27/16同SHA通过，goldens保持；UI采用真实SessionController DAY Gate及信任/CP/报告说明。可移植checker与声明旧writer完整fixture/meta、CI步骤已接线。未改服务器/Sites，见[集成QA](../qa/plan-integrity-integration-20261014.md)，不冒称本主题browser或全十人通过。
 
 ## 依据与可复现缺陷
 

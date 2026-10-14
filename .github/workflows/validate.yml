@@ -26,6 +26,8 @@ jobs:
           node --check scripts/export-three-days-artifacts.mjs
           node --check scripts/runtime-source-target.mjs
           node --check scripts/check-report-recovery.mjs
+          node --check scripts/check-plan-integrity.mjs
+          node --check scripts/check-plan-integrity-ui.mjs
       - name: Check deployable entrypoints
         run: |
           test -s dist/index.html
@@ -42,6 +44,8 @@ jobs:
         run: |
           node scripts/check-plan-day.mjs
           node scripts/check-camp-area.mjs
+          node scripts/check-plan-integrity.mjs
+          node scripts/check-plan-integrity-ui.mjs --html dist/index.html --io-adapter scripts/check-report-recovery.mjs --legacy-fixture scripts/fixtures/plan-integrity/plan-committed-legacy-basewriter.json --out "$RUNNER_TEMP/plan-integrity-ui.json"
       - name: Execute save recovery and session lifecycle contracts
         run: node scripts/check-report-recovery.mjs
       - name: Verify save projections and static smoke

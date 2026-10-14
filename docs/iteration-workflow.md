@@ -69,6 +69,8 @@
 
 单构建从头三日须在runner和只读Gate中显式启用`--strict-fresh --expect-html-sha256 SHA`。检查全新空profile/输出、含公开reset的每次main-document response与全部保存同源码SHA、DAY1/2/3各自真实reload和新clock/去重、原final保存day4≥06:00、零resume。不能只靠主报告声明fresh或source-ready检查推定通过；旧恢复结果继续按原默认合同保留。
 
+计划权限/实例/renderer变更增加`check-plan-integrity.mjs`与`check-plan-integrity-ui.mjs`实际源码门禁。计划按钮读取真实SessionController DAY Gate；resolved报告night=false仍不可干预。旧committed不能因新权限追溯撤销、退款或补故事，新的同日非idle实例也不能被force重生成。VM声明完整writer TEST-ONLY夹具、IO renderer遮蔽与实际被测renderer，最终仍需公开计划会入口与刷新验收。
+
 需跨机器保存证据时，在操作系统确认原runner终止后执行 `scripts/export-three-days-artifacts.mjs`，只复制报告明确引用的保存和截图，并保存不变的原报告、逐工件SHA/FNV及路径映射。输出是新空私有目录，不能位于网页根或仓库；不复制profile、cookie和密钥。Windows以真实ACL验证私有权限。迁移后使用 `--source-manifest` 重绑定新路径，再跑同一独立Gate并比较覆盖和逐项结果；允许根目录参数的差异单列，不能把迁移或导出成功当成游戏验收通过。
 
 历史说明：v79 之前的 `EVENT_DEFS` 曾主要保存标题和选择 ID；当前版本已提供事件契约、内容注册表和扩展效果接口。后续仍需把新主线/支线逐条注册并补回归夹具，不能继续堆叠按 ID 分支。

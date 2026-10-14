@@ -53,6 +53,8 @@ node scripts/replay-harness.mjs --self-test
 
 修改计划结算、每日指挥点、日历或附近区域交互时，执行 `scripts/check-plan-day.mjs` 和 `scripts/check-camp-area.mjs`。实际日历三日用 `scripts/server-three-days.py` 的公开行动路线：分别验日历跨日与遭遇次数、固定人口与营地生存、真实收获、每日配给/计划/指挥点及刷新。训练改变 SAN/士气，不能据此评价自然节奏或平衡；低信任零 CP 路线也不能证明非零已花 CP 的防回补。
 
+计划权限/同日实例/计划renderer变更还执行`node scripts/check-plan-integrity.mjs`及`check-plan-integrity-ui.mjs`显式输入命令。UI使用真实SessionController阶段Gate，不能仅靠night=false判断白天；旧低信任committed只保留历史承诺与已花CP，不追溯撤销或补奖励。完整旧writer夹具标明TEST-ONLY，与真实生产捕获分开；VM IO遮蔽的renderer与被测实际renderer分别列明，不把JSON事实相等称为对象引用不变。
+
 同分钟动作等具体新 command/event 收据和真实变化写入存档，刷新去重等新正常时钟收据后检查。长测试保存阶段 checkpoint、原失败报告和各构建 hash，约30秒轮询已确认的进程；观察超时不重开。终止后只从同 profile 的真实保存恢复，并用关联 commandId/threatId 防止重复动作；不注入 runner checkpoint。
 
 多日完成后以 `scripts/verify-three-days-artifacts.mjs` 只读核验原报告和完整保存工件，失败/阶段缺失仍 exit1，负控单列。保存校验之外，核对连续账本、具体计划/粮食来源、三场遭遇、真实收获和固定人口。未知源码 hash、多构建恢复、缺历史日期显式刷新必须披露，当前日补验不能改写历史结果。

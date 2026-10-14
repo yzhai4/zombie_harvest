@@ -9,7 +9,7 @@
 | 自动指标与人工戏剧性评价冲突 | 高 | 中 | 建立 held-out 和人工评审集 | `docs/experiments/README.md` |
 | 三日日历单构建从头回归仍缺 | 高 | 严格首轮第二日超时 | 原恢复439/Gate90保留；新strict首轮359检查/94保存与Gate104/113仍FAILED，补只读失败采样定位原因，不放宽合同 | `docs/qa/fresh-three-days-first-20261014.md` |
 | ≥60秒原生后台追赶尚无browser证据 | 中 | 仅源码控制与短隐藏通过 | native B16实际2873ms；另做真实长隐藏补验，不能把短隐藏或伪clock称长catch-up | `docs/qa/report-recovery-browser-third-20261014.md` |
-| 计划干预权限与同日实例可重生成 | 高 | 源码VM已复现 | 最小私有候选拒trust<60并冻结同日非idle；需独审、公开UI一致性、集成及本主题browser | `PROB-20261014-plan-integrity` |
+| 计划可靠性新构建尚缺真实browser | 高 | 源码/renderer已通过 | 58a4已集成trust<60拒绝、同日冻结与phase-safe UI；48/69及177/43/27/16过，须公开七case/reload | `docs/qa/plan-integrity-integration-20261014.md` |
 | 晋升英雄字段/断粮状态与计划投影未对齐 | 中 | 已确认源码差异 | 先统一设计冲突，再实现单一英雄/食物投影 | `PROB-20261014-plan-voter-projection` |
 
 ## 已通过主题与历史失败
