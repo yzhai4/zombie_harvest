@@ -116,9 +116,9 @@ def main() -> None:
                 night_started = True
                 attack = page.locator("#nightAttackBtn")
                 live_attack = page.locator("#nightLiveAttackBtn")
-                if attack.is_enabled():
+                if attack.is_visible() and attack.is_enabled():
                     attack.click()
-                elif live_attack.count() and live_attack.is_enabled():
+                elif live_attack.count() and live_attack.is_visible() and live_attack.is_enabled():
                     live_attack.click()
                 else:
                     # One short movement pulse per polling interval is enough
@@ -135,13 +135,19 @@ def main() -> None:
         summary_class = page.locator("#nightOverlay").get_attribute("class") or ""
         night_resolved = "summary-mode" in summary_class
         check("night started", night_started)
-        check("night resolved", night_resolved)
+        check("night summary", night_resolved)
         if night_resolved:
             check("daily summary", page.locator("#dailySummary").is_visible())
             check("summary damage", page.locator("#summaryDamage").inner_text() != "")
             check("summary continuation enabled", page.locator("#continueBtn").is_enabled())
             page.locator("#continueBtn").click()
-            page.wait_for_timeout(500)
+            try:
+                page.wait_for_function(
+                    "() => !document.body.classList.contains('threat-map-active') && !document.querySelector('#nightOverlay')?.classList.contains('show')",
+                    timeout=5000,
+                )
+            except Exception as exc:  # pragma: no cover - browser timing is environment-specific
+                errors.append(f"daytime-transition-timeout:{exc}")
         morning_classes = page.locator("body").get_attribute("class") or ""
         check("returned to daytime", "threat-map-active" not in morning_classes and not page.locator("#nightOverlay").is_visible())
 

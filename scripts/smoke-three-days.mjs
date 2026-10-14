@@ -95,6 +95,8 @@ function runStaticSmoke(options) {
     ['plan meeting tab', /data-info-tab=["']plan["']/.test(source) && /infoPlanMount/.test(source)],
     ['npc attribute schema', /NPC_ATTRIBUTE_DEFAULTS/.test(source) && /npcAttributeProfile\s*\(/.test(source)],
     ['npc promotion lifecycle', /evaluateNpcPromotion\s*\(/.test(source) && /promoteNpcHero\s*\(/.test(source) && /npcRoster/.test(source)],
+    ['npc role-card projection', /function\s+renderSurvivors\s*\(/.test(source) && /npcSkillSummary\s*\(/.test(source) && /npcHeroLabel\s*\(/.test(source) && /data-npc=/.test(source)],
+    ['npc promotion UI gate', /data-context-action=\"promoteHero\"/.test(source) && /commandPoints/.test(source) && /npc\.hero\?\.status\s*===\s*['\"]eligible['\"]/.test(source)],
     ['npc succession lifecycle', /assignMorningSuccessors\s*\(/.test(source) && /npcFulfillsRole\s*\(/.test(source) && /actingRole/.test(source) && /roleVacancies/.test(source)],
     ['five-day NPC replay fixture', /five-day-npc/.test(readFileSync(path.join(ROOT, 'scripts', 'replay-harness.mjs'), 'utf8')) && /promotionHistory/.test(readFileSync(path.join(ROOT, 'scripts', 'replay-harness.mjs'), 'utf8'))],
   ];
