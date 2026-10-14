@@ -62,3 +62,15 @@ Actions #60 / run `38620407670` / job `116046147068` 在精确 head `f72503d...`
 原snapshot56完整保存实查为第4天00:25 / savedAt4345 / seq2539 / FNV9787e965；摘要中的4325是算术错误，恢复只从原件派生分钟。独立迁移审计逐字节核对57保存、21截图，报告仅81处声明路径替换；两份Gate唯一差异是允许根目录数量2→1，仍69/71，未把原失败或最终阶段缺失变成通过。见 `docs/qa/portable-artifact-audit-20261014.md`。
 
 原三日profile的attempt9已真实终止exit0：439项当前runner检查通过、独立artifact Gate90/90，76份原保存；最终第4天06:36 / food6 / 十人 / FNV a0c68982 / seq2746。92次30分钟训练收据和报告动作一致，遗留evt2562只恢复一次没有重按。八次失败、早期10份source未知及历史day2显式reload缺口保留，单构建从头路线仍待补。终止后76保存/24截图已导出私有bundle；原report SHA62ad36b2c7add9d2e36148655cd1755de25c42563e7861e66dce887bcc2ab564。旧“最终缺失”描述均为历史时点。当前开始完整报告恢复/安全重开候选，未部署候选或发布Sites。
+
+证据检查点已保存到PR #4新head `e30d161986b7b9cebd625e48290fc82961760248`，parent f72503d、tree41f7a06521b069f4d0d268415cfe039b43db2322；40项显式白名单Git blob SHA全部吻合，dist原字节未变。CI #61 / run38626639869 / job116067351554在精确e30d161成功，实际日志确认源码hash/保存投影hash保持、55静态fallback和exporter语法；没有CI browser。终止后Windows私有ACL输出也成功重绑定76保存/24截图并重算同一Gate90/90，原report不变。新诊断runner SHA3e9921b66a3162c5db2611d1c268f2fd257ec6654e1f0e97e0ea60a9d55f58d3已编译及6项纯源码诊断正反例通过，实际attempt9执行仍是becef233，不混称新诊断已browser通过。恢复候选与B1–B16还在独立实现/评审，尚未接入dist。
+
+实际生产兼容新发现：Sites v81源f348/HTML11f25c的writer为SAVE18、无contentState，新严格候选会拒正常生产旧档，已列release blocker。使用原源在独立loopback短会话公开start/遭遇/close取得三份完整原SAVE18，exit0，十人、真实checksum/日期均通过，原件嵌套保存至 `scripts/fixtures/legacy-save18/`；见 `docs/qa/production18-source-fixtures-20261014.md`。迁移必须只补新系统缺省且保留旧事实、初始三英雄，不造旧计划/CP/奖励。当前候选还在修正首轮独立评审与生产18适配，没有部署或发布。资源amount0耗尽保存也必须接受而不补资源。
+
+## 报告恢复源码冻结与隔离browser（最新）
+
+开发dist已按私有不变QA副本接入 `291a75441548e25801c4140d2b6e26dea1f5c1d938de7b408d9c4fb972bfe893`；8a4原字节保留为回滚点。170源码检查通过，独审76真实SAVE21原档与76完整纯draft通过（73 DAY/3 REPORT_PENDING）；真实SAVE18四原件及狭窄初始时钟例外通过。既有43/27/16源码检查同SHA通过，`c5d6c772`/`66c9368d`未变；9保存投影仍`4aec7a31`，content/night/syntax与55静态fallback通过。未将这些称为真实browser完成。
+
+47场景full首轮已在仅loopback的隔离QA服务启动，所有document核291a，7原输入与2原生产capture报告逐字节SHA传输核验。原public80服务仍8a4、旧三日profile不动、Sites仍public/active v81。首版runner两处问题另行修正：B1漏实际关闭后四按钮断言；B7只删battle统计但receipt有数值，却错误期待全部未记录。保留首轮原结果，下一版固定后重验，不热换正在运行的脚本。新的浏览器通过/CI提交尚未确认。
+
+工作流/iteration Skill加入不可变QA字节、真实控制器/Gate依赖和禁止mock被修改renderer；旧/新源码tester可用`--html`并打印SHA，golden没有重基。下一轮剧本设计师正独立准备计划投票/英雄/食物投影卡，仅proposed，不改L0或宣称已接线。完整v82–v90目标仍active，无全局记忆变更。

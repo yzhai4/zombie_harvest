@@ -24,6 +24,8 @@ jobs:
           node scripts/check-inline-syntax.mjs
           node --check scripts/verify-three-days-artifacts.mjs
           node --check scripts/export-three-days-artifacts.mjs
+          node --check scripts/runtime-source-target.mjs
+          node --check scripts/check-report-recovery.mjs
       - name: Check deployable entrypoints
         run: |
           test -s dist/index.html
@@ -40,9 +42,13 @@ jobs:
         run: |
           node scripts/check-plan-day.mjs
           node scripts/check-camp-area.mjs
+      - name: Execute save recovery and session lifecycle contracts
+        run: node scripts/check-report-recovery.mjs
       - name: Verify save projections and static smoke
         run: |
           node scripts/replay-harness.mjs --self-test
           node scripts/smoke-three-days.mjs
       - name: Check browser runner syntax
-        run: python -m py_compile scripts/server-playtest.py scripts/server-content-chain.py scripts/server-three-days.py
+        run: |
+          python -m py_compile scripts/server-playtest.py scripts/server-content-chain.py scripts/server-three-days.py
+          python -m py_compile scripts/server-report-recovery.py scripts/report_recovery_fixtures.py scripts/report_recovery_full.py

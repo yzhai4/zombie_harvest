@@ -8,14 +8,12 @@
  * and command receipts, not a headless gameplay simulation or persistence IO.
  */
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
-import path from 'node:path';
 import vm from 'node:vm';
-import { fileURLToPath } from 'node:url';
 import { stableHash } from './replay-harness.mjs';
+import { readSourceTarget } from './runtime-source-target.mjs';
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const source = readFileSync(path.join(root, 'dist', 'index.html'), 'utf8');
+const { source, sourceHash, htmlPath } = readSourceTarget();
+const hasRecoveryController = source.includes('const SessionController =');
 function section(startMarker, endMarker) {
   const start = source.indexOf(startMarker);
   const end = source.indexOf(endMarker, start + startMarker.length);
@@ -42,10 +40,16 @@ const functions = [
   'applyOutpostUpkeep', 'runWorldDayUpkeep', 'recoverEnergy', 'advanceReducer', 'continueMorningReducer',
   'dispatchCommand', 'isNightRestrictedAction', 'guardNightAction', 'nightActionResult', 'actionCommand',
   'continueMorning',
+  ...(hasRecoveryController ? ['savedRecord', 'savedCommandFor', 'savedStartedIdentity', 'savedReportIdentity'] : []),
 ];
 const sandbox = vm.createContext({ console });
 vm.runInContext(`
   var state;
+  let gameStarted = true;
+  const BootRecovery = { classification: 'DAY' };
+  // Lifecycle IO and rendering remain outside this accounting suite. Load
+  // actual SessionController and report identity logic; set fixture mode only.
+  ${hasRecoveryController ? section('const SessionController =', 'let checkpointTimer =') : 'const SessionController = null;'}
   const WORLD_SEED = 481516234;
   const EVENT_DEFS = Object.create(null), QUEST_DEFS = {};
   const EVENT_DEFINITION_VERSION = 1;
@@ -93,10 +97,11 @@ vm.runInContext(`
     execute: executePlanMeeting, refresh: refreshCommandPoints, dayStart: runPlanMeetingDayStart,
     ration: chargeDailyRation, upkeep: runWorldDayUpkeep, advance: advanceReducer,
     closeReport: continueMorningReducer, closeReportCommand: continueMorning, outpostUpkeep: applyOutpostUpkeep,
+    record: recordWorldEvent,
     planDefinition: PLAN_DEFS['plan-defend-core-001'],
-    reset(value) { state = value; Object.keys(calls).forEach(key => calls[key] = 0); checkpoints.length = 0; ensureContentState(); },
+    reset(value) { state = value; gameStarted = true; if (SessionController) { SessionController.mode = value.night ? 'REPORT' : 'DAY'; SessionController.exiting = false; } Object.keys(calls).forEach(key => calls[key] = 0); checkpoints.length = 0; ensureContentState(); },
   };
-`, sandbox, { filename: 'dist/index.html:plan-day-extracted' });
+`, sandbox, { filename: htmlPath + ':plan-day-extracted' });
 const runtime = sandbox.runtime;
 const plain = value => JSON.parse(JSON.stringify(value));
 function initial(overrides = {}) {
@@ -266,8 +271,12 @@ test('same-day report close preserves calendar and cannot repeat ration/upkeep',
 });
 
 function readyReport(overrides = {}) {
-  return reset({ hour: 10, minute: 30, night: true,
+  const state = reset({ hour: 10, minute: 30, night: true,
     nightBattle: { instanceId: 'qa-threat-d2-001', resolved: true }, ...overrides });
+  // TEST-ONLY resolved receipt makes the explicit instance verifiable by the
+  // actual identity Gate. It is not a complete boot/persistence fixture.
+  if (hasRecoveryController) runtime.record('threat.resolved', { threatId: state.nightBattle?.instanceId || 'qa-threat-d2-001' });
+  return state;
 }
 function accounting(state) {
   return plain({ day: state.day, hour: state.hour, minute: state.minute, food: state.food,
@@ -375,5 +384,6 @@ test('identical plan/day sequences including JSON restore have a stable trace', 
   assert.equal(planDayTraceHash, '66c9368d');
 });
 console.log(`plan-day source execution passed: ${checks.length} checks`);
+console.log(`sourceHtmlSha256: ${sourceHash}`);
 console.log(`planDayTraceHash: ${planDayTraceHash} (plan settlement/calendar contract; separate from content-chain trace)`);
 for (const name of checks) console.log(`  ✓ ${name}`);

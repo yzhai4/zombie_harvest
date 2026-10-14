@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=yes" />
   <meta name="theme-color" content="#0b1117" />
   <title>我是大救星 · 尸潮农场</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2712%27 fill=%27%232d382d%27/%3E%3Ctext x=%2732%27 y=%2747%27 text-anchor=%27middle%27 font-size=%2743%27%3E%F0%9F%8C%B1%3C/text%3E%3C/svg%3E">
   <style>
     :root {
       --bg: #0b1117;
@@ -1009,6 +1010,8 @@
       <h2 id="startTitle">我是大救星</h2>
       <p>当前副本：尸潮农场。帮助营地度过最终尸潮危机，方式由你的探索、选择和关系决定。</p>
       <div class="start-save-status" id="startSaveStatus">正在读取存档…</div>
+      <div class="start-save-status" id="recoveryStatus" hidden></div>
+      <button class="start-action primary" id="restoreBackupBtn" hidden>恢复安全存档</button>
       <div class="start-actions">
         <button class="start-action primary" id="continueSaveBtn">继续存档</button>
         <button class="start-action danger" id="resetSaveBtn">重置存档并新开</button>
@@ -1277,7 +1280,7 @@
           <div class="daily-summary-item"><b id="summaryDamage">0</b><span>营地生命损失</span></div>
           <div class="daily-summary-item"><b id="summaryWalls">0</b><span>墙体损伤</span></div>
           <div class="daily-summary-item"><b id="summaryNpcDeaths">0</b><span>幸存者伤亡</span></div>
-          <div class="daily-summary-item"><b id="summaryMorale">0</b><span>当前士气</span></div>
+          <div class="daily-summary-item"><b id="summaryMorale">0</b><span>结算士气</span></div>
         </div>
         <div class="daily-summary-feed" id="summaryFeed">尸潮结束后，这里会记录营地受到的实际影响。</div>
       </div>
@@ -1291,12 +1294,14 @@
       <div class="battle-status"><div class="battle-status-head"><b id="battleStage">远处来袭</b><span id="battleDetail">4 只僵尸正在靠近</span></div><div class="battle-route"><span>🌲</span><i><em id="threatMarker"></em></i><span>🏚️</span></div><div class="battle-route-labels"><span>林地入口</span><span>营地防线</span></div><div class="support-detail" id="supportDetail">当前援防：未请求</div></div>
       <div class="battle-lane" aria-label="自动防线实时战况"><div class="battle-lane-head"><b>🛡️ 自动防线 · 你不能操控建筑</b><span id="autoDefenseText">等待第一轮射击</span></div><div class="lane-track" id="battleLane"><span class="lane-gate">🏚️</span></div><div class="lane-legend"><span>🌲 尸群入口</span><span id="barrierText">防线余量 --</span><span>营地</span></div><div class="tower-feed" id="towerFeed"></div><div class="player-attack-hint" id="playerAttackHint">建筑会自动攻击；你只能用自己的武器补刀。</div></div>
       <div class="night-control-panel" aria-label="实时玩家控制"><div class="night-control-copy"><b>🧑‍🌾 只控制自己</b><span id="nightPlayerReadout">地图中的黄色农夫是你。建筑和 NPC 会按命令自动行动。</span><em id="nightAttackReadout">靠近尸群后使用攻击按钮。</em></div><div class="night-move-grid"><span class="night-move-spacer"></span><button class="night-move-btn" data-night-dir="up" aria-label="实时上移">⬆️</button><span class="night-move-spacer"></span><button class="night-move-btn" data-night-dir="left" aria-label="实时左移">⬅️</button><button class="night-move-btn" data-night-dir="down" aria-label="实时下移">⬇️</button><button class="night-move-btn" data-night-dir="right" aria-label="实时右移">➡️</button></div></div>
-      <div class="result-grid"><div class="result-item"><b id="waveZombies">0</b><span>来袭僵尸</span></div><div class="result-item"><b id="waveDefense">0</b><span>防线强度</span></div><div class="result-item"><b id="waveDamage">0</b><span>本轮损失</span></div><div class="result-item"><b id="waveSupport">0</b><span>支援队员</span></div></div>
+      <div class="result-grid"><div class="result-item"><b id="waveZombies">0</b><span>当前剩余</span></div><div class="result-item"><b id="waveDefense">0</b><span>防线强度</span></div><div class="result-item"><b id="waveDamage">0</b><span>本轮损失</span></div><div class="result-item"><b id="waveSupport">0</b><span>支援队员</span></div></div>
       <button class="continue-btn" id="nightAttackBtn" style="background:#e88a61;color:#27120f;margin-bottom:8px;">🪓 攻击附近目标</button>
       <button class="continue-btn" id="continueBtn">关闭报告，继续世界</button>
+      <button class="continue-btn" id="restartSessionBtn" style="background:#493a35;color:#f7dfc6;">重新开始一局</button>
     </div>
   </div>
 
+  <div id="recoveryNotice" role="status" hidden style="position:fixed;left:12px;bottom:12px;z-index:900;max-width:min(600px,90vw);background:#302824;color:#ffe6bb;padding:12px;border:1px solid #8b6b44;border-radius:8px;"></div>
   <script src="actor-sprites.js"></script>
   <script>
     const $ = (id) => document.getElementById(id);
@@ -2246,6 +2251,7 @@
        return { ok: true, plan };
      }
      function commitPlanMeeting(action = 'support', planId = null) {
+       if (!SessionController.acceptsInput() || state.gameOver) return { ok: false, reason: 'session-frozen' };
        return dispatchCommand({ type: 'plan.meeting.commit', actorId: 'player-1', payload: { action, planId } }, () => {
          ensureContentState(); const plan = planMeetingState(); const target = planId || plan.selectedId;
          if (state.night) return { ok: false, reason: 'night-lock' };
@@ -2664,6 +2670,7 @@
        return { ok: true, hook, started, expired, triggered: due.map(event => event.id) };
      }
      function contentChainRuntimeGate() {
+       if (SessionController.exiting || !gameStarted || ['RECOVERY','SAVING','EXITING'].includes(SessionController.mode)) return { ok: false, reason: 'session-frozen' };
        if (state.night) return { ok: false, reason: 'night-lock' };
        if (state.gameOver) return { ok: false, reason: 'game-over' };
        return { ok: true };
@@ -2767,6 +2774,7 @@
     const FeedbackRouter = { route(event) { if (!event) return; state.worldMeta.feedback.push({ eventId: event.eventId, type: event.type }); if (state.worldMeta.feedback.length > 40) state.worldMeta.feedback.shift(); } };
     function appendFeedbackEvent(type, payload = {}, meta = {}) { const event = recordWorldEvent(type, payload, meta); FeedbackRouter.route(event); return event; }
     const CommandBus = { dispatch(command, reducer, options = {}) {
+      if (command.type !== 'session.restart' && (SessionController.exiting || !gameStarted || ['RECOVERY','SAVING','EXITING'].includes(SessionController.mode) || ['REPORT','LOSS'].includes(SessionController.mode) && command.type !== 'threat.close')) return { ok: false, reason: 'session-frozen' };
       const wm = state.worldMeta;
       const ephemeral = options.ephemeral === true;
       const commandId = command.commandId || `cmd-${String(++wm.commandSeq).padStart(6, '0')}`;
@@ -2929,17 +2937,365 @@
       merged.combatStatus = merged.lifeState === 'dead' ? 'dead' : 'ready';
       return merged;
     }
+    const INITIAL_PROGRESS_STATE = stableClone(state);
+    INITIAL_PROGRESS_STATE.world.totalMinutes = (state.day - 1) * 1440 + state.hour * 60 + state.minute;
     const savedAtBootSnapshot = hasStoredSave();
     function progressSaveAllowed() { return !(state.night && state.nightBattle && !state.nightBattle.resolved); }
     function checksum(value) { let h = 2166136261; const text = JSON.stringify(value); for (let i = 0; i < text.length; i += 1) { h ^= text.charCodeAt(i); h = Math.imul(h, 16777619); } return (h >>> 0).toString(16); }
+    const REPORT_RECOVERY_MIGRATION = 'resolved-report-recovery-001';
+    let BootRecovery = { classification: 'DAY', selected: null, safeCandidates: [], draft: null, installed: false, migrationRecorded: false, savePending: false, diagnostics: [] };
+    function savedRecord(value) { return value !== null && typeof value === 'object' && !Array.isArray(value) && Object.prototype.toString.call(value) === '[object Object]'; }
+    function savedStringIds(value) { return Array.isArray(value) && value.every(id => typeof id === 'string' && id.length > 0); }
+    function savedNumbers(record, keys, min = 0, max = Infinity) { return savedRecord(record) && keys.every(key => Object.prototype.hasOwnProperty.call(record,key) && Number.isFinite(record[key]) && record[key] >= min && record[key] <= max); }
+    function savedDate(value) { return { day: value.day, hour: value.hour, minute: value.minute }; }
+    function savedMinute(value) { return (value.day - 1) * 1440 + value.hour * 60 + value.minute; }
+    function source18InitialClockSentinel(payload) {
+      const wm = payload.worldMeta;
+      return payload.version === 18 && !Object.prototype.hasOwnProperty.call(payload,'contentState') && payload.day === 1 && payload.hour === 6 && payload.minute === 0 && savedRecord(payload.world) && payload.world.totalMinutes === 0 && payload.world.lastRationDay === 1 && payload.world.lastDailyUpkeepDay === 1 && savedRecord(wm) && wm.eventSeq === 0 && wm.commandSeq === 0 && Array.isArray(wm.events) && wm.events.length === 0 && Array.isArray(wm.seenCommands) && wm.seenCommands.length === 0 && savedRecord(wm.replay) && Array.isArray(wm.replay.commands) && wm.replay.commands.length === 0;
+    }
+    function savedTreeSafe(value) {
+      if (typeof value === 'number') return Number.isFinite(value);
+      if (value === null || typeof value !== 'object') return ['string', 'boolean', 'undefined'].includes(typeof value) || value === null;
+      if (!Array.isArray(value) && !savedRecord(value)) return false;
+      return Object.entries(value).every(([key, item]) => !['__proto__', 'prototype', 'constructor'].includes(key) && savedTreeSafe(item));
+    }
+    function contentDefaultsForSave(day) {
+      const content = stableClone(INITIAL_PROGRESS_STATE.contentState);
+      content.commandPoints = 0; content.commandPointsMax = 0; content.commandPointsGrantedDay = day;
+      content.planMeeting = { version: 1, status: 'idle', meetingDay: 0, instanceId: null, source: 'summary', candidates: [], selectedId: null, playerAction: null, committedDay: null, resolvedDay: null, autonomyResult: null, history: [] };
+      return content;
+    }
+    function contentForSavedVersion(payload) {
+      const hasContent = Object.prototype.hasOwnProperty.call(payload, 'contentState');
+      if (payload.version === 18) return !hasContent ? contentDefaultsForSave(payload.day) : null;
+      const raw = payload.contentState;
+      if (!savedRecord(raw) || !savedRecord(raw.meters) || !Number.isInteger(raw.contentVersion) || raw.contentVersion !== ({ 19: 1, 20: 2, 21: 3 })[payload.version]) return null;
+      const defaults = contentDefaultsForSave(payload.day);
+      if (payload.version === 21) return raw;
+      // Version 1 did not implement command points or plan meetings; preserving
+      // positive future values would invent authority the old schema lacked.
+      if (raw.contentVersion === 1 && (['commandPoints','commandPointsMax'].some(key => Object.prototype.hasOwnProperty.call(raw,key) && raw[key] !== 0) || Object.prototype.hasOwnProperty.call(raw,'commandPointsGrantedDay') && (!Number.isInteger(raw.commandPointsGrantedDay) || raw.commandPointsGrantedDay < 0 || raw.commandPointsGrantedDay > payload.day) || raw.planMeeting && (raw.planMeeting.status !== 'idle' || !savedPlanMeetingValid(raw.planMeeting,payload)))) return null;
+      const content = { ...defaults, ...stableClone(raw), meters: { ...defaults.meters, ...(raw.meters || {}) } };
+      for (const key of ['flags','activeChains','outposts','autonomyWeights','npcRoster','planMeeting']) if (Object.prototype.hasOwnProperty.call(raw, key) && !savedRecord(raw[key])) return null;
+      for (const key of ['unlockedTech','unlockedWeapons','unlockedBlueprints','scheduledEvents','triggeredEvents','completedChains','appliedEffects','history']) if (Object.prototype.hasOwnProperty.call(raw, key) && !Array.isArray(raw[key])) return null;
+      if (raw.contentVersion === 1) { content.commandPoints = 0; content.commandPointsMax = 0; content.commandPointsGrantedDay = payload.day; content.planMeeting = defaults.planMeeting; }
+      else if (['commandPoints','commandPointsMax','commandPointsGrantedDay','planMeeting'].some(key => !Object.prototype.hasOwnProperty.call(raw, key))) return null;
+      return content;
+    }
+    function savedPlanMeetingValid(plan, payload) {
+      const fields = ['version','status','meetingDay','instanceId','source','candidates','selectedId','playerAction','committedDay','resolvedDay','autonomyResult','history'];
+      if (!savedRecord(plan) || fields.some(key => !Object.prototype.hasOwnProperty.call(plan,key)) || plan.version !== 1 || !['idle','candidate','committed','resolved'].includes(plan.status) || !Number.isInteger(plan.meetingDay) || plan.meetingDay < 0 || plan.meetingDay > payload.day || typeof plan.source !== 'string' || !Array.isArray(plan.candidates) || !Array.isArray(plan.history)) return false;
+      const ids = plan.candidates.map(item => item?.id);
+      if (new Set(ids).size !== ids.length || plan.candidates.some(item => !savedRecord(item) || typeof item.id !== 'string' || !Array.isArray(item.effects) || item.effects.some(effect => !savedRecord(effect) || typeof effect.op !== 'string') || item.validDay !== plan.meetingDay)) return false;
+      if (plan.playerAction !== null && !['support','deny','modify'].includes(plan.playerAction) || plan.autonomyResult !== null && !savedRecord(plan.autonomyResult)) return false;
+      for (const key of ['committedDay','resolvedDay']) if (plan[key] !== null && (!Number.isInteger(plan[key]) || plan[key] < 1 || plan[key] > payload.day)) return false;
+      if (plan.history.some(item => !savedRecord(item) || !Number.isInteger(item.meetingDay) || !Number.isInteger(item.resolvedDay) || item.meetingDay < 1 || item.resolvedDay <= item.meetingDay || item.resolvedDay > payload.day || typeof item.selectedId !== 'string')) return false;
+      if (plan.status === 'idle') return plan.meetingDay === 0 && plan.instanceId === null && plan.candidates.length === 0 && plan.selectedId === null && plan.playerAction === null && plan.committedDay === null && plan.resolvedDay === null;
+      if (plan.meetingDay < 1 || plan.instanceId !== `camp-plan-meeting-001:d${plan.meetingDay}` || !ids.includes(plan.selectedId) || plan.candidates.length === 0) return false;
+      if (plan.status === 'candidate' && (plan.playerAction !== null || plan.committedDay !== null || plan.resolvedDay !== null)) return false;
+      if (plan.status === 'committed' && (plan.playerAction === null || plan.committedDay !== plan.meetingDay || plan.resolvedDay !== null)) return false;
+      if (plan.status === 'resolved' && (!Number.isInteger(plan.resolvedDay) || plan.resolvedDay <= plan.meetingDay || !plan.history.some(item => item.meetingDay === plan.meetingDay && item.resolvedDay === plan.resolvedDay && item.selectedId === plan.selectedId))) return false;
+      const matching = payload.worldMeta.events.filter(event => ['plan.meeting.candidates','plan.meeting.committed','plan.meeting.resolved','plan.meeting.fallback'].includes(event.type) && event.payload.instanceId === plan.instanceId);
+      if (matching.some(event => event.payload.meetingDay !== plan.meetingDay)) return false;
+      const latest = matching[matching.length - 1];
+      if (latest && ({ 'plan.meeting.candidates':'candidate','plan.meeting.committed':'committed','plan.meeting.resolved':'resolved','plan.meeting.fallback':'resolved' })[latest.type] === plan.status && latest.payload.selectedId !== plan.selectedId) return false;
+      return true;
+    }
+    function validateProgressPayload(payload) {
+      const fail = reason => ({ ok: false, reason });
+      if (!savedRecord(payload) || !savedTreeSafe(payload)) return fail('payload-shape');
+      if (!Number.isInteger(payload.version) || payload.version < 18 || payload.version > SAVE_VERSION) return fail('save-version');
+      {
+        const required = ['sanity','sanityClock','sanityLastReason','staminaExhaustedDay','staminaExhaustedAt','campaign','campStanding','specialItems','relayProject','hordeForecast','collection','weapon','event','eventInstance','npcEvents','eventThreat','eventShield','mapRevision','nightBattle','motion','visitedRegions','areaFlags','roleVacancies','tempCoordination','settings','staminaRules','quests'];
+        if (required.some(key => !Object.prototype.hasOwnProperty.call(payload, key))) return fail('current-payload-incomplete');
+        if (!Number.isFinite(payload.sanity) || payload.sanity < 0 || payload.sanity > 100 || !Number.isFinite(payload.sanityClock) || payload.sanityClock < 0 || typeof payload.sanityLastReason !== 'string') return fail('sanity-contract');
+        const npcRequired = ['id','x','y','maxHp','hp','lifeState','wounds','morale','behaviorState','currentOrder','fallbackPoint','homeZone','workZone','inventory','appearance','equipment','personality','relations','memory','bond','supportRequested','order','simMoveClock','needClock','workClock','workPulseSeq','workHistory','motionTarget','needs','sanity','sanityClock','sanityLastReason','scheduleState','lastReport','actingRole','actingFor','eventChain','perception', ...(payload.version === SAVE_VERSION ? ['attributes','hero','garrisonedOutpostId'] : [])];
+        if (Array.isArray(payload.npcs) && payload.npcs.some(npc => !savedRecord(npc) || npcRequired.some(key => !Object.prototype.hasOwnProperty.call(npc, key)))) return fail('current-npc-incomplete');
+      }
+      if (!Number.isInteger(payload.day) || payload.day < 1 || !Number.isInteger(payload.hour) || payload.hour < 0 || payload.hour > 23 || !Number.isInteger(payload.minute) || payload.minute < 0 || payload.minute > 59) return fail('calendar');
+      if (payload.staminaExhaustedDay !== null && (!Number.isInteger(payload.staminaExhaustedDay) || payload.staminaExhaustedDay < 1 || payload.staminaExhaustedDay > payload.day) || payload.staminaExhaustedAt !== null && (!Number.isFinite(payload.staminaExhaustedAt) || payload.staminaExhaustedAt < 0 || payload.staminaExhaustedAt > savedMinute(payload))) return fail('stamina-exhaustion-contract');
+      for (const key of ['energy', 'hp', 'wood', 'stone', 'food', 'seeds', 'parts', 'medicine', 'morale']) if (!Number.isFinite(payload[key]) || payload[key] < 0) return fail(`missing-or-invalid:${key}`);
+      if (payload.hp > 100 || payload.energy > 100 || payload.morale > 100 || typeof payload.night !== 'boolean') return fail('core-range');
+      if (!savedRecord(payload.player) || !inBounds(payload.player.x, payload.player.y) || !Number.isFinite(payload.player.x) || !Number.isFinite(payload.player.y)) return fail('player');
+      if (!savedRecord(payload.world) || payload.world.totalMinutes !== savedMinute(payload) && !source18InitialClockSentinel(payload)) return fail('world-calendar');
+      for (const key of ['lastRationDay', 'lastDailyUpkeepDay']) if (!Number.isInteger(payload.world[key]) || payload.world[key] < 0 || payload.world[key] > payload.day) return fail(`world:${key}`);
+      if (payload.world.version !== 1 || !savedNumbers(payload.world,['frontierExposure'],0,100) || !savedNumbers(payload.world,['frontierClock']) || !Number.isInteger(payload.world.frontierPackBucket) || payload.world.frontierPackBucket < -1 || !Number.isInteger(payload.world.frontierPackSeq) || payload.world.frontierPackSeq < 0) return fail('world-frontier');
+      const arrays = ['npcs', 'buildings', 'resources', 'landmarks', 'worldZombies'];
+      for (const key of arrays) if (!Array.isArray(payload[key]) || payload[key].some(item => !savedRecord(item))) return fail(`collection:${key}`);
+      const expectedIds = Object.keys(NPC_TEMPLATES), npcIds = payload.npcs.map(npc => npc.id);
+      if (npcIds.length !== expectedIds.length || new Set(npcIds).size !== npcIds.length || npcIds.some(id => !expectedIds.includes(id))) return fail('roster-incomplete');
+      for (const npc of payload.npcs) {
+        if (!Number.isFinite(npc.hp) || !Number.isFinite(npc.maxHp) || npc.hp < 0 || npc.maxHp <= 0 || npc.maxHp > 200 || npc.hp > npc.maxHp || !inBounds(npc.x, npc.y) || !Number.isFinite(npc.x) || !Number.isFinite(npc.y)) return fail('npc-core');
+        if (!['healthy', 'injured', 'critical', 'dead'].includes(npc.lifeState) || (npc.hp <= 0) !== (npc.lifeState === 'dead')) return fail('npc-life');
+        if (!savedNumbers(npc,['morale','sanity'],0,100) || !savedNumbers(npc,['bond'],0,3) || !savedNumbers(npc,['sanityClock','simMoveClock','needClock','workClock']) || !Number.isInteger(npc.workPulseSeq) || npc.workPulseSeq < 0 || typeof npc.supportRequested !== 'boolean') return fail('npc-persistent-numbers');
+        if (['behaviorState','homeZone','workZone','sanityLastReason','scheduleState','lastReport'].some(key => typeof npc[key] !== 'string') || ['order','currentOrder'].some(key => npc[key] !== null && typeof npc[key] !== 'string') || ['actingRole','actingFor'].some(key => npc[key] !== null && !Object.prototype.hasOwnProperty.call(NPC_TEMPLATES,npc[key])) || !savedNumbers(npc.fallbackPoint,['x','y']) || !inBounds(npc.fallbackPoint.x,npc.fallbackPoint.y) || npc.motionTarget !== null && (!savedNumbers(npc.motionTarget,['x','y']) || !inBounds(npc.motionTarget.x,npc.motionTarget.y))) return fail('npc-persistent-shape');
+        for (const key of ['needs', 'relations', 'memory', 'personality', 'eventChain', 'appearance', 'equipment', 'attributes', 'hero']) if (npc[key] !== undefined && !savedRecord(npc[key])) return fail(`npc:${key}`);
+        for (const key of ['wounds', 'inventory', 'workHistory']) if (npc[key] !== undefined && !Array.isArray(npc[key]) && !(key === 'inventory' && savedRecord(npc[key]))) return fail(`npc:${key}`);
+        if (npc.wounds?.some(item => !savedRecord(item)) || npc.workHistory?.some(item => !savedRecord(item)) || npc.needs && Object.values(npc.needs).some(value => !Number.isFinite(value) || value < 0 || value > 100)) return fail('npc-detail');
+        if (!savedRecord(npc.needs) || ['hunger','fatigue','stress','energy','social','safety'].some(key => !Object.prototype.hasOwnProperty.call(npc.needs,key) || !Number.isFinite(npc.needs[key]) || npc.needs[key] < 0 || npc.needs[key] > 100)) return fail('npc-needs-incomplete');
+        if (!savedRecord(npc.memory) || !Array.isArray(npc.memory.importantEvents) || npc.memory.importantEvents.some(item => typeof item !== 'string') || ['helpedByPlayer','witnessedDeaths','failedOrders'].some(key => !Number.isInteger(npc.memory[key]) || npc.memory[key] < 0)) return fail('npc-memory');
+        for (const key of ['allies','rivals']) if (npc.relations?.[key] !== undefined && (!Array.isArray(npc.relations[key]) || npc.relations[key].some(id => typeof id !== 'string'))) return fail('npc-relations');
+        const relationKeys = ['trustToPlayer','trustToCommander','bondToPlayer','respectToPlayer','fearOfPlayer','resentmentOfPlayer','loyaltyToCamp','loyaltyToCommander','belongingToCamp'];
+        if (!savedRecord(npc.relations) || relationKeys.some(key => !Number.isFinite(npc.relations[key]) || npc.relations[key] < -100 || npc.relations[key] > 100) || !Array.isArray(npc.relations.allies) || !Array.isArray(npc.relations.rivals) || !savedRecord(npc.relations.values) || !savedRecord(npc.relations.knowledgeOfPlayer) || !Array.isArray(npc.relations.knowledgeOfPlayer.facts) || !savedRecord(npc.relations.opinionFlags)) return fail('npc-relations-incomplete');
+        if (!savedNumbers(npc.personality,['courage','duty','compassion','discipline','riskTolerance','loyalty'],0,100) || !savedNumbers(npc.relations.values,['safety','order','compassion','autonomy','truth'],-100,100) || !savedStringIds(npc.relations.knowledgeOfPlayer.facts) || !savedNumbers(npc.relations.knowledgeOfPlayer,['lastHeardAt'])) return fail('npc-social-detail');
+        if (payload.version === SAVE_VERSION && (!savedRecord(npc.attributes) || Object.keys(NPC_ATTRIBUTE_DEFAULTS).some(key => !Number.isFinite(npc.attributes[key]) || npc.attributes[key] < 0 || npc.attributes[key] > 100))) return fail('npc-attributes');
+        if (npc.hero !== undefined && (!savedRecord(npc.hero) || ['tier','status','progress','activeSkill','passiveSkill','promotedDay'].some(key => !Object.prototype.hasOwnProperty.call(npc.hero,key)) || !['ordinary','hero'].includes(npc.hero.tier) || !['locked','eligible','promoted'].includes(npc.hero.status) || !Number.isFinite(npc.hero.progress) || npc.hero.progress < 0 || npc.hero.progress > 100 || npc.hero.promotedDay !== null && (!Number.isInteger(npc.hero.promotedDay) || npc.hero.promotedDay < 1 || npc.hero.promotedDay > payload.day))) return fail('npc-hero');
+        const chain = npc.eventChain, active = chain?.active;
+        if (!savedRecord(chain) || !Number.isInteger(chain.step) || chain.step < 0 || chain.step > (NPC_EVENT_CHAINS[npc.id] || []).length || !savedNumbers(chain,['cooldown']) || !Object.prototype.hasOwnProperty.call(chain,'active') || !savedStringIds(chain.resolved) || active !== null && (!savedRecord(active) || typeof active.id !== 'string' || !active.id || !Number.isInteger(active.step) || active.step < 0 || !savedNumbers(active,['openedAt']) || active.openedAt > savedMinute(payload) || active.defId !== undefined && typeof active.defId !== 'string' || active.status !== undefined && !['active','queued'].includes(active.status))) return fail('npc-event-chain');
+        const perception = npc.perception;
+        if (!savedRecord(perception) || !savedNumbers(perception,['clock','targetAt','sharedUntil']) || !Object.prototype.hasOwnProperty.call(perception,'targetId') || perception.targetId !== null && (typeof perception.targetId !== 'string' || !perception.targetId) || !savedRecord(perception.contacts) || Object.entries(perception.contacts).some(([id,contact]) => !id || !savedRecord(contact) || !savedNumbers(contact,['x','y','at','expiresAt']) || typeof contact.sourceId !== 'string' || !contact.sourceId || contact.expiresAt < contact.at)) return fail('npc-perception');
+      }
+      for (const key of arrays.slice(1)) {
+        const list = payload[key], ids = list.map(item => item.id);
+        if (payload.version === SAVE_VERSION && (ids.some(id => typeof id !== 'string' || !id) || new Set(ids).size !== ids.length)) return fail(`entity-ids:${key}`);
+        if (list.some(item => !Number.isFinite(item.x) || !Number.isFinite(item.y) || !inBounds(item.x, item.y))) return fail(`entity-position:${key}`);
+      }
+      if (payload.buildings.some(item => item.type !== 'shelter' && !buildInfo[item.type] || item.hp !== undefined && (!Number.isFinite(item.hp) || item.hp < 0)) || payload.resources.some(item => !['tree','rock','berry','scrap','herb'].includes(item.type) || !Number.isFinite(item.amount) || item.amount < 0) || payload.worldZombies.some(item => !Number.isFinite(item.hp) || item.hp <= 0 || !Number.isFinite(item.maxHp) || item.maxHp < item.hp)) return fail('entity-contract');
+      const wm = payload.worldMeta;
+      if (!savedRecord(wm) || !Number.isInteger(wm.eventSeq) || wm.eventSeq < 0 || !Number.isInteger(wm.commandSeq) || wm.commandSeq < 0 || !Number.isFinite(wm.seed) || !Number.isFinite(wm.rngState) || !savedRecord(wm.clock) || typeof wm.clock.paused !== 'boolean' || !Number.isFinite(wm.clock.rate) || wm.clock.rate < .25 || wm.clock.rate > 4 || !Number.isFinite(wm.clock.phaseMinutes) || !Number.isFinite(wm.clock.scheduleMinutes)) return fail('world-meta');
+      if (!Array.isArray(wm.events) || !Array.isArray(wm.seenCommands) || !savedRecord(wm.replay) || !Array.isArray(wm.replay.commands)) return fail('ledger-shape');
+      const eventIds = new Set(); let previousSeq = -1;
+      for (const event of wm.events) {
+        if (!savedRecord(event) || typeof event.eventId !== 'string' || !event.eventId || eventIds.has(event.eventId) || !Number.isInteger(event.seq) || event.seq < 1 || event.seq <= previousSeq || event.seq > wm.eventSeq || typeof event.type !== 'string' || !event.type || !savedRecord(event.tick) || !Number.isFinite(event.tick.world) || event.tick.world < 0 || event.tick.world > savedMinute(payload) || !savedRecord(event.payload) || event.commandId != null && typeof event.commandId !== 'string') return fail('ledger-event');
+        eventIds.add(event.eventId); previousSeq = event.seq;
+      }
+      const commandIds = new Set();
+      if (wm.events.length ? wm.events[wm.events.length - 1].seq !== wm.eventSeq || wm.events.some((event, index) => index > 0 && event.seq !== wm.events[index - 1].seq + 1) : wm.eventSeq !== 0) return fail('ledger-window-gap');
+      for (const command of wm.replay.commands) {
+        if (!savedRecord(command) || typeof command.commandId !== 'string' || !command.commandId || commandIds.has(command.commandId) || typeof command.type !== 'string' || !command.type || typeof command.actorId !== 'string' || command.payload != null && !savedRecord(command.payload)) return fail('ledger-command');
+        commandIds.add(command.commandId);
+      }
+      if (wm.seenCommands.some(id => typeof id !== 'string' || !id) || new Set(wm.seenCommands).size !== wm.seenCommands.length) return fail('ledger-seen');
+      const cs = contentForSavedVersion(payload);
+      if (!savedRecord(cs) || !Number.isInteger(cs.contentVersion) || cs.contentVersion < 1 || cs.contentVersion > CONTENT_SCHEMA_VERSION || !savedRecord(cs.meters)) return fail('content-version');
+      if (payload.version === SAVE_VERSION && ['flags','activeChains','outposts','autonomyWeights','npcRoster','planMeeting','unlockedTech','unlockedWeapons','unlockedBlueprints','scheduledEvents','triggeredEvents','completedChains','appliedEffects','history'].some(key => !Object.prototype.hasOwnProperty.call(cs, key))) return fail('current-content-incomplete');
+      for (const key of ['flags', 'activeChains', 'outposts', 'autonomyWeights', 'npcRoster', 'planMeeting']) if (cs[key] !== undefined && !savedRecord(cs[key])) return fail(`content:${key}`);
+      for (const key of ['unlockedTech', 'unlockedWeapons', 'unlockedBlueprints', 'scheduledEvents', 'triggeredEvents', 'completedChains', 'appliedEffects', 'history']) if (cs[key] !== undefined && !Array.isArray(cs[key])) return fail(`content:${key}`);
+      for (const key of ['unlockedTech','unlockedWeapons','unlockedBlueprints','triggeredEvents','completedChains','appliedEffects']) if (!savedStringIds(cs[key])) return fail(`content-id-list:${key}`);
+      const scheduledIds = new Set();
+      if (cs.scheduledEvents.some(item => { if (!savedRecord(item) || typeof item.id !== 'string' || !item.id || scheduledIds.has(item.id) || !Number.isInteger(item.dueDay) || item.dueDay < 1 || !savedRecord(item.payload)) return true; scheduledIds.add(item.id); return false; })) return fail('content-scheduled-events');
+      if (cs.history.some(item => !savedRecord(item) || typeof item.id !== 'string' || !item.id || !savedNumbers(item,['at']) || item.at > savedMinute(payload) || !savedRecord(item.payload) || typeof item.actorId !== 'string' || !item.actorId) || Object.values(cs.autonomyWeights).some(value => !Number.isFinite(value) || value < 0)) return fail('content-history-or-weights');
+      for (const [id,chain] of Object.entries(cs.activeChains)) if (!savedRecord(chain) || chain.chainId !== id || typeof chain.nodeId !== 'string' || !chain.nodeId || chain.status !== 'active' || !savedNumbers(chain,['startedAt']) || chain.startedAt > savedMinute(payload) || typeof chain.actorId !== 'string' || !chain.actorId || chain.resolvedNodeIds !== undefined && !savedStringIds(chain.resolvedNodeIds) || chain.history !== undefined && (!Array.isArray(chain.history) || chain.history.some(item => !savedRecord(item) || typeof item.nodeId !== 'string' || typeof item.choiceId !== 'string' || !savedNumbers(item,['at']) || item.at > savedMinute(payload)))) return fail('content-active-chain');
+      for (const key of ['commandPoints', 'commandPointsMax', 'commandPointsGrantedDay']) if (cs[key] !== undefined && (!Number.isInteger(cs[key]) || cs[key] < 0)) return fail(`content:${key}`);
+      if (payload.version === SAVE_VERSION && ['commandPoints','commandPointsMax','commandPointsGrantedDay','planMeeting','outposts','npcRoster'].some(key => !Object.prototype.hasOwnProperty.call(cs, key))) return fail('current-content-incomplete');
+      if (Object.values(cs.meters).some(value => !Number.isFinite(value) || value < 0 || value > 100)) return fail('content-meters');
+      if (payload.version === SAVE_VERSION && ['campCollapse','resonancePressure','campTrust'].some(key => !Object.prototype.hasOwnProperty.call(cs.meters, key))) return fail('current-meters-incomplete');
+      if (cs.commandPointsGrantedDay > payload.day || cs.commandPoints > cs.commandPointsMax) return fail('command-points');
+      if (cs.planMeeting && (!['idle','candidate','committed','resolved'].includes(cs.planMeeting.status) || !Array.isArray(cs.planMeeting.candidates) || !Array.isArray(cs.planMeeting.history))) return fail('plan-meeting');
+      if (!savedPlanMeetingValid(cs.planMeeting, payload)) return fail('plan-identity');
+      if (cs.planMeeting?.candidates.some(item => !savedRecord(item) || typeof item.id !== 'string' || !Array.isArray(item.effects)) || cs.planMeeting?.history.some(item => !savedRecord(item))) return fail('plan-record');
+      if (cs.npcRoster && (!Array.isArray(cs.npcRoster.promotedNpcIds) || cs.npcRoster.promotedNpcIds.some(id => !expectedIds.includes(id)) || !Array.isArray(cs.npcRoster.promotionHistory) || cs.npcRoster.promotionHistory.some(item => !savedRecord(item)))) return fail('promotion-roster');
+      const assigned = new Set();
+      for (const [id, outpost] of Object.entries(cs.outposts || {})) {
+        if (!savedRecord(outpost) || !Array.isArray(outpost.guardNpcIds) || !Number.isInteger(outpost.guardSlots) || outpost.guardSlots < 0 || outpost.guardNpcIds.length > outpost.guardSlots || !['secured','strained','vacant'].includes(outpost.status) || !Number.isInteger(outpost.lastUpkeepDay) || outpost.lastUpkeepDay > payload.day) return fail('outpost-contract');
+        for (const npcId of outpost.guardNpcIds) { const npc = payload.npcs.find(item => item.id === npcId); if (!npc || npc.lifeState === 'dead' || assigned.has(npcId) || npc.garrisonedOutpostId !== id) return fail('outpost-roster'); assigned.add(npcId); }
+      }
+      if (payload.npcs.some(npc => npc.garrisonedOutpostId && !(cs.outposts?.[npc.garrisonedOutpostId]?.guardNpcIds || []).includes(npc.id))) return fail('outpost-reverse');
+      for (const key of ['campaign','campStanding','specialItems','relayProject','hordeForecast','collection','weapon','visitedRegions','areaFlags','roleVacancies','settings','staminaRules','motion']) if (payload[key] !== undefined && !savedRecord(payload[key])) return fail(`domain:${key}`);
+      const standing = payload.campStanding, relay = payload.relayProject, forecast = payload.hordeForecast;
+      if (!savedNumbers(standing,['prestige','merit','fear','legitimacy','contribution'],-100,100) || !savedNumbers(standing.domains,['rescue','defense','supply','recon'],-100,100)) return fail('camp-standing-contract');
+      if (!savedRecord(relay) || ['id','buildingId','routeId'].some(key => typeof relay[key] !== 'string' || !relay[key]) || !['unknown','core-recovered','briefed','staging','building','online'].includes(relay.status) || !Object.prototype.hasOwnProperty.call(relay,'coreItemId') || relay.coreItemId !== null && (typeof relay.coreItemId !== 'string' || !relay.coreItemId) || !Object.prototype.hasOwnProperty.call(relay,'handoffAt') || relay.handoffAt !== null && (!Number.isFinite(relay.handoffAt) || relay.handoffAt < 0 || relay.handoffAt > savedMinute(payload)) || !savedNumbers(relay.materialNeed,['wood','parts','stone']) || !savedNumbers(relay.materialProgress,['wood','parts','stone']) || !savedNumbers(relay,['materialClock','workMinutes','sharedSightBonus','sharedRangeBonus','forecastLeadMinutes']) || !savedNumbers(relay,['targetMinutes'],30) || !savedStringIds(relay.assignedNpcIds) || relay.assignedNpcIds.some(id => !expectedIds.includes(id))) return fail('relay-project-contract');
+      if (!savedNumbers(forecast,['confidence'],0,100) || !savedNumbers(forecast,['leadMinutes','updatedAt']) || forecast.updatedAt > savedMinute(payload) || typeof forecast.routeId !== 'string' || !forecast.routeId || typeof forecast.source !== 'string' || !forecast.source || !savedNumbers(payload.specialItems,['relayCore'],0,1) || !savedNumbers(payload.collection,['tape','blueprint','relic'])) return fail('forecast-or-collection-contract');
+      for (const key of ['quests','npcEvents']) if (payload[key] !== undefined && (!Array.isArray(payload[key]) || payload[key].some(item => !savedRecord(item)))) return fail(`domain:${key}`);
+      if (payload.quests?.some(item => typeof item.id !== 'string' || !Array.isArray(item.completedSteps)) || payload.version === SAVE_VERSION && !Array.isArray(payload.quests)) return fail('quest-contract');
+      if (!savedRecord(payload.weapon) || !weaponInfo[payload.weapon.id] || payload.event != null && !savedRecord(payload.event) || payload.eventInstance != null && !savedRecord(payload.eventInstance)) return fail('event-or-weapon');
+      return { ok: true };
+    }
+    function validateStoredProgress(input) {
+      try {
+        const parsed = JSON.parse(input.raw);
+        if (!savedRecord(parsed)) return { ok: false, reason: 'save-object', ...input };
+        const enveloped = ['payload', 'checksum', 'savedAt'].some(key => Object.prototype.hasOwnProperty.call(parsed, key));
+        let payload;
+        if (enveloped) {
+          if (!savedRecord(parsed.payload) || typeof parsed.checksum !== 'string' || parsed.version !== parsed.payload.version || !Number.isFinite(parsed.savedAt) || checksum(parsed.payload) !== parsed.checksum || parsed.savedAt !== savedMinute(parsed.payload)) return { ok: false, reason: 'save-envelope', ...input };
+          for (const key of Object.keys(parsed.payload)) if (Object.prototype.hasOwnProperty.call(parsed, key) && JSON.stringify(parsed[key]) !== JSON.stringify(parsed.payload[key])) return { ok: false, reason: `mirror-conflict:${key}`, ...input };
+          payload = parsed.payload;
+        } else {
+          if (![18,19,20].includes(parsed.version)) return { ok: false, reason: 'legacy-adapter-unavailable', ...input };
+          payload = parsed;
+        }
+        const check = validateProgressPayload(payload);
+        return check.ok ? { ...input, ok: true, payload, envelope: enveloped ? parsed : null, originalChecksum: enveloped ? parsed.checksum : checksum(payload), originalDate: savedDate(payload), enveloped } : { ...input, ...check };
+      } catch (error) { return { ...input, ok: false, reason: 'save-json' }; }
+    }
+    function savedCommandFor(event, payload, type) { const commands = payload.worldMeta.replay.commands.filter(command => event.commandId && command.commandId === event.commandId); return commands.length === 1 && commands[0].type === type ? commands[0] : null; }
+    function savedStartedIdentity(event, payload) {
+      const command = savedCommandFor(event, payload, 'threat.start');
+      if (event.type !== 'threat.started' || !command || command.actorId !== 'player-1' || command.payload !== null && (!savedRecord(command.payload) || Object.keys(command.payload).length !== 0)) return null;
+      if (typeof event.payload.threatId === 'string' && event.payload.threatId) return event.payload.threatId;
+      const tick = event.tick.world, day = Math.floor(tick / 1440) + 1, hour = Math.floor(tick % 1440 / 60), minute = tick % 60;
+      if (!Number.isInteger(tick) || event.payload.day !== day || event.payload.hour !== hour) return null;
+      return `threat-${day}-${hour}-${minute}-${event.seq}`;
+    }
+    function savedReportIdentity(payload) {
+      const battle = payload.nightBattle, events = payload.worldMeta.events;
+      if (!savedRecord(battle) || battle.resolved !== true) return { ok: false, reason: 'report-not-resolved' };
+      let id = typeof battle.instanceId === 'string' && battle.instanceId ? battle.instanceId : null, legacy = false;
+      if (!id) {
+        const hasReference = typeof battle.id === 'string' && battle.id || typeof battle.startedEventId === 'string' && battle.startedEventId || typeof battle.startCommandId === 'string' && battle.startCommandId;
+        if (!hasReference) return { ok: false, reason: 'legacy-identity-missing', legacy: true };
+        const matches = events.filter(event => event.type === 'threat.started' && (!battle.startedEventId || event.eventId === battle.startedEventId) && (!battle.startCommandId || event.commandId === battle.startCommandId)).map(event => ({ event, id: savedStartedIdentity(event, payload) })).filter(item => item.id && (!battle.id || battle.id === item.id) && events.some(resolved => resolved.type === 'threat.resolved' && resolved.payload.threatId === item.id && resolved.seq > item.event.seq));
+        if (matches.length !== 1) return { ok: false, reason: 'legacy-identity-ambiguous', legacy: true };
+        id = matches[0].id; legacy = true;
+      }
+      const resolved = events.filter(event => event.type === 'threat.resolved' && event.payload.threatId === id);
+      if (resolved.length !== 1) return { ok: false, reason: 'resolved-identity-evidence', legacy };
+      const encodedStartSeq = /^threat-\d+-\d+-\d+-(\d+)$/.exec(id)?.[1];
+      const referencedStart = encodedStartSeq ? events.find(event => event.seq === Number(encodedStartSeq)) : null;
+      if (referencedStart && savedStartedIdentity(referencedStart, payload) !== id) return { ok: false, reason: 'started-identity-conflict', legacy };
+      if (Object.entries({ kills: 'kills', breaches: 'breaches', finalDamage: 'damage', routeId: 'routeId' }).some(([key, receiptKey]) => battle[key] !== undefined && resolved[0].payload[receiptKey] !== undefined && battle[key] !== resolved[0].payload[receiptKey])) return { ok: false, reason: 'resolved-result-conflict', legacy };
+      const starts = events.filter(event => event.type === 'threat.started' && savedStartedIdentity(event, payload) === id);
+      if (starts.length > 1 || starts.some(event => event.seq >= resolved[0].seq || event.tick.world > resolved[0].tick.world)) return { ok: false, reason: 'started-identity-conflict', legacy };
+      const tail = events.filter(event => event.seq >= resolved[0].seq);
+      if (tail.length !== payload.worldMeta.eventSeq - resolved[0].seq + 1 || tail.some((event, index) => event.seq !== resolved[0].seq + index)) return { ok: false, reason: 'report-ledger-truncated', legacy };
+      const closes = [];
+      for (const event of events.filter(event => event.type === 'threat.closed')) {
+        const command = savedCommandFor(event, payload, 'threat.close');
+        if (event.payload.threatId !== id && command?.payload?.threatId !== id) continue;
+        const oldEmpty = savedRecord(event.payload) && Object.keys(event.payload).length === 0;
+        if (!command || command.payload?.threatId !== id || (!oldEmpty && event.payload.threatId !== id) || event.seq <= resolved[0].seq) return { ok: false, reason: 'closed-identity-conflict', legacy };
+        closes.push(event);
+      }
+      if (closes.length > 1 && closes.some(event => JSON.stringify(event.payload) !== JSON.stringify(closes[0].payload) || event.tick.world !== closes[0].tick.world)) return { ok: false, reason: 'closed-history-conflict', legacy };
+      if (!closes.length && events.some(event => event.type === 'threat.started' && event.seq > resolved[0].seq)) return { ok: false, reason: 'report-replaced-by-later-encounter', legacy };
+      return { ok: true, instanceId: id, legacy, resolved: resolved[0], closes, diagnostics: closes.length > 1 ? ['duplicate-identical-close'] : [] };
+    }
+    function projectResolvedReport(payload, identity = null, loss = false) {
+      const battle = savedRecord(payload.nightBattle) ? payload.nightBattle : {}, resolved = identity?.resolved;
+      const number = (key, receiptKey = null) => Number.isFinite(battle[key]) ? battle[key] : receiptKey && Number.isFinite(resolved?.payload?.[receiptKey]) ? resolved.payload[receiptKey] : null;
+      return { instanceId: identity?.instanceId || null, loss, resolved: battle.resolved === true, date: savedDate(payload), reportMinute: resolved?.tick?.world ?? savedMinute(payload), routeId: typeof battle.routeId === 'string' ? battle.routeId : resolved?.payload?.routeId || payload.campaign?.finalCrisisRoute || null,
+        kills: number('kills','kills'), breaches: number('breaches','breaches'), damage: number('finalDamage','damage'), walls: number('wallDamage'), npcDeaths: number('npcDeaths'), autoKills: number('autoKills'), morale: Number.isFinite(battle.moraleAfter) ? battle.moraleAfter : null,
+        feed: Array.isArray(battle.feed) ? battle.feed.filter(item => typeof item === 'string').slice(-3) : [], currentFood: payload.food, currentHp: payload.hp, currentMorale: payload.morale, currentSanity: Number.isFinite(payload.sanity) ? payload.sanity : null };
+    }
+    function classifySavedRecovery(payload) {
+      const valid = validateProgressPayload(payload); if (!valid.ok) return { classification: 'RECOVERY_REQUIRED', reason: valid.reason };
+      if (Object.prototype.hasOwnProperty.call(payload, 'gameOver') && payload.gameOver !== null && payload.gameOver !== 'lose') return { classification: 'RECOVERY_REQUIRED', reason: 'unknown-game-over' };
+      const battle = payload.nightBattle;
+      if (battle != null && !savedRecord(battle)) return { classification: 'RECOVERY_REQUIRED', reason: 'battle-shape' };
+      if (payload.gameOver === 'lose' && payload.hp > 0) return { classification: 'RECOVERY_REQUIRED', reason: 'loss-with-positive-hp' };
+      if (payload.hp === 0 && (payload.gameOver === 'lose' || battle?.resolved === true)) return { classification: 'LOSS_REPORT', reason: payload.gameOver === 'lose' ? 'saved-loss' : 'legacy-loss', identity: battle?.resolved === true ? savedReportIdentity(payload) : null, reportView: projectResolvedReport(payload, battle?.resolved === true ? savedReportIdentity(payload) : null, true), migrationReasons: payload.gameOver === 'lose' ? [] : ['legacy-loss'] };
+      if (payload.hp <= 0) return { classification: 'RECOVERY_REQUIRED', reason: 'unconfirmed-zero-hp' };
+      if (battle?.resolved === true) {
+        const identity = savedReportIdentity(payload);
+        if (!identity.ok) {
+          if (['legacy-identity-missing','legacy-identity-ambiguous'].includes(identity.reason) || identity.legacy && identity.reason === 'resolved-identity-evidence') return { classification: 'LEGACY_RESOLVED', reason: identity.reason, identity, migrationReasons: ['unverifiable-historical-report'], notice: '历史报告缺少可验证的实例或完整账本；原库存、伤亡、计划与日期已保留，本次只降级报告展示，未发放关闭收益。' };
+          return { classification: 'RECOVERY_REQUIRED', reason: identity.reason };
+        }
+        if (identity.closes.length) return { classification: 'REPORT_ALREADY_CLOSED', identity, migrationReasons: ['closed-report-transients'], notice: '已确认这轮报告关闭过；仅清除残留展示，保留后续日间事实。' };
+        return { classification: 'REPORT_PENDING', identity, reportView: projectResolvedReport(payload, identity), migrationReasons: [...(identity.legacy ? ['legacy-report-identity'] : []), ...(!payload.night ? ['resolved-night-flag'] : [])] };
+      }
+      if (battle != null || payload.night) return { classification: 'RECOVERY_REQUIRED', reason: 'unresolved-battle-not-resumable' };
+      return { classification: 'DAY', migrationReasons: [] };
+    }
+    function selectProgressSave(rawCandidates, policy = {}) {
+      if (policy.storageError) return { classification: 'RECOVERY_REQUIRED', reason: 'storage-unavailable', selected: null, safeCandidates: [], diagnostics: [policy.storageError] };
+      const candidates = rawCandidates.map(validateStoredProgress);
+      const selected = candidates.find(item => item.sourceCategory === 'primary' && item.ok) || (!candidates.some(item => item.sourceCategory === 'primary') ? candidates.find(item => item.sourceCategory === 'legacy' && item.ok) : null);
+      const safeCandidates = candidates.filter(item => item !== selected && item.ok).map(item => ({ ...item, recovery: classifySavedRecovery(item.payload) })).filter(item => ['DAY','REPORT_PENDING','LOSS_REPORT'].includes(item.recovery.classification));
+      if (!rawCandidates.length) return { classification: 'DAY', selected: null, safeCandidates: [], diagnostics: [], reason: 'new-session' };
+      const recovery = selected ? classifySavedRecovery(selected.payload) : { classification: 'RECOVERY_REQUIRED', reason: 'no-valid-primary' };
+      return { ...recovery, selected, safeCandidates, candidates, diagnostics: candidates.filter(item => !item.ok).map(item => `${item.sourceCategory}:${item.reason}`) };
+    }
+    function prepareSavedRegistry(candidate) {
+      const updates = {}; const event = candidate.event;
+      if (!event) return updates;
+      const defId = event.defId || event.id;
+      if (typeof defId !== 'string' || !defId || ![event.id, defId].some(id => eventPool.some(item => item.id === id) || DYNAMIC_EVENT_IDS.has(id) || /^npc\./.test(id)) && !savedRecord(event.npcEvent)) throw new Error('saved-event-definition');
+      if (event.npcEvent && !candidate.npcs.some(npc => npc.id === event.npcEvent.npcId)) throw new Error('saved-event-actor');
+      if (!EVENT_DEFS[defId]) {
+        const choices = ['a','b'].map(id => normalizeEventChoice({ id, label: event[id] || id, hint: event[`${id}Hint`] || '', commandType: 'event.resolve', effects: [{ type: 'reducer', key: event.npcEvent?.chainId || event.id, eventType: 'npc.event.resolved' }] }, id));
+        updates[defId] = Object.freeze({ id: defId, defId, definitionVersion: EVENT_DEFINITION_VERSION, title: event.title || defId, icon: event.icon || '📣', text: event.text || '', phase: 'DAY', actors: event.npcEvent ? [event.npcEvent.npcId] : ['player-1'], preconditions: [], gate: normalizeEventGate({ phase: 'DAY', nightAllowed: false }), choices, effects: normalizeEventEffects(Object.fromEntries(choices.map(choice => [choice.id, choice.effects]))), observability: {}, timeout: null, nightAllowed: false });
+      }
+      return updates;
+    }
+    function prepareSavedPayload(selected, recovery, original = selected) {
+      const check = validateProgressPayload(selected.payload); if (!check.ok) throw new Error(check.reason);
+      if (recovery.classification === 'RECOVERY_REQUIRED') throw new Error('unsafe-save-install');
+      const candidate = stableClone(INITIAL_PROGRESS_STATE), saved = stableClone(selected.payload), sourceVersion = saved.version;
+      const savedContent = contentForSavedVersion(saved);
+      const newDomains = sourceVersion < SAVE_VERSION ? ['attributes','hero','garrisonedOutpostId'].filter(key => saved.npcs.some(npc => !Object.prototype.hasOwnProperty.call(npc,key))).map(key => `npc.${key}`) : [];
+      if (sourceVersion === 18) newDomains.push('contentState');
+      Object.assign(candidate, saved);
+      candidate.version = SAVE_VERSION;
+      const initialClockCorrection = source18InitialClockSentinel(saved) ? { before: 0, after: savedMinute(saved), calendarUnchanged: true, writer: 'SAVE18-initial-sentinel' } : null;
+      if (initialClockCorrection) candidate.world.totalMinutes = initialClockCorrection.after;
+      candidate.gameOver = recovery.classification === 'LOSS_REPORT' ? 'lose' : null;
+      candidate.npcs = saved.npcs.map(npc => {
+        const input = stableClone(npc);
+        // These three authored starting heroes are identity defaults, not a
+        // completed player promotion: no promotion event, bonus or reward runs.
+        if (sourceVersion < SAVE_VERSION && !Object.prototype.hasOwnProperty.call(input,'hero')) input.hero = stableClone(createNpcState(input.id).hero);
+        return normalizeNpc(input, input);
+      });
+      const contentDefaults = INITIAL_PROGRESS_STATE.contentState;
+      candidate.contentState = migrateContentState({ ...stableClone(contentDefaults), ...savedContent, meters: { ...contentDefaults.meters, ...savedContent.meters }, planMeeting: { ...stableClone(contentDefaults.planMeeting), ...(savedContent.planMeeting || {}) } });
+      candidate.worldMeta = { ...saved.worldMeta, activeCommandId: null, feedback: [], projections: { ...(saved.worldMeta.projections || {}), threatZombies: [] }, clock: { ...saved.worldMeta.clock } };
+      candidate.settings = { ...(saved.settings || {}), continuousWorld: P0_FEATURES.continuousWorld };
+      candidate.motion = { ...INITIAL_PROGRESS_STATE.motion, ...(saved.motion || {}), accumulator: 0, input: { x: 0, y: 0 } };
+      candidate.player = { ...saved.player }; Object.defineProperty(candidate.player, 'id', { value: 'player-1', writable: true, configurable: true, enumerable: false });
+      candidate.playerVisual = { x: candidate.player.x, y: candidate.player.y };
+      candidate.zombies = []; candidate.combatTargetId = null; candidate.hoverTarget = null; candidate.interactionFocus = null; candidate.interactionRepeatTimer = null; candidate.moveTweenFrame = null; candidate.selectedNpc = null; candidate.selectedBuilding = null; candidate.selected = null; candidate.buildMode = false; candidate.selectedBuild = null; candidate.inventoryOpen = false; candidate.effects = []; candidate.noiseEvents = [];
+      if (['REPORT_PENDING','LOSS_REPORT'].includes(recovery.classification)) { candidate.night = true; if (recovery.identity?.ok) candidate.nightBattle.instanceId = recovery.identity.instanceId; }
+      else { candidate.night = false; candidate.nightBattle = null; }
+      const updates = prepareSavedRegistry(candidate);
+      const reasons = [...(recovery.migrationReasons || []), ...(sourceVersion < SAVE_VERSION ? ['save-schema-adapter'] : []), ...(selected.sourceCategory !== 'primary' ? ['selected-safe-checkpoint'] : []), ...(initialClockCorrection ? ['save18-initial-clock-sentinel'] : [])];
+      const migration = reasons.length ? { migration: REPORT_RECOVERY_MIGRATION, migrationVersion: 1, reason: [...new Set(reasons)].join(','), sourceCategory: selected.sourceCategory, originalChecksum: original?.ok ? original.originalChecksum : null, originalDate: original?.ok ? original.originalDate : null, selectedChecksum: selected.originalChecksum, selectedDate: selected.originalDate, rollback: selected !== original, instanceId: recovery.identity?.ok ? recovery.identity.instanceId : null, fromSaveVersion: sourceVersion, fromContentVersion: saved.contentState?.contentVersion || 0, adapter: sourceVersion === 18 && !Object.prototype.hasOwnProperty.call(saved,'contentState') ? 'save18-pre-content-to-save21' : sourceVersion < SAVE_VERSION ? `save${sourceVersion}-content-to-save21` : null, addedDomains: newDomains, ...(initialClockCorrection ? { worldClockCorrection: initialClockCorrection } : {}) } : null;
+      return { state: candidate, registryUpdates: updates, recovery, migration, selected };
+    }
+    function installSavedPayload(draft) {
+      // All validation, normalization and registry preparation finish before this
+      // synchronous commit. No reducer, RNG, storage or user callback runs here.
+      Object.keys(state).forEach(key => { if (!Object.prototype.hasOwnProperty.call(draft.state, key)) delete state[key]; });
+      Object.assign(state, draft.state); Object.assign(EVENT_DEFS, draft.registryUpdates);
+    }
+    const SessionController = {
+      generation: 0, exiting: false, mode: 'START', restartError: null,
+      acceptsInput() { return gameStarted && !this.exiting && ['DAY','BATTLE'].includes(this.mode); },
+      isDay() { return gameStarted && !this.exiting && this.mode === 'DAY' && !state.night && !state.gameOver; },
+      canSave() { return gameStarted && !this.exiting && !['RECOVERY','SAVING','EXITING'].includes(this.mode); },
+      freeze(mode) {
+        this.mode = mode; stopWorldSimulation(); clearInterval(battleTimer); battleTimer = null; stopHeldMovement(); stopInteractionRepeat(); state.motion.input = { x: 0, y: 0 };
+        if (pointerId !== null) { try { if ($('joystick').hasPointerCapture?.(pointerId)) $('joystick').releasePointerCapture(pointerId); } catch (error) {} pointerId = null; }
+      },
+      restart(options = {}) {
+        if (this.exiting && !this.restartError) return { ok: true, duplicate: true };
+        if (!this.exiting) {
+          this.exiting = true; this.generation += 1; gameStarted = false; this.mode = 'EXITING';
+          clearTimeout(checkpointTimer); checkpointTimer = null; stopWorldSimulation(); clearInterval(battleTimer); battleTimer = null; stopHeldMovement(); stopInteractionRepeat();
+          for (const frame of [worldRenderFrame, continuousPositionFrame, state.moveTweenFrame]) if (frame !== null) cancelAnimationFrame(frame);
+          worldRenderFrame = null; continuousPositionFrame = null; state.moveTweenFrame = null; worldRenderContextPending = false;
+          clearTimeout(resizeTimer); resizeTimer = null; clearTimeout(toast.timer); clearTimeout(pushFx.timer);
+          if (pointerId !== null) { try { if ($('joystick').hasPointerCapture?.(pointerId)) $('joystick').releasePointerCapture(pointerId); } catch (error) {} pointerId = null; }
+          if (activeHudDrag) { try { if (activeHudDrag.handle.hasPointerCapture?.(activeHudDrag.pointerId)) activeHudDrag.handle.releasePointerCapture(activeHudDrag.pointerId); } catch (error) {} activeHudDrag.panel.classList.remove('hud-dragging'); activeHudDrag = null; }
+          state.motion.input = { x: 0, y: 0 }; state.combatTargetId = null; state.interactionFocus = null; state.hoverTarget = null;
+          dispatchCommand({ type: 'session.restart', commandId: options.commandId, payload: { reason: 'public-restart' } }, () => ({ payload: { reason: 'public-restart' } }), { eventType: 'session.restart.accepted', checkpoint: false });
+        }
+        const cleared = clearAllSaves();
+        if (!cleared.ok) { this.restartError = cleared.reason; $('nightOverlay').classList.remove('show', 'summary-mode'); $('startOverlay').classList.remove('hidden'); $('startOverlay').setAttribute('aria-hidden','false'); $('continueSaveBtn').disabled = true; $('restoreBackupBtn').hidden = true; showRecoveryStatus('清除旧存档失败；当前会话已停止。点击“重置存档并新开”可重试清理。'); return cleared; }
+        this.restartError = null; window.location.reload(); return { ok: true };
+      }
+    };
     let checkpointTimer = null;
-    function requestCheckpoint(reason = 'mutation', options = {}) { if (!gameStarted) return; state.worldMeta.lastCheckpointReason = reason; if (options.immediate) { clearTimeout(checkpointTimer); checkpointTimer = null; saveProgress({ force: true, reason }); return; } clearTimeout(checkpointTimer); checkpointTimer = setTimeout(() => { checkpointTimer = null; saveProgress({ force: true, reason }); }, 650); }
+    function requestCheckpoint(reason = 'mutation', options = {}) {
+      if (!SessionController.canSave()) return false;
+      const generation = SessionController.generation;
+      state.worldMeta.lastCheckpointReason = reason;
+      clearTimeout(checkpointTimer); checkpointTimer = null;
+      if (options.immediate) return saveProgress({ force: true, reason });
+      checkpointTimer = setTimeout(() => {
+        checkpointTimer = null;
+        if (generation !== SessionController.generation || !SessionController.canSave()) return;
+        saveProgress({ force: true, reason });
+      }, 650);
+      return true;
+    }
     function saveProgress(options = {}) {
-      if (PLAYTEST_MODE || !gameStarted || !progressSaveAllowed()) return false;
+      if (PLAYTEST_MODE || SessionController.exiting || !gameStarted || (!options.recovery && !SessionController.canSave()) || !progressSaveAllowed()) return false;
       try {
         ensureStableIds();
         const payload = {
-          version: SAVE_VERSION, day: state.day, hour: state.hour, minute: state.minute, energy: state.energy, sanity: state.sanity, sanityClock: state.sanityClock, sanityLastReason: state.sanityLastReason, staminaExhaustedDay: state.staminaExhaustedDay, staminaExhaustedAt: state.staminaExhaustedAt, hp: state.hp, campaign: state.campaign, campStanding: state.campStanding, specialItems: state.specialItems, relayProject: state.relayProject, hordeForecast: state.hordeForecast, contentState: state.contentState,
+          version: SAVE_VERSION, day: state.day, hour: state.hour, minute: state.minute, energy: state.energy, sanity: state.sanity, sanityClock: state.sanityClock, sanityLastReason: state.sanityLastReason, staminaExhaustedDay: state.staminaExhaustedDay, staminaExhaustedAt: state.staminaExhaustedAt, hp: state.hp, gameOver: state.gameOver, campaign: state.campaign, campStanding: state.campStanding, specialItems: state.specialItems, relayProject: state.relayProject, hordeForecast: state.hordeForecast, contentState: state.contentState,
           wood: state.wood, stone: state.stone, food: state.food, seeds: state.seeds, parts: state.parts, medicine: state.medicine, morale: state.morale,
           collection: state.collection, weapon: state.weapon, event: state.event, eventInstance: state.eventInstance, npcEvents: state.npcEvents || [], eventThreat: state.eventThreat, eventShield: state.eventShield,
           mapRevision: MAP.revision, night: !!state.night, nightBattle: state.nightBattle, player: state.player, motion: state.motion, buildings: state.buildings,
@@ -2948,8 +3304,11 @@
           settings: state.settings, staminaRules: state.staminaRules, worldMeta: {...state.worldMeta, events: state.worldMeta.events.slice(-300), feedback: []}, quests: state.quests
         };
         const envelope = { ...payload, version: SAVE_VERSION, checksum: checksum(payload), payload, savedAt: worldMinute(), reason: options.reason || state.worldMeta.lastCheckpointReason };
-        const raw = JSON.stringify(envelope); const previous = localStorage.getItem(SAVE_KEY); if (previous) localStorage.setItem(`${SAVE_KEY}.bak`, previous); localStorage.setItem(SAVE_KEY, raw); return true;
-      } catch (e) { return false; }
+        const raw = JSON.stringify(envelope), previous = localStorage.getItem(SAVE_KEY);
+        if (!options.preserveBackup && previous && validateStoredProgress({ raw: previous, sourceCategory: 'primary' }).ok) localStorage.setItem(`${SAVE_KEY}.bak`, previous);
+        localStorage.setItem(SAVE_KEY, raw);
+        return localStorage.getItem(SAVE_KEY) === raw;
+      } catch (error) { return false; }
     }
     function prepareRelayPlaytest() {
       if (!PLAYTEST_MODE) return;
@@ -2970,79 +3329,30 @@
       savedAtBoot = false;
     }
     function loadProgress() {
+      const rawCandidates = [];
       try {
-        let saved = null;
         for (const key of [SAVE_KEY, `${SAVE_KEY}.bak`, ...LEGACY_SAVE_KEYS]) {
-          const raw = localStorage.getItem(key); if (!raw) continue;
-          try { const parsed = JSON.parse(raw); const candidate = parsed?.payload && parsed.checksum ? (checksum(parsed.payload) === parsed.checksum ? parsed.payload : null) : parsed; if (candidate && typeof candidate === 'object') { saved = candidate; break; } } catch (e) { try { localStorage.setItem(`${key}.corrupt`, raw); } catch (ignore) {} }
+          const raw = localStorage.getItem(key);
+          if (raw) rawCandidates.push({ key, raw, sourceCategory: key === SAVE_KEY ? 'primary' : key === `${SAVE_KEY}.bak` ? 'backup' : 'legacy' });
         }
-        if (!saved) return;
-        if (!saved.contentState || typeof saved.contentState !== 'object' || Number(saved.contentState.contentVersion) < CONTENT_SCHEMA_VERSION) state.__contentMigration = { fromVersion: Number(saved.contentState?.contentVersion) || 0, migration: 'contentState-default-v2-plan-meeting', contentVersion: CONTENT_SCHEMA_VERSION };
-        ['day','hour','minute','energy','sanity','sanityClock','staminaExhaustedDay','staminaExhaustedAt','hp','wood','stone','food','seeds','parts','medicine','morale'].forEach(k => { if (Number.isFinite(saved[k])) state[k] = saved[k]; });
-        state.sanity = clampSanity(state.sanity, 72); state.sanityClock = Math.max(0, Number(state.sanityClock) || 0); state.sanityLastReason = typeof saved.sanityLastReason === 'string' ? saved.sanityLastReason : '旧存档迁移：默认心理稳定度';
-        if (saved.campaign && typeof saved.campaign === 'object') state.campaign = { ...state.campaign, ...saved.campaign, title: '我是大救星', scenarioId: saved.campaign.scenarioId || 'zombie-farm', scenarioTitle: saved.campaign.scenarioTitle || '尸潮农场' };
-        if (saved.campStanding && typeof saved.campStanding === 'object') state.campStanding = { ...state.campStanding, ...saved.campStanding, domains: { ...state.campStanding.domains, ...(saved.campStanding.domains || {}) } };
-        if (saved.specialItems && typeof saved.specialItems === 'object') state.specialItems = { ...state.specialItems, ...saved.specialItems };
-        if (saved.relayProject && typeof saved.relayProject === 'object') state.relayProject = { ...state.relayProject, ...saved.relayProject, materialNeed: { ...state.relayProject.materialNeed, ...(saved.relayProject.materialNeed || {}) }, materialProgress: { ...state.relayProject.materialProgress, ...(saved.relayProject.materialProgress || {}) } };
-        if (saved.hordeForecast && typeof saved.hordeForecast === 'object') state.hordeForecast = { ...state.hordeForecast, ...saved.hordeForecast };
-        if (saved.contentState && typeof saved.contentState === 'object') state.contentState = { ...state.contentState, ...saved.contentState, meters: { ...state.contentState.meters, ...(saved.contentState.meters || {}) }, flags: { ...state.contentState.flags, ...(saved.contentState.flags || {}) }, outposts: { ...state.contentState.outposts, ...(saved.contentState.outposts || {}) } };
-        if (saved.collection) Object.keys(collectionCaps).forEach(k => { state.collection[k] = Math.max(0, Math.min(collectionCaps[k], Number(saved.collection[k]) || 0)); });
-        if (Array.isArray(saved.npcEvents)) state.npcEvents = saved.npcEvents.filter(item => item && typeof item === 'object' && typeof item.id === 'string').slice(-20);
-        const allowedSavedEvent = saved.event && (eventPool.some(e => e.id === saved.event.id) || DYNAMIC_EVENT_IDS.has(saved.event.id) || saved.event.npcEvent);
-        if (allowedSavedEvent) { const restoredDefId = saved.event.defId || (saved.event.npcEvent ? `npc.${saved.event.npcEvent.chainId || saved.event.id}` : saved.event.id); registerDynamicNpcEvent({ ...saved.event, defId: restoredDefId }); state.event = { ...(eventPool.find(e => e.id === saved.event.id) || saved.event), ...saved.event, defId: restoredDefId, handled: !!saved.event.handled, result: saved.event.result || '' }; state.eventInstance = createEventInstance(restoredDefId, { defId: restoredDefId, instanceId: saved.eventInstance?.instanceId || saved.event.instanceId || `event-${state.event.id}-restored`, handled: !!state.event.handled, status: state.event.handled ? 'resolved' : 'active' }); }
-        if (saved.eventInstance && typeof saved.eventInstance === 'object') state.eventInstance = { ...state.eventInstance, ...saved.eventInstance };
-        if (Number.isFinite(saved.eventThreat)) state.eventThreat = Math.max(-2, Math.min(2, saved.eventThreat));
-        if (Number.isFinite(saved.eventShield)) state.eventShield = Math.max(0, saved.eventShield);
-        if (typeof saved.night === 'boolean') state.night = saved.night;
-        if (saved.nightBattle && typeof saved.nightBattle === 'object') { state.nightBattle = saved.nightBattle; if (saved.nightBattle.resolved) state.night = false; }
-        if (saved.weapon && weaponInfo[saved.weapon.id]) state.weapon.id = saved.weapon.id;
-        if (saved.world && typeof saved.world === 'object') state.world = {...state.world, ...saved.world};
-        if (Array.isArray(saved.worldZombies)) state.worldZombies = saved.worldZombies.filter(z => z && typeof z === 'object' && inBounds(z.x, z.y) && z.hp > 0).map(z => ({...z, x: clampContinuous(z.x, MAP.cols), y: clampContinuous(z.y, MAP.rows), goal: z.goal && inBounds(z.goal.x, z.goal.y) ? {x: clampContinuous(z.goal.x, MAP.cols), y: clampContinuous(z.goal.y, MAP.rows)} : {x: clampContinuous(z.x, MAP.cols), y: clampContinuous(z.y, MAP.rows)}, think: Number(z.think) || 0, hitUntil: Number(z.hitUntil) || 0, perception: { clock: 0, targetId: null, targetAt: 0, ...(z.perception || {}) } }));
-        const savedVersion = Number(saved.version) || 0;
-        const legacyMapSave = savedVersion < SAVE_VERSION || saved.mapRevision !== MAP.revision;
-        if (saved.player && Number.isFinite(saved.player.x) && Number.isFinite(saved.player.y)) { state.player = { x: clampContinuous(saved.player.x, MAP.cols), y: clampContinuous(saved.player.y, MAP.rows) }; Object.defineProperty(state.player, 'id', { value: 'player-1', writable: true, configurable: true, enumerable: false }); }
-        if (saved.visitedRegions && typeof saved.visitedRegions === 'object') state.visitedRegions = { core: true, ...Object.fromEntries(Object.keys(REGION_DEFS).filter(k => saved.visitedRegions[k]).map(k => [k, true])) };
-        if (saved.areaFlags && typeof saved.areaFlags === 'object') { const validFlags = Object.keys(saved.areaFlags).filter(key => /^(eastOutpost|riverBank)-day-\d+$/.test(key)); state.areaFlags = Object.fromEntries(validFlags.map(key => [key, !!saved.areaFlags[key]])); }
-        if (saved.roleVacancies && typeof saved.roleVacancies === 'object') state.roleVacancies = Object.fromEntries(Object.keys(saved.roleVacancies).filter(key => NPC_TEMPLATES[key]).map(key => [key, { role: key, openedDay: Number(saved.roleVacancies[key]?.openedDay) || state.day }]));
-        if (typeof saved.tempCoordination === 'boolean') state.tempCoordination = saved.tempCoordination;
-        if (Array.isArray(saved.buildings)) state.buildings = saved.buildings.filter(b => b && typeof b === 'object' && inBounds(b.x, b.y) && (b.type === 'shelter' || buildInfo[b.type]));
-        if (Array.isArray(saved.resources)) state.resources = saved.resources.filter(r => r && typeof r === 'object' && inBounds(r.x, r.y) && r.amount > 0);
-        if (Array.isArray(saved.landmarks)) state.landmarks.forEach(l => { const old = saved.landmarks.find(x => x && typeof x === 'object' && x.x === l.x && x.y === l.y && x.type === l.type) || saved.landmarks.find(x => x && typeof x === 'object' && x.x === l.x && x.y === l.y); if (old) l.found = !!old.found; });
-        const legacyRadioFound = Number(saved.version) < 15 && !saved.specialItems && !saved.relayProject && state.landmarks.some(l => l.type === 'radioTower' && l.found);
-        if (legacyRadioFound && state.relayProject.status === 'unknown') { state.specialItems.relayCore = 1; state.relayProject.status = 'core-recovered'; state.relayProject.coreItemId = 'item-relayCore-001'; state.__relayMigration = { fromVersion: Number(saved.version) || 0, migration: 'radioTower-to-relayCore', itemId: 'relayCore' }; }
-        if (legacyMapSave) appendMissingExpansionContent();
-        state.mapRevision = MAP.revision;
-        if (Array.isArray(saved.npcs)) state.npcs.forEach(n => { const old = saved.npcs.find(x => x && typeof x === 'object' && x.id === n.id); if (old) Object.assign(n, normalizeNpc(n, old)); });
-        state.roleVacancies = state.roleVacancies || {};
-        state.npcs.filter(n => !npcIsActive(n)).forEach(n => { state.roleVacancies[n.id] = state.roleVacancies[n.id] || { role: n.id, openedDay: state.day }; if (n.actingRole) state.roleVacancies[n.actingRole] = state.roleVacancies[n.actingRole] || { role: n.actingRole, openedDay: state.day }; });
-        if (saved.settings && typeof saved.settings === 'object') state.settings = { ...state.settings, continuousWorld: P0_FEATURES.continuousWorld };
-        if (saved.motion && typeof saved.motion === 'object') state.motion = { ...state.motion, enabled: saved.motion.enabled !== false, accumulator: 0, stepIndex: Number(saved.motion.stepIndex) || 0, input: { x: Number(saved.motion.input?.x) || 0, y: Number(saved.motion.input?.y) || 0 } };
-        if (saved.staminaRules && typeof saved.staminaRules === 'object') state.staminaRules = { ...state.staminaRules, ...saved.staminaRules, actionCosts: { ...state.staminaRules.actionCosts, ...(saved.staminaRules.actionCosts || {}) } };
-        if (saved.worldMeta && typeof saved.worldMeta === 'object') state.worldMeta = { ...state.worldMeta, ...saved.worldMeta, clock: { ...state.worldMeta.clock, ...(saved.worldMeta.clock || {}) }, events: Array.isArray(saved.worldMeta.events) ? saved.worldMeta.events.slice(-500) : [], seenCommands: Array.isArray(saved.worldMeta.seenCommands) ? saved.worldMeta.seenCommands.slice(-500) : [], replay: { seed: Number(saved.worldMeta.replay?.seed) || state.worldMeta.seed, commands: Array.isArray(saved.worldMeta.replay?.commands) ? saved.worldMeta.replay.commands.slice(-500) : [] } };
-        if (Array.isArray(saved.quests)) state.quests = saved.quests.map(quest => ({ ...quest, completedSteps: Array.isArray(quest.completedSteps) ? quest.completedSteps : [] }));
-        if (state.__relayMigration) { recordWorldEvent('save.migrated', state.__relayMigration, { actorId: 'system' }); delete state.__relayMigration; }
-        if (state.__contentMigration) { recordWorldEvent('save.migrated', state.__contentMigration, { actorId: 'system' }); delete state.__contentMigration; }
-      } catch (e) { /* ignore malformed or unavailable saves */ }
+      } catch (error) {
+        BootRecovery = { ...selectProgressSave([], { storageError: '无法读取浏览器存档' }), installed: false, migrationRecorded: false, savePending: false };
+        return BootRecovery;
+      }
+      const selected = selectProgressSave(rawCandidates);
+      BootRecovery = { ...selected, draft: null, installed: false, migrationRecorded: false, savePending: false };
+      if (selected.selected && selected.classification !== 'RECOVERY_REQUIRED') {
+        try { BootRecovery.draft = prepareSavedPayload(selected.selected, selected); }
+        catch (error) { BootRecovery.classification = 'RECOVERY_REQUIRED'; BootRecovery.reason = 'candidate-normalization'; BootRecovery.diagnostics.push(error.message); }
+      }
+      return BootRecovery;
     }
-    // Isolated relay playtests must start from the built-in initial state. Reading
-    // the formal save first would leak NPC needs, world clocks, event chains and
-    // consumed resources into the supposedly deterministic test route.
-    if (!PLAYTEST_MODE) loadProgress();
-    // v72 and older saves may still contain exhaustion markers. They are retained
-    // in the snapshot shape for migration safety, but the marker no longer gates
-    // food or morning recovery.
-    state.staminaExhaustedDay = null;
-    state.staminaExhaustedAt = null;
-    prepareRelayPlaytest(); ensureStableIds(); ensureSocialFacts(); ensureRelayFacts(); ensureContentState(); refreshCommandPoints('initial'); ensureQuestInstances();
-    const relayQuest = state.quests.find(quest => quest.defId === 'relay-chain-001');
-    if (relayQuest) {
-      const relayStep = { 'core-recovered': 1, briefed: 2, staging: 3, building: 3, online: 4 }[state.relayProject.status] || 0;
-      if (relayStep > relayQuest.stepIndex) { relayQuest.stepIndex = relayStep; relayQuest.completedSteps = [...new Set([...(relayQuest.completedSteps || []), ...QUEST_DEFS['relay-chain-001'].steps.slice(0, relayStep).map(step => step.id)])]; }
-      if (relayStep >= 4) { relayQuest.status = 'completed'; relayQuest.rewardClaimed = true; }
-    }
+    // Loading prepares a complete independent draft. Authoritative state stays
+    // at the initial template until an explicit public start/restore succeeds.
+    if (PLAYTEST_MODE) {
+      prepareRelayPlaytest(); ensureStableIds(); ensureSocialFacts(); ensureRelayFacts(); ensureContentState(); refreshCommandPoints('initial'); ensureQuestInstances();
+    } else loadProgress();
     savedAtBoot = savedAtBootSnapshot;
-    markRegionVisited(state.player.x, state.player.y, false);
-    state.playerVisual = { x: state.player.x, y: state.player.y };
 
     function tileKey(x, y) { return `${cellAt(x)},${cellAt(y)}`; }
     function buildingFootprint(b) { const info = buildInfo[b?.type] || {}; return { w: Number(b?.w || info.footprint?.[0] || 1), h: Number(b?.h || info.footprint?.[1] || 1) }; }
@@ -3746,15 +4056,17 @@
     }
     function toast(text) {
       const el = $('toast'); el.textContent = text; el.classList.add('show');
-      clearTimeout(toast.timer); toast.timer = setTimeout(() => el.classList.remove('show'), 1800);
+      clearTimeout(toast.timer); const generation = SessionController.generation; toast.timer = setTimeout(() => { if (generation === SessionController.generation && !SessionController.exiting) el.classList.remove('show'); }, 1800);
     }
     function pushFx(type, text, x = state.player.x, y = state.player.y, tone = '') {
       const effect = { id: ++state.effectSeq, type, text, x, y, tone, at: Date.now() };
       state.effects = [...(state.effects || []).filter(item => Date.now() - item.at < 1400), effect].slice(-20);
       clearTimeout(pushFx.timer);
+      const generation = SessionController.generation;
       pushFx.timer = setTimeout(() => {
+        if (generation !== SessionController.generation || SessionController.exiting) return;
         state.effects = (state.effects || []).filter(item => Date.now() - item.at < 1100);
-        scheduleWorldRender(); if (state.night && state.nightBattle) renderNightControls();
+        scheduleWorldRender(); if (state.night && state.nightBattle && !state.nightBattle.resolved && SessionController.mode === 'BATTLE') renderNightControls();
       }, 1120);
       return effect;
     }
@@ -3966,18 +4278,19 @@
       integrateContinuousMotion(minutes);
       renderHud();
     }
-    function advance(minutes, options = {}) { if (state.worldMeta.clock.paused) return { ok: true, paused: true }; const amount = Math.max(0, Number(minutes) || 0) * (state.worldMeta.clock.rate || 1); return dispatchCommand({ type: 'world.advance', commandId: options.commandId, payload: { minutes: amount } }, () => { state.worldMeta.clock.scheduleMinutes += amount; if (state.night) state.worldMeta.clock.phaseMinutes += amount; advanceReducer(amount); return { payload: { minutes: amount, day: state.day, hour: state.hour, minute: state.minute } }; }, { eventType: 'time.advanced', checkpoint: false }); }
+    function advance(minutes, options = {}) { if (SessionController.exiting || !SessionController.acceptsInput()) return { ok: false, reason: 'session-frozen' }; if (state.worldMeta.clock.paused) return { ok: true, paused: true }; const amount = Math.max(0, Number(minutes) || 0) * (state.worldMeta.clock.rate || 1); return dispatchCommand({ type: 'world.advance', commandId: options.commandId, payload: { minutes: amount } }, () => { state.worldMeta.clock.scheduleMinutes += amount; if (state.night) state.worldMeta.clock.phaseMinutes += amount; advanceReducer(amount); return { payload: { minutes: amount, day: state.day, hour: state.hour, minute: state.minute } }; }, { eventType: 'time.advanced', checkpoint: false }); }
     let worldRenderFrame = null;
     let worldRenderContextPending = false;
     function scheduleWorldRender(options = {}) {
+      if (SessionController.exiting || ['REPORT','LOSS','RECOVERY','SAVING'].includes(SessionController.mode)) return;
       worldRenderContextPending = worldRenderContextPending || !!options.context;
       if (worldRenderFrame) return;
+      const generation = SessionController.generation;
       worldRenderFrame = requestAnimationFrame(() => {
         worldRenderFrame = null;
-        const withContext = worldRenderContextPending;
-        worldRenderContextPending = false;
-        renderWorld();
-        if (withContext) renderContext();
+        if (generation !== SessionController.generation || SessionController.exiting || ['REPORT','LOSS','RECOVERY','SAVING'].includes(SessionController.mode)) return;
+        const withContext = worldRenderContextPending; worldRenderContextPending = false;
+        renderWorld(); if (withContext) renderContext();
       });
     }
     function stopWorldSimulation() {
@@ -3986,17 +4299,16 @@
     }
     function startWorldSimulation() {
       stopWorldSimulation(); worldLastTickAt = Date.now();
+      if (!SessionController.isDay()) return false;
+      const generation = SessionController.generation;
       worldTimer = setInterval(() => {
-        if (!gameStarted || state.gameOver) return;
-        if (document.hidden) return;
-        const now = Date.now(); const elapsed = Math.max(0, now - worldLastTickAt); worldLastTickAt = now;
+        if (generation !== SessionController.generation || !SessionController.isDay() || document.hidden) return;
+        const now = Date.now(), elapsed = Math.max(0, now - worldLastTickAt); worldLastTickAt = now;
         worldTickCounter += 1; advance(Math.max(1, Math.min(5, Math.floor(elapsed / 1200) || 1)));
-        // Coalesce simulation invalidations into one compositor frame. While the
-        // status terminal is open, the map is background context and only needs a
-        // half-rate redraw; this removes repeated 36×24 DOM rebuilds during planning.
-        if (!infoModalOpen || worldTickCounter % 2 === 0) scheduleWorldRender({context: !infoModalOpen});
+        if (!infoModalOpen || worldTickCounter % 2 === 0) scheduleWorldRender({ context: !infoModalOpen });
         if (worldTickCounter % 10 === 0) requestCheckpoint('world-tick');
       }, 1200);
+      return true;
     }
     function spendEnergy(amount) {
       const cost = Math.max(0, Number(amount) || 0);
@@ -4024,6 +4336,7 @@
       $('inventoryOverlay')?.setAttribute('aria-hidden', 'true');
     }
     function toggleInventory(force = null) {
+      if (SessionController.exiting) return;
       stopInteractionRepeat();
       const next = force === null ? !state.inventoryOpen : !!force;
       if (next) openInfoModal('inventory');
@@ -4103,6 +4416,8 @@
       renderPlanMeeting(); renderHud();
     }
     function renderHud() {
+      const dayActionsAllowed = SessionController.isDay();
+      for (const id of ['gatherBtn','buildBtn','cropBtn','endDayBtn']) { const button = $(id); if (button) button.disabled = !dayActionsAllowed; }
       if (infoModalOpen && infoModalTab === 'plan') renderPlanMeeting();
       $('dayLabel').textContent = `第 ${state.day} 天`;
       const lightLabel = state.hour >= 18 || state.hour < 6 ? '夜' : state.hour < 8 ? '清晨' : state.hour < 17 ? '日间' : '黄昏';
@@ -4253,7 +4568,8 @@
       if (canvas.width !== width || canvas.height !== height) { canvas.width = width; canvas.height = height; }
       const ctx = canvas.getContext('2d'); ctx.setTransform(ratio, 0, 0, ratio, 0, 0); ctx.clearRect(0, 0, rect.width, rect.height);
       const cellW = rect.width / viewport.cols, cellH = rect.height / viewport.rows;
-      const redraw = () => requestAnimationFrame(() => renderActorsCanvas(world, viewport));
+      const generation = SessionController.generation;
+      const redraw = () => { if (!SessionController.exiting) requestAnimationFrame(() => { if (generation === SessionController.generation && !SessionController.exiting) renderActorsCanvas(world, viewport); }); };
       const draw = (actor, glyph, color, label, svg, imageKey, hp = null) => {
         if (!actor || !inBounds(actor.x, actor.y)) return;
         const px = (actor.x + .5 - viewport.x) * cellW, py = (actor.y + .5 - viewport.y) * cellH;
@@ -4325,8 +4641,11 @@
     let continuousPositionFrame = null;
     function scheduleContinuousEntityPositions() {
       if (continuousPositionFrame) return;
+      if (SessionController.exiting || ['REPORT','LOSS','RECOVERY','SAVING'].includes(SessionController.mode)) return;
+      const generation = SessionController.generation;
       continuousPositionFrame = requestAnimationFrame(() => {
         continuousPositionFrame = null;
+        if (generation !== SessionController.generation || SessionController.exiting || ['REPORT','LOSS','RECOVERY','SAVING'].includes(SessionController.mode)) return;
         updateContinuousEntityPositions();
       });
     }
@@ -4347,12 +4666,12 @@
           cell.className = 'tile'; cell.type = 'button'; cell.dataset.x = x; cell.dataset.y = y;
           applyTerrain(cell, x, y);
           cell.innerHTML = '<i class="ground-speck"></i><i class="ground-speck s2"></i>';
-          const battleEnemyAt = state.night && state.nightBattle ? state.nightBattle.enemies.find(enemy => !enemy.dead && !enemy.reached && tileKey(battleEnemyPosition(enemy).x, battleEnemyPosition(enemy).y) === tileKey(x, y)) : null;
+          const battleEnemyAt = state.night && state.nightBattle && !state.nightBattle.resolved ? state.nightBattle.enemies.find(enemy => !enemy.dead && !enemy.reached && tileKey(battleEnemyPosition(enemy).x, battleEnemyPosition(enemy).y) === tileKey(x, y)) : null;
           const visible = isRegionVisible(x, y) || !!battleEnemyAt;
           if (!visible) { cell.classList.add('fogged'); cell.innerHTML += '<span class="map-decor">🌫️</span>'; world.appendChild(cell); continue; }
           const decor = deterministicDecor(x, y);
           if (decor) cell.innerHTML += `<span class="map-decor">${decor}</span>`;
-          const building = getBuilding(x,y), resource = getResource(x,y), zombie = getZombie(x,y), battleEnemy = state.nightBattle?.enemies.find(enemy => !enemy.dead && !enemy.reached && tileKey(battleEnemyPosition(enemy).x, battleEnemyPosition(enemy).y) === tileKey(x,y)), npc = getNpc(x,y), landmark = getLandmark(x,y) || getKnownOutpost(x,y), area = getCampArea(x,y);
+          const building = getBuilding(x,y), resource = getResource(x,y), zombie = getZombie(x,y), battleEnemy = state.nightBattle && !state.nightBattle.resolved ? state.nightBattle.enemies.find(enemy => !enemy.dead && !enemy.reached && tileKey(battleEnemyPosition(enemy).x, battleEnemyPosition(enemy).y) === tileKey(x,y)) : null, npc = getNpc(x,y), landmark = getLandmark(x,y) || getKnownOutpost(x,y), area = getCampArea(x,y);
           const focused = state.interactionFocus && state.interactionFocus.x === x && state.interactionFocus.y === y;
           const lockedCombat = zombie && state.combatTargetId && zombie.id === state.combatTargetId;
           if (focused || lockedCombat) cell.classList.add('target-lock');
@@ -4471,6 +4790,7 @@
       button.dataset.eventInstanceId = source === 'daily' ? state.eventInstance?.instanceId || state.event?.id || '' : '';
     }
     function handleEventChoice(choiceKey, displayed = null) {
+      if (SessionController.exiting) return;
       if (eventPanelSelection === 'receipt') return;
       const chain = activeContentChainView();
       if (chain) {
@@ -4797,11 +5117,16 @@
       }).join('');
       document.querySelectorAll('[data-npc]').forEach(card => card.addEventListener('click', () => interactNpc(card.dataset.npc)));
     }
-    function render() { renderHud(); renderWorld(); if (infoModalOpen && infoModalTab === 'survivors') renderSurvivors(); if (infoModalOpen && infoModalTab === 'mental') renderMentalTerminal(); renderContext(); if (infoModalOpen && infoModalTab === 'log') renderLogs(); }
+    function render() {
+      if (SessionController.exiting) return;
+      if (state.nightBattle?.resolved || SessionController.mode === 'LOSS') { renderResolvedReport(projectResolvedReport(state, state.nightBattle?.resolved ? savedReportIdentity(state) : null, state.gameOver === 'lose')); return; }
+      renderHud(); renderWorld(); if (infoModalOpen && infoModalTab === 'survivors') renderSurvivors(); if (infoModalOpen && infoModalTab === 'mental') renderMentalTerminal(); renderContext(); if (infoModalOpen && infoModalTab === 'log') renderLogs();
+    }
 
     const NIGHT_ACTION_MESSAGE = '尸潮进行中：当前只能移动和攻击';
     function isNightRestrictedAction(options = {}) { return !!state.night && options.allowNight !== true; }
     function guardNightAction(options = {}) {
+      if (SessionController.exiting || !gameStarted || ['RECOVERY','SAVING','EXITING'].includes(SessionController.mode)) return false;
       if (!isNightRestrictedAction(options)) return true;
       hideContext();
       toast(NIGHT_ACTION_MESSAGE);
@@ -4814,6 +5139,7 @@
         eventType,
         validate: () => {
           if (state.gameOver) return { ok: false, reason: 'game-over' };
+          if (SessionController.exiting || !gameStarted || ['RECOVERY','SAVING','EXITING'].includes(SessionController.mode)) return { ok: false, reason: 'session-frozen' };
           if (isNightRestrictedAction(options)) return { ok: false, reason: 'night-lock' };
           return { ok: true };
         }
@@ -5088,6 +5414,7 @@
       toast('今日异动已处理'); render();
     }
     function toggleEvolution() {
+      if (SessionController.exiting) return;
       if (!guardNightAction()) return;
       if (state.selectedBuilding && contextDistance(state.selectedBuilding) > 1) { toast('靠近建筑后才能查看进化路线'); return; }
       $('evolveDrawer').classList.toggle('open');
@@ -5328,15 +5655,17 @@
       state.interactionRepeatTimer = null;
     }
     function startInteractionRepeat() {
-      if (state.interactionRepeatTimer || state.gameOver) return;
+      if (state.interactionRepeatTimer || state.gameOver || !SessionController.acceptsInput()) return;
       if (!repeatableInteractionTarget()) return;
+      const generation = SessionController.generation;
       state.interactionRepeatTimer = setInterval(() => {
-        if (state.inventoryOpen || state.buildMode || !repeatableInteractionTarget()) { stopInteractionRepeat(); return; }
+        if (generation !== SessionController.generation || !SessionController.acceptsInput() || state.inventoryOpen || state.buildMode || !repeatableInteractionTarget()) { stopInteractionRepeat(); return; }
         interact();
       }, 420);
     }
 
     function handleCellClick(x, y) {
+      if (!SessionController.acceptsInput()) return { ok: false, reason: 'session-frozen' };
       if (state.gameOver) return;
       if (state.night) {
         const threat = getZombieNear(x, y);
@@ -5365,6 +5694,7 @@
       renderContext();
     }
     function move(dx,dy,options = {}) {
+      if (!SessionController.acceptsInput()) return { ok: false, reason: 'session-frozen' };
       return dispatchCommand({ type: 'movement.input', commandId: options.commandId, payload: { dx, dy } }, () => {
         const visualFrom = { ...(state.playerVisual || state.player) };
         const viewportBefore = getRenderViewport();
@@ -5566,6 +5896,7 @@
     }
     function placeBuilding(x,y, options = {}) { return actionCommand('building.construct','building.constructed',{x,y,buildingType:state.selectedBuild},()=>placeBuildingReducer(x,y),options); }
     function toggleBuild() {
+      if (SessionController.exiting) return;
       stopInteractionRepeat();
       if (!guardNightAction()) return;
       if (state.gameOver) { toast('当前无法建造'); return; }
@@ -5575,6 +5906,7 @@
       render();
     }
     function selectBuild(type) {
+      if (SessionController.exiting) return;
       if (!guardNightAction()) return;
       state.selectedBuild = type; state.buildMode = true;
       document.querySelectorAll('.build-card').forEach(c => c.classList.toggle('selected', c.dataset.build === type));
@@ -5644,7 +5976,7 @@
 
     function nightNearbyEnemies() {
       const b = state.nightBattle;
-      if (!b) return [];
+      if (!b || b.resolved || !Array.isArray(b.enemies)) return [];
       return b.enemies.filter(enemy => !enemy.dead && !enemy.reached).map(enemy => ({ enemy, position: battleEnemyPosition(enemy) })).filter(item => distanceBetween(item.position, state.player) <= 1.25);
     }
     function nightEnemyAt(x, y) {
@@ -5675,6 +6007,7 @@
       $('nightLiveAttackBtn').textContent = nearby.length ? `🪓 攻击附近目标（${nearby.length}） · F` : '🚶 先靠近尸群';
     }
     function moveNight(dx, dy, options = {}) {
+      if (!SessionController.acceptsInput()) return { ok: false, reason: 'session-frozen' };
       const b = state.nightBattle;
       if (!state.night || !b || b.resolved) return;
       return dispatchCommand({ type: 'movement.input.night', commandId: options.commandId, payload: { dx, dy } }, () => {
@@ -5944,11 +6277,14 @@
       }).join('');
     }
     function startBattleLoop() {
-      clearInterval(battleTimer);
-      battleTimer = setInterval(battleTick, 620);
+      clearInterval(battleTimer); battleTimer = null;
+      if (!SessionController.acceptsInput() || SessionController.mode !== 'BATTLE' || !state.nightBattle || state.nightBattle.resolved) return false;
+      const generation = SessionController.generation;
+      battleTimer = setInterval(() => { if (generation === SessionController.generation && SessionController.acceptsInput() && SessionController.mode === 'BATTLE') battleTick(); }, 620);
+      return true;
     }
     function battleTick() {
-      if (document.hidden) return;
+      if (document.hidden || !SessionController.acceptsInput() || SessionController.mode !== 'BATTLE') return;
       const b = state.nightBattle;
       if (!b || b.resolved) return;
       b.tick += 1;
@@ -6033,6 +6369,7 @@
       // relay progress from advancing in parallel with the same encounter.
       stopWorldSimulation();
       toggleInventory(false);
+      SessionController.mode = 'BATTLE';
       state.night = true; state.buildMode = false; $('buildDrawer').classList.remove('open'); $('evolveDrawer').classList.remove('open'); $('eventPanel').classList.remove('open'); $('collectionPanel').classList.remove('open'); $('survivorPanel')?.classList.remove('open'); toggleWeaponPanel(false);
       document.body.classList.add('threat-map-active'); $('nightOverlay').classList.remove('show', 'summary-mode'); $('continueBtn').disabled = true; $('continueBtn').style.opacity = '.6'; $('nightAttackBtn').disabled = false; $('nightAttackBtn').style.opacity = '1';
       const activeSupports = state.npcs.filter(n => n.supportRequested && npcIsActive(n));
@@ -6142,26 +6479,17 @@
       impactLines.push(`当前食物势力状态：${foodAfter.level}，约可维持 ${Math.floor(state.food / foodAfter.dailyNeed)} 天。`);
       impactLines.push(`本轮心智：你 ${sanitySummary('player')} · 队伍平均 ${averageNpcSanity()} · 最低 ${lowestNpcSanity()}`);
       if (playerKills || b.autoKills) impactLines.push(`共击杀 ${b.kills} 只：自动防线 ${b.autoKills} 只，你补刀 ${playerKills} 只。`);
-      $('summarySubtitle').textContent = `第 ${state.day} 天 · 尸潮已结束`;
-      $('summaryKills').textContent = b.kills;
-      $('summaryBreaches').textContent = b.breaches;
-      $('summaryDamage').textContent = totalDamage ? `-${totalDamage}` : '0';
-      $('summaryWalls').textContent = b.wallDamage || 0;
-      $('summaryNpcDeaths').textContent = b.npcDeaths || 0;
-      $('summaryMorale').textContent = state.morale;
-      $('summaryFeed').textContent = [...impactLines, ...b.feed.slice(-3)].join(' · ');
-      $('waveBar').style.width = '100%'; $('waveProgressText').textContent = '100%'; $('waveZombies').textContent = '0'; $('waveDamage').textContent = totalDamage ? `-${totalDamage}` : '0'; $('battleStage').textContent = '尸潮结算'; $('battleDetail').textContent = b.breaches ? `自动塔清除 ${b.autoKills} 只，玩家补刀 ${playerKills} 只，${b.breaches} 只撞上营地` : `自动塔和玩家补刀清除了全部 ${b.count} 只`; $('threatMarker').style.left = '100%'; $('continueBtn').disabled = false; $('continueBtn').style.opacity = '1'; $('nightAttackBtn').disabled = true; $('nightAttackBtn').style.opacity = '.45';
+      b.moraleAfter = state.morale;
       const crisisRoute = b.routeId || 'eastern-breach';
       state.campaign = state.campaign || {};
       state.campaign.finalCrisisRoute = crisisRoute;
-      if (state.hp <= 0) { state.gameOver = 'lose'; $('nightTitle').textContent = '营地失守'; $('nightCopy').textContent = '火种熄灭了。下一局先观察自动防线的伤害数字，再决定白天建墙还是升级炮塔。'; $('nightIcon').textContent = '💀'; $('continueBtn').textContent = '重新开始'; }
-      else if (state.day >= 5) { state.gameOver = null; $('nightTitle').textContent = crisisRoute === 'relay-guided-west' ? '中继引导改变了危机路线' : '无线电重新亮起'; $('nightCopy').textContent = crisisRoute === 'relay-guided-west' ? '广播中继站提前捕捉到西侧尸群，最终危机被引向可控路线。营地仍在运转，下一步由你的选择决定。' : '第五天的里程碑已经完成，远处传来了回应。世界仍在运转，新的聚落和威胁会继续出现。'; $('nightIcon').textContent = crisisRoute === 'relay-guided-west' ? '📡' : '📻'; $('continueBtn').textContent = '关闭报告，继续世界'; }
-      else { $('nightTitle').textContent = totalDamage ? '防线被咬开了！' : '平安守住这一轮'; $('nightCopy').textContent = totalDamage ? `本轮自动防守造成 ${totalDamage} 点损失。之后可修墙、升塔，再为下一波做准备。` : '炮塔、墙体和你的补刀把最危险的一波挡在了外面。'; $('nightIcon').textContent = totalDamage ? '🩸' : '🌅'; $('continueBtn').textContent = '关闭报告，继续世界'; }
+      state.gameOver = state.hp <= 0 ? 'lose' : null;
       state.eventShield = 0; state.eventThreat = 0;
       document.body.classList.remove('threat-map-active'); $('nightOverlay').classList.add('show', 'summary-mode');
-      renderWorld(); renderNightControls(); render();
+      SessionController.freeze(state.gameOver === 'lose' ? 'LOSS' : 'REPORT');
       recordWorldEvent('threat.resolved', { threatId: b.instanceId || null, kills: b.kills, breaches: b.breaches, damage: totalDamage, routeId: crisisRoute, finalCrisisRoute: state.campaign.finalCrisisRoute });
       preparePlanMeetingAtSummary();
+      renderResolvedReport(projectResolvedReport(state, savedReportIdentity(state), state.gameOver === 'lose'));
       requestCheckpoint('threat-resolved');
     }
     function npcFulfillsRole(npc, roleId) { return npcIsActive(npc) && !npc.garrisonedOutpostId && (npc.actingRole || npc.id) === roleId; }
@@ -6193,6 +6521,7 @@
 
 
     function nightAttack() {
+      if (!SessionController.acceptsInput()) return { ok: false, reason: 'session-frozen' };
       const b = state.nightBattle;
       if (!b || b.resolved) return;
       const weapon = weaponInfo[state.weapon.id] || weaponInfo.rustAxe;
@@ -6213,9 +6542,8 @@
       b.feed.push(`你用${weapon.name}补刀 ${targets.length} 只${b.coverCount ? ' · NPC掩护生效' : ''}`);
       syncBattleZombies(); renderWorld(); renderNightControls(); renderBattleLane(); if (!document.body.classList.contains('threat-map-active')) renderNightWorld(); renderHud(); recordWorldEvent('threat.playerAttack', { threatId: b.instanceId || null, targets: targets.map(t => t.id), weapon: state.weapon.id }); requestCheckpoint('threat-player-attack');
     }
-    function startThreatEncounter(options = {}) { if (!guardNightAction(options)) return nightActionResult(); return dispatchCommand({ type: 'threat.start', commandId: options.commandId }, () => { const result = startThreatEncounterReducer(); return { result, payload: { day: state.day, hour: state.hour, enemyCount: state.nightBattle?.enemies?.length || 0 } }; }, { eventType: 'threat.started' }); }
+    function startThreatEncounter(options = {}) { if (!SessionController.acceptsInput()) return { ok: false, reason: 'session-frozen' }; if (!guardNightAction(options)) return nightActionResult(); return dispatchCommand({ type: 'threat.start', commandId: options.commandId }, () => { const result = startThreatEncounterReducer(); return { result, payload: { day: state.day, hour: state.hour, enemyCount: state.nightBattle?.enemies?.length || 0 } }; }, { eventType: 'threat.started' }); }
     function continueMorningReducer() {
-      if (state.gameOver) { clearAllSaves(); window.location.reload(); return; }
       clearInterval(battleTimer); battleTimer = null;
       document.body.classList.remove('threat-map-active'); $('nightOverlay').classList.remove('show', 'summary-mode');
       // 遭遇报告只是一次可选的实时威胁事件；关闭报告不会把世界时钟拨回清晨。
@@ -6276,6 +6604,7 @@
         }
         log(`第 ${state.day} 天，${ready ? `${ready} 块种植地可以收获。` : gardens ? '种植地又长高了一格。' : '风很冷，但火还在。'}${jobs.length ? ` ${jobs.join('，')}。` : ''}`);
       }
+      SessionController.mode = 'DAY'; BootRecovery.classification = 'DAY';
       startWorldSimulation();
       toast(`继续世界 · 第 ${state.day} 天 ${formatTime()}`); render();
     }
@@ -6283,16 +6612,20 @@
     function continueMorning(options = {}) {
       const threatId = state.nightBattle?.instanceId || null;
       return actionCommand('threat.close', 'threat.closed', { threatId }, () => {
-        if (!state.nightBattle?.resolved || !threatId) return { ok: false, reason: 'report-not-ready' };
+        if (!state.nightBattle?.resolved || !threatId || SessionController.exiting || SessionController.mode !== 'REPORT' || !savedReportIdentity(state).ok || savedReportIdentity(state).closes.length) return { ok: false, reason: 'report-not-ready' };
         continueMorningReducer();
         return { payload: { threatId, day: state.day, hour: state.hour, minute: state.minute } };
       }, { ...options, allowNight: true });
     }
 
     function clearAllSaves() {
-      stopWorldSimulation();
-      try { [SAVE_KEY, `${SAVE_KEY}.bak`, `${SAVE_KEY}.corrupt`, ...LEGACY_SAVE_KEYS].forEach(key => localStorage.removeItem(key)); } catch (e) { /* storage may be unavailable */ }
-      try { sessionStorage.removeItem(HUD_LAYOUT_KEY); } catch (e) { /* ignore */ }
+      const keys = [SAVE_KEY, ...LEGACY_SAVE_KEYS].flatMap(key => [key, `${key}.bak`, `${key}.corrupt`]);
+      try {
+        keys.forEach(key => localStorage.removeItem(key));
+        if (keys.some(key => localStorage.getItem(key) !== null)) return { ok: false, reason: 'save-clear-incomplete' };
+        sessionStorage.removeItem(HUD_LAYOUT_KEY);
+        return { ok: true };
+      } catch (error) { return { ok: false, reason: 'save-clear-failed' }; }
     }
     function readSettings() {
       try { return {...JSON.parse(sessionStorage.getItem(SETTINGS_KEY) || '{}')}; } catch (e) { return {}; }
@@ -6312,43 +6645,93 @@
       $('startOverlay')?.setAttribute('aria-hidden', 'true');
     }
     function startFromSave() {
+      if (SessionController.exiting) return { ok: false, reason: 'session-exiting' };
+      if (gameStarted && !BootRecovery.savePending) return { ok: true, duplicate: true };
+      if (BootRecovery.classification === 'RECOVERY_REQUIRED' && !BootRecovery.savePending) { showRecoveryScreen(); return { ok: false, reason: BootRecovery.reason }; }
+      if (!BootRecovery.installed) {
+        if (BootRecovery.draft) installSavedPayload(BootRecovery.draft);
+        else if (!PLAYTEST_MODE) { const fresh = stableClone(INITIAL_PROGRESS_STATE); Object.defineProperty(fresh.player,'id',{value:'player-1',writable:true,configurable:true,enumerable:false}); installSavedPayload({ state: fresh, registryUpdates: {} }); }
+        BootRecovery.installed = true;
+      }
       gameStarted = true;
-      hideStartOverlay();
-      render();
-      if (state.night && state.nightBattle) {
-        // A live night encounter has its own battle clock. Keep the daytime
-        // world clock stopped so needs, SAN, frontier pressure and relay work
-        // are not consumed a second time while battleTick is running.
-        stopWorldSimulation();
-        syncBattleZombies();
-        if (state.nightBattle.resolved) {
-          document.body.classList.remove('threat-map-active');
-          $('nightOverlay').classList.add('show', 'summary-mode');
-          renderNightWorld(); renderNightControls(); renderBattleLane();
-        } else {
-          document.body.classList.add('threat-map-active');
-          $('nightOverlay').classList.remove('show', 'summary-mode');
-          renderNightWorld(); renderNightControls(); renderBattleLane();
-          startBattleLoop();
+      if (BootRecovery.draft?.migration) {
+        SessionController.freeze('SAVING');
+        if (!BootRecovery.migrationRecorded) { recordWorldEvent('save.migrated', BootRecovery.draft.migration, { actorId: 'system' }); BootRecovery.migrationRecorded = true; }
+        BootRecovery.savePending = true;
+        if (!saveProgress({ recovery: true, preserveBackup: true, reason: `save-migration:${REPORT_RECOVERY_MIGRATION}` })) {
+          SessionController.mode = 'RECOVERY'; gameStarted = false; showRecoveryScreen('恢复尚未保存；原安全存档仍保留。请重试保存或重新开始。'); return { ok: false, reason: 'migration-save-failed' };
         }
+        BootRecovery.savePending = false;
+      }
+      hideStartOverlay();
+      if (BootRecovery.notice) showRecoveryNotice(BootRecovery.notice);
+      if (['REPORT_PENDING','LOSS_REPORT'].includes(BootRecovery.classification)) {
+        SessionController.freeze(BootRecovery.classification === 'LOSS_REPORT' ? 'LOSS' : 'REPORT');
+        renderResolvedReport(BootRecovery.reportView || projectResolvedReport(state, BootRecovery.identity, state.gameOver === 'lose'));
       } else {
-        startWorldSimulation();
+        SessionController.mode = 'DAY'; render(); startWorldSimulation(); requestCheckpoint('session-start');
       }
       toast(PLAYTEST_MODE ? '隔离试玩开始：不会写入正式存档' : (savedAtBoot ? '已继续存档' : '新游戏开始'));
+      return { ok: true, classification: BootRecovery.classification };
     }
+    function showRecoveryStatus(message) {
+      const status = $('recoveryStatus'); if (status) { status.hidden = false; status.textContent = message; }
+    }
+    function showRecoveryNotice(message) {
+      const notice = $('recoveryNotice'); if (notice) { notice.hidden = false; notice.textContent = message; }
+    }
+    function recoveryReasonLabel(reason) {
+      const labels = { 'storage-unavailable': '浏览器暂时无法读取保存记录', 'unknown-game-over': '这份存档的结局状态无法识别', 'loss-with-positive-hp': '失守记录与营地状态互相矛盾', 'unconfirmed-zero-hp': '营地生命值为零，但没有可靠的战斗结算记录', 'unresolved-battle-not-resumable': '这场战斗尚未结算，当前版本无法可靠恢复进行中的夜战', 'no-valid-primary': '主存档未能通过完整性检查' };
+      return labels[reason] || '这份存档缺少完整记录，或不同记录互相矛盾';
+    }
+    function showRecoveryScreen(message = null) {
+      SessionController.freeze('RECOVERY'); gameStarted = false;
+      $('startOverlay').classList.remove('hidden'); $('startOverlay').setAttribute('aria-hidden', 'false');
+      showRecoveryStatus(message || `${recoveryReasonLabel(BootRecovery.reason)}。世界与战斗已停止；可恢复下列原安全存档，或重新开始。`);
+      const button = $('continueSaveBtn'); button.disabled = !BootRecovery.savePending; button.textContent = BootRecovery.savePending ? '重试保存恢复结果' : '当前存档无法直接继续';
+      const backup = BootRecovery.safeCandidates?.[0], restore = $('restoreBackupBtn');
+      restore.hidden = !backup || BootRecovery.savePending; restore.disabled = !backup || BootRecovery.savePending;
+      if (backup) restore.textContent = `恢复安全存档 · 第 ${backup.payload.day} 天 ${String(backup.payload.hour).padStart(2,'0')}:${String(backup.payload.minute).padStart(2,'0')} · ${backup.sourceCategory === 'backup' ? '备份' : '旧存档'}`;
+    }
+    function restoreSelectedBackup() {
+      if (SessionController.exiting || gameStarted || BootRecovery.savePending) return { ok: false, reason: 'restore-not-available' };
+      const selected = BootRecovery.safeCandidates?.[0]; if (!selected) return { ok: false, reason: 'safe-backup-missing' };
+      try {
+        const recovery = classifySavedRecovery(selected.payload);
+        if (!['DAY','REPORT_PENDING','LOSS_REPORT'].includes(recovery.classification)) return { ok: false, reason: 'unsafe-backup' };
+        const original = BootRecovery.selected || BootRecovery.candidates?.find(item => item.sourceCategory === 'primary') || null;
+        const draft = prepareSavedPayload(selected, recovery, original);
+        BootRecovery = { ...BootRecovery, ...recovery, selected, draft, installed: false, migrationRecorded: false, savePending: false, notice: `已选择原${selected.sourceCategory === 'backup' ? '备份' : '旧存档'}：第 ${selected.payload.day} 天 ${String(selected.payload.hour).padStart(2,'0')}:${String(selected.payload.minute).padStart(2,'0')}；整份恢复并保存，不混用其它档案。` };
+        return startFromSave();
+      } catch (error) { BootRecovery.diagnostics.push(error.message); showRecoveryStatus('这份备份未能通过完整性检查，尚未恢复；原存档仍保留，可重新开始。'); return { ok: false, reason: 'backup-prepare-failed' }; }
+    }
+    function renderResolvedReport(view) {
+      const value = number => Number.isFinite(number) ? String(number) : '未记录';
+      const damage = Number.isFinite(view.damage) ? view.damage ? `-${view.damage}` : '0' : '未记录';
+      document.body.classList.remove('threat-map-active'); $('nightOverlay').classList.add('show', 'summary-mode');
+      $('summarySubtitle').textContent = `第 ${view.date.day} 天 · 已保存的尸潮报告`;
+      for (const [id, field] of Object.entries({ summaryKills: 'kills', summaryBreaches: 'breaches', summaryWalls: 'walls', summaryNpcDeaths: 'npcDeaths', summaryMorale: 'morale' })) $(id).textContent = value(view[field]);
+      $('summaryDamage').textContent = damage;
+      const recorded = `击杀 ${value(view.kills)} · 突破 ${value(view.breaches)} · 本轮损失 ${damage} · 自动击杀 ${value(view.autoKills)}`;
+      $('summaryFeed').textContent = [recorded, `当前保存值：生命 ${view.currentHp}、口粮 ${view.currentFood}、士气 ${view.currentMorale}、SAN ${value(view.currentSanity)}`, ...view.feed].join(' · ');
+      const milestone = !view.loss && view.date.day >= 5, relayGuided = view.routeId === 'relay-guided-west';
+      $('nightTitle').textContent = view.loss ? '营地失守' : milestone ? relayGuided ? '中继引导改变了危机路线' : '无线电重新亮起' : Number.isFinite(view.damage) ? view.damage > 0 ? '防线被咬开了！' : '平安守住这一轮' : '尸潮已结算 · 历史损失未记录';
+      $('nightCopy').textContent = view.loss ? '火种熄灭了。下一局先观察自动防线的伤害数字，再决定白天建墙还是升级炮塔。重新开始会清除本局，回到新局入口。' : `${milestone ? relayGuided ? '广播中继站提前捕捉到西侧尸群，最终危机被引向可控路线。营地仍在运转，下一步由你的选择决定。' : '第五天的里程碑已经完成，远处传来了回应。世界仍在运转，新的聚落和威胁会继续出现。' : ''}这份报告来自原保存结果；阅读不会再次结算，关闭后继续原世界时间。`;
+      $('nightIcon').textContent = view.loss ? '💀' : milestone ? relayGuided ? '📡' : '📻' : '📋';
+      $('continueBtn').disabled = false; $('continueBtn').style.opacity = '1'; $('continueBtn').textContent = view.loss ? '重新开始' : '关闭报告，继续世界';
+      $('restartSessionBtn').hidden = false;
+      for (const id of ['nightAttackBtn','nightLiveAttackBtn','attackBtn','gatherBtn','buildBtn','cropBtn','eatBtn','eatBtnAction','endDayBtn']) { const button = $(id); if (button) button.disabled = true; }
+      $('dayLabel').textContent = `第 ${view.date.day} 天`; $('timeLabel').textContent = `${String(view.date.hour).padStart(2,'0')}:${String(view.date.minute).padStart(2,'0')} · 报告已暂停世界`;
+      $('hpValue').textContent = view.currentHp; $('foodValue').textContent = view.currentFood;
+      $('waveBar').style.width = '100%'; $('waveProgressText').textContent = '100%'; $('waveZombies').textContent = view.resolved ? '0' : '未记录'; $('waveDamage').textContent = damage; $('battleStage').textContent = '尸潮结算'; $('battleDetail').textContent = recorded;
+    }
+    function routeReportAction() { return state.gameOver === 'lose' ? SessionController.restart() : continueMorning(); }
     function refreshStartScreen() {
-      if (PLAYTEST_MODE) {
-        const button = $('continueSaveBtn');
-        const status = $('startSaveStatus');
-        if (button) { button.disabled = false; button.textContent = '开始隔离试玩'; }
-        if (status) status.textContent = '广播中继链测试档：不会读取或写入正式存档';
-        return;
-      }
-      const hasSave = savedAtBoot || hasStoredSave();
-      const button = $('continueSaveBtn');
-      const status = $('startSaveStatus');
-      if (button) { button.disabled = false; button.textContent = hasSave ? '继续存档' : '开始新游戏'; }
-      if (status) status.textContent = hasSave ? `已找到第 ${state.day} 天存档 · ${formatTime()} · 可直接继续测试` : '暂无存档 · 点击“开始新游戏”建立一份新的测试存档';
+      if (PLAYTEST_MODE) { $('continueSaveBtn').disabled = false; $('continueSaveBtn').textContent = '开始隔离试玩'; $('startSaveStatus').textContent = '广播中继链测试档：不会读取或写入正式存档'; return; }
+      const selected = BootRecovery.selected, button = $('continueSaveBtn'), status = $('startSaveStatus');
+      if (BootRecovery.classification === 'RECOVERY_REQUIRED') { status.textContent = '发现存档，但当前状态需要明确恢复'; showRecoveryScreen(); return; }
+      button.disabled = false; button.textContent = selected ? '继续存档' : '开始新游戏';
+      status.textContent = selected ? `已找到第 ${selected.payload.day} 天存档 · ${String(selected.payload.hour).padStart(2,'0')}:${String(selected.payload.minute).padStart(2,'0')} · ${['REPORT_PENDING','LOSS_REPORT'].includes(BootRecovery.classification) ? '继续查看已保存报告' : '可继续'}` : '暂无存档 · 点击“开始新游戏”建立新的游戏存档';
     }
     function toggleStartSettings(force = null) {
       const panel = $('settingsPanel');
@@ -6388,6 +6771,7 @@
       if (infoModalTab === 'inventory') renderInventory();
     }
     function openInfoModal(tab = 'overview') {
+      if (SessionController.exiting) return;
       if (!gameStarted) return;
       mountInfoPanels();
       infoModalOpen = true;
@@ -6400,6 +6784,7 @@
       $('infoModalClose')?.focus();
     }
     function closeInfoModal() {
+      if (SessionController.exiting) return;
       infoModalOpen = false;
       state.inventoryOpen = false;
       $('infoModal')?.classList.remove('open');
@@ -6414,12 +6799,14 @@
     }
     function toggleCollectionPanel() { openInfoModal('resources'); }
     function toggleRelayPanel(force = null) {
+      if (SessionController.exiting) return;
       if (force === false) { if (infoModalOpen && infoModalTab === 'build') closeInfoModal(); return; }
       openInfoModal('build');
     }
     function toggleSurvivorPanel() { openInfoModal('survivors'); }
     function toggleLogPanel() { openInfoModal('log'); }
     function toggleHud(force = null) {
+      if (SessionController.exiting) return;
       if (infoModalOpen) closeInfoModal();
       const app = document.querySelector('.app');
       if (!app) return;
@@ -6459,6 +6846,7 @@
       catch (e) { hudLayout = {}; }
     }
     function saveHudLayout() {
+      if (SessionController.exiting) return;
       try { window.sessionStorage.setItem(HUD_LAYOUT_KEY, JSON.stringify(hudLayout)); }
       catch (e) { /* sessionStorage may be unavailable in private contexts */ }
     }
@@ -6471,6 +6859,7 @@
       button.title = button.getAttribute('aria-label');
     }
     function toggleHudWindow(panel, force = null) {
+      if (SessionController.exiting) return;
       if (!panel) return;
       const collapsed = force === null ? !panel.classList.contains('hud-collapsed') : !!force;
       panel.classList.toggle('hud-collapsed', collapsed);
@@ -6502,7 +6891,7 @@
       }
     }
     function finishHudDrag(event) {
-      if (!activeHudDrag || event.pointerId !== activeHudDrag.pointerId) return;
+      if (SessionController.exiting || !activeHudDrag || event.pointerId !== activeHudDrag.pointerId) return;
       const {panel, handle, moved} = activeHudDrag;
       if (handle.hasPointerCapture?.(event.pointerId)) handle.releasePointerCapture(event.pointerId);
       panel.classList.remove('hud-dragging');
@@ -6514,7 +6903,7 @@
       activeHudDrag = null;
     }
     function beginHudDrag(event, panel, handle) {
-      if (!isDesktopPanorama() || (event.button !== undefined && event.button !== 0)) return;
+      if (SessionController.exiting || !isDesktopPanorama() || (event.button !== undefined && event.button !== 0)) return;
       if (event.target.closest('button, input, select, textarea, a, [data-no-drag]')) return;
       if (activeHudDrag) finishHudDrag({pointerId: activeHudDrag.pointerId});
       const rect = panel.getBoundingClientRect();
@@ -6527,7 +6916,7 @@
       handle.setPointerCapture?.(event.pointerId);
     }
     function moveHudDrag(event) {
-      if (!activeHudDrag || event.pointerId !== activeHudDrag.pointerId) return;
+      if (SessionController.exiting || !activeHudDrag || event.pointerId !== activeHudDrag.pointerId) return;
       const drag = activeHudDrag;
       const dx = event.clientX - drag.startX;
       const dy = event.clientY - drag.startY;
@@ -6578,6 +6967,7 @@
       window.addEventListener('resize', () => HUD_WINDOW_DEFS.forEach(def => clampHudPanel($(def.id))));
     }
     function toggleWeaponPanel(open = null) {
+      if (SessionController.exiting) return;
       const panel = $('weaponPanel');
       if (!panel) return;
       if (state.night && open !== false) { guardNightAction(); return; }
@@ -6590,6 +6980,7 @@
       return { tile, x: Number(tile.dataset.x), y: Number(tile.dataset.y) };
     }
     function updateMapHover(event) {
+      if (!SessionController.acceptsInput()) return { ok: false, reason: 'session-frozen' };
       const hit = mapTileFromEvent(event);
       const world = event.currentTarget;
       world.querySelector('.tile.cursor')?.classList.remove('cursor');
@@ -6598,6 +6989,7 @@
       hit.tile.classList.add('cursor');
     }
     function handleMapClick(event) {
+      if (SessionController.exiting) return;
       const hit = mapTileFromEvent(event);
       if (!hit) return;
       state.hoverTarget = { x: hit.x, y: hit.y };
@@ -6610,6 +7002,7 @@
       handleCellClick(hit.x, hit.y);
     }
     function handleMapContextMenu(event) {
+      if (SessionController.exiting) return;
       event.preventDefault();
       const hit = mapTileFromEvent(event);
       if (!hit) return;
@@ -6685,11 +7078,13 @@
     $('eatBtn').addEventListener('click', eatFood);
     $('eatBtnAction').addEventListener('click', eatFood);
     $('endDayBtn').addEventListener('click', startThreatEncounter);
-    $('continueBtn').addEventListener('click', continueMorning);
+    $('continueBtn').addEventListener('click', routeReportAction);
+    $('restartSessionBtn').addEventListener('click', () => SessionController.restart());
+    $('restoreBackupBtn').addEventListener('click', restoreSelectedBackup);
     $('nightAttackBtn').addEventListener('click', nightAttack);
     $('nightLiveAttackBtn').addEventListener('click', nightAttack);
     $('continueSaveBtn').addEventListener('click', startFromSave);
-    $('resetSaveBtn').addEventListener('click', () => { clearAllSaves(); window.location.reload(); });
+    $('resetSaveBtn').addEventListener('click', () => SessionController.restart());
     $('openSettingsBtn').addEventListener('click', () => toggleStartSettings(true));
     $('closeSettingsBtn').addEventListener('click', () => toggleStartSettings(false));
     $('settingsReduceMotion').addEventListener('change', (event) => { const settings = readSettings(); settings.reduceMotion = event.target.checked; saveSettings(settings); applySettings(); });
@@ -6720,9 +7115,9 @@
       heldMovementFrame = null;
       heldDirections.clear();
     }
-    function runHeldMovement(now) {
+    function runHeldMovement(now, generation = SessionController.generation) {
       const key = currentHeldDirection();
-      if (!gameStarted) { heldMovementFrame = null; heldDirections.clear(); return; }
+      if (generation !== SessionController.generation || !SessionController.acceptsInput()) { heldMovementFrame = null; heldDirections.clear(); return; }
       if (!key || state.inventoryOpen || infoModalOpen || state.gameOver) { heldMovementFrame = null; if (state.inventoryOpen || infoModalOpen || state.gameOver) heldDirections.clear(); return; }
       if (now - lastHeldMoveAt >= heldMoveInterval) {
         const direction = { w:'up', a:'left', s:'down', d:'right', ArrowUp:'up', ArrowLeft:'left', ArrowDown:'down', ArrowRight:'right' }[key];
@@ -6730,17 +7125,21 @@
         state.night ? moveNight(dx, dy) : move(dx, dy);
         lastHeldMoveAt = now;
       }
-      heldMovementFrame = requestAnimationFrame(runHeldMovement);
+      heldMovementFrame = requestAnimationFrame(at => runHeldMovement(at, generation));
     }
     function startHeldMovement() {
-      if (!heldMovementFrame) { lastHeldMoveAt = performance.now(); heldMovementFrame = requestAnimationFrame(runHeldMovement); }
+      if (!SessionController.acceptsInput()) return;
+      const generation = SessionController.generation;
+      if (!heldMovementFrame) { lastHeldMoveAt = performance.now(); heldMovementFrame = requestAnimationFrame(at => runHeldMovement(at, generation)); }
     }
     document.addEventListener('keydown', (e) => {
       if (e.target && ['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) return;
+      if (SessionController.exiting) { e.preventDefault(); return; }
       if (!gameStarted) { if (e.key === 'Enter') startFromSave(); return; }
       const lower = e.key.toLowerCase();
       const direction = ({ ArrowUp:'up', ArrowDown:'down', ArrowLeft:'left', ArrowRight:'right', w:'up', a:'left', s:'down', d:'right' }[e.key] || { w:'up', a:'left', s:'down', d:'right' }[lower]);
       if (direction) {
+        if (!SessionController.acceptsInput()) { e.preventDefault(); return; }
         if (state.inventoryOpen || infoModalOpen) { e.preventDefault(); return; }
         e.preventDefault();
         const heldKey = ['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key) ? e.key : lower;
@@ -6753,6 +7152,7 @@
         startHeldMovement();
         return;
       }
+      if (!SessionController.acceptsInput() && !['b','v','j','l','k','h','escape'].includes(lower)) { e.preventDefault(); return; }
       if (lower === 'e' && e.repeat) { e.preventDefault(); startInteractionRepeat(); return; }
       if (e.repeat) return;
       if (lower === 'escape') {
@@ -6790,19 +7190,20 @@
     window.addEventListener('blur', stopInteractionRepeat);
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) { stopHeldMovement(); stopInteractionRepeat(); requestCheckpoint('visibility-hidden', { immediate: true }); }
-      else { const elapsed = Math.max(0, Date.now() - worldLastTickAt); const catchup = Math.min(MAX_BACKGROUND_CATCHUP_MINUTES, Math.floor(elapsed / 60000)); if (catchup > 0 && !state.worldMeta.clock.paused && !state.night) advance(catchup); worldLastTickAt = Date.now(); requestCheckpoint('visibility-visible', { immediate: true }); }
+      else if (SessionController.isDay()) { const elapsed = Math.max(0, Date.now() - worldLastTickAt); const catchup = Math.min(MAX_BACKGROUND_CATCHUP_MINUTES, Math.floor(elapsed / 60000)); if (catchup > 0 && !state.worldMeta.clock.paused && !state.night) advance(catchup); worldLastTickAt = Date.now(); requestCheckpoint('visibility-visible', { immediate: true }); }
     });
     window.addEventListener('pagehide', () => requestCheckpoint('pagehide', { immediate: true }));
 
     let pointerId = null;
-    $('joystick').addEventListener('pointerdown', (e) => { if (!gameStarted) return; pointerId = e.pointerId; $('joystick').setPointerCapture(pointerId); moveStick(e); });
-    $('joystick').addEventListener('pointermove', (e) => { if (e.pointerId === pointerId) moveStick(e); });
-    $('joystick').addEventListener('pointerup', (e) => { if (e.pointerId !== pointerId) return; const rect = $('joystick').getBoundingClientRect(); const dx = e.clientX - (rect.left + rect.width/2), dy = e.clientY - (rect.top + rect.height/2); const angle = Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 'right' : 'left') : (dy > 0 ? 'down' : 'up'); const [mx,my]=dirs[angle]; state.night ? moveNight(mx,my) : move(mx,my); $('stick').style.left='35px'; $('stick').style.top='35px'; pointerId=null; });
-    function moveStick(e) { const rect = $('joystick').getBoundingClientRect(); const cx=rect.left+rect.width/2, cy=rect.top+rect.height/2; let dx=e.clientX-cx, dy=e.clientY-cy; const max=31; const len=Math.hypot(dx,dy)||1; if(len>max){dx=dx/len*max;dy=dy/len*max;} $('stick').style.left=`${35+dx}px`; $('stick').style.top=`${35+dy}px`; }
+    $('joystick').addEventListener('pointerdown', (e) => { if (!SessionController.acceptsInput()) return; pointerId = e.pointerId; $('joystick').setPointerCapture(pointerId); moveStick(e); });
+    $('joystick').addEventListener('pointermove', (e) => { if (SessionController.acceptsInput() && e.pointerId === pointerId) moveStick(e); });
+    $('joystick').addEventListener('pointerup', (e) => { if (!SessionController.acceptsInput() || e.pointerId !== pointerId) return; const rect = $('joystick').getBoundingClientRect(); const dx = e.clientX - (rect.left + rect.width/2), dy = e.clientY - (rect.top + rect.height/2); const angle = Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 'right' : 'left') : (dy > 0 ? 'down' : 'up'); const [mx,my]=dirs[angle]; state.night ? moveNight(mx,my) : move(mx,my); $('stick').style.left='35px'; $('stick').style.top='35px'; pointerId=null; });
+    function moveStick(e) { if (!SessionController.acceptsInput()) return; const rect = $('joystick').getBoundingClientRect(); const cx=rect.left+rect.width/2, cy=rect.top+rect.height/2; let dx=e.clientX-cx, dy=e.clientY-cy; const max=31; const len=Math.hypot(dx,dy)||1; if(len>max){dx=dx/len*max;dy=dy/len*max;} $('stick').style.left=`${35+dx}px`; $('stick').style.top=`${35+dy}px`; }
     let resizeTimer = null;
     window.addEventListener('resize', () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => render(), 120);
+      if (SessionController.exiting) return;
+      clearTimeout(resizeTimer); const generation = SessionController.generation;
+      resizeTimer = setTimeout(() => { if (generation === SessionController.generation && !SessionController.exiting) render(); }, 120);
     });
     applySettings();
     refreshStartScreen();

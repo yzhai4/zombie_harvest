@@ -6,14 +6,11 @@
  * Synthetic qa-* definitions below are test-only and never enter the game.
  */
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
-import path from 'node:path';
 import vm from 'node:vm';
-import { fileURLToPath } from 'node:url';
 import { stableHash } from './replay-harness.mjs';
+import { readSourceTarget } from './runtime-source-target.mjs';
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const source = readFileSync(path.join(root, 'dist', 'index.html'), 'utf8');
+const { source, sourceHash, htmlPath } = readSourceTarget();
 function section(startMarker, endMarker) {
   const start = source.indexOf(startMarker);
   const end = source.indexOf(endMarker, start + startMarker.length);
@@ -44,6 +41,10 @@ const functionNames = [
 const sandbox = vm.createContext({ console });
 vm.runInContext(`
   var state;
+  let gameStarted = true;
+  // Actual controller methods are loaded, but lifecycle IO is outside this
+  // isolated chain suite. Each fixture explicitly starts a DAY session.
+  ${source.includes('const SessionController =') ? section('const SessionController =', 'let checkpointTimer =') : 'const SessionController = null;'}
   const checkpoints = [];
   const EVENT_DEFS = Object.create(null);
   const EVENT_DEFINITION_VERSION = 1;
@@ -69,9 +70,9 @@ vm.runInContext(`
     requirementsMet: contentRequirementsMet,
     checkpoints,
     getState: () => state,
-    reset(value) { state = value; checkpoints.length = 0; ensureContentState(); },
+    reset(value) { state = value; gameStarted = true; if (SessionController) { SessionController.mode = 'DAY'; SessionController.exiting = false; } checkpoints.length = 0; ensureContentState(); },
   };
-`, sandbox, { filename: 'dist/index.html:content-chain-extracted' });
+`, sandbox, { filename: htmlPath + ':content-chain-extracted' });
 const runtime = sandbox.runtime;
 const plain = value => JSON.parse(JSON.stringify(value));
 function initial(overrides = {}) {
@@ -535,5 +536,6 @@ test('JSON-restored middle node completes with the same source trace and no dupl
 });
 
 console.log(`content-chain source execution passed: ${checks.length} checks`);
+console.log(`sourceHtmlSha256: ${sourceHash}`);
 console.log(`sourceReplayHash: ${sourceReplayHash} (source CommandBus trajectory; distinct from save projection hash)`);
 for (const name of checks) console.log(`  ✓ ${name}`);

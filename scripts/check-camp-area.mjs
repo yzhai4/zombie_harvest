@@ -7,13 +7,10 @@
  * command remains in use; this is not a full calendar/NPC/SAN simulation.
  */
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
-import path from 'node:path';
 import vm from 'node:vm';
-import { fileURLToPath } from 'node:url';
+import { readSourceTarget } from './runtime-source-target.mjs';
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const source = readFileSync(path.join(root, 'dist', 'index.html'), 'utf8');
+const { source, sourceHash, htmlPath } = readSourceTarget();
 function section(startMarker, endMarker) {
   const start = source.indexOf(startMarker);
   const end = source.indexOf(endMarker, start + startMarker.length);
@@ -39,6 +36,10 @@ const functionNames = [
 const sandbox = vm.createContext({ console });
 vm.runInContext(`
   var state;
+  let gameStarted = true;
+  // Use the real controller's DAY/input Gate. Timer/storage lifecycle is
+  // covered by report recovery, not instrumented as a passing claim here.
+  ${source.includes('const SessionController =') ? section('const SessionController =', 'let checkpointTimer =') : 'const SessionController = null;'}
   const EVENT_DEFS = Object.create(null), QUEST_DEFS = {};
   const EVENT_DEFINITION_VERSION = 1;
   const calls = { checkpoints: [], advance: [], sanity: [], visited: [], ui: [] };
@@ -73,9 +74,9 @@ vm.runInContext(`
     getState: () => state, areas: CAMP_AREAS, calls,
     nearby: nearbyContextItem, distance: contextDistance,
     interact: interactCampArea, reduce: interactCampAreaReducer,
-    reset(value) { state = value; Object.keys(calls).forEach(key => calls[key].length = 0); },
+    reset(value) { state = value; gameStarted = true; if (SessionController) { SessionController.mode = 'DAY'; SessionController.exiting = false; } Object.keys(calls).forEach(key => calls[key].length = 0); },
   };
-`, sandbox, { filename: 'dist/index.html:camp-area-extracted' });
+`, sandbox, { filename: htmlPath + ':camp-area-extracted' });
 const runtime = sandbox.runtime;
 const plain = value => JSON.parse(JSON.stringify(value));
 function initial(overrides = {}) {
@@ -199,4 +200,5 @@ test('zero-minute farmland view selects existing crop without time/resource cost
 });
 
 console.log(`camp-area source execution passed: ${checks.length} checks`);
+console.log(`sourceHtmlSha256: ${sourceHash}`);
 for (const name of checks) console.log(`  ✓ ${name}`);
