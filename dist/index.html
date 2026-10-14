@@ -3165,7 +3165,7 @@
       const battle = savedRecord(payload.nightBattle) ? payload.nightBattle : {}, resolved = identity?.resolved;
       const number = (key, receiptKey = null) => Number.isFinite(battle[key]) ? battle[key] : receiptKey && Number.isFinite(resolved?.payload?.[receiptKey]) ? resolved.payload[receiptKey] : null;
       return { instanceId: identity?.instanceId || null, loss, resolved: battle.resolved === true, date: savedDate(payload), reportMinute: resolved?.tick?.world ?? savedMinute(payload), routeId: typeof battle.routeId === 'string' ? battle.routeId : resolved?.payload?.routeId || payload.campaign?.finalCrisisRoute || null,
-        kills: number('kills','kills'), breaches: number('breaches','breaches'), damage: number('finalDamage','damage'), walls: number('wallDamage'), npcDeaths: number('npcDeaths'), autoKills: number('autoKills'), morale: Number.isFinite(battle.moraleAfter) ? battle.moraleAfter : null,
+        kills: number('kills','kills'), breaches: number('breaches','breaches'), damage: number('finalDamage','damage'), walls: number('wallDamage'), npcDeaths: number('npcDeaths'), autoKills: number('autoKills'), morale: Number.isFinite(battle.moraleAfter) ? battle.moraleAfter : null, defense: number('defense'), supportCount: savedStringIds(battle.supportIds) && new Set(battle.supportIds).size === battle.supportIds.length ? battle.supportIds.length : null,
         feed: Array.isArray(battle.feed) ? battle.feed.filter(item => typeof item === 'string').slice(-3) : [], currentFood: payload.food, currentHp: payload.hp, currentMorale: payload.morale, currentSanity: Number.isFinite(payload.sanity) ? payload.sanity : null };
     }
     function classifySavedRecovery(payload) {
@@ -6723,7 +6723,7 @@
       for (const id of ['nightAttackBtn','nightLiveAttackBtn','attackBtn','gatherBtn','buildBtn','cropBtn','eatBtn','eatBtnAction','endDayBtn']) { const button = $(id); if (button) button.disabled = true; }
       $('dayLabel').textContent = `第 ${view.date.day} 天`; $('timeLabel').textContent = `${String(view.date.hour).padStart(2,'0')}:${String(view.date.minute).padStart(2,'0')} · 报告已暂停世界`;
       $('hpValue').textContent = view.currentHp; $('foodValue').textContent = view.currentFood;
-      $('waveBar').style.width = '100%'; $('waveProgressText').textContent = '100%'; $('waveZombies').textContent = view.resolved ? '0' : '未记录'; $('waveDamage').textContent = damage; $('battleStage').textContent = '尸潮结算'; $('battleDetail').textContent = recorded;
+      $('waveBar').style.width = '100%'; $('waveProgressText').textContent = '100%'; $('waveZombies').textContent = view.resolved ? '0' : '未记录'; $('waveDamage').textContent = damage; $('waveDefense').textContent = value(view.defense); $('waveSupport').textContent = value(view.supportCount); $('battleStage').textContent = '尸潮结算'; $('battleDetail').textContent = recorded;
     }
     function routeReportAction() { return state.gameOver === 'lose' ? SessionController.restart() : continueMorning(); }
     function refreshStartScreen() {

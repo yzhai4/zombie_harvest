@@ -63,4 +63,6 @@ node scripts/replay-harness.mjs --self-test
 
 候选先以不可变字节副本和SHA执行既有源码回归，再接入dist和浏览器。隔离源码测试遇到新增会话依赖时加载实际控制器/Gate，并明确设置测试会话；不得mock新Gate。修改HUD/报告控件时必须执行实际renderer，断言关闭后操作按钮恢复；把该renderer替换为空函数会隐藏界面回归。静态、VM与真实browser证据分别记录，不互相代称。
 
+后台/visibility验收先观察实际hidden/visible及可信事件，不凭bringToFront或窗口最小化推断。检查自动化框架是否默认模拟焦点；如需原生行为，以支持的API及独立context方法证明，不通过改document.hidden或伪事件让测试通过。短隐藏只证明其实际时长，不代称≥60秒catch-up。所有owned browser/profile/display在finally清理，profile不混入工件归档。
+
 AI 或实验变更还必须提供：baseline、变体、seed 集、失败重试策略、成本/延迟统计和 held-out 结果。

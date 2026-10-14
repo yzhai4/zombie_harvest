@@ -9,7 +9,11 @@ from __future__ import annotations
 import copy
 import hashlib
 import json
+import os
+import shutil
+import signal
 import subprocess
+import tempfile
 import time
 import uuid
 from pathlib import Path
@@ -40,11 +44,139 @@ TIMER_OBSERVER = r"""(() => {
  window.setTimeout=wrap('timeout',native.setTimeout);window.setInterval=wrap('interval',native.setInterval);
  for(const [name,kind,fn] of [['clearTimeout','timeout',native.clearTimeout],['clearInterval','interval',native.clearInterval]])window[name]=function(id){record({type:'cleared',kind,id});return fn.call(window,id);};
  window.__zfarmQaRandomCalls=0;Math.random=function(){window.__zfarmQaRandomCalls++;return native.random.call(Math);};
- document.addEventListener('visibilitychange',()=>record({type:'visibility',state:document.visibilityState}));
+ document.addEventListener('visibilitychange',event=>record({type:'visibility',state:document.visibilityState,trusted:event.isTrusted}));
  document.addEventListener('click',event=>{const button=event.target?.closest?.('#continueBtn,#restartSessionBtn,#resetSaveBtn');
    if(button&&(button.id==='restartSessionBtn'||button.id==='resetSaveBtn'||button.textContent.includes('重新开始')))
      record({type:'restart-intent',selector:'#'+button.id,trusted:event.isTrusted,disabled:button.disabled,text:button.textContent});},true);
 })();"""
+
+
+def visibility_evidence(events):
+    """Actual native events only; input calls and synthetic events are not proof."""
+    for index,hidden in enumerate(events):
+        if hidden.get("type")!="visibility" or hidden.get("state")!="hidden" or hidden.get("trusted") is not True:continue
+        for visible in events[index+1:]:
+            if (visible.get("type")=="visibility" and visible.get("state")=="visible" and visible.get("trusted") is True
+                and visible.get("generation")==hidden.get("generation") and visible.get("at",-1)>=hidden.get("at",0)):
+                return {"ok":True,"hidden":hidden,"visible":visible,"observedHiddenDurationMs":visible["at"]-hidden["at"]}
+    return {"ok":False,"events":events}
+
+
+def native_port_endpoint(text):
+    lines=text.splitlines()
+    if len(lines)!=2 or not lines[0].isdigit() or not 1<=int(lines[0])<=65535 or not lines[1].startswith("/devtools/browser/"):
+        raise ValueError("owned Chrome DevToolsActivePort invalid")
+    return "http://127.0.0.1:"+lines[0]
+
+
+def owned_group_exists(pid):
+    try:os.killpg(pid,0)
+    except ProcessLookupError:return False
+    return True
+
+
+class NativeVisibilitySession:
+    """One owned Chrome and its existing default context, never new_context.
+
+    The profile is a temporary sibling outside the artifact run. no_defaults
+    avoids Playwright focus/media emulation; no visibility CDP command is sent.
+    """
+    def __init__(self,runner,chromium,process_factory=subprocess.Popen,group_signaler=None,group_checker=None):
+        self.r,self.chromium,self.process_factory=runner,chromium,process_factory
+        self.group_signaler=group_signaler if group_signaler is not None else (os.killpg if os.name=="posix" else None)
+        self.group_checker=group_checker if group_checker is not None else (owned_group_exists if os.name=="posix" else None)
+        self.private_parent=runner.args.out.resolve().parent;self.artifact_root=runner.directory.resolve()
+        self.temporary=self.profile=self.process=self.browser=self.context=self.initial_page=None
+        self.cleanup_info={"owned":True,"profileOutsideRun":True,"profileRetained":False,"profileReused":False}
+        self.closed=False;self.cleanup_errors=[]
+
+    def open(self):
+        try:
+            if not self.r.args.headed or not os.environ.get("DISPLAY") or self.chromium is None:
+                raise ValueError("native visibility requires headed Chrome, DISPLAY and Chromium connector")
+            self.private_parent.mkdir(parents=True,exist_ok=True,mode=0o700)
+            self.profile=Path(tempfile.mkdtemp(prefix=".zfarm-native-visibility-",dir=self.private_parent)).resolve()
+            self.temporary=True  # No destructor/finalizer can remove a live profile.
+            if not self.profile.is_relative_to(self.private_parent) or self.profile.is_relative_to(self.artifact_root) or not self.profile.name.startswith(".zfarm-native-visibility-"):
+                raise ValueError("native profile escaped private QA parent or entered run artifacts")
+            command=[self.r.args.chrome,"--no-sandbox","--disable-dev-shm-usage","--no-first-run","--no-default-browser-check",
+                "--remote-debugging-port=0","--remote-debugging-address=127.0.0.1","--user-data-dir="+str(self.profile),"--window-size=1440,1050","about:blank"]
+            self.process=self.process_factory(command,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,start_new_session=True)
+            port_file=self.profile/"DevToolsActivePort";deadline=time.monotonic()+self.r.timeout(10)/1000
+            while not port_file.is_file():
+                if self.process.poll() is not None:raise RuntimeError("owned Chrome exited before readiness")
+                if time.monotonic()>=deadline:raise TimeoutError("owned Chrome native visibility readiness timeout")
+                time.sleep(.05)
+            endpoint=native_port_endpoint(port_file.read_text(encoding="utf-8"))
+            self.browser=self.chromium.connect_over_cdp(endpoint,no_defaults=True,timeout=self.r.timeout(10))
+            if len(self.browser.contexts)!=1:raise RuntimeError("owned native Chrome did not expose one existing default context")
+            self.context=self.browser.contexts[0]
+            if len(self.context.pages)!=1 or self.context.pages[0].url!="about:blank":raise RuntimeError("owned native Chrome is not a fresh blank default context")
+            self.initial_page=self.context.pages[0]
+            return self.context
+        except Exception:
+            self.close()
+            raise
+
+    def close(self):
+        if self.closed:return self.cleanup_errors
+        self.closed=True
+        if self.browser is not None:
+            self.cleanup_info["browserCloseAttempted"]=True
+            try:self.browser.close()
+            except Exception as error:self.cleanup_errors.append("CDP browser close:"+type(error).__name__)
+        if self.process is not None:
+            # start_new_session gives only this owned Chrome its process group.
+            if self.group_signaler is not None:
+                try:self.group_signaler(self.process.pid,signal.SIGTERM)
+                except ProcessLookupError:pass
+                except Exception as error:self.cleanup_errors.append("owned group terminate:"+type(error).__name__)
+            if self.process.poll() is None:
+                try:self.process.terminate()
+                except ProcessLookupError:pass
+                except Exception as error:self.cleanup_errors.append("owned Chrome terminate:"+type(error).__name__)
+            try:self.process.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                self.cleanup_info["forceKillUsed"]=True
+                if self.group_signaler is not None:
+                    try:self.group_signaler(self.process.pid,signal.SIGKILL)
+                    except ProcessLookupError:pass
+                    except Exception as error:self.cleanup_errors.append("owned group kill:"+type(error).__name__)
+                try:self.process.kill()
+                except ProcessLookupError:pass
+                except Exception as error:self.cleanup_errors.append("owned Chrome kill:"+type(error).__name__)
+                try:self.process.wait(timeout=5)
+                except Exception as error:self.cleanup_errors.append("owned Chrome stop:"+type(error).__name__)
+            except Exception as error:self.cleanup_errors.append("owned Chrome wait:"+type(error).__name__)
+            self.cleanup_info["ownedProcessStopped"]=self.process.poll() is not None
+            group_stopped=True
+            if self.group_checker is not None:
+                try:
+                    if self.group_checker(self.process.pid):
+                        self.cleanup_info["ownedGroupKillUsed"]=True
+                        try:self.group_signaler(self.process.pid,signal.SIGKILL)
+                        except ProcessLookupError:pass
+                        group_deadline=time.monotonic()+2
+                        while self.group_checker(self.process.pid) and time.monotonic()<group_deadline:time.sleep(.05)
+                        group_stopped=not self.group_checker(self.process.pid)
+                except Exception as error:
+                    group_stopped=False;self.cleanup_errors.append("owned process-group check:"+type(error).__name__)
+            self.cleanup_info["ownedProcessGroupStopped"]=group_stopped
+            if not group_stopped:self.cleanup_errors.append("owned process group still alive")
+        else:self.cleanup_info["ownedProcessStopped"]=True
+        if self.process is None:self.cleanup_info["ownedProcessGroupStopped"]=True
+        if self.temporary is not None:
+            safe=(self.profile is not None and self.profile.is_relative_to(self.private_parent)
+                and not self.profile.is_relative_to(self.artifact_root) and self.profile.name.startswith(".zfarm-native-visibility-"))
+            if safe and self.cleanup_info["ownedProcessStopped"] and self.cleanup_info["ownedProcessGroupStopped"]:
+                try:shutil.rmtree(self.profile)
+                except Exception as error:self.cleanup_errors.append("owned profile removal:"+type(error).__name__)
+            else:self.cleanup_errors.append("owned profile cleanup boundary or process still alive")
+            self.cleanup_info["profileRemoved"]=not self.profile.exists()
+            self.cleanup_info["profileRetained"]=self.profile.exists()
+        else:self.cleanup_info["profileRemoved"]=True
+        self.cleanup_info["ok"]=not self.cleanup_errors and self.cleanup_info["ownedProcessStopped"] and self.cleanup_info["profileRemoved"]
+        return self.cleanup_errors
 
 
 def write(path, value):
@@ -94,7 +226,14 @@ def original_persistent_fields_preserved(payload, original, initial_clock_correc
     if not all(payload.get("settings", {}).get(k) == v for k, v in expected["settings"].items() if k != "continuousWorld"): return False
     meta_transient = {"activeCommandId", "feedback", "projections", "lastCheckpointReason", "lastEventId", "eventSeq", "events"}
     if not all(payload.get("worldMeta", {}).get(k) == v for k, v in expected["worldMeta"].items() if k not in meta_transient): return False
-    return all(event in payload["worldMeta"].get("events", []) for event in expected["worldMeta"]["events"])
+    actual_events=payload["worldMeta"].get("events",[]);watermark=expected["worldMeta"]["eventSeq"]
+    appended=[e for e in actual_events if e["seq"]>watermark]
+    if len(appended)>1 or any(e["type"]!="save.migrated" or e["seq"]!=watermark+1 for e in appended): return False
+    if payload["worldMeta"]["eventSeq"]!=watermark+len(appended):return False
+    # The actual progress writer serializes the latest 300 ledger entries.
+    # Only that exact prefix rollover plus a unique migration is admissible;
+    # a missing middle/tail event, edited event or extra success fact rejects.
+    return actual_events==(expected["worldMeta"]["events"]+appended)[-300:]
 
 
 def new_events(payload, prior):
@@ -170,16 +309,26 @@ def fixture_source_checks(args):
     source_projection = copy.deepcopy(sources["resolved"]["payload"])
     source_projection["motion"].update(accumulator=0, input={"x":0,"y":0})
     assert original_persistent_fields_preserved(source_projection, sources["resolved"]["payload"])
-    for label in ("quests", "resident-relations", "command-history"):
+    for label in ("quests", "resident-relations", "command-history", "ledger-middle-delete"):
         changed=copy.deepcopy(source_projection)
         if label=="quests":changed["quests"]={"developer-only-invalid-domain":True}
         elif label=="resident-relations":changed["npcs"][0]["relations"]={"developer-only-invalid-relation":True}
-        else:changed["worldMeta"]["replay"]["commands"]=[]
+        elif label=="command-history":changed["worldMeta"]["replay"]["commands"]=[]
+        else:changed["worldMeta"]["events"].pop(12)
         assert not original_persistent_fields_preserved(changed,sources["resolved"]["payload"]),"whole-source comparison missed "+label
     for row in rows:
         if row.get("raw_kind")!="critical-structure":assert {n["id"] for n in row["payload"]["npcs"]}==original_ids
         if row["key"]!="DAY-control" and row["key"]!="B1-complete-resolved":assert row["mutations"] or row.get("restart")
         assert builder.evaluate(JS_VALIDATE,builder.evaluate(JS_ENVELOPE,row["payload"]))["ok"]
+    backed=next(r for r in rows if r["key"]=="B7-missing-historical-stats")
+    absent=next(r for r in rows if r["key"]=="B7-battle-and-receipt-stats-missing")
+    original_receipt=next(e for e in sources["resolved"]["payload"]["worldMeta"]["events"] if e["type"]=="threat.resolved" and e["payload"].get("threatId")==sources["resolved"]["payload"]["nightBattle"]["instanceId"])
+    missing_receipt=next(e for e in absent["payload"]["worldMeta"]["events"] if e["eventId"]==original_receipt["eventId"])
+    assert next(e for e in backed["payload"]["worldMeta"]["events"] if e["eventId"]==original_receipt["eventId"])==original_receipt
+    assert all(missing_receipt[k]==v for k,v in original_receipt.items() if k!="payload")
+    assert missing_receipt["payload"]=={k:v for k,v in original_receipt["payload"].items() if k not in ("kills","breaches","damage")}
+    assert backed["display_stats"]=={"kills":4,"breaches":2,"damage":0,"walls":None,"npcDeaths":None}
+    assert all(v is None for v in absent["display_stats"].values())
     negative=[]
     for label in ("wrong-close-instance","duplicate-close-command","missing-start-causation"):
         damaged=copy.deepcopy(sources)
@@ -231,15 +380,17 @@ def fixture_source_checks(args):
     legacy_rows=production18_rows(legacy_originals) if legacy_originals else []
     print(json.dumps({"mode":"fixture-contract-source-checks","gameplayExecuted":False,"browserStarted":False,"gameplayPassCount":None,
         "sources":meta,"declaredCases":len(rows),"currentWriterInitialCaseDeclared":True,"matrix":[{"key":r["key"],"group":r["group"],"expectedPhase":r["phase"],"mutations":r["mutations"]} for r in rows],
-        "sourceNegativeControls":negative,"wholeSourceComparisonNegativeControls":["quests","resident-relations","command-history"],"originalsUnmodified":True,"nativeObserverDelegation":True,
+        "sourceNegativeControls":negative,"B7DisplayContracts":{"receiptPresent":"exact kills4/breaches2/damage0; wall/NPC deaths unrecorded","battleAndReceiptAbsent":"all five unrecorded; real event identity/seq retained","offlineMutationsExplicit":True},
+        "wholeSourceComparisonNegativeControls":["quests","resident-relations","command-history","ledger-middle-delete"],"originalsUnmodified":True,"nativeObserverDelegation":True,
         "production18compatSources":legacy_meta,"production18compatBrowserStatus":"not-run","production18compatDeclaredCases":len(legacy_rows),
         "production18compatMatrix":[{"key":r["key"],"expectedPhase":r["phase"],"mutations":r["mutations"]} for r in legacy_rows],
         "production18AdapterNegativeControls":legacy_negatives,"production18WriterProvenance":legacy_provenance,"production18InitialWriterProvenance":initial_provenance,"ok":True},ensure_ascii=True),flush=True)
 
 
 class FullSuite:
-    def __init__(self, runner, browser, builder):
+    def __init__(self, runner, browser, builder,chromium=None):
         self.r, self.browser, self.builder = runner, browser, builder
+        self.chromium=chromium
         self.sources = {}
         self.source_meta = {}
 
@@ -266,7 +417,7 @@ class FullSuite:
 
     def current_initial(self):
         row={"key":"CURRENT-public-first-start-reload","group":"current-writer"}
-        case={"group":"current-writer","status":"running","fixtureMode":False,"saveInjection":False,"hiddenGameCalls":False,"mode":"public-first-start-immediate-reload"}
+        case={"group":"current-writer","status":"running","fixtureMode":False,"saveInjection":False,"hiddenGameCalls":False,"mode":"public-first-start-immediate-reload","contextMode":"regular-Playwright-new-context"}
         self.r.result["cases"][row["key"]]=case
         start=len(self.r.result["actualChecks"])
         context=self.browser.new_context(viewport={"width":1440,"height":900});page=self.r.page(context,row["key"]);page.add_init_script(TIMER_OBSERVER)
@@ -377,14 +528,26 @@ class FullSuite:
                    and fact["originalDate"] == ({key:row["payload"][key] for key in ("day","hour","minute")} if original_valid else None))
         if "migration_instance" in row:
             self.check(row, "migration uses only confirmed instance or null", fact.get("instanceId") == row["migration_instance"])
+        if row.get("migration_reason"):
+            self.check(row,"migration has the exact required repair reason",row["migration_reason"] in fact["reason"].split(","),fact["reason"])
 
     def report_checks(self, page, row, observed, expected):
         dom = observed["dom"]
         self.check(row, "actual report visible in summary mode", dom["reportVisible"] and "summary-mode" in dom["overlayClass"])
         self.check(row, "report public clock preserves original minute", self.dom_minute(dom) == minute(expected))
         battle = expected["nightBattle"]
+        defense=battle.get("defense")
+        self.check(row,"saved defense is projected rather than template default",dom["defense"].strip()==str(defense) if isinstance(defense,(int,float)) else "未记录" in dom["defense"],
+                   {"expected":defense if isinstance(defense,(int,float)) else "未记录","actual":dom["defense"]})
+        support=battle.get("supportIds")
+        self.check(row,"saved support count or missing history is explicit",dom["support"].strip()==str(len(support)) if isinstance(support,list) else "未记录" in dom["support"],
+                   {"expected":len(support) if isinstance(support,list) else "未记录","actual":dom["support"]})
         if row.get("missing_stats"):
-            self.check(row, "all missing statistics explicitly show unrecorded", all("未记录" in dom[key] for key in ("kills", "breaches", "damage", "walls", "npcDeaths")))
+            for key,value in row["display_stats"].items():
+                expected_text = (f"-{value}" if value else "0") if key=="damage" and value is not None else str(value)
+                self.check(row, "statistic reflects exact historical evidence: "+key,
+                           "未记录" in dom[key] if value is None else dom[key].strip()==expected_text,
+                           {"expected":"未记录" if value is None else expected_text,"actual":dom[key],"receiptFallback":bool(row.get("receipt_backed_stats"))})
             self.check(row, "historical display has no NaN/undefined fabricated zero", "NaN" not in dom["feed"] and "undefined" not in dom["feed"])
         else:
             damage = battle.get("finalDamage")
@@ -459,9 +622,55 @@ class FullSuite:
                         and e["seq"] > events[0]["seq"] and e["tick"]["world"] > minute(expected)]
             self.check(row, "later DAY observation has actual post-close clock receipts", minute(p) > minute(expected) and bool(advanced))
             self.r.result["cases"][row["key"]]["closeObservationLimit"] = "natural-DAY-time-advanced; exact compensation proven by close-linked receipt, no permanent resource/SAN equality claim"
-        self.snapshot(page, row, "after-public-close")
+        after_close=self.snapshot(page, row, "after-public-close")
+        controls={k:after_close["dom"]["buttons"][k] for k in ("gatherBtn","buildBtn","cropBtn","endDayBtn")}
+        self.check(row,"all four DAY controls visibly enabled after real close",all(v["visible"] and v["enabled"] for v in controls.values()),controls)
+        if row["group"]=="B1":
+            self.r.result["cases"][row["key"]]["publicGatherCoverage"]={"B1":"DAY gather button visible/enabled only; no positive collection claimed at report position",
+                "actualSuccessCase":"DAY-control explicit public tree route with positive wood/receipt/replay"}
+            if not self.accessible(page,"#buildBtn"):
+                self.blocked(row,"real DAY build button after close")
+            else:
+                page.locator("#buildBtn").click()
+                opened=self.snapshot(page,row,"after-close-public-build-open")
+                self.check(row,"public build drawer actually opens after report close",opened["dom"]["buildDrawerVisible"] and "open" in opened["dom"]["buildDrawerClass"]
+                           and self.accessible(page,'#buildDrawer [data-build="wall"]'))
+                page.locator("#buildBtn").click()
+                dismissed=self.snapshot(page,row,"after-close-public-build-dismiss")
+                self.check(row,"public build drawer actually closes",not dismissed["dom"]["buildDrawerVisible"] and "open" not in dismissed["dom"]["buildDrawerClass"])
         self.r.result["cases"][row["key"]]["publicCloseExecuted"] = True
         return copy.deepcopy(p)
+
+    def public_day_gather(self,page,row):
+        """Actual public route from genuine DAY; no B1 success is inferred."""
+        page.keyboard.press("Escape")
+        route=[]
+        start=self.r.position(page)
+        for x,y in ((start[0],11.5),(8.2,11.5),(8.2,8.2)):
+            before=self.r.position(page);self.r.navigate(page,x,y);actual=self.r.position(page)
+            route.append({"waypoint":[x,y],"before":list(before),"after":list(actual),"feedback":"visible location-label/connected player-marker"})
+        self.r.result["cases"][row["key"]]["publicGatherRoute"]=route
+        waypoint=self.r.position(page)
+        self.check(row,"DAY public tree waypoint actually reached",abs(waypoint[0]-8.2)<.3 and abs(waypoint[1]-8.2)<.3,list(waypoint))
+        before=self.r.settle(page,lambda o:abs(o["envelope"]["payload"]["player"]["x"]-waypoint[0])<.35
+                             and abs(o["envelope"]["payload"]["player"]["y"]-waypoint[1])<.35)
+        self.snapshot(page,row,"day-before-public-gather")
+        old=before["envelope"]["payload"];seq=old["worldMeta"]["eventSeq"]
+        selector='#contextActions [data-context-action="gather"]'
+        if not self.accessible(page,selector):
+            self.blocked(row,"visible tree gather affordance on public DAY route");return
+        page.locator(selector).click()
+        def receipts(p):
+            return [e for e in new_events(p,old) if e["type"]=="resource.collected" and e.get("payload",{}).get("delta",{}).get("wood",0)>0]
+        actual=self.r.settle(page,lambda o:o["envelope"]["payload"]["wood"]>old["wood"] and bool(receipts(o["envelope"]["payload"])))
+        p=actual["envelope"]["payload"];events=receipts(p)
+        command=[c for c in p["worldMeta"]["replay"]["commands"] if len(events)==1 and c["commandId"]==events[0]["commandId"]]
+        self.check(row,"DAY actual gather increases wood with one new positive receipt",p["wood"]>old["wood"] and len(events)==1 and events[0]["seq"]>seq,events)
+        self.check(row,"DAY positive receipt joins exact public collect command",len(command)==1 and command[0]["type"]=="resource.collect"
+                   and command[0].get("payload",{}).get("resourceId")==events[0]["payload"].get("resourceId"),command)
+        self.r.result["cases"][row["key"]]["publicGather"]={"scope":"DAY-control public action on authentic DAY fixture; not a B1 collection claim",
+            "woodBefore":old["wood"],"woodAfter":p["wood"],"beforeEventSeq":seq,"receipts":events,"commands":command,"postBootStateInjection":False}
+        self.snapshot(page,row,"day-after-actual-public-gather")
 
     def restart(self, page, row, selector, queued=None):
         if not self.accessible(page, selector):
@@ -618,16 +827,28 @@ class FullSuite:
         write(self.r.directory / (key+"-input.json"), {"fixtureMode":True,"storage":storage,"source":case["source"],"mutations":row["mutations"],
               "primaryHasConstructedFNV":row.get("raw_kind") not in ("array","bad-json","bad-checksum"),
               "unsafeRecoveryFixture":row["phase"] in ("recovery","recover-backup")})
-        context = self.browser.new_context(viewport={"width":1440,"height":900})
-        page = self.r.page(context,key)
+        context=page=owned_native=None
         marker = "report-contract-"+uuid.uuid4().hex
         origin = urlsplit(self.r.args.url).scheme+"://"+urlsplit(self.r.args.url).netloc
         bootstrap = {"marker":marker,"origin":origin,"storage":storage}
-        page.add_init_script("(()=>{const f="+json.dumps(bootstrap,ensure_ascii=True)+";if(window!==top||location.origin!==f.origin||window.name===f.marker)return;for(const [k,v]of Object.entries(f.storage))localStorage.setItem(k,v);window.name=f.marker;})();")
-        page.add_init_script(TIMER_OBSERVER)
         expected = copy.deepcopy(self.sources[row["backup"]]["payload"] if row.get("backup") else row["payload"])
         phase = row["phase"]
         try:
+            if row.get("visibility") and self.r.args.native_visibility:
+                owned_native=NativeVisibilitySession(self.r,self.chromium)
+                context=owned_native.open()
+                case["contextMode"]="owned-native-Chrome-CDP-existing-default"
+                case["nativeVisibility"]={"noDefaults":True,"existingDefaultContext":True,"newContextUsed":False,
+                    "profileReused":False,"profileInArtifacts":False,"focusMediaEmulationOverrides":False,"syntheticVisibilityEvents":False}
+                page=self.r.page(context,key,existing_page=owned_native.initial_page)
+            else:
+                context=self.browser.new_context(viewport={"width":1440,"height":900})
+                case["contextMode"]="regular-Playwright-new-context"
+                page=self.r.page(context,key)
+            # Identical one-time, before-loader fixture and observer in both
+            # routes. Native uses the original blank default page, no new_ctx.
+            page.add_init_script("(()=>{const f="+json.dumps(bootstrap,ensure_ascii=True)+";if(window!==top||location.origin!==f.origin||window.name===f.marker)return;for(const [k,v]of Object.entries(f.storage))localStorage.setItem(k,v);window.name=f.marker;})();")
+            page.add_init_script(TIMER_OBSERVER)
             self.r.source(page.goto(self.r.args.url,wait_until="domcontentloaded",timeout=self.r.timeout()),key)
             boot = self.snapshot(page,row,"boot-before-start",allow_invalid=True)
             self.check(row,"fixture seeded exactly once before loader",page.evaluate("m=>window.name===m",marker),fatal=True)
@@ -680,6 +901,9 @@ class FullSuite:
                 self.blocked(row,"public continue/start")
                 return
             started=self.snapshot(page,row,"after-public-start",allow_invalid=True)
+            if phase=="legacy-day":
+                self.check(row,"legacy downgrade notice visible in the actual first document",started["dom"]["recoveryNoticeVisible"] and bool(started["dom"]["recoveryNotice"].strip()),started["dom"]["recoveryNotice"])
+                self.r.result["cases"][key]["legacyNoticeCoverage"]="first after-public-start document; persistent recovery is proven by exact migration/save, not notice text in a new document"
             if phase=="real-loss-race":
                 self.loss_race(page,row)
                 return
@@ -695,11 +919,21 @@ class FullSuite:
                     before_visibility = len(self.trace(page)["events"])
                     page.keyboard.down("w");page.keyboard.down("e");page.wait_for_timeout(450)
                     other=context.new_page();other.goto("about:blank");other.bring_to_front()
-                    page.wait_for_timeout(2800);page.bring_to_front();other.close()
+                    page.wait_for_timeout(2800)
+                    hidden_state=page.evaluate("document.visibilityState")
+                    page.bring_to_front()
+                    page.wait_for_function("()=>document.visibilityState==='visible'",timeout=self.r.timeout(5))
+                    page.wait_for_timeout(100)
+                    visible_state=page.evaluate("document.visibilityState")
+                    other.close()
                     page.keyboard.up("w");page.keyboard.up("e")
                     self.snapshot(page,row,"after-real-tab-hide-return",allow_invalid=True)
                     observed_visibility=[e for e in self.trace(page)["events"][before_visibility:] if e["type"]=="visibility"]
-                    self.check(row,"actual document hidden and visible lifecycle observed",any(e["state"]=="hidden" for e in observed_visibility) and any(e["state"]=="visible" for e in observed_visibility),observed_visibility)
+                    evidence=visibility_evidence(observed_visibility)
+                    self.check(row,"actual trusted hidden then visible lifecycle observed",evidence["ok"] and hidden_state=="hidden" and visible_state=="visible",
+                        {"nativeEvents":evidence,"hiddenState":hidden_state,"returnedState":visible_state})
+                    case["visibilityCoverage"]={"requestedHiddenMs":2800,"actualEvidence":evidence,
+                        "hiddenState":hidden_state,"returnedState":visible_state,"atLeast60sCatchup":"source-only; browser requests 2800ms, no targeted 60s hold"}
                 if row.get("pure_read") or row.get("complex_invariants") or row.get("missing_stats"):
                     before=self.trace(page)["randomCalls"]
                     # Report input policy deliberately freezes terminal access.
@@ -724,7 +958,9 @@ class FullSuite:
             else:
                 self.check(row,"no report after DAY/alreadyclosed/legacy boot",not started["dom"]["reportVisible"])
                 page.wait_for_timeout(2800)
-                if phase=="day":self.check(row,"normal DAY clock advances",self.dom_minute(self.snapshot(page,row,"day-two-ticks")["dom"])>minute(expected))
+                if phase=="day":
+                    self.check(row,"normal DAY clock advances",self.dom_minute(self.snapshot(page,row,"day-two-ticks")["dom"])>minute(expected))
+                    if row.get("public_gather_route"):self.public_day_gather(page,row)
                 written=self.flush(page,row,"first-real-lifecycle-save")
                 p=self.primary(written)
                 if phase in ("closed-day","legacy-day"):
@@ -734,7 +970,6 @@ class FullSuite:
                         self.check(row,"existing real close never duplicated",p is not None and len([e for e in p["worldMeta"]["events"] if e["type"]=="threat.closed" and e["commandId"]==row["expected_close"]["commandId"]])==1)
                         self.migration(row,written,expected,envelope)
                     else:
-                        self.check(row,"legacy downgrade notice is explicit",bool(written["dom"]["recoveryNotice"]))
                         self.migration(row,written,expected,envelope)
                 if self.accessible(page,"#continueSaveBtn"):page.locator("#continueSaveBtn").click()
                 closed=copy.deepcopy(p) if p else None
@@ -767,13 +1002,25 @@ class FullSuite:
         except Exception as error:
             case["exception"]={"type":type(error).__name__,"message":str(error)}
             self.r.result["errors"].append("exception:"+key+":"+type(error).__name__+":"+str(error))
-            try:self.snapshot(page,row,"failure",allow_invalid=True)
-            except Exception as capture_error:case["failureCaptureError"]=type(capture_error).__name__
+            if page is not None:
+                try:self.snapshot(page,row,"failure",allow_invalid=True)
+                except Exception as capture_error:case["failureCaptureError"]=type(capture_error).__name__
         finally:
+            if owned_native is not None:
+                owned_native.close()
+                case["nativeContextCleanup"]=owned_native.cleanup_info
+                case["nativeVisibilityActual"]={"diskProfileCreated":owned_native.profile is not None,
+                    "CDPNoDefaultsConnected":owned_native.browser is not None,"existingDefaultContextSelected":owned_native.context is not None,
+                    "profileRemoved":owned_native.cleanup_info.get("profileRemoved") is True}
+                self.check(row,"owned native Chrome and outside-run profile cleaned",owned_native.cleanup_info.get("ok") is True,owned_native.cleanup_info)
+            elif context is not None:
+                try:context.close()
+                except Exception as error:
+                    case["contextCleanupError"]=type(error).__name__
+                    self.check(row,"regular context cleanup succeeded",False,type(error).__name__)
             checks=self.r.result["actualChecks"][start:]
             case["actualCheckCount"]=len(checks)
             case["status"]="passed" if checks and all(c["ok"] for c in checks) and "exception" not in case else "failed"
-            context.close()
             self.r.persist()
 
     def run(self):
@@ -782,6 +1029,7 @@ class FullSuite:
         legacy_rows=self.load_legacy();rows.extend(legacy_rows)
         self.r.result.update(mode="explicit-B1-B16-boot-contracts",sourceEnvelopes=self.source_meta,
                              plannedCases=["CURRENT-public-first-start-reload"]+[r["key"] for r in rows],notYetImplemented=[],
+                             preparedCaseCount=len(rows)+1,
                              fullMatrixPrepared=True,
                              contractGroups=["current-writer","DAY"]+["B"+str(i) for i in range(1,17)],
                              instrumentation={"nativeTimerObserver":True,"MathRandomObserver":True,"delegatesNativeAPIs":True,"gameFunctionsCalled":False})
@@ -797,7 +1045,15 @@ class FullSuite:
             "allActualCasesPassed":all(self.r.result["cases"].get(k,{}).get("status")=="passed" for k in keys)} for group,keys in groups.items()}
         self.r.result["sourceOnlyRequirements"]=["pure renderer internal array/RNG projection verified separately by extracted source checker",
             "storage removal failure/stale generation callbacks require source controls; not inferred from this browser suite",
-            "normal threat.close CommandBus terminal Gate is source-checked because public loss CTA routes session.restart"]
+            "normal threat.close CommandBus terminal Gate is source-checked because public loss CTA routes session.restart",
+            "backup write/readback failure and retry are source-checked; browser B11/B13 cover real successful explicit restore only",
+            "B5 same-minute multiple-candidate ambiguity is source-checked; browser covers exact references and wrong/missing references",
+            "at least60000ms visibility catchup branch remains source-only; B16 browser requests actual native hide2800ms and requires trusted events"]
         self.r.result["production18compat"]["status"]="passed" if legacy_rows and all(self.r.result["cases"].get(r["key"],{}).get("status")=="passed" for r in legacy_rows) else "failed" if legacy_rows else "not-provided"
-        self.r.result["releaseCoverageComplete"]=bool(legacy_rows) and all(v["allActualCasesPassed"] for v in self.r.result["coverage"].values())
+        required_kinds=("day","resolved","closed","initial")
+        self.r.result["production18compat"]["providedOriginalKinds"]=[k for k in required_kinds if "production18-"+k in self.sources]
+        self.r.result["production18compat"]["allRequiredOriginalsCompleted"]=all(self.r.result["cases"].get("production18compat-"+k,{}).get("status")=="passed" for k in required_kinds)
+        self.r.result["releaseCoverageComplete"]=bool(legacy_rows) and self.r.result["production18compat"]["allRequiredOriginalsCompleted"] \
+            and bool(self.r.result["plannedCases"]) and len(self.r.result["cases"])==len(self.r.result["plannedCases"]) \
+            and all(v["cases"] and v["allActuallyAttempted"] and v["allActualCasesPassed"] for v in self.r.result["coverage"].values())
         self.r.persist()

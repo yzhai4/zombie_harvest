@@ -51,9 +51,10 @@ def cases(day_envelope, resolved_envelope, closed_envelope):
         rows.append(row)
         return row["payload"]
 
-    add("DAY-control", "DAY", day, "day")
+    add("DAY-control", "DAY", day, "day", public_gather_route=True)
     add("B1-complete-resolved", "B1", resolved, "report", close=True)
-    p = add("B2-contradictory-night-false", "B2", resolved, "report", ["night=false"], close=True)
+    p = add("B2-contradictory-night-false", "B2", resolved, "report", ["night=false; requires one resolved-night-flag migration"], close=True,
+        migration=True,migration_instance=threat_id,migration_reason="resolved-night-flag")
     p["night"] = False
     retained = copy.deepcopy(closed)
     retained["nightBattle"], retained["night"] = copy.deepcopy(battle), True
@@ -106,11 +107,20 @@ def cases(day_envelope, resolved_envelope, closed_envelope):
     p["worldMeta"]["clock"]["paused"] = True
     p = add("B6-global-critical-array-invalid", "B6", resolved, "recovery", ["worldMeta.events becomes object"])
     p["worldMeta"]["events"] = {}
-    p = add("B7-missing-historical-stats", "B7", resolved, "report", ["omit kills/breaches/finalDamage/wallDamage/npcDeaths/feed/enemies/supportIds"], missing_stats=True, close=True)
+    receipt_stats = actual_resolved[0]["payload"]
+    p = add("B7-missing-historical-stats", "B7", resolved, "report", ["omit battle kills/breaches/finalDamage/wallDamage/npcDeaths/feed/enemies/supportIds; retain exact resolved receipt statistics"], missing_stats=True, close=True,
+        display_stats={"kills":receipt_stats["kills"],"breaches":receipt_stats["breaches"],"damage":receipt_stats["damage"],"walls":None,"npcDeaths":None}, receipt_backed_stats=True)
     for field in ("kills", "breaches", "finalDamage", "wallDamage", "npcDeaths", "feed", "enemies", "supportIds"):
         p["nightBattle"].pop(field, None)
+    p = add("B7-battle-and-receipt-stats-missing", "B7", resolved, "report", ["offline omit battle statistical/history fields", "offline omit only kills/breaches/damage from exact resolved receipt; retain eventId/seq/type/tick/threatId/route and all identity/causation"], missing_stats=True, close=True,
+        display_stats={"kills":None,"breaches":None,"damage":None,"walls":None,"npcDeaths":None})
+    for field in ("kills", "breaches", "finalDamage", "wallDamage", "npcDeaths", "feed", "enemies", "supportIds"):
+        p["nightBattle"].pop(field, None)
+    receipt=next(e for e in p["worldMeta"]["events"] if e["eventId"]==actual_resolved[0]["eventId"])
+    for field in ("kills","breaches","damage"): receipt["payload"].pop(field, None)
     for group, include in (("B8", True), ("B9", False)):
-        p = add(group + "-loss", group, resolved, "loss", ["HP=0", "finalDamage/campDamage=stored hpBefore", "gameOver=lose" if include else "omit gameOver"], migration=not include, migration_instance=threat_id, restart=True)
+        p = add(group + "-loss", group, resolved, "loss", ["HP=0", "finalDamage/campDamage=stored hpBefore", "retain original resolved.damage0; explicit offline stored-result conflict cannot confirm report identity", "gameOver=lose" if include else "omit gameOver"],
+            migration=not include,migration_instance=None,restart=True,identity_conflict="battle finalDamage100 versus original resolved.damage0; migration instance must remain null")
         p["hp"] = 0
         p["nightBattle"]["finalDamage"] = p["nightBattle"]["campDamage"] = battle["hpBefore"]
         if include: p["gameOver"] = "lose"

@@ -16,3 +16,11 @@
 冻结开发HTML `291a75441548e25801c4140d2b6e26dea1f5c1d938de7b408d9c4fb972bfe893` 已接入dist：完整保存先select/validate/prepare再install；真实报告identity/receipt关联；专用SessionController重开；报告纯展示与关闭后DAY控件恢复；损坏/未结算显式恢复；可靠backup迁移保存与失败重试。生产SAVE18以四份原writer档验证，只补新域；初始world0修正严格限定真实首局零水位sentinel。SAVE19/20仅TEST-ONLY适配声明，不能当真实旧档兼容证明。
 
 170项源码检查、独审76原保存/完整draft、43链/27计划日界/16区域回归通过；既有轨迹hash保持。上述均不代替真实浏览器。独立47场景首轮full已启动，审查另发现runner的B1关闭按钮覆盖缺口和B7历史receipt仍有数字的错误预期，正在改测试而不改冻结runtime。首轮原报告必须保留。B1–B16实际出口、公开重开竞态、旧档两次reload及新单构建三日仍为发布前待完成项，Sites v81没有被替换。
+
+## 首轮终止与下一候选
+
+上述首轮现已终止exit1，47/47场景尝试、1475检查/1463通过/12失败，仍为FAILED。独审区分错误预期和真实缺口；原报告SHA `e5caf27e869bb7e25f5b740506ba069ab11d4658d033cb118cea3874e74ceb80` 不变。跨机器归档719文件/590915755字节逐项SHA相同，归档成功不改验收结论，详见[首轮browser审查](../qa/report-recovery-browser-first-20261014.md)。
+
+实际恢复报告还漏写防线和支援DOM，显示模板0。新候选仅从保存defense和合法唯一supportIds投影并渲染；缺项显示未记录。新冻结HTML SHA `412c69fd80e79e8b307511798c4d6bf5bee712116dbb45c3df5c951ad3100ba8` 已接dist，177源码检查与43/27/16通过；原轨迹hash仍为 `c5d6c772` / `66c9368d`，保存投影9档仍为 `4aec7a31`。这是源码证据，新browser尚未执行。
+
+旧B16没有观察到实际visibility事件。根代理用安装包primary source和独立data页面探针确认普通Playwright context默认模拟焦点，existing default context的公开 `connect_over_cdp(no_defaults=True)` 路线可产生trusted hidden→visible。该探针约2.876秒且未执行游戏；不能代称B16或≥60秒catch-up通过。下一48场景runner正在独审，原生路径只用于B16并严格清理独占临时Chrome/profile。详见[基础设施证据](../qa/native-visibility-infrastructure-20261014.md)。本问题仍active，Sites v81和公开测试服务尚未替换。

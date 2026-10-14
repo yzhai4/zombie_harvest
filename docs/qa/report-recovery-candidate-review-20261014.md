@@ -1,6 +1,6 @@
 # 报告恢复候选：独立 ADR 评审与修复复核
 
-**状态：** SOURCE_READY：最终候选 `291a75441548e25801c4140d2b6e26dea1f5c1d938de7b408d9c4fb972bfe893` 可按此精确SHA冻结进入B1–B16浏览器QA；这不是浏览器通过或发布批准。  
+**状态：** 首轮291a已进入浏览器并失败，原报告保持；下一候选 `412c69fd80e79e8b307511798c4d6bf5bee712116dbb45c3df5c951ad3100ba8` 的最小展示修复已独立达到SOURCE_READY，可冻结进入新浏览器QA。这不是浏览器通过或发布批准。  
 **契约：** [独立架构 ADR](../decisions/ADR-20261014-report-recovery-review.md)  
 **方法：** 从唯一实现者的私有候选读取独立原字节快照，运行实际 inline HTML 函数的 Node VM 负例；DOM/storage/timer 为明确测试 instrumentation，没有修改候选、dist、服务器或原 profile。
 
@@ -98,6 +98,16 @@ L0 的 commander/radio/doctor 是起始英雄，缺新 hero 字段时按已批�
 归档76原件只读导出到本机专用私有QA副本，来源report SHA=`62ad36b2c7add9d2e36148655cd1755de25c42563e7861e66dce887bcc2ab564`，zip SHA=`5f0f97d336c0ce8bcb24c31a9c9f112600595e515e8cb99308001e04e94371f3`。完整独立摘要 `C:/Users/DELL/.cache/zfarm-report-recovery-review/final-independent-review-291a.json` 含每项输出SHA，SOURCE checker输出SHA=`141083da9f0e5254b260e659475869e5b78c02b1f9a916374d7e2d09d7f2af34`；76原档兼容输出SHA=`73b04721a927d5d11b6d76d0b233b8ae24d6837e4684e1672b0f8c27a79d9e88`。
 
 **建议：** 冻结精确291a进入独立B1–B16浏览器QA。本审查未修改dist/server/profile，未发布。B15真实650ms排队退出竞态、实际损坏档/备份与保存失败、跨午夜/visibility、公开报告关闭可用性和真实旧档迁移两次reload仍须各自浏览器证据。旧76工件仍含10份sourceUnknown、历史day2刷新缺口和recovered run限制，不可改称single-build连续通过。源码准备正确不能替代这些运行证据。
+
+## 浏览器后412c最小展示修复
+
+上述291a冻结意见已落实为首轮实际browser；该轮真实terminal exit1/报告failed，另见 [runner独审](report-recovery-full-runner-review-20261014.md)。原报告和291a字节不改，不用新候选代称旧轮通过。
+
+独立目视首轮原截图后发现恢复报告下方waveDefense显示模板0，而实际nightBattle.defense=74；缺supportIds仍显示模板0。唯一实现者在新私有候选仅修改两处：pure project增保存defense及合法唯一saved supportIds计数/null，pure render写waveDefense/waveSupport，缺项未记录；不调用active battle或NPC数组，不改loader、迁移、规则和资源数值。
+
+新精确SHA256=`412c69fd80e79e8b307511798c4d6bf5bee712116dbb45c3df5c951ad3100ba8`。独立diff确认上述两处，并重新实际执行177项source checker通过；76原save全部validate/draftValid且prepare的state/registry/storage保持。另直接读取首轮真实original resolved（FNV98ad6417）和实际B7 before-loader input（FNVc0669d7e），在实际inline源码VM重渲染：分别defense74/support0与defense74/support未记录，state/timer不变。私有输出 `actual-ui-412c.json` 明确不是新browser结果。
+
+**当前建议：** 按精确412c冻结进入下一份独立浏览器报告；下一runner须验证四白天按钮实际恢复、防线/支援known与missing、准确的receipt统计回填/缺失、首次迁移说明、严格300事件窗口、真实隐藏/可见，以及B15和四真实18。首轮12个失败原check保留，不自动重标。
 
 ## 其余 ADR 门禁
 

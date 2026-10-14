@@ -74,3 +74,13 @@ Actions #60 / run `38620407670` / job `116046147068` 在精确 head `f72503d...`
 47场景full首轮已在仅loopback的隔离QA服务启动，所有document核291a，7原输入与2原生产capture报告逐字节SHA传输核验。原public80服务仍8a4、旧三日profile不动、Sites仍public/active v81。首版runner两处问题另行修正：B1漏实际关闭后四按钮断言；B7只删battle统计但receipt有数值，却错误期待全部未记录。保留首轮原结果，下一版固定后重验，不热换正在运行的脚本。新的浏览器通过/CI提交尚未确认。
 
 工作流/iteration Skill加入不可变QA字节、真实控制器/Gate依赖和禁止mock被修改renderer；旧/新源码tester可用`--html`并打印SHA，golden没有重基。下一轮剧本设计师正独立准备计划投票/英雄/食物投影卡，仅proposed，不改L0或宣称已接线。完整v82–v90目标仍active，无全局记忆变更。
+
+最新检查点：PR #4 head `37b9c23cb1b0550f8d14a30826365984dc8fea69`、tree5597b9b15ec5573e161053be3bb64a069bff7bfa，23项明确文件Git blob SHA核验；CI #62/run38633819213/job116091817440精确37b9 success，已读日志确认291a/170恢复检查及原golden、静态检查，非browser。该提交保留实际运行的v1三脚本，后续v2/v3改动尚未推送。
+
+首轮full已真正终止exit1，586.398秒、47/47场景、1475/1463/12（36场景pass/11fail）。328观察/328PNG与输入原件归档，原report SHAe5caf27e…；独审273合法主档FNV/日历通过，B15真实650ms队列重开在435ms可信点击后清档、原timer未fired，四真实18全域迁移/两reload成立，但不改整轮FAILED。部分错误来自runner预期；实际截图又发现防线/支援DOM模板0遗漏，纯统计修复新SHA `412c69fd80e79e8b307511798c4d6bf5bee712116dbb45c3df5c951ad3100ba8` 已精确接入dist，177源码与43/27/16、76原档独审通过，未启动新full。原291a及8a4回滚不变。
+
+B16无visibility事件的infra原因已核安装包primary source：普通PWR context默认模拟焦点/可见。独占原生Chrome + public connect_over_cdp(no_defaults=True)的existing default context探针已产生trusted hidden/visible；无JS属性覆盖或伪事件，仅基础设施2.876秒证明，不是游戏或长catch-up通过。v3正在加入仅B16原生路线及资源清理，48场景新full待根代理冻结。旧public80仍8a4、Sites仍v81；整个长期计划active。剧本设计师已完成proposed计划投票卡，包含L0冲突裁定建议与六视角，尚未采用为新规则。
+
+新48场景full已从独立412c字节启动一次，报告标识 `run-20261014T211705Z-043adff1`；root按既定心跳/轮询观察同一进程，没有重开或热换脚本。冻结三脚本main `0a76f30d9ce1e138fdecf50fae65a7d57d9bfa7eb7380396e0327104e717fe72`、fixtures `41474fc24c1dd14a256ce2ae8bd074ab40b672a2810eb489d31dbf4f06177390`、full `725cca14f9d8909a37ba88433962e0ac9376af1d5a236011ba826e2082f2f077`；14份资产/输入/runner跨机逐路径SHA和字节数一致，实际loopbackHTTP为412c。fixture契约检查39+8+1通过但未执行游戏。冻结类的实际data-page探针exit0，trusted hidden→visible约2909.9ms，独占主PID/group/profile均已清理；该探针仍非B16游戏通过。
+
+此轮running阶段已观察B1/B2新增可见性断言失败：采集/建造/推进visible且enabled，cropBtn enabled但hidden。生产v81原HTML11f25在CSS243、本412c在CSS248都故意隐藏utility-row，实际作物由近菜畦contextActions入口提供。正在独审测试是否误把历史隐藏的备用按钮当成公开入口；不修改正在运行的v3，不把这些失败重标成功。下一修订须验真实公开作物路由和四控件禁用解除，不能改CSS或点击hidden按钮过关。Sites此次已再次确认public/active v81及实际浏览器主菜单，没有部署新版本。

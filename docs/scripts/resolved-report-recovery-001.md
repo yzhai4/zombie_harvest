@@ -153,3 +153,9 @@ reset 不生成 `threat.closed` 或获胜回执。若命令总线记录 restart 
 6. 完成以上出口后再决定新构建是否发布；新的三日 smoke 从冻结新构建的独立流程开始，历史失败与 source 覆盖保持原样。
 
 本卡尚需裁定：`gameOver` 可选 SAVE21 字段是否采用；未结算旧档采用显式安全 backup/恢复界面的 v1 策略。初始独立 browser boot 已执行并失败；本次证据复核和文档更新没有修改运行时、服务器、profile、L0 或 Skill，也没有重跑浏览器。
+
+## 当前实施与验收进度
+
+上述段落为初始复现时点。可选 `gameOver` 与显式恢复策略现已按[架构裁定](../decisions/ADR-20261014-report-recovery-review.md)接线；原8a4回滚、291a首轮与FAILED原报告保留。最新开发HTML为412c，完整SHA及177项源码、原轨迹hash证据见[问题记录](../problems/PROB-20261014-resolved-report-boot.md)。实际首轮1475项中12失败；四真实SAVE18和真实650ms重开竞态的局部成功不改整轮FAILED。
+
+实际截图发现的防线/支援模板0已做纯保存投影修复；下一轮须由冻结48场景browser验证实际DOM、四白天按钮、准确历史receipt、一次迁移、严格账本窗口与trusted visibility。≥60秒后台追赶和存储失败仍单列源码覆盖。新单构建三日与发布出口尚未完成，本卡仍未达到完整验收。

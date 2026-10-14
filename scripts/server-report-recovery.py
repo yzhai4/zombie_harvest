@@ -1,9 +1,11 @@
 """Real-browser report recovery contracts; explicit fixture mode.
 
 Acquire full DAY/resolved envelopes using public new-game/encounter controls.
-Each boot case uses a NEW ephemeral context and one before-loader fixture seed.
-No persistent profile, hidden game function, post-boot save injection, or server
-deployment is used. Offline loss fixtures are declared mutations; the full
+Regular boot cases use NEW ephemeral contexts; native B16 may use an owned
+temporary disk profile and its existing default context. No user profile is
+reused or archived. Each case has one before-loader fixture seed. No hidden
+game function, post-boot save injection, or deployment is used. Offline loss
+fixtures are declared mutations; the full
 B15 race separately records a real public loss from its explicit low-HP DAY.
 Expected defects remain failed actualChecks and a failing exit status.
 
@@ -41,7 +43,7 @@ READ_PUBLIC = """({key, keys}) => {
   const text=id=>document.querySelector('#'+id)?.textContent || '';
   const visible=id=>{const e=document.getElementById(id);if(!e)return false;
     const r=e.getBoundingClientRect(),s=getComputedStyle(e);return !!(r.width&&r.height)&&s.display!=='none'&&s.visibility!=='hidden';};
-  const buttons=Object.fromEntries(['continueSaveBtn','continueBtn','restartSessionBtn','restoreBackupBtn','resetSaveBtn','eatBtn','buildBtn','gatherBtn','endDayBtn'].map(id=>{
+  const buttons=Object.fromEntries(['continueSaveBtn','continueBtn','restartSessionBtn','restoreBackupBtn','resetSaveBtn','eatBtn','buildBtn','gatherBtn','cropBtn','endDayBtn'].map(id=>{
     const e=document.getElementById(id);return [id,{visible:visible(id),enabled:!!e&&!e.disabled,text:e?.textContent||''}];}));
   const storage=Object.fromEntries(keys.map(k=>[k,localStorage.getItem(k)]));
   return {envelope,computedChecksum,parseError,invalidPrimaryRaw:parseError?raw:null,
@@ -50,8 +52,10 @@ READ_PUBLIC = """({key, keys}) => {
     dom:{day:text('dayLabel'),time:text('timeLabel'),bodyClass:document.body.className,
       overlayClass:document.querySelector('#nightOverlay')?.className || '',title:text('nightTitle'),cta:text('continueBtn'),
       kills:text('summaryKills'),breaches:text('summaryBreaches'),damage:text('summaryDamage'),morale:text('summaryMorale'),
-      walls:text('summaryWalls'),npcDeaths:text('summaryNpcDeaths'),feed:text('summaryFeed'),buttons,
+      walls:text('summaryWalls'),npcDeaths:text('summaryNpcDeaths'),feed:text('summaryFeed'),
+      defense:text('waveDefense'),support:text('waveSupport'),buttons,
       reportVisible:visible('nightOverlay'),startVisible:visible('startOverlay'),recoveryStatus:text('recoveryStatus'),
+      buildDrawerVisible:visible('buildDrawer'),buildDrawerClass:document.querySelector('#buildDrawer')?.className||'',
       recoveryNotice:text('recoveryNotice'),recoveryNoticeVisible:visible('recoveryNotice')}};
 }"""
 MAKE_ENVELOPE = """({payload,reason}) => {
@@ -76,6 +80,24 @@ def explicit_favicon(record) -> bool:
     location = record.get("location")
     url = record.get("url") or (location.get("url") if isinstance(location, dict) else None)
     return isinstance(url, str) and urlsplit(url).path == "/favicon.ico"
+
+
+def full_outcome_gate(result: dict, require_production18: bool) -> dict:
+    """Validate report coverage only; never infer or manufacture gameplay."""
+    planned=result.get("plannedCases",[]);cases=result.get("cases",{});coverage=result.get("coverage",{})
+    groups={"current-writer","DAY","production18compat",*["B"+str(n) for n in range(1,17)]}
+    attempted=(bool(planned) and len(planned)==len(set(planned)) and set(cases)==set(planned)
+        and result.get("preparedCaseCount")==len(planned) and not result.get("notRunCases",[])
+        and all(cases[key].get("status")=="passed" for key in planned))
+    group_complete=(set(coverage)==groups and set(result.get("contractGroups",[]))==groups
+        and all(value.get("cases") and value.get("allActuallyAttempted") is True and value.get("allActualCasesPassed") is True for value in coverage.values()))
+    legacy=result.get("production18compat",{})
+    four=(require_production18 and legacy.get("allRequiredOriginalsCompleted") is True
+        and set(legacy.get("providedOriginalKinds",[]))=={"day","resolved","closed","initial"}
+        and all(cases.get("production18compat-"+key,{}).get("status")=="passed" for key in ("day","resolved","closed","initial")))
+    return {"ok":bool(result.get("releaseCoverageComplete") is True and result.get("fullMatrixPrepared") is True and attempted and group_complete and four),
+        "requiresCompleteReleaseCoverage":True,"allPlannedCasesAttemptedAndPassed":bool(attempted),
+        "allContractGroupsComplete":bool(group_complete),"allFourProduction18OriginalsCompleted":bool(four)}
 
 
 def minute(payload: dict) -> int:
@@ -136,6 +158,12 @@ class Runner:
                        "cases": {}, "artifacts": [], "plannedCases": PLANNED_CASES,
                        "notYetImplemented": ["B3", "B4", "B5", "B6", "B7", "B10", "B11", "B12", "B13", "B14", "B16"]}
         self.result["suite"] = getattr(args,"suite","initial")
+        self.result["browserMode"] = "headed-native-window" if getattr(args,"headed",False) else "headless"
+        self.result["nativeDisplayConfigured"] = bool(os.environ.get("DISPLAY"))
+        self.result["nativeVisibilityRequested"] = bool(getattr(args,"native_visibility",False))
+        self.result["policy"]["ephemeralDiskProfileUsedOnlyForB16Visibility"] = bool(getattr(args,"native_visibility",False))
+        self.result["policy"]["existingUserProfileReused"] = False
+        self.result["policy"]["persistentProfileMeaning"] = "no reused or retained user profile; B16 may use one owned temporary disk profile outside artifacts"
         if self.result["suite"]=="full":
             self.result.update(mode="explicit-B1-B16-boot-contracts",plannedCases=[],notYetImplemented=[],fullMatrixPrepared=False)
         self.source_sha = None
@@ -171,8 +199,8 @@ class Runner:
         if fatal and not condition:
             raise AssertionError(f"{scope}:{name}")
 
-    def page(self, context, scope: str):
-        page = context.new_page()
+    def page(self, context, scope: str, existing_page=None):
+        page = existing_page if existing_page is not None else context.new_page()
         page.set_default_timeout(5000)
         page.on("pageerror", lambda error: self.result["pageErrors"].append({"scope": scope, "error": str(error)}))
         page.on("console", lambda msg: self.result["consoleErrors"].append({"scope": scope, "text": msg.text, "error": msg.text, "location": msg.location}) if msg.type == "error" else None)
@@ -266,11 +294,13 @@ class Runner:
 
     def position(self, page) -> tuple[float, float]:
         value = page.evaluate(r"""() => {
-          const label=document.querySelector('#mapRegionLabel')?.textContent || '';
+          const visible=e=>!!e?.isConnected&&e.getClientRects().length>0&&getComputedStyle(e).visibility!=='hidden'&&getComputedStyle(e).display!=='none';
+          const regionLabel=document.querySelector('#mapRegionLabel');
+          const label=visible(regionLabel)?regionLabel.textContent:'';
           const m=label.match(/([\d.]+)\/\d+列\s*·\s*([\d.]+)\/\d+行/);
           if(m)return {x:+m[1]-1,y:+m[2]-1};
           const world=document.querySelector('#world'), marker=world?.querySelector('.player-marker');
-          if(!marker?.isConnected)return null;const tiles=[...world.querySelectorAll('.tile[data-x][data-y]')];
+          if(!visible(world)||!visible(marker))return null;const tiles=[...world.querySelectorAll('.tile[data-x][data-y]')];
           if(!tiles.length)return null;
           return {x:Math.min(...tiles.map(t=>+t.dataset.x))+parseFloat(marker.style.left)/parseFloat(marker.style.width),
                   y:Math.min(...tiles.map(t=>+t.dataset.y))+parseFloat(marker.style.top)/parseFloat(marker.style.height)};
@@ -513,7 +543,7 @@ class Runner:
         try:
             from playwright.sync_api import sync_playwright
             with sync_playwright() as playwright:
-                browser = playwright.chromium.launch(headless=True, executable_path=self.args.chrome,
+                browser = playwright.chromium.launch(headless=not self.args.headed, executable_path=self.args.chrome,
                     args=["--no-sandbox", "--disable-dev-shm-usage"])
                 try:
                     builder_context = browser.new_context()
@@ -521,7 +551,7 @@ class Runner:
                     try:
                         if self.args.suite == "full":
                             from report_recovery_full import FullSuite
-                            FullSuite(self, browser, builder).run()
+                            FullSuite(self, browser, builder,playwright.chromium).run()
                         else:
                             day, resolved = self.baseline(browser)
                             self.initial_suite(browser, builder, day, resolved)
@@ -536,11 +566,15 @@ class Runner:
             self.stop_heartbeat.set()
             bad_console = [item for item in self.result["consoleErrors"] if not explicit_favicon(item)]
             self.result["diagnosticConsole"] = [item for item in self.result["consoleErrors"] if explicit_favicon(item)]
-            self.result["ok"] = completed and bool(self.result["actualChecks"]) and not self.result["errors"] and not self.result["pageErrors"] and not self.result["httpErrors"] and not self.result["requestFailures"] and not bad_console
+            self.result["notRunCases"] = [key for key in self.result["plannedCases"] if key not in self.result["cases"]]
+            full_coverage_ok = True
+            if self.args.suite == "full":
+                self.result["fullOutcomeGate"]=full_outcome_gate(self.result,self.args.require_production18)
+                full_coverage_ok=self.result["fullOutcomeGate"]["ok"]
+            self.result["ok"] = completed and full_coverage_ok and bool(self.result["actualChecks"]) and not self.result["errors"] and not self.result["pageErrors"] and not self.result["httpErrors"] and not self.result["requestFailures"] and not bad_console
             self.result["status"] = "complete" if self.result["ok"] else "failed"
             self.result["finishedAtUnix"] = time.time()
             self.result["elapsedSeconds"] = round(time.monotonic() - self.started, 3)
-            self.result["notRunCases"] = [key for key in self.result["plannedCases"] if key not in self.result["cases"]]
             self.persist()
             print(json.dumps({"runner": self.result["runner"], "mode": self.result["mode"], "ok": self.result["ok"],
                 "htmlSha256": self.source_sha, "actualChecks": len(self.result["actualChecks"]),
@@ -628,6 +662,26 @@ def developer_negative_controls() -> None:
     assert not explicit_favicon({"text":"404","location":{}})
     assert not explicit_favicon({"text":"404","location":{"url":"http://127.0.0.1/assets/game.svg"}})
     controls.append({"name":"located-resource-policy","rejectedWithRegisteredDiagnostic":True})
+    # Synthetic report objects below test the outcome gate, not GameState,
+    # fixtures or actual browser runs. They never enter actualChecks.
+    labels={"current-writer":["CURRENT"],"DAY":["DAY"],**{"B"+str(n):["B"+str(n)] for n in range(1,17)},
+        "production18compat":["production18compat-"+kind for kind in ("day","resolved","closed","initial")]}
+    planned=[key for keys in labels.values() for key in keys]
+    outcome={"releaseCoverageComplete":True,"fullMatrixPrepared":True,"plannedCases":planned,"preparedCaseCount":len(planned),
+        "cases":{key:{"status":"passed"} for key in planned},"notRunCases":[],"contractGroups":list(labels),
+        "coverage":{group:{"cases":keys,"allActuallyAttempted":True,"allActualCasesPassed":True} for group,keys in labels.items()},
+        "production18compat":{"allRequiredOriginalsCompleted":True,"providedOriginalKinds":["day","resolved","closed","initial"]}}
+    assert full_outcome_gate(outcome,True)["ok"]
+    for label in ("empty-matrix","missing-case","failed-case","missing-contract-group","incomplete-fourth-original","incomplete-release","require18-absent"):
+        changed=copy.deepcopy(outcome)
+        if label=="empty-matrix":changed["plannedCases"]=[];changed["cases"]={};changed["preparedCaseCount"]=0
+        elif label=="missing-case":changed["cases"].pop("B1")
+        elif label=="failed-case":changed["cases"]["B1"]["status"]="failed"
+        elif label=="missing-contract-group":changed["coverage"].pop("B5")
+        elif label=="incomplete-fourth-original":changed["production18compat"]["providedOriginalKinds"].remove("initial")
+        elif label=="incomplete-release":changed["releaseCoverageComplete"]=False
+        assert not full_outcome_gate(changed,label!="require18-absent")["ok"]
+        controls.append({"name":"report-coverage-"+label,"rejectedWithRegisteredDiagnostic":True,"syntheticReportOnly":True})
     print(json.dumps({"mode": "developer-negative-controls", "gameplayExecuted": False,
                       "realScreenshotsCaptured": False, "temporaryArtifactsRemoved": True,
                       "controls": controls, "ok": True}), flush=True)
@@ -637,6 +691,8 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--url", default=os.environ.get("ZFARM_TEST_URL", "http://127.0.0.1/"))
     parser.add_argument("--chrome", default=os.environ.get("CHROME_BIN", "/usr/bin/google-chrome"))
+    parser.add_argument("--headed",action="store_true",help="use native headed Chrome for actual tab visibility; requires a real/virtual display, no synthetic visibility")
+    parser.add_argument("--native-visibility",action="store_true",help="B16 visibility only: owned Chrome existing default CDP context with no_defaults=True; needs --headed and DISPLAY")
     parser.add_argument("--out", type=Path, default=Path.home() / ".cache" / "zfarm-qa" / "report-recovery", help="private QA directory; each run creates a unique child directory")
     parser.add_argument("--timeout", type=int, help="seconds; initial default300, full default900")
     parser.add_argument("--suite", choices=("initial", "full"), default="initial", help="initial historical six-case suite or full B1-B16 contracts")
@@ -656,6 +712,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--check-fixtures", action="store_true", help="archive/fixture/source development checks only; Node, no browser")
     parser.add_argument("--developer-negative-controls", action="store_true", help="diagnostic-method controls only; no browser, no retained artifacts, not gameplay evidence")
     args = parser.parse_args()
+    if args.native_visibility and (not args.headed or not os.environ.get("DISPLAY") or args.suite!="full"):
+        parser.error("--native-visibility requires --suite full, --headed and actual DISPLAY")
     if args.timeout is None:args.timeout=900 if args.suite=="full" else 300
     target = urlsplit(args.url)
     if target.scheme not in ("http", "https") or target.query or target.fragment or args.timeout <= 0:
