@@ -189,6 +189,20 @@ def main() -> None:
             third_result = checkpoint()
             check("third choice executes the registered route", third_result["parts"] == 23 and any(e["type"] == "content.chain.resolved" and e["payload"]["choiceId"] == "route-3" for e in third_result["worldMeta"]["events"]))
             check("third choice preserves daily event", third_result["event"]["handled"] is False)
+
+            # Explicit spent-point boot fixture checks the live plan projection,
+            # not an old same-minute localStorage value left before hydration.
+            spent = seed(base)
+            spent["contentState"].update({"commandPoints": 0, "commandPointsMax": 2, "commandPointsGrantedDay": 4})
+            load_fixture(spent)
+            page.locator('[data-info-tab="plan"]').click()
+            point_display = page.locator('#infoPlanMount .status-overview-card').filter(has_text="指挥点").locator('b')
+            check("spent points are not refilled during boot", point_display.inner_text() == "0/2")
+            page.reload(wait_until="domcontentloaded")
+            page.locator("#continueSaveBtn").click()
+            page.locator("#openInfoBtn").click()
+            page.locator('[data-info-tab="plan"]').click()
+            check("spent points remain spent after another reload", point_display.inner_text() == "0/2")
         except Exception as exc:
             result["errors"].append(f"aborted:{exc}")
         finally:

@@ -22,6 +22,7 @@ jobs:
           node --check dist/actor-sprites.js
           node --check prototype/mobile-zombie-game/game.js
           node scripts/check-inline-syntax.mjs
+          node --check scripts/verify-three-days-artifacts.mjs
       - name: Check deployable entrypoints
         run: |
           test -s dist/index.html
@@ -34,9 +35,13 @@ jobs:
           node scripts/check-night-guard.mjs
       - name: Execute registered-chain reducers
         run: node scripts/check-content-chain.mjs
+      - name: Execute calendar, plan and camp input contracts
+        run: |
+          node scripts/check-plan-day.mjs
+          node scripts/check-camp-area.mjs
       - name: Verify save projections and static smoke
         run: |
           node scripts/replay-harness.mjs --self-test
           node scripts/smoke-three-days.mjs
       - name: Check browser runner syntax
-        run: python -m py_compile scripts/server-playtest.py scripts/server-content-chain.py
+        run: python -m py_compile scripts/server-playtest.py scripts/server-content-chain.py scripts/server-three-days.py

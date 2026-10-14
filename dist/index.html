@@ -2199,8 +2199,11 @@
      function commandPointCap(trust = campTrustValue(), collapse = Number(state.contentState?.meters?.campCollapse) || 0) { const base = trust >= 80 ? 4 : trust >= 60 ? 3 : trust >= 20 ? 2 : 0; return Math.max(0, base - (collapse >= 70 ? 1 : 0)); }
      function refreshCommandPoints(reason = 'day-start') {
        ensureContentState(); const cap = commandPointCap(); const before = Number(state.contentState.commandPoints) || 0;
-       state.contentState.commandPointsMax = cap; state.contentState.commandPoints = cap; state.contentState.commandPointsGrantedDay = state.day;
-       if (before !== cap || reason === 'initial') recordWorldEvent('plan.commandPoints.refreshed', { day: state.day, before, after: cap, cap, reason, campTrust: campTrustValue(), campCollapse: state.contentState.meters.campCollapse }, { actorId: 'camp-autonomy', defId: 'camp-plan-meeting-001' });
+       const previousCap = Number(state.contentState.commandPointsMax) || 0;
+       const alreadyGranted = Number(state.contentState.commandPointsGrantedDay) === Number(state.day);
+       const after = alreadyGranted ? Math.min(before, cap) : cap;
+       state.contentState.commandPointsMax = cap; state.contentState.commandPoints = after; state.contentState.commandPointsGrantedDay = state.day;
+       if (!alreadyGranted || before !== after || previousCap !== cap) recordWorldEvent('plan.commandPoints.refreshed', { day: state.day, before, after, cap, reason, campTrust: campTrustValue(), campCollapse: state.contentState.meters.campCollapse }, { actorId: 'camp-autonomy', defId: 'camp-plan-meeting-001' });
        return cap;
      }
      function planNpcVoteWeight(npc) {
@@ -2258,18 +2261,27 @@
        }, { eventType: 'plan.meeting.committed', defId: 'camp-plan-meeting-001', instanceId: planMeetingState().instanceId });
      }
      function executePlanMeeting(options = {}) {
+       if (state.night) return { ok: false, reason: 'night-lock' };
+       if (state.gameOver) return { ok: false, reason: 'game-over' };
        ensureContentState(); const plan = planMeetingState();
        if (!['candidate', 'committed'].includes(plan.status) || Number(plan.meetingDay) >= Number(state.day)) return { ok: false, reason: 'plan-not-due' };
        const candidate = plan.candidates.find(item => item.id === plan.selectedId) || plan.candidates[0];
        if (!candidate) return { ok: false, reason: 'plan-candidate-missing' };
        const before = { meters: stableClone(state.contentState.meters), food: state.food, seeds: state.seeds, medicine: state.medicine };
        const effectId = `plan:${plan.meetingDay}:${candidate.id}`;
-       const result = applyContentEffects(candidate.effects || [], { effectId, actorId: plan.playerAction ? 'player-1' : 'camp-autonomy', defId: 'camp-plan-meeting-001', record: false });
+       const prior = (state.worldMeta?.events || []).find(event => ['plan.meeting.resolved', 'plan.meeting.fallback'].includes(event.type) && (plan.instanceId && event.payload?.instanceId === plan.instanceId || Number(event.payload?.meetingDay) === Number(plan.meetingDay) && event.payload?.selectedId === candidate.id));
+       const result = prior ? (prior.type === 'plan.meeting.fallback' ? { ok: false, reason: prior.payload?.reason || 'effect-rejected', recovered: true } : { ok: true, duplicate: true, results: prior.payload?.results || [] }) : applyContentEffects(candidate.effects || [], { effectId, actorId: plan.playerAction ? 'player-1' : 'camp-autonomy', defId: 'camp-plan-meeting-001', record: false });
        const after = { meters: stableClone(state.contentState.meters), food: state.food, seeds: state.seeds, medicine: state.medicine };
-       if (!result.ok) { plan.status = 'resolved'; plan.autonomyResult = { route: 'fallback', reason: result.reason }; plan.resolvedDay = state.day; recordWorldEvent('plan.meeting.fallback', { instanceId: plan.instanceId, selectedId: candidate.id, reason: result.reason, before, after }, { actorId: 'camp-autonomy', defId: 'camp-plan-meeting-001', instanceId: plan.instanceId }); return { ok: false, reason: result.reason, fallback: true }; }
-       plan.status = 'resolved'; plan.resolvedDay = state.day; plan.autonomyResult = { route: plan.playerAction || 'autonomy', selectedId: candidate.id, effectId, results: stableClone(result.results) }; plan.history = [...(plan.history || []), { meetingDay: plan.meetingDay, resolvedDay: state.day, selectedId: candidate.id, action: plan.playerAction || 'autonomy', effectId }].slice(-30);
-       const payload = { instanceId: plan.instanceId, meetingDay: plan.meetingDay, resolvedDay: state.day, route: plan.playerAction || 'autonomy', selectedId: candidate.id, effectId, before, after, candidates: stableClone(plan.candidates), results: stableClone(result.results) };
-       recordWorldEvent('plan.meeting.resolved', payload, { actorId: plan.playerAction ? 'player-1' : 'camp-autonomy', defId: 'camp-plan-meeting-001', instanceId: plan.instanceId, effects: candidate.effects || [] });
+       // Effects normalize or roll back contentState. Settle the authoritative
+       // meeting, rather than the pre-effect reference retained above.
+       const current = planMeetingState(); const resolvedDay = Number(prior?.payload?.resolvedDay) || state.day;
+       current.status = 'resolved'; current.resolvedDay = resolvedDay;
+       const history = Array.isArray(current.history) ? current.history : [];
+       if (!history.some(entry => Number(entry?.meetingDay) === Number(current.meetingDay))) current.history = [...history, { meetingDay: current.meetingDay, resolvedDay, selectedId: candidate.id, action: result.ok ? current.playerAction || 'autonomy' : 'fallback', effectId, ...(result.ok ? {} : { reason: result.reason }) }].slice(-30);
+       if (!result.ok) { current.autonomyResult = { route: 'fallback', reason: result.reason }; if (!prior) recordWorldEvent('plan.meeting.fallback', { instanceId: current.instanceId, meetingDay: current.meetingDay, resolvedDay, selectedId: candidate.id, reason: result.reason, before, after }, { actorId: 'camp-autonomy', defId: 'camp-plan-meeting-001', instanceId: current.instanceId }); return { ok: false, reason: result.reason, fallback: true }; }
+       current.autonomyResult = { route: current.playerAction || 'autonomy', selectedId: candidate.id, effectId, results: stableClone(result.results || []) };
+       const payload = { instanceId: current.instanceId, meetingDay: current.meetingDay, resolvedDay, route: current.playerAction || 'autonomy', selectedId: candidate.id, effectId, before, after, candidates: stableClone(current.candidates), results: stableClone(result.results || []) };
+       if (!prior) recordWorldEvent('plan.meeting.resolved', payload, { actorId: current.playerAction ? 'player-1' : 'camp-autonomy', defId: 'camp-plan-meeting-001', instanceId: current.instanceId, effects: candidate.effects || [] });
        return { ok: true, payload };
      }
      function preparePlanMeetingAtSummary() { if (!state.night || !state.nightBattle?.resolved) return { ok: false, reason: 'summary-not-ready' }; return generatePlanMeeting({ source: 'summary' }); }
@@ -4542,6 +4554,8 @@
     let contextDismissedAt = null;
     let movementRenderBudget = 0;
     function contextDistance(item) { return distanceBetween(item, state.player); }
+    const CONTEXT_INTERACTION_RADIUS = 1.25;
+    function nearbyContextItem(items, predicate = () => true) { return (items || []).find(item => predicate(item) && contextDistance(item) <= CONTEXT_INTERACTION_RADIUS) || null; }
     function facingPriority(item) {
       const vector = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] }[state.facing] || [0, 1];
       const point = item.item || item;
@@ -4589,7 +4603,7 @@
       const panel = $('contextPanel');
       if (!panel) return;
       if (state.gameOver || state.buildMode) { hideContext(); return; }
-      const nearby = (items) => items.filter(item => contextDistance(item) <= 1.25);
+      const nearby = (items) => items.filter(item => contextDistance(item) <= CONTEXT_INTERACTION_RADIUS);
       // During a live night encounter the legacy context menu must never expose
       // daytime interactions. Keep only the player attack affordance; movement
       // remains on the dedicated night controls and the hidden battle layer.
@@ -5146,9 +5160,11 @@
         seen.add(key); target.distance = contextDistance(target.item); return true;
       }).sort((a,b) => facingPriority(a) - facingPriority(b) || a.priority - b.priority || a.distance - b.distance);
     }
-    function interactCampArea(area) {
+    function interactCampAreaReducer(area) {
       if (!guardNightAction()) return nightActionResult();
-      if (!area || state.gameOver) return;
+      if (!area || !CAMP_AREAS.some(item => item.zone === area.zone && item.x === area.x && item.y === area.y)) return { ok: false, reason: 'area-missing' };
+      if (state.gameOver) return { ok: false, reason: 'game-over' };
+      if (contextDistance(area) > CONTEXT_INTERACTION_RADIUS) return { ok: false, reason: 'area-too-far' };
       markRegionVisited(area.x, area.y, false);
       const zone = area.zone;
       if (zone === 'command') {
@@ -5179,10 +5195,10 @@
       if (zone === 'workshop') { state.selectedBuilding = state.buildings.find(b => contextDistance(b) <= 1 && b.type !== 'shelter') || state.selectedBuilding; toggleEvolution(); toast('工坊：可以修理墙体或查看建筑进化'); return; }
       if (zone === 'warehouse') { coolFrontierExposure(10, '仓库盘点'); toggleInventory(true); toast(`仓库库存：木材 ${state.wood} · 食物 ${state.food} · 药草 ${state.medicine} · 前线压力 -10`); return; }
       if (zone === 'residence') {
-        if (state.food <= 0) { toast('居住区缺少食物，无法组织晚餐'); return; }
+        if (state.food <= 0) { toast('居住区缺少食物，无法组织晚餐'); return { ok: false, reason: 'food-empty' }; }
         state.food -= 1; state.morale = Math.min(100, state.morale + 5); adjustSanity('player', 6, '参加营地集体晚餐'); state.npcs.filter(npcIsActive).forEach(n => { n.needs = n.needs || {hunger:18,fatigue:12,stress:8}; n.needs.hunger = Math.max(0, n.needs.hunger - 28); n.needs.stress = Math.max(0, n.needs.stress - 8); adjustSanity(n, 6, '参加营地集体晚餐'); rememberNpc(n, '参加营地晚餐', 1); }); coolFrontierExposure(12, '营地集体晚餐'); advance(30); log('居住区组织了一次集体晚餐，大家的饥饿和紧张都缓解了。'); toast('集体晚餐：士气 +5 · 前线压力 -12 · 全员心智稳定 +6'); render(); return;
       }
-      if (zone === 'barracks') { const guards = state.npcs.filter(n => npcIsActive(n) && ['guardJi','guardChen','guardJiang','sergeant','commander'].includes(n.id)); if (!guards.length) { toast('兵营目前没有可训练的守卫'); return; } guards.forEach(n => { n.morale = Math.min(100, n.morale + 6); n.needs.stress = Math.max(0, (n.needs?.stress || 0) - 5); adjustSanity(n, 4, '兵营换防训练'); rememberNpc(n, '在兵营完成换防训练', 1); }); adjustSanity('player', 2, '兵营换防训练'); state.morale = Math.min(100, state.morale + 2); advance(30); log('兵营完成了换防训练，守门人员士气和心智稳定度提高。'); toast('换防训练完成'); render(); return; }
+      if (zone === 'barracks') { const guards = state.npcs.filter(n => npcIsActive(n) && ['guardJi','guardChen','guardJiang','sergeant','commander'].includes(n.id)); if (!guards.length) { toast('兵营目前没有可训练的守卫'); return { ok: false, reason: 'guards-missing' }; } guards.forEach(n => { n.morale = Math.min(100, n.morale + 6); n.needs.stress = Math.max(0, (n.needs?.stress || 0) - 5); adjustSanity(n, 4, '兵营换防训练'); rememberNpc(n, '在兵营完成换防训练', 1); }); adjustSanity('player', 2, '兵营换防训练'); state.morale = Math.min(100, state.morale + 2); advance(30); log('兵营完成了换防训练，守门人员士气和心智稳定度提高。'); toast('换防训练完成'); render(); return; }
       if (zone === 'farmland') { state.selectedBuilding = state.buildings.find(b => b.type === 'garden' || b.type === 'greenhouse'); toast('农田：靠近菜畦后按 E 播种或收获'); renderContext(); return; }
       if (['eastOutpost','riverBank'].includes(zone)) {
         const flag = `${zone}-day-${state.day}`;
@@ -5193,6 +5209,14 @@
       }
       if (['eastGate','northGate','serviceGate'].includes(zone)) { state.morale = Math.min(100, state.morale + 1); advance(15); toast(`${CAMP_ZONES[zone].name}完成一次巡检，防线记录已更新`); render(); return; }
       toast(`${CAMP_ZONES[zone]?.name || '营地区域'}：目前平稳`);
+    }
+    function interactCampArea(area, options = {}) {
+      return actionCommand('camp.area.interact', 'camp.area.interacted', { zone: area?.zone || null, x: area?.x, y: area?.y }, () => {
+        const before = { time: worldMinute(), food: state.food, morale: state.morale, hp: state.hp, energy: state.energy };
+        const result = interactCampAreaReducer(area);
+        if (result?.ok === false) return result;
+        return { payload: { zone: area.zone, x: area.x, y: area.y, before, after: { time: worldMinute(), food: state.food, morale: state.morale, hp: state.hp, energy: state.energy }, minutes: worldMinute() - before.time } };
+      }, options);
     }
     function executeInteraction(target) {
       if (state.night) { toast('尸潮进行中：当前只能移动和攻击'); return false; }
@@ -6256,7 +6280,14 @@
       toast(`继续世界 · 第 ${state.day} 天 ${formatTime()}`); render();
     }
 
-    function continueMorning(options = {}) { return actionCommand('threat.close','threat.closed',{threatId: state.nightBattle?.instanceId || null},()=>continueMorningReducer(),{...options, allowNight: true}); }
+    function continueMorning(options = {}) {
+      const threatId = state.nightBattle?.instanceId || null;
+      return actionCommand('threat.close', 'threat.closed', { threatId }, () => {
+        if (!state.nightBattle?.resolved || !threatId) return { ok: false, reason: 'report-not-ready' };
+        continueMorningReducer();
+        return { payload: { threatId, day: state.day, hour: state.hour, minute: state.minute } };
+      }, { ...options, allowNight: true });
+    }
 
     function clearAllSaves() {
       stopWorldSimulation();
@@ -6621,11 +6652,11 @@
       if (!button || button.disabled) return;
       const action = button.dataset.contextAction;
       if (state.night && action !== 'attack') { guardNightAction(); return; }
-      const nearbyNpc = state.npcs.find(n => npcIsActive(n) && contextDistance(n) <= 1);
-      const nearbyLandmark = state.landmarks.find(l => !l.found && contextDistance(l) <= 1);
-      const nearbyOutpost = state.landmarks.find(l => l.found === true && !!outpostDefinitionFor(l) && contextDistance(l) <= 1);
-      const nearbyBuilding = state.buildings.find(b => contextDistance(b) <= 1);
-      const nearbyShelter = state.buildings.find(b => b.type === 'shelter' && contextDistance(b) <= 1);
+      const nearbyNpc = nearbyContextItem(state.npcs, npcIsActive);
+      const nearbyLandmark = nearbyContextItem(state.landmarks, l => !l.found);
+      const nearbyOutpost = nearbyContextItem(state.landmarks, l => l.found === true && !!outpostDefinitionFor(l));
+      const nearbyBuilding = nearbyContextItem(state.buildings);
+      const nearbyShelter = nearbyContextItem(state.buildings, b => b.type === 'shelter');
       if (action === 'attack') attackNearestThreat();
       else if (action === 'npc' && nearbyNpc) interactNpc(nearbyNpc.id);
       else if (action === 'npcOrder') setNpcOrder(button.dataset.npcId, button.dataset.order);
@@ -6636,7 +6667,7 @@
       else if (action === 'crop') plantOrHarvest();
       else if (action === 'repair') repairBuilding();
       else if (action === 'landmark' && nearbyLandmark) discoverLandmark(nearbyLandmark);
-      else if (action === 'area') { const nearbyArea = CAMP_AREAS.find(a => contextDistance(a) <= 1); if (nearbyArea) interactCampArea(nearbyArea); }
+      else if (action === 'area') { const nearbyArea = nearbyContextItem(CAMP_AREAS); if (nearbyArea) interactCampArea(nearbyArea); }
       else if (action === 'building' && nearbyBuilding) interactBuilding(nearbyBuilding);
       else if (action === 'evolve' && nearbyBuilding) { state.selectedBuilding = nearbyBuilding; toggleEvolution(); }
       else if (action === 'weapon' && nearbyShelter) { state.selectedBuilding = nearbyShelter; toggleWeaponPanel(); }
