@@ -24,4 +24,5 @@
 - `node scripts/validate-content.mjs`：通过，SAVE21/CONTENT3 已对齐。
 - `node scripts/smoke-three-days.mjs`：44 项通过；Playwright 不可用。
 - GitHub draft PR `#4` 已创建，CI workflow run `47` 通过；Sites 生产仍保持原版本。
+- 服务器真实浏览器 smoke 已通过 8 项，记录在 `docs/qa/server-playtest-20261014.md`；线上 Sites 可公开访问，但浏览器插件对大型 Canvas 页面仍会超时。
 
