@@ -2774,12 +2774,39 @@
      if (typeof window !== 'undefined') window.ZombieHarvestContent = ContentRegistry;
     const FeedbackRouter = { route(event) { if (!event) return; state.worldMeta.feedback.push({ eventId: event.eventId, type: event.type }); if (state.worldMeta.feedback.length > 40) state.worldMeta.feedback.shift(); } };
     function appendFeedbackEvent(type, payload = {}, meta = {}) { const event = recordWorldEvent(type, payload, meta); FeedbackRouter.route(event); return event; }
-    const CommandBus = { dispatch(command, reducer, options = {}) {
+    const CommandBus = {
+      nextAutomaticId(wm) {
+        if (!Number.isSafeInteger(wm.commandSeq) || wm.commandSeq < 0) return { ok: false, reason: 'command-sequence-invalid' };
+        const occupied = new Set([...wm.seenCommands, ...(wm.replay?.commands || []).map(item => item.commandId), wm.activeCommandId]);
+        let sequence = wm.commandSeq, commandId;
+        do {
+          if (sequence >= Number.MAX_SAFE_INTEGER) return { ok: false, reason: 'command-sequence-exhausted' };
+          commandId = `cmd-${String(++sequence).padStart(6, '0')}`;
+        } while (occupied.has(commandId));
+        return { ok: true, commandId, commandSeq: sequence };
+      },
+      dispatch(command, reducer, options = {}) {
       if (command.type !== 'session.restart' && (SessionController.exiting || !gameStarted || ['RECOVERY','SAVING','EXITING'].includes(SessionController.mode) || ['REPORT','LOSS'].includes(SessionController.mode) && command.type !== 'threat.close')) return { ok: false, reason: 'session-frozen' };
       const wm = state.worldMeta;
       const ephemeral = options.ephemeral === true;
-      const commandId = command.commandId || `cmd-${String(++wm.commandSeq).padStart(6, '0')}`;
-      if (!ephemeral && wm.seenCommands.includes(commandId)) return { ok: true, duplicate: true, commandId };
+      const suppliedId = command.commandId;
+      if (!ephemeral && suppliedId && (wm.seenCommands.includes(suppliedId) || (wm.replay?.commands || []).some(item => item.commandId === suppliedId))) return { ok: true, duplicate: true, commandId: suppliedId };
+      let commandId;
+      if (suppliedId) {
+        if (typeof suppliedId !== 'string') return { ok: false, reason: 'command-id-invalid' };
+        const numeric = /^cmd-([0-9]+)$/.exec(suppliedId), sequence = numeric ? Number(numeric[1]) : null;
+        const canonical = Number.isSafeInteger(sequence) && sequence > 0 && suppliedId === `cmd-${String(sequence).padStart(6, '0')}`;
+        if (numeric && /^[1-9][0-9]{15,}$/.test(numeric[1]) && !Number.isSafeInteger(sequence)) return { ok: false, commandId: suppliedId, reason: 'command-id-unsafe' };
+        if (canonical) {
+          if (!Number.isSafeInteger(wm.commandSeq) || wm.commandSeq < 0) return { ok: false, commandId: suppliedId, reason: 'command-sequence-invalid' };
+          wm.commandSeq = Math.max(wm.commandSeq, sequence);
+        }
+        commandId = suppliedId;
+      } else {
+        const allocation = CommandBus.nextAutomaticId(wm);
+        if (!allocation.ok) return allocation;
+        commandId = allocation.commandId; wm.commandSeq = allocation.commandSeq;
+      }
       const check = options.validate ? options.validate(command) : { ok: true };
       if (check === false || check?.ok === false) {
         if (ephemeral) return { ok: false, commandId, reason: check.reason || 'precondition' };
@@ -5786,21 +5813,69 @@
     }
     function repairBuildingReducer(preferred = null) {
       if (!guardNightAction()) return nightActionResult();
+      if (state.gameOver) return { ok: false, reason: 'game-over' };
+      if (!SessionController.isDay()) return { ok: false, reason: 'day-only' };
+      if (state.worldMeta.clock.paused) return { ok: false, reason: 'clock-paused' };
+      const validIdentity = building => building && typeof building.id === 'string' && building.id && state.buildings.filter(item => item.id === building.id).length === 1;
+      const repairable = building => validIdentity(building) && (building.type === 'wall' || building.type === 'spikeWall') && contextDistance(building) <= 1 && Number.isFinite(building.hp) && building.hp >= 0 && building.hp < (building.type === 'spikeWall' ? 4 : 3);
+      if (preferred !== null && !state.buildings.includes(preferred)) return { ok: false, reason: 'repair-target-unknown' };
+      const wall = preferred || state.buildings.find(repairable);
+      if (!wall) { toast('靠近受损墙体后才能修理'); return { ok: false, reason: 'repair-target-missing' }; }
+      if (!validIdentity(wall)) return { ok: false, reason: 'repair-target-identity' };
+      if (wall.type !== 'wall' && wall.type !== 'spikeWall') return { ok: false, reason: 'repair-target-type' };
+      if (!(contextDistance(wall) <= 1)) return { ok: false, reason: 'repair-too-far' };
+      if (!Number.isFinite(wall.hp) || wall.hp < 0) return { ok: false, reason: 'repair-target-health' };
+      const buildingType = wall.type;
+      const maxHp = buildingType === 'spikeWall' ? 4 : 3;
+      if (wall.hp >= maxHp) { toast('墙体耐久已满'); return { ok: false, reason: 'repair-full' }; }
+      const advanceBudget = CommandBus.nextAutomaticId(state.worldMeta);
+      if (!advanceBudget.ok) return { ok: false, reason: advanceBudget.reason };
+      if (!Number.isFinite(state.wood) || state.wood < 2) { toast('木材不够，无法修理墙体'); return { ok: false, reason: 'repair-wood' }; }
+      if (!Number.isFinite(state.energy) || state.energy < 14) { toast('体力不足，无法修理墙体'); return { ok: false, reason: 'repair-energy' }; }
+      const resources = () => Object.fromEntries(['wood', 'stone', 'food', 'parts', 'medicine', 'seeds', 'energy'].map(key => [key, state[key]]));
+      const calendar = () => ({ day: state.day, hour: state.hour, minute: state.minute, world: worldMinute() });
+      const before = resources(), clockBefore = calendar(), hpBefore = wall.hp;
+      const standingBefore = stableClone(state.campStanding), trustBefore = campTrustValue();
+      const standingStartSeq = state.worldMeta.eventSeq;
       setPlayerAction('work', 760);
-      if (state.gameOver) return;
-      const wall = preferred || state.buildings.find(b => contextDistance(b) <= 1 && (b.type === 'wall' || b.type === 'spikeWall') && (b.hp || 0) < (b.type === 'spikeWall' ? 4 : 3));
-      if (!wall) { toast('靠近受损墙体后才能修理'); return; }
-      if (state.wood < 2) { toast('木材不够，无法修理墙体'); return; }
-      if (!spendEnergy(14)) return;
+      if (!spendEnergy(14)) return { ok: false, reason: 'repair-energy' };
       state.wood -= 2;
-      const maxHp = wall.type === 'spikeWall' ? 4 : 3;
-      wall.hp = Math.min(maxHp, (wall.hp || 0) + 1);
+      const afterPayment = resources();
+      wall.hp = Math.min(maxHp, hpBefore + 1);
+      const hpAfterRepair = wall.hp;
       applyStandingDelta({ prestige: 1, merit: 2, contribution: 2, legitimacy: 1, domains: { defense: 2 } }, { reason: '修复营地防线', visibility: 'public' });
-      advance(20);
-      log(`你修理了${buildInfo[wall.type].name}，防线耐久 +1。`);
+      const standingAfterRepair = stableClone(state.campStanding), trustAfterRepair = campTrustValue();
+      const advanceStartSeq = state.worldMeta.eventSeq;
+      const advancement = advance(20);
+      const after = resources(), clockAfter = calendar();
+      const advanceEvents = state.worldMeta.events.filter(event => event.seq > advanceStartSeq && event.seq <= advancement.event.seq);
+      const proof = {
+        proofVersion: 1, buildingId: wall.id, buildingType,
+        target: { id: wall.id, type: buildingType, typeAtCompletion: state.buildings.includes(wall) ? wall.type : null, hpBefore, hpAfter: hpAfterRepair, maxHp, presentAtCompletion: state.buildings.includes(wall), hpAtCompletion: state.buildings.includes(wall) ? wall.hp : null },
+        payment: { cost: { wood: 2, energy: 14 }, before: { wood: before.wood, energy: before.energy }, after: { wood: afterPayment.wood, energy: afterPayment.energy } },
+        resources: { before, afterPayment, after },
+        delta: Object.fromEntries(Object.keys(before).map(key => [key, after[key] - before[key]])),
+        clock: { before: clockBefore, after: clockAfter, requestedMinutes: 20, elapsedMinutes: clockAfter.world - clockBefore.world },
+        standing: { before: standingBefore, afterRepair: standingAfterRepair, after: stableClone(state.campStanding), trustBefore, trustAfterRepair, trustAfter: campTrustValue(), eventIds: state.worldMeta.events.filter(event => event.seq > standingStartSeq && event.seq <= advanceStartSeq).map(event => event.eventId) },
+        advance: { commandId: advancement.commandId, eventId: advancement.event.eventId, causationId: advancement.event.causationId, minutes: advancement.event.payload.minutes, tick: stableClone(advancement.event.tick) },
+        advanceEffects: {
+          resourceDelta: Object.fromEntries(Object.keys(before).map(key => [key, after[key] - afterPayment[key]])),
+          events: advanceEvents.map(event => ({ eventId: event.eventId, type: event.type, actorId: event.actorId, commandId: event.commandId, causationId: event.causationId })),
+          npcMeals: advanceEvents.filter(event => event.type === 'npc.need.fulfilled' && event.payload.need === 'hunger').map(event => ({ eventId: event.eventId, npcId: event.payload.npcId, food: event.payload.food }))
+        }
+      };
+      log(`你修理了${buildInfo[buildingType].name}，防线耐久 +1。`);
       toast('墙体修理完成'); render();
+      return { ok: true, ...proof };
     }
-    function repairBuilding(preferred = null, options = {}) { if (!guardNightAction(options)) return nightActionResult(); return dispatchCommand({ type: 'building.repair', commandId: options.commandId, payload: { buildingId: preferred?.id || null } }, () => { const before = { wood: state.wood, stone: state.stone, food: state.food, parts: state.parts }; const result = repairBuildingReducer(preferred); return { result, payload: { buildingId: preferred?.id || null, delta: { wood: state.wood - before.wood, stone: state.stone - before.stone, food: state.food - before.food, parts: state.parts - before.parts } } }; }, { eventType: 'building.repaired' }); }
+    function repairBuilding(preferred = null, options = {}) {
+      if (!guardNightAction(options)) return nightActionResult();
+      return dispatchCommand({ type: 'building.repair', commandId: options.commandId, payload: { buildingId: preferred?.id || null } }, () => {
+        const result = repairBuildingReducer(preferred);
+        if (!result.ok) return result;
+        return { result, payload: result };
+      }, { eventType: 'building.repaired' });
+    }
     function plantOrHarvest(preferred = null, options = {}) { return actionCommand('crop.change','crop.changed',{buildingId:preferred?.id || null},()=>plantOrHarvestReducer(preferred),options); }
     function setNpcOrderReducer(id, orderId) {
       if (!guardNightAction()) return nightActionResult();

@@ -54,12 +54,16 @@ QA_ROOT = Path(os.environ.get("ZFARM_QA_DIR", str(Path.home() / ".cache" / "zfar
 # checksum, date and visible DOM. No localStorage writes or hidden game state.
 READ_SAVE = """key => {
   const raw = localStorage.getItem(key);
-  if (!raw) return null;
+  if (!raw) return {diagnosticMissingSave:true, diagnosticRaw:raw,
+    domDay:document.querySelector('#dayLabel')?.textContent || '',
+    domTime:document.querySelector('#timeLabel')?.textContent || ''};
   const envelope = JSON.parse(raw), payload = envelope.payload;
-  if (!payload) return {error:'missing-primary-envelope'};
+  if (!payload) return {error:'missing-primary-envelope', diagnosticRaw:raw,
+    domDay:document.querySelector('#dayLabel')?.textContent || '',
+    domTime:document.querySelector('#timeLabel')?.textContent || ''};
   let hash = 2166136261; const text = JSON.stringify(payload);
   for (let i=0; i<text.length; i++) {hash ^= text.charCodeAt(i); hash = Math.imul(hash,16777619);}
-  return {envelope, computedChecksum:(hash>>>0).toString(16),
+  return {envelope, computedChecksum:(hash>>>0).toString(16), diagnosticRaw:raw,
     domDay:document.querySelector('#dayLabel')?.textContent || '',
     domTime:document.querySelector('#timeLabel')?.textContent || ''};
 }"""
@@ -351,6 +355,10 @@ class Runner:
         else:
             self.expected_checkpoint = None
         self.result.setdefault("policy", {})["maxAcceptedDomSaveLagMinutes"] = 1
+        self._settle_call_number = 0
+        self._settle_atomic = None
+        self._settle_raw_bytes = None
+        self._settle_diagnostic = None
 
     def heartbeat(self) -> None:
         while not self.stop_heartbeat.wait(HEARTBEAT_SECONDS):
@@ -451,8 +459,10 @@ class Runner:
 
     def read_save(self) -> dict | None:
         observed = self.page.evaluate(READ_SAVE, SAVE_KEY)
-        if observed is None:
+        self.remember_atomic_settle_observation(observed)
+        if observed is None or observed.pop("diagnosticMissingSave", False):
             return None
+        observed.pop("diagnosticRaw", None)
         if "error" in observed:
             raise AssertionError(observed["error"])
         envelope = observed["envelope"]
@@ -469,26 +479,170 @@ class Runner:
         observed["domLagMinutes"] = observed["domMinute"] - minute
         return observed
 
+    def remember_atomic_settle_observation(self, observed) -> None:
+        """Metadata and raw binding only; never alter save validity or IO."""
+        self._settle_atomic = None
+        self._settle_raw_bytes = None
+        try:
+            if observed is None:
+                self._settle_atomic = {"savePresent": False, "atomicDomAvailable": False}
+                return
+            raw = observed.get("diagnosticRaw")
+            meta = {"savePresent": not bool(observed.get("diagnosticMissingSave")),
+                "atomicDomAvailable": True, "domDay": observed.get("domDay"), "domTime": observed.get("domTime"),
+                "rawBindingAvailable": isinstance(raw, str)}
+            if isinstance(raw, str):
+                # localStorage is a string. Bind its exact UTF-8/surrogatepass
+                # byte representation; keep only the latest raw, never 24 raws.
+                self._settle_raw_bytes = raw.encode("utf-8", errors="surrogatepass")
+                meta.update(rawEncoding="utf-8/surrogatepass", rawBytes=len(self._settle_raw_bytes),
+                    rawSha256=hashlib.sha256(self._settle_raw_bytes).hexdigest())
+            envelope = observed.get("envelope")
+            if isinstance(envelope, dict):
+                meta.update(savedAt=envelope.get("savedAt"), checksum=envelope.get("checksum"),
+                    computedChecksum=observed.get("computedChecksum"), reason=envelope.get("reason"),
+                    checksumMatches=envelope.get("checksum") == observed.get("computedChecksum"))
+                payload = envelope.get("payload")
+                if isinstance(payload, dict):
+                    meta.update(savedDay=payload.get("day"), savedHour=payload.get("hour"),
+                        savedMinutePart=payload.get("minute"), version=payload.get("version"))
+                    world_meta = payload.get("worldMeta")
+                    if isinstance(world_meta, dict):
+                        meta.update(eventSeq=world_meta.get("eventSeq"), lastCheckpointReason=world_meta.get("lastCheckpointReason"))
+                    try:
+                        meta["savedMinute"] = clock_minutes(payload)
+                        meta["savedAtMatchesCalendar"] = envelope.get("savedAt") == meta["savedMinute"]
+                    except Exception as calendar_error:
+                        meta["savedCalendarError"] = f"{type(calendar_error).__name__}:{calendar_error}"
+                    content = payload.get("contentState")
+                    meta["schemaMatches"] = payload.get("version") == 21 and isinstance(content, dict) and content.get("contentVersion") == 3
+            try:
+                meta["domMinute"] = dom_minutes(meta.get("domDay") or "", meta.get("domTime") or "")
+            except Exception as dom_error:
+                meta["domCalendarError"] = f"{type(dom_error).__name__}:{dom_error}"
+            self._settle_atomic = meta
+        except Exception as error:
+            # Instrumentation may fail, but it must not change the original
+            # read_save exception/return or accepted predicate.
+            self._settle_atomic = {"diagnosticError": f"{type(error).__name__}:{error}"}
+
+    def retain_settle_poll(self, poll: dict) -> None:
+        try:
+            poll["completedAtUnix"] = time.time()
+            poll["readObservation"] = self._settle_atomic
+            diagnostic = self._settle_diagnostic
+            diagnostic["pollCount"] += 1
+            diagnostic["polls"] = (diagnostic["polls"] + [poll])[-24:]
+            self.result["settleSaveObservation"] = diagnostic
+        except Exception as error:
+            self.result["settleSaveDiagnosticErrors"] = (self.result.get("settleSaveDiagnosticErrors", [])
+                + [f"retain:{type(error).__name__}:{error}"])[-10:]
+
+    def capture_settle_failure(self, error: Exception) -> None:
+        """Run before context.close; diagnostics never mask the original error."""
+        diagnostic = self._settle_diagnostic
+        diagnostic.update(status="failed", failedAtUnix=time.time(), error=f"{type(error).__name__}:{error}")
+        capture = {"version": 1, "kind": "readonly-settle-save-failure", "stage": self.stage,
+            "originalError": f"{type(error).__name__}:{error}", "observation": diagnostic,
+            "captureErrors": [], "screenshot": None, "rawArtifact": None,
+            "policy": {"maxPolls": 24, "predicateCalledOnlyAtOriginalShortCircuit": True,
+                "saveWrites": False, "gameActions": False, "acceptanceChanged": False,
+                "captureScreenshotTimeoutMs": 2000}}
+        token = f"settle-save-failure-{time.time_ns()}-c{diagnostic['callNumber']}"
+        try:
+            if self._settle_raw_bytes is not None:
+                raw_path = self.artifacts / (token + "-raw.txt")
+                with raw_path.open("xb") as output:
+                    output.write(self._settle_raw_bytes)
+                capture["rawArtifact"] = {"path": str(raw_path), "bytes": len(self._settle_raw_bytes),
+                    "sha256": hashlib.sha256(self._settle_raw_bytes).hexdigest(),
+                    "encoding": "utf-8/surrogatepass", "source": "last attempted poll, not a new post-failure storage read"}
+        except Exception as diagnostic_error:
+            capture["captureErrors"].append(f"raw:{type(diagnostic_error).__name__}:{diagnostic_error}")
+        try:
+            if self.page is not None and not self.page.is_closed():
+                screenshot = self.artifacts / (token + ".png")
+                if screenshot.exists():
+                    raise FileExistsError("diagnostic screenshot must not overwrite an existing artifact")
+                self.page.screenshot(path=str(screenshot), timeout=2000)
+                data = screenshot.read_bytes()
+                capture["screenshot"] = {"path": str(screenshot), "bytes": len(data),
+                    "sha256": hashlib.sha256(data).hexdigest(), "capturedAtUnix": time.time(),
+                    "source": "post-failure readonly screenshot; not an atomic poll screenshot"}
+        except Exception as diagnostic_error:
+            capture["captureErrors"].append(f"screenshot:{type(diagnostic_error).__name__}:{diagnostic_error}")
+        self.result["settleSaveFailure"] = capture
+        try:
+            output = self.artifacts / (token + ".json")
+            if output.exists():
+                raise FileExistsError("diagnostic JSON must not overwrite an existing artifact")
+            write_json(output, capture)
+            self.result["settleSaveFailureArtifact"] = str(output)
+        except Exception as diagnostic_error:
+            capture["captureErrors"].append(f"json:{type(diagnostic_error).__name__}:{diagnostic_error}")
+
     def settle_save(self, minimum_minute: int | None = None, minimum_seq: int | None = None, predicate=None) -> dict:
-        # Let the game's 650ms checkpoint debounce finish. Older builds only
-        # checkpointed training on the world timer; neither route permits an
-        # old save to count as current progress.
+        # Original deadline, 100ms polling, lag 0..1, bounds and predicate Gate
+        # remain. Only the current wait's last 24 completed polls are retained.
         end = min(self.deadline, time.monotonic() + ACTION_SECONDS)
-        while time.monotonic() < end:
-            self.guard()
-            observed = self.read_save()
-            if observed:
-                payload = observed["envelope"]["payload"]
-                seq = int(payload.get("worldMeta", {}).get("eventSeq", 0))
-                # The natural 1.2s clock and a 650ms debounced checkpoint can
-                # miss the same-minute window under heavy DOM work. Accept at
-                # most one minute of explicitly recorded DOM lag, retaining
-                # the action's minimum clock/seq and exact receipt predicate.
-                if 0 <= observed["domLagMinutes"] <= 1 and (minimum_minute is None or observed["minute"] >= minimum_minute) and (minimum_seq is None or seq >= minimum_seq) and (predicate is None or predicate(payload)):
-                    self.last_save = observed
-                    return observed
-            self.page.wait_for_timeout(100)
-        raise TimeoutError("primary save did not catch up to the DOM after checkpoint debounce")
+        self._settle_call_number += 1
+        self._settle_diagnostic = {"version": 1, "callNumber": self._settle_call_number,
+            "status": "waiting", "startedAtUnix": time.time(), "minimumMinute": minimum_minute,
+            "minimumSeq": minimum_seq, "predicateSupplied": predicate is not None,
+            "maxPolls": 24, "pollCount": 0, "polls": []}
+        self._settle_atomic = None
+        self._settle_raw_bytes = None
+        try:
+            while time.monotonic() < end:
+                poll = {"pollNumber": self._settle_diagnostic["pollCount"] + 1,
+                    "startedAtUnix": time.time(), "minimumMinute": minimum_minute,
+                    "minimumSeq": minimum_seq, "accepted": False,
+                    "gates": {"read": False, "lag": None, "minimumMinute": None,
+                        "minimumSeq": None, "predicateEvaluated": False, "predicate": None}}
+                self._settle_atomic = None
+                self._settle_raw_bytes = None
+                try:
+                    self.guard()
+                    observed = self.read_save()
+                    poll["readCompletedAtUnix"] = time.time()
+                    if observed:
+                        payload = observed["envelope"]["payload"]
+                        seq = int(payload.get("worldMeta", {}).get("eventSeq", 0))
+                        poll.update(savedMinute=observed["minute"], domMinute=observed["domMinute"],
+                            domLagMinutes=observed["domLagMinutes"], eventSeq=seq)
+                        gates = poll["gates"]
+                        gates["read"] = True
+                        gates["lag"] = 0 <= observed["domLagMinutes"] <= 1
+                        if gates["lag"]:
+                            gates["minimumMinute"] = minimum_minute is None or observed["minute"] >= minimum_minute
+                            if gates["minimumMinute"]:
+                                gates["minimumSeq"] = minimum_seq is None or seq >= minimum_seq
+                                if gates["minimumSeq"]:
+                                    gates["predicateEvaluated"] = predicate is not None
+                                    # Exactly one invocation/truth conversion,
+                                    # only where the original condition reached.
+                                    gates["predicate"] = True if predicate is None else bool(predicate(payload))
+                                    if gates["predicate"]:
+                                        self.last_save = observed
+                                        poll["accepted"] = True
+                                        self._settle_diagnostic["status"] = "accepted"
+                                        return observed
+                except Exception as poll_error:
+                    poll["error"] = f"{type(poll_error).__name__}:{poll_error}"
+                    raise
+                finally:
+                    self.retain_settle_poll(poll)
+                self.page.wait_for_timeout(100)
+            raise TimeoutError("primary save did not catch up to the DOM after checkpoint debounce")
+        except Exception as error:
+            try:
+                self.capture_settle_failure(error)
+            except Exception as diagnostic_error:
+                # Even an unexpected failure inside diagnostic capture must
+                # leave the original settle/read/predicate exception intact.
+                self.result["settleSaveDiagnosticErrors"] = (self.result.get("settleSaveDiagnosticErrors", [])
+                    + [f"capture:{type(diagnostic_error).__name__}:{diagnostic_error}"])[-10:]
+            raise
 
     def persist(self, stage: str, snapshot: dict | None = None, complete: bool = False) -> None:
         self.stage = stage

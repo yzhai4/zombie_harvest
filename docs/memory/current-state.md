@@ -4,9 +4,17 @@
 **基线：** `zfarm-world-1.0` 文档基线；工作树存在未提交运行时变更  
 **状态：** active
 
-**当前开发dist：** HTML `58a4bb28453429c73ad27baf22a377e3b7ff389b387a524196a06e490b0a65e1`，计划权限/同日冻结与phase-safe UI已集成。48/69方法及原177/43/27/16通过、goldens保持，本主题browser待执行。GitHub最新9146/CI64对应412c与V4/严格首轮tester；新58a4尚待下一提交/CI，生产保持公开v81。
+**当前开发dist：** HTML `faecaffd12aefdf3c1c0f1dd57130bbb2ba37d5da0e9a6e81bc1f7532733335c`，在58a4计划权限/同日冻结与phase-safe UI上集成统一命令编号和真实修墙proof。新增28/41及原177/48/69/43/27/16方法通过、goldens保持，公开browser待执行。GitHub仍7f30/CI65（58a4），本轮尚未上传，生产保持公开v81。
 
-**最新验收入口：** 报告恢复 v4 在412c完成真实 browser 48/48 场、1682/1682检查；独审与758原工件跨机SHA通过。严格单构建三日首轮真实FAILED（第二日保存同步超时），原94保存/profile保留，下一诊断不放宽判据。逐轮记录保留历史失败/时点；当前生产仍公开v81，草稿已验证9146/CI64。
+**最新验收入口：** 报告恢复 v4 在412c完成真实 browser 48/48 场、1682/1682检查；独审与758原工件跨机SHA通过。严格单构建三日两轮均真实FAILED；新58a4/5e诊断轮104保存、原件122文件全部核SHA，跨机同strict Gate仍114/123。阻塞读取与保存调度仍在调查；生产公开v81，不能移用旧构建CI/browser为faec验收。
+
+最新检查点为PR #4 head `7f30ed68c64d12706f7da1fb72a1be2b0235a3a2`、tree `245301d20e780897f0706907d9c775d87f38b4e5`（178 entries），13白名单blobSHA全部匹配；CI #65/run38648758065/job116142061917在精确7f30 success，已读步骤/decoded日志确认新48/69、58a4/177及原goldens/55static。root实际9保存投影仍4aec7a31、55静态fallback通过，Skill UTF8 quick_validate通过；无CI browser。
+
+严格三日第二轮现已terminal exit1：871.282秒、392已执行检查true、104原保存，下一第二日训练前等待超时；原report SHA `c053723f413f28735271b337faa3c5c1f62995c128f678b4a337b81550724114`。call110最后15实际poll主档2083/seq1087/SHAa6ea8707不变、DOM2084→2090；前14仅约7.43秒，第15整体读取172.274秒，尚不能归因一次周期save失败或CPU/OOM。失败截图超时明确保留；原JSON/raw、报告/checkpoint/14PNG共122文件64401875字节逐SHA归档，两台同Gate114/123、九项后续缺失不改FAILED。两个终止run的owned loopback服务已停止，profile不重启，public80仍active。新诊断runner5e原字节已接repo，无判据放宽。详见 `docs/qa/fresh-three-days-second-20261014.md`。
+
+本轮公开访问再次实查：Sites access_mode=public、revision6、active、v81；实际浏览器已读主菜单、地图和继续/新开按钮，无权限拦截，检查临时tab已关闭。没有发布或改变访问权限。
+
+Bus/repair两切片独审后root逆向撤销证明完整等于58a4，再接入faec；repo可移植28/41、旧writer TEST-ONLY fixture、CI步骤已添加，原380项与goldens/55static/9projection通过，尚未推送或执行公开维修browser。七case计划runner仍在准备，全部十人/晋升/技能及完整v82–v90继续active。见 `docs/qa/command-repair-integration-20261014.md`。新增项目问题/QA记录，无全局记忆变更。
 
 ## 可验证事实
 
