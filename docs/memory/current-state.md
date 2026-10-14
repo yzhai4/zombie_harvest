@@ -23,7 +23,7 @@
 - `node scripts/replay-harness.mjs --self-test`：通过，6 个夹具，当前 hash `afa81420`；五日夹具覆盖 `carpenter` 晋升与 `sergeant -> commander` 暂代。
 - `node scripts/validate-content.mjs`：通过，SAVE21/CONTENT3 已对齐。
 - `node scripts/smoke-three-days.mjs`：46 项通过；Playwright 本机不可用，服务器真实浏览器已覆盖关键闭环。
-- GitHub draft PR `#4` 已创建，最新 CI workflow run `53` 通过；Sites 生产仍保持原版本。
+- GitHub draft PR `#4` 已创建，最新 CI workflow run `54` 通过；Sites 生产仍保持原版本。
 - 服务器真实浏览器 smoke 已通过 19 项，覆盖 NPC 角色卡与首日晋升门控、夜间总结关闭与回到白天，记录在 `docs/qa/server-playtest-20261014.md`；线上 Sites 可公开访问，但浏览器插件对大型 Canvas 页面仍会超时。
 - 服务器 80 端口由 `zfarm-v82.service` 托管，systemd `enabled/active` 均已验证。
 
