@@ -115,3 +115,8 @@ EventLedger -> Replay / Debugger / Metrics -> Playtest / Evolution
 ### v87 迁移闸门补充（2026-10-15）
 
 领袖双层 harness 的离线与桥接证据已齐：ProjectionV1/IntentEnvelopeV1/GateReport 6/6、replay/idempotence/fallback 5/5、headless ledger adapter 6/6、CommandBus bridge 5/5、真实 reducer bridge VM 6/6。真实 VM 同时确认当前生产执行者仍为 `player-1`，因此先新增 proposed `ADR-20261015-leader-save-replay-migration.md`，定义未来 leaderRuntime 的最小持久化字段、保留窗口、迁移失败等级、回放 hash 和 actor 兼容策略；在迁移夹具与评审通过前，不改 SAVE21/CONTENT3、不接线上 LLM、不发布 Sites。
+
+
+### v82 白天战斗闭环补充（2026-10-15）
+
+昼间 combat gap 已以最小闭环修复：`runDayCombat` 在 `advanceReducer` 的移动后执行，NPC/塔/活动敌人按 Gate、范围、LOS、cadence 写入统一 `combat.damage.applied` 收据；塔有注册化战斗属性和安全耐久默认；夜潮仍独立。新增 ADR `ADR-20261015-daytime-combat.md`、问题记录 `PROB-20261015-daytime-combat-gap.md` 和 `check-daytime-combat.mjs`（6/6）。下一步是把该切片收敛到 CombatIntentV1/确定性批处理，再补墙体/建筑攻击和真实 browser 多日证据。
