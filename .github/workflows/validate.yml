@@ -33,6 +33,7 @@ jobs:
           node --check scripts/check-leader-llm-harness.mjs
           node --check scripts/check-leader-harness-replay.mjs
           node --check scripts/headless-leader-ledger-adapter.mjs
+          node --check scripts/check-leader-command-bridge.mjs
       - name: Check deployable entrypoints
         run: |
           test -s dist/index.html
@@ -63,6 +64,8 @@ jobs:
         run: node scripts/check-leader-harness-replay.mjs
       - name: Execute headless leader adapter contract
         run: node scripts/headless-leader-ledger-adapter.mjs
+      - name: Execute leader CommandBus bridge contract
+        run: node scripts/check-leader-command-bridge.mjs
       - name: Verify save projections and static smoke
         run: |
           node scripts/replay-harness.mjs --self-test
