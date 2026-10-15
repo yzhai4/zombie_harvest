@@ -8,7 +8,7 @@
 
 **最新验收入口：** 报告恢复 v4 在412c完成真实 browser 48/48 场、1682/1682检查；冻结58a4计划会七场真实browser完成7/7、203/203并已归档。严格单构建三日两轮均真实FAILED；新58a4/5e诊断轮104保存、原件122文件全部核SHA，跨机同strict Gate仍114/123。阻塞读取与保存调度仍在调查；faec计划/修墙公开browser已单独通过7/7、203/203，不能把它扩大为自然三日平衡证据。
 
-最新检查点为PR #4 head `3c750ff33156f83d940d9421693eb3de484046df`；CI #109/run38759360346已精确验证当前提交并成功，步骤包含 leader harness、命令/修墙、计划/内容/恢复/静态门禁；CI不运行真实browser，真实 faec browser 证据见 `docs/qa/plan-integrity-faec-browser-20261015.md`。58a4计划browser报告另有服务器归档证据。
+最新检查点为PR #4 head `e87ec2fe49b40527f25dd72615a7536b99873930`；CI #110/run38759578595已精确验证当前提交并成功，步骤包含 leader harness、命令/修墙、计划/内容/恢复/静态门禁；CI不运行真实browser，真实 faec browser 证据见 `docs/qa/plan-integrity-faec-browser-20261015.md`。58a4计划browser报告另有服务器归档证据。
 
 严格三日第二轮现已terminal exit1：871.282秒、392已执行检查true、104原保存，下一第二日训练前等待超时；原report SHA `c053723f413f28735271b337faa3c5c1f62995c128f678b4a337b81550724114`。call110最后15实际poll主档2083/seq1087/SHAa6ea8707不变、DOM2084→2090；前14仅约7.43秒，第15整体读取172.274秒，尚不能归因一次周期save失败或CPU/OOM。失败截图超时明确保留；原JSON/raw、报告/checkpoint/14PNG共122文件64401875字节逐SHA归档，两台同Gate114/123、九项后续缺失不改FAILED。两个终止run的owned loopback服务已停止，profile不重启，public80仍active。新诊断runner5e原字节已接repo，无判据放宽。详见 `docs/qa/fresh-three-days-second-20261014.md`。
 
@@ -131,3 +131,8 @@ v3唯一大归档现已真正exit0，root本机私有输出750文件/618954266�
 ## 领袖存档/回放迁移提案（2026-10-15）
 
 真实 reducer bridge VM 已通过 6/6：计划会提交、CP 扣除、committed 状态、事件因果、SAVE21 writer 校验、重复动作不二次扣款均来自实际 reducer；当前实际 actor 仍是 `player-1`，输出明确 `migrationRequired=true`、`productionWiring=false`。新增 proposed ADR `docs/decisions/ADR-20261015-leader-save-replay-migration.md`，规定未来 `leaderRuntimeSchemaVersion=1` 的最小收据（intent/actor/role/policy/projection hash/gate/command-event/replay hash）、有界保留、坏块恢复、SAVE18→SAVE21 不合成领袖事实，以及旧 `player-1` replay 不静默改名。SAVE21/CONTENT3、dist、Sites 和生产存档均未因该提案改变；下一步先补迁移/重复意图/坏 hash/回滚夹具，再评审 actor 语义后才开 runtime PR。
+
+
+## 领袖迁移 ADR 反例加固（2026-10-15）
+
+ADR-20261015 已补充 sourceActorId/resolvedActorId 映射、unknown/dead/duplicate actor 拒绝、坏 primary/backup 冻结与 FNV/read-back、canonical replay hash、迁移后二次 reload 不新增 receipt、single-known-build/source SHA、精确 hash、拒绝零副作用和六视角逐项夹具。该提交仍只改文档；SAVE21/CONTENT3、dist、Sites 和生产存档不变。
