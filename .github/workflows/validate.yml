@@ -35,6 +35,7 @@ jobs:
           node --check scripts/headless-leader-ledger-adapter.mjs
           node --check scripts/check-leader-command-bridge.mjs
           node --check scripts/check-leader-command-bridge-runtime.mjs
+          node --check scripts/check-daytime-combat.mjs
       - name: Check deployable entrypoints
         run: |
           test -s dist/index.html
@@ -69,6 +70,8 @@ jobs:
         run: |
           node scripts/check-leader-command-bridge.mjs
           node scripts/check-leader-command-bridge-runtime.mjs
+      - name: Execute daytime combat contract
+        run: node scripts/check-daytime-combat.mjs
       - name: Verify save projections and static smoke
         run: |
           node scripts/replay-harness.mjs --self-test
