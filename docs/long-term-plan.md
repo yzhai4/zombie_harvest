@@ -58,6 +58,8 @@ EventLedger -> Replay / Debugger / Metrics -> Playtest / Evolution
 
 先把营地计划会接入一个可替换的 `RolePlanner`，再接入母巢首脑。规划器输出 `Intent`，不输出状态补丁。
 
+领袖 LLM 采用双层 harness：刚性层由观察投影白名单、角色/阶段/资源/人口/实体/时间 Gate、注册 command 白名单、统一 CommandBus、幂等回执、回放和进程预算负责；软性层只约束角色价值、风险偏好、信息不确定性、记忆摘要和叙事表达。软性取舍可以由领袖自由调整，刚性规则不能由提示词、理由或新命令名称绕过。模型不可用时回退到同一角色的确定性规则 planner。具体合同见 `docs/decisions/ADR-20261014-leader-llm-harness.md`。
+
 首批意图：`support_proposal`、`modify_plan`、`probe_route`、`issue_horde_order`、`split_squad`、`retreat_order`。每个意图都有能力声明、观察权限、资源预算、期限、取消条件和 fallback。
 
 **阶段出口：** 规则 AI、受限 LLM、越权对照组在相同 seed 下可比较；所有拒绝和回退可解释、可回放。
@@ -108,4 +110,3 @@ EventLedger -> Replay / Debugger / Metrics -> Playtest / Evolution
 - LLM 越权、幻觉或成本异常：切回规则规划器，不阻塞游戏主线。
 - headless 指标与人工体验相反：保留数据，停止自动调参，增加人工评审集。
 - Colab 任务被回收：从 checkpoint 和 manifest 恢复，不把 notebook 状态当作唯一实验记录。
-

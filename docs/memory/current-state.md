@@ -4,7 +4,7 @@
 **基线：** `zfarm-world-1.0` 文档基线；工作树存在未提交运行时变更  
 **状态：** active
 
-**当前开发dist：** HTML `faecaffd12aefdf3c1c0f1dd57130bbb2ba37d5da0e9a6e81bc1f7532733335c`，在58a4计划权限/同日冻结与phase-safe UI上集成统一命令编号和真实修墙proof。新增28/41及原177/48/69/43/27/16方法通过、goldens保持，公开browser待执行。GitHub仍7f30/CI65（58a4），本轮尚未上传，生产保持公开v81。
+**当前开发dist：** HTML `faecaffd12aefdf3c1c0f1dd57130bbb2ba37d5da0e9a6e81bc1f7532733335c`，在58a4计划权限/同日冻结与phase-safe UI上集成统一命令编号和真实修墙proof。新增28/41及原177/48/69/43/27/16方法通过、goldens保持，公开browser待执行。GitHub已到3175/CI66精确验证，生产保持公开v81。
 
 **最新验收入口：** 报告恢复 v4 在412c完成真实 browser 48/48 场、1682/1682检查；独审与758原工件跨机SHA通过。严格单构建三日两轮均真实FAILED；新58a4/5e诊断轮104保存、原件122文件全部核SHA，跨机同strict Gate仍114/123。阻塞读取与保存调度仍在调查；生产公开v81，不能移用旧构建CI/browser为faec验收。
 
@@ -14,9 +14,13 @@
 
 本轮公开访问再次实查：Sites access_mode=public、revision6、active、v81；实际浏览器已读主菜单、地图和继续/新开按钮，无权限拦截，检查临时tab已关闭。没有发布或改变访问权限。
 
+本轮审阅了外部 `Zombie_Harvest_WorkGPT_Framework_v2.0.zip`（SHA `4ee090b47c6a27311d01b513dac24131ed215f4ff3b2e3d86be52768223ef1cc`）。它是未绑定的上下文/工作流模板，不是项目审计或业务实现；没有复制到项目根目录。领袖 LLM 的刚性/软性 harness 已形成 proposed ADR，当前仍不接入 runtime、SAVE21/CONTENT3 或 Sites。
+
 Bus/repair两切片独审后root逆向撤销证明完整等于58a4，再接入faec；repo可移植28/41、旧writer TEST-ONLY fixture、CI步骤已添加，原380项与goldens/55static/9projection通过，尚未推送或执行公开维修browser。七case计划runner仍在准备，全部十人/晋升/技能及完整v82–v90继续active。见 `docs/qa/command-repair-integration-20261014.md`。新增项目问题/QA记录，无全局记忆变更。
 
 ## 可验证事实
+
+最新源码检查点已推入draft PR #4 head `3175d1595ffd8439e0d127af1ceb48c32f7ddfb5`，parent7f30、tree `03b429b4e9ea7c83eb7de6de2250fe8b05283fee`（190 entries）；18白名单Git blob SHA核验、ref/PR fresh核一致。CI #66/run38652946788/job116155859130精确3175 success，步骤及decoded日志确认新28/41、原380项、faec source与goldens/55static；无CI browser。上文“尚未推送”和7f30最新状态是检查点之前的历史时点。本地Git索引仍不是远端最新提交。
 
 - 当前游戏是 Web/Canvas 竖切片，规则、UI 和内容注册仍主要位于 `dist/index.html`。
 - 已有昼夜循环、SAN、事件账本、内容注册表、统一效果 reducer、保存迁移、计划会和 replay harness。
