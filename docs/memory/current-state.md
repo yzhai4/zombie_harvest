@@ -136,3 +136,8 @@ v3唯一大归档现已真正exit0，root本机私有输出750文件/618954266�
 ## 领袖迁移 ADR 反例加固（2026-10-15）
 
 ADR-20261015 已补充 sourceActorId/resolvedActorId 映射、unknown/dead/duplicate actor 拒绝、坏 primary/backup 冻结与 FNV/read-back、canonical replay hash、迁移后二次 reload 不新增 receipt、single-known-build/source SHA、精确 hash、拒绝零副作用和六视角逐项夹具。该提交仍只改文档；SAVE21/CONTENT3、dist、Sites 和生产存档不变。
+
+
+## 白天战斗互伤闭环（2026-10-15）
+
+已在开发 dist 接入昼间 `runDayCombat`：NPC、防御塔和 `worldZombies` 活动敌人按固定 cadence、射程、视线与 active Gate 互相造成生命值伤害；所有命中走 `applyDayCombatDamage`，写入 `combat.damage.applied`，击杀/塔失活写 `combat.entity.defeated`。新建塔补齐 `hp/maxHp/active`，UI 从“夜间自动开火”改为“全天自动守备”。实际 inline runtime VM `scripts/check-daytime-combat.mjs` 6/6，通过保存/重载不重复扣血与夜间 Gate；本地源 SHA256 为 `a29d4aa87d38d148f458df8828a2dda20af169dc3178b65f6816ed8e9cd133cd`。该切片不改 SAVE21/CONTENT3、不合并夜战数据结构，Sites 仍未发布。
