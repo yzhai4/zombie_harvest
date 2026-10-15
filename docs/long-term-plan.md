@@ -110,3 +110,8 @@ EventLedger -> Replay / Debugger / Metrics -> Playtest / Evolution
 - LLM 越权、幻觉或成本异常：切回规则规划器，不阻塞游戏主线。
 - headless 指标与人工体验相反：保留数据，停止自动调参，增加人工评审集。
 - Colab 任务被回收：从 checkpoint 和 manifest 恢复，不把 notebook 状态当作唯一实验记录。
+
+
+### v87 迁移闸门补充（2026-10-15）
+
+领袖双层 harness 的离线与桥接证据已齐：ProjectionV1/IntentEnvelopeV1/GateReport 6/6、replay/idempotence/fallback 5/5、headless ledger adapter 6/6、CommandBus bridge 5/5、真实 reducer bridge VM 6/6。真实 VM 同时确认当前生产执行者仍为 `player-1`，因此先新增 proposed `ADR-20261015-leader-save-replay-migration.md`，定义未来 leaderRuntime 的最小持久化字段、保留窗口、迁移失败等级、回放 hash 和 actor 兼容策略；在迁移夹具与评审通过前，不改 SAVE21/CONTENT3、不接线上 LLM、不发布 Sites。
