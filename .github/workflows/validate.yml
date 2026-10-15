@@ -30,6 +30,7 @@ jobs:
           node --check scripts/check-plan-integrity-ui.mjs
           node --check scripts/check-command-id-reservation.mjs
           node --check scripts/check-repair-proof.mjs
+          node --check scripts/check-leader-llm-harness.mjs
       - name: Check deployable entrypoints
         run: |
           test -s dist/index.html
@@ -54,6 +55,8 @@ jobs:
         run: |
           node scripts/check-command-id-reservation.mjs --html dist/index.html --io-adapter scripts/check-report-recovery.mjs --out "$RUNNER_TEMP/command-id-reservation.json"
           node scripts/check-repair-proof.mjs --html dist/index.html --io-adapter scripts/check-report-recovery.mjs --legacy-repair-fixture scripts/fixtures/repair-proof/repair-legacy-basewriter.json --out "$RUNNER_TEMP/repair-proof.json"
+      - name: Execute leader LLM harness contract
+        run: node scripts/check-leader-llm-harness.mjs
       - name: Verify save projections and static smoke
         run: |
           node scripts/replay-harness.mjs --self-test
