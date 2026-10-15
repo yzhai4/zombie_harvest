@@ -137,3 +137,14 @@
 ## 接受条件
 
 由评审者确认 actor 语义、字段最小集、保留窗口、恢复错误等级和 replay 比较顺序后，才允许创建后续实现 PR。实现 PR 必须单独给出迁移前后版本、回滚点、旧档原字节 hash、CI 结果和真实 browser/服务器边界；在此之前，所有 leader harness 证据都视为离线/桥接证据。
+
+
+## 审阅补强：身份、坏档与 hash 负控
+
+在任何未来实现 PR 中，以下情况必须有可执行的正反夹具，不能用“默认回退到 player-1”掩盖身份缺失：
+
+- 只有在旧 writer 明确标记 legacy `player-1` 且 roster/role 唯一、活动状态有效时，才允许建立兼容映射；缺失、重复、错误 role、dead/absent/unknown actor 必须拒绝或进入 `RECOVERY_REQUIRED`。收据保留 `sourceActorId` 与 `resolvedActorId`，不能只写一个重写后的 actor。
+- 坏档负控覆盖 JSON 截断、顶层与 payload 不一致、checksum/version/savedAt 错误、`worldMeta.events`、`seenCommands`、`replay.commands`、roster 与 actor 相互矛盾。坏 primary 不覆盖安全 backup；恢复前后须做字节/FNV/read-back 核对，失败时保持冻结，不补造分钟、人口、事件或奖励。
+- replay hash 必须先定义 canonical 字段、排序、被剔除的运行时噪声，以及迁移 receipt 是否计入 hash。相同输入两次 hash 必须相等；迁移后二次 reload 不得新增 `save.migrated`、command 或 event。旧 opaque `commandId` 保留，未知身份拒绝。
+- 六视角验收要逐项落到不变量和负控：玩家权限；NPC/人口与死亡；营地资源/时间；势力权限；敌人/威胁；全局事件链/回放链。只给汇总文字不算通过。
+- 每个夹具绑定 single-known-build/source SHA，并检查迁移两次、reload、精确预期的 replay/projection hash，以及拒绝路径的 CP、资源、人口、时间、威胁、事件和奖励均为零变化。
