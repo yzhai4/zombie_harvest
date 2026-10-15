@@ -16,6 +16,8 @@
 
 本轮审阅了外部 `Zombie_Harvest_WorkGPT_Framework_v2.0.zip`（SHA `4ee090b47c6a27311d01b513dac24131ed215f4ff3b2e3d86be52768223ef1cc`）。它是未绑定的上下文/工作流模板，不是项目审计或业务实现；没有复制到项目根目录。领袖 LLM 的刚性/软性 harness 已形成 proposed ADR，当前仍不接入 runtime、SAVE21/CONTENT3 或 Sites。
 
+冻结 58a4 的计划会真实浏览器验收已通过：7/7 场景、203/203 checks，覆盖低信任/低CP、三种合法一次CP干预、两次reload、旧committed、同日真实遭遇/总结/关闭与回到白天；原工件164文件/39501317字节逐SHA归档，report SHA `00456e0d…`、archive SHA `bf7d81a2…`，不含profile。该结果只证明58a4；当前faec公开计划/修墙browser仍需单独验收。详见 `docs/qa/plan-integrity-browser-20261014.md`。
+
 Bus/repair两切片独审后root逆向撤销证明完整等于58a4，再接入faec；repo可移植28/41、旧writer TEST-ONLY fixture、CI步骤已添加，原380项与goldens/55static/9projection通过，尚未推送或执行公开维修browser。七case计划runner仍在准备，全部十人/晋升/技能及完整v82–v90继续active。见 `docs/qa/command-repair-integration-20261014.md`。新增项目问题/QA记录，无全局记忆变更。
 
 ## 可验证事实
