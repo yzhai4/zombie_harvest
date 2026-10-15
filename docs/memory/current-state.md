@@ -4,11 +4,11 @@
 **基线：** `zfarm-world-1.0` 文档基线；工作树存在未提交运行时变更  
 **状态：** active
 
-**当前开发dist：** HTML `faecaffd12aefdf3c1c0f1dd57130bbb2ba37d5da0e9a6e81bc1f7532733335c`，在58a4计划权限/同日冻结与phase-safe UI上集成统一命令编号和真实修墙proof。新增28/41及原177/48/69/43/27/16方法通过、goldens保持；faec公开browser已完成7/7、203/203并已归档。GitHub draft PR #4 当前为 67a301dceb4dbc22f316eff8d3db69366e66924a，生产保持公开v81。
+**当前开发dist：** HTML `faecaffd12aefdf3c1c0f1dd57130bbb2ba37d5da0e9a6e81bc1f7532733335c`，在58a4计划权限/同日冻结与phase-safe UI上集成统一命令编号和真实修墙proof。新增28/41及原177/48/69/43/27/16方法通过、goldens保持；faec公开browser已完成7/7、203/203并已归档。GitHub draft PR #4 当前为 b888d1fdafcdd846197197255159d8f25368474c，生产保持公开v81。
 
 **最新验收入口：** 报告恢复 v4 在412c完成真实 browser 48/48 场、1682/1682检查；冻结58a4计划会七场真实browser完成7/7、203/203并已归档。严格单构建三日两轮均真实FAILED；新58a4/5e诊断轮104保存、原件122文件全部核SHA，跨机同strict Gate仍114/123。阻塞读取与保存调度仍在调查；faec计划/修墙公开browser已单独通过7/7、203/203，不能把它扩大为自然三日平衡证据。
 
-最新检查点为PR #4 head `67a301dceb4dbc22f316eff8d3db69366e66924a`；CI #74/run38737637308已精确验证当前提交并成功，步骤包含 leader harness、命令/修墙、计划/内容/恢复/静态门禁；CI不运行真实browser，真实 faec browser 证据见 `docs/qa/plan-integrity-faec-browser-20261015.md`。58a4计划browser报告另有服务器归档证据。
+最新检查点为PR #4 head `b888d1fdafcdd846197197255159d8f25368474c`；CI #78/run38744125109已精确验证当前提交并成功，步骤包含 leader harness、命令/修墙、计划/内容/恢复/静态门禁；CI不运行真实browser，真实 faec browser 证据见 `docs/qa/plan-integrity-faec-browser-20261015.md`。58a4计划browser报告另有服务器归档证据。
 
 严格三日第二轮现已terminal exit1：871.282秒、392已执行检查true、104原保存，下一第二日训练前等待超时；原report SHA `c053723f413f28735271b337faa3c5c1f62995c128f678b4a337b81550724114`。call110最后15实际poll主档2083/seq1087/SHAa6ea8707不变、DOM2084→2090；前14仅约7.43秒，第15整体读取172.274秒，尚不能归因一次周期save失败或CPU/OOM。失败截图超时明确保留；原JSON/raw、报告/checkpoint/14PNG共122文件64401875字节逐SHA归档，两台同Gate114/123、九项后续缺失不改FAILED。两个终止run的owned loopback服务已停止，profile不重启，public80仍active。新诊断runner5e原字节已接repo，无判据放宽。详见 `docs/qa/fresh-three-days-second-20261014.md`。
 
