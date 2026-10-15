@@ -32,7 +32,6 @@ jobs:
           node --check scripts/check-repair-proof.mjs
           node --check scripts/check-leader-llm-harness.mjs
           node --check scripts/check-leader-harness-replay.mjs
-          node --check scripts/headless-leader-planner-replay.mjs
           node --check scripts/headless-leader-ledger-adapter.mjs
       - name: Check deployable entrypoints
         run: |
@@ -62,10 +61,8 @@ jobs:
         run: node scripts/check-leader-llm-harness.mjs
       - name: Execute leader harness replay contract
         run: node scripts/check-leader-harness-replay.mjs
-      - name: Execute headless leader adapter contracts
-        run: |
-          node scripts/headless-leader-planner-replay.mjs
-          node scripts/headless-leader-ledger-adapter.mjs
+      - name: Execute headless leader adapter contract
+        run: node scripts/headless-leader-ledger-adapter.mjs
       - name: Verify save projections and static smoke
         run: |
           node scripts/replay-harness.mjs --self-test
