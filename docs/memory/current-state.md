@@ -126,4 +126,3 @@ v3唯一大归档现已真正exit0，root本机私有输出750文件/618954266�
 严格三日已从冻结HTML412c与actor be4cf51d启动一次；runner SHA `293fc76c7479cb16989510c7d2aad3e116f763f36786d52ca91c009b88229c2e`、verifier SHA `4cca9356ceba55e47d9ac6c4ec0d08b62e926d2f7df2d29930f5af62f80b7434`。全新私有profile、loopback8783，显式fresh/strict-fresh/expected SHA、预算1800秒、day4清晨≥06:00；15秒实际心跳、约30秒父轮询同一进程，无重启或热换。DAY1显式reload与day2日界已实际进入，但整轮仍running，不拿前缀为三日通过。方法15/21与独审19/31仅是严格tester/source-ready证据，旧模式90+2保持。完整v82–v90仍active。
 
 该严格首轮现已真实exit1：694.23秒、359已执行检查均true，第二日下一公开训练前保存同步超时。原report SHA `366444feeee25a99f613bdf1245e7c40a5246b774bd4a9f44bc08b6a4aefc0b9`；strict独立Gate104/113，九项失败均完整性/后续阶段缺失，94原snapshot同412c、已观察DAY1/2 reload和day2日界。实际原PID不存在，profile/原报告不重开、不改FAILED；根因尚未确定，下一tester只加失败观测，不放宽原判据。详见 `docs/qa/fresh-three-days-first-20261014.md`。最小计划会业务候选fb871在私有目录48源码检查与独审通过，公开低信任UI一致性正另做候选；尚未集成当前dist或服务。全十人剧本卡及MeetingV2仍proposed。
-
