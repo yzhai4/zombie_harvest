@@ -75,6 +75,7 @@ vm.runInContext(`
   function updateRelayProject() {}
   function simulateWorldZombies() {}
   function integrateContinuousMotion() {}
+  function runDayCombat() {}
   function renderHud() {}
   let battleTimer = null;
   function clearInterval() {}
@@ -387,3 +388,4 @@ console.log(`plan-day source execution passed: ${checks.length} checks`);
 console.log(`sourceHtmlSha256: ${sourceHash}`);
 console.log(`planDayTraceHash: ${planDayTraceHash} (plan settlement/calendar contract; separate from content-chain trace)`);
 for (const name of checks) console.log(`  ✓ ${name}`);
+
