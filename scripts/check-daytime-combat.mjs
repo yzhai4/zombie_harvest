@@ -59,6 +59,9 @@ check('damage receipt preserves source, target, phase and event provenance', () 
 check('inactive tower stops dealing daytime damage', () => {
   tower.active = false; guard.supportRequested = false; guard.behaviorState = 'work'; const hp = enemy.hp; r.api.dayCombat(24); assert.equal(enemy.hp, hp);
 });
+check('daytime enemy can damage an active tower', () => {
+  state.night = false; tower.active = true; tower.hp = 10; tower.maxHp = 10; guard.x = 0; guard.y = 0; state.player.x = 0; state.player.y = 0; enemy.x = tower.x + 1; enemy.y = tower.y; enemy.goal = { x: tower.x, y: tower.y }; enemy.perception.targetId = tower.id; enemy.hp = 100; const before = tower.hp; r.api.dayCombat(12); assert.ok(tower.hp < before, `tower hp did not decrease: ${tower.hp}`); assert.equal(tower.active, true);
+});
 check('night gate prevents daytime combat re-entry', () => {
   tower.active = true; state.night = true; const hp = enemy.hp; const npcHp = guard.hp; r.api.dayCombat(24); assert.equal(enemy.hp, hp); assert.equal(guard.hp, npcHp);
 });
