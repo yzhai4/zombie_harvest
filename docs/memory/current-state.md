@@ -156,3 +156,8 @@ ADR-20261015 已补充 sourceActorId/resolvedActorId 映射、unknown/dead/dupli
 ## 白天战斗回放稳定性（2026-10-16）
 
 新增相同昼间战斗夹具的 replay hash 比较；同一 source fixture 的实体、NPC 状态和 combat 事件 hash 稳定。`check-daytime-combat.mjs` 现为 9/9，代码 CI #134/run38852349930 success。
+
+
+## CombatIntentV1 内部合同（2026-10-16）
+
+昼间命中 intent 已显式带 `schemaVersion=CombatIntentV1`、source/target ref、phase、intentId、attackSeq、profileId、amount 和 damageType；非法 intent 写 `combat.intent.rejected` 且不改 HP。该合同仍在 inline runtime 内，未宣称独立模块。
