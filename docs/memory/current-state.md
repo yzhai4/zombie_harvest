@@ -204,3 +204,8 @@ visible in-app browser 中真实点击新局和“推进到下一次威胁”，
 
 
 白天 CombatIntentV1 已从“仅文档/独立 checker”推进到 inline runtime canonical validator：结算前拒绝非法 phase、引用、数值、unknown field 与 statePatch，14/14 VM 回归通过。当前仍有 inline/Node 双份 validator，尚未抽成单一 GameCore import。
+
+
+## 事件身份与结算收口（2026-10-16）
+
+白天战斗当前回归为 17/17。每日事件按钮会保存并回传 `EventInstance` 的 instance/definition/version/event 四元身份；`resolveEvent` 在统一命令入口做 CAS，旧按钮、旧规划结果或版本不一致时只写 `command.rejected`，不运行 reducer、不扣资源、不清理敌人。资源不足等 reducer 非 terminal 结果写 `event.resolve.rejected`；只有原事件 handled=true 才写 `event.resolved` 并按捕获的 sourceEventId 清理。排队 NPC 事件、新旧来源和成功/拒绝路径均有 VM 夹具。完整 Gate/precondition evaluator、inline 与 Node validator 合并、自然多日 browser 回归仍未完成；Sites 生产仍为公开 v81，未部署本分支。
