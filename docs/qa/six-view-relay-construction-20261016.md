@@ -59,3 +59,35 @@ CI 还通过 content-chain 54/54、static three-day smoke 55/55、replay self-te
 ## 实施闸门
 
 在上述夹具和六视角账本通过前，不给 relay 的 `recover/stage/online` 元数据 choices 添加虚假的 `requires`，不把自治路径描述成完整 EventChain，也不发布 Sites。下一轮按“剧本卡与 schema → 纯事务/回滚夹具 → 真实 resolver/CommandBus 接线 → 存档迁移与 replay → browser smoke”推进；任何一项不能映射到现有执行路径，就先退回设计或 schema 议题。
+
+
+## 2026-10-16 producer trace / shadow contract recheck
+
+当前可执行运行时仍绑定源码 hash `1a5430620715363611914ad567f8b076253fbaa42bc200a10a93daf1bd53d463`。生产调用链已由追踪器固定为：
+
+```text
+startWorldSimulation daytime interval
+  -> advance(...)
+  -> CommandBus.dispatch(world.advance)
+  -> advanceReducer(amount)
+  -> updateRelayProject(minutes)
+  -> simulateWorldZombies
+  -> runDayCombat
+```
+
+- `check-relay-construction-producer.mjs` 在 CI #243（run `38910651546`，job `117005336695`）通过 **9/9**；CI #244（run `38910866393`，job `117006079423`）再次通过。追踪确认 `relay.projectAdvance` 目前只出现在 `stage/online` 注册元数据，没有真实 dispatch/handler；`updateRelayProject` 没有持久化四元 EventInstance token 或事务回滚；交接是独立的 tokenized `relay.coreHandoff` producer。
+- `RelayConstructionV1` shadow 在 CI #244 的同一 job 通过 **13/13**（fixtureCount 13），覆盖阶段迁移、资源来源/终态单次约束、四元 CAS、缺岗/坏工时/资源不足拒绝、重复 command 和 save→reload token。它仍是纯 Node 值合同，未被 UI、CommandBus、EventLedger 或 Sites 调用。
+- 追踪输出显式保留 `constructionCommandProducer:false`、`registryChoiceMetadataOnly:true`、`productionWiring:false`、`naturalGameplay:false`、`migrationRequired:true`。Python Playwright 不可用，CI 55 项 smoke 仍是 static contract，不构成自然多日浏览器证据。
+
+### 六视角增量结论
+
+| 视角 | 追踪后能确认的事实 | 仍需正式接线的边界 |
+| --- | --- | --- |
+| 玩家 | 白天 timer 会推进施工自治状态，交接按钮已有四元 token；施工没有独立命令反馈 | 施工 token、阶段预览、失败/回滚原因还未成为真实 Choice/Command UI |
+| NPC | `updateRelayProject` 按存活岗位阻塞/推进；shadow 要求参与者预检 | 死亡、失踪、替代岗位和工作段必须在真实 reducer 中原子结算 |
+| 营地 | 施工确实发生在 `world.advance` 与白天战斗前；shadow 冻结材料来源与终态一次性 | 库存/建筑占位/standing 的预留、回滚和 EventLedger receipt 尚未接入 |
+| 势力 | 当前只可归因到营地 `campStanding`；`redline/riverfolk/blackSoil` 不应因元数据自动获奖 | 施工/上线的 standing 来源和其他势力关系仍需显式事件事实 |
+| 敌人 | `runDayCombat` 在 relay 更新之后运行；施工 shadow 不直接生成敌人 | forecast/route 对尸潮强度的正式消费顺序、失败时的敌人守恒仍待验证 |
+| 全局事件链 | `world.advance` 是唯一自动 producer，handoff 有独立四元 token；施工 metadata choice 没有执行路径 | 需要显式 `relay.projectAdvance` producer、CAS→Gate→事务 reducer→receipt/replay 与 SAVE 迁移 |
+
+该增量只补调用链和证据边界，不把 shadow 13/13 或 producer trace 9/9 扩大成施工已迁移、浏览器通过、LLM 已接线或 Sites 发布。下一闸门仍是沿真实 `world.advance` producer 接入事务 adapter，并复跑上述六视角夹具。
