@@ -4950,7 +4950,26 @@
       button.dataset.eventSource = source;
       button.dataset.eventChoiceId = choiceId || '';
       button.dataset.eventNodeId = nodeId;
-      button.dataset.eventInstanceId = source === 'daily' ? state.eventInstance?.instanceId || state.event?.id || '' : '';
+      const daily = source === 'daily';
+      const event = daily ? (state.event || {}) : {};
+      const instance = daily ? (state.eventInstance || {}) : {};
+      // Keep the complete identity token on the rendered button.  A visible
+      // choice can outlive a queued-event swap or a definition migration, so
+      // the command must carry the same CAS fields that resolveEvent checks.
+      button.dataset.eventInstanceId = daily ? instance.instanceId || event.id || '' : '';
+      button.dataset.eventDefId = daily ? instance.defId || event.defId || event.id || '' : '';
+      button.dataset.eventDefinitionVersion = daily ? String(instance.definitionVersion || event.definitionVersion || EVENT_DEFINITION_VERSION) : '';
+      button.dataset.eventId = daily ? event.id || '' : '';
+    }
+    function eventChoiceExpectedToken(displayed = {}) {
+      if (!displayed || displayed.eventSource !== 'daily') return {};
+      const token = {};
+      if (displayed.eventInstanceId) token.expectedInstanceId = displayed.eventInstanceId;
+      if (displayed.eventDefId) token.expectedDefId = displayed.eventDefId;
+      if (displayed.eventId) token.expectedEventId = displayed.eventId;
+      const version = Number(displayed.eventDefinitionVersion);
+      if (Number.isFinite(version)) token.expectedDefinitionVersion = version;
+      return token;
     }
     function handleEventChoice(choiceKey, displayed = null) {
       if (SessionController.exiting) return;
@@ -4976,7 +4995,7 @@
         return;
       }
       if (displayed && (displayed.eventSource !== 'daily' || displayed.eventInstanceId !== (state.eventInstance?.instanceId || state.event?.id || ''))) { renderEvent(); return; }
-      resolveEvent(choiceKey);
+      resolveEvent(choiceKey, eventChoiceExpectedToken(displayed));
     }
     function renderEvent() {
       const views = eventContentChainViews();
@@ -6583,7 +6602,48 @@
       const instance = state.eventInstance || {};
       const def = currentEventDefinition();
       const effects = def?.choices?.find(item => item.id === choice)?.effects || [];
-      return dispatchCommand({ type: 'event.resolve', commandId: options.commandId, payload: { choice } }, () => { const resolvingEvent = state.event; const resolvingId = resolvingEvent?.id || null; const resolvingInstanceId = instance.instanceId || resolvingId; const result = resolveEventReducer(choice); const didResolve = resolvingEvent?.handled === true; if (didResolve && state.event?.id === resolvingId) { state.eventInstance = { ...(state.eventInstance || {}), status: 'resolved', handled: true, choice }; } if (didResolve) cleanupEventCombatTargets(resolvingInstanceId, choice, resolvingId); return { result, payload: { choice, eventId: resolvingId, instanceId: instance.instanceId || null, defId: def?.id || null, definitionVersion: def?.definitionVersion || EVENT_DEFINITION_VERSION, effects } }; }, { eventType: 'event.resolved', defId: def?.id || null, instanceId: instance.instanceId || null, definitionVersion: def?.definitionVersion || EVENT_DEFINITION_VERSION, effects, validate: () => eventGateCheck(choice) });
+      const currentInstanceId = instance.instanceId || state.event?.id || null;
+      const currentDefId = instance.defId || state.event?.defId || state.event?.id || null;
+      const currentDefinitionVersion = Number(instance.definitionVersion || def?.definitionVersion || EVENT_DEFINITION_VERSION);
+      const expectedInstanceId = options.expectedInstanceId === undefined ? currentInstanceId : options.expectedInstanceId;
+      const expectedDefId = options.expectedDefId === undefined ? currentDefId : options.expectedDefId;
+      const expectedDefinitionVersion = options.expectedDefinitionVersion === undefined ? currentDefinitionVersion : Number(options.expectedDefinitionVersion);
+      const expectedEventId = options.expectedEventId === undefined ? state.event?.id || null : options.expectedEventId;
+      const payload = { choice, expectedInstanceId, expectedDefId, expectedDefinitionVersion, expectedEventId };
+      return dispatchCommand({ type: 'event.resolve', commandId: options.commandId, payload }, () => {
+        const resolvingEvent = state.event;
+        const resolvingId = resolvingEvent?.id || null;
+        const resolvingInstanceId = instance.instanceId || resolvingId;
+        const result = resolveEventReducer(choice);
+        const didResolve = resolvingEvent?.handled === true;
+        if (didResolve && state.event?.id === resolvingId) state.eventInstance = { ...(state.eventInstance || {}), status: 'resolved', handled: true, choice };
+        if (didResolve) cleanupEventCombatTargets(resolvingInstanceId, choice, resolvingId);
+        return {
+          result,
+          eventType: didResolve ? 'event.resolved' : 'event.resolve.rejected',
+          defId: currentDefId,
+          instanceId: resolvingInstanceId,
+          definitionVersion: currentDefinitionVersion,
+          effects: didResolve ? effects : [],
+          payload: { ...payload, eventId: resolvingId, instanceId: resolvingInstanceId, defId: currentDefId, definitionVersion: currentDefinitionVersion, status: didResolve ? 'resolved' : 'rejected', reason: didResolve ? null : 'effect-rejected' }
+        };
+      }, {
+        defId: currentDefId,
+        instanceId: currentInstanceId,
+        definitionVersion: currentDefinitionVersion,
+        validate: command => {
+          const gate = eventGateCheck(choice);
+          if (!gate.ok) return gate;
+          const liveInstanceId = state.eventInstance?.instanceId || state.event?.id || null;
+          const liveDefId = state.eventInstance?.defId || state.event?.defId || state.event?.id || null;
+          const liveDefinitionVersion = Number(state.eventInstance?.definitionVersion || gate.definition?.definitionVersion || EVENT_DEFINITION_VERSION);
+          if (command.payload?.expectedInstanceId !== liveInstanceId) return { ok: false, reason: 'event-instance-conflict' };
+          if (command.payload?.expectedDefId !== liveDefId) return { ok: false, reason: 'event-definition-conflict' };
+          if (Number(command.payload?.expectedDefinitionVersion) !== liveDefinitionVersion) return { ok: false, reason: 'event-definition-version-conflict' };
+          if (command.payload?.expectedEventId !== (state.event?.id || null)) return { ok: false, reason: 'event-state-conflict' };
+          return { ok: true };
+        }
+      });
     }
     function startThreatEncounterReducer() {
       if (!guardNightAction()) return nightActionResult();
