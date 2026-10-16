@@ -3883,6 +3883,30 @@
       });
       return locked && visible.includes(locked) ? locked : visible[0] || null;
     }
+    const DAY_COMBAT_INTENT_FORBIDDEN_KEYS = new Set(['prompt', 'response', 'chainOfThought', 'rawModelOutput', 'statePatch']);
+    function validateDayCombatIntent(intent) {
+      if (!intent || typeof intent !== 'object' || Array.isArray(intent)) return { ok: false, reason: 'object-required' };
+      if (Object.keys(intent).some(key => DAY_COMBAT_INTENT_FORBIDDEN_KEYS.has(key))) return { ok: false, reason: 'model-or-patch-field' };
+      const required = ['schemaVersion', 'intentId', 'sourceRef', 'targetRef', 'phase', 'attackSeq', 'profileId', 'amount', 'damageType'];
+      if (required.some(key => !(key in intent))) return { ok: false, reason: 'required-field' };
+      if (intent.schemaVersion !== 'CombatIntentV1') return { ok: false, reason: 'schema-version' };
+      if (intent.phase !== 'DAY') return { ok: false, reason: 'phase' };
+      if (typeof intent.intentId !== 'string' || !intent.intentId) return { ok: false, reason: 'intent-id' };
+      if (!Number.isInteger(intent.attackSeq) || intent.attackSeq < 1) return { ok: false, reason: 'attack-seq' };
+      if (!Number.isInteger(intent.amount) || intent.amount < 1) return { ok: false, reason: 'amount' };
+      if (typeof intent.profileId !== 'string' || !intent.profileId) return { ok: false, reason: 'profile-id' };
+      if (typeof intent.damageType !== 'string' || !intent.damageType) return { ok: false, reason: 'damage-type' };
+      for (const ref of [intent.sourceRef, intent.targetRef]) if (!ref || typeof ref.id !== 'string' || !ref.id || typeof ref.kind !== 'string' || !ref.kind) return { ok: false, reason: 'entity-ref' };
+      if (intent.sourceEventId !== undefined && intent.sourceEventId !== null && (typeof intent.sourceEventId !== 'string' || !intent.sourceEventId)) return { ok: false, reason: 'source-event-id' };
+      const allowed = new Set([...required, 'sourceEventId']);
+      if (Object.keys(intent).some(key => !allowed.has(key))) return { ok: false, reason: 'unknown-field' };
+      return { ok: true };
+    }
+    function canonicalDayCombatIntent(intent) {
+      const candidate = { schemaVersion: 'CombatIntentV1', intentId: intent?.intentId, sourceRef: intent?.sourceRef, targetRef: intent?.targetRef, phase: 'DAY', attackSeq: intent?.attackSeq, profileId: intent?.profileId, amount: intent?.amount, damageType: intent?.damageType, sourceEventId: intent?.sourceEventId ?? null };
+      const check = validateDayCombatIntent(candidate);
+      return check.ok ? { ok: true, intent: candidate } : check;
+    }
     function applyDayCombatDamage(source, target, amount, meta = {}) {
       if (!source || !target || !Number.isFinite(Number(amount)) || amount <= 0 || target.active === false || target.hp !== undefined && Number(target.hp) <= 0) return { ok: false, reason: 'target-dead' };
       const before = Number(target.hp);
@@ -3936,14 +3960,14 @@
       const intents = [];
       let attackSeq = 0;
       const batchSeq = (Number(state.world.dayCombatIntentSeq) || 0) + 1;
-      const queue = (source, target, amount, meta = {}) => { if (!source || !target || !Number.isFinite(Number(amount)) || amount <= 0) return; attackSeq += 1; intents.push({ schemaVersion: 'CombatIntentV1', intentId: `day-${batchSeq}-${attackSeq}`, source, target, sourceRef: { id: dayCombatId(source, meta.sourceKind || 'source'), kind: meta.sourceKind || 'source' }, targetRef: { id: dayCombatId(target, meta.targetKind || 'target'), kind: meta.targetKind || 'target' }, phase: 'DAY', amount: Math.round(Number(amount)), ...meta, sourceId: dayCombatId(source, meta.sourceKind || 'source'), targetId: dayCombatId(target, meta.targetKind || 'target'), attackSeq }); };
+      const queue = (source, target, amount, meta = {}) => { if (!source || !target || !Number.isFinite(Number(amount)) || amount <= 0) return; attackSeq += 1; intents.push({ schemaVersion: 'CombatIntentV1', intentId: `day-${batchSeq}-${attackSeq}`, source, target, sourceRef: { id: dayCombatId(source, meta.sourceKind || 'source'), kind: meta.sourceKind || 'source' }, targetRef: { id: dayCombatId(target, meta.targetKind || 'target'), kind: meta.targetKind || 'target' }, phase: 'DAY', amount: Math.round(Number(amount)), ...meta, damageType: meta.damageType || 'physical', sourceId: dayCombatId(source, meta.sourceKind || 'source'), targetId: dayCombatId(target, meta.targetKind || 'target'), attackSeq }); };
       const towers = dayDefenseBuildings();
       towers.forEach(tower => { const profile = dayTowerProfile(tower); tower.combatClock = (Number(tower.combatClock) || 0) + minutes; while (tower.combatClock >= profile.cadence && tower.active !== false) { tower.combatClock -= profile.cadence; const target = dayTowerTarget(tower); if (!target) continue; queue(tower, target, profile.damage, { sourceKind: 'tower', targetKind: 'event-enemy', profileId: `tower.${tower.type}` }); } });
       state.npcs.filter(dayNpcCanAttack).sort((a, b) => String(a.id).localeCompare(String(b.id))).forEach(npc => { npc.combatClock = (Number(npc.combatClock) || 0) + minutes; while (npc.combatClock >= DAY_COMBAT_RULES.npc.cadence && npcIsActive(npc)) { npc.combatClock -= DAY_COMBAT_RULES.npc.cadence; const target = dayNpcTarget(npc); if (!target) continue; const skill = Number(npc.attributes?.weaponSkill) || 50; queue(npc, target, DAY_COMBAT_RULES.npc.baseDamage + Math.round((skill - 50) / 12), { sourceKind: 'npc', targetKind: 'event-enemy', profileId: 'npc.guard.day' }); } });
       dayCombatEnemyTargets().sort((a, b) => String(a.id).localeCompare(String(b.id))).forEach(zombie => { zombie.attackClock = (Number(zombie.attackClock) || 0) + minutes; while (zombie.attackClock >= DAY_COMBAT_RULES.enemy.cadence && zombie.hp > 0) { zombie.attackClock -= DAY_COMBAT_RULES.enemy.cadence; const target = dayEnemyTarget(zombie); if (!target || distanceBetween(zombie, target) > DAY_COMBAT_RULES.enemy.range) continue; const damage = DAY_COMBAT_RULES.enemy[zombie.kind] || DAY_COMBAT_RULES.enemy.normal; queue(zombie, target, damage, { sourceKind: 'event-enemy', targetKind: target.id === 'player-1' ? 'player' : target.role ? 'npc' : target.type ? 'building' : 'target', damageType: 'bite', profileId: `enemy.${zombie.kind || 'normal'}.day` }); } });
       state.world.dayCombatIntentSeq = batchSeq;
       intents.sort((a, b) => a.sourceId.localeCompare(b.sourceId) || a.targetId.localeCompare(b.targetId) || a.attackSeq - b.attackSeq);
-      intents.forEach(intent => { const valid = intent.schemaVersion === 'CombatIntentV1' && intent.phase === 'DAY' && intent.sourceRef?.id && intent.targetRef?.id && Number.isInteger(intent.attackSeq) && intent.amount > 0; if (!valid) { recordWorldEvent('combat.intent.rejected', { schemaVersion: intent.schemaVersion || null, intentId: intent.intentId || null, reason: 'invalid-intent' }, { actorId: intent.sourceId || 'camp-autonomy' }); return; } const meta = { ...intent }; if (intent.target.id === 'player-1') applyDayPlayerDamage(intent.source, intent.amount, meta); else applyDayCombatDamage(intent.source, intent.target, intent.amount, meta); });
+      intents.forEach(intent => { const normalized = canonicalDayCombatIntent(intent); if (!normalized.ok) { recordWorldEvent('combat.intent.rejected', { schemaVersion: intent.schemaVersion || null, intentId: intent.intentId || null, reason: normalized.reason }, { actorId: intent.sourceId || 'camp-autonomy' }); return; } const meta = { ...intent, ...normalized.intent }; if (intent.target.id === 'player-1') applyDayPlayerDamage(intent.source, normalized.intent.amount, meta); else applyDayCombatDamage(intent.source, intent.target, normalized.intent.amount, meta); });
       state.worldZombies = (state.worldZombies || []).filter(zombie => zombie.hp > 0);
     }
     function updateEnemyPerception(zombie, minutes = 0) {
