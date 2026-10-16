@@ -22,10 +22,11 @@
 2. `briefed → staging → building → online` 是唯一允许的施工状态迁移；`unknown`、`core-recovered` 和 `online` 不能被施工命令越过。
 3. 材料、工作分钟和参与岗位在预检阶段验证；资源不足、缺岗、夜间、负数或坏命令在任何状态写入前拒绝。
 4. 同一 `commandId` 只结算一次；成功迁移写明确的 `constructionStarted`、`materialsCommitted`、`stationOnline` 事件类型和新 token。
-5. adapter 采用纯值返回，失败返回原实例快照，作为未来 reducer 的回滚参考；生产资源扣除和事件落账仍由正式 runtime 接线时实现。
+5. 材料或资源扣除必须携带稳定的 `resourceSource`；来源会进入 receipt、施工事件和历史，且可由上下文约束，避免把库存扣除误归因给未知来源。
+6. adapter 采用纯值返回，失败返回原实例快照，作为未来 reducer 的回滚参考；生产资源扣除和事件落账仍由正式 runtime 接线时实现。
 
 实现文件：`scripts/lib/relay-construction-v1.mjs`，夹具：
-`scripts/fixtures/relay-construction-v1.json`。这是合同与可达性测试，不是
+`scripts/fixtures/relay-construction-v1.json`（13 个成功/拒绝用例，含来源与终态重入）。这是合同与可达性测试，不是
 “施工已经接入 EventInstance/ContentChain”的声明。
 
 ## 不在本 ADR 内
@@ -37,6 +38,7 @@
 ## 回滚与下一步
 
 删除或停用 shadow runner 不影响生产运行时。正式接线前必须沿真实命令生产者
-补充：CAS→Gate→岗位/占位/库存预留→事务 reducer→receipt 的顺序、资源来源
-账本、save→reload token、与同一 `world.advance` 中 CombatIntent 的确定顺序。
+补充：CAS→Gate→岗位/占位/库存预留→事务 reducer→receipt 的顺序、可核对的资源来源
+账本、save→reload token、终态 stationOnline 单次约束，以及与同一 `world.advance` 中
+CombatIntent 的确定顺序。
 
