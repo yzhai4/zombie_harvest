@@ -2953,7 +2953,9 @@
        const definition = contentDefinition('eventChain', chainId);
        if (!definition) return { ok: false, reason: 'chain-missing' };
        if (!contentPhaseAllows(definition)) return { ok: false, reason: 'phase-window' };
-       if (state.contentState.completedChains.includes(chainId)) return { ok: false, reason: 'chain-completed' };
+       const repeatable = definition.repeatable === true;
+       const episodeKey = repeatable ? `${chainId}:${state.day}` : chainId;
+       if (state.contentState.completedChains.includes(episodeKey)) return { ok: false, reason: 'chain-completed', episodeKey };
        if (state.contentState.activeChains[chainId]) return { ok: true, duplicate: true, active: state.contentState.activeChains[chainId] };
        const actorId = meta.actorId || 'player-1';
        if (contentDefinitionUsesGateV1(definition)) {
@@ -2962,17 +2964,18 @@
        } else if (!(definition.startConditions || []).every(contentConditionMet)) return { ok: false, reason: 'start-condition' };
        const firstNode = definition.nodes?.[0];
        if (!firstNode) return { ok: false, reason: 'chain-node-missing' };
-       const active = { chainId, nodeId: firstNode.nodeId, status: 'active', startedAt: worldMinute(), actorId, resolvedNodeIds: [] };
+       const active = { chainId, instanceKey: episodeKey, nodeId: firstNode.nodeId, status: 'active', startedAt: worldMinute(), actorId, resolvedNodeIds: [] };
        state.contentState.activeChains[chainId] = active;
-       recordWorldEvent('content.chain.started', { chainId, nodeId: firstNode.nodeId }, { actorId: meta.actorId || 'player-1', defId: chainId });
+       recordWorldEvent('content.chain.started', { chainId, instanceKey: episodeKey, nodeId: firstNode.nodeId }, { actorId: meta.actorId || 'player-1', defId: chainId });
        return { ok: true, active };
      }
      function resolveContentChain(chainId, nodeId, choiceId, meta = {}) {
        const gate = contentChainRuntimeGate(); if (!gate.ok) return gate;
        ensureContentState();
        const definition = contentDefinition('eventChain', chainId); const active = state.contentState.activeChains[chainId];
+       const episodeKey = active?.instanceKey || chainId;
        if (definition && !contentPhaseAllows(definition)) return { ok: false, reason: 'phase-window' };
-       if (state.contentState.completedChains.includes(chainId)) return { ok: false, reason: 'chain-completed' };
+       if (definition && !definition.repeatable && state.contentState.completedChains.includes(chainId) || definition?.repeatable && active && state.contentState.completedChains.includes(episodeKey)) return { ok: false, reason: 'chain-completed', episodeKey };
        const node = definition?.nodes?.find(item => item.nodeId === nodeId); const choice = node?.choices?.find(item => item.id === choiceId);
        if (!definition || !active || active.status !== 'active' || active.nodeId !== nodeId || !choice) return { ok: false, reason: 'chain-choice-missing' };
        const history = Array.isArray(active.history) ? active.history.filter(entry => entry && typeof entry.nodeId === 'string' && typeof entry.choiceId === 'string') : [];
@@ -2980,15 +2983,15 @@
        // saves can rebuild this optional set from history and effect receipts.
        const definedNodeIds = [...new Set((definition.nodes || []).map(item => item.nodeId).filter(id => typeof id === 'string'))];
        const settled = new Set([...(Array.isArray(active.resolvedNodeIds) ? active.resolvedNodeIds : []), ...history.map(entry => entry.nodeId)]);
-       definition.nodes.forEach(item => { if ((item.choices || []).some(option => state.contentState.appliedEffects.includes(`${chainId}:${item.nodeId}:${option.id}`))) settled.add(item.nodeId); });
+       definition.nodes.forEach(item => { if ((item.choices || []).some(option => state.contentState.appliedEffects.includes(`${episodeKey}:${item.nodeId}:${option.id}`))) settled.add(item.nodeId); });
        const resolvedNodeIds = definedNodeIds.filter(id => settled.has(id));
        if (resolvedNodeIds.includes(nodeId)) return { ok: false, reason: 'chain-node-resolved' };
        if (choice.next && !definition.nodes?.some(item => item.nodeId === choice.next)) return { ok: false, reason: 'chain-next-node-missing' };
        const actorId = meta.actorId || active.actorId || 'player-1';
        const choiceGate = contentChainChoiceGateRuntime(definition, choice, { actorId, event: { id: chainId, defId: chainId, nodeId, choiceId }, instance: { instanceId: `content-${chainId}-${active.startedAt || state.day}`, defId: chainId, definitionVersion: Number(definition.definitionVersion) || 1, status: 'active', actorId } });
        if (!choiceGate.ok) return choiceGate;
-       if (state.contentState.appliedEffects.includes(`${chainId}:${nodeId}:${choiceId}`)) return { ok: false, reason: 'chain-choice-already-applied' };
-       const result = applyContentEffects(choice.effects || [], { actorId: meta.actorId || 'player-1', defId: chainId, effectId: `${chainId}:${nodeId}:${choiceId}` });
+       if (state.contentState.appliedEffects.includes(`${episodeKey}:${nodeId}:${choiceId}`)) return { ok: false, reason: 'chain-choice-already-applied' };
+       const result = applyContentEffects(choice.effects || [], { actorId: meta.actorId || 'player-1', defId: chainId, effectId: `${episodeKey}:${nodeId}:${choiceId}` });
        if (!result.ok) return result;
        if (choice.next) {
          // Effects normalize contentState, so the pre-effect active reference
@@ -3001,8 +3004,8 @@
          return { ok: true, chainId, nodeId, choiceId, nextNodeId: choice.next, active: current, results: result.results };
        }
        delete state.contentState.activeChains[chainId];
-       state.contentState.completedChains = [...new Set([...state.contentState.completedChains, chainId])].slice(-100);
-       recordWorldEvent('content.chain.resolved', { chainId, nodeId, choiceId, results: result.results }, { actorId: meta.actorId || 'player-1', defId: chainId, effects: choice.effects || [] });
+       state.contentState.completedChains = [...new Set([...state.contentState.completedChains, episodeKey])].slice(-100);
+       recordWorldEvent('content.chain.resolved', { chainId, instanceKey: episodeKey, nodeId, choiceId, results: result.results }, { actorId: meta.actorId || 'player-1', defId: chainId, effects: choice.effects || [] });
        return { ok: true, chainId, nodeId, choiceId, results: result.results };
      }
      function resolveContentFallback(chainId, reason = 'ifSkipped', meta = {}) {
@@ -3013,16 +3016,17 @@
        if (!['ifMissingNpc', 'ifInsufficientPopulation', 'ifExpired', 'ifSkipped'].includes(reason)) return { ok: false, reason: 'fallback-reason' };
        const phaseDays = (definition.phase || []).map(phase => Number(String(phase).match(/^day_(\d+)$/i)?.[1])).filter(Number.isFinite);
        if (reason === 'ifExpired' ? !phaseDays.length || state.day <= Math.max(...phaseDays) : !contentPhaseAllows(definition)) return { ok: false, reason: 'phase-window' };
-       if (state.contentState.completedChains.includes(chainId)) return { ok: true, duplicate: true, chainId, reason };
+       const episodeKey = active?.instanceKey || chainId;
+       if (definition && !definition.repeatable && state.contentState.completedChains.includes(chainId) || definition?.repeatable && active && state.contentState.completedChains.includes(episodeKey)) return { ok: true, duplicate: true, chainId, episodeKey, reason };
        if (!active || active.status !== 'active') return { ok: false, reason: 'chain-not-started' };
        const fallbackSpec = definition.fallback?.[reason] || definition.fallback?.ifSkipped || 'ledger_only';
        const fallbackId = typeof fallbackSpec === 'string' ? fallbackSpec : (fallbackSpec?.id || 'ledger_only');
        const fallbackEffects = Array.isArray(fallbackSpec) ? fallbackSpec : (fallbackSpec?.effects || definition.fallbackEffects?.[fallbackId] || []);
-       const effectResult = applyContentEffects(fallbackEffects, { actorId: meta.actorId || 'camp-autonomy', defId: chainId, effectId: `${chainId}:fallback:${reason}` });
+       const effectResult = applyContentEffects(fallbackEffects, { actorId: meta.actorId || 'camp-autonomy', defId: chainId, effectId: `${episodeKey}:fallback:${reason}` });
        if (!effectResult.ok) return effectResult;
        if (active) delete state.contentState.activeChains[chainId];
-       state.contentState.completedChains = [...new Set([...state.contentState.completedChains, chainId])].slice(-100);
-       const payload = { chainId, reason, fallbackId, active: !!active, results: effectResult.results || [] };
+       state.contentState.completedChains = [...new Set([...state.contentState.completedChains, episodeKey])].slice(-100);
+       const payload = { chainId, instanceKey: episodeKey, reason, fallbackId, active: !!active, results: effectResult.results || [] };
        recordWorldEvent('content.chain.fallback', payload, { actorId: meta.actorId || 'camp-autonomy', defId: chainId, effects: fallbackEffects });
        state.contentState.history = [...state.contentState.history, { id: `${chainId}:fallback:${reason}`, at: worldMinute(), payload, actorId: meta.actorId || 'camp-autonomy' }].slice(-100);
        return { ok: true, ...payload };
@@ -3054,7 +3058,7 @@
            { id: 'ration', label: '收紧配给', hint: '营地崩溃压力 +2，保留现有库存。', requires: [], effects: [{ op: 'adjustMeter', key: 'campCollapse', value: 2 }, { op: 'recordHistory', key: 'zh-food-shortage-001:ration', payload: { route: 'ration' } }] },
            { id: 'forage', label: '让后勤官带队补采', hint: '后勤官在岗时补回 2 份食物。', requires: [{ type: 'role_available', role: 'quartermaster' }], effects: [{ op: 'addResource', key: 'food', value: 2 }, { op: 'recordHistory', key: 'zh-food-shortage-001:forage', payload: { route: 'forage' } }] }
          ] }],
-         fallback: { ifMissingNpc: { id: 'shortage_deferred', effects: [{ op: 'adjustMeter', key: 'campCollapse', value: 1 }] }, ifInsufficientPopulation: { id: 'shortage_deferred', effects: [{ op: 'adjustMeter', key: 'campCollapse', value: 2 }] }, ifExpired: 'ledger_only', ifSkipped: 'ledger_only' }, hooks: ['onDayStart'], optional: true
+         fallback: { ifMissingNpc: { id: 'shortage_deferred', effects: [{ op: 'adjustMeter', key: 'campCollapse', value: 1 }] }, ifInsufficientPopulation: { id: 'shortage_deferred', effects: [{ op: 'adjustMeter', key: 'campCollapse', value: 2 }] }, ifExpired: 'ledger_only', ifSkipped: 'ledger_only' }, hooks: ['onDayStart'], repeatable: true, optional: true
        })
      });
      Object.values(SCENARIO_RUNTIME_STORYLETS).forEach(definition => { if (!contentDefinition('eventChain', definition.chainId)) registerContent('eventChain', definition); });
