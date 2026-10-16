@@ -160,6 +160,31 @@ export function validateRelayConstructionCommand(command, context = {}) {
   return { ok: true, token, minutes };
 }
 
+function hasPositive(values) {
+  return RELAY_MATERIAL_KEYS.some(key => Number(values?.[key] || 0) > 0);
+}
+
+function normalizeResourceSource(raw) {
+  return typeof raw === 'string' && raw.trim() ? raw.trim() : null;
+}
+
+function validateResourceSource(outcome, context, materialDelta, resourceDebits, instance) {
+  const requiresSource = hasPositive(materialDelta) || hasPositive(resourceDebits);
+  const source = normalizeResourceSource(outcome.resourceSource);
+  if (requiresSource && !source) return failure('resource-source-missing', {}, instance);
+  const expected = normalizeResourceSource(context.resourceSource);
+  if (expected && source !== expected) return failure('resource-source-conflict', { expected, actual: source }, instance);
+  if (context.allowedResourceSources !== undefined) {
+    if (!Array.isArray(context.allowedResourceSources) || context.allowedResourceSources.some(item => !normalizeResourceSource(item))) {
+      return failure('resource-source-context-invalid', {}, instance);
+    }
+    if (source && !context.allowedResourceSources.map(normalizeResourceSource).includes(source)) {
+      return failure('resource-source-not-allowed', { source }, instance);
+    }
+  }
+  return { ok: true, source };
+}
+
 function validateDelta(delta, label) {
   if (delta === undefined) return { ok: true, value: Object.fromEntries(RELAY_MATERIAL_KEYS.map(key => [key, 0])) };
   if (!delta || typeof delta !== 'object' || Array.isArray(delta)) return failure(`${label}-invalid`);
@@ -208,6 +233,10 @@ export function applyRelayConstructionStep(rawInstance, command, outcome = {}, c
   if (!debitResult.ok) return { ...debitResult, instance: clone(instance) };
   const inventoryResult = checkInventory(debitResult.value, context);
   if (!inventoryResult.ok) return { ...inventoryResult, instance: clone(instance) };
+  const sourceResult = validateResourceSource(outcome, context, materialResult.value, debitResult.value, instance);
+  if (!sourceResult.ok) return { ...sourceResult, instance: clone(instance) };
+  const excessMaterial = RELAY_MATERIAL_KEYS.filter(key => materialResult.value[key] > Math.max(0, instance.materialNeed[key] - instance.materialProgress[key]));
+  if (excessMaterial.length) return { ...failure('material-delta-exceeds-need', { excessMaterial }, instance), instance: clone(instance) };
   if (instance.status === 'building' && RELAY_MATERIAL_KEYS.some(key => materialResult.value[key] > 0)) return { ...failure('material-phase-invalid', { status: instance.status }, instance), instance: clone(instance) };
   const eventIds = Array.isArray(outcome.eventIds) ? outcome.eventIds : [];
   if (eventIds.some(id => typeof id !== 'string' || !id) || new Set(eventIds).size !== eventIds.length) return { ...failure('event-id-contract-invalid', {}, instance), instance: clone(instance) };
@@ -227,7 +256,7 @@ export function applyRelayConstructionStep(rawInstance, command, outcome = {}, c
     if (next.status === 'briefed') {
       next.status = 'staging';
       next.phase = phaseFor(next.status);
-      emit('relay.constructionStarted', { projectId: next.instanceId, assignedNpcIds: [...next.assignedNpcIds], materialNeed: clone(next.materialNeed) });
+      emit('relay.constructionStarted', { projectId: next.instanceId, assignedNpcIds: [...next.assignedNpcIds], materialNeed: clone(next.materialNeed), resourceSource: sourceResult.source });
     }
     if (next.status === 'staging') {
       RELAY_MATERIAL_KEYS.forEach(key => {
@@ -241,7 +270,7 @@ export function applyRelayConstructionStep(rawInstance, command, outcome = {}, c
         next.phase = phaseFor(next.status);
         next.materialClock = 0;
         next.workMinutes = 0;
-        emit('relay.materialsCommitted', { projectId: next.instanceId, materialProgress: clone(next.materialProgress), buildingId: next.buildingId });
+        emit('relay.materialsCommitted', { projectId: next.instanceId, materialProgress: clone(next.materialProgress), buildingId: next.buildingId, resourceSource: sourceResult.source });
       }
     }
     if (next.status === 'building') {
@@ -250,14 +279,14 @@ export function applyRelayConstructionStep(rawInstance, command, outcome = {}, c
         next.status = 'online';
         next.phase = phaseFor(next.status);
         next.workMinutes = next.targetMinutes;
-        emit('relay.stationOnline', { projectId: next.instanceId, buildingId: next.buildingId, targetMinutes: next.targetMinutes });
+        emit('relay.stationOnline', { projectId: next.instanceId, buildingId: next.buildingId, targetMinutes: next.targetMinutes, resourceSource: sourceResult.source });
       }
     }
-    next.history = [...next.history, { commandId: command.commandId, statusBefore, statusAfter: next.status, eventIds: events.map(event => event.eventId) }].slice(-100);
+    next.history = [...next.history, { commandId: command.commandId, statusBefore, statusAfter: next.status, eventIds: events.map(event => event.eventId), resourceSource: sourceResult.source }].slice(-100);
   } catch (error) {
     return { ...failure('transition-failed', { message: String(error?.message || error) }, instance), instance: clone(instance) };
   }
-  const receipt = { commandId: command.commandId, duplicate: false, statusBefore, statusAfter: next.status, tokenBefore: constructionToken(instance), tokenAfter: constructionToken(next), eventIds: events.map(event => event.eventId) };
+  const receipt = { commandId: command.commandId, duplicate: false, statusBefore, statusAfter: next.status, tokenBefore: constructionToken(instance), tokenAfter: constructionToken(next), eventIds: events.map(event => event.eventId), resourceSource: sourceResult.source };
   return { ok: true, duplicate: false, instance: next, events, receipt };
 }
 
