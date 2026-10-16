@@ -120,3 +120,8 @@ EventLedger -> Replay / Debugger / Metrics -> Playtest / Evolution
 ### v82 白天战斗闭环补充（2026-10-15）
 
 昼间 combat gap 已以最小闭环修复：`runDayCombat` 在 `advanceReducer` 的移动后执行，NPC/塔/活动敌人按 Gate、范围、LOS、cadence 写入统一 `combat.damage.applied` 收据；塔有注册化战斗属性和安全耐久默认；夜潮仍独立。新增 ADR `ADR-20261015-daytime-combat.md`、问题记录 `PROB-20261015-daytime-combat-gap.md` 和 `check-daytime-combat.mjs`（10/10）。当前已接入独立 schema、正反夹具、内部稳定批处理、敌人→防御建筑目标、replay hash 和重复 world.advance 幂等；已新增 `scripts/lib/combat-intent-v1.mjs` 作为独立 normalize/validate/sort/canonical 模块；下一步是让 GameCore/运行时直接消费该模块，继续补命令级幂等的独立 reducer 证据，并进入真实 browser 多日回归。
+
+
+### v82 browser smoke 补充（2026-10-16）
+
+当前 dist 已完成本地 loopback browser 启动、新局创建、昼间推进到实时战况的真实 DOM smoke；下一步仍需服务器/浏览器多日自然回归，不能把这次短 smoke 扩大为平衡证据。
