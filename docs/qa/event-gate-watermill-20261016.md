@@ -9,7 +9,7 @@
 
 | 检查 | 结果 | 证据边界 |
 | --- | --- | --- |
-| `node scripts/check-content-chain.mjs` | 53/53 通过；source replay hash `c5d6c772` | 执行 HTML 内真实 registry、Gate、resolver、effect reducer 与保存恢复夹具；不是浏览器证据 |
+| `node scripts/check-content-chain.mjs` | 54/54 通过；source replay hash `c5d6c772` | 执行 HTML 内真实 registry、Gate、resolver、effect reducer 与保存恢复夹具；包含正向修复存档；不是浏览器证据 |
 | `node scripts/check-inline-syntax.mjs dist/index.html` | 通过 | 语法边界 |
 | `node scripts/check-daytime-combat.mjs` | 23/23 通过 | 昼间伤害合同；与水车 Gate 分开记账 |
 | `node scripts/check-night-guard.mjs` | 通过 | 夜间入口边界；以最终提交 CI 为准 |
@@ -47,5 +47,5 @@
 - 未执行自然 day4 触发、连续三日真实浏览器或 Sites 线上回归；Playwright 缺失时不能把静态 smoke 当作浏览器通过。
 - 本轮未迁移 `EventInstance`/CAS 或统一 `EventEffect`；只迁移 Gate 入口，效果语义沿用现有 reducer。
 - `contentConditionMet` 对未知对象条件 fail closed 属于全局行为收紧，需在最终 CI 和旧内容包审计中确认没有未登记类型。
-- 对应 CI #196 / run `38899208656` 已绿色；生产 Sites v81 未部署本分支。
+- 对应 CI #199 / run `38900043759` 已绿色；生产 Sites v81 未部署本分支。
 
