@@ -143,3 +143,8 @@ CI #259（run `38921110774`，job `117040949418`）通过 runtime 8/8、producer
 ## v82.1 role availability checkpoint（2026-10-17）
 
 断粮 forage 分支已从“NPC 存活”收紧为“岗位可履职”，GateV1 通过 outpost ledger、actingRole 和恢复三类夹具。source gameplay 4/4；重复危机实例和 browser 仍是下一闸门。
+
+
+## v82.1 repeatable episode checkpoint（2026-10-17）
+
+断粮 storylet 已具备最小可重复 episode：按日生成稳定 instanceKey，同日幂等、跨日重开，且旧链回放 golden 不变。source gameplay 4/4；统一 EventInstance/SAVE 迁移与 browser 仍待开发。

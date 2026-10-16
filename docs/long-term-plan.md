@@ -206,3 +206,10 @@ CI #266（run `38932973787`，job `117081308370`）在 `d389365e960ba04685a4074e
 断粮 forage 选择现使用 GateV1 `role_available`，实际调用 `npcFulfillsRole`：NPC 阵亡、据点驻守或 actingRole 被转移时拒绝，恢复后才放行。CI #272 source gameplay 4/4，源码提交 `a8c3883741c9e1c49050675580b98b6c51c29862`，HTML SHA-256 `90c808b8ef33e7a67a982548605c322fe4a40cd7520b2b3f45302abee3b1a94b`。
 
 该节点仍是一次性首轮 crisis；重复 episode、完整继任调度、自然 browser 和生产 LLM 保持未完成。
+
+
+### v82.1 repeatable shortage episode 重绑定（2026-10-17）
+
+断粮危机现在拥有最小可重复实例合同：`repeatable:true` 的链按 `chainId:day` 生成 `instanceKey`，效果去重和 completed 账本使用 episode key；同一天的重复启动被拒绝，跨日可再次触发。为了保护旧链回放，`instanceKey` 只出现在 repeatable 节点的 active/start/resolved/fallback 事实中。CI #275 保持旧 content-chain golden，并通过 source gameplay 4/4；源码提交 `9411847fc7bea874ffdd1bb2b723641cc495771f`，HTML hash `65825523f4c8a79a425fc3a8ce55dcbc9fae1296e49c3a3f5e898c52169f8070`。
+
+这仍是单一断粮节点的 episode 试验，不等同于所有事件链都已 repeatable 化；下一步是把 episode key 纳入统一 EventInstance/SAVE migration 合同，再做真实 browser save/reload。

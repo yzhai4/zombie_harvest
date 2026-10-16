@@ -89,3 +89,10 @@ CI #259（run `38921110774`，job `117040949418`）通过 runtime 8/8、producer
 
 - `role_available` 已覆盖当前岗位可履职判定，但一次性 `completedChains` 仍阻止重复 shortage episode。
 - 完整 successor scheduler、role vacancy ledger 与 browser natural play 尚未进入本轮证据。
+
+
+## 2026-10-17 风险更新（repeatable episode）
+
+- 当前 repeatable contract 只用于断粮 storylet，尚未推广到所有 EventDef/ContentChain。
+- episode key 还未进入统一 EventInstance/SAVE migration；跨版本旧档与 browser reload 仍未验。
+- CI source-VM 4/4 和旧 golden 通过，Python Playwright unavailable，不能替代自然多日试玩。

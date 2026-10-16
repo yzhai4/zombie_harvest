@@ -288,3 +288,8 @@ CI #259（run `38921110774`，job `117040949418`）在同一构建通过 runtime
 ## 2026-10-17 role availability 增量
 
 新增 `role_available` GateV1 条件，断粮 storylet 的 forage 选择现在尊重据点驻守和 actingRole 继任状态。CI #272 source gameplay 4/4，HTML hash `90c808b8ef33e7a67a982548605c322fe4a40cd7520b2b3f45302abee3b1a94b`。
+
+
+## 2026-10-17 repeatable episode 增量
+
+`zh-food-shortage-001` 现在按 `chainId:day` 生成 repeatable episode，第二天可重新触发；旧 content-chain golden 保持通过。CI #275 runtime HTML hash `65825523f4c8a79a425fc3a8ce55dcbc9fae1296e49c3a3f5e898c52169f8070`。
