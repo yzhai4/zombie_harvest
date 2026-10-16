@@ -135,3 +135,10 @@ EventLedger -> Replay / Debugger / Metrics -> Playtest / Evolution
 ### v82 事件身份 CAS 补充（2026-10-16）
 
 事件链迁移先落一个窄边界：UI 与规划器必须携带 `EventInstance` 的 instance/definition/version/event 四元 token，统一 resolver 在效果前比较并拒绝陈旧命令；成功、非 terminal 拒绝和 CAS 冲突使用不同 receipt，清理只由原实例的 terminal handled 触发。当前白天源回归 17/17，覆盖成功、资源拒绝、排队激活、旧实例、版本冲突和 UI token。这个切片不等同于完整 EventDef precondition evaluator，也不改变 SAVE21/CONTENT3、Sites 或生产 LLM 接线；下一入口是把 Gate/precondition 与独立 validator 收敛到 GameCore，再做自然多日 browser。
+
+
+### v82 GateV1 事件门禁补充（2026-10-16）
+
+先把已有 EventDef/EventInstance/Choice/Effect/Gate 的语义收敛到一个可验证的只读 GateV1 适配器，再扩大内容迁移。GateV1 只对显式 gateVersion: 1 或 evaluatePreconditions: true 的定义生效；旧事件继续使用原 reducer-specific gate，避免把未冻结的条件词汇误解释成新规则。SAN（NPC/玩家）和中继链是首批接线样本，Choice.requires 与 EventDef preconditions 共享同一 evaluator，CAS 先于 Gate，Gate 先于效果事务。
+
+阶段出口补充：在相同 seed 下，SAN 阈值通过/拒绝、relay 缺失事实、未知/畸形条件、错误 phase、旧 EventInstance 和队列切换都必须有可回放拒绝；Gate 评估不能产生状态变化。下一步是把 GateV1 迁移到一个内容支线节点，并将 inline evaluator 与独立 GameCore 模块合并；在此之前不扩大到领袖 LLM 生产接线或 Sites 发布。

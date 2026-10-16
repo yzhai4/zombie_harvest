@@ -119,3 +119,10 @@ v80 冻结状态边界；v81 接入营地自治与计划会；v82 接入 NPC 属
 可见性验收先对账生产CSS和当前公开入口。旧utility-row中的cropBtn被设计隐藏，disabled解除不等于该备用按钮应可见；作物需通过近菜畦contextActions真实验证，不改CSS、hidden click或运行中造成熟度。原close/SAN补偿先按精确账本取证，随后导航与实际收获各取新的真实保存基线。crop.changed空payload或no-op receipt不能代替实际food/plot变化、唯一crop.change重放和causationId关联；后续刷新用真实行动后存档，不把作物行动混作关闭奖励或自然时钟。
 
 AI 规划器只产生结构化意图，不能写入 `GameState`。游戏主循环必须能在没有 GPU、没有外部 LLM 和网络失败时通过规则策略继续运行。Colab 只执行有 manifest、checkpoint 和分片结果的可恢复任务，不作为线上常驻后端。
+
+
+## EventDef / GateV1 迁移规则（2026-10-16）
+
+事件系统迭代先区分“注册字段存在”和“运行时真正执行”。只有显式 gateVersion: 1 或 evaluatePreconditions: true 的 EventDef 才由 GateV1 评估；旧定义保持原 reducer 语义，不能因补齐字段而改变行为。Gate evaluator 必须纯读、白名单化、未知/畸形条件 fail-closed，并接收 EventInstance 的 actor 上下文；Choice.requires 与 EventDef.preconditions 不得各自复制解释器。
+
+命令入口的顺序固定为 session/identity CAS → Gate → reducer/effect transaction。Gate 失败只写拒绝账本，不扣资源、不清理敌人、不推进事件；terminal handled 之后才可做来源清理。每次迁移至少加入通过/拒绝/未知条件/错误 phase/旧实例和 save-reload 回放夹具；静态契约或单轮浏览器 smoke 不得写成多日自然回归。

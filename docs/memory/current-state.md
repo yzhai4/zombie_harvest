@@ -209,3 +209,12 @@ visible in-app browser 中真实点击新局和“推进到下一次威胁”，
 ## 事件身份与结算收口（2026-10-16）
 
 白天战斗当前回归为 17/17。每日事件按钮会保存并回传 `EventInstance` 的 instance/definition/version/event 四元身份；`resolveEvent` 在统一命令入口做 CAS，旧按钮、旧规划结果或版本不一致时只写 `command.rejected`，不运行 reducer、不扣资源、不清理敌人。资源不足等 reducer 非 terminal 结果写 `event.resolve.rejected`；只有原事件 handled=true 才写 `event.resolved` 并按捕获的 sourceEventId 清理。排队 NPC 事件、新旧来源和成功/拒绝路径均有 VM 夹具。完整 Gate/precondition evaluator、inline 与 Node validator 合并、自然多日 browser 回归仍未完成；Sites 生产仍为公开 v81，未部署本分支。
+
+
+## 2026-10-16 GateV1 事件门禁切片
+
+统一事件注册现在有一个显式 opt-in 的 GateV1 边界：EventDef 记录 gateVersion/evaluatePreconditions/preconditions/gate，Choice.requires 规范化为数组，Gate 只读检查阶段、演员上下文和白名单条件。当前支持 SAN 的 npc.sanity <= 45、玩家 SAN、player_tool:/tech:/flag:、存活、营地信任、地标和日期对象条件；未知对象、未知路径、额外字段和非法 phase 均 fail-closed。Gate 不写状态、不发收据、不执行效果。
+
+npc.sanity、npc.sanity-player 和 relay-chain-001 已标记 GateV1。动态玩家 SAN 事件统一映射到 npc.sanity-player；中继交接验证在自己的命令入口复用同一只读 gate，原有岗位/距离/资源 reducer 保持不变。事件结算顺序固定为 EventInstance 四元 CAS（instance/def/version/event）→ Gate → reducer/effect；陈旧命令仍只写 command.rejected。
+
+本轮本地源 HTML SHA256 为 b33d3dcc5cd9fb2bd8452e6dcb45d9623d1b695dc63dd5d3b051c292a15e7888。scripts/check-daytime-combat.mjs 为 23/23，另有 inline syntax、report recovery 177 项、content-chain 43 项、night guard、content validator、replay fixture 10 和 static smoke 55 项通过。Python Playwright 不可用，未把这些结果称为多日浏览器回归；Sites 生产仍公开 v81，未部署本分支。
