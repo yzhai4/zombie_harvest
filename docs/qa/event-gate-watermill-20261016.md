@@ -1,7 +1,7 @@
 # 水车 GateV1 迁移 QA
 
 **日期：** 2026-10-16  
-**构建：** 本地 `dist/index.html` 并发工作树快照；最终 HTML SHA-256 在远端上传后记录  
+**构建：** 分支 `codex/v82-npc-succession` 的 `dist/index.html`；SHA-256 `bc85cbeab7f00236e7bde84f01d05596676b359fb66b077645103011810fb23d`  
 **范围：** `watermill-002` 的 GateV1 启动与选择门控  
 **发布状态：** 未部署 Sites；生产 v81 保持不变
 
@@ -47,5 +47,5 @@
 - 未执行自然 day4 触发、连续三日真实浏览器或 Sites 线上回归；Playwright 缺失时不能把静态 smoke 当作浏览器通过。
 - 本轮未迁移 `EventInstance`/CAS 或统一 `EventEffect`；只迁移 Gate 入口，效果语义沿用现有 reducer。
 - `contentConditionMet` 对未知对象条件 fail closed 属于全局行为收紧，需在最终 CI 和旧内容包审计中确认没有未登记类型。
-- 远端上传后需重新计算并记录最终 HTML hash，等待对应 CI 绿色，再更新 PR 说明；在此之前不发布 Sites。
+- 对应 CI #196 / run `38899208656` 已绿色；生产 Sites v81 未部署本分支。
 
