@@ -119,4 +119,4 @@ EventLedger -> Replay / Debugger / Metrics -> Playtest / Evolution
 
 ### v82 白天战斗闭环补充（2026-10-15）
 
-昼间 combat gap 已以最小闭环修复：`runDayCombat` 在 `advanceReducer` 的移动后执行，NPC/塔/活动敌人按 Gate、范围、LOS、cadence 写入统一 `combat.damage.applied` 收据；塔有注册化战斗属性和安全耐久默认；夜潮仍独立。新增 ADR `ADR-20261015-daytime-combat.md`、问题记录 `PROB-20261015-daytime-combat-gap.md` 和 `check-daytime-combat.mjs`（6/6）。下一步是把该切片收敛到 CombatIntentV1/确定性批处理，再补墙体/建筑攻击和真实 browser 多日证据。
+昼间 combat gap 已以最小闭环修复：`runDayCombat` 在 `advanceReducer` 的移动后执行，NPC/塔/活动敌人按 Gate、范围、LOS、cadence 写入统一 `combat.damage.applied` 收据；塔有注册化战斗属性和安全耐久默认；夜潮仍独立。新增 ADR `ADR-20261015-daytime-combat.md`、问题记录 `PROB-20261015-daytime-combat-gap.md` 和 `check-daytime-combat.mjs`（7/7）。下一步是把该切片收敛到 CombatIntentV1/确定性批处理，再补墙体/建筑攻击和真实 browser 多日证据。
