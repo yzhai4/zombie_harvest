@@ -161,3 +161,8 @@ ADR-20261015 已补充 sourceActorId/resolvedActorId 映射、unknown/dead/dupli
 ## CombatIntentV1 内部合同（2026-10-16）
 
 昼间命中 intent 已显式带 `schemaVersion=CombatIntentV1`、source/target ref、phase、intentId、attackSeq、profileId、amount 和 damageType；非法 intent 写 `combat.intent.rejected` 且不改 HP。该合同仍在 inline runtime 内，未宣称独立模块。
+
+
+## 独立 CombatIntentV1 schema（2026-10-16）
+
+新增 `docs/schemas/combat-intent-v1.json`、正反夹具和 `scripts/check-combat-intent-v1.mjs`。schema 约束 DAY、source/target ref、intentId、attackSeq、profile、amount、damageType，并拒绝 prompt、raw model output 和 state patch；CI #144/run38853093166 已通过 5/5。
