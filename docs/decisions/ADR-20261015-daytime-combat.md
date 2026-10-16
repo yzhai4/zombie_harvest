@@ -75,3 +75,8 @@ DAY 的攻击只由 `SessionController.mode === 'DAY'` 且 `state.night === fals
 ## 结算失败边界（2026-10-16）
 
 事件效果因资源不足等原因拒绝时，原事件保持 active，不能清理其战斗目标，也不能写成功清理收据。wrapper 以 resolve 前捕获的事件对象的 terminal handled 状态作为清理 Gate；queued-event 与 rejected-resolve 夹具均纳入白天战斗回归，当前 13/13。
+
+
+## Runtime validator wiring（2026-10-16）
+
+昼间 runtime 现在在结算前构造严格的 CombatIntentV1 canonical envelope，执行 schema/version、DAY phase、引用、正整数、damageType、unknown-field 和 model/state-patch leakage 校验；非法 intent 写 rejected receipt，不改变 HP。checker 以真实 inline runtime 验证正反合同，当前白天回归 14/14。独立 Node module 与 inline validator 的代码仍需后续合并为单一可导入 GameCore 模块。
