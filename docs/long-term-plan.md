@@ -125,3 +125,8 @@ EventLedger -> Replay / Debugger / Metrics -> Playtest / Evolution
 ### v82 browser smoke 补充（2026-10-16）
 
 当前 dist 已完成本地 loopback browser 启动、新局创建、昼间推进到实时战况的真实 DOM smoke；下一步仍需服务器/浏览器多日自然回归，不能把这次短 smoke 扩大为平衡证据。
+
+
+## 2026-10-16 事件战斗清理收口
+
+白天战斗闭环已覆盖成功结算、排队事件切换和资源不足拒绝三条路径；resolve 只在原事件进入 terminal handled 状态后清理 sourceEventId 敌人。下一步优先把独立 CombatIntentV1 validator 直接接入 runtime，再推进 EventInstance 的 instance/node/version CAS；在此之前不扩大为领袖 LLM 生产接线或多日自然回归已完成。
