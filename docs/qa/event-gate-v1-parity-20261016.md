@@ -6,7 +6,7 @@
 
 ## 检查命令
 
-`node scripts/check-event-gate-parity.mjs`：11/11 通过（共享 10 个 GateV1 夹具，并额外检查夹具集合同时包含允许与拒绝路径）。runner 将 inline 函数片段放入隔离 VM，把同一状态和上下文分别交给 inline 与纯模块，比较 `ok/reason/gateVersion/phase/checked` 以及规范化 Gate envelope。
+`node scripts/check-event-gate-parity.mjs`：11/11 通过（共享 10 个 GateV1 夹具，并额外检查夹具集合同时包含允许与拒绝路径）。runner 将 inline 函数片段放入隔离 VM，把同一状态和上下文分别交给 inline 与纯模块，比较完整 JSON 结果（包括失败门、details 和 actor 信息）、规范化 Gate envelope，并确认两边都没有改变输入状态。
 
 本地共享工作树的 HTML hash 为并发工作树值，不能作为远端发布证据。远端 CI 必须输出该 runner 的 authoritative `sourceHtmlSha256`；本轮不上传或部署本地 `dist/index.html`。
 
