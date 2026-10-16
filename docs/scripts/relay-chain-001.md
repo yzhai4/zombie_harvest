@@ -1,5 +1,11 @@
 # relay-chain-001：广播中继链
 
+## Runtime status（2026-10-16）
+
+这张剧本卡包含目标设计与当前接线，不能把下表和验收条目直接当成已实现能力。当前运行时已注册 `relay-chain-001` 的 EventDef 元数据，并在 `handoffRelayCore` 的命令入口复用只读 GateV1；实际交接的核心物品、`relayProject.status`、长官存活/距离、资源和 CommandBus 事务仍由 reducer/validate 负责。
+
+`recover`、`stage`、`online` 目前分别由地标发现 reducer 与 `updateRelayProject` 自治推进，并没有经过统一 Choice resolver；“先保防线/先保中继”“公共频道/静默频道”仍是设计目标。下一步先为 handoff 建立显式 EventInstance（instance/def/version/event）CAS adapter，再单独把施工/上线选择做成正式 ContentChain/EventInstance 切片。Parity、六视角矩阵和本卡的状态影响描述是设计/审计依据，不构成浏览器或线上验收证据。
+
 - 版本：draft-1（v79 / P1.5）
 - 设计角色：剧本设计师
 - 范围：三日竖切片；不新增真正的多势力外交实体
