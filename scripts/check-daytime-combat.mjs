@@ -19,7 +19,7 @@ const end = adapter.indexOf('\nfunction envelope(payload)', begin);
 assert.ok(begin >= 0 && end > begin, 'runtime adapter boundary required');
 const inline = [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map(item => item[1]).filter(text => text.trim());
 assert.equal(inline.length, 1, 'one inline runtime expected');
-const patchedAdapter = adapter.slice(begin, end).replace('worldStart: startWorldSimulation,', 'dayCombat: runDayCombat, advance: advance, resolveEvent: resolveEvent, worldStart: startWorldSimulation,');
+const patchedAdapter = adapter.slice(begin, end).replace('worldStart: startWorldSimulation,', 'dayCombat: runDayCombat, validateDayCombatIntent: validateDayCombatIntent, advance: advance, resolveEvent: resolveEvent, worldStart: startWorldSimulation,');
 const runtime = vm.runInNewContext(`(${patchedAdapter.trim()})`, { inline, htmlPath, saveKey: 'zombie-harvest-progress-v12', vm, assert, console, URLSearchParams });
 const clone = value => JSON.parse(JSON.stringify(value));
 const events = (r, type) => r.api.state.worldMeta.events.filter(event => event.type === type);
@@ -59,6 +59,13 @@ check('damage receipt preserves source, target, phase and event provenance', () 
   assert.ok(receipts.some(event => event.payload.sourceKind === 'npc'));
   assert.ok(receipts.some(event => event.payload.sourceKind === 'tower'));
   assert.ok(receipts.some(event => event.payload.sourceEventId === 'event-day-combat-001'));
+});
+check('runtime uses the CombatIntentV1 contract and rejects malformed envelopes', () => {
+  const valid = { schemaVersion: 'CombatIntentV1', intentId: 'contract-1', sourceRef: { id: 'npc-1', kind: 'npc' }, targetRef: { id: 'wz-1', kind: 'event-enemy' }, phase: 'DAY', attackSeq: 1, profileId: 'npc.guard.day', amount: 8, damageType: 'physical', sourceEventId: null };
+  assert.equal(r.api.validateDayCombatIntent(valid).ok, true);
+  assert.equal(r.api.validateDayCombatIntent({ ...valid, phase: 'NIGHT' }).ok, false);
+  assert.equal(r.api.validateDayCombatIntent({ ...valid, statePatch: { hp: 999 } }).ok, false);
+  assert.equal(r.api.validateDayCombatIntent({ ...valid, unknown: true }).ok, false);
 });
 check('inactive tower stops dealing daytime damage', () => {
   tower.active = false; guard.supportRequested = false; guard.behaviorState = 'work'; const hp = enemy.hp; r.api.dayCombat(24); assert.equal(enemy.hp, hp);
