@@ -181,3 +181,8 @@ ADR-20261015 已补充 sourceActorId/resolvedActorId 映射、unknown/dead/dupli
 ## 事件来源敌人清理（2026-10-16）
 
 事件成功 resolve 后只清理匹配 `eventInstanceId/sourceEventId` 的昼间敌人，保留其他事件来源目标，并写 `combat.eventTargets.cleaned`。新增 VM 检查后 `check-daytime-combat.mjs` 11/11；代码 CI #155、checker CI #156、文档 CI #157 均通过。
+
+
+## 本地真实 browser smoke（2026-10-16）
+
+当前 dist 通过 loopback HTTP + in-app browser 启动，点击开始新游戏后推进到第1天 06:15 实时战况，DOM 可见“当前剩余”威胁读数；临时 tab 与 server 已清理。记录见 `docs/qa/local-daytime-combat-browser-20261016.md`。该证据不替代三日/十四日自然回归。
