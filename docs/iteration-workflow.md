@@ -135,3 +135,7 @@ AI 规划器只产生结构化意图，不能写入 `GameState`。游戏主循�
 Observer 采用“白名单事实投影 → 只读表达 → deterministic fallback”。不得创建资源、人口、事件或修改存档；SAVE21 只保存版本化 snapshot 与开关，不保存凭据或不可回放模型状态。超时、非法输出、越权和预算拒绝必须回到同一规则路径。
 
 Evidence manifest 绑定 branch、evidence commit、HTML SHA、SAVE/CONTENT、CI run/job 与 browser 状态。只有 exact source/hash/manifest 对账通过才可标记 verified；设计报告、static/source-VM/fixture 不能冒充自然 browser。每轮仍需玩家、NPC、营地、势力、敌人、全局链六视角账本。
+
+## Repeatable episode gate（2026-10-17）
+
+将一次性链与可重复链分开评审。`repeatable:true` 必须定义稳定 `instanceKey`（当前竖切片为 `chainId:day`），并证明同一 episode 的 start/choice/fallback/CommandBus 重放幂等、跨日可创建新 episode、effect 去重和 completed 账本使用 episode key。新增字段只能出现在 repeatable 节点的 active/event projection；旧链必须保持原 save projection、回放 hash 和 golden。完成后再设计统一 EventInstance/SAVE migration，不得把单个 storylet 的 episode 试验写成全局迁移完成。

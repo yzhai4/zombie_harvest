@@ -54,3 +54,7 @@ description: 为尸潮农场创建或修改主线、支线、NPC、势力、科�
 新增故事、NPC、势力或营地事件时，同时更新版本化 JSON 包与设计卡。每个 storylet 必须有 stable ID、触发条件、fallback 及玩家/NPC/营地/势力/敌人/全局链账本；validator 拒绝未知引用、循环、不可满足门槛和无 AI-OFF 路径。内容包当前先以 headless fixture 验证，未由启动路径实际加载并记录 scenarioVersion/contentVersion 前，标记为设计冻结/fixture。
 
 Observer 台词只能读取白名单事实并生成表达/披露；不能改资源、人口、敌人、事件或存档。需要 AI 时同时提供规则 fallback、预算和拒绝回执，并在 manifest 中区分 browser 与 source-VM。
+
+## 可重复内容合同（2026-10-17）
+
+新增可重复故事时，必须在 JSON 包和设计卡声明 `repeatable` 与稳定 episode key，区分一次性 `completedChains` 与按 episode 的账本。效果必须通过统一 reducer/CommandBus 并以 episode key 做去重；同日重复不得重复奖励，跨日重开要有可回放事实。若只实现单个内容的试验，不得声称所有 EventDef 已完成 repeatable/SAVE 迁移。

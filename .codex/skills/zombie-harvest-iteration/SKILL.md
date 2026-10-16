@@ -93,3 +93,7 @@ AI 或实验变更还必须提供：baseline、变体、seed 集、失败重试�
 Observer 只能使用白名单只读投影，不能触碰可变 WorldFacts 或写 GameState；AI-OFF、超时、非法输出、越权和预算拒绝都记录 deterministic fallback。scenarioSnapshot 只保存版本化配置/开关。
 
 每轮更新 IterationEvidenceV1：source commit、HTML SHA-256、CI run/job、测试计数、browser status、naturalGameplayClaim。exact 对账通过才标记 verified；source-VM、静态、fixture 与自然 browser 分开。按报告的 P0→P6 顺序推进，World Model/Director/full society 只有在 exact simulator 有增益时才评估。
+
+## Repeatable storylet 与回放边界（2026-10-17）
+
+内容链若声明 `repeatable:true`，设计卡必须写 episode key、同日重复行为、跨日重开条件、effectId 作用域、fallback 和 save/reload 规则。测试至少覆盖：正常选择、同 command 重放、同日再次 start、下一日新 instance、岗位/人口 Gate 和旧链 projection golden。`instanceKey` 只允许进入 repeatable 的 active/event 事实；旧链的源回放 hash 变化必须先单列决策再修改 golden。
