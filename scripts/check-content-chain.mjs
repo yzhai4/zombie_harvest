@@ -33,10 +33,11 @@ const functionNames = [
   'migrateContentState', 'normalizeOutpostAssignments', 'ensureContentState',
   'contentRegistryBase', 'contentId', 'validateContentDefinition', 'registerContent',
   'contentDefinition', 'contentRequirementsMet', 'compare', 'contentPhaseAllows',
-  'applyContentEffect', 'applyContentEffects', 'contentConditionMet', 'runContentHook',
+  'applyContentEffect', 'applyContentEffects', 'contentConditionMet', 'contentDefinitionUsesGateV1', 'contentGateConditions',
+  'contentChainDefinitionGate', 'contentChainChoiceGateRuntime', 'runContentHook',
   'contentChainRuntimeGate', 'startContentChain', 'resolveContentChain',
   'resolveContentFallback', 'resolveContentAutonomy', 'registerContentPack',
-  'dispatchCommand', 'resolveContentChainCommand', 'npcIsActive', 'applyQuestEvent',
+  'dispatchCommand', 'resolveContentChainCommand', 'clampSanity', 'sanityValue', 'npcIsActive', 'applyQuestEvent',
 ];
 const sandbox = vm.createContext({ console });
 vm.runInContext(`
@@ -59,6 +60,7 @@ vm.runInContext(`
   function executePlanMeeting() { throw new Error('unexercised plan-meeting dependency'); }
   function requestCheckpoint(reason) { checkpoints.push(reason); }
   ${section('const EVENT_CHAIN_DEFS =', 'const PLAN_DEFS =')}
+  ${section('const GATE_V1_PHASES =', 'function normalizeEventEffect(')}
   ${section('const CONTENT_KINDS =', 'function migrateContentState(')}
   ${functionNames.map(sourceFunction).join('\n')}
   ${section('const FeedbackRouter =', 'function appendFeedbackEvent(')}
@@ -108,6 +110,108 @@ function addTestChain(id, nodes, extra = {}) {
   });
   assert.equal(result.ok, true, JSON.stringify(result));
 }
+test('watermill repair node exposes GateV1 while keeping content-effect semantics', () => {
+  reset();
+  const definition = runtime.registry.get('eventChain', 'watermill-002');
+  assert.equal(definition.gateVersion, 1);
+  assert.equal(definition.evaluatePreconditions, true);
+  assert.deepEqual(plain(definition.gate.preconditions), [{ type: 'landmark_exists', id: 'waterMill' }, { type: 'camp_trust', min: 25 }, { type: 'day_between', min: 4, max: 10 }]);
+  assert.equal(runtime.registry.gate.definition(definition, { actorId: 'player-1' }).checked, 3, 'duplicate compatibility aliases are evaluated once');
+  assert.deepEqual(plain(definition.nodes[0].choices[0].requires), ['scrap>=20', 'carpenter_alive']);
+  assert.equal(definition.nodes[0].choices[0].effects[0].op, 'adjust_resource');
+});
+test('watermill start gate uses GateV1 and preserves the old start-condition rejection boundary', () => {
+  let state = reset({ contentState: { contentVersion: 3, meters: { campTrust: 24 } } });
+  let result = runtime.registry.startChain('watermill-002');
+  assert.equal(result.ok, false); assert.equal(result.reason, 'start-condition'); assert.equal(result.gate.reason, 'event-precondition');
+  assert.equal(state.contentState.activeChains['watermill-002'], undefined);
+  state = reset({ contentState: { contentVersion: 3, meters: { campTrust: 30 } }, landmarks: [{ id: 'watermill-test-landmark', type: 'waterMill', found: false }] });
+  result = runtime.registry.startChain('watermill-002');
+  assert.equal(result.ok, false); assert.equal(result.gate.reason, 'event-precondition');
+  state = reset();
+  result = runtime.registry.startChain('watermill-002');
+  assert.equal(result.ok, true); assert.equal(result.active.actorId, 'player-1');
+});
+test('opt-in content GateV1 rejects unknown start objects without state mutation', () => {
+  addTestChain('qa-gate-v1-unknown-start', [{ nodeId: 'first', choices: [{ id: 'claim', requires: [], effects: [{ op: 'addResource', key: 'parts', value: 20 }] }] }], {
+    gateVersion: 1, evaluatePreconditions: true, gate: { version: 1, phase: 'DAY', preconditions: [{ type: 'future_condition' }] },
+  });
+  const state = reset(); const before = plain(state);
+  const result = runtime.registry.startChain('qa-gate-v1-unknown-start');
+  assert.equal(result.ok, false); assert.equal(result.reason, 'start-condition'); assert.equal(result.gate.reason, 'event-precondition-invalid');
+  assert.deepEqual(plain(state), before);
+});
+test('opt-in content GateV1 rejects unknown choice objects before effects', () => {
+  addTestChain('qa-gate-v1-unknown-choice', [{ nodeId: 'first', choices: [{ id: 'claim', requires: [{ type: 'future_condition' }], requirements: [], effects: [{ op: 'addResource', key: 'parts', value: 20 }] }] }], {
+    gateVersion: 1, evaluatePreconditions: true, gate: { version: 1, phase: 'DAY', preconditions: [] },
+  });
+  const state = reset(); assert.equal(runtime.registry.startChain('qa-gate-v1-unknown-choice').ok, true);
+  const before = plain(state);
+  const result = runtime.registry.resolveChain('qa-gate-v1-unknown-choice', 'first', 'claim');
+  assert.equal(result.ok, false); assert.equal(result.reason, 'choice-requirement-invalid');
+  assert.deepEqual(plain(state), before);
+});
+test('opt-in content choice gate keeps the DAY/night boundary even when called directly', () => {
+  const state = reset(); assert.equal(runtime.registry.startChain('watermill-002').ok, true);
+  const definition = runtime.registry.get('eventChain', 'watermill-002');
+  const choice = definition.nodes[0].choices[1];
+  state.night = true;
+  const direct = runtime.registry.gate.choice(definition, choice, { actorId: 'player-1' });
+  assert.equal(direct.ok, false); assert.equal(direct.reason, 'phase-blocked');
+  const resolved = runtime.registry.resolveChain('watermill-002', 'repair_gate', 'salvage');
+  assert.equal(resolved.ok, false); assert.equal(resolved.reason, 'night-lock');
+});
+test('public choice gate fails closed when the active chain or choice is absent', () => {
+  const state = reset();
+  const before = plain(state);
+  let missingDefinitionGate;
+  let arrayDefinitionGate;
+  let missingDefinition;
+  let missingChoice;
+  assert.doesNotThrow(() => { missingDefinitionGate = runtime.registry.gate.definition(null, { actorId: 'player-1' }); });
+  assert.doesNotThrow(() => { arrayDefinitionGate = runtime.registry.gate.definition([], { actorId: 'player-1' }); });
+  assert.doesNotThrow(() => { missingDefinition = runtime.registry.gate.choice(null, { id: 'ghost', requires: [] }, { actorId: 'player-1' }); });
+  assert.doesNotThrow(() => { missingChoice = runtime.registry.gate.choice(runtime.registry.get('eventChain', 'watermill-002'), null, { actorId: 'player-1' }); });
+  assert.deepEqual(plain(missingDefinitionGate), { ok: true, gateVersion: 0, checked: 0 });
+  assert.deepEqual(plain(arrayDefinitionGate), { ok: true, gateVersion: 0, checked: 0 });
+  assert.deepEqual(plain(missingDefinition), { ok: false, reason: 'choice-contract' });
+  assert.deepEqual(plain(missingChoice), { ok: false, reason: 'choice-contract' });
+  assert.deepEqual(plain(state), before);
+  unchanged(() => runtime.registry.resolveChain('watermill-002', 'repair_gate', 'salvage'), 'chain-choice-missing');
+});
+test('watermill choice GateV1 does not re-check start trust after the chain is active', () => {
+  const state = reset(); assert.equal(runtime.registry.startChain('watermill-002').ok, true);
+  state.contentState.meters.campTrust = 24;
+  const definition = runtime.registry.get('eventChain', 'watermill-002');
+  const choice = definition.nodes[0].choices[1];
+  const direct = runtime.registry.gate.choice(definition, choice, { actorId: 'player-1' });
+  assert.equal(direct.ok, true);
+  assert.equal(runtime.registry.resolveChain('watermill-002', 'repair_gate', 'salvage').ok, true);
+});
+test('watermill direct choice GateV1 enforces its day window', () => {
+  const state = reset({ day: 11 });
+  const definition = runtime.registry.get('eventChain', 'watermill-002');
+  const choice = definition.nodes[0].choices[1];
+  const direct = runtime.registry.gate.choice(definition, choice, { actorId: 'player-1' });
+  assert.equal(direct.ok, false); assert.equal(direct.reason, 'phase-window');
+  assert.equal(state.contentState.activeChains['watermill-002'], undefined);
+});
+test('watermill definition GateV1 owns its day window', () => {
+  const definition = runtime.registry.get('eventChain', 'watermill-002');
+  reset({ day: 3 });
+  let direct = runtime.registry.gate.definition(definition, { actorId: 'player-1' });
+  assert.equal(direct.ok, false); assert.equal(direct.reason, 'event-precondition');
+  reset({ day: 11 });
+  direct = runtime.registry.gate.definition(definition, { actorId: 'player-1' });
+  assert.equal(direct.ok, false); assert.equal(direct.reason, 'event-precondition');
+});
+test('legacy content condition objects now fail closed when their type is unknown', () => {
+  addTestChain('qa-legacy-unknown-start', [{ nodeId: 'first', choices: [{ id: 'claim', requirements: [], effects: [{ op: 'addResource', key: 'parts', value: 20 }] }] }], {
+    startConditions: [{ type: 'future_condition' }],
+  });
+  const state = reset(); const result = runtime.registry.startChain('qa-legacy-unknown-start');
+  assert.equal(result.ok, false); assert.equal(result.reason, 'start-condition'); assert.equal(state.contentState.activeChains['qa-legacy-unknown-start'], undefined);
+});
 
 test('watermill repair charges once and records completion/effect ledger', () => {
   const state = reset(); startWatermill();
