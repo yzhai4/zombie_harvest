@@ -29,6 +29,20 @@
 `scripts/fixtures/relay-construction-v1.json`（13 个成功/拒绝用例，含来源与终态重入）。这是合同与可达性测试，不是
 “施工已经接入 EventInstance/ContentChain”的声明。
 
+## 事务 shadow 夹具（2026-10-16 增量）
+
+在 producer trace 固定 world.advance → advanceReducer → updateRelayProject 后，新增
+纯值 RelayConstructionTransactionV1 wrapper。它把既有实例 reducer 的结果包进
+inventory、building occupancy、assigned NPC participant snapshot 三个可序列化
+对象，按 prepare → apply → receipt 返回；任一 CAS、库存、占位、参与者或来源
+预检失败都返回原 snapshot，成功事件附带 transaction/resource provenance。单独的
+rollback 函数只恢复准备前快照，不写浏览器状态。
+
+夹具 scripts/fixtures/relay-construction-transaction-v1.json 与 checker
+覆盖 11 项：三阶段成功迁移、资源/占位/参与者失败、prepare 后快照冲突、重复命令、
+rollback，以及 materialDelta/resourceDebits 不一致和 resourceSource 冲突。该 wrapper
+仍是 shadow contract；没有 standing、forecast、EventLedger、CommandBus 或 Sites 接线。
+
 ## 不在本 ADR 内
 
 - 不给现有 `recover/stage/online` 元数据 choice 添加未执行的 `requires`。
