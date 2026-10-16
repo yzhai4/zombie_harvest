@@ -176,3 +176,8 @@ ADR-20261015 已补充 sourceActorId/resolvedActorId 映射、unknown/dead/dupli
 ## CombatIntentV1 独立执行模块（2026-10-16）
 
 新增 `scripts/lib/combat-intent-v1.mjs`，提供 normalize、validate、稳定排序和 canonical bytes；schema、runtime 字段和正反夹具已对齐。该模块作为 GameCore 抽离前的独立执行合同，当前生产 inline runtime 仍通过同字段内置实现。
+
+
+## 事件来源敌人清理（2026-10-16）
+
+事件成功 resolve 后只清理匹配 `eventInstanceId/sourceEventId` 的昼间敌人，保留其他事件来源目标，并写 `combat.eventTargets.cleaned`。新增 VM 检查后 `check-daytime-combat.mjs` 11/11；代码 CI #155、checker CI #156、文档 CI #157 均通过。
