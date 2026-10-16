@@ -17,3 +17,8 @@
 ## 拒绝结算边界（2026-10-16）
 
 补充回归发现资源不足的事件选择也必须保留活动敌人；修复后的清理仅在原事件真正进入 handled terminal 状态后执行。queued activation、rejected resolve 与普通成功 resolve 共同覆盖，昼间源检查为 13/13。
+
+
+## Runtime 合同接线（2026-10-16）
+
+原先 inline runtime 只做最小字段判断，存在与独立 CombatIntentV1 module 漂移风险。现已在实际运行时引入 canonical envelope validator，并用真实 VM checker 覆盖非法 phase、unknown field 与 statePatch；昼间回归扩展为 14/14。下一步仍需消除 inline 与 Node module 的双份实现。
