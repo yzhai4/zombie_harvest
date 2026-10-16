@@ -70,3 +70,8 @@ DAY 的攻击只由 `SessionController.mode === 'DAY'` 且 `state.night === fals
 ## 排队事件清理修正（2026-10-16）
 
 事件结算可能在 reducer 尾部激活排队 NPC 事件，因此清理必须使用结算前捕获的原 `eventId/instanceId`，不能读取已变更的 `state.event`。本轮已修正为显式 ID 集合：原事件敌人会被移除，新排队事件和其他来源的敌人保留；新增 queued-event 回归夹具，白天战斗源检查为 12/12。原事件的 `event.resolved` 收据仍携带旧 instanceId，新的 `state.eventInstance` 只代表刚激活的排队事件。
+
+
+## 结算失败边界（2026-10-16）
+
+事件效果因资源不足等原因拒绝时，原事件保持 active，不能清理其战斗目标，也不能写成功清理收据。wrapper 以 resolve 前捕获的事件对象的 terminal handled 状态作为清理 Gate；queued-event 与 rejected-resolve 夹具均纳入白天战斗回归，当前 13/13。
