@@ -6541,12 +6541,21 @@
       const stillAdvancing = b.enemies.some(e => !e.dead && !e.reached);
       if (!stillAdvancing) resolveNight(b.count, b.defense);
     }
+    function cleanupEventCombatTargets(instanceId, choice) {
+      const ids = new Set([instanceId, state.event?.id].filter(Boolean));
+      if (!ids.size) return 0;
+      const removed = (state.worldZombies || []).filter(zombie => zombie.sourceEventId && ids.has(zombie.sourceEventId)).map(zombie => zombie.id);
+      if (!removed.length) return 0;
+      state.worldZombies = (state.worldZombies || []).filter(zombie => !zombie.sourceEventId || !ids.has(zombie.sourceEventId));
+      recordWorldEvent('combat.eventTargets.cleaned', { instanceId, choice, removedIds: removed }, { actorId: 'camp-autonomy', instanceId });
+      return removed.length;
+    }
     function resolveEvent(choice, options = {}) {
       if (!guardNightAction(options)) return nightActionResult();
       const instance = state.eventInstance || {};
       const def = currentEventDefinition();
       const effects = def?.choices?.find(item => item.id === choice)?.effects || [];
-      return dispatchCommand({ type: 'event.resolve', commandId: options.commandId, payload: { choice } }, () => { const resolvingId = state.event?.id || null; const result = resolveEventReducer(choice); if (state.event?.id === resolvingId) state.eventInstance = { ...(state.eventInstance || {}), status: 'resolved', handled: true, choice }; return { result, payload: { choice, eventId: resolvingId, instanceId: instance.instanceId || null, defId: def?.id || null, definitionVersion: def?.definitionVersion || EVENT_DEFINITION_VERSION, effects } }; }, { eventType: 'event.resolved', defId: def?.id || null, instanceId: instance.instanceId || null, definitionVersion: def?.definitionVersion || EVENT_DEFINITION_VERSION, effects, validate: () => eventGateCheck(choice) });
+      return dispatchCommand({ type: 'event.resolve', commandId: options.commandId, payload: { choice } }, () => { const resolvingId = state.event?.id || null; const result = resolveEventReducer(choice); if (state.event?.id === resolvingId) { state.eventInstance = { ...(state.eventInstance || {}), status: 'resolved', handled: true, choice }; cleanupEventCombatTargets(instance.instanceId || resolvingId, choice); } return { result, payload: { choice, eventId: resolvingId, instanceId: instance.instanceId || null, defId: def?.id || null, definitionVersion: def?.definitionVersion || EVENT_DEFINITION_VERSION, effects } }; }, { eventType: 'event.resolved', defId: def?.id || null, instanceId: instance.instanceId || null, definitionVersion: def?.definitionVersion || EVENT_DEFINITION_VERSION, effects, validate: () => eventGateCheck(choice) });
     }
     function startThreatEncounterReducer() {
       if (!guardNightAction()) return nightActionResult();
