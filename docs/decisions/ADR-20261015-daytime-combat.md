@@ -60,3 +60,8 @@ DAY 的攻击只由 `SessionController.mode === 'DAY'` 且 `state.night === fals
 ## CombatIntentV1 内部合同（2026-10-16）
 
 昼间 intent 现在显式带有 `schemaVersion=CombatIntentV1`、`intentId`、`sourceRef`、`targetRef`、`phase=DAY`、`attackSeq`、`profileId`、`amount` 与 `damageType`。结算前执行最小结构校验，非法 intent 写 `combat.intent.rejected`，不改变 HP、资源、人口或事件链。该合同已落为 `docs/schemas/combat-intent-v1.json` 与正反夹具；当前 inline runtime 使用同一字段合同，后续再抽成独立执行模块并接入命令级幂等。
+
+
+## 事件结算清理（2026-10-16）
+
+`resolveEvent` 成功完成后，会按 `eventInstanceId/sourceEventId` 只清理该事件生成的白天敌人，并写 `combat.eventTargets.cleaned`；其他事件来源的敌人保留。清理发生在统一事件命令上下文内，重复 resolve 不会重复清理或新增成功收据。
