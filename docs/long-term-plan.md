@@ -154,3 +154,9 @@ EventLedger -> Replay / Debugger / Metrics -> Playtest / Evolution
 在 parity 之后，`handoffRelayCore` 已接入显式 EventInstance 四元 CAS：`expectedInstanceId`、`expectedDefId`、`expectedDefinitionVersion`、`expectedEventId` 随命令回放，校验顺序为 CAS → Gate → 长官/距离/物品业务校验 → 原 reducer。陈旧命令只产生 `command.rejected`，成功收据保留 token；正常交接仍使用原状态和奖励逻辑。
 
 CI #217（run 38903415431，job 116980964278）以权威源码 hash `f018d6639d415426960add45220389535aa4010d58c1c631a055b8da62461f71` 通过 source-daytime-combat 24/24、GateV1 shadow 7/7、完整 inline/shadow fixture parity 11/11、内容链 54/54 和 static smoke 55/55。此切片没有把 relay 的自治施工/上线路径接入 Choice resolver，也没有部署 Sites v81；下一步是为正式 ContentChain/EventInstance 施工节点定义事务与幂等边界。
+
+### v82 relay handoff UI and construction shadow checkpoint
+
+The handoff CAS slice is now end-to-end for the actual context-menu producer: the rendered button carries the four identity fields, the adapter passes them to the CommandBus, and stale event tokens reject without state or reward mutation. CI #225 recorded 26/26 daytime checks; the runtime source hash is 1a5430620715363611914ad567f8b076253fbaa42bc200a10a93daf1bd53d463.
+
+RelayConstructionV1 is currently a pure shadow contract, not a browser runtime migration. CI #231 records 11/11 for the state machine, CAS ordering, participant/resource prechecks, idempotency, rollback behavior and save/reload token. The next runtime decision is conditional on tracing a real construction command producer and defining the material-source and building-occupancy transaction; until then the autonomous updateRelayProject path remains the source of truth and Sites v81 stays unchanged.
