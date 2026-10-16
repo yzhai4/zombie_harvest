@@ -249,7 +249,7 @@ The relay construction shadow contract now has 13/13 fixtures on runtime parent 
 
 ## RelayConstructionTransactionV1 shadow checkpoint (2026-10-16)
 
-当前分支 head 为 `3020b0d5c3e27b1c3d5b77bb60ed0fcf6b69557b`；CI #253 / run `38912989111` / static-validation job `117013214217` 通过。
+事务实现父提交为 `3020b0d5c3e27b1c3d5b77bb60ed0fcf6b69557b`，当前文档同步提交为 `118bb2374c1cd99be8d9c20884fcef811434ec69`；CI #253 / run `38912989111` / static-validation job `117013214217` 通过。
 新增 `RelayConstructionTransactionV1` 纯值 wrapper，固定 `prepare → apply → receipt`，并提供显式 rollback 结果。
 这组 11/11 夹具覆盖：三阶段成功迁移、库存不足、建筑占位冲突、NPC 不可用、prepare 后快照冲突、重复 command、精确回滚、材料进度与资源扣除不一致、资源来源冲突，以及 terminal `stationOnline` 单次语义。
 该层只对可序列化的 relay instance、inventory、building occupancy、assigned NPC participant snapshot 生成原子补丁；它没有写入 `dist/index.html`，没有接入 `updateRelayProject`、CommandBus、EventLedger、standing、forecast、SAVE21 迁移或 Sites。
