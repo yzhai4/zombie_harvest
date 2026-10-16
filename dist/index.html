@@ -6541,8 +6541,12 @@
       const stillAdvancing = b.enemies.some(e => !e.dead && !e.reached);
       if (!stillAdvancing) resolveNight(b.count, b.defense);
     }
-    function cleanupEventCombatTargets(instanceId, choice) {
-      const ids = new Set([instanceId, state.event?.id].filter(Boolean));
+    function cleanupEventCombatTargets(instanceId, choice, sourceEventId = null) {
+      // Resolve may activate a queued NPC event before this cleanup runs.
+      // Only the captured source identifiers are authoritative; reading the
+      // mutable current event here could delete the newly queued event's
+      // combat targets by mistake.
+      const ids = new Set([instanceId, sourceEventId].filter(Boolean));
       if (!ids.size) return 0;
       const removed = (state.worldZombies || []).filter(zombie => zombie.sourceEventId && ids.has(zombie.sourceEventId)).map(zombie => zombie.id);
       if (!removed.length) return 0;
@@ -6555,7 +6559,7 @@
       const instance = state.eventInstance || {};
       const def = currentEventDefinition();
       const effects = def?.choices?.find(item => item.id === choice)?.effects || [];
-      return dispatchCommand({ type: 'event.resolve', commandId: options.commandId, payload: { choice } }, () => { const resolvingId = state.event?.id || null; const result = resolveEventReducer(choice); if (state.event?.id === resolvingId) { state.eventInstance = { ...(state.eventInstance || {}), status: 'resolved', handled: true, choice }; cleanupEventCombatTargets(instance.instanceId || resolvingId, choice); } return { result, payload: { choice, eventId: resolvingId, instanceId: instance.instanceId || null, defId: def?.id || null, definitionVersion: def?.definitionVersion || EVENT_DEFINITION_VERSION, effects } }; }, { eventType: 'event.resolved', defId: def?.id || null, instanceId: instance.instanceId || null, definitionVersion: def?.definitionVersion || EVENT_DEFINITION_VERSION, effects, validate: () => eventGateCheck(choice) });
+      return dispatchCommand({ type: 'event.resolve', commandId: options.commandId, payload: { choice } }, () => { const resolvingId = state.event?.id || null; const resolvingInstanceId = instance.instanceId || resolvingId; const result = resolveEventReducer(choice); if (state.event?.id === resolvingId) { state.eventInstance = { ...(state.eventInstance || {}), status: 'resolved', handled: true, choice }; } cleanupEventCombatTargets(resolvingInstanceId, choice, resolvingId); return { result, payload: { choice, eventId: resolvingId, instanceId: instance.instanceId || null, defId: def?.id || null, definitionVersion: def?.definitionVersion || EVENT_DEFINITION_VERSION, effects } }; }, { eventType: 'event.resolved', defId: def?.id || null, instanceId: instance.instanceId || null, definitionVersion: def?.definitionVersion || EVENT_DEFINITION_VERSION, effects, validate: () => eventGateCheck(choice) });
     }
     function startThreatEncounterReducer() {
       if (!guardNightAction()) return nightActionResult();
