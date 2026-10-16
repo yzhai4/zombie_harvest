@@ -199,3 +199,10 @@ CI #266（run `38932973787`，job `117081308370`）在 `d389365e960ba04685a4074e
 断粮节点已完成最小真实接线：`runWorldDayUpkeep` 的 `onDayStart` 会在 `foodSituation().ratio <= 1` 时通过 GateV1 启动 `zh-food-shortage-001`，UI 从 activeChains 展示选择，`resolveContentChainCommand` 统一进入 `applyContentEffects`。CI #268 将 source gameplay 夹具提升为 3/3，覆盖 ration 分支、campCollapse 变化和重复 command 幂等；源码 SHA-256 为 `c564c6b647588806ab8b2a9e4390d785b5245a6c3c9fb49fff286b4439fc956a`，行为提交为 `73b010a44077d4c89bb83fb09a8ebe08dfde4e54`。
 
 这是一次性首轮危机节点，不宣称可重复 shortage episodes、完整缺岗 Gate、自然 browser 或生产 LLM。下一步单独处理 role availability/继任和可重复事件实例，避免把一次性 `completedChains` 当作长期危机调度。
+
+
+### v82.1 role availability 重绑定（2026-10-17）
+
+断粮 forage 选择现使用 GateV1 `role_available`，实际调用 `npcFulfillsRole`：NPC 阵亡、据点驻守或 actingRole 被转移时拒绝，恢复后才放行。CI #272 source gameplay 4/4，源码提交 `a8c3883741c9e1c49050675580b98b6c51c29862`，HTML SHA-256 `90c808b8ef33e7a67a982548605c322fe4a40cd7520b2b3f45302abee3b1a94b`。
+
+该节点仍是一次性首轮 crisis；重复 episode、完整继任调度、自然 browser 和生产 LLM 保持未完成。

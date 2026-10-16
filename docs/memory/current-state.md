@@ -283,3 +283,8 @@ CI #259（run `38921110774`，job `117040949418`）在同一构建通过 runtime
 ## 2026-10-17 runtime storylet 增量
 
 `zh-food-shortage-001` 已在源码运行时注册并由 `onDayStart` 触发，CI #268 source gameplay 为 3/3，HTML hash `c564c6b647588806ab8b2a9e4390d785b5245a6c3c9fb49fff286b4439fc956a`。当前仅是一次性首轮 crisis；role availability、重复 episode、browser 和自然节奏仍是开放项。
+
+
+## 2026-10-17 role availability 增量
+
+新增 `role_available` GateV1 条件，断粮 storylet 的 forage 选择现在尊重据点驻守和 actingRole 继任状态。CI #272 source gameplay 4/4，HTML hash `90c808b8ef33e7a67a982548605c322fe4a40cd7520b2b3f45302abee3b1a94b`。

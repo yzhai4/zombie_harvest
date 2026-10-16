@@ -83,3 +83,9 @@ CI #259（run `38921110774`，job `117040949418`）通过 runtime 8/8、producer
 - 断粮 storylet 现在真实接线，但 `completedChains` 仍使它成为一次性节点；重复 shortage 需要 episode/instance key 和新回放合同。
 - forage 选择当前使用 quartermaster NPC 存活 Gate，尚未表达 garrison/actingRole/继任后的完整 role availability。
 - CI #268 仍是 source-VM；Python Playwright unavailable，不能当作自然多日 browser 证据。
+
+
+## 2026-10-17 风险更新（role availability）
+
+- `role_available` 已覆盖当前岗位可履职判定，但一次性 `completedChains` 仍阻止重复 shortage episode。
+- 完整 successor scheduler、role vacancy ledger 与 browser natural play 尚未进入本轮证据。

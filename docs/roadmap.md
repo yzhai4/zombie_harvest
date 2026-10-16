@@ -138,3 +138,8 @@ CI #259（run `38921110774`，job `117040949418`）通过 runtime 8/8、producer
 ## v82.1 runtime storylet checkpoint（2026-10-17）
 
 断粮 storylet 已接入真实 ContentRegistry/CommandBus 路径，source gameplay 夹具 3/3 通过。它目前是首轮一次性节点：food ratio ≤ 1 触发，ration 增加营地压力，forage 在后勤官存活时补回食物；后续重复危机、完整缺岗/继任和 fresh browser 仍未覆盖。
+
+
+## v82.1 role availability checkpoint（2026-10-17）
+
+断粮 forage 分支已从“NPC 存活”收紧为“岗位可履职”，GateV1 通过 outpost ledger、actingRole 和恢复三类夹具。source gameplay 4/4；重复危机实例和 browser 仍是下一闸门。
