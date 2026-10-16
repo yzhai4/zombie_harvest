@@ -175,6 +175,12 @@ check('relay handoff carries four-part CAS and rejects stale commands', () => {
   assert.equal(receipt.payload.expectedDefId, token.expectedDefId);
   assert.equal(receipt.payload.expectedDefinitionVersion, token.expectedDefinitionVersion);
   assert.equal(receipt.payload.expectedEventId, token.expectedEventId);
+  assert.equal(q.api.save(), true);
+  const raw = q.storage.get('zombie-harvest-progress-v12'); assert.ok(raw);
+  const reloaded = runtime([['zombie-harvest-progress-v12', raw]]); assert.equal(reloaded.api.start().ok, true);
+  assert.equal(reloaded.api.relayHandoffToken().expectedEventId, receipt.eventId);
+  const staleAfterReload = reloaded.api.handoffRelayCore({ ...token, commandId: 'relay-cas-reload-stale' });
+  assert.equal(staleAfterReload.ok, false); assert.equal(staleAfterReload.reason, 'event-state-conflict');
   const retry = q.api.handoffRelayCore({ ...token, commandId: 'relay-cas-retry' });
   assert.equal(retry.ok, false); assert.equal(retry.reason, 'event-state-conflict');
 });
