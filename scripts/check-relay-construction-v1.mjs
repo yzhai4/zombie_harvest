@@ -87,6 +87,7 @@ fixture.cases.forEach((item, index) => {
     if (expected.workMinutes !== undefined) assert.equal(result.instance.workMinutes, expected.workMinutes, `${item.name}: work`);
     if (expected.materialProgress) assert.deepEqual(result.instance.materialProgress, expected.materialProgress, `${item.name}: materials`);
     if (expected.eventTypes) assert.deepEqual(result.events.map(event => event.type), expected.eventTypes, `${item.name}: events`);
+    if (expected.resourceSource !== undefined) assert.equal(result.receipt.resourceSource, expected.resourceSource, `${item.name}: resource source`);
     if (expected.duplicate) assert.deepEqual(result.events, [], `${item.name}: duplicate events`);
     if (expected.reloadTokenSame) {
       const reloaded = normalizeRelayConstructionInstance(JSON.parse(JSON.stringify(result.instance)));
