@@ -160,3 +160,8 @@ CI #217（run 38903415431，job 116980964278）以权威源码 hash `f018d6639d4
 The handoff CAS slice is now end-to-end for the actual context-menu producer: the rendered button carries the four identity fields, the adapter passes them to the CommandBus, and stale event tokens reject without state or reward mutation. CI #225 recorded 26/26 daytime checks; the runtime source hash is 1a5430620715363611914ad567f8b076253fbaa42bc200a10a93daf1bd53d463.
 
 RelayConstructionV1 is currently a pure shadow contract, not a browser runtime migration. CI #231 records 11/11 for the state machine, CAS ordering, participant/resource prechecks, idempotency, rollback behavior and save/reload token. The next runtime decision is conditional on tracing a real construction command producer and defining the material-source and building-occupancy transaction; until then the autonomous updateRelayProject path remains the source of truth and Sites v81 stays unchanged.
+
+
+### v82 relay construction shadow refinement
+
+The construction boundary now includes stable `resourceSource` receipts and a one-time terminal `stationOnline` guard. The 13/13 shadow contract is a pre-migration specification, not a release. The next iteration should trace the actual construction producer and introduce the smallest transaction reducer that preserves existing relay behavior while making CAS, resource ledger, occupancy, event receipts, and replay ordering explicit.
