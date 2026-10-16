@@ -19,7 +19,7 @@ const end = adapter.indexOf('\nfunction envelope(payload)', begin);
 assert.ok(begin >= 0 && end > begin, 'runtime adapter boundary required');
 const inline = [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map(item => item[1]).filter(text => text.trim());
 assert.equal(inline.length, 1, 'one inline runtime expected');
-const patchedAdapter = adapter.slice(begin, end).replace('worldStart: startWorldSimulation,', 'dayCombat: runDayCombat, validateDayCombatIntent: validateDayCombatIntent, advance: advance, resolveEvent: resolveEvent, eventGateCheck: eventGateCheck, evaluateGateV1: evaluateGateV1, eventDefinitionGateCheck: eventDefinitionGateCheck, registerEventDefinition: registerEventDefinition, relayEventGate: relayEventGate, worldStart: startWorldSimulation,');
+const patchedAdapter = adapter.slice(begin, end).replace('worldStart: startWorldSimulation,', 'dayCombat: runDayCombat, validateDayCombatIntent: validateDayCombatIntent, advance: advance, resolveEvent: resolveEvent, eventGateCheck: eventGateCheck, evaluateGateV1: evaluateGateV1, eventDefinitionGateCheck: eventDefinitionGateCheck, registerEventDefinition: registerEventDefinition, relayEventGate: relayEventGate, relayHandoffToken: relayHandoffToken, handoffRelayCore: handoffRelayCore, worldStart: startWorldSimulation,');
 const runtime = vm.runInNewContext(`(${patchedAdapter.trim()})`, { inline, htmlPath, saveKey: 'zombie-harvest-progress-v12', vm, assert, console, URLSearchParams });
 const clone = value => JSON.parse(JSON.stringify(value));
 const events = (r, type) => r.api.state.worldMeta.events.filter(event => event.type === type);
@@ -154,6 +154,29 @@ check('relay-chain-001 uses the same read-only GateV1 adapter', () => {
   assert.equal(q.api.relayEventGate('handoff', 'player-1').ok, true);
   s.relayProject = null; const fail = q.api.relayEventGate('handoff', 'player-1'); assert.equal(fail.ok, false); assert.equal(fail.reason, 'event-precondition'); assert.equal(JSON.stringify(s.relayProject), 'null');
   s.relayProject = JSON.parse(before);
+});
+check('relay handoff carries four-part CAS and rejects stale commands', () => {
+  const q = fresh(); const s = q.api.state;
+  const commander = s.npcs.find(item => item.id === 'commander'); assert.ok(commander);
+  commander.x = s.player.x; commander.y = s.player.y;
+  s.relayProject.status = 'core-recovered'; s.relayProject.coreItemId = 'item-relayCore-001'; s.specialItems.relayCore = 1;
+  const token = q.api.relayHandoffToken();
+  assert.deepEqual(Object.keys(token).sort(), ['expectedDefId', 'expectedDefinitionVersion', 'expectedEventId', 'expectedInstanceId']);
+  const before = JSON.stringify({ relayProject: s.relayProject, specialItems: s.specialItems, commander: { status: commander.lifeState, x: commander.x, y: commander.y } });
+  const stale = q.api.handoffRelayCore({ ...token, expectedInstanceId: 'stale-relay-instance', commandId: 'relay-cas-stale' });
+  assert.equal(stale.ok, false); assert.equal(stale.reason, 'event-instance-conflict');
+  assert.equal(JSON.stringify({ relayProject: s.relayProject, specialItems: s.specialItems, commander: { status: commander.lifeState, x: commander.x, y: commander.y } }), before);
+  assert.equal(events(q, 'relay.coreHandedOff').length, 0);
+  const accepted = q.api.handoffRelayCore({ ...token, commandId: 'relay-cas-valid' });
+  assert.equal(accepted.ok, true);
+  assert.equal(s.relayProject.status, 'briefed');
+  const receipt = events(q, 'relay.coreHandedOff').at(-1); assert.ok(receipt);
+  assert.equal(receipt.payload.expectedInstanceId, token.expectedInstanceId);
+  assert.equal(receipt.payload.expectedDefId, token.expectedDefId);
+  assert.equal(receipt.payload.expectedDefinitionVersion, token.expectedDefinitionVersion);
+  assert.equal(receipt.payload.expectedEventId, token.expectedEventId);
+  const retry = q.api.handoffRelayCore({ ...token, commandId: 'relay-cas-retry' });
+  assert.equal(retry.ok, false); assert.equal(retry.reason, 'event-state-conflict');
 });
 check('event CAS is checked before GateV1 preconditions', () => {
   const q = fresh(); const s = q.api.state; const npc = s.npcs.find(item => item.id === 'guardJi'); npc.sanity = 70;
