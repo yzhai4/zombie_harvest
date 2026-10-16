@@ -37,3 +37,7 @@ relay-chain-001 的 `recover/stage/online` 由地标/自治 reducer 驱动，Eve
 ## relay handoff CAS 更新（2026-10-16）
 
 handoff 的四元 CAS 已有 source VM 24/24 证据，正常交接与 stale 拒绝均通过；风险收敛到 CAS token 的 UI/LLM 传递、跨存档恢复后的 relay event identity，以及施工/上线自治阶段尚无正式 EventInstance/CAS 事务。下一轮需要真实 ContentChain 节点、效果回滚、重复命令和保存迁移夹具，不能把当前 handoff 证据扩大为完整中继链完成。
+
+## RelayConstructionV1 shadow boundary and UI producer risk
+
+The handoff token is now propagated by the real context-menu producer, but there is still no production leader-LLM relay producer; the leader bridge remains headless with productionWiring false. Relay construction and online autonomy still mutate project, inventory, NPC work state, building state and event ledger through updateRelayProject without the shadow adapter's atomic reducer boundary. Before runtime wiring, add a real command producer, material-source ledger, building-occupancy checks, same-tick ordering with CombatIntent, migration defaults and browser save/reload fixtures. Do not add Gate requires to metadata-only relay choices while they remain outside the resolver.
