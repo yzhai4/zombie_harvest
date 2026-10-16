@@ -85,3 +85,9 @@ Colab T4 只作为可恢复的批量实验 worker；稳定线上服务、常驻 
 
 新增内容必须经 `剧本/尸潮农场/01–09` 设计源、`11–16` 接口模板和 `docs/scripts` 剧本卡三层映射；固定人口、`resonancePressure`、存档迁移、回放哈希、夜间保护和实体上限是所有阶段的共同验收项。当前 UI 卡片仍有硬编码，动态渲染属于 v85，不把注册表存在误认为功能已完成。
 
+## 2026-10-16 v82 GateV1 交付检查点
+
+- 已完成：水车支线启动/选择 GateV1 入口迁移（旧效果 reducer 保留）、纯 shadow evaluator、schema/fixture/checker、inline/shadow parity runner。
+- 已验证：权威源码 hash `bc85cbeab7f00236e7bde84f01d05596676b359fb66b077645103011810fb23d`；CI #210 的 GateV1 7/7、fixture parity 11/11、内容链 54/54、白天战斗 23/23、static smoke 55/55。
+- 边界：未接线 GameCore、未完成内容 EventInstance/CAS/EventEffect 迁移，未部署 Sites v81，未新增浏览器多日证据。
+- 下一步：先做 relay handoff 的显式 EventInstance 四元 CAS adapter，再评估 Gate 词汇与自治阶段的接线；保留六视角账本和未知/畸形条件 fail-closed 规则。
