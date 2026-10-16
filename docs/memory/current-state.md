@@ -186,3 +186,8 @@ ADR-20261015 已补充 sourceActorId/resolvedActorId 映射、unknown/dead/dupli
 ## 本地真实 browser smoke（2026-10-16）
 
 当前 dist 通过 loopback HTTP + in-app browser 启动，点击开始新游戏后推进到第1天 06:15 实时战况，DOM 可见“当前剩余”威胁读数；临时 tab 与 server 已清理。记录见 `docs/qa/local-daytime-combat-browser-20261016.md`。该证据不替代三日/十四日自然回归。
+
+
+## 可见实时威胁报告 smoke（2026-10-16）
+
+visible in-app browser 中真实点击新局和“推进到下一次威胁”，战斗窗口完成后 DOM 显示第1天已保存尸潮报告、当前剩余和关闭报告入口。重复同一威胁不会被误称为多日进度；完整多日自然回归仍待正式 runner 环境。
