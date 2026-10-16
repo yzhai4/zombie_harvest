@@ -36,6 +36,7 @@ jobs:
           node --check scripts/check-leader-command-bridge.mjs
           node --check scripts/check-leader-command-bridge-runtime.mjs
           node --check scripts/check-daytime-combat.mjs
+          node --check scripts/check-combat-intent-v1.mjs
       - name: Check deployable entrypoints
         run: |
           test -s dist/index.html
@@ -71,7 +72,9 @@ jobs:
           node scripts/check-leader-command-bridge.mjs
           node scripts/check-leader-command-bridge-runtime.mjs
       - name: Execute daytime combat contract
-        run: node scripts/check-daytime-combat.mjs
+        run: |
+          node scripts/check-daytime-combat.mjs
+          node scripts/check-combat-intent-v1.mjs
       - name: Verify save projections and static smoke
         run: |
           node scripts/replay-harness.mjs --self-test
