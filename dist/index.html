@@ -2964,9 +2964,10 @@
        } else if (!(definition.startConditions || []).every(contentConditionMet)) return { ok: false, reason: 'start-condition' };
        const firstNode = definition.nodes?.[0];
        if (!firstNode) return { ok: false, reason: 'chain-node-missing' };
-       const active = { chainId, instanceKey: episodeKey, nodeId: firstNode.nodeId, status: 'active', startedAt: worldMinute(), actorId, resolvedNodeIds: [] };
+       const active = { chainId, ...(repeatable ? { instanceKey: episodeKey } : {}), nodeId: firstNode.nodeId, status: 'active', startedAt: worldMinute(), actorId, resolvedNodeIds: [] };
        state.contentState.activeChains[chainId] = active;
-       recordWorldEvent('content.chain.started', { chainId, instanceKey: episodeKey, nodeId: firstNode.nodeId }, { actorId: meta.actorId || 'player-1', defId: chainId });
+       const startedPayload = { chainId, nodeId: firstNode.nodeId }; if (repeatable) startedPayload.instanceKey = episodeKey;
+       recordWorldEvent('content.chain.started', startedPayload, { actorId: meta.actorId || 'player-1', defId: chainId });
        return { ok: true, active };
      }
      function resolveContentChain(chainId, nodeId, choiceId, meta = {}) {
@@ -3005,7 +3006,8 @@
        }
        delete state.contentState.activeChains[chainId];
        state.contentState.completedChains = [...new Set([...state.contentState.completedChains, episodeKey])].slice(-100);
-       recordWorldEvent('content.chain.resolved', { chainId, instanceKey: episodeKey, nodeId, choiceId, results: result.results }, { actorId: meta.actorId || 'player-1', defId: chainId, effects: choice.effects || [] });
+       const resolvedPayload = { chainId, nodeId, choiceId, results: result.results }; if (definition.repeatable) resolvedPayload.instanceKey = episodeKey;
+       recordWorldEvent('content.chain.resolved', resolvedPayload, { actorId: meta.actorId || 'player-1', defId: chainId, effects: choice.effects || [] });
        return { ok: true, chainId, nodeId, choiceId, results: result.results };
      }
      function resolveContentFallback(chainId, reason = 'ifSkipped', meta = {}) {
@@ -3026,7 +3028,7 @@
        if (!effectResult.ok) return effectResult;
        if (active) delete state.contentState.activeChains[chainId];
        state.contentState.completedChains = [...new Set([...state.contentState.completedChains, episodeKey])].slice(-100);
-       const payload = { chainId, instanceKey: episodeKey, reason, fallbackId, active: !!active, results: effectResult.results || [] };
+       const payload = { chainId, reason, fallbackId, active: !!active, results: effectResult.results || [] }; if (definition.repeatable) payload.instanceKey = episodeKey;
        recordWorldEvent('content.chain.fallback', payload, { actorId: meta.actorId || 'camp-autonomy', defId: chainId, effects: fallbackEffects });
        state.contentState.history = [...state.contentState.history, { id: `${chainId}:fallback:${reason}`, at: worldMinute(), payload, actorId: meta.actorId || 'camp-autonomy' }].slice(-100);
        return { ok: true, ...payload };
