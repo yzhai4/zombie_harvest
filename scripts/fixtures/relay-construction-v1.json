@@ -1,0 +1,216 @@
+{
+  "schema": "RelayConstructionV1",
+  "base": {
+    "id": "camp-relay-001",
+    "defId": "relay-chain-001",
+    "definitionVersion": 1,
+    "status": "briefed",
+    "coreItemId": "item-relayCore-001",
+    "handoffAt": 480,
+    "materialNeed": { "wood": 10, "parts": 5, "stone": 4 },
+    "materialProgress": { "wood": 0, "parts": 0, "stone": 0 },
+    "materialClock": 0,
+    "workMinutes": 0,
+    "targetMinutes": 180,
+    "buildingId": "bld-relay-station",
+    "assignedNpcIds": ["radio", "carpenter", "quartermaster"],
+    "latestEventId": null,
+    "appliedCommandIds": [],
+    "history": []
+  },
+  "cases": [
+    {
+      "name": "briefed begins staging and records a single construction event",
+      "command": {
+        "type": "relay.projectAdvance",
+        "commandId": "cmd-relay-001",
+        "actorId": "camp-autonomy",
+        "payload": {
+          "projectId": "camp-relay-001",
+          "minutes": 30,
+          "expectedInstanceId": "camp-relay-001",
+          "expectedDefId": "relay-chain-001",
+          "expectedDefinitionVersion": 1,
+          "expectedEventId": null
+        }
+      },
+      "outcome": {
+        "materialDelta": { "wood": 2, "parts": 1, "stone": 0 },
+        "resourceDebits": { "wood": 2, "parts": 1, "stone": 0 },
+        "eventIds": ["evt-relay-001"]
+      },
+      "context": {
+        "activeParticipantIds": ["radio", "carpenter", "quartermaster"],
+        "inventory": { "wood": 10, "parts": 5, "stone": 4 }
+      },
+      "expected": {
+        "ok": true,
+        "status": "staging",
+        "eventTypes": ["relay.constructionStarted"],
+        "latestEventId": "evt-relay-001",
+        "materialProgress": { "wood": 2, "parts": 1, "stone": 0 }
+      }
+    },
+    {
+      "name": "staging commits complete materials exactly once",
+      "state": {
+        "status": "staging",
+        "materialProgress": { "wood": 2, "parts": 1, "stone": 0 },
+        "latestEventId": "evt-relay-001",
+        "appliedCommandIds": ["cmd-relay-001"],
+        "history": [{ "commandId": "cmd-relay-001", "statusBefore": "briefed", "statusAfter": "staging", "eventIds": ["evt-relay-001"] }]
+      },
+      "command": {
+        "type": "relay.projectAdvance",
+        "commandId": "cmd-relay-002",
+        "actorId": "camp-autonomy",
+        "payload": {
+          "projectId": "camp-relay-001",
+          "minutes": 30,
+          "expectedInstanceId": "camp-relay-001",
+          "expectedDefId": "relay-chain-001",
+          "expectedDefinitionVersion": 1,
+          "expectedEventId": "evt-relay-001"
+        }
+      },
+      "outcome": {
+        "materialDelta": { "wood": 8, "parts": 4, "stone": 4 },
+        "resourceDebits": { "wood": 8, "parts": 4, "stone": 4 },
+        "eventIds": ["evt-relay-002"]
+      },
+      "context": {
+        "activeParticipantIds": ["radio", "carpenter", "quartermaster"],
+        "inventory": { "wood": 8, "parts": 4, "stone": 4 }
+      },
+      "expected": {
+        "ok": true,
+        "status": "building",
+        "eventTypes": ["relay.materialsCommitted"],
+        "latestEventId": "evt-relay-002",
+        "materialProgress": { "wood": 10, "parts": 5, "stone": 4 }
+      }
+    },
+    {
+      "name": "building advances without crossing the terminal threshold",
+      "state": {
+        "status": "building",
+        "materialProgress": { "wood": 10, "parts": 5, "stone": 4 },
+        "latestEventId": "evt-relay-002",
+        "appliedCommandIds": ["cmd-relay-001", "cmd-relay-002"],
+        "history": []
+      },
+      "command": {
+        "type": "relay.projectAdvance",
+        "commandId": "cmd-relay-003",
+        "actorId": "camp-autonomy",
+        "payload": {
+          "projectId": "camp-relay-001",
+          "minutes": 60,
+          "expectedInstanceId": "camp-relay-001",
+          "expectedDefId": "relay-chain-001",
+          "expectedDefinitionVersion": 1,
+          "expectedEventId": "evt-relay-002"
+        }
+      },
+      "outcome": { "workMinutes": 60, "eventIds": ["evt-relay-003"] },
+      "context": { "activeParticipantIds": ["radio", "carpenter", "quartermaster"] },
+      "expected": {
+        "ok": true,
+        "status": "building",
+        "eventTypes": [],
+        "latestEventId": "evt-relay-002",
+        "workMinutes": 60
+      }
+    },
+    {
+      "name": "building completion is a separate terminal step",
+      "state": {
+        "status": "building",
+        "materialProgress": { "wood": 10, "parts": 5, "stone": 4 },
+        "workMinutes": 120,
+        "latestEventId": "evt-relay-002",
+        "appliedCommandIds": ["cmd-relay-001", "cmd-relay-002"],
+        "history": []
+      },
+      "command": {
+        "type": "relay.projectAdvance",
+        "commandId": "cmd-relay-004",
+        "actorId": "camp-autonomy",
+        "payload": {
+          "projectId": "camp-relay-001",
+          "minutes": 60,
+          "expectedInstanceId": "camp-relay-001",
+          "expectedDefId": "relay-chain-001",
+          "expectedDefinitionVersion": 1,
+          "expectedEventId": "evt-relay-002"
+        }
+      },
+      "outcome": { "workMinutes": 60, "eventIds": ["evt-relay-004"] },
+      "context": { "activeParticipantIds": ["radio", "carpenter", "quartermaster"] },
+      "expected": {
+        "ok": true,
+        "status": "online",
+        "eventTypes": ["relay.stationOnline"],
+        "latestEventId": "evt-relay-004",
+        "workMinutes": 180
+      }
+    },
+    {
+      "name": "stale instance is rejected before business effects",
+      "commandPatch": { "payload": { "expectedInstanceId": "camp-relay-old" } },
+      "expected": { "ok": false, "reason": "event-instance-conflict", "unchanged": true }
+    },
+    {
+      "name": "stale event is rejected before material effects",
+      "commandPatch": { "payload": { "expectedEventId": "evt-relay-old" } },
+      "expected": { "ok": false, "reason": "event-state-conflict", "unchanged": true }
+    },
+    {
+      "name": "missing required worker is recoverable",
+      "commandPatch": {},
+      "contextPatch": { "activeParticipantIds": ["radio", "carpenter"] },
+      "expected": { "ok": false, "reason": "missing-role", "unchanged": true }
+    },
+    {
+      "name": "insufficient inventory rolls the whole step back",
+      "commandPatch": { "commandId": "cmd-relay-insufficient" },
+      "outcomePatch": { "materialDelta": { "wood": 8, "parts": 4, "stone": 4 }, "resourceDebits": { "wood": 8, "parts": 4, "stone": 4 }, "eventIds": ["evt-relay-invalid"] },
+      "contextPatch": { "inventory": { "wood": 1, "parts": 4, "stone": 4 } },
+      "expected": { "ok": false, "reason": "resource-insufficient", "unchanged": true }
+    },
+    {
+      "name": "negative work cannot create a hidden partial transition",
+      "state": { "status": "building", "materialProgress": { "wood": 10, "parts": 5, "stone": 4 }, "latestEventId": "evt-relay-002" },
+      "command": {
+        "type": "relay.projectAdvance",
+        "commandId": "cmd-relay-negative",
+        "payload": { "projectId": "camp-relay-001", "minutes": 10, "expectedInstanceId": "camp-relay-001", "expectedDefId": "relay-chain-001", "expectedDefinitionVersion": 1, "expectedEventId": "evt-relay-002" }
+      },
+      "outcome": { "workMinutes": -1 },
+      "expected": { "ok": false, "reason": "work-delta-invalid", "unchanged": true }
+    },
+    {
+      "name": "duplicate command is a no-op with the original token",
+      "state": { "status": "staging", "materialProgress": { "wood": 2, "parts": 1, "stone": 0 }, "latestEventId": "evt-relay-001", "appliedCommandIds": ["cmd-relay-duplicate"] },
+      "command": {
+        "type": "relay.projectAdvance",
+        "commandId": "cmd-relay-duplicate",
+        "payload": { "projectId": "camp-relay-001", "minutes": 30, "expectedInstanceId": "camp-relay-001", "expectedDefId": "relay-chain-001", "expectedDefinitionVersion": 1, "expectedEventId": "evt-relay-001" }
+      },
+      "outcome": { "materialDelta": { "wood": 8, "parts": 4, "stone": 4 }, "eventIds": ["evt-relay-duplicate"] },
+      "expected": { "ok": true, "duplicate": true, "unchanged": true }
+    },
+    {
+      "name": "save reload preserves the construction token",
+      "state": { "status": "building", "materialProgress": { "wood": 10, "parts": 5, "stone": 4 }, "workMinutes": 120, "latestEventId": "evt-relay-002" },
+      "command": {
+        "type": "relay.projectAdvance",
+        "commandId": "cmd-relay-reload",
+        "payload": { "projectId": "camp-relay-001", "minutes": 60, "expectedInstanceId": "camp-relay-001", "expectedDefId": "relay-chain-001", "expectedDefinitionVersion": 1, "expectedEventId": "evt-relay-002" }
+      },
+      "outcome": { "workMinutes": 60, "eventIds": ["evt-relay-reload"] },
+      "expected": { "ok": true, "status": "online", "latestEventId": "evt-relay-reload", "reloadTokenSame": true }
+    }
+  ]
+}
+
