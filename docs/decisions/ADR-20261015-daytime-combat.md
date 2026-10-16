@@ -50,3 +50,8 @@ DAY 的攻击只由 `SessionController.mode === 'DAY'` 且 `state.night === fals
 ## Intent batch extension (2026-10-16)
 
 昼间最小闭环现已先收集 `CombatIntent` 再按稳定键 `sourceId → targetId → attackSeq` 排序结算。每个命中收据包含 `intentId`、`attackSeq` 和 `profileId`；玩家、NPC、塔和活动敌人共享同一白天 tick，拒绝/死亡目标不会重新扣血。该实现仍是 inline runtime 内部合同，尚未宣称独立 `CombatIntentV1` schema；后续需把它抽成可复用 reducer，并补墙体/建筑目标、事件 resolve 清理、命令级幂等和跨构建 replay hash。
+
+
+## 防御建筑目标扩展（2026-10-16）
+
+活动敌人的昼间目标集合已扩展到瞭望塔、火油塔、木墙、尖刺栅栏、掩体、仓库和广播中继站。建筑 HP 归零时写入同一 `combat.entity.defeated` 并置 `active=false`；墙体/建筑不穿透移动碰撞，campCollapse 不因普通命中隐式追加。新增 VM 夹具覆盖敌人→墙体，仍保持夜潮 barrier 结算独立。
