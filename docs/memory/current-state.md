@@ -198,3 +198,6 @@ visible in-app browser 中真实点击新局和“推进到下一次威胁”，
 白天战斗的事件目标清理已补上排队事件边界：resolve 前捕获原 eventId/instanceId，不读取 resolve 后变更的 state.event；旧来源敌人清理、新排队来源与无关来源保留。check-daytime-combat.mjs 当前 12/12，新增 queued NPC activation 夹具。该修复已进入 v82 draft PR，尚未部署 Sites。
 
 独立 CombatIntentV1 schema/module 与 inline runtime 仍是迁移阶段：当前 checker 已对齐字段，但 runtime 尚未直接调用独立 validator，不能把 schema checker 等同为生产执行器。
+
+
+事件清理又补上拒绝分支：资源不足或其他非 terminal 结算不会清理 sourceEventId 敌人；当前 daytime checker 13/13，包含成功、queued activation 和 rejected resolve。
