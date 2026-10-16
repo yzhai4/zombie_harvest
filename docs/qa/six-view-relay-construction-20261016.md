@@ -32,7 +32,7 @@ CI 还通过 content-chain 54/54、static three-day smoke 55/55、replay self-te
 | 玩家 | 白天威胁会真实掉血；水车前置、夜间拒绝和 handoff 陈旧命令可解释；成功交接不会重复扣核心或声望 | 在施工/上线前显示阶段、材料、工时、参与者、预警收益与失败原因；部分材料消耗后重试不软锁主循环；旧按钮必须携带四元 token | **条件通过**：已有入口可解释；施工 UI/Choice 仍待接线 |
 | NPC | 守卫受伤会同步 `hp/combatHp/lifeState/wounds/SAN`；relay 参与者按存活状态和岗位匹配，缺岗会阻塞 | 每个工作段绑定真实 NPC、岗位、presence、有效分钟和中断原因；死亡、失踪、拒绝合作或岗位冲突必须暂停/降级，不得由系统替身完成；不把玩家体力署名为 NPC 劳动 | **条件通过**：缺岗阻塞已存在；工作段账本和死亡中断夹具未完成 |
 | 营地 | 塔/墙有耐久和失活；handoff 只在一次成功事务中扣核心并改变项目状态；Gate 失败不写效果 | 施工占位、库存、材料来源和建筑状态必须原子结算；资源不能为负，重复 command/instance 不重复扣料；夜间不能临时建造，保存恢复不重放材料或工时 | **待施工事务**：现有时间推进存在直接多字段写入，需迁移到 reducer/effect transaction |
-| 势力 | 当前只改变 `campStanding`/领域值，没有假定邻营或河湾互助会实体；Gate 不凭空发外交收益 | 只为真实施工/上线事实发营地贡献、合法性、recon/defense 领域变化；不创建外援、贸易或关系奖励；每个 standing delta 要有来源事件、actor 和可回放原因 | **范围受控**：需为施工与上线各自固定 standing 来源，禁止沿用“自动上线即全局奖励”的隐式副作用 |
+| 势力 | 当前只改变 `campStanding`/领域值，没有假定邻营或河湾互助会实体；注册表中的 `camp`、`redline`、`riverfolk`、`blackSoil` 尚未都接入本链；Gate 不凭空发外交收益 | 只为真实施工/上线事实发营地贡献、合法性、recon/defense 领域变化；`redline`、`riverfolk`、`blackSoil` 不得因中继自动获得关系/贸易奖励；每个 standing delta 要有来源事件、actor 和可回放原因 | **范围受控**：需为施工与上线各自固定 standing 来源，禁止沿用“自动上线即全局奖励”的隐式副作用 |
 | 敌人 | 活动敌人可攻击 NPC、塔、墙；事件结算只清理原 instance 的敌人；白天与夜潮隔离 | 施工只通过记录的 forecast/route/lead 事实影响威胁；不绕过敌人上限、移动、夜间门禁或建筑接触规则；失败/回滚不得生成免费敌人或重复掉落 | **条件通过**：战斗合同已通过；施工对尸潮强度的因果仍未完成验收 |
 | 全局事件链 | handoff 有四元身份、拒绝收据和 save→reload 保护；水车 Gate parity 不改变状态 | 施工必须成为正式 EventDef/EventInstance/Choice/Effect：CAS → Gate → 业务前置 → 预检/预留 → reducer → receipt；固定 causation/eventId/definitionVersion；摘要、刷新、加载只结算一次 | **未通过**：施工/上线仍是自治时间推进路径，不能把剧本卡元数据当成 resolver 已接线 |
 
