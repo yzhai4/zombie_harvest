@@ -8,3 +8,7 @@
 - **修复：** 新增昼间 `runDayCombat` 与统一 `applyDayCombatDamage`，补塔耐久/active 默认值、事件账本收据和昼夜 Gate；UI 改为“全天自动守备”。
 - **验证：** `node scripts/check-daytime-combat.mjs` 6/6；`node scripts/check-inline-syntax.mjs` 通过。该验证是实际 inline runtime VM，不是浏览器自然试玩。
 - **残留：** 后续仍需批处理 CombatIntentV1、敌方建筑/墙体接触攻击、真实 browser 多日回归和生产发布对账。
+
+## 排队事件边界（2026-10-16）
+
+复核发现原事件 resolve 可能同步激活排队 NPC 事件；若清理 helper 读取变更后的当前事件，会留下原事件敌人或误删新事件敌人。修复后 helper 只接受 resolve 前捕获的 `instanceId/sourceEventId`，并以显式集合清理；新增 queued-event 夹具验证 12/12 通过。运行时仍待后续直接复用独立 CombatIntentV1 validator。
