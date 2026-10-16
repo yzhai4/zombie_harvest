@@ -41,3 +41,8 @@ handoff 的四元 CAS 已有 source VM 24/24 证据，正常交接与 stale 拒�
 ## RelayConstructionV1 shadow boundary and UI producer risk
 
 The handoff token is now propagated by the real context-menu producer, but there is still no production leader-LLM relay producer; the leader bridge remains headless with productionWiring false. Relay construction and online autonomy still mutate project, inventory, NPC work state, building state and event ledger through updateRelayProject without the shadow adapter's atomic reducer boundary. Before runtime wiring, add a real command producer, material-source ledger, building-occupancy checks, same-tick ordering with CombatIntent, migration defaults and browser save/reload fixtures. Do not add Gate requires to metadata-only relay choices while they remain outside the resolver.
+
+
+## 2026-10-16 relay shadow refinement
+
+Resource provenance and terminal re-entry are now frozen in RelayConstructionV1 (13/13). The remaining runtime risks are unchanged but more concrete: the real `world.advance` producer still mutates relay materials/building/NPC work/event ledger directly; it needs a transactional CommandBus adapter with inventory reservation, building occupancy, same-tick CombatIntent ordering, save migration, and browser fixtures. Do not treat the shadow result or the headless leader harness as production autonomy evidence.
