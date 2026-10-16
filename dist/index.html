@@ -3044,8 +3044,9 @@
      }
      function registerContentPack(pack = {}) { const results = []; Object.entries(pack).forEach(([kind, definitions]) => { (Array.isArray(definitions) ? definitions : Object.values(definitions || {})).forEach(definition => results.push(registerContent(kind, definition))); }); return { ok: results.every(result => result.ok), results }; }
      const ContentRegistry = { kinds: CONTENT_KINDS, plans: PLAN_DEFS, register: registerContent, registerPack: registerContentPack, get: contentDefinition, validate: validateContentDefinition, applyEffects: applyContentEffects, startChain: startContentChain, resolveChain: resolveContentChain, resolveFallback: resolveContentFallback, resolveAutonomy: resolveContentAutonomy, runHook: runContentHook, gate: { definition: contentChainDefinitionGate, choice: contentChainChoiceGateRuntime }, planMeeting: { state: planMeetingState, generate: generatePlanMeeting, commit: commitPlanMeeting, execute: executePlanMeeting }, all(kind) { return { ...contentRegistryBase(kind), ...CONTENT_EXTENSIONS[kind] }; } };
-     const ObserverExpressionV1 = { schema: 'ObserverExpressionV1', config: observerAiConfig, project: observerTruthProjection, comment: observerCommentary };
-    if (typeof window !== 'undefined') { window.ZombieHarvestContent = ContentRegistry; window.ZombieHarvestObserver = ObserverExpressionV1; }
+     if (typeof window !== 'undefined') window.ZombieHarvestContent = ContentRegistry;
+    const ObserverExpressionV1 = { schema: 'ObserverExpressionV1', config: observerAiConfig, project: observerTruthProjection, comment: observerCommentary };
+    if (typeof window !== 'undefined') window.ZombieHarvestObserver = ObserverExpressionV1;
     const FeedbackRouter = { route(event) { if (!event) return; state.worldMeta.feedback.push({ eventId: event.eventId, type: event.type }); if (state.worldMeta.feedback.length > 40) state.worldMeta.feedback.shift(); } };
     function appendFeedbackEvent(type, payload = {}, meta = {}) { const event = recordWorldEvent(type, payload, meta); FeedbackRouter.route(event); return event; }
     const CommandBus = {
