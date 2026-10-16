@@ -1,0 +1,607 @@
+{
+  "schema": "RelayConstructionTransactionV1",
+  "base": {
+    "instance": {
+      "id": "camp-relay-001",
+      "defId": "relay-chain-001",
+      "definitionVersion": 1,
+      "status": "briefed",
+      "coreItemId": "item-relayCore-001",
+      "handoffAt": 480,
+      "materialNeed": {
+        "wood": 10,
+        "parts": 5,
+        "stone": 4
+      },
+      "materialProgress": {
+        "wood": 0,
+        "parts": 0,
+        "stone": 0
+      },
+      "materialClock": 0,
+      "workMinutes": 0,
+      "targetMinutes": 180,
+      "buildingId": "bld-relay-station",
+      "assignedNpcIds": [
+        "radio",
+        "carpenter",
+        "quartermaster"
+      ],
+      "latestEventId": null,
+      "appliedCommandIds": [],
+      "history": []
+    },
+    "inventory": {
+      "wood": 10,
+      "parts": 5,
+      "stone": 4
+    },
+    "building": {
+      "id": "bld-relay-station",
+      "status": "vacant",
+      "occupiedBy": null
+    },
+    "participants": [
+      {
+        "id": "radio",
+        "alive": true,
+        "active": true,
+        "role": "radio",
+        "scheduleState": "idle",
+        "behaviorState": "idle",
+        "lastReport": "待命"
+      },
+      {
+        "id": "carpenter",
+        "alive": true,
+        "active": true,
+        "role": "carpenter",
+        "scheduleState": "idle",
+        "behaviorState": "idle",
+        "lastReport": "待命"
+      },
+      {
+        "id": "quartermaster",
+        "alive": true,
+        "active": true,
+        "role": "quartermaster",
+        "scheduleState": "idle",
+        "behaviorState": "idle",
+        "lastReport": "待命"
+      }
+    ]
+  },
+  "cases": [
+    {
+      "name": "prepare and apply atomically reserves inventory building and participants",
+      "command": {
+        "type": "relay.projectAdvance",
+        "commandId": "cmd-tx-001",
+        "actorId": "camp-autonomy",
+        "payload": {
+          "projectId": "camp-relay-001",
+          "minutes": 30,
+          "expectedInstanceId": "camp-relay-001",
+          "expectedDefId": "relay-chain-001",
+          "expectedDefinitionVersion": 1,
+          "expectedEventId": null
+        }
+      },
+      "outcome": {
+        "materialDelta": {
+          "wood": 2,
+          "parts": 1,
+          "stone": 0
+        },
+        "resourceDebits": {
+          "wood": 2,
+          "parts": 1,
+          "stone": 0
+        },
+        "resourceSource": "camp-stockpile:main",
+        "eventIds": [
+          "evt-tx-001"
+        ],
+        "participantPatch": {
+          "radio": {
+            "scheduleState": "relay-staging",
+            "behaviorState": "work",
+            "workSegmentId": "seg-tx-001",
+            "workMinutes": 30
+          },
+          "carpenter": {
+            "scheduleState": "relay-staging",
+            "behaviorState": "work",
+            "workSegmentId": "seg-tx-001",
+            "workMinutes": 30
+          },
+          "quartermaster": {
+            "scheduleState": "relay-staging",
+            "behaviorState": "work",
+            "workSegmentId": "seg-tx-001",
+            "workMinutes": 30
+          }
+        }
+      },
+      "expected": {
+        "status": "staging",
+        "inventory": {
+          "wood": 8,
+          "parts": 4,
+          "stone": 4
+        },
+        "buildingStatus": "staging",
+        "buildingOccupiedBy": "camp-relay-001",
+        "participantSchedule": "relay-staging",
+        "eventTypes": [
+          "relay.constructionStarted"
+        ],
+        "resourceSource": "camp-stockpile:main"
+      }
+    },
+    {
+      "name": "building transition carries the reserved occupancy",
+      "snapshotPatch": {
+        "instance": {
+          "status": "staging",
+          "materialProgress": {
+            "wood": 2,
+            "parts": 1,
+            "stone": 0
+          },
+          "latestEventId": "evt-tx-001",
+          "appliedCommandIds": [
+            "cmd-tx-001"
+          ]
+        },
+        "inventory": {
+          "wood": 8,
+          "parts": 4,
+          "stone": 4
+        },
+        "building": {
+          "status": "staging",
+          "occupiedBy": "camp-relay-001"
+        },
+        "participants": [
+          {
+            "id": "radio",
+            "alive": true,
+            "active": true,
+            "role": "radio",
+            "scheduleState": "relay-staging",
+            "behaviorState": "work",
+            "lastReport": "待命",
+            "workSegmentId": "seg-tx-001",
+            "workMinutes": 30
+          },
+          {
+            "id": "carpenter",
+            "alive": true,
+            "active": true,
+            "role": "carpenter",
+            "scheduleState": "relay-staging",
+            "behaviorState": "work",
+            "lastReport": "待命",
+            "workSegmentId": "seg-tx-001",
+            "workMinutes": 30
+          },
+          {
+            "id": "quartermaster",
+            "alive": true,
+            "active": true,
+            "role": "quartermaster",
+            "scheduleState": "relay-staging",
+            "behaviorState": "work",
+            "lastReport": "待命",
+            "workSegmentId": "seg-tx-001",
+            "workMinutes": 30
+          }
+        ]
+      },
+      "command": {
+        "type": "relay.projectAdvance",
+        "commandId": "cmd-tx-002",
+        "actorId": "camp-autonomy",
+        "payload": {
+          "projectId": "camp-relay-001",
+          "minutes": 30,
+          "expectedInstanceId": "camp-relay-001",
+          "expectedDefId": "relay-chain-001",
+          "expectedDefinitionVersion": 1,
+          "expectedEventId": "evt-tx-001"
+        }
+      },
+      "outcome": {
+        "materialDelta": {
+          "wood": 8,
+          "parts": 4,
+          "stone": 4
+        },
+        "resourceDebits": {
+          "wood": 8,
+          "parts": 4,
+          "stone": 4
+        },
+        "resourceSource": "camp-stockpile:main",
+        "eventIds": [
+          "evt-tx-002"
+        ],
+        "participantPatch": {
+          "radio": {
+            "scheduleState": "relay-building",
+            "behaviorState": "work",
+            "workSegmentId": "seg-tx-002",
+            "workMinutes": 0
+          },
+          "carpenter": {
+            "scheduleState": "relay-building",
+            "behaviorState": "work",
+            "workSegmentId": "seg-tx-002",
+            "workMinutes": 0
+          },
+          "quartermaster": {
+            "scheduleState": "relay-building",
+            "behaviorState": "work",
+            "workSegmentId": "seg-tx-002",
+            "workMinutes": 0
+          }
+        }
+      },
+      "expected": {
+        "status": "building",
+        "inventory": {
+          "wood": 0,
+          "parts": 0,
+          "stone": 0
+        },
+        "buildingStatus": "building",
+        "buildingOccupiedBy": "camp-relay-001",
+        "participantSchedule": "relay-building",
+        "eventTypes": [
+          "relay.materialsCommitted"
+        ],
+        "resourceSource": "camp-stockpile:main"
+      }
+    },
+    {
+      "name": "online transition marks the station once",
+      "snapshotPatch": {
+        "instance": {
+          "status": "building",
+          "materialProgress": {
+            "wood": 10,
+            "parts": 5,
+            "stone": 4
+          },
+          "workMinutes": 120,
+          "latestEventId": "evt-tx-002",
+          "appliedCommandIds": [
+            "cmd-tx-001",
+            "cmd-tx-002"
+          ]
+        },
+        "inventory": {
+          "wood": 0,
+          "parts": 0,
+          "stone": 0
+        },
+        "building": {
+          "status": "building",
+          "occupiedBy": "camp-relay-001"
+        },
+        "participants": [
+          {
+            "id": "radio",
+            "alive": true,
+            "active": true,
+            "role": "radio",
+            "scheduleState": "relay-building",
+            "behaviorState": "work",
+            "lastReport": "待命"
+          },
+          {
+            "id": "carpenter",
+            "alive": true,
+            "active": true,
+            "role": "carpenter",
+            "scheduleState": "relay-building",
+            "behaviorState": "work",
+            "lastReport": "待命"
+          },
+          {
+            "id": "quartermaster",
+            "alive": true,
+            "active": true,
+            "role": "quartermaster",
+            "scheduleState": "relay-building",
+            "behaviorState": "work",
+            "lastReport": "待命"
+          }
+        ]
+      },
+      "command": {
+        "type": "relay.projectAdvance",
+        "commandId": "cmd-tx-003",
+        "actorId": "camp-autonomy",
+        "payload": {
+          "projectId": "camp-relay-001",
+          "minutes": 60,
+          "expectedInstanceId": "camp-relay-001",
+          "expectedDefId": "relay-chain-001",
+          "expectedDefinitionVersion": 1,
+          "expectedEventId": "evt-tx-002"
+        }
+      },
+      "outcome": {
+        "workMinutes": 60,
+        "eventIds": [
+          "evt-tx-003"
+        ],
+        "participantPatch": {
+          "radio": {
+            "scheduleState": "relay-online",
+            "behaviorState": "guard",
+            "workSegmentId": "seg-tx-003",
+            "workMinutes": 60
+          },
+          "carpenter": {
+            "scheduleState": "relay-online",
+            "behaviorState": "guard",
+            "workSegmentId": "seg-tx-003",
+            "workMinutes": 60
+          },
+          "quartermaster": {
+            "scheduleState": "relay-online",
+            "behaviorState": "guard",
+            "workSegmentId": "seg-tx-003",
+            "workMinutes": 60
+          }
+        }
+      },
+      "expected": {
+        "status": "online",
+        "inventory": {
+          "wood": 0,
+          "parts": 0,
+          "stone": 0
+        },
+        "buildingStatus": "online",
+        "buildingOccupiedBy": "camp-relay-001",
+        "participantSchedule": "relay-online",
+        "eventTypes": [
+          "relay.stationOnline"
+        ],
+        "resourceSource": null,
+        "stationOnlineCount": 1
+      }
+    },
+    {
+      "name": "occupied building rejects without touching the snapshot",
+      "snapshotPatch": {
+        "building": {
+          "occupiedBy": "other-project",
+          "status": "building"
+        }
+      },
+      "outcome": {
+        "materialDelta": {
+          "wood": 2,
+          "parts": 1,
+          "stone": 0
+        },
+        "resourceDebits": {
+          "wood": 2,
+          "parts": 1,
+          "stone": 0
+        },
+        "resourceSource": "camp-stockpile:main",
+        "eventIds": [
+          "evt-tx-occupied"
+        ]
+      },
+      "expected": {
+        "prepareOk": false,
+        "reason": "building-occupied"
+      }
+    },
+    {
+      "name": "insufficient inventory rejects atomically",
+      "snapshotPatch": {
+        "inventory": {
+          "wood": 1,
+          "parts": 5,
+          "stone": 4
+        }
+      },
+      "outcome": {
+        "materialDelta": {
+          "wood": 2,
+          "parts": 1,
+          "stone": 0
+        },
+        "resourceDebits": {
+          "wood": 2,
+          "parts": 1,
+          "stone": 0
+        },
+        "resourceSource": "camp-stockpile:main",
+        "eventIds": [
+          "evt-tx-inventory"
+        ]
+      },
+      "expected": {
+        "prepareOk": false,
+        "reason": "resource-insufficient"
+      }
+    },
+    {
+      "name": "inactive participant rejects before reservation",
+      "snapshotPatch": {
+        "participants": [
+          {
+            "id": "radio",
+            "alive": true,
+            "active": false,
+            "role": "radio",
+            "scheduleState": "idle",
+            "behaviorState": "idle",
+            "lastReport": "待命"
+          },
+          {
+            "id": "carpenter",
+            "alive": true,
+            "active": true,
+            "role": "carpenter",
+            "scheduleState": "idle",
+            "behaviorState": "idle",
+            "lastReport": "待命"
+          },
+          {
+            "id": "quartermaster",
+            "alive": true,
+            "active": true,
+            "role": "quartermaster",
+            "scheduleState": "idle",
+            "behaviorState": "idle",
+            "lastReport": "待命"
+          }
+        ]
+      },
+      "outcome": {
+        "materialDelta": {
+          "wood": 2,
+          "parts": 1,
+          "stone": 0
+        },
+        "resourceDebits": {
+          "wood": 2,
+          "parts": 1,
+          "stone": 0
+        },
+        "resourceSource": "camp-stockpile:main",
+        "eventIds": [
+          "evt-tx-participant"
+        ]
+      },
+      "expected": {
+        "prepareOk": false,
+        "reason": "participant-unavailable"
+      }
+    },
+    {
+      "name": "prepared transaction rejects a changed current snapshot",
+      "command": {
+        "type": "relay.projectAdvance",
+        "commandId": "cmd-tx-conflict",
+        "actorId": "camp-autonomy",
+        "payload": {
+          "projectId": "camp-relay-001",
+          "minutes": 30,
+          "expectedInstanceId": "camp-relay-001",
+          "expectedDefId": "relay-chain-001",
+          "expectedDefinitionVersion": 1,
+          "expectedEventId": null
+        }
+      },
+      "outcome": {
+        "materialDelta": {
+          "wood": 2,
+          "parts": 1,
+          "stone": 0
+        },
+        "resourceDebits": {
+          "wood": 2,
+          "parts": 1,
+          "stone": 0
+        },
+        "resourceSource": "camp-stockpile:main",
+        "eventIds": [
+          "evt-tx-conflict"
+        ]
+      },
+      "currentPatch": {
+        "inventory": {
+          "wood": 9,
+          "parts": 5,
+          "stone": 4
+        }
+      },
+      "expected": {
+        "applyOk": false,
+        "reason": "transaction-conflict"
+      }
+    },
+    {
+      "name": "rollback returns the exact pre-transaction snapshot",
+      "command": {
+        "type": "relay.projectAdvance",
+        "commandId": "cmd-tx-rollback",
+        "actorId": "camp-autonomy",
+        "payload": {
+          "projectId": "camp-relay-001",
+          "minutes": 30,
+          "expectedInstanceId": "camp-relay-001",
+          "expectedDefId": "relay-chain-001",
+          "expectedDefinitionVersion": 1,
+          "expectedEventId": null
+        }
+      },
+      "outcome": {
+        "materialDelta": {
+          "wood": 2,
+          "parts": 1,
+          "stone": 0
+        },
+        "resourceDebits": {
+          "wood": 2,
+          "parts": 1,
+          "stone": 0
+        },
+        "resourceSource": "camp-stockpile:main",
+        "eventIds": [
+          "evt-tx-rollback"
+        ]
+      },
+      "expected": {
+        "rollback": true,
+        "status": "staging"
+      }
+    },
+    {
+      "name": "duplicate command is a transaction no-op",
+      "snapshotPatch": {
+        "instance": {
+          "appliedCommandIds": [
+            "cmd-tx-duplicate"
+          ]
+        }
+      },
+      "command": {
+        "type": "relay.projectAdvance",
+        "commandId": "cmd-tx-duplicate",
+        "actorId": "camp-autonomy",
+        "payload": {
+          "projectId": "camp-relay-001",
+          "minutes": 30,
+          "expectedInstanceId": "camp-relay-001",
+          "expectedDefId": "relay-chain-001",
+          "expectedDefinitionVersion": 1,
+          "expectedEventId": null
+        }
+      },
+      "outcome": {},
+      "expected": {
+        "duplicate": true,
+        "status": "briefed",
+        "inventory": {
+          "wood": 10,
+          "parts": 5,
+          "stone": 4
+        },
+        "buildingStatus": "vacant",
+        "eventTypes": []
+      }
+    }
+  ]
+}
