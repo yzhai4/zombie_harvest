@@ -38,6 +38,8 @@ jobs:
           node --check scripts/check-daytime-combat.mjs
           node --check scripts/check-combat-intent-v1.mjs
           node --check scripts/lib/combat-intent-v1.mjs
+          node --check scripts/lib/event-gate-v1.mjs
+          node --check scripts/check-event-gate-v1.mjs
       - name: Check deployable entrypoints
         run: |
           test -s dist/index.html
@@ -76,6 +78,8 @@ jobs:
         run: |
           node scripts/check-daytime-combat.mjs
           node scripts/check-combat-intent-v1.mjs
+      - name: Execute canonical EventGateV1 shadow contract
+        run: node scripts/check-event-gate-v1.mjs
       - name: Verify save projections and static smoke
         run: |
           node scripts/replay-harness.mjs --self-test
