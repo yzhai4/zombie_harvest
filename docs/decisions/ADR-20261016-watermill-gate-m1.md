@@ -28,7 +28,7 @@
 
 ## 证据与限制
 
-最终分支源 `dist/index.html` SHA-256 为 `bc85cbeab7f00236e7bde84f01d05596676b359fb66b077645103011810fb23d`；`scripts/check-content-chain.mjs` 执行 53 项真实源码检查，来源命令轨迹 hash 为 `c5d6c772`。其余语法、内容、夜间、回放和三日静态 smoke 已由对应 CI 运行复核。
+最终分支源 `dist/index.html` SHA-256 为 `bc85cbeab7f00236e7bde84f01d05596676b359fb66b077645103011810fb23d`；`scripts/check-content-chain.mjs` 执行 54 项真实源码检查（含正向修复存档夹具），来源命令轨迹 hash 为 `c5d6c772`。其余语法、内容、夜间、回放和三日静态 smoke 已由对应 CI 运行复核。
 
 本轮没有把 GateV1 替换为独立模块，也没有自然多日浏览器证据。`contentConditionMet` 对未知对象条件的 fail-closed 是额外的安全收紧，可能暴露未登记的旧内容包；若后续内容依赖未知对象，必须先补条件类型和夹具，不能把未知条件改回自动通过。
 
