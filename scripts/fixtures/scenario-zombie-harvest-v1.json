@@ -31,19 +31,48 @@
   },
   "events": {
     "registry": [
-      "relay-chain-001"
+      "relay-chain-001",
+      "zh-food-shortage-001"
     ],
     "storylets": [
       {
-        "id": "zh.food-shortage.001",
+        "id": "zh-food-shortage-001",
         "trigger": {
-          "metric": "camp.foodDays"
+          "type": "food_days",
+          "max": 1
         },
-        "fallback": "ledger_only",
+        "fallback": {
+          "ifMissingNpc": "shortage_deferred",
+          "ifInsufficientPopulation": "shortage_deferred",
+          "ifExpired": "ledger_only",
+          "ifSkipped": "ledger_only"
+        },
         "choices": [
           {
             "id": "ration",
-            "effects": []
+            "effects": [
+              {
+                "op": "adjustMeter",
+                "key": "campCollapse",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "id": "forage",
+            "requires": [
+              {
+                "type": "npc_alive",
+                "id": "quartermaster"
+              }
+            ],
+            "effects": [
+              {
+                "op": "addResource",
+                "key": "food",
+                "value": 2
+              }
+            ]
           }
         ],
         "expression": {

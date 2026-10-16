@@ -2157,7 +2157,7 @@
     // emits receipts, or applies effects; callers decide how to report a
     // rejection and still run their domain transaction only after it passes.
     const GATE_V1_PHASES = new Set(['DAY', 'NIGHT', 'ANY']);
-    const GATE_V1_OBJECT_KEYS = Object.freeze({ landmark_exists: ['type', 'id'], camp_trust: ['type', 'min'], npc_alive: ['type', 'id'], flag: ['type', 'id', 'value'], day_between: ['type', 'min', 'max'] });
+    const GATE_V1_OBJECT_KEYS = Object.freeze({ landmark_exists: ['type', 'id'], camp_trust: ['type', 'min'], npc_alive: ['type', 'id'], flag: ['type', 'id', 'value'], day_between: ['type', 'min', 'max'], food_days: ['type', 'max'] });
     function gateV1Actor(context = {}) {
       const event = context.event || state.event || {};
       const instance = context.instance || state.eventInstance || {};
@@ -2253,6 +2253,7 @@
       if (type === 'npc_alive') { const id = condition.id === '$actor' ? gateV1Actor(context)?.id : condition.id; if (typeof id !== 'string' || !id) return { ok: false, reason: 'event-precondition-invalid', failedGate: { type, condition } }; return state.npcs?.some(npc => npc.id === id && npcIsActive(npc)) ? { ok: true } : { ok: false, reason: 'event-precondition', failedGate: { type, condition } }; }
       if (type === 'flag') { if (typeof condition.id !== 'string' || !condition.id || condition.value !== undefined && typeof condition.value !== 'boolean') return { ok: false, reason: 'event-precondition-invalid', failedGate: { type, condition } }; const actual = !!state.contentState?.flags?.[condition.id]; const expected = condition.value !== false; return actual === expected ? { ok: true } : { ok: false, reason: 'event-precondition', failedGate: { type, condition }, details: { actual, expected } }; }
       if (type === 'day_between') { const min = Number(condition.min), max = Number(condition.max); if (!Number.isFinite(min) || !Number.isFinite(max) || min > max) return { ok: false, reason: 'event-precondition-invalid', failedGate: { type, condition } }; return state.day >= min && state.day <= max ? { ok: true } : { ok: false, reason: 'event-precondition', failedGate: { type, condition }, details: { actual: state.day } }; }
+      if (type === 'food_days') { const max = Number(condition.max); if (!Number.isFinite(max) || max < 0) return { ok: false, reason: 'event-precondition-invalid', failedGate: { type, condition } }; const actual = Number(foodSituation().ratio); return actual <= max ? { ok: true } : { ok: false, reason: 'event-precondition', failedGate: { type, condition }, details: { actual, max } }; }
       return { ok: false, reason: 'event-precondition-invalid', failedGate: { type, condition } };
     }
     function evaluateGateV1(gate = {}, context = {}) {
@@ -3043,6 +3044,19 @@
        return { ok: true, ...payload };
      }
      function registerContentPack(pack = {}) { const results = []; Object.entries(pack).forEach(([kind, definitions]) => { (Array.isArray(definitions) ? definitions : Object.values(definitions || {})).forEach(definition => results.push(registerContent(kind, definition))); }); return { ok: results.every(result => result.ok), results }; }
+     const SCENARIO_RUNTIME_STORYLETS = Object.freeze({
+       'zh-food-shortage-001': Object.freeze({
+         id: 'zh-food-shortage-001', chainId: 'zh-food-shortage-001', title: '断粮警报', description: '营地库存只够支撑很短时间，必须在天黑前决定配给还是补采。', definitionVersion: 1, category: 'survival', phase: ['day_1', 'day_13'], priority: 82, gateVersion: 1, evaluatePreconditions: true,
+         gate: { version: 1, phase: 'DAY', nightAllowed: false, preconditions: [{ type: 'food_days', max: 1 }] },
+         preconditions: [{ type: 'food_days', max: 1 }], startConditions: [{ type: 'food_days', max: 1 }],
+         nodes: [{ nodeId: 'shortage_choice', title: '粮仓见底', text: '后勤账本显示库存只够撑过很短时间。', choices: [
+           { id: 'ration', label: '收紧配给', hint: '营地崩溃压力 +2，保留现有库存。', requires: [], effects: [{ op: 'adjustMeter', key: 'campCollapse', value: 2 }, { op: 'recordHistory', key: 'zh-food-shortage-001:ration', payload: { route: 'ration' } }] },
+           { id: 'forage', label: '让后勤官带队补采', hint: '后勤官在岗时补回 2 份食物。', requires: [{ type: 'npc_alive', id: 'quartermaster' }], effects: [{ op: 'addResource', key: 'food', value: 2 }, { op: 'recordHistory', key: 'zh-food-shortage-001:forage', payload: { route: 'forage' } }] }
+         ] }],
+         fallback: { ifMissingNpc: { id: 'shortage_deferred', effects: [{ op: 'adjustMeter', key: 'campCollapse', value: 1 }] }, ifInsufficientPopulation: { id: 'shortage_deferred', effects: [{ op: 'adjustMeter', key: 'campCollapse', value: 2 }] }, ifExpired: 'ledger_only', ifSkipped: 'ledger_only' }, hooks: ['onDayStart'], optional: true
+       })
+     });
+     Object.values(SCENARIO_RUNTIME_STORYLETS).forEach(definition => { if (!contentDefinition('eventChain', definition.chainId)) registerContent('eventChain', definition); });
      const ContentRegistry = { kinds: CONTENT_KINDS, plans: PLAN_DEFS, register: registerContent, registerPack: registerContentPack, get: contentDefinition, validate: validateContentDefinition, applyEffects: applyContentEffects, startChain: startContentChain, resolveChain: resolveContentChain, resolveFallback: resolveContentFallback, resolveAutonomy: resolveContentAutonomy, runHook: runContentHook, gate: { definition: contentChainDefinitionGate, choice: contentChainChoiceGateRuntime }, planMeeting: { state: planMeetingState, generate: generatePlanMeeting, commit: commitPlanMeeting, execute: executePlanMeeting }, all(kind) { return { ...contentRegistryBase(kind), ...CONTENT_EXTENSIONS[kind] }; } };
      if (typeof window !== 'undefined') window.ZombieHarvestContent = ContentRegistry;
     const ObserverExpressionV1 = { schema: 'ObserverExpressionV1', config: observerAiConfig, project: observerTruthProjection, comment: observerCommentary };
