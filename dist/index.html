@@ -5560,6 +5560,15 @@
     }
     function relayOnline() { return state.relayProject?.status === 'online'; }
     function relayEventMeta(effectKey, actorId = 'system') { const def = eventDefinition('relay-chain-001'); return { actorId, defId: 'relay-chain-001', definitionVersion: def?.definitionVersion || EVENT_DEFINITION_VERSION, instanceId: state.relayProject?.id || 'camp-relay-001', effects: def?.effects?.[effectKey] || def?.choices?.find(choice => choice.id === effectKey)?.effects || [] }; }
+    function relayLatestEventId(projectId = state.relayProject?.id || 'camp-relay-001') {
+      const events = Array.isArray(state.worldMeta?.events) ? state.worldMeta.events : [];
+      return [...events].reverse().find(event => event?.instanceId === projectId && event?.defId === 'relay-chain-001')?.eventId || null;
+    }
+    function relayHandoffToken() {
+      const project = state.relayProject || {};
+      const def = eventDefinition('relay-chain-001');
+      return { expectedInstanceId: project.id || 'camp-relay-001', expectedDefId: 'relay-chain-001', expectedDefinitionVersion: Number(def?.definitionVersion) || EVENT_DEFINITION_VERSION, expectedEventId: relayLatestEventId(project.id || 'camp-relay-001') };
+    }
     function relayEventGate(choiceId = null, actorId = 'player-1') {
       const project = state.relayProject || {};
       const def = eventDefinition('relay-chain-001');
@@ -5626,9 +5635,22 @@
     function handoffRelayCore(options = {}) {
       if (!guardNightAction(options)) return nightActionResult();
       const relayMeta = relayEventMeta('handoff', options.actorId || 'player-1');
-      return dispatchCommand({ type: 'relay.coreHandoff', commandId: options.commandId, actorId: options.actorId || 'player-1', payload: { projectId: state.relayProject?.id || 'camp-relay-001', itemId: 'relayCore' } }, () => relayHandoffReducer(), {
+      const token = relayHandoffToken();
+      const expectedInstanceId = options.expectedInstanceId === undefined ? token.expectedInstanceId : options.expectedInstanceId;
+      const expectedDefId = options.expectedDefId === undefined ? token.expectedDefId : options.expectedDefId;
+      const expectedDefinitionVersion = options.expectedDefinitionVersion === undefined ? token.expectedDefinitionVersion : Number(options.expectedDefinitionVersion);
+      const expectedEventId = options.expectedEventId === undefined ? token.expectedEventId : options.expectedEventId;
+      return dispatchCommand({ type: 'relay.coreHandoff', commandId: options.commandId, actorId: options.actorId || 'player-1', payload: { projectId: state.relayProject?.id || 'camp-relay-001', itemId: 'relayCore', expectedInstanceId, expectedDefId, expectedDefinitionVersion, expectedEventId } }, () => {
+        const result = relayHandoffReducer();
+        return result?.payload ? { ...result, payload: { ...result.payload, expectedInstanceId, expectedDefId, expectedDefinitionVersion, expectedEventId } } : result;
+      }, {
         eventType: 'relay.coreHandedOff', defId: relayMeta.defId, instanceId: relayMeta.instanceId, definitionVersion: relayMeta.definitionVersion, effects: relayMeta.effects,
-        validate: () => {
+        validate: command => {
+          const live = relayHandoffToken();
+          if (command.payload?.expectedInstanceId !== live.expectedInstanceId) return { ok: false, reason: 'event-instance-conflict' };
+          if (command.payload?.expectedDefId !== live.expectedDefId) return { ok: false, reason: 'event-definition-conflict' };
+          if (Number(command.payload?.expectedDefinitionVersion) !== Number(live.expectedDefinitionVersion)) return { ok: false, reason: 'event-definition-version-conflict' };
+          if (command.payload?.expectedEventId !== live.expectedEventId) return { ok: false, reason: 'event-state-conflict' };
           if (state.gameOver) return { ok: false, reason: 'game-over' };
           if (isNightRestrictedAction(options)) return { ok: false, reason: 'night-lock' };
           const gate = relayEventGate('handoff', options.actorId || 'player-1');
