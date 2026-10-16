@@ -15,4 +15,4 @@
 
 ## 证据边界
 
-这是真实 browser 的本地启动/昼间推进/威胁转换证据，证明当前 dist 能在浏览器中启动并进入实时战况。它不是完整三日、十四日自然回归，也没有把 DOM 出现“当前剩余”扩大为自动塔/NPC实际命中数值；数值守恒继续由 `check-daytime-combat.mjs` 10/11 项 inline runtime 合同覆盖。
+这是真实 browser 的本地启动/昼间推进/威胁转换证据，证明当前 dist 能在浏览器中启动并进入实时战况。它不是完整三日、十四日自然回归，也没有把 DOM 出现“当前剩余”扩大为自动塔/NPC实际命中数值；数值守恒继续由 `check-daytime-combat.mjs` 11/11 项 inline runtime 合同覆盖。
