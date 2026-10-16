@@ -166,3 +166,8 @@ ADR-20261015 已补充 sourceActorId/resolvedActorId 映射、unknown/dead/dupli
 ## 独立 CombatIntentV1 schema（2026-10-16）
 
 新增 `docs/schemas/combat-intent-v1.json`、正反夹具和 `scripts/check-combat-intent-v1.mjs`。schema 约束 DAY、source/target ref、intentId、attackSeq、profile、amount、damageType，并拒绝 prompt、raw model output 和 state patch；CI #144/run38853093166 已通过 5/5。
+
+
+## 昼间命令幂等（2026-10-16）
+
+新增重复 `world.advance` commandId 回归：同一昼间 CombatIntent 批次重试不重复扣 HP、不重复写 combat damage receipt，`check-daytime-combat.mjs` 现为 10/10；CI #148/run38853480914 success。
