@@ -3844,6 +3844,10 @@
     function dayDefenseBuildings() {
       return (state.buildings || []).filter(building => ['tower', 'flameTower'].includes(building.type) && building.active !== false && (building.hp === undefined || Number(building.hp) > 0));
     }
+    function dayEnemyDefenseTargets() {
+      const types = new Set(['tower', 'flameTower', 'wall', 'spikeWall', 'bunker', 'depot', 'relayStation']);
+      return (state.buildings || []).filter(building => types.has(building.type)).map(building => { if (['tower', 'flameTower'].includes(building.type)) dayTowerProfile(building); return building; }).filter(building => building.active !== false && Number(building.hp) > 0);
+    }
     function dayTowerProfile(building) {
       const profile = DAY_COMBAT_RULES.tower[building?.type] || DAY_COMBAT_RULES.tower.tower;
       const maxHp = Number.isFinite(Number(building?.maxHp)) ? Number(building.maxHp) : profile.maxHp;
@@ -3870,7 +3874,7 @@
       return dayCombatEnemyTargets().filter(enemy => distanceBetween(tower, enemy) <= profile.range && hasLineOfSight(tower, enemy)).sort((a, b) => distanceBetween(tower, a) - distanceBetween(tower, b) || String(a.id).localeCompare(String(b.id)))[0] || null;
     }
     function dayEnemyTarget(zombie) {
-      const candidates = [state.player, ...state.npcs.filter(npcIsActive), ...dayDefenseBuildings()].filter(target => target && target.active !== false && (target.hp === undefined || target.hp > 0));
+      const candidates = [state.player, ...state.npcs.filter(npcIsActive), ...dayEnemyDefenseTargets()].filter(target => target && target.active !== false && (target.hp === undefined || target.hp > 0));
       const locked = candidates.find(target => target.id === zombie.perception?.targetId);
       const profile = perceptionProfile(zombie);
       const visible = candidates.filter(target => canPerceive(zombie, target, profile)).sort((a, b) => {
@@ -3910,6 +3914,8 @@
       } else if (target.type === 'tower' || target.type === 'flameTower') {
         if (!Number.isFinite(Number(target.maxHp))) target.maxHp = dayTowerProfile(target).maxHp;
         if (after <= 0) { target.hp = 0; target.active = false; recordWorldEvent('combat.entity.defeated', { ...payload, defeatedAt: worldMinute(), inactive: true }, { actorId: sourceId }); }
+      } else if (['wall', 'spikeWall', 'bunker', 'depot', 'relayStation'].includes(target.type)) {
+        if (after <= 0) { target.hp = 0; target.active = false; recordWorldEvent('combat.entity.defeated', { ...payload, defeatedAt: worldMinute(), inactive: true }, { actorId: sourceId }); }
       }
       return { ok: true, payload };
     }
@@ -3933,7 +3939,7 @@
       const towers = dayDefenseBuildings();
       towers.forEach(tower => { const profile = dayTowerProfile(tower); tower.combatClock = (Number(tower.combatClock) || 0) + minutes; while (tower.combatClock >= profile.cadence && tower.active !== false) { tower.combatClock -= profile.cadence; const target = dayTowerTarget(tower); if (!target) continue; queue(tower, target, profile.damage, { sourceKind: 'tower', targetKind: 'event-enemy', profileId: `tower.${tower.type}` }); } });
       state.npcs.filter(dayNpcCanAttack).sort((a, b) => String(a.id).localeCompare(String(b.id))).forEach(npc => { npc.combatClock = (Number(npc.combatClock) || 0) + minutes; while (npc.combatClock >= DAY_COMBAT_RULES.npc.cadence && npcIsActive(npc)) { npc.combatClock -= DAY_COMBAT_RULES.npc.cadence; const target = dayNpcTarget(npc); if (!target) continue; const skill = Number(npc.attributes?.weaponSkill) || 50; queue(npc, target, DAY_COMBAT_RULES.npc.baseDamage + Math.round((skill - 50) / 12), { sourceKind: 'npc', targetKind: 'event-enemy', profileId: 'npc.guard.day' }); } });
-      dayCombatEnemyTargets().sort((a, b) => String(a.id).localeCompare(String(b.id))).forEach(zombie => { zombie.attackClock = (Number(zombie.attackClock) || 0) + minutes; while (zombie.attackClock >= DAY_COMBAT_RULES.enemy.cadence && zombie.hp > 0) { zombie.attackClock -= DAY_COMBAT_RULES.enemy.cadence; const target = dayEnemyTarget(zombie); if (!target || distanceBetween(zombie, target) > DAY_COMBAT_RULES.enemy.range) continue; const damage = DAY_COMBAT_RULES.enemy[zombie.kind] || DAY_COMBAT_RULES.enemy.normal; queue(zombie, target, damage, { sourceKind: 'event-enemy', targetKind: target.id === 'player-1' ? 'player' : target.role ? 'npc' : 'tower', damageType: 'bite', profileId: `enemy.${zombie.kind || 'normal'}.day` }); } });
+      dayCombatEnemyTargets().sort((a, b) => String(a.id).localeCompare(String(b.id))).forEach(zombie => { zombie.attackClock = (Number(zombie.attackClock) || 0) + minutes; while (zombie.attackClock >= DAY_COMBAT_RULES.enemy.cadence && zombie.hp > 0) { zombie.attackClock -= DAY_COMBAT_RULES.enemy.cadence; const target = dayEnemyTarget(zombie); if (!target || distanceBetween(zombie, target) > DAY_COMBAT_RULES.enemy.range) continue; const damage = DAY_COMBAT_RULES.enemy[zombie.kind] || DAY_COMBAT_RULES.enemy.normal; queue(zombie, target, damage, { sourceKind: 'event-enemy', targetKind: target.id === 'player-1' ? 'player' : target.role ? 'npc' : target.type ? 'building' : 'target', damageType: 'bite', profileId: `enemy.${zombie.kind || 'normal'}.day` }); } });
       state.world.dayCombatIntentSeq = (Number(state.world.dayCombatIntentSeq) || 0) + 1;
       intents.sort((a, b) => a.sourceId.localeCompare(b.sourceId) || a.targetId.localeCompare(b.targetId) || a.attackSeq - b.attackSeq);
       intents.forEach(intent => { const meta = { ...intent, intentId: `day-${state.world.dayCombatIntentSeq}-${intent.attackSeq}` }; if (intent.target.id === 'player-1') applyDayPlayerDamage(intent.source, intent.amount, meta); else applyDayCombatDamage(intent.source, intent.target, intent.amount, meta); });
@@ -3945,7 +3951,7 @@
       if (zombie.perception.clock < 6) return;
       zombie.perception.clock = 0;
       const profile = perceptionProfile(zombie);
-      const candidates = [state.player, ...state.npcs.filter(npcIsActive), ...dayDefenseBuildings()].filter(item => item && (item.hp === undefined || item.hp > 0) && item.active !== false);
+      const candidates = [state.player, ...state.npcs.filter(npcIsActive), ...dayEnemyDefenseTargets()].filter(item => item && (item.hp === undefined || item.hp > 0) && item.active !== false);
       const target = candidates.filter(item => canPerceive(zombie, item, profile)).sort((a, b) => distanceBetween(zombie, a) - distanceBetween(zombie, b))[0];
       if (target) { zombie.perception.targetId = target.id; zombie.perception.targetAt = worldMinute(); zombie.goal = { x: target.x, y: target.y }; zombie.aiState = 'pursue'; }
       else if (zombie.perception.targetAt && worldMinute() - zombie.perception.targetAt > profile.memory) { zombie.perception.targetId = null; zombie.aiState = 'wander'; }
