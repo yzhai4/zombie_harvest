@@ -91,3 +91,10 @@ Colab T4 只作为可恢复的批量实验 worker；稳定线上服务、常驻 
 - 已验证：权威源码 hash `bc85cbeab7f00236e7bde84f01d05596676b359fb66b077645103011810fb23d`；CI #210 的 GateV1 7/7、fixture parity 11/11、内容链 54/54、白天战斗 23/23、static smoke 55/55。
 - 边界：未接线 GameCore、未完成内容 EventInstance/CAS/EventEffect 迁移，未部署 Sites v81，未新增浏览器多日证据。
 - 下一步：先做 relay handoff 的显式 EventInstance 四元 CAS adapter，再评估 Gate 词汇与自治阶段的接线；保留六视角账本和未知/畸形条件 fail-closed 规则。
+
+## 2026-10-16 v82 relay handoff CAS 检查点
+
+- 已完成：handoff 的 EventInstance 四元 CAS adapter；stale instance/definition/version/event 在统一 CommandBus 前置校验中拒绝，成功 receipt 带 token。
+- 已验证：权威 dist hash `f018d6639d415426960add45220389535aa4010d58c1c631a055b8da62461f71`；CI #217 的 source-daytime-combat 24/24、GateV1 7/7、完整 parity 11/11、内容链 54/54、static smoke 55/55。
+- 仍未完成：relay 的施工/上线 Choice resolver、完整内容 EventInstance/CAS/EventEffect 事务、浏览器多日回归和 Sites 发布。
+- 下一步：把施工节点独立建成正式 ContentChain，先固定状态迁移、效果回滚、幂等和六视角验收，再考虑 UI/LLM 入口。
