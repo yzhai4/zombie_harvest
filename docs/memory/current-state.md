@@ -223,3 +223,9 @@ npc.sanity、npc.sanity-player 和 relay-chain-001 已标记 GateV1。动态玩�
 ## GateV1 精确远程检查点（2026-10-16）
 
 代码提交 4ce5136a9b1a417321ae0f27a2d00d219264f80b 已恢复完整 dist 字节并在 CI #190 / run 38894889113 成功；日志确认 source-daytime-combat 23/23、CombatIntentV1 5/5、content-chain 43、replay fixture 10、static smoke 55。此前 141ceb 文档提交的临时失败来自大文件上传截断，已在代码提交中修复，不代表运行时失败。生产 Sites v81 未改。
+
+## 当前远程 GateV1 检查点（2026-10-16）
+
+远端开发分支 `codex/v82-npc-succession` 当前头为 `de6147fa44fdbe00eeb1564fb75505d2fee06ebc`；权威 `dist/index.html` SHA-256 为 `bc85cbeab7f00236e7bde84f01d05596676b359fb66b077645103011810fb23d`。CI #210 / run `38902361281` / job `116977448918` 通过：content-chain 54、EventGateV1 shadow 7、inline/shadow fixture parity 11、daytime combat 23、CombatIntentV1 5、static smoke 55。parity 只覆盖共享正常夹具；影子模块对 null/array gate 与部分状态容器提供额外 fail-closed 防护，不能据此声称任意畸形输入的全量等价。
+
+水车 GateV1 仍是入口门控迁移，旧 content-effect reducer、SAVE/CONTENT 版本和 Sites v81 均未改变。relay-chain-001 的自治阶段尚未接入统一 choice resolver；下一切片是 handoff 的显式 EventInstance/四元 CAS adapter，而不是给未执行路径添加 requires。浏览器 Playwright 不可用，本检查点没有新增自然多日试玩证据。
