@@ -5744,7 +5744,7 @@
       };
       try {
         const nextSequence = Math.max(0, Number(state.worldMeta.relayConstructionSeq) || 0) + 1;
-        const event = recordWorldEvent('relay.constructionStarted', { projectId: instance.instanceId, assignedNpcIds: [...instance.assignedNpcIds], materialNeed: relayConstructionRuntimeClone(instance.materialNeed), transactionId: `relay-tx-${command.commandId}`, schema: RELAY_TX_RUNTIME_SCHEMA, commandId: command.commandId }, relayEventMeta('stage', command.actorId || 'camp-autonomy'));
+        const event = recordWorldEvent('relay.constructionStarted', { projectId: instance.instanceId, assignedNpcIds: [...instance.assignedNpcIds], materialNeed: relayConstructionRuntimeClone(instance.materialNeed), transactionId: `relay-tx-${command.commandId}`, schema: RELAY_TX_RUNTIME_SCHEMA, commandId: command.commandId }, { ...relayEventMeta('stage', command.actorId || 'camp-autonomy'), commandId: command.commandId, causationId: command.causationId || state.worldMeta.activeCommandId || null });
         project.status = 'staging'; project.latestEventId = event.eventId; project.appliedCommandIds = [...(project.appliedCommandIds || []), command.commandId].slice(-200); project.history = [...(project.history || []), { commandId: command.commandId, statusBefore: 'briefed', statusAfter: 'staging', eventIds: [event.eventId], resourceSource: null, transactionId: `relay-tx-${command.commandId}` }].slice(-100); project.lastBlockedReason = null;
         const station = relayStationBuilding();
         if (station) { station.occupiedBy = instance.instanceId; station.projectStatus = 'staging'; station.active = false; station.relayEnabled = false; }
