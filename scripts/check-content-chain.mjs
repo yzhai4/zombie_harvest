@@ -6,11 +6,14 @@
  * Synthetic qa-* definitions below are test-only and never enter the game.
  */
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
 import vm from 'node:vm';
 import { stableHash } from './replay-harness.mjs';
 import { readSourceTarget } from './runtime-source-target.mjs';
 
 const { source, sourceHash, htmlPath } = readSourceTarget();
+const watermillRepairFixture = JSON.parse(readFileSync(path.resolve('scripts/fixtures/watermill-repair-gate-v1.json'), 'utf8'));
 function section(startMarker, endMarker) {
   const start = source.indexOf(startMarker);
   const end = source.indexOf(endMarker, start + startMarker.length);
@@ -89,6 +92,16 @@ function initial(overrides = {}) {
     ...overrides,
   };
 }
+function mergeFixture(base, patch) {
+  if (!patch || typeof patch !== 'object' || Array.isArray(patch)) return patch;
+  const result = { ...base };
+  Object.entries(patch).forEach(([key, value]) => {
+    result[key] = value && typeof value === 'object' && !Array.isArray(value) && base?.[key] && typeof base[key] === 'object' && !Array.isArray(base[key])
+      ? mergeFixture(base[key], value) : value;
+  });
+  return result;
+}
+function stateFromFixture(fixture) { return mergeFixture(initial(), fixture.state || {}); }
 function reset(overrides = {}) { runtime.reset(initial(overrides)); return runtime.getState(); }
 function startWatermill() { assert.equal(runtime.registry.startChain('watermill-002').ok, true); }
 function eventCount(type) { return runtime.getState().worldMeta.events.filter(event => event.type === type).length; }
@@ -223,6 +236,26 @@ test('watermill repair charges once and records completion/effect ledger', () =>
   assert.equal(state.contentState.activeChains['watermill-002'], undefined);
   assert.deepEqual(plain(state.contentState.completedChains), ['watermill-002']);
   assert.deepEqual(plain(state.contentState.appliedEffects), ['watermill-002:repair_gate:repair']);
+  assert.equal(eventCount('content.chain.resolved'), 1);
+  assert.equal(eventCount('content.effects.applied'), 1);
+});
+test('positive watermill repair save fixture settles once and survives duplicate command', () => {
+  const state = stateFromFixture(watermillRepairFixture);
+  runtime.reset(state);
+  const start = runtime.registry.startChain('watermill-002');
+  assert.equal(start.ok, true);
+  const first = runtime.resolveCommand('watermill-002', 'repair_gate', 'repair', { commandId: watermillRepairFixture.commandId, actorId: 'fixture-player' });
+  assert.equal(first.ok, true);
+  assert.equal(state.parts, watermillRepairFixture.expected.parts);
+  assert.equal(state.contentState.meters.campCollapse, watermillRepairFixture.expected.campCollapse);
+  assert.equal(state.contentState.flags[watermillRepairFixture.expected.watermillFlag], true);
+  assert.deepEqual(plain(state.contentState.completedChains), [watermillRepairFixture.expected.completedChain]);
+  assert.deepEqual(plain(state.contentState.appliedEffects), [watermillRepairFixture.expected.appliedEffect]);
+  const beforeDuplicate = plain(state);
+  const duplicate = runtime.resolveCommand('watermill-002', 'repair_gate', 'repair', { commandId: watermillRepairFixture.commandId, actorId: 'fixture-player' });
+  assert.equal(duplicate.duplicate, true);
+  assert.deepEqual(plain(state), beforeDuplicate);
+  assert.equal(eventCount('content.chain.started'), 1);
   assert.equal(eventCount('content.chain.resolved'), 1);
   assert.equal(eventCount('content.effects.applied'), 1);
 });
