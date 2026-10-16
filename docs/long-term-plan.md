@@ -184,3 +184,12 @@ producer trace 之后，RelayConstructionTransactionV1 先以纯值形式固定�
 CI #259（run `38921110774`）证据为 runtime 8/8、producer 9/9、RelayConstructionV1 13/13、事务 11/11、replay 15/hash `4aec7a31`、static smoke 55/55；源码 SHA-256 `9e8ee79f07ba0c204631ff13270e1e7a40292375e4a0e2a93cd0cd86a033227c`。该 flag 仅由开发/VM fixture 注入，默认关闭，不改变 Sites v81。
 
 下一阶段按顺序推进：资源来源/材料扣除事务 → 建筑 footprint 与终态 online → scheduler/替代者 → standing/forecast 因果 → EventLedger/SAVE21 迁移 → browser save/reload 与同 tick 战斗夹具；每一步继续以六视角审计和固定 replay hash 为闸门。
+
+
+## v82 竖切片与调研基线 checkpoint（2026-10-17）
+
+本轮把“游戏性竖切片优先”落到可运行合同：中继施工继续作为行为锚点，新增版本化 JSON 场景包、schema/validator、SAVE21 兼容的 `scenarioSnapshot` 与观察者表达开关。场景解析和观察者目前是 headless fixture + 确定性 stub，不等同于完整 runtime loader，也不允许生成或写入 `GameState`。
+
+CI #266（run `38932973787`，job `117081308370`）在 `d389365e960ba04685a4074e5c5485c034c4e922` 上通过：scenario 3/3、observer 2/2、source gameplay 2/2、relay producer 9/9、relay runtime 8/8、RelayConstructionV1 13/13、transaction 11/11、replay 18/hash `4aec7a31`、static smoke 55/55；`dist/index.html` SHA-256 为 `e34dc65b78d6e7223bbeda9c347cc3043cb98ef8cdb72c28d66bbb14f15b7b54`。
+
+外部调研原文 `deep-research-report.md` SHA-256 为 `940EFAC9A98227DB2B4512771E474C8366B629D50D72D8E912923D83E2CF06EE`，仅作为设计输入：确定性 GameState/Simulator 是 Ground Truth；Scenario 包固定 seed/worldConfig/scenarioVersion/gameVersion/aiConfig；观察者只能解释披露；Director AI、完整自治社会和 World Model 延后。下一闸门是把断粮/缺岗 storylet 从 fixture 推进到真实 resolver/reducer，并为 observer 加白名单深冻结和 AI-OFF 对照夹具。

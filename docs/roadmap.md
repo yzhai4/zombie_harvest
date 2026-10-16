@@ -127,3 +127,10 @@ RelayConstructionTransactionV1 已在开发分支以 shadow adapter 形式落地
 CI #259（run `38921110774`，job `117040949418`）通过 runtime 8/8、producer 9/9、基础合同 13/13、事务 11/11、replay 15/hash `4aec7a31`、static smoke 55/55；源码 SHA-256 `9e8ee79f07ba0c204631ff13270e1e7a40292375e4a0e2a93cd0cd86a033227c`。施工事实顶层已保留 child commandId 与 world.advance causationId。
 
 下一路线仍不跨越生产边界：先接材料/来源账本和 building footprint，再接 online/standing/forecast 与 scheduler，最后做 SAVE/EventLedger 迁移和真实浏览器夹具；未完成前不得把 registry metadata choice 或 shadow contract 当作完整 EventChain。
+
+
+## v82.1 当前竖切片出口（2026-10-17）
+
+本轮以“中继 + 断粮/缺岗”为锚点，先完成版本化场景包合同而不引入编辑器。JSON 包固定 scenarioVersion、seed、worldConfig、AI 开关和 storylet fallback；CI 通过 schema/validator、观察者 deterministic stub、源码三日推进夹具与 relay 合同。scenarioSnapshot 进入 SAVE21 兼容存档并默认 AI-OFF，设置面板只切换表达，不改变规则事实。
+
+出口仍是 source-VM 证据：自然多日 browser、真实 loader 执行和缺岗生产 reducer 尚未通过。下一步接入一个 EventDef/Gate/Effect storylet，加入失败回退、人口守恒和六视角审计，再补 fresh browser save/reload。

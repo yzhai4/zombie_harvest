@@ -126,3 +126,12 @@ AI 规划器只产生结构化意图，不能写入 `GameState`。游戏主循�
 事件系统迭代先区分“注册字段存在”和“运行时真正执行”。只有显式 gateVersion: 1 或 evaluatePreconditions: true 的 EventDef 才由 GateV1 评估；旧定义保持原 reducer 语义，不能因补齐字段而改变行为。Gate evaluator 必须纯读、白名单化、未知/畸形条件 fail-closed，并接收 EventInstance 的 actor 上下文；Choice.requires 与 EventDef.preconditions 不得各自复制解释器。
 
 命令入口的顺序固定为 session/identity CAS → Gate → reducer/effect transaction。Gate 失败只写拒绝账本，不扣资源、不清理敌人、不推进事件；terminal handled 之后才可做来源清理。每次迁移至少加入通过/拒绝/未知条件/错误 phase/旧实例和 save-reload 回放夹具；静态契约或单轮浏览器 smoke 不得写成多日自然回归。
+
+
+## 场景包、观察者与证据新闸门（2026-10-17）
+
+每轮竖切片必须提交版本化 JSON 场景包与 IterationEvidenceV1 manifest。包至少固定 scenarioVersion、seed、gameVersion、worldConfig、aiConfig 和 storylet fallback；validator 检查 stable ID、缺引用、不可达/无 fallback、循环、不可满足门槛、AI authority 与 AI-OFF 回退。当前 resolver 只作 headless fixture，不能把通过写成生产 loader 已接线。
+
+Observer 采用“白名单事实投影 → 只读表达 → deterministic fallback”。不得创建资源、人口、事件或修改存档；SAVE21 只保存版本化 snapshot 与开关，不保存凭据或不可回放模型状态。超时、非法输出、越权和预算拒绝必须回到同一规则路径。
+
+Evidence manifest 绑定 branch、evidence commit、HTML SHA、SAVE/CONTENT、CI run/job 与 browser 状态。只有 exact source/hash/manifest 对账通过才可标记 verified；设计报告、static/source-VM/fixture 不能冒充自然 browser。每轮仍需玩家、NPC、营地、势力、敌人、全局链六视角账本。

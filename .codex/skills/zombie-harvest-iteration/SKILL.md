@@ -84,3 +84,12 @@ AI 或实验变更还必须提供：baseline、变体、seed 集、失败重试�
 - shadow/inline parity 只能声称夹具范围内的完整结果一致；runner 必须比较失败门、details、actor 信息和输入状态前后快照，报告中明确 fixture parity、source VM、browser 和线上证据的边界。畸形 gate 或状态容器的有意差异单列，不得推广成任意输入等价。
 - 给 EventDef/Choice 增加 Gate 或 `requires` 前，先沿真实调用路径确认 resolver/CommandBus 会执行它。只有注册表元数据、没有实际入口的 choice 不算已接线；自治 reducer 的状态、资源、岗位和距离校验不能由未执行的 Gate 声称覆盖。
 - 跨系统命令迁移采用 EventInstance 四元 CAS（instance/def/version/event）→ Gate → 业务前置 → reducer/effect 的顺序。stale 命令只写拒绝 receipt；成功 receipt、replay 和 save/reload 夹具保留 token。六视角报告要说明 CAS 对玩家、NPC、营地、势力、敌人和全局账本的实际影响。
+
+
+## 场景包与调研输入闸门（2026-10-17）
+
+涉及竖切片或观察者时，先读 `docs/qa/deep-research-baseline-20261017.md` 与 `docs/qa/iteration-manifest-v1.json`。外部调研是设计输入，不是运行时证据。维护 scenarioVersion/seed/worldConfig/gameVersion/aiConfig/storylet fallback，运行 `check-scenario-package-v1` 与 `check-observer-expression-v1`；resolver 当前是 headless fixture，只有真实 boot loader 调用和旧档迁移证据齐全后才写 runtime loader。
+
+Observer 只能使用白名单只读投影，不能触碰可变 WorldFacts 或写 GameState；AI-OFF、超时、非法输出、越权和预算拒绝都记录 deterministic fallback。scenarioSnapshot 只保存版本化配置/开关。
+
+每轮更新 IterationEvidenceV1：source commit、HTML SHA-256、CI run/job、测试计数、browser status、naturalGameplayClaim。exact 对账通过才标记 verified；source-VM、静态、fixture 与自然 browser 分开。按报告的 P0→P6 顺序推进，World Model/Director/full society 只有在 exact simulator 有增益时才评估。

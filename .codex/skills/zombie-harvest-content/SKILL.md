@@ -47,3 +47,10 @@ description: 为尸潮农场创建或修改主线、支线、NPC、势力、科�
 
 内容迭代结束后，按 `docs/project-memory.md` 判断新增信息属于规则真相、架构决策、问题记录还是实验记录；不要把未验证的聊天结论写成运行时能力。新增内容若给 AI 首脑使用，必须声明观察字段、可用意图、资源预算、期限、拒绝原因和规则 fallback。LLM 只能生成候选意图或解释文本，不能绕过内容注册表、统一 reducer、night guard、人口守恒或回放契约。
 
+
+
+## 场景包内容合同（2026-10-17）
+
+新增故事、NPC、势力或营地事件时，同时更新版本化 JSON 包与设计卡。每个 storylet 必须有 stable ID、触发条件、fallback 及玩家/NPC/营地/势力/敌人/全局链账本；validator 拒绝未知引用、循环、不可满足门槛和无 AI-OFF 路径。内容包当前先以 headless fixture 验证，未由启动路径实际加载并记录 scenarioVersion/contentVersion 前，标记为设计冻结/fixture。
+
+Observer 台词只能读取白名单事实并生成表达/披露；不能改资源、人口、敌人、事件或存档。需要 AI 时同时提供规则 fallback、预算和拒绝回执，并在 manifest 中区分 browser 与 source-VM。

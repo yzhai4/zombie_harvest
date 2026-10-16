@@ -1,13 +1,14 @@
 {
   "schema": "IterationEvidenceV1",
   "version": 1,
-  "status": "planning",
+  "status": "verified",
   "scope": "p2.1-gameplay-vertical-slice",
   "source": {
     "repository": "yzhai4/zombie_harvest",
     "branch": "codex/v82-npc-succession",
-    "commit": null,
-    "htmlSha256": null
+    "commit": "d389365e960ba04685a4074e5c5485c034c4e922",
+    "htmlSha256": "e34dc65b78d6e7223bbeda9c347cc3043cb98ef8cdb72c28d66bbb14f15b7b54",
+    "evidenceKind": "source-vm"
   },
   "compatibility": {
     "sitesVersion": "v81",
@@ -19,13 +20,56 @@
     "naturalGameplayClaim": false
   },
   "browser": {
-    "status": "unavailable"
+    "status": "unavailable",
+    "reason": "Python Playwright unavailable in CI; no natural multi-day browser claim"
   },
   "tests": {
     "required": [
       "scenario-package-v1",
       "observer-expression-v1",
       "source-gameplay-vertical-slice-v1"
-    ]
+    ],
+    "results": [
+      {
+        "name": "scenario-package-v1",
+        "status": "passed",
+        "passed": 3,
+        "count": 3
+      },
+      {
+        "name": "observer-expression-v1",
+        "status": "passed",
+        "passed": 2,
+        "count": 2
+      },
+      {
+        "name": "source-gameplay-vertical-slice-v1",
+        "status": "passed",
+        "passed": 2,
+        "count": 2
+      },
+      {
+        "name": "relay-construction-runtime-v1",
+        "status": "passed",
+        "passed": 8,
+        "count": 8
+      },
+      {
+        "name": "replay-self-test",
+        "status": "passed",
+        "passed": 18,
+        "hash": "4aec7a31"
+      },
+      {
+        "name": "static-smoke",
+        "status": "passed",
+        "passed": 55,
+        "count": 55
+      }
+    ],
+    "ci": {
+      "run": 38932973787,
+      "job": 117081308370
+    }
   }
 }

@@ -271,3 +271,11 @@ The relay construction shadow contract now has 13/13 fixtures on runtime parent 
 CI #259（run `38921110774`，job `117040949418`）在同一构建通过 runtime stage 8/8、producer trace 9/9、RelayConstructionV1 13/13、RelayConstructionTransactionV1 11/11、replay 15 fixtures（hash `4aec7a31`）和 static smoke 55/55。权威当前源码 SHA-256 为 `9e8ee79f07ba0c204631ff13270e1e7a40292375e4a0e2a93cd0cd86a033227c`；Playwright 不可用，故没有新增自然浏览器/多日证据。
 
 本次 provenance 修正使 `relay.constructionStarted` 事件顶层同时记录 child `commandId` 与父 `world.advance` 的 `causationId`，并由 checker 断言。六视角结论保持收敛：玩家/NPC/营地有阶段 CAS、岗位预检、成功后虚拟占位和回滚证据；势力 standing、敌人 forecast 因果、building→online、资源来源账本、死亡/替代 scheduler、完整 EventLedger/SAVE 迁移和真实 browser 仍是下一闸门。
+
+
+## 2026-10-17 当前状态增量
+
+- 已接线：场景包 fixture、schema/validator、SAVE21 scenarioSnapshot 默认值与迁移、观察者 deterministic stub/fallback、设置面板 AI 开关。
+- 已验证：CI #266 source hash e34dc65b78d6e7223bbeda9c347cc3043cb98ef8cdb72c28d66bbb14f15b7b54；scenario 3/3、observer 2/2、source gameplay 2/2；relay/runtime/transaction/replay/static smoke 仍通过。
+- 仍是设计或 fixture：Scenario Loader 未进入生产启动路径；observer 未使用完整六视图白名单/深冻结；AI 不写 GameState。
+- 来源对账：Sites v81/source f3488457286836bf986dc90b5e0c3f6f425813c9 未改；GitHub 行为证据绑定 d389365e960ba04685a4074e5c5485c034c4e922。

@@ -69,3 +69,11 @@ CI #253 / run `38912989111` 通过事务 shadow 11/11。当前已冻结跨对象
 CI #259（run `38921110774`，job `117040949418`）通过 runtime 8/8、producer 9/9、基础合同 13/13、事务 11/11、replay 15/hash `4aec7a31`、static smoke 55/55；当前源码 SHA-256 `9e8ee79f07ba0c204631ff13270e1e7a40292375e4a0e2a93cd0cd86a033227c`。事件 provenance 已修正为 `relay.constructionStarted.commandId=relay.projectAdvance child`、`causationId=world.advance`。
 
 仍需优先消除的风险：生产资源/材料 debit 与 `resourceSource` 账本、完整 building footprint occupancy、`staging/building/online` 终态迁移、死亡/离岗替代 scheduler、施工对势力 standing 与敌人 forecast 的正式因果、同 tick CombatIntent 顺序、SAVE21/EventLedger 迁移，以及 browser save/reload fixture。
+
+
+## 2026-10-17 新增风险
+
+- 场景包尚未成为 runtime loader；当前 validator/resolver 只在 headless fixture 工作。
+- Observer 投影范围偏窄，没有完整 ObservationV1 六视图、深冻结和模型记忆持久化。
+- CI 没有 Python Playwright；source-VM 三日推进不能替代自然多日试玩。
+- 调研结论是设计输入；Director/World Model/大规模自治社会仍延后。
