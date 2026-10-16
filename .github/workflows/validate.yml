@@ -47,6 +47,12 @@ jobs:
           node --check scripts/lib/relay-construction-transaction-v1.mjs
           node --check scripts/check-relay-construction-transaction-v1.mjs
           node --check scripts/check-relay-construction-runtime.mjs
+          node --check scripts/lib/scenario-package-v1.mjs
+          node --check scripts/check-scenario-package-v1.mjs
+          node --check scripts/lib/observer-expression-v1.mjs
+          node --check scripts/check-observer-expression-v1.mjs
+          node --check scripts/check-gameplay-vertical-slice.mjs
+          node --check scripts/check-iteration-evidence.mjs
       - name: Check deployable entrypoints
         run: |
           test -s dist/index.html
@@ -97,6 +103,14 @@ jobs:
         run: node scripts/check-relay-construction-transaction-v1.mjs
       - name: Execute RelayConstructionTransactionV1 runtime stage contract
         run: node scripts/check-relay-construction-runtime.mjs
+      - name: Execute Scenario package and observer contracts
+        run: |
+          node scripts/check-scenario-package-v1.mjs
+          node scripts/check-observer-expression-v1.mjs
+      - name: Execute source gameplay vertical slice
+        run: node scripts/check-gameplay-vertical-slice.mjs
+      - name: Check iteration evidence freshness
+        run: node scripts/check-iteration-evidence.mjs --manifest docs/qa/iteration-manifest-v1.json --html dist/index.html
       - name: Verify save projections and static smoke
         run: |
           node scripts/replay-harness.mjs --self-test

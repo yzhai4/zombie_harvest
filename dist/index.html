@@ -1021,6 +1021,7 @@
         <div class="settings-head"><span>⚙️ 测试设置</span><button class="settings-close" id="closeSettingsBtn">收起</button></div>
         <label class="settings-row"><span>减少动态特效<br><small>便于观察数值和状态变化</small></span><input type="checkbox" id="settingsReduceMotion" /></label>
         <label class="settings-row"><span>简洁 HUD<br><small>缩小桌面信息面板，给地图留出更多空间</small></span><input type="checkbox" id="settingsCompactHud" /></label>
+      <label class="settings-row"><span>观察者评论<br><small>只生成解释性表达，不改变真实游戏状态</small></span><input type="checkbox" id="settingsObserverCommentary" /></label>
       </div>
     </div>
   </section>
@@ -1837,7 +1838,7 @@
 
     const state = {
       day: 1, hour: 6, minute: 0, energy: 78, sanity: 72, sanityClock: 0, sanityLastReason: '醒来时，营地仍然安全', staminaExhaustedDay: null, staminaExhaustedAt: null, hp: 100, wood: 24, stone: 12, food: 8, seeds: 3, parts: 4, medicine: 0, morale: 72, nightBattle: null, gameOver: null, selectedNpc: null, selectedBuilding: null,
-      collection: { tape: 0, blueprint: 0, relic: 0 }, specialItems: { relayCore: 0 }, relayProject: { id: 'camp-relay-001', status: 'unknown', coreItemId: null, handoffAt: null, materialNeed: { wood: 10, parts: 5, stone: 4 }, materialProgress: { wood: 0, parts: 0, stone: 0 }, materialClock: 0, workMinutes: 0, targetMinutes: 180, buildingId: 'bld-relay-station', assignedNpcIds: ['radio', 'carpenter', 'quartermaster'], sharedSightBonus: 2, sharedRangeBonus: 4, forecastLeadMinutes: 180, routeId: 'eastern-breach' }, hordeForecast: { confidence: 0, leadMinutes: 0, routeId: 'eastern-breach', source: 'camp-observation', updatedAt: 0 }, campaign: { title: '我是大救星', scenarioId: 'zombie-farm', scenarioTitle: '尸潮农场', objective: 'survive_final_horde', phase: 'omen', playerLegacy: {} }, campStanding: { prestige: 0, merit: 0, fear: 0, legitimacy: 50, contribution: 0, domains: { rescue: 0, defense: 0, supply: 0, recon: 0 } }, event: null, eventThreat: 0, eventShield: 0, npcEvents: [],
+      collection: { tape: 0, blueprint: 0, relic: 0 }, specialItems: { relayCore: 0 }, scenarioSnapshot: normalizeScenarioSnapshot(), relayProject: { id: 'camp-relay-001', status: 'unknown', coreItemId: null, handoffAt: null, materialNeed: { wood: 10, parts: 5, stone: 4 }, materialProgress: { wood: 0, parts: 0, stone: 0 }, materialClock: 0, workMinutes: 0, targetMinutes: 180, buildingId: 'bld-relay-station', assignedNpcIds: ['radio', 'carpenter', 'quartermaster'], sharedSightBonus: 2, sharedRangeBonus: 4, forecastLeadMinutes: 180, routeId: 'eastern-breach' }, hordeForecast: { confidence: 0, leadMinutes: 0, routeId: 'eastern-breach', source: 'camp-observation', updatedAt: 0 }, campaign: { title: '我是大救星', scenarioId: 'zombie-farm', scenarioTitle: '尸潮农场', objective: 'survive_final_horde', phase: 'omen', playerLegacy: {} }, campStanding: { prestige: 0, merit: 0, fear: 0, legitimacy: 50, contribution: 0, domains: { rescue: 0, defense: 0, supply: 0, recon: 0 } }, event: null, eventThreat: 0, eventShield: 0, npcEvents: [],
       weapon: { id: 'rustAxe' },
       player: { x: 11, y: 11 }, playerVisual: { x: 11, y: 11 }, facing: 'down', combatTargetId: null, hoverTarget: null, interactionFocus: null, npcTalkOpen: null, interactionRepeatTimer: null, moveTweenFrame: null, visitedRegions: { core: true }, areaFlags: {}, roleVacancies: {}, tempCoordination: false, noiseEvents: [], inventoryOpen: false, selected: null, buildMode: false, selectedBuild: null, night: false, zombieKills: 0, mapRevision: MAP.revision, effects: [], effectSeq: 0,
       world: { version: 1, totalMinutes: 0, lastRationDay: 1, lastDailyUpkeepDay: 1, frontierExposure: 0, frontierClock: 0, frontierPackBucket: -1, frontierPackSeq: 0 },
@@ -1895,6 +1896,25 @@
     });
     const SOLID_BUILDING_TYPES = new Set(['shelter', 'bunker', 'depot', 'relayStation', 'wall', 'spikeWall', 'tower', 'flameTower']);
     const WORLD_SEED = 0x5eedc0de;
+    const GAME_VERSION = 'zfarm-world-1.0';
+    const SCENARIO_PACKAGE_SCHEMA_VERSION = 1;
+    const DEFAULT_SCENARIO_SNAPSHOT = Object.freeze({
+      scenarioId: 'zombie-farm', schemaVersion: 1, scenarioVersion: 1, contentVersion: 3, gameVersion: GAME_VERSION,
+      seed: WORLD_SEED, difficultyProfile: 'standard',
+      worldConfig: { ordinaryNpcCount: 10, foodMultiplier: 1, medicineMultiplier: 1, materialMultiplier: 1, initialEnemyMultiplier: 1, waveGrowthMultiplier: 1, eventFrequency: 1 },
+      aiConfig: { generativeDialogue: false, observerCommentary: false, generatedWorldEvents: false, learnedWorldModel: false, policyVersion: 'observer-expression-v1' }
+    });
+    function normalizeAiConfig(raw = {}) {
+      const source = raw && typeof raw === 'object' ? raw : {};
+      return { generativeDialogue: source.generativeDialogue === true, observerCommentary: source.observerCommentary === true, generatedWorldEvents: source.generatedWorldEvents === true, learnedWorldModel: source.learnedWorldModel === true, policyVersion: typeof source.policyVersion === 'string' && source.policyVersion ? source.policyVersion : DEFAULT_SCENARIO_SNAPSHOT.aiConfig.policyVersion };
+    }
+    function normalizeScenarioSnapshot(raw = {}) {
+      const source = raw && typeof raw === 'object' ? raw : {};
+      const world = source.worldConfig && typeof source.worldConfig === 'object' ? source.worldConfig : {};
+      const base = DEFAULT_SCENARIO_SNAPSHOT, worldConfig = { ...base.worldConfig, ...world };
+      for (const key of Object.keys(base.worldConfig)) { const value = Number(worldConfig[key]); worldConfig[key] = Number.isFinite(value) ? Math.max(0, Math.min(100, value)) : base.worldConfig[key]; }
+      return { scenarioId: typeof source.scenarioId === 'string' && source.scenarioId ? source.scenarioId : base.scenarioId, schemaVersion: Number.isInteger(source.schemaVersion) ? source.schemaVersion : base.schemaVersion, scenarioVersion: Number.isInteger(source.scenarioVersion) ? source.scenarioVersion : base.scenarioVersion, contentVersion: Number.isInteger(source.contentVersion) ? source.contentVersion : base.contentVersion, gameVersion: typeof source.gameVersion === 'string' && source.gameVersion ? source.gameVersion : base.gameVersion, seed: Number.isInteger(source.seed) ? source.seed : base.seed, difficultyProfile: typeof source.difficultyProfile === 'string' && source.difficultyProfile ? source.difficultyProfile : base.difficultyProfile, worldConfig, aiConfig: normalizeAiConfig(source.aiConfig) };
+    }
     Object.defineProperty(state.player, 'id', { value: 'player-1', writable: true, configurable: true, enumerable: false });
     state.settings = { ...(state.settings || {}), continuousWorld: P0_FEATURES.continuousWorld };
     state.staminaRules = {
@@ -1912,6 +1932,36 @@
     state.motion = { enabled: CONTINUOUS_MOTION.enabled, accumulator: 0, stepIndex: 0, input: { x: 0, y: 0 } };
     state.quests = [];
     function hashStable(value) { let h = 2166136261; for (const ch of String(value)) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619); } return (h >>> 0).toString(36); }
+    function observerAiConfig() { return normalizeAiConfig(state.scenarioSnapshot?.aiConfig || {}); }
+    function observerDisclosureScore(subject = {}, context = {}) {
+      const relation = context.relation || subject.relation || {}, values = context.values || subject.values || {};
+      const trust = Math.max(-100, Math.min(100, Number(relation.trustToPlayer ?? relation.trust ?? 0)));
+      const alignment = Math.max(-100, Math.min(100, Number(context.valueAlignment ?? values.alignment ?? 0)));
+      const progress = Number(context.playerProgress ?? subject.playerProgress ?? 0);
+      return Math.max(0, Math.min(1, 0.5 + trust / 200 + alignment / 400 + Math.max(-1, Math.min(1, progress / 100)) * 0.15));
+    }
+    function observerTruthProjection(subject = {}) {
+      const kind = subject.kind || (subject.type === 'npc' || subject.lifeState ? 'npc' : subject.phase || subject.defId ? 'event' : 'item');
+      if (kind === 'npc') return { kind: 'npc', id: subject.id || null, name: subject.name || subject.id || '未知角色', role: subject.role || null, lifeState: subject.lifeState || 'unknown', hpBand: Number.isFinite(Number(subject.hp)) && Number.isFinite(Number(subject.maxHp)) ? String(Math.round((Number(subject.hp) / Math.max(1, Number(subject.maxHp))) * 4)) + '/4' : 'unknown' };
+      if (kind === 'event') return { kind: 'event', id: subject.id || subject.defId || null, title: subject.title || subject.id || '未知事件', phase: subject.phase || 'DAY', handled: subject.handled === true, threatBand: Number.isFinite(Number(subject.threat)) ? (subject.threat >= 60 ? 'high' : subject.threat >= 25 ? 'medium' : 'low') : 'unknown' };
+      return { kind: 'item', id: subject.id || null, label: subject.label || subject.name || subject.id || '未知物品', category: subject.category || subject.type || 'unknown', qualityBand: subject.qualityBand || (Number.isFinite(Number(subject.quality)) ? (subject.quality >= 70 ? 'high' : subject.quality >= 40 ? 'medium' : 'low') : 'unknown') };
+    }
+    function observerAllowedFacts(projection, score) {
+      const facts = { kind: projection.kind, id: projection.id };
+      if (projection.kind === 'item') { facts.label = projection.label; facts.category = projection.category; if (score >= .35) facts.qualityBand = projection.qualityBand; }
+      if (projection.kind === 'npc') { facts.name = projection.name; facts.role = projection.role; facts.lifeState = projection.lifeState; if (score >= .45) facts.hpBand = projection.hpBand; }
+      if (projection.kind === 'event') { facts.title = projection.title; facts.phase = projection.phase; facts.handled = projection.handled; if (score >= .55) facts.threatBand = projection.threatBand; }
+      return facts;
+    }
+    function observerCommentary(subject = {}, context = {}) {
+      const config = observerAiConfig(), projection = observerTruthProjection(subject), score = observerDisclosureScore(subject, context), facts = observerAllowedFacts(projection, score);
+      const detail = score >= .7 ? '完整' : score >= .4 ? '有限' : '模糊';
+      let text = '可验证' + (projection.kind === 'npc' ? '角色' : projection.kind === 'event' ? '事件' : '物品') + '事实（' + detail + '披露）：' + (facts.label || facts.name || facts.title || facts.id || '未知');
+      if (projection.kind === 'npc' && score < .4) text += '；我暂时不愿解释更多。';
+      if (projection.kind === 'event' && facts.threatBand === 'high') text += '；这件事需要优先处理。';
+      if (projection.kind === 'item' && facts.qualityBand === 'high') text += '；它的价值值得谨慎评估。';
+      return { schema: 'ObserverExpressionV1', enabled: config.observerCommentary, mode: config.observerCommentary ? 'deterministic-stub' : 'fallback', authority: 'expression_only', disclosureScore: Math.round(score * 1000) / 1000, projection, facts, text, sourceProjectionHash: hashStable(JSON.stringify(facts)) };
+    }
     function ensureStableIds() {
       const assign = (list, prefix, keyFn) => { const seen = new Set(); (Array.isArray(list) ? list : []).forEach((item, i) => { let id = typeof item.id === 'string' && item.id ? item.id : `${prefix}-${hashStable(keyFn(item, i))}`; if (seen.has(id)) id = `${id}-${i}`; seen.add(id); item.id = id; }); };
       state.player.id = 'player-1'; assign(state.buildings, 'bld', (x) => `${x.type}:${x.x},${x.y}`); assign(state.resources, 'res', (x) => `${x.type}:${x.x},${x.y}`); assign(state.landmarks, 'poi', (x) => `${x.type}:${x.x},${x.y}`); assign(state.npcs, 'npc', (x) => x.id || x.name); assign(state.worldZombies, 'wz', (x) => `${x.kind}:${x.x},${x.y}`); assign(state.zombies, 'threat', (x, i) => `${x.kind || 'enemy'}:${i}`);
@@ -2091,7 +2141,7 @@
     function nextRandom() { const m = state.worldMeta || (state.worldMeta = { seed: WORLD_SEED, rngState: WORLD_SEED, eventSeq: 0, commandSeq: 0, events: [], seenCommands: [], replay: { seed: WORLD_SEED, commands: [] }, feedback: [], clock: { paused:false, rate:1, phaseMinutes:0, scheduleMinutes:0 } }); let x = (state.worldMeta.rngState >>> 0); x = (Math.imul(1664525, x) + 1013904223) >>> 0; state.worldMeta.rngState = x; return x / 4294967296; }
     function randomInt(max) { return Math.floor(nextRandom() * Math.max(1, max)); }
     function stableClone(value) { return JSON.parse(JSON.stringify(value)); }
-    function selectWorldSnapshot() { return { version: SAVE_VERSION, day: state.day, hour: state.hour, minute: state.minute, energy: state.energy, sanity: state.sanity, sanityClock: state.sanityClock, sanityLastReason: state.sanityLastReason, staminaExhaustedDay: state.staminaExhaustedDay, staminaExhaustedAt: state.staminaExhaustedAt, campaign: stableClone(state.campaign), campStanding: stableClone(state.campStanding), specialItems: stableClone(state.specialItems), relayProject: stableClone(state.relayProject), hordeForecast: stableClone(state.hordeForecast), contentState: stableClone(state.contentState), player: { ...stableClone(state.player), id: 'player-1' }, motion: stableClone(state.motion), buildings: stableClone(state.buildings), resources: stableClone(state.resources), landmarks: stableClone(state.landmarks), npcs: stableClone(state.npcs), npcEvents: stableClone(state.npcEvents || []), worldZombies: stableClone(state.worldZombies), world: stableClone(state.world), staminaRules: stableClone(state.staminaRules), quests: stableClone(state.quests), worldMeta: stableClone({...state.worldMeta, events: state.worldMeta.events.slice(-200), feedback: []}) }; }
+    function selectWorldSnapshot() { return { version: SAVE_VERSION, day: state.day, hour: state.hour, minute: state.minute, energy: state.energy, sanity: state.sanity, sanityClock: state.sanityClock, sanityLastReason: state.sanityLastReason, staminaExhaustedDay: state.staminaExhaustedDay, staminaExhaustedAt: state.staminaExhaustedAt, campaign: stableClone(state.campaign), scenarioSnapshot: stableClone(normalizeScenarioSnapshot(state.scenarioSnapshot)), campStanding: stableClone(state.campStanding), specialItems: stableClone(state.specialItems), relayProject: stableClone(state.relayProject), hordeForecast: stableClone(state.hordeForecast), contentState: stableClone(state.contentState), player: { ...stableClone(state.player), id: 'player-1' }, motion: stableClone(state.motion), buildings: stableClone(state.buildings), resources: stableClone(state.resources), landmarks: stableClone(state.landmarks), npcs: stableClone(state.npcs), npcEvents: stableClone(state.npcEvents || []), worldZombies: stableClone(state.worldZombies), world: stableClone(state.world), staminaRules: stableClone(state.staminaRules), quests: stableClone(state.quests), worldMeta: stableClone({...state.worldMeta, events: state.worldMeta.events.slice(-200), feedback: []}) }; }
     const WorldFacts = { get current() { return state; }, snapshot() { return Object.freeze(selectWorldSnapshot()); }, entity(id) { return [state.player, ...state.npcs, ...state.buildings, ...state.resources, ...state.landmarks, ...state.worldZombies].find(x => x?.id === id) || null; } };
     const WorldSnapshot = { capture: () => WorldFacts.snapshot() };
     const EVENT_DEFINITION_VERSION = 1;
@@ -2994,7 +3044,8 @@
      }
      function registerContentPack(pack = {}) { const results = []; Object.entries(pack).forEach(([kind, definitions]) => { (Array.isArray(definitions) ? definitions : Object.values(definitions || {})).forEach(definition => results.push(registerContent(kind, definition))); }); return { ok: results.every(result => result.ok), results }; }
      const ContentRegistry = { kinds: CONTENT_KINDS, plans: PLAN_DEFS, register: registerContent, registerPack: registerContentPack, get: contentDefinition, validate: validateContentDefinition, applyEffects: applyContentEffects, startChain: startContentChain, resolveChain: resolveContentChain, resolveFallback: resolveContentFallback, resolveAutonomy: resolveContentAutonomy, runHook: runContentHook, gate: { definition: contentChainDefinitionGate, choice: contentChainChoiceGateRuntime }, planMeeting: { state: planMeetingState, generate: generatePlanMeeting, commit: commitPlanMeeting, execute: executePlanMeeting }, all(kind) { return { ...contentRegistryBase(kind), ...CONTENT_EXTENSIONS[kind] }; } };
-     if (typeof window !== 'undefined') window.ZombieHarvestContent = ContentRegistry;
+     const ObserverExpressionV1 = { schema: 'ObserverExpressionV1', config: observerAiConfig, project: observerTruthProjection, comment: observerCommentary };
+    if (typeof window !== 'undefined') { window.ZombieHarvestContent = ContentRegistry; window.ZombieHarvestObserver = ObserverExpressionV1; }
     const FeedbackRouter = { route(event) { if (!event) return; state.worldMeta.feedback.push({ eventId: event.eventId, type: event.type }); if (state.worldMeta.feedback.length > 40) state.worldMeta.feedback.shift(); } };
     function appendFeedbackEvent(type, payload = {}, meta = {}) { const event = recordWorldEvent(type, payload, meta); FeedbackRouter.route(event); return event; }
     const CommandBus = {
@@ -3343,6 +3394,11 @@
       }
       if (payload.npcs.some(npc => npc.garrisonedOutpostId && !(cs.outposts?.[npc.garrisonedOutpostId]?.guardNpcIds || []).includes(npc.id))) return fail('outpost-reverse');
       for (const key of ['campaign','campStanding','specialItems','relayProject','hordeForecast','collection','weapon','visitedRegions','areaFlags','roleVacancies','settings','staminaRules','motion']) if (payload[key] !== undefined && !savedRecord(payload[key])) return fail(`domain:${key}`);
+      if (payload.scenarioSnapshot !== undefined) {
+        const snapshot = payload.scenarioSnapshot;
+        if (!savedRecord(snapshot) || typeof snapshot.scenarioId !== 'string' || !snapshot.scenarioId || !Number.isInteger(snapshot.schemaVersion) || snapshot.schemaVersion !== SCENARIO_PACKAGE_SCHEMA_VERSION || !Number.isInteger(snapshot.scenarioVersion) || !Number.isInteger(snapshot.contentVersion) || typeof snapshot.gameVersion !== 'string' || !Number.isInteger(snapshot.seed) || typeof snapshot.difficultyProfile !== 'string' || !savedRecord(snapshot.worldConfig) || !savedRecord(snapshot.aiConfig)) return fail('scenario-snapshot');
+        if (Object.values(snapshot.worldConfig).some(value => !Number.isFinite(Number(value)) || Number(value) < 0 || Number(value) > 100)) return fail('scenario-world-config');
+      }
       const standing = payload.campStanding, relay = payload.relayProject, forecast = payload.hordeForecast;
       if (!savedNumbers(standing,['prestige','merit','fear','legitimacy','contribution'],-100,100) || !savedNumbers(standing.domains,['rescue','defense','supply','recon'],-100,100)) return fail('camp-standing-contract');
       if (!savedRecord(relay) || ['id','buildingId','routeId'].some(key => typeof relay[key] !== 'string' || !relay[key]) || !['unknown','core-recovered','briefed','staging','building','online'].includes(relay.status) || !Object.prototype.hasOwnProperty.call(relay,'coreItemId') || relay.coreItemId !== null && (typeof relay.coreItemId !== 'string' || !relay.coreItemId) || !Object.prototype.hasOwnProperty.call(relay,'handoffAt') || relay.handoffAt !== null && (!Number.isFinite(relay.handoffAt) || relay.handoffAt < 0 || relay.handoffAt > savedMinute(payload)) || !savedNumbers(relay.materialNeed,['wood','parts','stone']) || !savedNumbers(relay.materialProgress,['wood','parts','stone']) || !savedNumbers(relay,['materialClock','workMinutes','sharedSightBonus','sharedRangeBonus','forecastLeadMinutes']) || !savedNumbers(relay,['targetMinutes'],30) || !savedStringIds(relay.assignedNpcIds) || relay.assignedNpcIds.some(id => !expectedIds.includes(id))) return fail('relay-project-contract');
@@ -3483,6 +3539,7 @@
       candidate.contentState = migrateContentState({ ...stableClone(contentDefaults), ...savedContent, meters: { ...contentDefaults.meters, ...savedContent.meters }, planMeeting: { ...stableClone(contentDefaults.planMeeting), ...(savedContent.planMeeting || {}) } });
       candidate.worldMeta = { ...saved.worldMeta, activeCommandId: null, feedback: [], projections: { ...(saved.worldMeta.projections || {}), threatZombies: [] }, clock: { ...saved.worldMeta.clock } };
       candidate.settings = { ...(saved.settings || {}), continuousWorld: P0_FEATURES.continuousWorld };
+      candidate.scenarioSnapshot = normalizeScenarioSnapshot(saved.scenarioSnapshot || DEFAULT_SCENARIO_SNAPSHOT);
       candidate.motion = { ...INITIAL_PROGRESS_STATE.motion, ...(saved.motion || {}), accumulator: 0, input: { x: 0, y: 0 } };
       candidate.player = { ...saved.player }; Object.defineProperty(candidate.player, 'id', { value: 'player-1', writable: true, configurable: true, enumerable: false });
       candidate.playerVisual = { x: candidate.player.x, y: candidate.player.y };
@@ -3546,7 +3603,7 @@
       try {
         ensureStableIds();
         const payload = {
-          version: SAVE_VERSION, day: state.day, hour: state.hour, minute: state.minute, energy: state.energy, sanity: state.sanity, sanityClock: state.sanityClock, sanityLastReason: state.sanityLastReason, staminaExhaustedDay: state.staminaExhaustedDay, staminaExhaustedAt: state.staminaExhaustedAt, hp: state.hp, gameOver: state.gameOver, campaign: state.campaign, campStanding: state.campStanding, specialItems: state.specialItems, relayProject: state.relayProject, hordeForecast: state.hordeForecast, contentState: state.contentState,
+          version: SAVE_VERSION, day: state.day, hour: state.hour, minute: state.minute, energy: state.energy, sanity: state.sanity, sanityClock: state.sanityClock, sanityLastReason: state.sanityLastReason, staminaExhaustedDay: state.staminaExhaustedDay, staminaExhaustedAt: state.staminaExhaustedAt, hp: state.hp, gameOver: state.gameOver, campaign: state.campaign, scenarioSnapshot: normalizeScenarioSnapshot(state.scenarioSnapshot), campStanding: state.campStanding, specialItems: state.specialItems, relayProject: state.relayProject, hordeForecast: state.hordeForecast, contentState: state.contentState,
           wood: state.wood, stone: state.stone, food: state.food, seeds: state.seeds, parts: state.parts, medicine: state.medicine, morale: state.morale,
           collection: state.collection, weapon: state.weapon, event: state.event, eventInstance: state.eventInstance, npcEvents: state.npcEvents || [], eventThreat: state.eventThreat, eventShield: state.eventShield,
           mapRevision: MAP.revision, night: !!state.night, nightBattle: state.nightBattle, player: state.player, motion: state.motion, buildings: state.buildings,
@@ -7344,6 +7401,7 @@
       document.querySelector('.app')?.classList.toggle('hud-compact', !!settings.compactHud);
       if ($('settingsReduceMotion')) $('settingsReduceMotion').checked = !!settings.reduceMotion;
       if ($('settingsCompactHud')) $('settingsCompactHud').checked = !!settings.compactHud;
+      if ($('settingsObserverCommentary')) $('settingsObserverCommentary').checked = settings.observerCommentary === undefined ? !!state.scenarioSnapshot?.aiConfig?.observerCommentary : !!settings.observerCommentary;
     }
     function hideStartOverlay() {
       $('startOverlay')?.classList.add('hidden');
@@ -7793,7 +7851,8 @@
     $('openSettingsBtn').addEventListener('click', () => toggleStartSettings(true));
     $('closeSettingsBtn').addEventListener('click', () => toggleStartSettings(false));
     $('settingsReduceMotion').addEventListener('change', (event) => { const settings = readSettings(); settings.reduceMotion = event.target.checked; saveSettings(settings); applySettings(); });
-    $('settingsCompactHud').addEventListener('change', (event) => { const settings = readSettings(); settings.compactHud = event.target.checked; saveSettings(settings); applySettings(); });
+    $('settingsCompactHud').addEventListener('change', (event) => { const settings = readSettings(); settings.compactHud = event.target.checked; saveSettings(settings); if (state.scenarioSnapshot) state.scenarioSnapshot.aiConfig.observerCommentary = event.target.checked; if (gameStarted) requestCheckpoint('ai.observer-commentary'); applySettings(); });
+    $('settingsObserverCommentary').addEventListener('change', (event) => { const settings = readSettings(); settings.observerCommentary = event.target.checked; saveSettings(settings); if (state.scenarioSnapshot) state.scenarioSnapshot.aiConfig.observerCommentary = event.target.checked; if (gameStarted) requestCheckpoint('ai.observer-commentary'); applySettings(); });
     $('eventChoiceA').addEventListener('click', event => handleEventChoice('a', { ...event.currentTarget.dataset }));
     $('eventChoiceB').addEventListener('click', event => handleEventChoice('b', { ...event.currentTarget.dataset }));
     $('eventSourceSelect').addEventListener('change', event => { eventPanelSelection = event.target.value; renderEvent(); });
