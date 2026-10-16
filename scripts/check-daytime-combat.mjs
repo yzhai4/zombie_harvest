@@ -19,7 +19,7 @@ const end = adapter.indexOf('\nfunction envelope(payload)', begin);
 assert.ok(begin >= 0 && end > begin, 'runtime adapter boundary required');
 const inline = [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map(item => item[1]).filter(text => text.trim());
 assert.equal(inline.length, 1, 'one inline runtime expected');
-const patchedAdapter = adapter.slice(begin, end).replace('worldStart: startWorldSimulation,', 'dayCombat: runDayCombat, advance: advance, worldStart: startWorldSimulation,');
+const patchedAdapter = adapter.slice(begin, end).replace('worldStart: startWorldSimulation,', 'dayCombat: runDayCombat, advance: advance, resolveEvent: resolveEvent, worldStart: startWorldSimulation,');
 const runtime = vm.runInNewContext(`(${patchedAdapter.trim()})`, { inline, htmlPath, saveKey: 'zombie-harvest-progress-v12', vm, assert, console, URLSearchParams });
 const clone = value => JSON.parse(JSON.stringify(value));
 const events = (r, type) => r.api.state.worldMeta.events.filter(event => event.type === type);
@@ -82,6 +82,9 @@ check('identical daytime combat fixture yields a stable replay hash', () => {
 check('duplicate world.advance command does not apply daytime damage twice', () => {
   const q = fresh(); const s = q.api.state; const npc = s.npcs.find(item => item.id === 'guardJi'); const b = s.buildings.find(item => item.type === 'tower'); npc.supportRequested = true; npc.order = 'guard'; npc.behaviorState = 'alert'; npc.x = 16; npc.y = 8; npc.goal = { x: 17, y: 8 }; b.x = 18; b.y = 6; b.active = true; s.worldZombies = [{ id: 'day-command-enemy', x: 17, y: 8, hp: 100, maxHp: 100, kind: 'normal', aiState: 'pursue', goal: { x: npc.x, y: npc.y }, sourceEventId: 'event-command-001', perception: { clock: 0, targetId: npc.id, targetAt: 480 } }];
   const first = q.api.advance(12, { commandId: 'day-combat-command-1' }); assert.equal(first.ok, true); const hp = s.worldZombies[0].hp; const count = events(q, 'combat.damage.applied').length; const retry = q.api.advance(12, { commandId: 'day-combat-command-1' }); assert.equal(retry.duplicate, true); assert.equal(s.worldZombies[0].hp, hp); assert.equal(events(q, 'combat.damage.applied').length, count);
+});
+check('resolving an event cleans only its source combat targets', () => {
+  const q = fresh(); const s = q.api.state; s.event = { id: 'supply', defId: 'supply', handled: false, a: 'a', b: 'b' }; s.eventInstance = { instanceId: 'event-cleanup-001', defId: 'supply', status: 'active' }; s.worldZombies = [{ id: 'event-cleanup-enemy', x: 20, y: 6, hp: 100, maxHp: 100, kind: 'normal', sourceEventId: 'event-cleanup-001' }, { id: 'other-event-enemy', x: 21, y: 6, hp: 100, maxHp: 100, kind: 'normal', sourceEventId: 'event-other-002' }]; const result = q.api.resolveEvent('a', { commandId: 'event-cleanup-command-1' }); assert.equal(result.ok, true); assert.equal(s.worldZombies.some(zombie => zombie.id === 'event-cleanup-enemy'), false); assert.equal(s.worldZombies.some(zombie => zombie.id === 'other-event-enemy'), true); assert.equal(events(q, 'combat.eventTargets.cleaned').length, 1);
 });
 
 const output = { runner: 'source-daytime-combat', sourceHash: createHash('sha256').update(html).digest('hex'), ok: checks.every(item => item.ok), count: checks.length, passed: checks.filter(item => item.ok).length, checks };
