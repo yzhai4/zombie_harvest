@@ -148,3 +148,9 @@ EventLedger -> Replay / Debugger / Metrics -> Playtest / Evolution
 水车支线的启动门和节点选择已接入 GateV1，但效果仍由既有 content-effect 事务 reducer 处理；这不是完整 EventInstance/CAS/EventEffect 迁移。随后新增纯只读 shadow evaluator 与 inline parity runner：CI #210（run 38902361281，job 116977448918）以权威源码 hash `bc85cbeab7f00236e7bde84f01d05596676b359fb66b077645103011810fb23d` 通过 GateV1 合同 7/7、共享夹具 parity 11/11、内容链 54/54、白天战斗 23/23 和 static smoke 55/55。生产 Sites v81 未部署，Python Playwright 不可用，因此没有新增自然多日浏览器证据。
 
 本轮明确不把 relay-chain-001 的自治 `recover/stage/online` 元数据 choices 伪装成已接线 Gate；这些路径目前由地标 reducer 和 `updateRelayProject` 驱动。下一轮先设计 handoff 的显式 EventInstance 四元 CAS adapter，再评估状态/资源/距离是否值得扩展 Gate 词汇；任何迁移继续通过玩家、NPC、营地、势力、敌人和全局链六视角账本。
+
+### v82 relay handoff CAS checkpoint（2026-10-16）
+
+在 parity 之后，`handoffRelayCore` 已接入显式 EventInstance 四元 CAS：`expectedInstanceId`、`expectedDefId`、`expectedDefinitionVersion`、`expectedEventId` 随命令回放，校验顺序为 CAS → Gate → 长官/距离/物品业务校验 → 原 reducer。陈旧命令只产生 `command.rejected`，成功收据保留 token；正常交接仍使用原状态和奖励逻辑。
+
+CI #217（run 38903415431，job 116980964278）以权威源码 hash `f018d6639d415426960add45220389535aa4010d58c1c631a055b8da62461f71` 通过 source-daytime-combat 24/24、GateV1 shadow 7/7、完整 inline/shadow fixture parity 11/11、内容链 54/54 和 static smoke 55/55。此切片没有把 relay 的自治施工/上线路径接入 Choice resolver，也没有部署 Sites v81；下一步是为正式 ContentChain/EventInstance 施工节点定义事务与幂等边界。
