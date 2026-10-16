@@ -246,3 +246,12 @@ The next construction boundary is frozen as a shadow-only RelayConstructionV1 co
 ## 2026-10-16 relay shadow refinement
 
 The relay construction shadow contract now has 13/13 fixtures on runtime parent `f4fd5817fac9bb5479d91b10fc11a424872c5e85` (CI #239, run `38908479135`). The added cases require explicit `resourceSource` provenance for material movement and reject a second terminal `stationOnline` transition. This remains a shadow-only adapter; the browser `advanceReducer → updateRelayProject` path, Sites v81, and production leader-LLM wiring are unchanged. The historical handoff QA is explicitly superseded by the UI-token and construction QA reports.
+
+## RelayConstructionTransactionV1 shadow checkpoint (2026-10-16)
+
+当前分支 head 为 `3020b0d5c3e27b1c3d5b77bb60ed0fcf6b69557b`；CI #253 / run `38912989111` / static-validation job `117013214217` 通过。
+新增 `RelayConstructionTransactionV1` 纯值 wrapper，固定 `prepare → apply → receipt`，并提供显式 rollback 结果。
+这组 11/11 夹具覆盖：三阶段成功迁移、库存不足、建筑占位冲突、NPC 不可用、prepare 后快照冲突、重复 command、精确回滚、材料进度与资源扣除不一致、资源来源冲突，以及 terminal `stationOnline` 单次语义。
+该层只对可序列化的 relay instance、inventory、building occupancy、assigned NPC participant snapshot 生成原子补丁；它没有写入 `dist/index.html`，没有接入 `updateRelayProject`、CommandBus、EventLedger、standing、forecast、SAVE21 迁移或 Sites。
+权威运行时源码 hash 仍为 `1a5430620715363611914ad567f8b076253fbaa42bc200a10a93daf1bd53d463`；producer trace 仍为 9/9，且明确 `constructionCommandProducer:false`、`productionWiring:false`、`naturalGameplay:false`。
+浏览器 Playwright 仍不可用，因此本 checkpoint 只代表 Node/CI shadow evidence，不代表自然多日试玩或线上发布。

@@ -165,3 +165,8 @@ RelayConstructionV1 is currently a pure shadow contract, not a browser runtime m
 ### v82 relay construction shadow refinement
 
 The construction boundary now includes stable `resourceSource` receipts and a one-time terminal `stationOnline` guard. The 13/13 shadow contract is a pre-migration specification, not a release. The next iteration should trace the actual construction producer and introduce the smallest transaction reducer that preserves existing relay behavior while making CAS, resource ledger, occupancy, event receipts, and replay ordering explicit.
+
+### v82 relay transaction shadow checkpoint（2026-10-16）
+
+producer trace 之后，RelayConstructionTransactionV1 先以纯值形式固定跨对象事务边界。CI #253 的 11/11 覆盖 prepare/apply/receipt/rollback、资源与材料一致性、建筑占位、NPC participant snapshot、重复命令和终态单次语义。
+这一步为后续 GameCore/reducer 接线提供可回放的输入输出合同，但不改变 `dist/index.html`、SAVE21/CONTENT3 或 Sites v81。下一步必须先把真实 producer 接入统一 CommandBus，再补 EventLedger、SAVE 迁移、同 tick 战斗顺序和 browser save/reload fixture；在此之前不把 relay choices 的元数据当成已执行 Gate。

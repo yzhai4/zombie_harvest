@@ -107,3 +107,8 @@ The current v82 slice has three distinct levels: daytime mutual damage and relay
 ## 2026-10-16 relay construction shadow refinement
 
 RelayConstructionV1 is frozen at 13/13: four-part CAS, participant and resource prechecks, explicit source provenance, rollback-safe rejection, idempotent command replay, save/reload token stability, and terminal re-entry rejection. This checkpoint does not change Sites v81. The next gate is a producer trace followed by a runtime transaction adapter and browser fixtures; no construction migration or natural multi-day browser claim is made yet.
+
+## 2026-10-16 relay transaction shadow checkpoint
+
+RelayConstructionTransactionV1 已在开发分支以 shadow adapter 形式落地，CI #253 通过 11/11。它验证了 relay instance 与 inventory、building occupancy、NPC participant snapshot 的原子 prepare/apply/rollback 结果，并拒绝材料/扣除不一致、资源来源替换、占位冲突和快照竞态。
+状态仍是 shadow-only：生产链仍为 `world.advance → advanceReducer → updateRelayProject`，没有施工 CommandBus producer、EventLedger、SAVE21 迁移或 Sites 发布。下一闸门是把该 wrapper 接入一个真实 reducer adapter，并用同 tick CombatIntent、存档迁移和 browser save/reload 夹具验证；在完成前不添加未执行的 choice Gate。

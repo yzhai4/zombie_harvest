@@ -91,3 +91,18 @@ startWorldSimulation daytime interval
 | 全局事件链 | `world.advance` 是唯一自动 producer，handoff 有独立四元 token；施工 metadata choice 没有执行路径 | 需要显式 `relay.projectAdvance` producer、CAS→Gate→事务 reducer→receipt/replay 与 SAVE 迁移 |
 
 该增量只补调用链和证据边界，不把 shadow 13/13 或 producer trace 9/9 扩大成施工已迁移、浏览器通过、LLM 已接线或 Sites 发布。下一闸门仍是沿真实 `world.advance` producer 接入事务 adapter，并复跑上述六视角夹具。
+
+## 事务 shadow 增量（当前检查点）
+
+CI #253（run `38912989111`）的 RelayConstructionTransactionV1 runner 通过 11/11。它把既有实例 reducer 的结果包进库存、建筑占位和参与者快照，失败返回原快照，成功事件带 transaction/resource provenance。
+
+| 视角 | 本轮新增可验证边界 | 仍未证明 |
+| --- | --- | --- |
+| 玩家 | 材料/资源不一致、来源冲突、占位冲突和失败回滚都有可解释拒绝 | 真实施工 UI、刷新后的按钮 token、自然试玩 |
+| NPC | assigned participant 的存活/active 快照与岗位补丁原子应用；不可用时不结算 | 真实 scheduler、死亡中断、替代者事件 |
+| 营地 | inventory、building occupancy、relay instance 同批成功或保持原快照；重复 command 不重复扣除 | 生产库存账本、SAVE21 迁移、standing/forecast |
+| 势力 | wrapper 不自动产生 standing 或外交奖励 | 施工/上线事实到势力关系的正式来源 |
+| 敌人 | wrapper 不生成敌人、不改 forecast，不能绕过同 tick 战斗 | 与 `world.advance → simulateWorldZombies → runDayCombat` 的正式顺序接线 |
+| 全局事件链 | transactionId、commandId、四元 token 和事件 provenance 可回放 | EventLedger/CommandBus/Choice resolver 的生产接线 |
+
+因此本轮仍保持 `constructionCommandProducer:false`、`productionWiring:false`、`naturalGameplay:false`；事务 wrapper 是 shadow contract，不是施工迁移完成。
