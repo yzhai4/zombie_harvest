@@ -86,6 +86,26 @@ check('duplicate world.advance command does not apply daytime damage twice', () 
 check('resolving an event cleans only its source combat targets', () => {
   const q = fresh(); const s = q.api.state; s.event = { id: 'supply', defId: 'supply', handled: false, a: 'a', b: 'b' }; s.eventInstance = { instanceId: 'event-cleanup-001', defId: 'supply', status: 'active' }; s.worldZombies = [{ id: 'event-cleanup-enemy', x: 20, y: 6, hp: 100, maxHp: 100, kind: 'normal', sourceEventId: 'event-cleanup-001' }, { id: 'other-event-enemy', x: 21, y: 6, hp: 100, maxHp: 100, kind: 'normal', sourceEventId: 'event-other-002' }]; const result = q.api.resolveEvent('a', { commandId: 'event-cleanup-command-1' }); assert.equal(result.ok, true); assert.equal(s.worldZombies.some(zombie => zombie.id === 'event-cleanup-enemy'), false); assert.equal(s.worldZombies.some(zombie => zombie.id === 'other-event-enemy'), true); assert.equal(events(q, 'combat.eventTargets.cleaned').length, 1);
 });
+check('queued NPC event activation does not leak or over-clean combat targets', () => {
+  const q = fresh(); const s = q.api.state; const npc = s.npcs.find(item => item.id === 'guardJi'); assert.ok(npc, 'queued-event NPC fixture required');
+  s.event = { id: 'supply', defId: 'supply', handled: false, a: 'a', b: 'b' };
+  s.eventInstance = { instanceId: 'event-queued-source-001', defId: 'supply', status: 'active' };
+  const queued = { id: 'npc.queued-source.002', npcId: npc.id, step: 0, openedAt: 480, status: 'queued', event: { id: 'npc.queued-source.002', defId: 'npc.gate-watch', handled: false, title: '排队守门', npcEvent: { npcId: npc.id, chainId: 'gate-watch', step: 0 } } };
+  s.npcEvents = [queued];
+  s.worldZombies = [
+    { id: 'queued-source-enemy', x: 20, y: 6, hp: 100, maxHp: 100, kind: 'normal', sourceEventId: 'event-queued-source-001' },
+    { id: 'queued-next-enemy', x: 21, y: 6, hp: 100, maxHp: 100, kind: 'normal', sourceEventId: queued.id },
+    { id: 'unrelated-event-enemy', x: 22, y: 6, hp: 100, maxHp: 100, kind: 'normal', sourceEventId: 'event-other-003' }
+  ];
+  const result = q.api.resolveEvent('b', { commandId: 'event-queued-source-command-1' });
+  assert.equal(result.ok, true);
+  assert.equal(s.event?.id, queued.id, 'queued NPC event should become current');
+  assert.equal(s.eventInstance?.instanceId, queued.id, 'new event instance should remain active');
+  assert.equal(s.worldZombies.some(zombie => zombie.id === 'queued-source-enemy'), false, 'resolved source targets must be cleaned');
+  assert.equal(s.worldZombies.some(zombie => zombie.id === 'queued-next-enemy'), true, 'new queued event targets must survive');
+  assert.equal(s.worldZombies.some(zombie => zombie.id === 'unrelated-event-enemy'), true, 'unrelated event targets must survive');
+  assert.equal(events(q, 'combat.eventTargets.cleaned').at(-1)?.payload?.instanceId, 'event-queued-source-001');
+});
 
 const output = { runner: 'source-daytime-combat', sourceHash: createHash('sha256').update(html).digest('hex'), ok: checks.every(item => item.ok), count: checks.length, passed: checks.filter(item => item.ok).length, checks };
 console.log(JSON.stringify(output, null, 2));
