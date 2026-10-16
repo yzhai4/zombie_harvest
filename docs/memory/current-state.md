@@ -218,3 +218,8 @@ visible in-app browser 中真实点击新局和“推进到下一次威胁”，
 npc.sanity、npc.sanity-player 和 relay-chain-001 已标记 GateV1。动态玩家 SAN 事件统一映射到 npc.sanity-player；中继交接验证在自己的命令入口复用同一只读 gate，原有岗位/距离/资源 reducer 保持不变。事件结算顺序固定为 EventInstance 四元 CAS（instance/def/version/event）→ Gate → reducer/effect；陈旧命令仍只写 command.rejected。
 
 本轮本地源 HTML SHA256 为 b33d3dcc5cd9fb2bd8452e6dcb45d9623d1b695dc63dd5d3b051c292a15e7888。scripts/check-daytime-combat.mjs 为 23/23，另有 inline syntax、report recovery 177 项、content-chain 43 项、night guard、content validator、replay fixture 10 和 static smoke 55 项通过。Python Playwright 不可用，未把这些结果称为多日浏览器回归；Sites 生产仍公开 v81，未部署本分支。
+
+
+## GateV1 精确远程检查点（2026-10-16）
+
+代码提交 4ce5136a9b1a417321ae0f27a2d00d219264f80b 已恢复完整 dist 字节并在 CI #190 / run 38894889113 成功；日志确认 source-daytime-combat 23/23、CombatIntentV1 5/5、content-chain 43、replay fixture 10、static smoke 55。此前 141ceb 文档提交的临时失败来自大文件上传截断，已在代码提交中修复，不代表运行时失败。生产 Sites v81 未改。
