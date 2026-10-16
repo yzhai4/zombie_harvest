@@ -55,3 +55,8 @@ DAY 的攻击只由 `SessionController.mode === 'DAY'` 且 `state.night === fals
 ## 防御建筑目标扩展（2026-10-16）
 
 活动敌人的昼间目标集合已扩展到瞭望塔、火油塔、木墙、尖刺栅栏、掩体、仓库和广播中继站。建筑 HP 归零时写入同一 `combat.entity.defeated` 并置 `active=false`；墙体/建筑不穿透移动碰撞，campCollapse 不因普通命中隐式追加。新增 VM 夹具覆盖敌人→墙体，仍保持夜潮 barrier 结算独立。
+
+
+## CombatIntentV1 内部合同（2026-10-16）
+
+昼间 intent 现在显式带有 `schemaVersion=CombatIntentV1`、`intentId`、`sourceRef`、`targetRef`、`phase=DAY`、`attackSeq`、`profileId`、`amount` 与 `damageType`。结算前执行最小结构校验，非法 intent 写 `combat.intent.rejected`，不改变 HP、资源、人口或事件链。该合同仍嵌在现有 runtime 内，后续再抽成独立模块并接入命令级幂等。
