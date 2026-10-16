@@ -19,7 +19,7 @@ const end = adapter.indexOf('\nfunction envelope(payload)', begin);
 assert.ok(begin >= 0 && end > begin, 'runtime adapter boundary required');
 const inline = [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map(item => item[1]).filter(text => text.trim());
 assert.equal(inline.length, 1, 'one inline runtime expected');
-const patchedAdapter = adapter.slice(begin, end).replace('worldStart: startWorldSimulation,', 'dayCombat: runDayCombat, validateDayCombatIntent: validateDayCombatIntent, advance: advance, resolveEvent: resolveEvent, eventGateCheck: eventGateCheck, evaluateGateV1: evaluateGateV1, eventDefinitionGateCheck: eventDefinitionGateCheck, registerEventDefinition: registerEventDefinition, relayEventGate: relayEventGate, relayHandoffToken: relayHandoffToken, handoffRelayCore: handoffRelayCore, worldStart: startWorldSimulation,');
+const patchedAdapter = adapter.slice(begin, end).replace('worldStart: startWorldSimulation,', 'dayCombat: runDayCombat, validateDayCombatIntent: validateDayCombatIntent, advance: advance, resolveEvent: resolveEvent, eventGateCheck: eventGateCheck, evaluateGateV1: evaluateGateV1, eventDefinitionGateCheck: eventDefinitionGateCheck, registerEventDefinition: registerEventDefinition, relayEventGate: relayEventGate, relayHandoffToken: relayHandoffToken, relayHandoffExpectedToken: relayHandoffExpectedToken, handoffRelayCore: handoffRelayCore, worldStart: startWorldSimulation,');
 const runtime = vm.runInNewContext(`(${patchedAdapter.trim()})`, { inline, htmlPath, saveKey: 'zombie-harvest-progress-v12', vm, assert, console, URLSearchParams });
 const clone = value => JSON.parse(JSON.stringify(value));
 const events = (r, type) => r.api.state.worldMeta.events.filter(event => event.type === type);
@@ -193,6 +193,21 @@ check('event CAS is checked before GateV1 preconditions', () => {
 });
 check('daily event buttons carry the full event CAS token', () => {
   assert.match(html, /button\.dataset\.eventDefId/); assert.match(html, /button\.dataset\.eventDefinitionVersion/); assert.match(html, /button\.dataset\.eventId/); assert.match(html, /resolveEvent\(choiceKey, eventChoiceExpectedToken\(displayed\)\)/);
+});
+check('relay context button carries and dispatches the full CAS token', () => {
+  assert.match(html, /data-relay-instance-id/); assert.match(html, /data-relay-def-id/); assert.match(html, /data-relay-definition-version/); assert.match(html, /data-relay-event-id/);
+  assert.match(html, /handoffRelayCore\(relayHandoffExpectedToken\(button\.dataset\)\)/);
+});
+check('relay UI token adapter reaches CommandBus and stale event rejects', () => {
+  const q = fresh(); const s = q.api.state; const commander = s.npcs.find(item => item.id === 'commander'); assert.ok(commander);
+  commander.x = s.player.x; commander.y = s.player.y; s.relayProject.status = 'core-recovered'; s.relayProject.coreItemId = 'item-relayCore-001'; s.specialItems.relayCore = 1;
+  const live = q.api.relayHandoffToken();
+  const dataset = { relayInstanceId: live.expectedInstanceId, relayDefId: live.expectedDefId, relayDefinitionVersion: String(live.expectedDefinitionVersion), relayEventId: live.expectedEventId || '' };
+  const uiToken = q.api.relayHandoffExpectedToken(dataset);
+  assert.deepEqual(uiToken, live);
+  const before = JSON.stringify({ project: s.relayProject, special: s.specialItems });
+  const stale = q.api.handoffRelayCore({ ...uiToken, expectedEventId: 'stale-relay-event', commandId: 'relay-ui-stale-event' });
+  assert.equal(stale.ok, false); assert.equal(stale.reason, 'event-state-conflict'); assert.equal(JSON.stringify({ project: s.relayProject, special: s.specialItems }), before);
 });
 check('queued NPC event activation does not leak or over-clean combat targets', () => {
   const q = fresh(); const s = q.api.state; const npc = s.npcs.find(item => item.id === 'guardJi'); assert.ok(npc, 'queued-event NPC fixture required');

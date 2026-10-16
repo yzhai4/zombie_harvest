@@ -5379,7 +5379,11 @@
         add(npc.supportRequested ? `✅ 已请求 · ${currentOrder.name}` : `🤝 请求${npc.name}支援`, npc.supportRequested ? `当前命令：${currentOrder.name} · 羁绊 ${npc.bond}/3` : `先选命令或消耗 2 行动体力 · 羁绊 ${npc.bond}/3`, 'npc', 'primary', !!npc.supportRequested || state.energy < 2);
         evaluateNpcPromotion(npc, 'context');
         if (npc.hero?.status === 'eligible') { const promoteIndex = actionIndex++; actions.push(`<button class="context-action primary" data-context-action="promoteHero" data-context-index="${promoteIndex}" data-npc-id="${npc.id}" ${Number(state.contentState?.commandPoints || 0) < 1 ? 'disabled' : ''}><kbd class="action-index">${promoteIndex + 1}</kbd>⭐ 晋升为英雄<small>消耗 1 指挥点 · ${npcHeroLabel(npc)}</small></button>`); }
-        if (npcHasRole(npc, 'commander') && state.relayProject?.status === 'core-recovered' && Number(state.specialItems?.relayCore) > 0) add('📡 交付 relayCore', '交给营地长官，启动中继站筹备', 'relayHandoff', 'primary');
+        if (npcHasRole(npc, 'commander') && state.relayProject?.status === 'core-recovered' && Number(state.specialItems?.relayCore) > 0) {
+          const handoffToken = relayHandoffToken();
+          const index = actionIndex++;
+          actions.push(`<button class="context-action primary" data-context-action="relayHandoff" data-context-index="${index}" data-relay-instance-id="${handoffToken.expectedInstanceId || ''}" data-relay-def-id="${handoffToken.expectedDefId || ''}" data-relay-definition-version="${handoffToken.expectedDefinitionVersion || ''}" data-relay-event-id="${handoffToken.expectedEventId || ''}"><kbd class="action-index">${index + 1}</kbd>📡 交付 relayCore<small>交给营地长官，启动中继站筹备</small></button>`);
+        }
         getNpcOrders(npc).forEach(order => {
           const selected = npc.supportRequested && currentOrder.id === order.id;
           const index = actionIndex++;
@@ -5568,6 +5572,18 @@
       const project = state.relayProject || {};
       const def = eventDefinition('relay-chain-001');
       return { expectedInstanceId: project.id || 'camp-relay-001', expectedDefId: 'relay-chain-001', expectedDefinitionVersion: Number(def?.definitionVersion) || EVENT_DEFINITION_VERSION, expectedEventId: relayLatestEventId(project.id || 'camp-relay-001') };
+    }
+    // UI buttons carry the identity observed at render time. Missing fields
+    // normalize to null so a malformed/stale button fails the same CAS gate
+    // instead of silently defaulting to the live token.
+    function relayHandoffExpectedToken(dataset = {}) {
+      const version = Number(dataset.relayDefinitionVersion);
+      return {
+        expectedInstanceId: dataset.relayInstanceId || null,
+        expectedDefId: dataset.relayDefId || null,
+        expectedDefinitionVersion: Number.isFinite(version) ? version : null,
+        expectedEventId: dataset.relayEventId || null
+      };
     }
     function relayEventGate(choiceId = null, actorId = 'player-1') {
       const project = state.relayProject || {};
@@ -7597,7 +7613,7 @@
       if (action === 'attack') attackNearestThreat();
       else if (action === 'npc' && nearbyNpc) interactNpc(nearbyNpc.id);
       else if (action === 'npcOrder') setNpcOrder(button.dataset.npcId, button.dataset.order);
-      else if (action === 'relayHandoff') handoffRelayCore();
+      else if (action === 'relayHandoff') handoffRelayCore(relayHandoffExpectedToken(button.dataset));
       else if (action === 'promoteHero') { const result = promoteNpcHero(button.dataset.npcId); if (result.ok) { hideContext(); render(); requestCheckpoint('npc-promotion'); } else toast(result.reason === 'command-points-empty' ? '指挥点不足，暂不能完成晋升' : '该 NPC 尚未满足晋升条件'); }
       else if (action === 'captureOutpost' && nearbyOutpost) captureOutpost(button.dataset.outpostId || nearbyOutpost.type);
       else if (action === 'gather') gather();
