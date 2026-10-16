@@ -1,8 +1,16 @@
 # watermill-002：水车闸门
 
-**状态：** 已接线（单节点样板）；完整供水/自治路线待开发  
-**定义版本：** 2（本轮仅补表现说明）  
+**状态：** 已接线（GateV1 启动/选择门控；完整供水/自治路线待开发）  
+**定义版本：** 2（本轮迁移条件入口，不改效果语义）  
 **状态基线：** SAVE21 / CONTENT3；来源：04 支线总图与 13 支线模板
+
+## GateV1 迁移边界（2026-10-16）
+
+水车是第一条 GateV1 内容链样板。定义显式使用 `gateVersion: 1`、`evaluatePreconditions: true` 和 `gate`；注册器把 `gate.preconditions`、顶层 `preconditions` 与旧 `startConditions` 合并去重，并为节点选择规范化 `requires`（同时保留旧 `requirements` 兼容字段）。
+
+启动时由只读 GateV1 检查白天阶段、day4–10 窗口、已发现水车和营地信任≥25。选择时再次检查白天/窗口，但只检查当前 choice 的 `requires`；不会把启动时的地标和信任前置重新套到已启动实例上。因此营地信任在启动后从 30 降到 24 时，玩家仍能完成已经获得的水车选择。夜间、终局、未启动、已完成、过期和 malformed/未知条件仍拒绝，且 Gate 失败不写资源、flag、账本或 checkpoint。
+
+本轮只迁移条件入口。节点效果继续使用现有 `content-effect` DSL 和事务 reducer；没有把水车改写成统一 `EventEffect`，没有新增 `EventInstance`/CAS，也没有修改 SAVE_VERSION 或 CONTENT_SCHEMA_VERSION。未知对象条件现在 fail closed；未来内容必须先注册条件类型并补负向夹具。
 
 ## 当前可玩的承诺
 
@@ -37,3 +45,9 @@ day4–10，已发现旧水车且营地信任至少 25 时，晨间或接管据�
 ## 验收映射
 
 源码执行：watermill repair/salvage、材料不足、阿梁死亡、回滚、重复、夜间、终局、过期、缺包、未启动与中间节点 JSON 恢复。真实浏览器：day4 明确保存夹具中的选择器、结果、双击、刷新、390px 布局、day11 锁定。自然 day4 触发和供水全链仍需后续长局试玩。
+
+## 本轮 GateV1 证据
+
+`node scripts/check-content-chain.mjs` 已通过 53 项真实源码检查，来源命令轨迹 hash 为 `c5d6c772`。新增夹具覆盖 GateV1 定义存在、启动前置通过/拒绝、未知启动/选择对象 fail closed 且无突变、直接调用的白天/窗口边界，以及活动链不重复检查启动信任。最终 HTML SHA-256 要在远端上传后记录；并发工作树中的中间 hash 不作为发布证据。
+
+六视角账本仍以本页为准：玩家得到可解释的前置与信任漂移承诺；阿梁死亡不会被 Gate 绕过；营地资源只由效果事务改变；河湾互助会不在本切片凭空获得关系收益；共振压力只记录而不宣称已驱动尸群公式；水车支线不阻塞中继和主循环。完整六视角审计和限制见 `docs/qa/event-gate-watermill-20261016.md`。
