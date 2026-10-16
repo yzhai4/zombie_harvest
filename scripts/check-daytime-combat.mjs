@@ -52,6 +52,8 @@ check('daytime enemy damages an active NPC', () => {
 check('damage receipt preserves source, target, phase and event provenance', () => {
   const receipts = events(r, 'combat.damage.applied').slice(-3);
   assert.ok(receipts.every(event => event.payload.phase === 'DAY'));
+  assert.ok(receipts.every(event => typeof event.payload.intentId === 'string' && event.payload.intentId.startsWith('day-')));
+  assert.ok(receipts.every(event => Number.isInteger(event.payload.attackSeq)));
   assert.ok(receipts.some(event => event.payload.sourceKind === 'npc'));
   assert.ok(receipts.some(event => event.payload.sourceKind === 'tower'));
   assert.ok(receipts.some(event => event.payload.sourceEventId === 'event-day-combat-001'));
