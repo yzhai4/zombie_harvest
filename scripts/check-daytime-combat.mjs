@@ -92,6 +92,7 @@ check('duplicate world.advance command does not apply daytime damage twice', () 
 });
 check('resolving an event cleans only its source combat targets', () => {
   const q = fresh(); const s = q.api.state; s.event = { id: 'supply', defId: 'supply', handled: false, a: 'a', b: 'b' }; s.eventInstance = { instanceId: 'event-cleanup-001', defId: 'supply', status: 'active' }; s.worldZombies = [{ id: 'event-cleanup-enemy', x: 20, y: 6, hp: 100, maxHp: 100, kind: 'normal', sourceEventId: 'event-cleanup-001' }, { id: 'other-event-enemy', x: 21, y: 6, hp: 100, maxHp: 100, kind: 'normal', sourceEventId: 'event-other-002' }]; const result = q.api.resolveEvent('a', { commandId: 'event-cleanup-command-1' }); assert.equal(result.ok, true); assert.equal(s.worldZombies.some(zombie => zombie.id === 'event-cleanup-enemy'), false); assert.equal(s.worldZombies.some(zombie => zombie.id === 'other-event-enemy'), true); assert.equal(events(q, 'combat.eventTargets.cleaned').length, 1);
+  const receipt = events(q, 'event.resolved').at(-1); assert.ok(receipt, 'successful resolution receipt required'); assert.equal(receipt.payload.status, 'resolved'); assert.equal(receipt.payload.eventId, 'supply'); assert.equal(receipt.payload.instanceId, 'event-cleanup-001'); assert.equal(receipt.payload.expectedInstanceId, 'event-cleanup-001'); assert.equal(receipt.payload.expectedDefId, 'supply'); assert.equal(receipt.payload.expectedEventId, 'supply'); assert.equal(receipt.payload.definitionVersion, 1); assert.equal(receipt.definitionVersion, 1);
 });
 check('failed event resolution does not clean live combat targets', () => {
   const q = fresh(); const s = q.api.state; s.wood = 0; s.event = { id: 'storm', defId: 'storm', handled: false, a: 'a', b: 'b' }; s.eventInstance = { instanceId: 'event-cleanup-rejected-001', defId: 'storm', status: 'active' };
@@ -101,6 +102,21 @@ check('failed event resolution does not clean live combat targets', () => {
   assert.equal(s.event.handled, false, 'resource rejection must keep the event active');
   assert.equal(s.worldZombies.some(zombie => zombie.id === 'rejected-event-enemy'), true, 'rejected resolve must preserve source targets');
   assert.equal(events(q, 'combat.eventTargets.cleaned').length, 0);
+  assert.equal(events(q, 'event.resolved').length, 0, 'rejected effect must not emit success receipt');
+  const receipt = events(q, 'event.resolve.rejected').at(-1); assert.ok(receipt, 'rejected resolution receipt required'); assert.equal(receipt.payload.status, 'rejected'); assert.equal(receipt.payload.reason, 'effect-rejected'); assert.equal(receipt.payload.eventId, 'storm'); assert.equal(receipt.payload.instanceId, 'event-cleanup-rejected-001'); assert.equal(receipt.payload.expectedInstanceId, 'event-cleanup-rejected-001');
+});
+check('stale event instance CAS rejects without reducer or cleanup', () => {
+  const q = fresh(); const s = q.api.state; s.event = { id: 'supply', defId: 'supply', handled: false, a: 'a', b: 'b' }; s.eventInstance = { instanceId: 'event-cas-live-001', defId: 'supply', definitionVersion: 1, status: 'active' }; s.worldZombies = [{ id: 'cas-enemy', x: 20, y: 6, hp: 100, maxHp: 100, kind: 'normal', sourceEventId: 'event-cas-live-001' }];
+  const result = q.api.resolveEvent('b', { commandId: 'event-cas-stale-command-1', expectedInstanceId: 'event-cas-old-000', expectedDefId: 'supply', expectedDefinitionVersion: 1, expectedEventId: 'supply' });
+  assert.equal(result.ok, false); assert.equal(result.reason, 'event-instance-conflict'); assert.equal(s.event.handled, false); assert.equal(s.worldZombies[0].hp, 100); assert.equal(events(q, 'event.resolved').length, 0); assert.equal(events(q, 'combat.eventTargets.cleaned').length, 0); assert.equal(events(q, 'command.rejected').at(-1)?.payload?.reason, 'event-instance-conflict');
+});
+check('event definition version CAS rejects stale planner output', () => {
+  const q = fresh(); const s = q.api.state; s.event = { id: 'supply', defId: 'supply', handled: false, a: 'a', b: 'b' }; s.eventInstance = { instanceId: 'event-cas-version-001', defId: 'supply', definitionVersion: 1, status: 'active' }; const beforeFood = s.food;
+  const result = q.api.resolveEvent('b', { commandId: 'event-cas-version-command-1', expectedInstanceId: 'event-cas-version-001', expectedDefId: 'supply', expectedDefinitionVersion: 2, expectedEventId: 'supply' });
+  assert.equal(result.ok, false); assert.equal(result.reason, 'event-definition-version-conflict'); assert.equal(s.event.handled, false); assert.equal(s.food, beforeFood); assert.equal(events(q, 'event.resolved').length, 0); assert.equal(events(q, 'command.rejected').at(-1)?.payload?.reason, 'event-definition-version-conflict');
+});
+check('daily event buttons carry the full event CAS token', () => {
+  assert.match(html, /button\.dataset\.eventDefId/); assert.match(html, /button\.dataset\.eventDefinitionVersion/); assert.match(html, /button\.dataset\.eventId/); assert.match(html, /resolveEvent\(choiceKey, eventChoiceExpectedToken\(displayed\)\)/);
 });
 check('queued NPC event activation does not leak or over-clean combat targets', () => {
   const q = fresh(); const s = q.api.state; const npc = s.npcs.find(item => item.id === 'guardJi'); assert.ok(npc, 'queued-event NPC fixture required');
@@ -126,4 +142,3 @@ check('queued NPC event activation does not leak or over-clean combat targets', 
 const output = { runner: 'source-daytime-combat', sourceHash: createHash('sha256').update(html).digest('hex'), ok: checks.every(item => item.ok), count: checks.length, passed: checks.filter(item => item.ok).length, checks };
 console.log(JSON.stringify(output, null, 2));
 process.exitCode = output.ok ? 0 : 1;
-
