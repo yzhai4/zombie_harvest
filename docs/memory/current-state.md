@@ -201,3 +201,6 @@ visible in-app browser 中真实点击新局和“推进到下一次威胁”，
 
 
 事件清理又补上拒绝分支：资源不足或其他非 terminal 结算不会清理 sourceEventId 敌人；当前 daytime checker 13/13，包含成功、queued activation 和 rejected resolve。
+
+
+白天 CombatIntentV1 已从“仅文档/独立 checker”推进到 inline runtime canonical validator：结算前拒绝非法 phase、引用、数值、unknown field 与 statePatch，14/14 VM 回归通过。当前仍有 inline/Node 双份 validator，尚未抽成单一 GameCore import。
