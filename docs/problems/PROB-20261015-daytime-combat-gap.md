@@ -22,3 +22,8 @@
 ## Runtime 合同接线（2026-10-16）
 
 原先 inline runtime 只做最小字段判断，存在与独立 CombatIntentV1 module 漂移风险。现已在实际运行时引入 canonical envelope validator，并用真实 VM checker 覆盖非法 phase、unknown field 与 statePatch；昼间回归扩展为 14/14。下一步仍需消除 inline 与 Node module 的双份实现。
+
+
+## Event resolve identity race (2026-10-16)
+
+A rendered daily choice could outlive a queued NPC event activation or a definition migration. Without a compare-and-swap token, an old click or planner result could resolve the wrong instance and make cleanup ambiguous. The runtime now validates `expectedInstanceId`, `expectedDefId`, `expectedDefinitionVersion`, and `expectedEventId` before `resolveEventReducer`; stale commands emit `command.rejected` and have no state or cleanup effect. Reducer-level resource failure emits `event.resolve.rejected`, while only a terminal handled result emits `event.resolved`. UI buttons snapshot and send the same token. The daytime source regression is 17/17; full Gate/precondition semantics and natural multi-day browser coverage remain open.
