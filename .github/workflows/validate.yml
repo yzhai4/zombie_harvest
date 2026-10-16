@@ -41,6 +41,8 @@ jobs:
           node --check scripts/lib/event-gate-v1.mjs
           node --check scripts/check-event-gate-v1.mjs
           node --check scripts/check-event-gate-parity.mjs
+          node --check scripts/lib/relay-construction-v1.mjs
+          node --check scripts/check-relay-construction-v1.mjs
       - name: Check deployable entrypoints
         run: |
           test -s dist/index.html
@@ -83,6 +85,8 @@ jobs:
         run: node scripts/check-event-gate-v1.mjs
       - name: Compare inline and shadow EventGateV1 parity
         run: node scripts/check-event-gate-parity.mjs
+      - name: Execute RelayConstructionV1 shadow contract
+        run: node scripts/check-relay-construction-v1.mjs
       - name: Verify save projections and static smoke
         run: |
           node scripts/replay-harness.mjs --self-test
