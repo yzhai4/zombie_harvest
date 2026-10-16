@@ -23,6 +23,7 @@ const patchedAdapter = adapter.slice(begin, end).replace('worldStart: startWorld
 const runtime = vm.runInNewContext(`(${patchedAdapter.trim()})`, { inline, htmlPath, saveKey: 'zombie-harvest-progress-v12', vm, assert, console, URLSearchParams });
 const clone = value => JSON.parse(JSON.stringify(value));
 const events = (r, type) => r.api.state.worldMeta.events.filter(event => event.type === type);
+const digest = value => createHash('sha256').update(JSON.stringify(value)).digest('hex');
 const checks = [];
 function check(name, run) { try { run(); checks.push({ name, ok: true }); } catch (error) { checks.push({ name, ok: false, error: String(error.message || error) }); } }
 function fresh() { const r = runtime(); assert.equal(r.api.start().ok, true); return r; }
@@ -72,6 +73,10 @@ check('night gate prevents daytime combat re-entry', () => {
 });
 check('save and reload do not replay daytime damage', () => {
   state.night = false; assert.equal(r.api.save(), true); const raw = r.storage.get('zombie-harvest-progress-v12'); const count = events(r, 'combat.damage.applied').length; const next = runtime([['zombie-harvest-progress-v12', raw]]); assert.equal(next.api.start().ok, true); assert.equal(events(next, 'combat.damage.applied').length, count); assert.equal(next.api.state.worldZombies[0].hp, enemy.hp);
+});
+check('identical daytime combat fixture yields a stable replay hash', () => {
+  const run = () => { const q = fresh(); const s = q.api.state; const npc = s.npcs.find(item => item.id === 'guardJi'); const b = s.buildings.find(item => item.type === 'tower'); npc.supportRequested = true; npc.order = 'guard'; npc.behaviorState = 'alert'; npc.x = 16; npc.y = 8; npc.goal = { x: 17, y: 8 }; b.x = 18; b.y = 6; b.active = true; const z = { id: 'day-replay-enemy', x: 17, y: 8, hp: 100, maxHp: 100, kind: 'normal', aiState: 'pursue', goal: { x: npc.x, y: npc.y }, sourceEventId: 'event-replay-001', perception: { clock: 0, targetId: npc.id, targetAt: 480 } }; s.worldZombies = [z]; q.api.dayCombat(12); return digest({ worldZombies: s.worldZombies, npc: s.npcs.find(item => item.id === 'guardJi'), events: s.worldMeta.events.filter(event => event.type.startsWith('combat.')) }); };
+  assert.equal(run(), run());
 });
 
 const output = { runner: 'source-daytime-combat', sourceHash: createHash('sha256').update(html).digest('hex'), ok: checks.every(item => item.ok), count: checks.length, passed: checks.filter(item => item.ok).length, checks };
