@@ -19,7 +19,7 @@ const end = adapter.indexOf('\nfunction envelope(payload)', begin);
 assert.ok(begin >= 0 && end > begin, 'runtime adapter boundary required');
 const inline = [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map(item => item[1]).filter(text => text.trim());
 assert.equal(inline.length, 1, 'one inline runtime expected');
-const patchedAdapter = adapter.slice(begin, end).replace('worldStart: startWorldSimulation,', 'dayCombat: runDayCombat, validateDayCombatIntent: validateDayCombatIntent, advance: advance, resolveEvent: resolveEvent, worldStart: startWorldSimulation,');
+const patchedAdapter = adapter.slice(begin, end).replace('worldStart: startWorldSimulation,', 'dayCombat: runDayCombat, validateDayCombatIntent: validateDayCombatIntent, advance: advance, resolveEvent: resolveEvent, eventGateCheck: eventGateCheck, evaluateGateV1: evaluateGateV1, eventDefinitionGateCheck: eventDefinitionGateCheck, registerEventDefinition: registerEventDefinition, relayEventGate: relayEventGate, worldStart: startWorldSimulation,');
 const runtime = vm.runInNewContext(`(${patchedAdapter.trim()})`, { inline, htmlPath, saveKey: 'zombie-harvest-progress-v12', vm, assert, console, URLSearchParams });
 const clone = value => JSON.parse(JSON.stringify(value));
 const events = (r, type) => r.api.state.worldMeta.events.filter(event => event.type === type);
@@ -114,6 +114,53 @@ check('event definition version CAS rejects stale planner output', () => {
   const q = fresh(); const s = q.api.state; s.event = { id: 'supply', defId: 'supply', handled: false, a: 'a', b: 'b' }; s.eventInstance = { instanceId: 'event-cas-version-001', defId: 'supply', definitionVersion: 1, status: 'active' }; const beforeFood = s.food;
   const result = q.api.resolveEvent('b', { commandId: 'event-cas-version-command-1', expectedInstanceId: 'event-cas-version-001', expectedDefId: 'supply', expectedDefinitionVersion: 2, expectedEventId: 'supply' });
   assert.equal(result.ok, false); assert.equal(result.reason, 'event-definition-version-conflict'); assert.equal(s.event.handled, false); assert.equal(s.food, beforeFood); assert.equal(events(q, 'event.resolved').length, 0); assert.equal(events(q, 'command.rejected').at(-1)?.payload?.reason, 'event-definition-version-conflict');
+});
+check('EventDef and SAN definitions expose the opt-in GateV1 contract', () => {
+  const q = fresh();
+  const san = q.api.registry['npc.sanity'];
+  const playerSan = q.api.registry['npc.sanity-player'];
+  const relay = q.api.registry['relay-chain-001'];
+  assert.equal(san.gateVersion, 1); assert.equal(san.evaluatePreconditions, true); assert.deepEqual(Array.from(san.gate.preconditions), ['npc.sanity <= 45']);
+  assert.equal(playerSan.gateVersion, 1); assert.equal(playerSan.evaluatePreconditions, true); assert.deepEqual(Array.from(playerSan.gate.preconditions), ['player.sanity <= 30']);
+  assert.equal(relay.gateVersion, 1); assert.equal(relay.evaluatePreconditions, true); assert.ok(Array.isArray(relay.preconditions));
+  assert.ok(san.choices.every(choice => Array.isArray(choice.requires) && Array.isArray(choice.effects)));
+});
+check('GateV1 evaluates an NPC SAN event against its actor and fails closed', () => {
+  const q = fresh(); const s = q.api.state; const npc = s.npcs.find(item => item.id === 'guardJi'); assert.ok(npc);
+  s.night = false; s.event = { id: 'sanity.guardJi.1', defId: 'npc.sanity', handled: false, npcEvent: { npcId: npc.id, chainId: 'sanity', step: 0 } };
+  s.eventInstance = { instanceId: 'sanity.guardJi.1', defId: 'npc.sanity', definitionVersion: 1, status: 'active', actorId: npc.id };
+  npc.sanity = 40; const pass = q.api.eventGateCheck('a'); assert.equal(pass.ok, true); assert.equal(pass.gateVersion, 1);
+  const before = JSON.stringify({ sanity: npc.sanity, events: s.worldMeta.events.length }); npc.sanity = 60; const fail = q.api.eventGateCheck('a'); assert.equal(fail.ok, false); assert.equal(fail.reason, 'event-precondition'); assert.equal(JSON.stringify({ sanity: npc.sanity, events: s.worldMeta.events.length }), JSON.stringify({ sanity: 60, events: JSON.parse(before).events }));
+});
+check('GateV1 evaluates the player SAN event without using an NPC actor', () => {
+  const q = fresh(); const s = q.api.state;
+  s.night = false; s.event = { id: 'sanity-player.1', defId: 'npc.sanity-player', handled: false, mentalEvent: 'player' };
+  s.eventInstance = { instanceId: 'sanity-player.1', defId: 'npc.sanity-player', definitionVersion: 1, status: 'active', actorId: 'player-1' };
+  s.sanity = 25; assert.equal(q.api.eventGateCheck('a').ok, true); s.sanity = 50; const fail = q.api.eventGateCheck('a'); assert.equal(fail.ok, false); assert.equal(fail.reason, 'event-precondition');
+});
+check('GateV1 choice.requires are evaluated independently and unknown conditions reject', () => {
+  const q = fresh(); const s = q.api.state;
+  q.api.registerEventDefinition({ id: 'gate.fixture', gateVersion: 1, phase: 'DAY', gate: { phase: 'DAY' }, choices: [{ id: 'a', label: '条件路线', requires: ['flag:gate.fixture.ready'] }] });
+  s.contentState.flags['gate.fixture.ready'] = false; let result = q.api.eventDefinitionGateCheck('gate.fixture', 'a', { event: { id: 'gate.fixture' }, instance: { instanceId: 'gate-fixture-1', defId: 'gate.fixture', status: 'active', definitionVersion: 1 } });
+  assert.equal(result.ok, false); assert.equal(result.reason, 'event-precondition');
+  s.contentState.flags['gate.fixture.ready'] = true; result = q.api.eventDefinitionGateCheck('gate.fixture', 'a', { event: { id: 'gate.fixture' }, instance: { instanceId: 'gate-fixture-1', defId: 'gate.fixture', status: 'active', definitionVersion: 1 } }); assert.equal(result.ok, true);
+  const unknown = q.api.evaluateGateV1({ version: 1, phase: 'DAY', preconditions: [{ type: 'future_condition', value: true }] }); assert.equal(unknown.ok, false); assert.equal(unknown.reason, 'event-precondition-invalid');
+  const extra = q.api.evaluateGateV1({ version: 1, phase: 'DAY', preconditions: [{ type: 'flag', id: 'gate.fixture.ready', extra: true }] }); assert.equal(extra.ok, false); assert.equal(extra.reason, 'event-precondition-invalid');
+  const unknownPath = q.api.evaluateGateV1({ version: 1, phase: 'DAY', preconditions: ['gameOver exists'] }); assert.equal(unknownPath.ok, false); assert.equal(unknownPath.reason, 'event-precondition-invalid');
+  const malformedPhase = q.api.evaluateGateV1({ version: 1, phase: 'TWILIGHT', preconditions: [] }); assert.equal(malformedPhase.ok, false); assert.equal(malformedPhase.reason, 'gate-phase-invalid');
+});
+check('relay-chain-001 uses the same read-only GateV1 adapter', () => {
+  const q = fresh(); const s = q.api.state; const before = JSON.stringify(s.relayProject);
+  assert.equal(q.api.relayEventGate('handoff', 'player-1').ok, true);
+  s.relayProject = null; const fail = q.api.relayEventGate('handoff', 'player-1'); assert.equal(fail.ok, false); assert.equal(fail.reason, 'event-precondition'); assert.equal(JSON.stringify(s.relayProject), 'null');
+  s.relayProject = JSON.parse(before);
+});
+check('event CAS is checked before GateV1 preconditions', () => {
+  const q = fresh(); const s = q.api.state; const npc = s.npcs.find(item => item.id === 'guardJi'); npc.sanity = 70;
+  s.event = { id: 'sanity.guardJi.2', defId: 'npc.sanity', handled: false, npcEvent: { npcId: npc.id, chainId: 'sanity', step: 0 } };
+  s.eventInstance = { instanceId: 'sanity.guardJi.2', defId: 'npc.sanity', definitionVersion: 1, status: 'active', actorId: npc.id };
+  const result = q.api.resolveEvent('a', { commandId: 'gate-cas-order-1', expectedInstanceId: 'stale-instance', expectedDefId: 'npc.sanity', expectedDefinitionVersion: 1, expectedEventId: s.event.id });
+  assert.equal(result.ok, false); assert.equal(result.reason, 'event-instance-conflict'); assert.equal(s.event.handled, false);
 });
 check('daily event buttons carry the full event CAS token', () => {
   assert.match(html, /button\.dataset\.eventDefId/); assert.match(html, /button\.dataset\.eventDefinitionVersion/); assert.match(html, /button\.dataset\.eventId/); assert.match(html, /resolveEvent\(choiceKey, eventChoiceExpectedToken\(displayed\)\)/);
