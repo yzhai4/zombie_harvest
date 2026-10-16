@@ -78,3 +78,9 @@ node scripts/replay-harness.mjs --self-test
 UI验收先对账当前生产CSS与真实可见入口，区分legacy隐藏备用控件和公开交互。禁止为了通过测试显示旧备用按钮或点击hidden按钮。恢复后可检查四legacy控件disabled解除，但种植/收获要经公开近田context路线另验；先保存精确close/补偿事实，再为导航和作物行动分别取实际生命周期保存基线。空payload成功receipt不能自证产粮：须有真实food/同plot变化及unique commandId/replay/事件因果关联。
 
 AI 或实验变更还必须提供：baseline、变体、seed 集、失败重试策略、成本/延迟统计和 held-out 结果。
+
+## EventGate parity 与可达性闸门（新增）
+
+- shadow/inline parity 只能声称夹具范围内的完整结果一致；runner 必须比较失败门、details、actor 信息和输入状态前后快照，报告中明确 fixture parity、source VM、browser 和线上证据的边界。畸形 gate 或状态容器的有意差异单列，不得推广成任意输入等价。
+- 给 EventDef/Choice 增加 Gate 或 `requires` 前，先沿真实调用路径确认 resolver/CommandBus 会执行它。只有注册表元数据、没有实际入口的 choice 不算已接线；自治 reducer 的状态、资源、岗位和距离校验不能由未执行的 Gate 声称覆盖。
+- 跨系统命令迁移采用 EventInstance 四元 CAS（instance/def/version/event）→ Gate → 业务前置 → reducer/effect 的顺序。stale 命令只写拒绝 receipt；成功 receipt、replay 和 save/reload 夹具保留 token。六视角报告要说明 CAS 对玩家、NPC、营地、势力、敌人和全局账本的实际影响。
