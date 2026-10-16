@@ -12,3 +12,8 @@
 ## 排队事件边界（2026-10-16）
 
 复核发现原事件 resolve 可能同步激活排队 NPC 事件；若清理 helper 读取变更后的当前事件，会留下原事件敌人或误删新事件敌人。修复后 helper 只接受 resolve 前捕获的 `instanceId/sourceEventId`，并以显式集合清理；新增 queued-event 夹具验证 12/12 通过。运行时仍待后续直接复用独立 CombatIntentV1 validator。
+
+
+## 拒绝结算边界（2026-10-16）
+
+补充回归发现资源不足的事件选择也必须保留活动敌人；修复后的清理仅在原事件真正进入 handled terminal 状态后执行。queued activation、rejected resolve 与普通成功 resolve 共同覆盖，昼间源检查为 13/13。
