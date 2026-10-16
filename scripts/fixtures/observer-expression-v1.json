@@ -1,0 +1,38 @@
+{
+  "cases": [
+    {
+      "id": "off",
+      "config": {
+        "enabled": false
+      },
+      "subject": {
+        "kind": "item",
+        "id": "x",
+        "quality": 90
+      },
+      "expect": {
+        "mode": "fallback"
+      }
+    },
+    {
+      "id": "on",
+      "config": {
+        "enabled": true
+      },
+      "subject": {
+        "kind": "npc",
+        "id": "radio",
+        "name": "阿默",
+        "role": "radio",
+        "lifeState": "healthy",
+        "hp": 100
+      },
+      "relation": {
+        "trustToPlayer": 80
+      },
+      "expect": {
+        "mode": "deterministic-stub"
+      }
+    }
+  ]
+}
