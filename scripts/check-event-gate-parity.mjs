@@ -46,10 +46,11 @@ function evaluateInline(gate, state, inputContext = {}) {
     ${inlineGateFunctions}
     globalThis.parityResult = evaluateGateV1(${JSON.stringify(gate)}, ${JSON.stringify(context)});
     globalThis.parityNormalized = normalizeEventGate(${JSON.stringify(gate)});
+    globalThis.parityState = state;
   `;
   const sandbox = vm.createContext({ console });
   vm.runInContext(source, sandbox, { filename: htmlPath + ':event-gate-parity' });
-  return { result: sandbox.parityResult, normalized: sandbox.parityNormalized };
+  return { result: sandbox.parityResult, normalized: sandbox.parityNormalized, state: sandbox.parityState };
 }
 
 const checks = [];
@@ -68,11 +69,14 @@ for (const item of fixture.cases) {
   check(`inline/pure parity: ${item.name}`, () => {
     const state = { ...clone(fixture.state), ...(item.statePatch || {}) };
     const context = { state, ...(item.context || {}) };
+    const before = clone(state);
     const pure = evaluateGateV1(item.gate, context);
+    assert.deepEqual(state, before, `${item.name}: pure evaluator mutated state`);
     const inlineResult = evaluateInline(item.gate, state, context);
     assert.deepEqual(project(pure), item.expected, `${item.name}: pure result drifted from fixture`);
     assert.deepEqual(project(inlineResult.result), item.expected, `${item.name}: inline result drifted from fixture`);
-    assert.deepEqual(project(inlineResult.result), project(pure), `${item.name}: inline and pure evaluators diverged`);
+    assert.deepEqual(plain(inlineResult.result), plain(pure), `${item.name}: inline and pure evaluators diverged`);
+    assert.deepEqual(plain(inlineResult.state), before, `${item.name}: inline evaluator mutated state`);
     assert.deepEqual(plain(inlineResult.normalized), plain(normalizeEventGate(item.gate)), `${item.name}: normalization drifted`);
   });
 }
