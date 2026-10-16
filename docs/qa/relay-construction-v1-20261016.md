@@ -35,5 +35,5 @@ CommandBus 或 Sites 调用；因此本报告不能证明浏览器施工、正�
 | 全局链 | 四元 CAS、命令幂等、资源来源、事件类型、终态单次和 save→reload token 固定 | EventLedger/CommandBus 正式施工入口 |
 
 下一步在真实命令生产者审计后，再把 adapter 收敛到 runtime reducer；在此
-之前不把 shadow 11/11 扩大为线上或浏览器验收。
+之前不把 shadow 13/13 扩大为线上或浏览器验收。
 
