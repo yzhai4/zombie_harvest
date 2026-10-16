@@ -4,11 +4,11 @@
 **基线：** `zfarm-world-1.0` 文档基线；工作树存在未提交运行时变更  
 **状态：** active
 
-**当前开发dist：HTML `a29d4aa87d38d148f458df8828a2dda20af169dc3178b65f6816ed8e9cd133cd`，已接入白天 NPC/塔/活动敌人互伤闭环；GitHub draft PR #4 当前为 `bae9a45d25177f32984e94b8177b14b7fbadfe51`，CI #126/run38851665332 success，生产保持公开v81。
+**当前开发dist：HTML `a29d4aa87d38d148f458df8828a2dda20af169dc3178b65f6816ed8e9cd133cd`，已接入白天 NPC/塔/活动敌人互伤闭环；GitHub draft PR #4 当前为 `15af288da9f0d3594e3a98dc577a601191a76e4c`，CI #131/run38852074531 success，生产保持公开v81。
 
 **最新验收入口：** 报告恢复 v4 在412c完成真实 browser 48/48 场、1682/1682检查；冻结58a4计划会七场真实browser完成7/7、203/203并已归档。严格单构建三日两轮均真实FAILED；新58a4/5e诊断轮104保存、原件122文件全部核SHA，跨机同strict Gate仍114/123。阻塞读取与保存调度仍在调查；faec计划/修墙公开browser已单独通过7/7、203/203，不能把它扩大为自然三日平衡证据。
 
-最新检查点为PR #4 head `bae9a45d25177f32984e94b8177b14b7fbadfe51`；CI #126/run38851665332已精确验证当前提交并成功，步骤包含 leader harness、命令/修墙、计划/内容/恢复/静态门禁；CI不运行真实browser，真实 faec browser 证据见 `docs/qa/plan-integrity-faec-browser-20261015.md`。58a4计划browser报告另有服务器归档证据。
+最新检查点为PR #4 head `15af288da9f0d3594e3a98dc577a601191a76e4c`；CI #131/run38852074531已精确验证当前提交并成功，步骤包含 leader harness、命令/修墙、计划/内容/恢复/静态门禁；CI不运行真实browser，真实 faec browser 证据见 `docs/qa/plan-integrity-faec-browser-20261015.md`。58a4计划browser报告另有服务器归档证据。
 
 严格三日第二轮现已terminal exit1：871.282秒、392已执行检查true、104原保存，下一第二日训练前等待超时；原report SHA `c053723f413f28735271b337faa3c5c1f62995c128f678b4a337b81550724114`。call110最后15实际poll主档2083/seq1087/SHAa6ea8707不变、DOM2084→2090；前14仅约7.43秒，第15整体读取172.274秒，尚不能归因一次周期save失败或CPU/OOM。失败截图超时明确保留；原JSON/raw、报告/checkpoint/14PNG共122文件64401875字节逐SHA归档，两台同Gate114/123、九项后续缺失不改FAILED。两个终止run的owned loopback服务已停止，profile不重启，public80仍active。新诊断runner5e原字节已接repo，无判据放宽。详见 `docs/qa/fresh-three-days-second-20261014.md`。
 
@@ -146,3 +146,8 @@ ADR-20261015 已补充 sourceActorId/resolvedActorId 映射、unknown/dead/dupli
 ## 白天 CombatIntent 批处理（2026-10-16）
 
 昼间闭环已从按来源直接扣血收敛为先收集 intent、再按 `sourceId → targetId → attackSeq` 稳定排序结算；命中收据新增 `intentId/attackSeq/profileId`。NPC、塔、活动敌人和玩家共享同一 DAY tick，夜战仍隔离。真实 inline runtime `check-daytime-combat.mjs` 7/7，CI #126/run38851665332 success。仍未抽成独立 CombatIntentV1 schema，也未接墙体/建筑全量目标。
+
+
+## 白天防御建筑目标扩展（2026-10-16）
+
+活动敌人昼间目标已覆盖瞭望塔、火油塔、木墙、尖刺栅栏、掩体、仓库和广播中继站；建筑 HP 归零写入 `combat.entity.defeated` 并停用，新增 inline VM 墙体受击夹具，整体 `check-daytime-combat.mjs` 8/8。夜潮 barrier 仍独立，未改 SAVE21/CONTENT3。
