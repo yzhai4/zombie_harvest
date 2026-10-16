@@ -86,6 +86,15 @@ check('duplicate world.advance command does not apply daytime damage twice', () 
 check('resolving an event cleans only its source combat targets', () => {
   const q = fresh(); const s = q.api.state; s.event = { id: 'supply', defId: 'supply', handled: false, a: 'a', b: 'b' }; s.eventInstance = { instanceId: 'event-cleanup-001', defId: 'supply', status: 'active' }; s.worldZombies = [{ id: 'event-cleanup-enemy', x: 20, y: 6, hp: 100, maxHp: 100, kind: 'normal', sourceEventId: 'event-cleanup-001' }, { id: 'other-event-enemy', x: 21, y: 6, hp: 100, maxHp: 100, kind: 'normal', sourceEventId: 'event-other-002' }]; const result = q.api.resolveEvent('a', { commandId: 'event-cleanup-command-1' }); assert.equal(result.ok, true); assert.equal(s.worldZombies.some(zombie => zombie.id === 'event-cleanup-enemy'), false); assert.equal(s.worldZombies.some(zombie => zombie.id === 'other-event-enemy'), true); assert.equal(events(q, 'combat.eventTargets.cleaned').length, 1);
 });
+check('failed event resolution does not clean live combat targets', () => {
+  const q = fresh(); const s = q.api.state; s.wood = 0; s.event = { id: 'storm', defId: 'storm', handled: false, a: 'a', b: 'b' }; s.eventInstance = { instanceId: 'event-cleanup-rejected-001', defId: 'storm', status: 'active' };
+  s.worldZombies = [{ id: 'rejected-event-enemy', x: 20, y: 6, hp: 100, maxHp: 100, kind: 'normal', sourceEventId: 'event-cleanup-rejected-001' }];
+  const result = q.api.resolveEvent('a', { commandId: 'event-cleanup-rejected-command-1' });
+  assert.equal(result.ok, true);
+  assert.equal(s.event.handled, false, 'resource rejection must keep the event active');
+  assert.equal(s.worldZombies.some(zombie => zombie.id === 'rejected-event-enemy'), true, 'rejected resolve must preserve source targets');
+  assert.equal(events(q, 'combat.eventTargets.cleaned').length, 0);
+});
 check('queued NPC event activation does not leak or over-clean combat targets', () => {
   const q = fresh(); const s = q.api.state; const npc = s.npcs.find(item => item.id === 'guardJi'); assert.ok(npc, 'queued-event NPC fixture required');
   s.event = { id: 'supply', defId: 'supply', handled: false, a: 'a', b: 'b' };
