@@ -13,6 +13,7 @@
 ## 边界与失败语义
 
 - parity 只覆盖两边共同支持的正常 Gate envelope；纯模块对 null/array gate 的额外 `gate-invalid` 防护仍由 `check-event-gate-v1.mjs` 单独覆盖。
+- 11/11 不等于任意畸形状态容器的 parity：影子模块已经对 `landmarks`、`npcs`、`player.tools` 做了 fail-closed 防护，但 `contentState.unlockedTech` 等容器的异常形状仍由各自合同决定，不能从本 runner 推广结论。
 - runner 不执行 reducer、EventEffect、CommandBus、存档写入或浏览器动作；通过不能替代自然试玩或真实多日 browser smoke。
 - 任意结果漂移、inline 函数边界变化或 fixture 预期不一致都会 exit 1，先停在 PR，不进入 Sites 发布。
 
