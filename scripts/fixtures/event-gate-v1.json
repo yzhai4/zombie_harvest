@@ -1,0 +1,34 @@
+{
+  "state": {
+    "day": 4,
+    "hour": 9,
+    "minute": 30,
+    "night": false,
+    "sanity": 28,
+    "parts": 24,
+    "contentState": {
+      "meters": { "campTrust": 30 },
+      "flags": { "gate.ready": true },
+      "unlockedTech": ["water-purification"]
+    },
+    "player": { "tools": ["hammer"] },
+    "landmarks": [{ "type": "waterMill", "found": true }, { "type": "ruin", "found": false }],
+    "npcs": [
+      { "id": "carpenter", "lifeState": "active", "needs": { "stress": 12 }, "relations": { "trustToPlayer": 40 } },
+      { "id": "doctor", "lifeState": "dead", "needs": { "stress": 5 } }
+    ],
+    "relayProject": { "stage": "recovered" }
+  },
+  "cases": [
+    { "name": "day object preconditions pass", "gate": { "version": 1, "phase": "DAY", "nightAllowed": false, "preconditions": [{ "type": "landmark_exists", "id": "waterMill" }, { "type": "camp_trust", "min": 25 }, { "type": "day_between", "min": 4, "max": 10 }] }, "expected": { "ok": true, "gateVersion": 1, "phase": ["DAY"], "checked": 3 } },
+    { "name": "string tool, tech, flag and paths pass", "gate": { "version": 1, "phase": "DAY", "preconditions": ["player_tool:hammer", "tech:water-purification", "flag:gate.ready", "player.sanity <= 30", "relayProject exists", "carpenter_alive", "npc.needs.stress = 12"] }, "context": { "actorId": "carpenter" }, "expected": { "ok": true, "gateVersion": 1, "phase": ["DAY"], "checked": 7 } },
+    { "name": "night blocks day gate", "gate": { "version": 1, "phase": "DAY", "preconditions": [] }, "statePatch": { "night": true }, "expected": { "ok": false, "reason": "phase-blocked" } },
+    { "name": "nightAllowed permits day phase", "gate": { "version": 1, "phase": "DAY", "nightAllowed": true, "preconditions": [] }, "statePatch": { "night": true }, "expected": { "ok": true, "gateVersion": 1, "phase": ["DAY"], "checked": 0 } },
+    { "name": "unknown object fails closed", "gate": { "version": 1, "phase": "DAY", "preconditions": [{ "type": "future_condition", "value": true }] }, "expected": { "ok": false, "reason": "event-precondition-invalid", "gateVersion": 1, "phase": ["DAY"] } },
+    { "name": "extra object key fails closed", "gate": { "version": 1, "phase": "DAY", "preconditions": [{ "type": "flag", "id": "gate.ready", "extra": true }] }, "expected": { "ok": false, "reason": "event-precondition-invalid", "gateVersion": 1, "phase": ["DAY"] } },
+    { "name": "missing npc actor fails closed", "gate": { "version": 1, "phase": "DAY", "preconditions": ["npc.needs.stress <= 20"] }, "context": { "actorId": "missing" }, "expected": { "ok": false, "reason": "event-precondition-invalid", "gateVersion": 1, "phase": ["DAY"] } },
+    { "name": "dead npc fails alive condition", "gate": { "version": 1, "phase": "ANY", "preconditions": [{ "type": "npc_alive", "id": "doctor" }] }, "expected": { "ok": false, "reason": "event-precondition", "gateVersion": 1, "phase": ["ANY"] } },
+    { "name": "malformed phase fails closed", "gate": { "version": 1, "phase": "TWILIGHT", "preconditions": [] }, "expected": { "ok": false, "reason": "gate-phase-invalid" } },
+    { "name": "unknown path fails closed", "gate": { "version": 1, "phase": "DAY", "preconditions": ["gameOver exists"] }, "expected": { "ok": false, "reason": "event-precondition-invalid", "gateVersion": 1, "phase": ["DAY"] } }
+  ]
+}
