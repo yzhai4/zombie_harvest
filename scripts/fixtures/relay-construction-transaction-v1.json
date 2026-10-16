@@ -613,6 +613,55 @@
         "buildingStatus": "vacant",
         "eventTypes": []
       }
+    },
+    {
+      "name": "material progress cannot exceed the resource debit",
+      "outcome": {
+        "materialDelta": {
+          "wood": 2,
+          "parts": 1,
+          "stone": 0
+        },
+        "resourceDebits": {
+          "wood": 1,
+          "parts": 1,
+          "stone": 0
+        },
+        "resourceSource": "camp-stockpile:main",
+        "eventIds": [
+          "evt-tx-mismatch"
+        ]
+      },
+      "expected": {
+        "prepareOk": false,
+        "reason": "material-resource-mismatch"
+      }
+    },
+    {
+      "name": "resource source cannot be swapped after preflight",
+      "outcome": {
+        "materialDelta": {
+          "wood": 2,
+          "parts": 1,
+          "stone": 0
+        },
+        "resourceDebits": {
+          "wood": 2,
+          "parts": 1,
+          "stone": 0
+        },
+        "resourceSource": "field-cache:01",
+        "eventIds": [
+          "evt-tx-source-conflict"
+        ]
+      },
+      "context": {
+        "resourceSource": "camp-stockpile:main"
+      },
+      "expected": {
+        "prepareOk": false,
+        "reason": "resource-source-conflict"
+      }
     }
   ]
 }
