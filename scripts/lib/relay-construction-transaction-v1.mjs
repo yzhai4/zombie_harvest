@@ -157,6 +157,13 @@ function buildingTransition(before, after, snapshot) {
   return { ok: true, value: building };
 }
 
+function validateMaterialDebitParity(materialDelta, resourceDebits, snapshot) {
+  const mismatches = RELAY_MATERIAL_KEYS.filter(key => Number(materialDelta[key] || 0) !== Number(resourceDebits[key] || 0));
+  return mismatches.length
+    ? failure('material-resource-mismatch', { mismatches, materialDelta: clone(materialDelta), resourceDebits: clone(resourceDebits) }, snapshot)
+    : { ok: true };
+}
+
 function transactionIdFor(command) {
   return 'relay-tx-' + command.commandId;
 }
@@ -248,6 +255,12 @@ export function prepareRelayConstructionTransaction(rawSnapshot, command, outcom
   if (typeof command?.commandId === 'string' && snapshot.instance.appliedCommandIds.includes(command.commandId)) {
     return noOpPrepared(snapshot, command);
   }
+  const materialResult = materialMap(outcome?.materialDelta || { wood: 0, parts: 0, stone: 0 }, 'material-delta');
+  if (!materialResult.ok) return { ...materialResult, snapshot: clone(snapshot) };
+  const debitResult = materialMap(outcome?.resourceDebits || { wood: 0, parts: 0, stone: 0 }, 'resource-debits');
+  if (!debitResult.ok) return { ...debitResult, snapshot: clone(snapshot) };
+  const parity = validateMaterialDebitParity(materialResult.value, debitResult.value, snapshot);
+  if (!parity.ok) return parity;
   const participantPatchResult = normalizeParticipantPatch(outcome?.participantPatch, snapshot.instance.assignedNpcIds);
   if (!participantPatchResult.ok) return { ...participantPatchResult, snapshot: clone(snapshot) };
   const activeIds = activeParticipantIds(snapshot.participants);
@@ -264,8 +277,6 @@ export function prepareRelayConstructionTransaction(rawSnapshot, command, outcom
   if (!preview.ok) return { ...preview, snapshot: clone(snapshot) };
   const buildingResult = buildingTransition(snapshot.instance, preview.instance, snapshot);
   if (!buildingResult.ok) return buildingResult;
-  const debitResult = materialMap(outcome?.resourceDebits || { wood: 0, parts: 0, stone: 0 }, 'resource-debits');
-  if (!debitResult.ok) return { ...debitResult, snapshot: clone(snapshot) };
   const inventoryAfter = clone(snapshot.inventory);
   RELAY_MATERIAL_KEYS.forEach(key => {
     inventoryAfter[key] = Math.max(0, inventoryAfter[key] - debitResult.value[key]);
