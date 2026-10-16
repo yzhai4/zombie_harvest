@@ -98,3 +98,7 @@ Colab T4 只作为可恢复的批量实验 worker；稳定线上服务、常驻 
 - 已验证：权威 dist hash `f018d6639d415426960add45220389535aa4010d58c1c631a055b8da62461f71`；CI #217 的 source-daytime-combat 24/24、GateV1 7/7、完整 parity 11/11、内容链 54/54、static smoke 55/55。
 - 仍未完成：relay 的施工/上线 Choice resolver、完整内容 EventInstance/CAS/EventEffect 事务、浏览器多日回归和 Sites 发布。
 - 下一步：把施工节点独立建成正式 ContentChain，先固定状态迁移、效果回滚、幂等和六视角验收，再考虑 UI/LLM 入口。
+
+## 2026-10-16 relay construction shadow checkpoint
+
+The current v82 slice has three distinct levels: daytime mutual damage and relay handoff CAS are runtime-wired; watermill GateV1 is a content-entry migration; RelayConstructionV1 is shadow-only. The shadow contract passed 11/11 in CI #231 and is deliberately not called by the browser reducer. The next gate is a real producer plus transactional runtime adapter, followed by save/reload and browser fixtures; no construction choice metadata is promoted to a live Gate until that path exists.
