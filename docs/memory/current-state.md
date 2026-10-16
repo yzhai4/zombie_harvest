@@ -235,3 +235,9 @@ npc.sanity、npc.sanity-player 和 relay-chain-001 已标记 GateV1。动态玩�
 远端开发分支最新提交为 `066db817a446675d9ea0494ca366895d6198a75b`，其中 dist 运行时提交已为 handoff 命令加入四元 CAS token。权威 `dist/index.html` SHA-256 为 `f018d6639d415426960add45220389535aa4010d58c1c631a055b8da62461f71`。CI #217 / run `38903415431` / job `116980964278` 通过：source-daytime-combat 24、EventGateV1 shadow 7、完整结果与只读状态 parity 11、content-chain 54、static smoke 55；Playwright 仍不可用。
 
 CAS 只包住 `handoffRelayCore`，并把 stale instance/definition/version/event 映射到统一拒绝 receipt；现有长官存活、距离、特殊物品和状态 reducer 语义保留。relay 的 `recover/stage/online` 仍由自治 reducer 驱动，不能把剧本卡上的未接线路径当成 Choice 已接线。
+
+## 2026-10-16 relay handoff UI token and construction shadow checkpoint
+
+The live relay handoff context action now renders and returns the four observed CAS fields: instance, definition, definition version and latest relay event. Missing DOM fields normalize to null and fail closed before Gate or reducer work. CI #225 (run 38906128691) covered the producer/adapter and stale-event path in daytime combat 26/26; the post-QA documentation run #227 was also green. The authoritative runtime source hash for this UI slice is 1a5430620715363611914ad567f8b076253fbaa42bc200a10a93daf1bd53d463.
+
+The next construction boundary is frozen as a shadow-only RelayConstructionV1 contract. Its 11/11 fixtures cover briefed→staging→building→online, four-part CAS, participant and inventory prechecks, idempotent command replay, atomic failure, explicit event receipts and save→reload token stability. CI #231 (run 38907145402) passed the shadow step and all existing lanes. The browser path still uses advanceReducer → updateRelayProject directly; no construction EventInstance/ContentChain runtime claim or Sites deployment follows from the shadow result. The six-view audit is recorded in docs/qa/six-view-relay-construction-20261016.md.
