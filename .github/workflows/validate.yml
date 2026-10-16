@@ -37,6 +37,7 @@ jobs:
           node --check scripts/check-leader-command-bridge-runtime.mjs
           node --check scripts/check-daytime-combat.mjs
           node --check scripts/check-combat-intent-v1.mjs
+          node --check scripts/lib/combat-intent-v1.mjs
       - name: Check deployable entrypoints
         run: |
           test -s dist/index.html
