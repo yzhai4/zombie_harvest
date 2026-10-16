@@ -33,3 +33,7 @@
 GateV1 的 inline/shadow 共享夹具 parity 已在 CI #210 通过 11/11，但这不覆盖任意畸形状态容器；`contentState.unlockedTech` 等异常形状仍需单独决定 fail-closed 合同。水车的效果事务仍是旧 content-effect DSL，尚未证明内容链 EventInstance/CAS 或 EventEffect 全量迁移。
 
 relay-chain-001 的 `recover/stage/online` 由地标/自治 reducer 驱动，EventDef choices 只是元数据；若直接添加 choice.requires 会产生未执行门控。handoff 仍把状态、特殊物品、岗位/距离和 CommandBus 校验放在 reducer/validate，下一步需先建立显式 expected instance/definition/version/event 的 CAS adapter。生产 Sites v81 未改，浏览器多日回归仍未获得。
+
+## relay handoff CAS 更新（2026-10-16）
+
+handoff 的四元 CAS 已有 source VM 24/24 证据，正常交接与 stale 拒绝均通过；风险收敛到 CAS token 的 UI/LLM 传递、跨存档恢复后的 relay event identity，以及施工/上线自治阶段尚无正式 EventInstance/CAS 事务。下一轮需要真实 ContentChain 节点、效果回滚、重复命令和保存迁移夹具，不能把当前 handoff 证据扩大为完整中继链完成。
