@@ -37,3 +37,7 @@ CommandBus 或 Sites 调用；因此本报告不能证明浏览器施工、正�
 下一步在真实命令生产者审计后，再把 adapter 收敛到 runtime reducer；在此
 之前不把 shadow 13/13 扩大为线上或浏览器验收。
 
+
+## 运行时切片更新（2026-10-16）
+
+原 shadow-only 结论已细化为：只有 `worldMeta.flags.relayConstructionTransactionV1 === true` 时，`briefed → staging` 走真实事务 adapter；默认关闭仍保持旧路径。该切片不等于完整 construction/online migration，也不提供 Sites 或浏览器自然玩法证据。

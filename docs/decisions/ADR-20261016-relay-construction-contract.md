@@ -56,3 +56,23 @@ rollback，以及 materialDelta/resourceDebits 不一致和 resourceSource 冲�
 账本、save→reload token、终态 stationOnline 单次约束，以及与同一 `world.advance` 中
 CombatIntent 的确定顺序。
 
+## Runtime stage adapter checkpoint（2026-10-16）
+
+本轮把合同推进到一个可回放的最小运行时切片，但只开放 `briefed → staging`：
+
+- 入口仍是 `world.advance → CommandBus → advanceReducer → updateRelayProject`；
+  只有 `state.worldMeta.flags.relayConstructionTransactionV1 === true` 且项目为
+  `briefed` 时，才生成一个 `relay.projectAdvance` 子命令并调用 adapter。默认世界
+  没有该 flag，因此旧 reducer 结果保持 source-of-truth。
+- 子命令通过既有 CommandBus 写入 `seenCommands` 与 `worldMeta.replay.commands`；
+  重复 command 在 reducer 前返回 duplicate，不再写施工事实。
+- adapter 在 CAS、昼间、岗位存活/在营、占位冲突预检通过后，原子写入项目 token、
+  NPC 工作片段和真实 `relay.constructionStarted` EventLedger 事件。没有通过预检时
+  不创建 station、不扣库存、不改施工状态；失败命令仍保留 replay/rejection 证据。
+- 无既有 station 时只在成功提交后创建 `virtual` 占位的实际建筑；材料扣除、资源
+  来源账本、`building → online`、standing/forecast 奖励和 SAVE schema 迁移仍留在
+  后续闸门，不能把本切片称为完整施工迁移。
+
+因此该 ADR 的运行时结论是 **feature-gated stage-only**；关闭 flag 与旧路径兼容，
+不改变 Sites v81，也不代表浏览器自然多日验收。
+

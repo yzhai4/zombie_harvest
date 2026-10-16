@@ -5628,6 +5628,143 @@
       if (gained) project.materialProgress[kind] = Math.min(need, current + gained);
       return gained;
     }
+    // RelayConstructionTransactionV1 runtime bridge. Deliberately opt-in: the
+    // default world.advance path remains the legacy reducer until the full
+    // construction migration (resources, standing, online, SAVE) is complete.
+    const RELAY_TX_RUNTIME_SCHEMA = 'RelayConstructionTransactionV1';
+    const RELAY_TX_RUNTIME_VERSION = 1;
+    const RELAY_TX_RUNTIME_MATERIAL_KEYS = Object.freeze(['wood', 'parts', 'stone']);
+    const RELAY_TX_RUNTIME_CONSTRUCTION_STATUSES = Object.freeze(['briefed', 'staging', 'building']);
+    function relayConstructionRuntimeEnabled() {
+      return state.worldMeta?.flags?.relayConstructionTransactionV1 === true;
+    }
+    function relayConstructionRuntimeClone(value) {
+      return value === undefined ? undefined : JSON.parse(JSON.stringify(value));
+    }
+    function relayConstructionRuntimeToken(instance = {}) {
+      return {
+        expectedInstanceId: instance.instanceId ?? null,
+        expectedDefId: instance.defId || 'relay-chain-001',
+        expectedDefinitionVersion: Number(instance.definitionVersion) || EVENT_DEFINITION_VERSION,
+        expectedEventId: instance.latestEventId ?? null
+      };
+    }
+    function relayConstructionRuntimeFailure(reason, details = {}, snapshot) {
+      return { ok: false, reason, ...(Object.keys(details).length ? { details: relayConstructionRuntimeClone(details) } : {}), ...(snapshot === undefined ? {} : { snapshot: relayConstructionRuntimeClone(snapshot) }) };
+    }
+    function relayConstructionRuntimeParticipants(project) {
+      return (project.assignedNpcIds || []).map(roleId => state.npcs.find(npc => npcIsActive(npc) && npcHasRole(npc, roleId)) || null);
+    }
+    function relayConstructionRuntimeSnapshot() {
+      ensureRelayFacts();
+      const project = state.relayProject || {};
+      const definition = eventDefinition('relay-chain-001');
+      const latestEventId = relayLatestEventId(project.id || 'camp-relay-001') || project.latestEventId || null;
+      const station = relayStationBuilding();
+      const participants = relayConstructionRuntimeParticipants(project);
+      return {
+        schema: RELAY_TX_RUNTIME_SCHEMA,
+        version: RELAY_TX_RUNTIME_VERSION,
+        instance: {
+          schema: 'RelayConstructionV1', version: 1,
+          instanceId: project.id || 'camp-relay-001', defId: 'relay-chain-001',
+          definitionVersion: Number(definition?.definitionVersion) || EVENT_DEFINITION_VERSION,
+          status: project.status, phase: project.status === 'briefed' ? 'staging' : project.status,
+          coreItemId: project.coreItemId ?? null, handoffAt: project.handoffAt ?? null,
+          materialNeed: relayConstructionRuntimeClone(project.materialNeed || { wood: 10, parts: 5, stone: 4 }),
+          materialProgress: relayConstructionRuntimeClone(project.materialProgress || { wood: 0, parts: 0, stone: 0 }),
+          materialClock: Number(project.materialClock) || 0, workMinutes: Number(project.workMinutes) || 0,
+          targetMinutes: Math.max(30, Number(project.targetMinutes) || 180), buildingId: project.buildingId || 'bld-relay-station',
+          assignedNpcIds: [...(project.assignedNpcIds || [])], latestEventId,
+          appliedCommandIds: [...(project.appliedCommandIds || [])], history: relayConstructionRuntimeClone(project.history || [])
+        },
+        inventory: Object.fromEntries(RELAY_TX_RUNTIME_MATERIAL_KEYS.map(key => [key, Math.max(0, Number(state[key]) || 0)])),
+        building: station ? {
+          ...relayConstructionRuntimeClone(station), id: project.buildingId || station.id,
+          status: station.projectStatus || (station.active ? 'online' : 'vacant'), occupiedBy: station.occupiedBy ?? null,
+          virtual: false
+        } : { id: project.buildingId || 'bld-relay-station', status: 'vacant', occupiedBy: null, virtual: true },
+        participants: (project.assignedNpcIds || []).map(roleId => {
+          const npc = participants.find(item => item && npcHasRole(item, roleId));
+          return npc ? { id: roleId, npcId: npc.id, alive: npcIsActive(npc), active: npcIsActive(npc), scheduleState: npc.scheduleState || null, behaviorState: npc.behaviorState || null, lastReport: npc.lastReport || '' } : { id: roleId, npcId: null, alive: false, active: false, scheduleState: null, behaviorState: null, lastReport: '' };
+        })
+      };
+    }
+    function relayConstructionRuntimeBuildCommand(minutes = 0, options = {}) {
+      const snapshot = relayConstructionRuntimeSnapshot();
+      const token = relayConstructionRuntimeToken(snapshot.instance);
+      const sequence = Math.max(0, Number(state.worldMeta?.relayConstructionSeq) || 0) + 1;
+      const parentCommandId = state.worldMeta?.activeCommandId || options.parentCommandId || 'world-advance';
+      const commandId = options.commandId || `relay-tx-${parentCommandId}-${sequence}`;
+      const expected = {
+        expectedInstanceId: options.expectedInstanceId === undefined ? token.expectedInstanceId : options.expectedInstanceId,
+        expectedDefId: options.expectedDefId === undefined ? token.expectedDefId : options.expectedDefId,
+        expectedDefinitionVersion: options.expectedDefinitionVersion === undefined ? token.expectedDefinitionVersion : Number(options.expectedDefinitionVersion),
+        expectedEventId: options.expectedEventId === undefined ? token.expectedEventId : options.expectedEventId
+      };
+      return {
+        type: 'relay.projectAdvance', commandId, actorId: options.actorId || 'camp-autonomy',
+        causationId: state.worldMeta?.activeCommandId || options.causationId || null,
+        payload: { projectId: snapshot.instance.instanceId, minutes: Math.max(0, Number(minutes) || 0), ...expected }
+      };
+    }
+    function relayConstructionRuntimeAdapter(command) {
+      const before = relayConstructionRuntimeSnapshot();
+      const instance = before.instance;
+      if (typeof command?.commandId !== 'string' || !command.commandId.trim()) return relayConstructionRuntimeFailure('command-id-invalid', {}, before);
+      if (instance.appliedCommandIds.includes(command.commandId)) return { ok: true, duplicate: true, schema: RELAY_TX_RUNTIME_SCHEMA, version: RELAY_TX_RUNTIME_VERSION, transactionId: `relay-tx-${command.commandId}`, commandId: command.commandId, tokenBefore: relayConstructionRuntimeToken(instance), tokenAfter: relayConstructionRuntimeToken(instance), eventIds: [], snapshot: before };
+      if (command.type !== 'relay.projectAdvance') return relayConstructionRuntimeFailure('command-type-invalid', { expected: 'relay.projectAdvance', actual: command?.type }, before);
+      const payload = command.payload;
+      if (!payload || typeof payload !== 'object' || Array.isArray(payload)) return relayConstructionRuntimeFailure('command-payload-invalid', {}, before);
+      const token = relayConstructionRuntimeToken(instance);
+      for (const key of Object.keys(token)) {
+        const actual = key === 'expectedDefinitionVersion' ? Number(payload[key]) : (payload[key] ?? null);
+        const expected = key === 'expectedDefinitionVersion' ? Number(token[key]) : (token[key] ?? null);
+        if (actual !== expected) return relayConstructionRuntimeFailure(({ expectedInstanceId: 'event-instance-conflict', expectedDefId: 'event-definition-conflict', expectedDefinitionVersion: 'event-definition-version-conflict', expectedEventId: 'event-state-conflict' })[key], { expected, actual }, before);
+      }
+      if (payload.projectId !== undefined && payload.projectId !== instance.instanceId) return relayConstructionRuntimeFailure('event-instance-conflict', { expected: instance.instanceId, actual: payload.projectId }, before);
+      if (state.gameOver) return relayConstructionRuntimeFailure('game-over', {}, before);
+      if (state.night || SessionController.mode === 'BATTLE') return relayConstructionRuntimeFailure('night-lock', {}, before);
+      if (!RELAY_TX_RUNTIME_CONSTRUCTION_STATUSES.includes(instance.status)) return relayConstructionRuntimeFailure(instance.status === 'online' ? 'construction-complete' : 'construction-not-ready', { status: instance.status }, before);
+      const minutes = Number(payload.minutes);
+      if (!Number.isFinite(minutes) || minutes < 0 || minutes > 1440) return relayConstructionRuntimeFailure('minutes-invalid', { minutes }, before);
+      const missing = before.participants.filter(item => item.active !== true || item.alive !== true).map(item => item.id);
+      if (missing.length) return relayConstructionRuntimeFailure('participant-unavailable', { missing }, before);
+      const building = before.building;
+      if (building.occupiedBy !== null && building.occupiedBy !== instance.instanceId) return relayConstructionRuntimeFailure('building-occupied', { occupiedBy: building.occupiedBy, projectId: instance.instanceId }, before);
+      // This slice owns only briefed -> staging. Materials, work, online and
+      // standing remain on the legacy source-of-truth until later gates.
+      if (instance.status !== 'briefed') return relayConstructionRuntimeFailure('stage-only-status', { status: instance.status }, before);
+      const project = state.relayProject;
+      const previous = {
+        project: relayConstructionRuntimeClone(project), building: relayConstructionRuntimeClone(building),
+        npcs: relayConstructionRuntimeClone(state.npcs), events: relayConstructionRuntimeClone(state.worldMeta.events),
+        eventSeq: state.worldMeta.eventSeq, lastEventId: state.worldMeta.lastEventId,
+        quests: relayConstructionRuntimeClone(state.quests), sequence: state.worldMeta.relayConstructionSeq
+      };
+      try {
+        const nextSequence = Math.max(0, Number(state.worldMeta.relayConstructionSeq) || 0) + 1;
+        const event = recordWorldEvent('relay.constructionStarted', { projectId: instance.instanceId, assignedNpcIds: [...instance.assignedNpcIds], materialNeed: relayConstructionRuntimeClone(instance.materialNeed), transactionId: `relay-tx-${command.commandId}`, schema: RELAY_TX_RUNTIME_SCHEMA, commandId: command.commandId }, relayEventMeta('stage', command.actorId || 'camp-autonomy'));
+        project.status = 'staging'; project.latestEventId = event.eventId; project.appliedCommandIds = [...(project.appliedCommandIds || []), command.commandId].slice(-200); project.history = [...(project.history || []), { commandId: command.commandId, statusBefore: 'briefed', statusAfter: 'staging', eventIds: [event.eventId], resourceSource: null, transactionId: `relay-tx-${command.commandId}` }].slice(-100); project.lastBlockedReason = null;
+        const station = relayStationBuilding();
+        if (station) { station.occupiedBy = instance.instanceId; station.projectStatus = 'staging'; station.active = false; station.relayEnabled = false; }
+        else state.buildings.push({ id: instance.buildingId, x: 12, y: 0, type: 'relayStation', w: 2, h: 2, hp: 8, active: false, relayEnabled: false, projectStatus: 'staging', occupiedBy: instance.instanceId });
+        state.worldMeta.relayConstructionSeq = nextSequence;
+        const participantByRole = new Map(before.participants.map(item => [item.id, item.npcId]));
+        before.participants.forEach(item => { const npc = state.npcs.find(candidate => candidate.id === participantByRole.get(item.id)); if (npc) { npc.scheduleState = '中继筹料'; npc.behaviorState = 'work'; npc.lastReport = '正在为广播中继站筹料'; npc.workSegmentId = `relay-staging-${command.commandId}`; npc.workMinutes = 0; } });
+        return { ok: true, duplicate: false, schema: RELAY_TX_RUNTIME_SCHEMA, version: RELAY_TX_RUNTIME_VERSION, transactionId: `relay-tx-${command.commandId}`, commandId: command.commandId, statusBefore: 'briefed', statusAfter: 'staging', tokenBefore: token, tokenAfter: relayConstructionRuntimeToken({ ...instance, status: 'staging', latestEventId: event.eventId }), eventIds: [event.eventId], causationId: command.causationId || state.worldMeta.activeCommandId || null, snapshot: relayConstructionRuntimeSnapshot(), receipt: { schema: RELAY_TX_RUNTIME_SCHEMA, version: RELAY_TX_RUNTIME_VERSION, transactionId: `relay-tx-${command.commandId}`, commandId: command.commandId, duplicate: false, statusBefore: 'briefed', statusAfter: 'staging', tokenBefore: token, tokenAfter: relayConstructionRuntimeToken({ ...instance, status: 'staging', latestEventId: event.eventId }), eventIds: [event.eventId], participantIds: [...instance.assignedNpcIds], virtualOccupancy: !building || building.virtual === true } };
+      } catch (error) {
+        state.relayProject = previous.project; state.worldMeta.events = previous.events; state.worldMeta.eventSeq = previous.eventSeq; state.worldMeta.lastEventId = previous.lastEventId; state.quests = previous.quests; state.worldMeta.relayConstructionSeq = previous.sequence;
+        state.npcs.splice(0, state.npcs.length, ...previous.npcs);
+        if (building.virtual) state.buildings = state.buildings.filter(item => item.id !== instance.buildingId); else if (previous.building) { const live = state.buildings.find(item => item.id === previous.building.id); if (live) Object.assign(live, previous.building); }
+        return relayConstructionRuntimeFailure('transition-failed', { message: String(error?.message || error) }, before);
+      }
+    }
+    function relayConstructionRuntimeAdvance(minutes = 0, options = {}) {
+      const command = options.command || relayConstructionRuntimeBuildCommand(minutes, options);
+      return dispatchCommand(command, current => relayConstructionRuntimeAdapter(current), { eventType: 'relay.transaction.applied', checkpoint: false });
+    }
+
     function relayHandoffReducer() {
       if (!guardNightAction()) return nightActionResult();
       const gate = relayEventGate('handoff', 'player-1');
@@ -5697,6 +5834,14 @@
     function updateRelayProject(minutes = 0) {
       ensureRelayFacts();
       const project = state.relayProject;
+      if (relayConstructionRuntimeEnabled() && project.status === 'briefed') {
+        const transaction = relayConstructionRuntimeAdvance(minutes);
+        if (transaction.ok && !transaction.duplicate) {
+          log('广播员、木匠和后勤官开始为广播中继站筹料。');
+          updateRelayForecast();
+        }
+        return transaction;
+      }
       if (project.status === 'unknown' || project.status === 'core-recovered' || project.status === 'online') { updateRelayForecast(); return; }
       const participants = relayActiveParticipants();
       const allPresent = project.assignedNpcIds.every(id => participants.some(npc => npcHasRole(npc, id)));

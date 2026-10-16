@@ -51,3 +51,13 @@ Resource provenance and terminal re-entry are now frozen in RelayConstructionV1 
 
 CI #253 / run `38912989111` 通过事务 shadow 11/11。当前已冻结跨对象纯值补丁的最小边界：CAS/participant/resource/occupancy 预检，inventory/building/NPC snapshot 原子结果，transaction/resource provenance，prepare 后快照冲突，重复 command 和纯回滚。
 未关闭风险仍是生产路径由 `advanceReducer → updateRelayProject` 直接写多对象；shadow 没有真实 CommandBus producer、EventLedger、SAVE21 迁移、standing/forecast、同 tick CombatIntent 或 browser fixture。不得把 11/11 当作运行时接线或自然试玩证据。
+
+## RelayConstructionTransactionV1 runtime stage checkpoint（2026-10-16）
+
+生产路径首次有真实但 opt-in 的 stage adapter，风险边界收窄为：
+
+- 默认关闭兼容性必须持续由 VM/CI digest 守护；任何默认开启都视为回归。
+- 当前 adapter 只覆盖 `briefed → staging`，不负责材料/资源来源、`building → online`、standing/forecast 或完整 SAVE migration。
+- child command 已进入 CommandBus replay/idempotency；需持续验证重放、旧存档 token 和事件 ledger 截断策略。
+- station occupancy 仅在成功提交后写入；未来资源/建筑/同 tick CombatIntent 接线不得破坏这个原子边界。
+- browser/Sites 证据仍缺失，不能把 Node VM 八项通过当作线上发布或自然多日玩法证明。

@@ -170,3 +170,9 @@ The construction boundary now includes stable `resourceSource` receipts and a on
 
 producer trace 之后，RelayConstructionTransactionV1 先以纯值形式固定跨对象事务边界。CI #253 的 11/11 覆盖 prepare/apply/receipt/rollback、资源与材料一致性、建筑占位、NPC participant snapshot、重复命令和终态单次语义。
 这一步为后续 GameCore/reducer 接线提供可回放的输入输出合同，但不改变 `dist/index.html`、SAVE21/CONTENT3 或 Sites v81。下一步必须先把真实 producer 接入统一 CommandBus，再补 EventLedger、SAVE 迁移、同 tick 战斗顺序和 browser save/reload fixture；在此之前不把 relay choices 的元数据当成已执行 Gate。
+
+### v82 relay runtime stage checkpoint
+
+已完成一轮最小真实接线：`world.advance` 在 opt-in flag 下生成 `RelayConstructionTransactionV1` stage child，CAS、岗位预检、replay/idempotency、成功后 station occupancy 与 save/reload token 均有八项 VM 夹具。flag-off 与旧路径保持等价，EventDef 的两个 `relay.projectAdvance` metadata choice 断言仍保留。
+
+本轮不迁移资源/材料、building/online、standing/forecast、完整 SAVE schema 或 Sites v81。下一闸门是把资源来源账本与 building→online 事务接上，再做同 tick CombatIntent、旧存档迁移和浏览器 save/reload fixture。

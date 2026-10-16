@@ -46,3 +46,7 @@
 
 这是事务 shadow contract，不是运行时施工迁移。当前明确保持 `constructionCommandProducer:false`、`productionWiring:false`、`naturalGameplay:false`；没有生产 leader-LLM relay producer，也没有自然多日浏览器试玩证据。
 下一闸门是沿真实 `world.advance` producer 接入 transaction reducer adapter，并补 EventLedger、SAVE 迁移、standing/forecast、同 tick CombatIntent 顺序以及 browser save/reload fixtures；通过前不得把 relay metadata choice 宣称为已执行 Gate。
+
+## Runtime stage adapter boundary（2026-10-16）
+
+本 shadow contract 已有一个受 flag 保护的真实 stage consumer：`briefed → staging` 通过 `world.advance` 生成 child command，并进入 CommandBus replay/idempotency。纯值 wrapper 的其余声明仍未扩大：材料/资源 debit、building→online、standing/forecast、完整 EventLedger migration、SAVE schema 和 browser 仍是后续闸门。

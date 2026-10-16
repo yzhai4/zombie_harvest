@@ -112,3 +112,10 @@ RelayConstructionV1 is frozen at 13/13: four-part CAS, participant and resource 
 
 RelayConstructionTransactionV1 已在开发分支以 shadow adapter 形式落地，CI #253 通过 11/11。它验证了 relay instance 与 inventory、building occupancy、NPC participant snapshot 的原子 prepare/apply/rollback 结果，并拒绝材料/扣除不一致、资源来源替换、占位冲突和快照竞态。
 状态仍是 shadow-only：生产链仍为 `world.advance → advanceReducer → updateRelayProject`，没有施工 CommandBus producer、EventLedger、SAVE21 迁移或 Sites 发布。下一闸门是把该 wrapper 接入一个真实 reducer adapter，并用同 tick CombatIntent、存档迁移和 browser save/reload 夹具验证；在完成前不添加未执行的 choice Gate。
+
+## 2026-10-16 relay runtime stage adapter checkpoint
+
+- 已完成：真实 `world.advance → updateRelayProject` 的 feature-gated `briefed → staging` adapter；child command 进入 replay/idempotency，四元 CAS、岗位缺失/stale 拒绝、成功后 station occupancy 与 SAVE token round-trip 均由八项 VM checks 守护。
+- 已保持：flag-off 旧路径、两个 EventDef `relay.projectAdvance` metadata count、同 tick relay→zombie→combat 顺序；Sites v81 不变。
+- 未完成：材料/资源来源与扣除、building→online、standing/forecast、完整 SAVE migration、browser natural multi-day evidence。
+- 下一闸门：先接资源 ledger + online terminal transaction，再补六视角 browser save/reload 与战斗顺序 fixture。

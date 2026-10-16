@@ -37,3 +37,13 @@ startWorldSimulation daytime interval
 ## 下一闸门
 
 下一轮先把 `world.advance` 的真实 producer 与纯 construction step 接到一个显式事务 adapter：读取四元 token，预检岗位/占位/资源来源，统一回滚并写 receipt/replay；再补 SAVE 迁移、死亡/替代岗位、同 tick CombatIntent 顺序和浏览器夹具。完成前不改 Sites、不宣称施工已迁移或自然多日验收已通过。
+
+## Runtime stage adapter correction（2026-10-16）
+
+上一段报告的 `constructionCommandProducer:false` 结论只适用于 shadow checkpoint，已由本轮真实 producer slice supersede。当前 checker 语义为：
+
+- `constructionCommandProducer:true`，模式为 `feature-gated-stage-only`；只有 flag true 且 `briefed` 时生成一个 `relay.projectAdvance` child。
+- `registryChoiceMetadataOnly:true` 仍成立：EventDef 的 stage/online 两个 `commandType` 仍是声明性 metadata，不代表 online 已接线。
+- `productionWiring:'opt-in-stage-only'`；默认 flag false，旧路径保持兼容，`naturalGameplay:false` 和 `migrationRequired:true` 仍成立。
+
+本段不覆盖材料/online/standing/forecast、完整 SAVE migration、browser 或 Sites v81。

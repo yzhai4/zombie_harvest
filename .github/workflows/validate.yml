@@ -46,6 +46,7 @@ jobs:
           node --check scripts/check-relay-construction-producer.mjs
           node --check scripts/lib/relay-construction-transaction-v1.mjs
           node --check scripts/check-relay-construction-transaction-v1.mjs
+          node --check scripts/check-relay-construction-runtime.mjs
       - name: Check deployable entrypoints
         run: |
           test -s dist/index.html
@@ -94,6 +95,8 @@ jobs:
         run: node scripts/check-relay-construction-producer.mjs
       - name: Execute RelayConstructionV1 pure transaction contract
         run: node scripts/check-relay-construction-transaction-v1.mjs
+      - name: Execute RelayConstructionTransactionV1 runtime stage contract
+        run: node scripts/check-relay-construction-runtime.mjs
       - name: Verify save projections and static smoke
         run: |
           node scripts/replay-harness.mjs --self-test

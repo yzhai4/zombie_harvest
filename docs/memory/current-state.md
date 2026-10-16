@@ -255,3 +255,11 @@ The relay construction shadow contract now has 13/13 fixtures on runtime parent 
 该层只对可序列化的 relay instance、inventory、building occupancy、assigned NPC participant snapshot 生成原子补丁；它没有写入 `dist/index.html`，没有接入 `updateRelayProject`、CommandBus、EventLedger、standing、forecast、SAVE21 迁移或 Sites。
 权威运行时源码 hash 仍为 `1a5430620715363611914ad567f8b076253fbaa42bc200a10a93daf1bd53d463`；producer trace 仍为 9/9，且明确 `constructionCommandProducer:false`、`productionWiring:false`、`naturalGameplay:false`。
 浏览器 Playwright 仍不可用，因此本 checkpoint 只代表 Node/CI shadow evidence，不代表自然多日试玩或线上发布。
+
+## RelayConstructionTransactionV1 runtime stage checkpoint（2026-10-16）
+
+本轮把 `world.advance → advanceReducer → updateRelayProject` 接到一个严格 feature-gated 的 `RelayConstructionTransactionV1` stage adapter。flag 为 `state.worldMeta.flags.relayConstructionTransactionV1 === true` 且项目状态为 `briefed` 时才生成 `relay.projectAdvance` child；默认 flag 缺失/false，所以旧 staging/building/online reducer 仍是 source-of-truth。
+
+成功路径通过既有 CommandBus 写入 `seenCommands` 与 `worldMeta.replay.commands`，写入真实 `relay.constructionStarted` ledger ID，更新四元 token、NPC 工作片段，并在所有预检完成后才创建 relay station occupancy。缺岗、stale token、占位冲突和重复 child 均不改变 relay 跨对象快照；失败 child 仍保留 rejection/replay 证据。材料、online、standing/forecast 与 SAVE schema 迁移仍未迁移。
+
+提交内置八项 VM checks（flag-off compatibility、success exactly once、missing worker、stale token、duplicate child、virtual occupancy、save/reload token、same-tick order），并保留 EventDef 两个 `commandType: relay.projectAdvance` 元数据断言。当前证据仅限源 hash/Node VM/CI；不代表 Sites v81 或浏览器自然多日验收。

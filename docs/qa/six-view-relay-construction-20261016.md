@@ -106,3 +106,7 @@ CI #253（run `38912989111`）的 RelayConstructionTransactionV1 runner 通过 1
 | 全局事件链 | transactionId、commandId、四元 token 和事件 provenance 可回放 | EventLedger/CommandBus/Choice resolver 的生产接线 |
 
 因此本轮仍保持 `constructionCommandProducer:false`、`productionWiring:false`、`naturalGameplay:false`；事务 wrapper 是 shadow contract，不是施工迁移完成。
+
+## Runtime stage adapter update（2026-10-16）
+
+本轮只把全局链的 `briefed → staging` 接入 feature-gated adapter；六视角的剩余边界仍有效。玩家/NPC/营地现在有真实 CAS、岗位预检和成功后占位证据，势力、敌人、online、资源来源和浏览器证据仍未迁移。flag 缺失或 false 时继续使用旧 reducer，Sites v81 不变。

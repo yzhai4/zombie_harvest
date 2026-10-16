@@ -4,9 +4,10 @@
  *
  * This is an architectural boundary check: it executes against the exact inline
  * source bytes, proves the current world.advance -> advanceReducer ->
- * updateRelayProject path, and records that relay.projectAdvance is still only
- * declarative metadata. It must fail if a future edit silently changes the
- * producer order or turns metadata into an untested route.
+ * updateRelayProject path, and records that the stage-only relay.projectAdvance
+ * producer is explicitly feature gated. It must fail if a future edit silently
+ * changes the producer order, removes the default-off gate, or breaks the
+ * declarative EventDef metadata contract.
  */
 import assert from 'node:assert/strict';
 import { readSourceTarget } from './runtime-source-target.mjs';
@@ -75,15 +76,17 @@ check('construction reducer emits the three relay construction facts', () => {
   assert.match(constructionBody, /relay\.materialsCommitted/);
   assert.match(constructionBody, /relay\.stationOnline/);
 });
-check('construction reducer has no nested CommandBus producer yet', () => {
-  assert.doesNotMatch(constructionBody, /dispatchCommand\(/);
+check('construction reducer has only an opt-in stage adapter producer', () => {
+  assert.match(constructionBody, /relayConstructionRuntimeEnabled\(\)/);
+  assert.match(constructionBody, /relayConstructionRuntimeAdvance\(minutes\)/);
+  assert.match(inline, /state\.worldMeta\?\.flags\?\.relayConstructionTransactionV1 === true/);
 });
-check('relay.projectAdvance appears only as declarative choice metadata', () => {
-  const matches = inline.match(/relay\.projectAdvance/g) || [];
-  assert.equal(matches.length, 2, 'stage and online metadata choices are expected');
+check('relay.projectAdvance keeps EventDef metadata and has one gated runtime child command', () => {
+  const metadataMatches = relayDefinition.match(/commandType: 'relay\.projectAdvance'/g) || [];
+  assert.equal(metadataMatches.length, 2, 'stage and online metadata choices are expected');
   assert.match(relayDefinition, /id: 'stage',[\s\S]*commandType: 'relay\.projectAdvance'/);
   assert.match(relayDefinition, /id: 'online',[\s\S]*commandType: 'relay\.projectAdvance'/);
-  assert.equal((inline.match(/type: 'relay\.projectAdvance'/g) || []).length, 0);
+  assert.equal((inline.match(/type: 'relay\.projectAdvance'/g) || []).length, 1, 'the stage adapter owns one child command literal');
 });
 check('handoff has a separate tokenized CommandBus producer', () => {
   assert.match(inline, /function relayHandoffToken\(\)/);
@@ -91,10 +94,12 @@ check('handoff has a separate tokenized CommandBus producer', () => {
   assert.match(inline, /dispatchCommand\(\{ type: 'relay\.coreHandoff'/);
   assert.match(inline, /event-state-conflict/);
 });
-check('construction state still lacks a dedicated persisted EventInstance token', () => {
+check('construction state carries a persisted transaction token ledger', () => {
   assert.match(inline, /function ensureRelayFacts\(\)/);
   assert.match(inline, /state\.relayProject = \{ \.\.\.defaults/);
-  assert.doesNotMatch(constructionBody, /expectedInstanceId/);
+  assert.match(inline, /function relayConstructionRuntimeToken\(/);
+  assert.match(inline, /latestEventId/);
+  assert.match(inline, /appliedCommandIds/);
 });
 check('construction path remains explicit about its migration boundary', () => {
   assert.match(inline, /function updateRelayProject\(minutes = 0\)/);
@@ -114,9 +119,10 @@ const report = {
   producer: {
     explicit: 'advance -> CommandBus(world.advance) -> advanceReducer -> updateRelayProject',
     automaticSource: 'startWorldSimulation daytime interval',
-    constructionCommandProducer: false,
+    constructionCommandProducer: true,
+    constructionCommandProducerMode: 'feature-gated-stage-only',
     registryChoiceMetadataOnly: true,
-    productionWiring: false,
+    productionWiring: 'opt-in-stage-only',
     naturalGameplay: false
   },
   migrationRequired: true
