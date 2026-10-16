@@ -130,3 +130,8 @@ EventLedger -> Replay / Debugger / Metrics -> Playtest / Evolution
 ## 2026-10-16 事件战斗清理收口
 
 白天战斗闭环已覆盖成功结算、排队事件切换和资源不足拒绝三条路径；resolve 只在原事件进入 terminal handled 状态后清理 sourceEventId 敌人。下一步优先消除 inline 与 Node 版 CombatIntentV1 validator 的双份实现，再推进 EventInstance 的 instance/node/version CAS；在此之前不扩大为领袖 LLM 生产接线或多日自然回归已完成。
+
+
+### v82 事件身份 CAS 补充（2026-10-16）
+
+事件链迁移先落一个窄边界：UI 与规划器必须携带 `EventInstance` 的 instance/definition/version/event 四元 token，统一 resolver 在效果前比较并拒绝陈旧命令；成功、非 terminal 拒绝和 CAS 冲突使用不同 receipt，清理只由原实例的 terminal handled 触发。当前白天源回归 17/17，覆盖成功、资源拒绝、排队激活、旧实例、版本冲突和 UI token。这个切片不等同于完整 EventDef precondition evaluator，也不改变 SAVE21/CONTENT3、Sites 或生产 LLM 接线；下一入口是把 Gate/precondition 与独立 validator 收敛到 GameCore，再做自然多日 browser。
