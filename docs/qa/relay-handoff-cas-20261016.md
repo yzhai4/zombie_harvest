@@ -21,3 +21,7 @@ CI #221（run `38903875646`，static-validation job `116982495547`）通过，�
 玩家看到可重试的冲突而不是重复奖励；NPC 长官的存活/距离仍由真实 reducer 校验；营地资源、状态和声望只在一次成功交接中改变；本轮没有新增势力关系；敌人预测仍由既有中继状态推进；全局链保留 instance/definition/version/event、command.rejected 和 replay。
 
 该 QA 不证明浏览器自然试玩、领袖 LLM 已传递 token、施工/上线自治阶段已成为 Choice resolver，也不证明完整中继链 EventEffect/CAS 迁移。Python Playwright 在当前环境不可用。
+
+## 历史基线说明（2026-10-16 后续提交）
+
+本文件保留 handoff CAS 初始接线（CI #221、源码 hash `f018d663…`）的历史证据。UI 四元 token 的当前生产者与 adapter 以 [relay-handoff-ui-token-20261016.md](./relay-handoff-ui-token-20261016.md) 为准；施工/上线阶段以 [relay-construction-v1-20261016.md](./relay-construction-v1-20261016.md) 的 13 项 shadow QA 为准。后续报告不得把本文件的旧 hash 或 24/24 计数当作当前分支验证结果。
