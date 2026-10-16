@@ -6,6 +6,8 @@
 
 `recover`、`stage`、`online` 目前分别由地标发现 reducer 与 `updateRelayProject` 自治推进，并没有经过统一 Choice resolver；“先保防线/先保中继”“公共频道/静默频道”仍是设计目标。handoff 已建立显式 EventInstance（instance/def/version/event）CAS adapter，并保留原 reducer 的岗位、距离、资源校验；下一步单独把施工/上线选择做成正式 ContentChain/EventInstance 切片。Parity、六视角矩阵和本卡的状态影响描述是设计/审计依据，不构成浏览器或线上验收证据。
 
+本轮先加入 `scripts/lib/relay-construction-v1.mjs` shadow adapter 与 11 项夹具，冻结施工的四元 CAS、`briefed → staging → building → online` 状态迁移、重复命令、缺岗/资源不足整批拒绝和 save→reload token。它不被当前 UI 或 `updateRelayProject` 调用，不能据此宣称施工已正式接入 EventInstance/ContentChain；正式接线前仍需沿真实 `world.advance` 生产者补充预检/预留、回滚和 CombatIntent 顺序。
+
 - 版本：draft-1（v79 / P1.5）
 - 设计角色：剧本设计师
 - 范围：三日竖切片；不新增真正的多势力外交实体
