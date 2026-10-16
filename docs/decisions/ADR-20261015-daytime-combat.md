@@ -80,3 +80,10 @@ DAY 的攻击只由 `SessionController.mode === 'DAY'` 且 `state.night === fals
 ## Runtime validator wiring（2026-10-16）
 
 昼间 runtime 现在在结算前构造严格的 CombatIntentV1 canonical envelope，执行 schema/version、DAY phase、引用、正整数、damageType、unknown-field 和 model/state-patch leakage 校验；非法 intent 写 rejected receipt，不改变 HP。checker 以真实 inline runtime 验证正反合同，当前白天回归 14/14。独立 Node module 与 inline validator 的代码仍需后续合并为单一可导入 GameCore 模块。
+
+
+## EventInstance identity CAS and honest resolve receipts (2026-10-16)
+
+Daily event choices now carry the displayed `instanceId`, `defId`, `definitionVersion`, and event ID into the `event.resolve` command. The resolver compares all four fields against the live `EventInstance/EventDef` before running effects; a stale UI or planner command is rejected without reducer execution, resource changes, cleanup, or `event.resolved`. A non-terminal effect failure records `event.resolve.rejected` with the captured identity and leaves its combat targets active. Only a terminal handled result emits `event.resolved` and performs source-target cleanup. This is a narrow CAS boundary; full precondition evaluation and a single shared EventDef module remain future work.
+
+The VM source regression is now 17/17 and covers success, resource rejection, stale instance, definition-version conflict, queued activation, and rendered-button token propagation. Production Sites remains unchanged.
