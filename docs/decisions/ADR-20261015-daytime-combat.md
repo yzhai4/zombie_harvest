@@ -46,3 +46,7 @@ DAY 的攻击只由 `SessionController.mode === 'DAY'` 且 `state.night === fals
 ## 非目标
 
 本 ADR 不接入线上 LLM、不修改 Sites、不合并夜战和白天敌人、不在 UI 层伪造伤害数字，也不声称已完成 14 天自然回归。
+
+## Intent batch extension (2026-10-16)
+
+昼间最小闭环现已先收集 `CombatIntent` 再按稳定键 `sourceId → targetId → attackSeq` 排序结算。每个命中收据包含 `intentId`、`attackSeq` 和 `profileId`；玩家、NPC、塔和活动敌人共享同一白天 tick，拒绝/死亡目标不会重新扣血。该实现仍是 inline runtime 内部合同，尚未宣称独立 `CombatIntentV1` schema；后续需把它抽成可复用 reducer，并补墙体/建筑目标、事件 resolve 清理、命令级幂等和跨构建 replay hash。
