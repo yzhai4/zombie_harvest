@@ -142,3 +142,9 @@ EventLedger -> Replay / Debugger / Metrics -> Playtest / Evolution
 先把已有 EventDef/EventInstance/Choice/Effect/Gate 的语义收敛到一个可验证的只读 GateV1 适配器，再扩大内容迁移。GateV1 只对显式 gateVersion: 1 或 evaluatePreconditions: true 的定义生效；旧事件继续使用原 reducer-specific gate，避免把未冻结的条件词汇误解释成新规则。SAN（NPC/玩家）和中继链是首批接线样本，Choice.requires 与 EventDef preconditions 共享同一 evaluator，CAS 先于 Gate，Gate 先于效果事务。
 
 阶段出口补充：在相同 seed 下，SAN 阈值通过/拒绝、relay 缺失事实、未知/畸形条件、错误 phase、旧 EventInstance 和队列切换都必须有可回放拒绝；Gate 评估不能产生状态变化。下一步是把 GateV1 迁移到一个内容支线节点，并将 inline evaluator 与独立 GameCore 模块合并；在此之前不扩大到领袖 LLM 生产接线或 Sites 发布。
+
+### v82 GateV1 parity checkpoint（2026-10-16）
+
+水车支线的启动门和节点选择已接入 GateV1，但效果仍由既有 content-effect 事务 reducer 处理；这不是完整 EventInstance/CAS/EventEffect 迁移。随后新增纯只读 shadow evaluator 与 inline parity runner：CI #210（run 38902361281，job 116977448918）以权威源码 hash `bc85cbeab7f00236e7bde84f01d05596676b359fb66b077645103011810fb23d` 通过 GateV1 合同 7/7、共享夹具 parity 11/11、内容链 54/54、白天战斗 23/23 和 static smoke 55/55。生产 Sites v81 未部署，Python Playwright 不可用，因此没有新增自然多日浏览器证据。
+
+本轮明确不把 relay-chain-001 的自治 `recover/stage/online` 元数据 choices 伪装成已接线 Gate；这些路径目前由地标 reducer 和 `updateRelayProject` 驱动。下一轮先设计 handoff 的显式 EventInstance 四元 CAS adapter，再评估状态/资源/距离是否值得扩展 Gate 词汇；任何迁移继续通过玩家、NPC、营地、势力、敌人和全局链六视角账本。
