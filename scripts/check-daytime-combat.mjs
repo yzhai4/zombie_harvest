@@ -64,6 +64,9 @@ check('inactive tower stops dealing daytime damage', () => {
 check('daytime enemy can damage an active tower', () => {
   state.night = false; tower.active = true; tower.hp = 10; tower.maxHp = 10; guard.x = 0; guard.y = 0; state.player.x = 0; state.player.y = 0; enemy.x = tower.x + 1; enemy.y = tower.y; enemy.goal = { x: tower.x, y: tower.y }; enemy.perception.targetId = tower.id; enemy.hp = 100; const before = tower.hp; r.api.dayCombat(12); assert.ok(tower.hp < before, `tower hp did not decrease: ${tower.hp}`); assert.equal(tower.active, true);
 });
+check('daytime enemy can damage a defensive wall', () => {
+  const wall = state.buildings.find(building => building.type === 'wall'); assert.ok(wall, 'wall fixture required'); tower.active = false; wall.active = true; wall.x = 20; wall.y = 6; wall.hp = 3; enemy.x = wall.x - 1; enemy.y = wall.y; enemy.goal = { x: wall.x, y: wall.y }; enemy.perception.targetId = wall.id; const before = wall.hp; r.api.dayCombat(12); assert.ok(wall.hp < before, `wall hp did not decrease: ${wall.hp}`);
+});
 check('night gate prevents daytime combat re-entry', () => {
   tower.active = true; state.night = true; const hp = enemy.hp; const npcHp = guard.hp; r.api.dayCombat(24); assert.equal(enemy.hp, hp); assert.equal(guard.hp, npcHp);
 });
