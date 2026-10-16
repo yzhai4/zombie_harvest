@@ -191,3 +191,10 @@ ADR-20261015 已补充 sourceActorId/resolvedActorId 映射、unknown/dead/dupli
 ## 可见实时威胁报告 smoke（2026-10-16）
 
 visible in-app browser 中真实点击新局和“推进到下一次威胁”，战斗窗口完成后 DOM 显示第1天已保存尸潮报告、当前剩余和关闭报告入口。重复同一威胁不会被误称为多日进度；完整多日自然回归仍待正式 runner 环境。
+
+
+## 2026-10-16 queued event combat cleanup
+
+白天战斗的事件目标清理已补上排队事件边界：resolve 前捕获原 eventId/instanceId，不读取 resolve 后变更的 state.event；旧来源敌人清理、新排队来源与无关来源保留。check-daytime-combat.mjs 当前 12/12，新增 queued NPC activation 夹具。该修复已进入 v82 draft PR，尚未部署 Sites。
+
+独立 CombatIntentV1 schema/module 与 inline runtime 仍是迁移阶段：当前 checker 已对齐字段，但 runtime 尚未直接调用独立 validator，不能把 schema checker 等同为生产执行器。
