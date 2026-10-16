@@ -28,7 +28,7 @@
 
 ## 证据与限制
 
-当前本地 `scripts/check-content-chain.mjs` 已执行 53 项真实源码检查，来源命令轨迹 hash 为 `c5d6c772`；最终 HTML SHA-256 必须在本轮远端上传完成后记录，不能使用并发工作树中的中间 hash。其余语法、内容、夜间、回放和三日静态 smoke 仍需以最终提交的 CI 为准。
+最终分支源 `dist/index.html` SHA-256 为 `bc85cbeab7f00236e7bde84f01d05596676b359fb66b077645103011810fb23d`；`scripts/check-content-chain.mjs` 执行 53 项真实源码检查，来源命令轨迹 hash 为 `c5d6c772`。其余语法、内容、夜间、回放和三日静态 smoke 已由对应 CI 运行复核。
 
 本轮没有把 GateV1 替换为独立模块，也没有自然多日浏览器证据。`contentConditionMet` 对未知对象条件的 fail-closed 是额外的安全收紧，可能暴露未登记的旧内容包；若后续内容依赖未知对象，必须先补条件类型和夹具，不能把未知条件改回自动通过。
 
