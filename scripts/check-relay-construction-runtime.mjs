@@ -103,6 +103,10 @@ check('stage success exactly once', () => {
   const result = r.api.advance(30, { commandId: 'qa-stage-success' });
   assert.equal(result.ok, true, JSON.stringify(result));
   assert.equal(r.api.state.relayProject.status, 'staging');
+  const child = constructionChildCommands(r)[0];
+  const started = events(r, 'relay.constructionStarted')[0];
+  assert.equal(started.commandId, child.commandId, 'fact event keeps child command provenance');
+  assert.equal(started.causationId, 'qa-stage-success', 'fact event keeps world.advance causation');
   assert.equal(events(r, 'relay.constructionStarted').length, 1);
   assert.equal(events(r, 'relay.transaction.applied').length, 1);
   assert.equal(constructionChildCommands(r).length, 1);
