@@ -65,3 +65,8 @@ DAY 的攻击只由 `SessionController.mode === 'DAY'` 且 `state.night === fals
 ## 事件结算清理（2026-10-16）
 
 `resolveEvent` 成功完成后，会按 `eventInstanceId/sourceEventId` 只清理该事件生成的白天敌人，并写 `combat.eventTargets.cleaned`；其他事件来源的敌人保留。清理发生在统一事件命令上下文内，重复 resolve 不会重复清理或新增成功收据。
+
+
+## 排队事件清理修正（2026-10-16）
+
+事件结算可能在 reducer 尾部激活排队 NPC 事件，因此清理必须使用结算前捕获的原 `eventId/instanceId`，不能读取已变更的 `state.event`。本轮已修正为显式 ID 集合：原事件敌人会被移除，新排队事件和其他来源的敌人保留；新增 queued-event 回归夹具，白天战斗源检查为 12/12。原事件的 `event.resolved` 收据仍携带旧 instanceId，新的 `state.eventInstance` 只代表刚激活的排队事件。
