@@ -4,7 +4,7 @@
 **基线：** `zfarm-world-1.0` 文档基线；工作树存在未提交运行时变更  
 **状态：** active
 
-**当前开发dist：HTML `d402c3adca6fdd44172848904c0204d69a7364c8c9e0f92b1c7c228eba917955`，已接入白天 NPC/塔/活动敌人互伤闭环；GitHub draft PR #4 当前为 `a0037360683766db6da54ddc03d4c0e4b37e4deb`，CI #186/run38890866927 success，生产保持公开v81。
+**当前开发dist：HTML `b33d3dcc5cd9fb2bd8452e6dcb45d9623d1b695dc63dd5d3b051c292a15e7888`，已接入白天互伤与 opt-in Event GateV1；GitHub draft PR #4 当前为 `749e769d22eb205a1c4450c0cc774f31b5910dd9`，CI #191/run38895313025 success，生产保持公开v81。
 
 **最新验收入口：** 报告恢复 v4 在412c完成真实 browser 48/48 场、1682/1682检查；冻结58a4计划会七场真实browser完成7/7、203/203并已归档。严格单构建三日两轮均真实FAILED；新58a4/5e诊断轮104保存、原件122文件全部核SHA，跨机同strict Gate仍114/123。阻塞读取与保存调度仍在调查；faec计划/修墙公开browser已单独通过7/7、203/203，不能把它扩大为自然三日平衡证据。
 
