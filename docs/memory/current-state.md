@@ -171,3 +171,8 @@ ADR-20261015 已补充 sourceActorId/resolvedActorId 映射、unknown/dead/dupli
 ## 昼间命令幂等（2026-10-16）
 
 新增重复 `world.advance` commandId 回归：同一昼间 CombatIntent 批次重试不重复扣 HP、不重复写 combat damage receipt，`check-daytime-combat.mjs` 现为 10/10；CI #148/run38853480914 success。
+
+
+## CombatIntentV1 独立执行模块（2026-10-16）
+
+新增 `scripts/lib/combat-intent-v1.mjs`，提供 normalize、validate、稳定排序和 canonical bytes；schema、runtime 字段和正反夹具已对齐。该模块作为 GameCore 抽离前的独立执行合同，当前生产 inline runtime 仍通过同字段内置实现。
