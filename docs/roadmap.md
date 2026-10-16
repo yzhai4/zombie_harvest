@@ -102,3 +102,8 @@ Colab T4 只作为可恢复的批量实验 worker；稳定线上服务、常驻 
 ## 2026-10-16 relay construction shadow checkpoint
 
 The current v82 slice has three distinct levels: daytime mutual damage and relay handoff CAS are runtime-wired; watermill GateV1 is a content-entry migration; RelayConstructionV1 is shadow-only. The shadow contract passed 11/11 in CI #231 and is deliberately not called by the browser reducer. The next gate is a real producer plus transactional runtime adapter, followed by save/reload and browser fixtures; no construction choice metadata is promoted to a live Gate until that path exists.
+
+
+## 2026-10-16 relay construction shadow refinement
+
+RelayConstructionV1 is frozen at 13/13: four-part CAS, participant and resource prechecks, explicit source provenance, rollback-safe rejection, idempotent command replay, save/reload token stability, and terminal re-entry rejection. This checkpoint does not change Sites v81. The next gate is a producer trace followed by a runtime transaction adapter and browser fixtures; no construction migration or natural multi-day browser claim is made yet.
