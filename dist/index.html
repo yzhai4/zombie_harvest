@@ -2319,11 +2319,13 @@
      const EVENT_CHAIN_DEFS = Object.freeze({
        'watermill-002': Object.freeze({
          title: '水车闸门', description: '营地发现了旧水车。修补闸门能缓解营地压力；拆下部件可以补充零件，却会增加共振压力。', definitionVersion: 2,
-         chainId: 'watermill-002', category: 'side', phase: ['day_4', 'day_10'], priority: 40,
-         startConditions: [{ type: 'landmark_exists', id: 'waterMill' }, { type: 'camp_trust', min: 25 }],
-         nodes: [{ nodeId: 'repair_gate', title: '修复还是拆解？', text: '修补闸门需要阿梁参与，并从营地库存拿出 20 份零件。拆解能立即回收 3 份零件，同时留下更高的共振压力。', choices: [{ id: 'repair', label: '修复水车闸门', hint: '零件 -20 · 营地崩溃压力最多 -4 · 记录闸门修复', requirements: ['scrap>=20', 'carpenter_alive'], effects: [
+         chainId: 'watermill-002', category: 'side', phase: ['day_4', 'day_10'], priority: 40, gateVersion: 1, evaluatePreconditions: true,
+          gate: { version: 1, phase: 'DAY', nightAllowed: false, preconditions: [{ type: 'landmark_exists', id: 'waterMill' }, { type: 'camp_trust', min: 25 }, { type: 'day_between', min: 4, max: 10 }] },
+          preconditions: [{ type: 'landmark_exists', id: 'waterMill' }, { type: 'camp_trust', min: 25 }, { type: 'day_between', min: 4, max: 10 }],
+          startConditions: [{ type: 'landmark_exists', id: 'waterMill' }, { type: 'camp_trust', min: 25 }, { type: 'day_between', min: 4, max: 10 }],
+         nodes: [{ nodeId: 'repair_gate', title: '修复还是拆解？', text: '修补闸门需要阿梁参与，并从营地库存拿出 20 份零件。拆解能立即回收 3 份零件，同时留下更高的共振压力。', choices: [{ id: 'repair', label: '修复水车闸门', hint: '零件 -20 · 营地崩溃压力最多 -4 · 记录闸门修复', requires: ['scrap>=20', 'carpenter_alive'], requirements: ['scrap>=20', 'carpenter_alive'], effects: [
            { op: 'adjust_resource', key: 'scrap', value: -20 }, { op: 'adjust_meter', key: 'campCollapse', value: -4 }, { op: 'unlock', key: 'watermill_t2' }
-         ] }, { id: 'salvage', label: '拆下水车零件', hint: '零件 +3 · 共振压力 +3 · 结束水车支线', requirements: ['scrap>=0'], effects: [
+         ] }, { id: 'salvage', label: '拆下水车零件', hint: '零件 +3 · 共振压力 +3 · 结束水车支线', requires: ['scrap>=0'], requirements: ['scrap>=0'], effects: [
            { op: 'addResource', key: 'parts', value: 3 }, { op: 'adjust_meter', key: 'resonancePressure', value: 3 }
          ] }]}],
          autonomy: { resultId: 'camp_survey', effects: [{ op: 'adjustMeter', key: 'campCollapse', value: 1 }, { op: 'recordHistory', key: 'watermill_autonomy_logged', payload: { route: 'survey-only' } }] },
@@ -2657,7 +2659,16 @@
          if (new Set(nodes.map(node => node?.nodeId)).size !== nodes.length) issues.push('event-node-id-duplicate');
          const choices = nodes.flatMap(node => Array.isArray(node?.choices) ? node.choices : []);
          if (!choices.length || !choices.some(choice => Array.isArray(choice?.effects) && choice.effects.length)) issues.push('event-choice-effects-missing');
-         if (choices.some(choice => !choice || typeof choice.id !== 'string' || !choice.id || choice.requirements !== undefined && (!Array.isArray(choice.requirements) || choice.requirements.some(requirement => typeof requirement !== 'string')))) issues.push('event-choice-requirements-invalid');
+          if (choices.some(choice => !choice || typeof choice.id !== 'string' || !choice.id || choice.requirements !== undefined && (!Array.isArray(choice.requirements) || choice.requirements.some(requirement => typeof requirement !== 'string')))) issues.push('event-choice-requirements-invalid');
+          const gateVersion = Number(raw.gateVersion ?? raw.gate?.version) || 0;
+          if (gateVersion === 1 || raw.evaluatePreconditions === true) {
+            const gate = raw.gate;
+            const preconditions = raw.preconditions !== undefined ? raw.preconditions : gate?.preconditions !== undefined ? gate.preconditions : raw.startConditions || [];
+            const validCondition = condition => typeof condition === 'string' || !!condition && typeof condition === 'object' && !Array.isArray(condition);
+            if (!gate || typeof gate !== 'object' || Array.isArray(gate)) issues.push('event-gate-contract-invalid');
+            if (!Array.isArray(preconditions) || preconditions.some(condition => !validCondition(condition))) issues.push('event-gate-preconditions-invalid');
+            if (choices.some(choice => { const requires = choice?.requires !== undefined ? choice.requires : choice?.requirements; return requires !== undefined && (!Array.isArray(requires) || requires.some(condition => !validCondition(condition))); })) issues.push('event-choice-gate-invalid');
+          }
          if (nodes.some(node => Array.isArray(node?.choices) && new Set(node.choices.map(choice => choice?.id)).size !== node.choices.length)) issues.push('event-choice-id-duplicate');
          ['ifMissingNpc', 'ifInsufficientPopulation', 'ifExpired', 'ifSkipped'].forEach(key => { if (!raw.fallback?.[key]) issues.push(`event-fallback-${key}-missing`); });
        }
@@ -2675,6 +2686,15 @@
        if (!check.ok) return { ok: false, ...check };
        if (contentDefinition(kind, check.id)) return { ok: false, id: check.id, issues: ['duplicate-stable-id'] };
        const normalized = { ...raw, id: check.id };
+       if (kind === 'eventChain' && (Number(raw.gateVersion ?? raw.gate?.version) === 1 || raw.evaluatePreconditions === true)) {
+         const rawGate = raw.gate && typeof raw.gate === 'object' && !Array.isArray(raw.gate) ? raw.gate : {};
+         const preconditions = raw.preconditions !== undefined ? (Array.isArray(raw.preconditions) ? [...raw.preconditions] : [raw.preconditions]) : rawGate.preconditions !== undefined ? (Array.isArray(rawGate.preconditions) ? [...rawGate.preconditions] : [rawGate.preconditions]) : (Array.isArray(raw.startConditions) ? [...raw.startConditions] : []);
+         normalized.gateVersion = 1;
+         normalized.evaluatePreconditions = true;
+         normalized.preconditions = preconditions;
+         normalized.gate = { ...rawGate, version: 1, phase: rawGate.phase ?? 'DAY', nightAllowed: rawGate.nightAllowed === true, preconditions };
+         normalized.nodes = (raw.nodes || []).map(node => ({ ...node, choices: (node.choices || []).map(choice => ({ ...choice, requires: choice.requires !== undefined ? choice.requires : choice.requirements === undefined ? [] : [...choice.requirements] })) }));
+       }
        if (kind === 'building') { normalized.costs = raw.costs || raw.buildCost || {}; normalized.footprint = Array.isArray(raw.footprint) ? raw.footprint : [Number(raw.footprint?.w) || 1, Number(raw.footprint?.h) || 1]; normalized.slots = raw.slots ?? raw.labor?.slots ?? 0; }
        if (kind === 'techNode') { normalized.requires = raw.requires || raw.prerequisites || []; }
        if (kind === 'outpost') { normalized.landmarkType = raw.landmarkType || raw.id; normalized.guardSlots = Number(raw.guardSlots ?? raw.garrison?.max ?? 0); normalized.captureRequires = raw.captureRequires || []; }
@@ -2790,13 +2810,59 @@
      }
      function contentConditionMet(condition = {}) {
        if (typeof condition === 'string') return contentRequirementsMet(condition);
-       if (!condition || typeof condition !== 'object') return true;
+       if (!condition || typeof condition !== 'object' || Array.isArray(condition)) return false;
        if (condition.type === 'landmark_exists') return !!state.landmarks?.some(item => item.type === condition.id && item.found !== false);
        if (condition.type === 'camp_trust') return (Number(state.contentState?.meters?.campTrust) || 0) >= Number(condition.min || 0);
        if (condition.type === 'npc_alive') return !!state.npcs?.some(npc => npc.id === condition.id && npcIsActive(npc));
        if (condition.type === 'flag') return !!state.contentState?.flags?.[condition.id] === (condition.value !== false);
        if (condition.type === 'day_between') return state.day >= Number(condition.min || 1) && state.day <= Number(condition.max || 999);
-       return true;
+       return false;
+     }
+     function contentDefinitionUsesGateV1(definition = {}) {
+         if (!definition || typeof definition !== 'object' || Array.isArray(definition)) return false;
+         const gate = definition.gate;
+         const gateVersion = gate && typeof gate === 'object' && !Array.isArray(gate) ? gate.version : undefined;
+         return Number(definition.gateVersion) === 1 || Number(gateVersion) === 1 || definition.evaluatePreconditions === true;
+     }
+     function contentGateConditions(definition, gate) {
+        if (!definition || typeof definition !== 'object' || Array.isArray(definition)) definition = {};
+       const merged = [];
+       const seen = new Set();
+       [definition?.preconditions, gate?.preconditions, definition?.startConditions].forEach(source => {
+         const list = source === undefined ? [] : Array.isArray(source) ? source : [source];
+         list.forEach(condition => {
+           let key;
+           try { key = JSON.stringify(condition); } catch (_) { key = String(condition); }
+           if (seen.has(key)) return;
+           seen.add(key); merged.push(condition);
+         });
+       });
+       return merged;
+     }
+     function contentChainDefinitionGate(definition, context = {}) {
+       if (!contentDefinitionUsesGateV1(definition)) return { ok: true, gateVersion: 0, checked: 0 };
+       const gate = definition?.gate && typeof definition.gate === 'object' && !Array.isArray(definition.gate) ? definition.gate : {};
+       const preconditions = contentGateConditions(definition, gate);
+       return evaluateGateV1({ version: 1, phase: gate.phase === undefined ? 'DAY' : gate.phase, nightAllowed: gate.nightAllowed === true, preconditions }, context);
+     }
+     function contentChainChoiceGateRuntime(definition, choice, context = {}) {
+        // Public callers can ask for a gate while the selected chain has
+        // already disappeared (or while a malformed choice is being
+        // rendered).  Treat both inputs as a contract failure instead of
+        // interpreting a missing choice as an empty, automatically-passing
+        // requirement list.
+        if (!definition || typeof definition !== 'object' || Array.isArray(definition)) return { ok: false, reason: 'choice-contract' };
+        if (!choice || typeof choice !== 'object' || Array.isArray(choice)) return { ok: false, reason: 'choice-contract' };
+       const requirements = choice?.requires !== undefined ? choice.requires : choice?.requirements === undefined ? [] : choice.requirements;
+       if (!Array.isArray(requirements) || requirements.some(requirement => typeof requirement !== 'string' && (!requirement || typeof requirement !== 'object' || Array.isArray(requirement)))) return { ok: false, reason: 'choice-contract' };
+       if (!contentDefinitionUsesGateV1(definition)) return contentRequirementsMet(requirements) ? { ok: true, gateVersion: 0, checked: requirements.length } : { ok: false, reason: 'choice-requirement' };
+       if (!contentPhaseAllows(definition)) return { ok: false, reason: 'phase-window' };
+       const gate = definition?.gate && typeof definition.gate === 'object' && !Array.isArray(definition.gate) ? definition.gate : {};
+       const phaseGate = evaluateGateV1({ version: 1, phase: gate.phase === undefined ? 'DAY' : gate.phase, nightAllowed: gate.nightAllowed === true, preconditions: [] }, context);
+       if (!phaseGate.ok) return phaseGate;
+       const result = evaluateGateV1({ version: 1, phase: 'ANY', nightAllowed: true, preconditions: requirements }, context);
+       if (!result.ok) return { ...result, reason: result.reason === 'event-precondition-invalid' ? 'choice-requirement-invalid' : 'choice-requirement' };
+       return { ...result, gateVersion: 1, checked: requirements.length };
      }
      function runContentHook(hook, meta = {}) {
        const gate = contentChainRuntimeGate(); if (!gate.ok) return gate;
@@ -2837,10 +2903,14 @@
        if (!contentPhaseAllows(definition)) return { ok: false, reason: 'phase-window' };
        if (state.contentState.completedChains.includes(chainId)) return { ok: false, reason: 'chain-completed' };
        if (state.contentState.activeChains[chainId]) return { ok: true, duplicate: true, active: state.contentState.activeChains[chainId] };
-       if (!(definition.startConditions || []).every(contentConditionMet)) return { ok: false, reason: 'start-condition' };
+       const actorId = meta.actorId || 'player-1';
+       if (contentDefinitionUsesGateV1(definition)) {
+         const gate = contentChainDefinitionGate(definition, { actorId, event: { id: chainId, defId: chainId }, instance: { instanceId: `content-${chainId}-${state.day}`, defId: chainId, definitionVersion: Number(definition.definitionVersion) || 1, status: 'active', actorId } });
+         if (!gate.ok) return { ok: false, reason: 'start-condition', gate };
+       } else if (!(definition.startConditions || []).every(contentConditionMet)) return { ok: false, reason: 'start-condition' };
        const firstNode = definition.nodes?.[0];
        if (!firstNode) return { ok: false, reason: 'chain-node-missing' };
-       const active = { chainId, nodeId: firstNode.nodeId, status: 'active', startedAt: worldMinute(), actorId: meta.actorId || 'player-1', resolvedNodeIds: [] };
+       const active = { chainId, nodeId: firstNode.nodeId, status: 'active', startedAt: worldMinute(), actorId, resolvedNodeIds: [] };
        state.contentState.activeChains[chainId] = active;
        recordWorldEvent('content.chain.started', { chainId, nodeId: firstNode.nodeId }, { actorId: meta.actorId || 'player-1', defId: chainId });
        return { ok: true, active };
@@ -2862,9 +2932,9 @@
        const resolvedNodeIds = definedNodeIds.filter(id => settled.has(id));
        if (resolvedNodeIds.includes(nodeId)) return { ok: false, reason: 'chain-node-resolved' };
        if (choice.next && !definition.nodes?.some(item => item.nodeId === choice.next)) return { ok: false, reason: 'chain-next-node-missing' };
-       const requirements = choice.requirements === undefined ? [] : choice.requirements;
-       if (!Array.isArray(requirements) || requirements.some(requirement => typeof requirement !== 'string')) return { ok: false, reason: 'choice-contract' };
-       if (!contentRequirementsMet(requirements)) return { ok: false, reason: 'choice-requirement' };
+       const actorId = meta.actorId || active.actorId || 'player-1';
+       const choiceGate = contentChainChoiceGateRuntime(definition, choice, { actorId, event: { id: chainId, defId: chainId, nodeId, choiceId }, instance: { instanceId: `content-${chainId}-${active.startedAt || state.day}`, defId: chainId, definitionVersion: Number(definition.definitionVersion) || 1, status: 'active', actorId } });
+       if (!choiceGate.ok) return choiceGate;
        if (state.contentState.appliedEffects.includes(`${chainId}:${nodeId}:${choiceId}`)) return { ok: false, reason: 'chain-choice-already-applied' };
        const result = applyContentEffects(choice.effects || [], { actorId: meta.actorId || 'player-1', defId: chainId, effectId: `${chainId}:${nodeId}:${choiceId}` });
        if (!result.ok) return result;
@@ -2923,7 +2993,7 @@
        return { ok: true, ...payload };
      }
      function registerContentPack(pack = {}) { const results = []; Object.entries(pack).forEach(([kind, definitions]) => { (Array.isArray(definitions) ? definitions : Object.values(definitions || {})).forEach(definition => results.push(registerContent(kind, definition))); }); return { ok: results.every(result => result.ok), results }; }
-     const ContentRegistry = { kinds: CONTENT_KINDS, plans: PLAN_DEFS, register: registerContent, registerPack: registerContentPack, get: contentDefinition, validate: validateContentDefinition, applyEffects: applyContentEffects, startChain: startContentChain, resolveChain: resolveContentChain, resolveFallback: resolveContentFallback, resolveAutonomy: resolveContentAutonomy, runHook: runContentHook, planMeeting: { state: planMeetingState, generate: generatePlanMeeting, commit: commitPlanMeeting, execute: executePlanMeeting }, all(kind) { return { ...contentRegistryBase(kind), ...CONTENT_EXTENSIONS[kind] }; } };
+     const ContentRegistry = { kinds: CONTENT_KINDS, plans: PLAN_DEFS, register: registerContent, registerPack: registerContentPack, get: contentDefinition, validate: validateContentDefinition, applyEffects: applyContentEffects, startChain: startContentChain, resolveChain: resolveContentChain, resolveFallback: resolveContentFallback, resolveAutonomy: resolveContentAutonomy, runHook: runContentHook, gate: { definition: contentChainDefinitionGate, choice: contentChainChoiceGateRuntime }, planMeeting: { state: planMeetingState, generate: generatePlanMeeting, commit: commitPlanMeeting, execute: executePlanMeeting }, all(kind) { return { ...contentRegistryBase(kind), ...CONTENT_EXTENSIONS[kind] }; } };
      if (typeof window !== 'undefined') window.ZombieHarvestContent = ContentRegistry;
     const FeedbackRouter = { route(event) { if (!event) return; state.worldMeta.feedback.push({ eventId: event.eventId, type: event.type }); if (state.worldMeta.feedback.length > 40) state.worldMeta.feedback.shift(); } };
     function appendFeedbackEvent(type, payload = {}, meta = {}) { const event = recordWorldEvent(type, payload, meta); FeedbackRouter.route(event); return event; }
@@ -5070,15 +5140,16 @@
       if (state.gameOver) return { ok: false, reason: 'game-over', label: '本局已经结束' };
       const chain = activeContentChainView();
       if (chain && !contentPhaseAllows(chain.definition)) return { ok: false, reason: 'phase-window', label: '已错过这条支线的处理时间' };
-      const requirements = choice?.requirements === undefined ? [] : choice.requirements;
-      if (!Array.isArray(requirements) || requirements.some(requirement => typeof requirement !== 'string')) return { ok: false, reason: 'choice-contract', label: '这条路线暂时不可用' };
-      const unmet = requirements.filter(requirement => !contentRequirementsMet([requirement]));
-      if (unmet.length) {
+      const gate = contentChainChoiceGateRuntime(chain?.definition || null, choice, { actorId: chain?.active?.actorId || 'player-1' });
+      if (!gate.ok) {
+        const requirements = choice?.requires !== undefined ? choice.requires : choice?.requirements === undefined ? [] : choice.requirements;
+        if (gate.reason === 'choice-contract' || gate.reason === 'choice-requirement-invalid') return { ...gate, label: '这条路线暂时不可用' };
+        const unmet = Array.isArray(requirements) ? requirements.filter(requirement => typeof requirement === 'string' && !contentRequirementsMet([requirement])) : [];
         const labels = { carpenter_alive: '需要阿梁参与', doctor_alive: '需要医生参与', radio_alive: '需要广播员参与', commander_alive: '需要指挥官参与' };
         const summary = unmet.map(requirement => labels[requirement] || (/^scrap>=(\d+)$/.test(requirement) ? `需要 ${requirement.match(/\d+/)[0]} 份零件` : '当前条件未满足'));
-        return { ok: false, reason: 'choice-requirement', label: [...new Set(summary)].join(' · ') };
+        return { ...gate, label: [...new Set(summary)].filter(Boolean).join(' · ') || '当前条件未满足' };
       }
-      return { ok: true };
+      return gate;
     }
     function resolveContentChainCommand(chainId, nodeId, choiceId, options = {}) {
       const gate = contentChainRuntimeGate(); if (!gate.ok) return gate;
