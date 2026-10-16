@@ -76,3 +76,10 @@ CombatIntent 的确定顺序。
 因此该 ADR 的运行时结论是 **feature-gated stage-only**；关闭 flag 与旧路径兼容，
 不改变 Sites v81，也不代表浏览器自然多日验收。
 
+## Runtime provenance correction（CI #259）
+
+stage-only adapter 已在真实 `world.advance` producer 上运行，但必须明确其启用条件：只有开发/VM fixture 显式注入 `state.worldMeta.flags.relayConstructionTransactionV1 === true` 且 relay 项目为 `briefed` 时才产生 child command；默认关闭，没有 UI/URL 开关，也不改变 Sites v81。
+
+CI #259（run `38921110774`，job `117040949418`）通过 runtime 8/8、producer 9/9、基础 13/13、事务 11/11、replay 15/hash `4aec7a31`、static smoke 55/55；权威源码 SHA-256 `9e8ee79f07ba0c204631ff13270e1e7a40292375e4a0e2a93cd0cd86a033227c`。`relay.constructionStarted` 事件顶层现在同时保留 child `commandId` 与父 `causationId`，checker 已覆盖该 provenance。
+
+这仍是 feature-gated stage-only，而非完整 EventInstance/ContentChain 迁移；材料/来源 debit、building→online、standing/forecast、scheduler、SAVE/EventLedger 和浏览器验收继续按本 ADR 的后续闸门推进。

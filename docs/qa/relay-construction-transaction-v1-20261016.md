@@ -50,3 +50,9 @@
 ## Runtime stage adapter boundary（2026-10-16）
 
 本 shadow contract 已有一个受 flag 保护的真实 stage consumer：`briefed → staging` 通过 `world.advance` 生成 child command，并进入 CommandBus replay/idempotency。纯值 wrapper 的其余声明仍未扩大：材料/资源 debit、building→online、standing/forecast、完整 EventLedger migration、SAVE schema 和 browser 仍是后续闸门。
+
+## Runtime stage checkpoint correction（CI #259）
+
+事务 shadow 之上现在有一个受 flag 保护的真实 stage consumer，但范围严格限于 `briefed → staging`。CI #259（run `38921110774`，job `117040949418`）通过 runtime 8/8、producer 9/9、RelayConstructionV1 13/13、事务 11/11、replay 15/hash `4aec7a31` 和 static smoke 55/55；当前源码 SHA-256 `9e8ee79f07ba0c204631ff13270e1e7a40292375e4a0e2a93cd0cd86a033227c`。
+
+该 consumer 只在开发/VM fixture 注入 `state.worldMeta.flags.relayConstructionTransactionV1 === true` 时启用，默认关闭；child command 进入 CommandBus replay/idempotency，事实事件顶层记录 commandId/causationId。其余材料/资源扣除、building→online、standing/forecast、完整 EventLedger/SAVE 迁移和 browser 仍是下一闸门，故事务 wrapper 仍不能称为完整施工迁移。

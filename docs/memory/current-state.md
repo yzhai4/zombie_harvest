@@ -263,3 +263,11 @@ The relay construction shadow contract now has 13/13 fixtures on runtime parent 
 成功路径通过既有 CommandBus 写入 `seenCommands` 与 `worldMeta.replay.commands`，写入真实 `relay.constructionStarted` ledger ID，更新四元 token、NPC 工作片段，并在所有预检完成后才创建 relay station occupancy。缺岗、stale token、占位冲突和重复 child 均不改变 relay 跨对象快照；失败 child 仍保留 rejection/replay 证据。材料、online、standing/forecast 与 SAVE schema 迁移仍未迁移。
 
 提交内置八项 VM checks（flag-off compatibility、success exactly once、missing worker、stale token、duplicate child、virtual occupancy、save/reload token、same-tick order），并保留 EventDef 两个 `commandType: relay.projectAdvance` 元数据断言。当前证据仅限源 hash/Node VM/CI；不代表 Sites v81 或浏览器自然多日验收。
+
+## Runtime stage current checkpoint（2026-10-16，CI #259）
+
+本轮已把施工自治链的最小阶段切片接到真实白天 producer，但仍是 feature-gated stage-only：只有开发/夹具注入 `state.worldMeta.flags.relayConstructionTransactionV1 === true` 且项目为 `briefed` 时，才由 `world.advance → CommandBus → advanceReducer → updateRelayProject` 产生 `relay.projectAdvance` 子命令；默认状态没有该 flag，Sites v81 没有 UI/URL 入口，也没有生产启用。
+
+CI #259（run `38921110774`，job `117040949418`）在同一构建通过 runtime stage 8/8、producer trace 9/9、RelayConstructionV1 13/13、RelayConstructionTransactionV1 11/11、replay 15 fixtures（hash `4aec7a31`）和 static smoke 55/55。权威当前源码 SHA-256 为 `9e8ee79f07ba0c204631ff13270e1e7a40292375e4a0e2a93cd0cd86a033227c`；Playwright 不可用，故没有新增自然浏览器/多日证据。
+
+本次 provenance 修正使 `relay.constructionStarted` 事件顶层同时记录 child `commandId` 与父 `world.advance` 的 `causationId`，并由 checker 断言。六视角结论保持收敛：玩家/NPC/营地有阶段 CAS、岗位预检、成功后虚拟占位和回滚证据；势力 standing、敌人 forecast 因果、building→online、资源来源账本、死亡/替代 scheduler、完整 EventLedger/SAVE 迁移和真实 browser 仍是下一闸门。

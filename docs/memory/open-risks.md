@@ -61,3 +61,11 @@ CI #253 / run `38912989111` 通过事务 shadow 11/11。当前已冻结跨对象
 - child command 已进入 CommandBus replay/idempotency；需持续验证重放、旧存档 token 和事件 ledger 截断策略。
 - station occupancy 仅在成功提交后写入；未来资源/建筑/同 tick CombatIntent 接线不得破坏这个原子边界。
 - browser/Sites 证据仍缺失，不能把 Node VM 八项通过当作线上发布或自然多日玩法证明。
+
+## Runtime stage checkpoint correction（2026-10-16，CI #259）
+
+施工生产者现在只在开发/夹具 flag `state.worldMeta.flags.relayConstructionTransactionV1 === true` 下报告 `constructionCommandProducer:true`，模式为 `feature-gated-stage-only`；这不等于生产 wiring 或自然玩法。默认 flag 关闭，Sites v81、UI/URL 和 leader-LLM producer 均未启用。
+
+CI #259（run `38921110774`，job `117040949418`）通过 runtime 8/8、producer 9/9、基础合同 13/13、事务 11/11、replay 15/hash `4aec7a31`、static smoke 55/55；当前源码 SHA-256 `9e8ee79f07ba0c204631ff13270e1e7a40292375e4a0e2a93cd0cd86a033227c`。事件 provenance 已修正为 `relay.constructionStarted.commandId=relay.projectAdvance child`、`causationId=world.advance`。
+
+仍需优先消除的风险：生产资源/材料 debit 与 `resourceSource` 账本、完整 building footprint occupancy、`staging/building/online` 终态迁移、死亡/离岗替代 scheduler、施工对势力 standing 与敌人 forecast 的正式因果、同 tick CombatIntent 顺序、SAVE21/EventLedger 迁移，以及 browser save/reload fixture。

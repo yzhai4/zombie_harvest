@@ -46,3 +46,9 @@ state.worldMeta.flags.relayConstructionTransactionV1 === true
 ## 证据口径
 
 checker 输出会带本次 checkout 的 `sourceHash`、八项 `passed/count` 与 CI run/job 链接；不在文档中硬编码会随提交变化的 head/hash。通过只证明 inline VM 与静态顺序，不宣称 Sites v81 已发布或浏览器自然玩法已验收。
+
+## Current runtime evidence correction（CI #259）
+
+runtime checker 当前为 8/8，并新增断言：`relay.constructionStarted` 顶层 `commandId` 指向 `relay.projectAdvance` child，`causationId` 指向父 `world.advance`。同一 CI #259（run `38921110774`，job `117040949418`）还通过 producer 9/9、RelayConstructionV1 13/13、事务 11/11、replay 15/hash `4aec7a31` 和 static smoke 55/55；当前源码 SHA-256 为 `9e8ee79f07ba0c204631ff13270e1e7a40292375e4a0e2a93cd0cd86a033227c`。
+
+运行时 flag 是开发/VM fixture-only seam：`state.worldMeta.flags.relayConstructionTransactionV1 === true` 且项目 `briefed` 才启用，默认关闭，不暴露 UI/URL，不代表 Sites 或自然浏览器已启用。失败路径保持 cross-domain 快照，成功后才创建 virtual station；材料/资源 debit、building→online、standing/forecast 和 SAVE/EventLedger 仍未接线。

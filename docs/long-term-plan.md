@@ -176,3 +176,11 @@ producer trace 之后，RelayConstructionTransactionV1 先以纯值形式固定�
 已完成一轮最小真实接线：`world.advance` 在 opt-in flag 下生成 `RelayConstructionTransactionV1` stage child，CAS、岗位预检、replay/idempotency、成功后 station occupancy 与 save/reload token 均有八项 VM 夹具。flag-off 与旧路径保持等价，EventDef 的两个 `relay.projectAdvance` metadata choice 断言仍保留。
 
 本轮不迁移资源/材料、building/online、standing/forecast、完整 SAVE schema 或 Sites v81。下一闸门是把资源来源账本与 building→online 事务接上，再做同 tick CombatIntent、旧存档迁移和浏览器 save/reload fixture。
+
+## v82 runtime stage checkpoint（2026-10-16）
+
+本轮完成一个可回放的 feature-gated stage slice：`world.advance → CommandBus → advanceReducer → updateRelayProject` 在开发/夹具 flag 开启且项目为 `briefed` 时生成 `relay.projectAdvance` child command，执行 CAS、昼间与参与者预检，成功后一次性写入阶段事实、NPC 工作片段和 virtual station 占位；重复 command、坏 token、缺岗和快照冲突保持幂等/回滚。
+
+CI #259（run `38921110774`）证据为 runtime 8/8、producer 9/9、RelayConstructionV1 13/13、事务 11/11、replay 15/hash `4aec7a31`、static smoke 55/55；源码 SHA-256 `9e8ee79f07ba0c204631ff13270e1e7a40292375e4a0e2a93cd0cd86a033227c`。该 flag 仅由开发/VM fixture 注入，默认关闭，不改变 Sites v81。
+
+下一阶段按顺序推进：资源来源/材料扣除事务 → 建筑 footprint 与终态 online → scheduler/替代者 → standing/forecast 因果 → EventLedger/SAVE21 迁移 → browser save/reload 与同 tick 战斗夹具；每一步继续以六视角审计和固定 replay hash 为闸门。

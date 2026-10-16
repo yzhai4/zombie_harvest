@@ -47,3 +47,11 @@ startWorldSimulation daytime interval
 - `productionWiring:'opt-in-stage-only'`；默认 flag false，旧路径保持兼容，`naturalGameplay:false` 和 `migrationRequired:true` 仍成立。
 
 本段不覆盖材料/online/standing/forecast、完整 SAVE migration、browser 或 Sites v81。
+
+## Current producer trace checkpoint（CI #259）
+
+此前 CI #243/#244 的 `constructionCommandProducer:false` 是未接 adapter 的历史基线。当前分支在开发/夹具 flag 开启时已经有一个真实 stage producer，故当前输出为 `constructionCommandProducer:true`、`constructionCommandProducerMode:feature-gated-stage-only`、`productionWiring:opt-in-stage-only`；默认 flag 关闭，未提供 UI/URL 入口，Sites v81 和自然玩法仍未启用。
+
+CI #259（run `38921110774`，job `117040949418`）通过 9/9 producer trace、8/8 runtime stage、13/13 基础合同、11/11 事务合同、15 replay fixtures/hash `4aec7a31` 和 55/55 static smoke。当前权威源码 SHA-256 为 `9e8ee79f07ba0c204631ff13270e1e7a40292375e4a0e2a93cd0cd86a033227c`。
+
+trace 仍固定 `advance → CommandBus(world.advance) → advanceReducer → updateRelayProject`；stage child command 的事实事件现在在顶层记录 `commandId` 与 `causationId`。该 producer 只处理 `briefed → staging`，不证明材料 debit、online、standing/forecast、SAVE/EventLedger 迁移或自然浏览器证据。

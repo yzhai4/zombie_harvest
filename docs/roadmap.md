@@ -119,3 +119,11 @@ RelayConstructionTransactionV1 已在开发分支以 shadow adapter 形式落地
 - 已保持：flag-off 旧路径、两个 EventDef `relay.projectAdvance` metadata count、同 tick relay→zombie→combat 顺序；Sites v81 不变。
 - 未完成：材料/资源来源与扣除、building→online、standing/forecast、完整 SAVE migration、browser natural multi-day evidence。
 - 下一闸门：先接资源 ledger + online terminal transaction，再补六视角 browser save/reload 与战斗顺序 fixture。
+
+## v82 中继施工最小运行时切片（已完成）
+
+已在真实 `world.advance` producer 上接入一个默认关闭的 stage-only adapter。开发/夹具只需显式注入 `state.worldMeta.flags.relayConstructionTransactionV1 === true`；它不提供 UI/URL 开关，也未启用 Sites。
+
+CI #259（run `38921110774`，job `117040949418`）通过 runtime 8/8、producer 9/9、基础合同 13/13、事务 11/11、replay 15/hash `4aec7a31`、static smoke 55/55；源码 SHA-256 `9e8ee79f07ba0c204631ff13270e1e7a40292375e4a0e2a93cd0cd86a033227c`。施工事实顶层已保留 child commandId 与 world.advance causationId。
+
+下一路线仍不跨越生产边界：先接材料/来源账本和 building footprint，再接 online/standing/forecast 与 scheduler，最后做 SAVE/EventLedger 迁移和真实浏览器夹具；未完成前不得把 registry metadata choice 或 shadow contract 当作完整 EventChain。

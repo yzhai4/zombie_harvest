@@ -110,3 +110,16 @@ CI #253（run `38912989111`）的 RelayConstructionTransactionV1 runner 通过 1
 ## Runtime stage adapter update（2026-10-16）
 
 本轮只把全局链的 `briefed → staging` 接入 feature-gated adapter；六视角的剩余边界仍有效。玩家/NPC/营地现在有真实 CAS、岗位预检和成功后占位证据，势力、敌人、online、资源来源和浏览器证据仍未迁移。flag 缺失或 false 时继续使用旧 reducer，Sites v81 不变。
+
+## 六视角当前检查点（CI #259）
+
+本轮 stage-only adapter 的新增证据必须按以下边界解读：
+
+- **玩家：** 开发/夹具 flag 开启时，`briefed → staging` 有可回放 child command、CAS 拒绝和失败回滚；真实施工 UI、刷新 token 和自然试玩仍未验收。
+- **NPC：** 存活/在营/岗位预检和工作片段在成功事务中原子记录；死亡、离岗、替代者 scheduler 尚未接线。
+- **营地：** 成功后才创建 virtual station，占位冲突和快照冲突不写入；材料扣除、资源来源账本、完整 footprint 和生产建筑状态仍待接入。
+- **势力：** 本切片不产生 standing 或外交奖励；施工/上线事实到各势力关系的来源事件仍需明确。
+- **敌人：** 不生成敌人、不改 forecast；与同一 `world.advance` 的战斗守恒和 forecast 消费顺序仍需真实 reducer 验证。
+- **全局事件链：** child command、四元 token、顶层 command/causation provenance 与 replay 可验证；完整 EventDef/EventInstance/Choice/Effect/Gate resolver、EventLedger 和 SAVE 迁移仍未完成。
+
+CI #259（run `38921110774`）通过 runtime 8/8、producer 9/9、基础 13/13、事务 11/11、replay 15/hash `4aec7a31`、static 55/55；当前源码 SHA-256 `9e8ee79f07ba0c204631ff13270e1e7a40292375e4a0e2a93cd0cd86a033227c`。flag 仅由开发/夹具注入，Sites v81 未变。
