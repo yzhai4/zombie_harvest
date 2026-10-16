@@ -193,3 +193,9 @@ CI #259（run `38921110774`）证据为 runtime 8/8、producer 9/9、RelayConstr
 CI #266（run `38932973787`，job `117081308370`）在 `d389365e960ba04685a4074e5c5485c034c4e922` 上通过：scenario 3/3、observer 2/2、source gameplay 2/2、relay producer 9/9、relay runtime 8/8、RelayConstructionV1 13/13、transaction 11/11、replay 18/hash `4aec7a31`、static smoke 55/55；`dist/index.html` SHA-256 为 `e34dc65b78d6e7223bbeda9c347cc3043cb98ef8cdb72c28d66bbb14f15b7b54`。
 
 外部调研原文 `deep-research-report.md` SHA-256 为 `940EFAC9A98227DB2B4512771E474C8366B629D50D72D8E912923D83E2CF06EE`，仅作为设计输入：确定性 GameState/Simulator 是 Ground Truth；Scenario 包固定 seed/worldConfig/scenarioVersion/gameVersion/aiConfig；观察者只能解释披露；Director AI、完整自治社会和 World Model 延后。下一闸门是把断粮/缺岗 storylet 从 fixture 推进到真实 resolver/reducer，并为 observer 加白名单深冻结和 AI-OFF 对照夹具。
+
+### v82.1 runtime storylet 重绑定（2026-10-17）
+
+断粮节点已完成最小真实接线：`runWorldDayUpkeep` 的 `onDayStart` 会在 `foodSituation().ratio <= 1` 时通过 GateV1 启动 `zh-food-shortage-001`，UI 从 activeChains 展示选择，`resolveContentChainCommand` 统一进入 `applyContentEffects`。CI #268 将 source gameplay 夹具提升为 3/3，覆盖 ration 分支、campCollapse 变化和重复 command 幂等；源码 SHA-256 为 `c564c6b647588806ab8b2a9e4390d785b5245a6c3c9fb49fff286b4439fc956a`，行为提交为 `73b010a44077d4c89bb83fb09a8ebe08dfde4e54`。
+
+这是一次性首轮危机节点，不宣称可重复 shortage episodes、完整缺岗 Gate、自然 browser 或生产 LLM。下一步单独处理 role availability/继任和可重复事件实例，避免把一次性 `completedChains` 当作长期危机调度。

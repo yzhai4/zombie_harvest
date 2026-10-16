@@ -134,3 +134,7 @@ CI #259（run `38921110774`，job `117040949418`）通过 runtime 8/8、producer
 本轮以“中继 + 断粮/缺岗”为锚点，先完成版本化场景包合同而不引入编辑器。JSON 包固定 scenarioVersion、seed、worldConfig、AI 开关和 storylet fallback；CI 通过 schema/validator、观察者 deterministic stub、源码三日推进夹具与 relay 合同。scenarioSnapshot 进入 SAVE21 兼容存档并默认 AI-OFF，设置面板只切换表达，不改变规则事实。
 
 出口仍是 source-VM 证据：自然多日 browser、真实 loader 执行和缺岗生产 reducer 尚未通过。下一步接入一个 EventDef/Gate/Effect storylet，加入失败回退、人口守恒和六视角审计，再补 fresh browser save/reload。
+
+## v82.1 runtime storylet checkpoint（2026-10-17）
+
+断粮 storylet 已接入真实 ContentRegistry/CommandBus 路径，source gameplay 夹具 3/3 通过。它目前是首轮一次性节点：food ratio ≤ 1 触发，ration 增加营地压力，forage 在后勤官存活时补回食物；后续重复危机、完整缺岗/继任和 fresh browser 仍未覆盖。

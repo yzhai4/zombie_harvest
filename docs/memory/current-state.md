@@ -279,3 +279,7 @@ CI #259（run `38921110774`，job `117040949418`）在同一构建通过 runtime
 - 已验证：CI #266 source hash e34dc65b78d6e7223bbeda9c347cc3043cb98ef8cdb72c28d66bbb14f15b7b54；scenario 3/3、observer 2/2、source gameplay 2/2；relay/runtime/transaction/replay/static smoke 仍通过。
 - 仍是设计或 fixture：Scenario Loader 未进入生产启动路径；observer 未使用完整六视图白名单/深冻结；AI 不写 GameState。
 - 来源对账：Sites v81/source f3488457286836bf986dc90b5e0c3f6f425813c9 未改；GitHub 行为证据绑定 d389365e960ba04685a4074e5c5485c034c4e922。
+
+## 2026-10-17 runtime storylet 增量
+
+`zh-food-shortage-001` 已在源码运行时注册并由 `onDayStart` 触发，CI #268 source gameplay 为 3/3，HTML hash `c564c6b647588806ab8b2a9e4390d785b5245a6c3c9fb49fff286b4439fc956a`。当前仅是一次性首轮 crisis；role availability、重复 episode、browser 和自然节奏仍是开放项。

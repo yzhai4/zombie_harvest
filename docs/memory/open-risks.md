@@ -77,3 +77,9 @@ CI #259（run `38921110774`，job `117040949418`）通过 runtime 8/8、producer
 - Observer 投影范围偏窄，没有完整 ObservationV1 六视图、深冻结和模型记忆持久化。
 - CI 没有 Python Playwright；source-VM 三日推进不能替代自然多日试玩。
 - 调研结论是设计输入；Director/World Model/大规模自治社会仍延后。
+
+## 2026-10-17 风险更新
+
+- 断粮 storylet 现在真实接线，但 `completedChains` 仍使它成为一次性节点；重复 shortage 需要 episode/instance key 和新回放合同。
+- forage 选择当前使用 quartermaster NPC 存活 Gate，尚未表达 garrison/actingRole/继任后的完整 role availability。
+- CI #268 仍是 source-VM；Python Playwright unavailable，不能当作自然多日 browser 证据。
