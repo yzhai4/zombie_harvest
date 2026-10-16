@@ -33,6 +33,26 @@
       "expect": {
         "mode": "deterministic-stub"
       }
+    },
+    {
+      "id": "sanitized-secret",
+      "config": {
+        "enabled": true
+      },
+      "subject": {
+        "kind": "event",
+        "id": "threat-1",
+        "title": "尸潮",
+        "phase": "NIGHT",
+        "threat": 80,
+        "secret": "hidden"
+      },
+      "relation": {
+        "trustToPlayer": 80
+      },
+      "expect": {
+        "mode": "deterministic-stub"
+      }
     }
   ]
 }

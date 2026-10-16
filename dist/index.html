@@ -1932,6 +1932,23 @@
     state.motion = { enabled: CONTINUOUS_MOTION.enabled, accumulator: 0, stepIndex: 0, input: { x: 0, y: 0 } };
     state.quests = [];
     function hashStable(value) { let h = 2166136261; for (const ch of String(value)) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619); } return (h >>> 0).toString(36); }
+    function observerDeepFreeze(value, seen = new Set()) {
+      if (!value || typeof value !== 'object' || seen.has(value)) return value;
+      seen.add(value);
+      Object.getOwnPropertyNames(value).forEach(key => observerDeepFreeze(value[key], seen));
+      return Object.freeze(value);
+    }
+    function observerScalar(value, fallback = null) { return (typeof value === 'string' && value.length <= 160) || typeof value === 'boolean' || (typeof value === 'number' && Number.isFinite(value)) ? value : fallback; }
+    function observerSanitizeSubject(subject = {}) {
+      const raw = subject && typeof subject === 'object' && !Array.isArray(subject) ? subject : {};
+      const inferred = raw.kind || (raw.type === 'npc' || raw.lifeState ? 'npc' : raw.phase || raw.defId ? 'event' : 'item');
+      const kind = ['item', 'npc', 'event'].includes(inferred) ? inferred : 'item';
+      const safe = { kind, id: observerScalar(raw.id || raw.defId, null) };
+      if (kind === 'item') Object.assign(safe, { label: observerScalar(raw.label || raw.name || raw.id, '未知物品'), category: observerScalar(raw.category || raw.type, 'unknown'), quality: observerScalar(raw.quality, null), qualityBand: observerScalar(raw.qualityBand, null) });
+      if (kind === 'npc') Object.assign(safe, { name: observerScalar(raw.name || raw.id, '未知角色'), role: observerScalar(raw.role, null), lifeState: observerScalar(raw.lifeState, 'unknown'), hp: observerScalar(raw.hp, null), maxHp: observerScalar(raw.maxHp, null) });
+      if (kind === 'event') Object.assign(safe, { title: observerScalar(raw.title || raw.id, '未知事件'), phase: observerScalar(raw.phase, 'DAY'), handled: raw.handled === true, threat: observerScalar(raw.threat, null) });
+      return observerDeepFreeze(safe);
+    }
     function observerAiConfig() { return normalizeAiConfig(state.scenarioSnapshot?.aiConfig || {}); }
     function observerDisclosureScore(subject = {}, context = {}) {
       const relation = context.relation || subject.relation || {}, values = context.values || subject.values || {};
@@ -1941,17 +1958,20 @@
       return Math.max(0, Math.min(1, 0.5 + trust / 200 + alignment / 400 + Math.max(-1, Math.min(1, progress / 100)) * 0.15));
     }
     function observerTruthProjection(subject = {}) {
-      const kind = subject.kind || (subject.type === 'npc' || subject.lifeState ? 'npc' : subject.phase || subject.defId ? 'event' : 'item');
-      if (kind === 'npc') return { kind: 'npc', id: subject.id || null, name: subject.name || subject.id || '未知角色', role: subject.role || null, lifeState: subject.lifeState || 'unknown', hpBand: Number.isFinite(Number(subject.hp)) && Number.isFinite(Number(subject.maxHp)) ? String(Math.round((Number(subject.hp) / Math.max(1, Number(subject.maxHp))) * 4)) + '/4' : 'unknown' };
-      if (kind === 'event') return { kind: 'event', id: subject.id || subject.defId || null, title: subject.title || subject.id || '未知事件', phase: subject.phase || 'DAY', handled: subject.handled === true, threatBand: Number.isFinite(Number(subject.threat)) ? (subject.threat >= 60 ? 'high' : subject.threat >= 25 ? 'medium' : 'low') : 'unknown' };
-      return { kind: 'item', id: subject.id || null, label: subject.label || subject.name || subject.id || '未知物品', category: subject.category || subject.type || 'unknown', qualityBand: subject.qualityBand || (Number.isFinite(Number(subject.quality)) ? (subject.quality >= 70 ? 'high' : subject.quality >= 40 ? 'medium' : 'low') : 'unknown') };
+      const safe = observerSanitizeSubject(subject), kind = safe.kind;
+      const projection = kind === 'npc'
+        ? { kind, id: safe.id, name: safe.name, role: safe.role, lifeState: safe.lifeState, hpBand: Number.isFinite(Number(safe.hp)) && Number.isFinite(Number(safe.maxHp)) ? String(Math.round((Number(safe.hp) / Math.max(1, Number(safe.maxHp))) * 4)) + '/4' : 'unknown' }
+        : kind === 'event'
+          ? { kind, id: safe.id, title: safe.title, phase: safe.phase, handled: safe.handled, threatBand: Number.isFinite(Number(safe.threat)) ? (safe.threat >= 60 ? 'high' : safe.threat >= 25 ? 'medium' : 'low') : 'unknown' }
+          : { kind, id: safe.id, label: safe.label, category: safe.category, qualityBand: safe.qualityBand || (Number.isFinite(Number(safe.quality)) ? (safe.quality >= 70 ? 'high' : safe.quality >= 40 ? 'medium' : 'low') : 'unknown') };
+      return observerDeepFreeze(projection);
     }
     function observerAllowedFacts(projection, score) {
       const facts = { kind: projection.kind, id: projection.id };
       if (projection.kind === 'item') { facts.label = projection.label; facts.category = projection.category; if (score >= .35) facts.qualityBand = projection.qualityBand; }
       if (projection.kind === 'npc') { facts.name = projection.name; facts.role = projection.role; facts.lifeState = projection.lifeState; if (score >= .45) facts.hpBand = projection.hpBand; }
       if (projection.kind === 'event') { facts.title = projection.title; facts.phase = projection.phase; facts.handled = projection.handled; if (score >= .55) facts.threatBand = projection.threatBand; }
-      return facts;
+      return observerDeepFreeze(facts);
     }
     function observerCommentary(subject = {}, context = {}) {
       const config = observerAiConfig(), projection = observerTruthProjection(subject), score = observerDisclosureScore(subject, context), facts = observerAllowedFacts(projection, score);
@@ -1960,7 +1980,7 @@
       if (projection.kind === 'npc' && score < .4) text += '；我暂时不愿解释更多。';
       if (projection.kind === 'event' && facts.threatBand === 'high') text += '；这件事需要优先处理。';
       if (projection.kind === 'item' && facts.qualityBand === 'high') text += '；它的价值值得谨慎评估。';
-      return { schema: 'ObserverExpressionV1', enabled: config.observerCommentary, mode: config.observerCommentary ? 'deterministic-stub' : 'fallback', authority: 'expression_only', disclosureScore: Math.round(score * 1000) / 1000, projection, facts, text, sourceProjectionHash: hashStable(JSON.stringify(facts)) };
+      return observerDeepFreeze({ schema: 'ObserverExpressionV1', enabled: config.observerCommentary, mode: config.observerCommentary ? 'deterministic-stub' : 'fallback', authority: 'expression_only', disclosureScore: Math.round(score * 1000) / 1000, projection, facts, text, sourceProjectionHash: hashStable(JSON.stringify(facts)) });
     }
     function ensureStableIds() {
       const assign = (list, prefix, keyFn) => { const seen = new Set(); (Array.isArray(list) ? list : []).forEach((item, i) => { let id = typeof item.id === 'string' && item.id ? item.id : `${prefix}-${hashStable(keyFn(item, i))}`; if (seen.has(id)) id = `${id}-${i}`; seen.add(id); item.id = id; }); };
@@ -2142,7 +2162,7 @@
     function randomInt(max) { return Math.floor(nextRandom() * Math.max(1, max)); }
     function stableClone(value) { return JSON.parse(JSON.stringify(value)); }
     function selectWorldSnapshot() { return { version: SAVE_VERSION, day: state.day, hour: state.hour, minute: state.minute, energy: state.energy, sanity: state.sanity, sanityClock: state.sanityClock, sanityLastReason: state.sanityLastReason, staminaExhaustedDay: state.staminaExhaustedDay, staminaExhaustedAt: state.staminaExhaustedAt, campaign: stableClone(state.campaign), scenarioSnapshot: stableClone(normalizeScenarioSnapshot(state.scenarioSnapshot)), campStanding: stableClone(state.campStanding), specialItems: stableClone(state.specialItems), relayProject: stableClone(state.relayProject), hordeForecast: stableClone(state.hordeForecast), contentState: stableClone(state.contentState), player: { ...stableClone(state.player), id: 'player-1' }, motion: stableClone(state.motion), buildings: stableClone(state.buildings), resources: stableClone(state.resources), landmarks: stableClone(state.landmarks), npcs: stableClone(state.npcs), npcEvents: stableClone(state.npcEvents || []), worldZombies: stableClone(state.worldZombies), world: stableClone(state.world), staminaRules: stableClone(state.staminaRules), quests: stableClone(state.quests), worldMeta: stableClone({...state.worldMeta, events: state.worldMeta.events.slice(-200), feedback: []}) }; }
-    const WorldFacts = { get current() { return state; }, snapshot() { return Object.freeze(selectWorldSnapshot()); }, entity(id) { return [state.player, ...state.npcs, ...state.buildings, ...state.resources, ...state.landmarks, ...state.worldZombies].find(x => x?.id === id) || null; } };
+    const WorldFacts = { get current() { return state; }, snapshot() { return observerDeepFreeze(selectWorldSnapshot()); }, entity(id) { return [state.player, ...state.npcs, ...state.buildings, ...state.resources, ...state.landmarks, ...state.worldZombies].find(x => x?.id === id) || null; } };
     const WorldSnapshot = { capture: () => WorldFacts.snapshot() };
     const EVENT_DEFINITION_VERSION = 1;
     const EVENT_DEFS = Object.create(null);
