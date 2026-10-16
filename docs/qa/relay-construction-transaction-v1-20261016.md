@@ -5,7 +5,7 @@
 - 仓库：`yzhai4/zombie_harvest`
 - 分支：`codex/v82-npc-succession`
 - 事务实现父提交：`3020b0d5c3e27b1c3d5b77bb60ed0fcf6b69557b`
-- 当前文档同步提交：`118bb2374c1cd99be8d9c20884fcef811434ec69`
+- 文档同步：随开发分支提交记录
 - CI：#253，run `38912989111`，static-validation job `117013214217`
 - Sites：线上 v81 保持不变；本检查没有部署 Sites，也没有修改生产 `dist/index.html`
 - 目的：在真实 producer 仍为 `world.advance → advanceReducer → updateRelayProject` 的前提下，冻结跨对象施工事务的纯值边界，为下一步 reducer 接线提供可回放合同。
