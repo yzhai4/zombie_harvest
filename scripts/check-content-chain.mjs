@@ -72,6 +72,9 @@ vm.runInContext(`
   ${section('const CONTENT_KINDS =', 'function migrateContentState(')}
   ${functionNames.map(sourceFunction).join('\n')}
   ${section('const FeedbackRouter =', 'function appendFeedbackEvent(')}
+  // Load the actual ephemeral controller for the new dispatch dependency.
+  // These fixtures remain idle; camp-rest-v1 separately exercises active time.
+  ${source.includes('const CampRestController =') ? section('const CampRestController =', 'let worldRenderFrame =') : ''}
   ${section('const CommandBus =', 'function dispatchCommand(')}
   ${section('const ContentRegistry =', "if (typeof window !== 'undefined') window.ZombieHarvestContent")}
   globalThis.runtime = {

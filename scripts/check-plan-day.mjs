@@ -98,6 +98,9 @@ vm.runInContext(`
   ${section('const NIGHT_ACTION_MESSAGE =', 'function isNightRestrictedAction(')}
   ${functions.map(sourceFunction).join('\n')}
   ${section('const FeedbackRouter =', 'function appendFeedbackEvent(')}
+  // Load the actual ephemeral controller for the new dispatch dependency.
+  // These fixtures remain idle; camp-rest-v1 separately exercises active time.
+  ${source.includes('const CampRestController =') ? section('const CampRestController =', 'let worldRenderFrame =') : ''}
   ${section('const CommandBus =', 'function dispatchCommand(')}
   globalThis.runtime = {
     getState: () => state, calls, checkpoints, action: actionCommand,

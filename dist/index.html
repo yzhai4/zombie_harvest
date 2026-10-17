@@ -215,6 +215,10 @@
     .food-action:disabled { opacity: .42; filter: grayscale(.55); cursor: not-allowed; }
     .food-action small { display: block; margin-top: 2px; font-size: 9px; font-weight: 700; opacity: .72; }
     .world-hint { margin-top: 6px; color: rgba(247,241,207,.62); font-size: 10px; text-align: right; }
+    .camp-rest-hud { display: flex; grid-column: 1 / -1; align-items: center; justify-content: space-between; gap: 10px; padding: 9px 12px; margin-top: 8px; border: 1px solid rgba(183,217,111,.4); border-radius: 12px; color: #f7f1cf; background: rgba(6,18,20,.9); font-size: 12px; line-height: 1.5; }
+    #campRestCancel[hidden] { display: none !important; }
+    #campRestCancel { flex-shrink: 0; min-height: 34px; }
+    @media (min-width: 900px) { .camp-rest-hud { position: fixed; z-index: 24; bottom: 82px; left: 50%; transform: translateX(-50%); width: min(460px, 38vw); margin: 0; box-shadow: 0 8px 28px rgba(0,0,0,.35); } }
     .context-panel { display: none; margin-top: 8px; padding: 10px 11px; border-radius: 17px; border: 1px solid rgba(183,217,111,.3); background: linear-gradient(135deg, rgba(35,58,48,.96), rgba(20,34,35,.96)); box-shadow: var(--shadow); animation: context-in .18s ease-out; }
     .context-panel.show { display: block; }
     .context-head { display: flex; align-items: center; gap: 8px; }
@@ -842,6 +846,7 @@
       .resource-strip.hud-collapsed .hud-window-bar { margin: 0; }
       .hud-window.hud-collapsed .hud-window-toggle { color: var(--green); }
       .app.hud-hidden > *:not(.world-wrap) { opacity: 0; pointer-events: none; }
+      .app.hud-hidden > .camp-rest-hud { opacity: 1; pointer-events: auto; }
       .app.hud-hidden .world-header, .app.hud-hidden .map-legend, .app.hud-hidden .survival-strip, .app.hud-hidden .world-hint { opacity: 0; pointer-events: none; }
       .app.hud-hidden ~ .shortcut-hud { opacity: 0; pointer-events: none; }
       .app.hud-hidden ~ .night-live-hud { opacity: 0; pointer-events: none; }
@@ -1092,6 +1097,8 @@
       <div class="world-hint" id="modeHint">靠近可交互物显示操作</div>
     </section>
 
+    <div class="camp-rest-hud" aria-live="polite"><span id="campRestStatus">营地等候：靠近庇护所选择30或60分钟；世界与风险继续。</span> <button id="campRestCancel" class="panel-toggle" hidden disabled>取消等候</button></div>
+
     <section class="context-panel hud-window" id="contextPanel" aria-live="polite">
       <div class="context-head"><div class="context-icon" id="contextIcon">✨</div><div class="context-copy"><b id="contextTitle">附近互动</b><span id="contextHint">走到资源、建筑或幸存者旁边后，这里会出现对应操作。</span></div><button class="context-close" id="contextClose" aria-label="关闭附近互动">×</button></div>
       <div class="context-actions" id="contextActions"></div>
@@ -1160,7 +1167,7 @@
           <button class="weapon-choice" data-weapon="pulseAxe"><b>⚡ 脉冲斧</b><small>伤害 55 · 一次攻击命中 2 只<br>🔩 8 · 📼 1</small></button>
         </div>
       </section>
-      <button class="action-btn primary" id="endDayBtn" style="width:100%; margin-top:10px; background:#e8bc6f;">⏭ 推进到下一次威胁</button>
+      <button class="action-btn primary" id="endDayBtn" style="width:100%; margin-top:10px; background:#e8bc6f;">⏭ 发起遭遇</button>
     </section>
 
     <section class="log-panel hud-window" id="logPanel">
@@ -1182,7 +1189,7 @@
       <button class="shortcut-chip" data-hud-action="interact" aria-label="交互"><kbd>E</kbd><span>交互</span></button>
       <button class="shortcut-chip" data-hud-action="attack" aria-label="攻击"><kbd>F</kbd><span>攻击</span></button>
       <button class="shortcut-chip" data-hud-action="eat" aria-label="进食"><kbd>R</kbd><span>进食</span></button>
-      <button class="shortcut-chip shortcut-chip-wide" data-hud-action="endday" aria-label="推进时间"><kbd>N</kbd><span>推进时间</span></button>
+      <button class="shortcut-chip shortcut-chip-wide" data-hud-action="endday" aria-label="发起遭遇"><kbd>N</kbd><span>发起遭遇</span></button>
       <button class="shortcut-chip shortcut-chip-wide" data-hud-action="hud" aria-label="隐藏界面"><kbd>H</kbd><span>隐藏界面</span></button>
     </div>
   </nav>
@@ -1365,6 +1372,7 @@
     });
     let battleTimer = null;
     let worldTimer = null;
+    let worldSimulationEpoch = 0;
     let worldLastTickAt = 0;
     const MAX_BACKGROUND_CATCHUP_MINUTES = 30;
     let worldTickCounter = 0;
@@ -3269,6 +3277,7 @@ function resolveObserverExpression(input = {}) {
       },
       dispatch(command, reducer, options = {}) {
       if (command.type !== 'session.restart' && (SessionController.exiting || !gameStarted || ['RECOVERY','SAVING','EXITING'].includes(SessionController.mode) || ['REPORT','LOSS'].includes(SessionController.mode) && command.type !== 'threat.close')) return { ok: false, reason: 'session-frozen' };
+      if (CampRestController.ownsClock() && !CampRestController.isStepping() && !command.type.startsWith('camp.rest.')) cancelCampRest('player-action');
       const wm = state.worldMeta;
       const ephemeral = options.ephemeral === true;
       const suppliedId = command.commandId;
@@ -3320,8 +3329,8 @@ function resolveObserverExpression(input = {}) {
       return { ok: true, commandId, event, result: data.result ?? result };
     } };
     function dispatchCommand(command, reducer, options) { return CommandBus.dispatch(command, reducer, options); }
-    function pauseWorld(paused = true) { state.worldMeta.clock.paused = !!paused; recordWorldEvent(paused ? 'clock.paused' : 'clock.resumed'); requestCheckpoint('clock'); }
-    function setWorldRate(rate = 1) { state.worldMeta.clock.rate = Math.max(0.25, Math.min(4, Number(rate) || 1)); recordWorldEvent('clock.rateChanged', { rate: state.worldMeta.clock.rate }); requestCheckpoint('clock'); }
+    function pauseWorld(paused = true) { cancelCampRest('clock-changed'); state.worldMeta.clock.paused = !!paused; recordWorldEvent(paused ? 'clock.paused' : 'clock.resumed'); requestCheckpoint('clock'); }
+    function setWorldRate(rate = 1) { cancelCampRest('clock-changed'); state.worldMeta.clock.rate = Math.max(0.25, Math.min(4, Number(rate) || 1)); recordWorldEvent('clock.rateChanged', { rate: state.worldMeta.clock.rate }); requestCheckpoint('clock'); }
     const QUEST_DEFS = Object.freeze({
       'camp-chain-001': { id: 'camp-chain-001', title: '营地因果链', steps: [{ id: 'collect', eventType: 'resource.collected' }, { id: 'repair', eventType: 'building.repaired' }, { id: 'threat', eventType: 'threat.started' }] },
       'relay-chain-001': { id: 'relay-chain-001', title: '广播中继链', definitionVersion: EVENT_DEFINITION_VERSION, prerequisites: [], steps: [
@@ -3789,13 +3798,13 @@ function resolveObserverExpression(input = {}) {
       isDay() { return gameStarted && !this.exiting && this.mode === 'DAY' && !state.night && !state.gameOver; },
       canSave() { return gameStarted && !this.exiting && !['RECOVERY','SAVING','EXITING'].includes(this.mode); },
       freeze(mode) {
-        this.mode = mode; stopWorldSimulation(); clearInterval(battleTimer); battleTimer = null; stopHeldMovement(); stopInteractionRepeat(); state.motion.input = { x: 0, y: 0 };
+        cancelCampRest('session-freeze', { resume: false }); this.mode = mode; stopWorldSimulation(); clearInterval(battleTimer); battleTimer = null; stopHeldMovement(); stopInteractionRepeat(); state.motion.input = { x: 0, y: 0 };
         if (pointerId !== null) { try { if ($('joystick').hasPointerCapture?.(pointerId)) $('joystick').releasePointerCapture(pointerId); } catch (error) {} pointerId = null; }
       },
       restart(options = {}) {
         if (this.exiting && !this.restartError) return { ok: true, duplicate: true };
         if (!this.exiting) {
-          this.exiting = true; this.generation += 1; gameStarted = false; this.mode = 'EXITING';
+          cancelCampRest('restart', { resume: false }); this.exiting = true; this.generation += 1; gameStarted = false; this.mode = 'EXITING';
           clearTimeout(checkpointTimer); checkpointTimer = null; stopWorldSimulation(); clearInterval(battleTimer); battleTimer = null; stopHeldMovement(); stopInteractionRepeat();
           for (const frame of [worldRenderFrame, continuousPositionFrame, state.moveTweenFrame]) if (frame !== null) cancelAnimationFrame(frame);
           worldRenderFrame = null; continuousPositionFrame = null; state.moveTweenFrame = null; worldRenderContextPending = false;
@@ -4916,7 +4925,10 @@ function resolveObserverExpression(input = {}) {
     }
     function recoverEnergy(minutes) {
       const rules = state.staminaRules || { max: 100, passiveRegenPerHour: 3 };
-      const recovery = Math.floor(Math.max(0, Number(minutes) || 0) * (Number(rules.passiveRegenPerHour) || 0) / 60);
+      const duration = Math.max(0, Number(minutes) || 0);
+      const rate = Number.isFinite(Number(rules.passiveRegenPerHour)) ? Math.max(0, Number(rules.passiveRegenPerHour)) : 0;
+      const end = worldMinute(), start = end - duration;
+      const recovery = Math.max(0, Math.floor(end * rate / 60) - Math.floor(start * rate / 60));
       if (recovery > 0) state.energy = Math.min(Number(rules.max) || 100, state.energy + recovery);
       return recovery;
     }
@@ -4985,7 +4997,207 @@ function resolveObserverExpression(input = {}) {
       runDayCombat(minutes);
       renderHud();
     }
-    function advance(minutes, options = {}) { if (SessionController.exiting || !SessionController.acceptsInput()) return { ok: false, reason: 'session-frozen' }; if (state.worldMeta.clock.paused) return { ok: true, paused: true }; const amount = Math.max(0, Number(minutes) || 0) * (state.worldMeta.clock.rate || 1); return dispatchCommand({ type: 'world.advance', commandId: options.commandId, payload: { minutes: amount } }, () => { state.worldMeta.clock.scheduleMinutes += amount; if (state.night) state.worldMeta.clock.phaseMinutes += amount; advanceReducer(amount); return { payload: { minutes: amount, day: state.day, hour: state.hour, minute: state.minute } }; }, { eventType: 'time.advanced', checkpoint: false }); }
+    function advance(minutes, options = {}) {
+      if (SessionController.exiting || !SessionController.acceptsInput()) return { ok: false, reason: 'session-frozen' };
+      if (CampRestController.ownsClock() && !CampRestController.isInternalStep(options)) cancelCampRest('player-action');
+      if (state.worldMeta.clock.paused) return { ok: true, paused: true };
+      const amount = Math.max(0, Number(minutes) || 0) * (state.worldMeta.clock.rate || 1);
+      const restMeta = CampRestController.isInternalStep(options) ? { restId: options.restId, restStep: options.restStep } : {};
+      return dispatchCommand({ type: 'world.advance', commandId: options.commandId, payload: { minutes: amount, ...restMeta } }, () => {
+        state.worldMeta.clock.scheduleMinutes += amount; if (state.night) state.worldMeta.clock.phaseMinutes += amount;
+        advanceReducer(amount);
+        return { payload: { minutes: amount, day: state.day, hour: state.hour, minute: state.minute, ...restMeta } };
+      }, { eventType: 'time.advanced', checkpoint: false });
+    }
+
+    // Ephemeral clock ownership only. The existing writer remains the sole
+    // persistent authority for elapsed time and all consequences of each step.
+    const CampRestController = (() => {
+      let active = null, last = null, timer = null, serial = 0, stepping = false;
+      let skipVisibilityCatchup = false;
+      function snapshot(record = active || last) {
+        return record ? { active: !!active && record === active, restId: record.restId, requested: record.requested,
+          completed: record.completed, remaining: Math.max(0, record.requested - record.completed), stepIndex: record.completed,
+          generation: record.generation, reason: record.reason || null, anchorId: record.anchorId,
+          startMinute: record.startMinute, currentMinute: worldMinute() } :
+          { active: false, restId: null, requested: 0, completed: 0, remaining: 0, stepIndex: 0,
+            generation: SessionController.generation, reason: null, anchorId: null, startMinute: null, currentMinute: worldMinute() };
+      }
+      function status() { return Object.freeze({ ...snapshot(), last: last ? Object.freeze(snapshot(last)) : null }); }
+      function pendingIdentities() {
+        const keys = [];
+        if (state.event && !state.event.handled) keys.push(`event:${state.event.id}:${state.eventInstance?.instanceId || ''}:${state.event.defId || ''}`);
+        Object.entries(state.contentState?.activeChains || {}).forEach(([id, value]) => {
+          if (value?.status === 'active') keys.push(`chain:${id}:${value.instanceId || value.instanceKey || value.startedAt}`);
+        });
+        (state.npcEvents || []).filter(value => value.status === 'queued').forEach(value => keys.push(`npc:${value.id}:${value.event?.id || ''}`));
+        return keys;
+      }
+      function observations(anchor) {
+        const near = entity => distanceBetween(entity, state.player) <= 5 || distanceBetween(entity, anchor) <= 5;
+        return { hp: state.hp, population: state.npcs.filter(npcIsActive).length, eventSeq: state.worldMeta.eventSeq,
+          collapse: Number(state.contentState?.meters?.campCollapse || 0),
+          npcs: state.npcs.filter(npcIsCampLocal).map(npc => ({ id: npc.id, hp: npc.hp, near: near(npc) })),
+          buildings: state.buildings.filter(building => Number.isFinite(building.hp)).map(building => ({ id: building.id, hp: building.hp, near: near(building) })) };
+      }
+      function consequence(record) {
+        const before = record.observed;
+        const anchor = state.buildings.find(building => building.id === record.anchorId);
+        const near = entity => !!entity && (distanceBetween(entity, state.player) <= 5 || !!anchor && distanceBetween(entity, anchor) <= 5);
+        const npcIds = new Set(before.npcs.filter(prior => { const npc = state.npcs.find(value => value.id === prior.id); return !npc?.garrisonedOutpostId && (prior.near || near(npc)); }).map(prior => prior.id));
+        const buildingIds = new Set(before.buildings.filter(prior => prior.near || near(state.buildings.find(value => value.id === prior.id))).map(prior => prior.id));
+        const damage = (state.worldMeta.events || []).filter(event => event.seq > before.eventSeq && event.type === 'combat.damage.applied' && event.payload?.amount > 0);
+        if (damage.some(event => event.payload.targetId === 'player-1')) return 'player-damaged';
+        if (damage.some(event => npcIds.has(event.payload.targetId))) return 'local-npc-damaged';
+        if (damage.some(event => buildingIds.has(event.payload.targetId))) return 'building-damaged';
+        if (state.hp < before.hp || state.hp <= 0) return 'player-damaged';
+        if (state.npcs.filter(npcIsActive).length < before.population) return 'population-loss';
+        if (Number(state.contentState?.meters?.campCollapse || 0) > before.collapse) return 'camp-deteriorated';
+        if (before.npcs.some(prior => { const npc = state.npcs.find(value => value.id === prior.id); return npcIds.has(prior.id) && (!npc || !npcIsActive(npc) || npc.hp < prior.hp); })) return 'local-npc-damaged';
+        if (before.buildings.some(prior => { const building = state.buildings.find(value => value.id === prior.id); return buildingIds.has(prior.id) && (!building || building.hp < prior.hp); })) return 'building-damaged';
+        if (pendingIdentities().some(key => !record.pending.has(key))) return 'new-matter';
+        return null;
+      }
+      function budget(count, suppliedId) {
+        const wm = state.worldMeta;
+        const copy = { commandSeq: wm.commandSeq, seenCommands: [...wm.seenCommands], replay: { commands: [...(wm.replay?.commands || [])] }, activeCommandId: wm.activeCommandId };
+        if (suppliedId !== undefined) {
+          if (typeof suppliedId !== 'string' || !suppliedId) return { ok: false, reason: 'command-id-invalid' };
+          const match = /^cmd-([0-9]+)$/.exec(suppliedId), sequence = match ? Number(match[1]) : null;
+          if (match && /^[1-9][0-9]{15,}$/.test(match[1]) && !Number.isSafeInteger(sequence)) return { ok: false, reason: 'command-id-unsafe' };
+          if (Number.isSafeInteger(sequence) && sequence > 0 && suppliedId === `cmd-${String(sequence).padStart(6, '0')}`) copy.commandSeq = Math.max(copy.commandSeq, sequence);
+          copy.seenCommands.push(suppliedId); count -= 1;
+        }
+        for (let index = 0; index < count; index += 1) {
+          const allocation = CommandBus.nextAutomaticId(copy); if (!allocation.ok) return allocation;
+          copy.commandSeq = allocation.commandSeq; copy.seenCommands.push(allocation.commandId);
+        }
+        return { ok: true };
+      }
+      function arm(record) {
+        if (active !== record) return;
+        const expected = { restId: record.restId, expectedCompleted: record.completed, generation: record.generation };
+        timer = setTimeout(() => tick(expected), 200);
+      }
+      function stop(reason = 'player-cancel', options = {}) {
+        if (!active) return { ok: true, duplicate: true, status: status() };
+        const record = active;
+        clearTimeout(timer); timer = null; active = null; record.reason = reason; last = record;
+        worldLastTickAt = Date.now();
+        if (['hidden','pagehide','focus-lost'].includes(reason)) skipVisibilityCatchup = true;
+        const payload = { ...snapshot(record), active: false, completed: record.completed, reason };
+        const event = dispatchCommand({ type: 'camp.rest.stop', payload }, () => ({ payload }), { eventType: 'camp.rest.stopped', checkpoint: false });
+        // Cleanup never depends on allocating a terminal command ID.
+        renderCampRestStatus();
+        requestCheckpoint('camp-rest-stopped', { immediate: true });
+        if (options.resume !== false && SessionController.isDay() && state.hp > 0 && !document.hidden) startWorldSimulation();
+        return { ...event, status: status() };
+      }
+      function begin(minutes, options = {}) {
+        const command = { type: 'camp.rest.begin', commandId: options.commandId, payload: { minutes } };
+        const duplicate = options.commandId && (state.worldMeta.seenCommands.includes(options.commandId) || state.worldMeta.replay?.commands?.some(value => value.commandId === options.commandId));
+        if (duplicate) return dispatchCommand(command, () => ({ ok: false, reason: 'duplicate-not-executed' }), { checkpoint: false });
+        const gate = restGate(minutes); if (!gate.ok) return { ok: false, reason: gate.reason };
+        const allocation = budget(3, options.commandId); if (!allocation.ok) return allocation;
+        const result = dispatchCommand(command, accepted => {
+          const checked = restGate(minutes); if (!checked.ok) return checked;
+          const anchor = checked.anchor;
+          stopWorldSimulation(); stopHeldMovement(); stopInteractionRepeat(); state.motion.input = { x: 0, y: 0 };
+          if (pointerId !== null) { try { if ($('joystick').hasPointerCapture?.(pointerId)) $('joystick').releasePointerCapture(pointerId); } catch (error) {} pointerId = null; }
+          const record = { restId: `rest-${SessionController.generation}-${++serial}-${accepted.commandId || state.worldMeta.activeCommandId}`,
+            requested: minutes, completed: 0, generation: SessionController.generation, anchorId: anchor.id,
+            startMinute: worldMinute(), position: { x: state.player.x, y: state.player.y }, pending: new Set(pendingIdentities()), observed: observations(anchor), reason: null };
+          active = record; last = null; arm(record); renderCampRestStatus();
+          return { payload: { ...snapshot(record), targetMinute: record.startMinute + minutes }, result: snapshot(record) };
+        }, { eventType: 'camp.rest.started', checkpoint: false });
+        if (result.ok && !result.duplicate) requestCheckpoint('camp-rest-started', { immediate: true });
+        return result;
+      }
+      function tick(options = {}) {
+        const record = active;
+        if (!record) return { ok: false, reason: 'rest-inactive' };
+        const restId = options.restId ?? record.restId, expectedCompleted = options.expectedCompleted ?? record.completed;
+        const generation = options.generation ?? record.generation;
+        const command = { type: 'camp.rest.step', commandId: options.commandId, payload: { restId, expectedCompleted, generation, minutes: 1 } };
+        if (options.commandId && (state.worldMeta.seenCommands.includes(options.commandId) || state.worldMeta.replay?.commands?.some(value => value.commandId === options.commandId))) return dispatchCommand(command, () => ({ ok: false, reason: 'duplicate-not-executed' }), { checkpoint: false });
+        if (record.restId !== restId || record.completed !== expectedCompleted || record.generation !== generation) return { ok: false, reason: 'rest-stale' };
+        if (generation !== SessionController.generation) { stop('generation-changed', { resume: false }); return { ok: false, reason: 'generation-changed' }; }
+        const checked = restGate(record.requested, record);
+        const reason = checked.ok ? consequence(record) : checked.reason;
+        if (reason) { stop(reason, { resume: !['hidden','session-frozen','phase-changed'].includes(reason) }); return { ok: false, reason }; }
+        const allocation = budget(2, options.commandId);
+        if (!allocation.ok) { stop(allocation.reason); return allocation; }
+        const result = dispatchCommand(command, () => {
+          clearTimeout(timer); timer = null;
+          record.observed = observations(checked.anchor);
+          const beforeMinute = worldMinute(), restStep = record.completed + 1;
+          let advanced;
+          stepping = true;
+          try { advanced = advance(1, { restId, restStep }); } finally { stepping = false; }
+          const afterMinute = worldMinute();
+          if (advanced?.ok !== true || advanced.duplicate || advanced.paused || afterMinute !== beforeMinute + 1) return { ok: false, reason: advanced?.reason || 'rest-step-unconfirmed' };
+          record.completed += 1;
+          return { payload: { restId, restStep, beforeMinute, afterMinute, requested: record.requested, completed: record.completed, advanceCommandId: advanced.commandId } };
+        }, { eventType: 'camp.rest.stepped', checkpoint: false });
+        if (!result.ok) { stop(result.reason || 'rest-step-failed'); return result; }
+        renderCampRestStatus(); scheduleWorldRender({ context: true });
+        if (record.completed % 5 === 0) requestCheckpoint('camp-rest-progress', { immediate: true });
+        const after = restGate(record.requested, record);
+        const interrupted = after.ok ? consequence(record) : after.reason;
+        if (interrupted || record.completed >= record.requested) stop(interrupted || 'completed');
+        else { record.observed = observations(after.anchor); arm(record); }
+        return result;
+      }
+      return { status, begin, tick, stop, ownsClock: () => !!active,
+        isInternalStep: options => stepping && active && options.restId === active.restId && options.restStep === active.completed + 1,
+        isStepping: () => stepping,
+        consumeVisibilitySkip() { const skipped = skipVisibilityCatchup; skipVisibilityCatchup = false; return skipped; } };
+    })();
+    function campRestDanger(anchor) {
+      if (!Array.isArray(state.worldZombies)) return 'danger-unknown';
+      for (const enemy of state.worldZombies) {
+        if (!enemy || !Number.isFinite(enemy.hp)) return 'danger-unknown';
+        if (enemy.hp <= 0 || enemy.dead === true) continue;
+        if (!['normal','runner','brute'].includes(enemy.kind) || !Number.isFinite(enemy.x) || !Number.isFinite(enemy.y)) return 'danger-unknown';
+        // Only the bounded production speed envelope is safe for this wait.
+        // Missing is the original motion default; never coerce invalid values.
+        if (enemy.speedFactor !== undefined && (typeof enemy.speedFactor !== 'number' || !Number.isFinite(enemy.speedFactor) || enemy.speedFactor <= 0 || enemy.speedFactor > 1.12)) return 'danger-unknown';
+        if (distanceBetween(enemy, state.player) <= 5 || distanceBetween(enemy, anchor) <= 5) return 'nearby-threat';
+        const memory = perceptionProfile(enemy).memory;
+        if (!Number.isFinite(memory) || memory < 0) return 'danger-unknown';
+        const locked = enemy.perception?.targetId === 'player-1';
+        const at = enemy.perception?.targetAt;
+        const remembered = locked && Number.isFinite(at) && at <= worldMinute() && worldMinute() - at <= memory;
+        const playerGoal = enemy.goal && distanceBetween(enemy.goal, state.player) < 0.01;
+        if (locked && !Number.isFinite(at)) return 'danger-unknown';
+        if (enemy.aiState === 'hunt' || enemy.aiState === 'pursue' && (remembered || playerGoal) || remembered) return 'pursued';
+      }
+      return null;
+    }
+    function restGate(minutes, record = null) {
+      if (!Number.isInteger(minutes) || ![30,60].includes(minutes)) return { ok: false, reason: 'duration-invalid' };
+      if (SessionController.exiting || !gameStarted) return { ok: false, reason: 'session-frozen' };
+      if (!SessionController.isDay()) return { ok: false, reason: 'phase-changed' };
+      if (!(state.hp > 0)) return { ok: false, reason: 'player-unavailable' };
+      if (document.hidden) return { ok: false, reason: 'hidden' };
+      if (state.worldMeta.clock.paused || state.worldMeta.clock.rate !== 1) return { ok: false, reason: 'clock-unsupported' };
+      if (!record && CampRestController.ownsClock()) return { ok: false, reason: 'rest-active' };
+      const anchor = state.buildings.find(building => building.type === 'shelter' && typeof building.id === 'string' && building.id && building.active !== false && (building.hp === undefined || building.hp > 0) && (!record || building.id === record.anchorId) && contextDistance(building) <= CONTEXT_INTERACTION_RADIUS);
+      if (!anchor) return { ok: false, reason: 'shelter-required' };
+      if (record && distanceBetween(record.position, state.player) > 0.001) return { ok: false, reason: 'player-moved' };
+      const danger = campRestDanger(anchor); if (danger) return { ok: false, reason: danger };
+      return { ok: true, anchor };
+    }
+    function requestCampRest(minutes, options = {}) { return CampRestController.begin(minutes, options); }
+    function cancelCampRest(reason = 'player-cancel', options = {}) { return CampRestController.stop(reason, options); }
+    function renderCampRestStatus() {
+      const status = CampRestController.status(), label = $('campRestStatus'), cancel = $('campRestCancel');
+      const reasons = { 'player-cancel': '已取消', 'player-action': '开始主动行动', 'nearby-threat': '附近存在威胁', pursued: '仍被追踪', 'danger-unknown': '无法确认安全', 'new-matter': '出现新事项', 'player-damaged': '玩家受损', 'local-npc-damaged': '现场人员受损', 'building-damaged': '营地设施受损', 'population-loss': '人员伤亡', 'camp-deteriorated': '营地状况恶化', hidden: '页面已隐藏', pagehide: '离开页面', 'focus-lost': '窗口失去焦点', 'shelter-required': '已离开庇护所', 'player-moved': '已离开原位置', 'phase-changed': '阶段改变', 'session-freeze': '会话已停止', restart: '重新开始', 'generation-changed': '会话已更换', 'clock-changed': '时钟设置改变', 'clock-unsupported': '时钟设置不支持', 'player-unavailable': '玩家无法继续', 'command-sequence-exhausted': '命令预算耗尽' };
+      if (label) label.textContent = status.restId ? `${status.active ? '等候中' : status.reason === 'completed' ? '等候完成' : '等候停止'} · ${status.completed}/${status.requested} 分钟 · 食物 ${state.food} · 体力 ${Math.floor(state.energy)}${status.active ? ' · 世界继续运行' : status.reason === 'completed' ? '' : ' · ' + (reasons[status.reason] || '无法继续')}` : '营地等候：靠近庇护所选择30或60分钟；世界与风险继续。';
+      if (cancel) { cancel.hidden = !status.active; cancel.disabled = !status.active; }
+      document.querySelectorAll('[data-context-action="campRest30"], [data-context-action="campRest60"]').forEach(button => { button.disabled = status.active || !restGate(button.dataset.contextAction === 'campRest30' ? 30 : 60).ok; });
+    }
+
     let worldRenderFrame = null;
     let worldRenderContextPending = false;
     function scheduleWorldRender(options = {}) {
@@ -5001,15 +5213,17 @@ function resolveObserverExpression(input = {}) {
       });
     }
     function stopWorldSimulation() {
+      worldSimulationEpoch += 1;
       clearInterval(worldTimer);
       worldTimer = null;
     }
     function startWorldSimulation() {
       stopWorldSimulation(); worldLastTickAt = Date.now();
-      if (!SessionController.isDay()) return false;
+      if (!SessionController.isDay() || CampRestController.ownsClock() || document.hidden || state.hp <= 0) return false;
       const generation = SessionController.generation;
+      const simulationEpoch = worldSimulationEpoch;
       worldTimer = setInterval(() => {
-        if (generation !== SessionController.generation || !SessionController.isDay() || document.hidden) return;
+        if (generation !== SessionController.generation || simulationEpoch !== worldSimulationEpoch || !SessionController.isDay() || document.hidden || CampRestController.ownsClock() || state.hp <= 0) return;
         const now = Date.now(), elapsed = Math.max(0, now - worldLastTickAt); worldLastTickAt = now;
         worldTickCounter += 1; advance(Math.max(1, Math.min(5, Math.floor(elapsed / 1200) || 1)));
         if (!infoModalOpen || worldTickCounter % 2 === 0) scheduleWorldRender({ context: !infoModalOpen });
@@ -5123,6 +5337,7 @@ function resolveObserverExpression(input = {}) {
       renderPlanMeeting(); renderHud();
     }
     function renderHud() {
+      renderCampRestStatus();
       const dayActionsAllowed = SessionController.isDay();
       for (const id of ['gatherBtn','buildBtn','cropBtn','endDayBtn']) { const button = $(id); if (button) button.disabled = !dayActionsAllowed; }
       if (infoModalOpen && infoModalTab === 'plan') renderPlanMeeting();
@@ -5763,6 +5978,10 @@ function resolveObserverExpression(input = {}) {
         icon = outpost.icon || '🏕️'; title = `${def?.name || outpost.name} · 据点`;
         add(gate.ok ? `🏕️ 接管${def?.name || outpost.name}` : `🏕️ ${def?.name || outpost.name}`, gate.ok ? `派驻 ${gate.guards.map(npc => npc.name).join('、')} · 消耗 6 行动体力 · 推进 30 分钟` : `接管 Gate：${gate.label}`, 'captureOutpost', 'primary', !gate.ok);
         hint = gate.ok ? '据点会占用固定人口，并在每日清晨消耗维护食物。' : `当前无法接管：${gate.label}`;
+      }
+      if (nearShelter) {
+        add('⏳ 等候30分钟', '不额外治疗或补给 · 世界继续运行，可随时取消', 'campRest30', '', !restGate(30).ok);
+        add('⏳ 等候60分钟', '真实消耗与危险继续 · 不保证安全', 'campRest60', '', !restGate(60).ok);
       }
       if (areas.length) {
         const area = areas[0];
@@ -6551,6 +6770,7 @@ function resolveObserverExpression(input = {}) {
       return result;
     }
     function interact() {
+      cancelCampRest('player-action');
       if (state.gameOver) return;
       if (state.inventoryOpen) { toggleInventory(false); return; }
       if (state.night) {
@@ -6884,6 +7104,7 @@ function resolveObserverExpression(input = {}) {
     }
     function placeBuilding(x,y, options = {}) { return actionCommand('building.construct','building.constructed',{x,y,buildingType:state.selectedBuild},()=>placeBuildingReducer(x,y),options); }
     function toggleBuild() {
+      cancelCampRest('player-action');
       if (SessionController.exiting) return;
       stopInteractionRepeat();
       if (!guardNightAction()) return;
@@ -7416,6 +7637,7 @@ function resolveObserverExpression(input = {}) {
       if (!guardNightAction()) return nightActionResult();
       if (state.night) return;
       stopInteractionRepeat();
+      cancelCampRest('phase-changed', { resume: false });
       // From this point onward battleTick is the only active simulation clock.
       // Pausing the daytime timer prevents needs, SAN, frontier exposure and
       // relay progress from advancing in parallel with the same encounter.
@@ -8095,6 +8317,7 @@ function resolveObserverExpression(input = {}) {
     $('infoPlanMount')?.addEventListener('click', handlePlanMeetingAction);
     document.querySelectorAll('[data-info-tab]').forEach(button => button.addEventListener('click', () => openInfoModal(button.dataset.infoTab)));
     $('contextClose').addEventListener('click', () => { contextDismissedAt = tileKey(state.player.x, state.player.y); hideContext(); });
+    $('campRestCancel').addEventListener('click', () => { cancelCampRest(); renderContext(); });
     $('contextActions').addEventListener('click', (event) => {
       const button = event.target.closest('[data-context-action]');
       if (!button || button.disabled) return;
@@ -8105,7 +8328,8 @@ function resolveObserverExpression(input = {}) {
       const nearbyOutpost = nearbyContextItem(state.landmarks, l => l.found === true && !!outpostDefinitionFor(l));
       const nearbyBuilding = nearbyContextItem(state.buildings);
       const nearbyShelter = nearbyContextItem(state.buildings, b => b.type === 'shelter');
-      if (action === 'attack') attackNearestThreat();
+      if (action === 'campRest30' || action === 'campRest60') { const result = requestCampRest(action === 'campRest30' ? 30 : 60); if (!result.ok) toast('当前无法等候，请检查附近威胁、位置与时钟'); renderContext(); }
+      else if (action === 'attack') attackNearestThreat();
       else if (action === 'npc' && nearbyNpc) interactNpc(nearbyNpc.id);
       else if (action === 'npcOrder') setNpcOrder(button.dataset.npcId, button.dataset.order);
       else if (action === 'relayHandoff') handoffRelayCore(relayHandoffExpectedToken(button.dataset));
@@ -8189,6 +8413,7 @@ function resolveObserverExpression(input = {}) {
       if (!heldMovementFrame) { lastHeldMoveAt = performance.now(); heldMovementFrame = requestAnimationFrame(at => runHeldMovement(at, generation)); }
     }
     document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && CampRestController.ownsClock()) { cancelCampRest('player-cancel'); e.preventDefault(); return; }
       if (e.target && ['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) return;
       if (SessionController.exiting) { e.preventDefault(); return; }
       if (!gameStarted) { if (e.key === 'Enter') startFromSave(); return; }
@@ -8242,13 +8467,13 @@ function resolveObserverExpression(input = {}) {
       if (heldDirections.has(lower)) heldDirections.delete(lower);
       if (!heldDirections.size) stopHeldMovement();
     });
-    window.addEventListener('blur', stopHeldMovement);
+    window.addEventListener('blur', () => { if (CampRestController.ownsClock()) cancelCampRest('focus-lost'); stopHeldMovement(); });
     window.addEventListener('blur', stopInteractionRepeat);
     document.addEventListener('visibilitychange', () => {
-      if (document.hidden) { stopHeldMovement(); stopInteractionRepeat(); requestCheckpoint('visibility-hidden', { immediate: true }); }
-      else if (SessionController.isDay()) { const elapsed = Math.max(0, Date.now() - worldLastTickAt); const catchup = Math.min(MAX_BACKGROUND_CATCHUP_MINUTES, Math.floor(elapsed / 60000)); if (catchup > 0 && !state.worldMeta.clock.paused && !state.night) advance(catchup); worldLastTickAt = Date.now(); requestCheckpoint('visibility-visible', { immediate: true }); }
+      if (document.hidden) { cancelCampRest('hidden', { resume: false }); stopWorldSimulation(); stopHeldMovement(); stopInteractionRepeat(); requestCheckpoint('visibility-hidden', { immediate: true }); }
+      else if (SessionController.isDay()) { const skipRestCatchup = CampRestController.consumeVisibilitySkip(); const elapsed = skipRestCatchup ? 0 : Math.max(0, Date.now() - worldLastTickAt); const catchup = Math.min(MAX_BACKGROUND_CATCHUP_MINUTES, Math.floor(elapsed / 60000)); if (catchup > 0 && !state.worldMeta.clock.paused && !state.night) advance(catchup); worldLastTickAt = Date.now(); startWorldSimulation(); requestCheckpoint('visibility-visible', { immediate: true }); }
     });
-    window.addEventListener('pagehide', () => requestCheckpoint('pagehide', { immediate: true }));
+    window.addEventListener('pagehide', () => { cancelCampRest('pagehide', { resume: false }); stopWorldSimulation(); requestCheckpoint('pagehide', { immediate: true }); });
 
     let pointerId = null;
     $('joystick').addEventListener('pointerdown', (e) => { if (!SessionController.acceptsInput()) return; pointerId = e.pointerId; $('joystick').setPointerCapture(pointerId); moveStick(e); });
