@@ -1,0 +1,24 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import {createHash} from 'node:crypto';
+const root='[private-local-path:eacc050f7b7c]';
+const area='[private-local-path:b52518fae981]';
+const prior=path.join(area,'review-c420-01'),out=path.join(area,'direct-sight-working/full-source'),dest=path.join(out,'frozen-repo');
+assert.equal(fs.existsSync(out),false,'new freeze only');fs.mkdirSync(dest,{recursive:true});
+const sha=b=>createHash('sha256').update(b).digest('hex'),files=new Set(),walk=d=>fs.readdirSync(path.join(root,d),{withFileTypes:true}).flatMap(e=>e.isDirectory()&&!['__pycache__','node_modules'].includes(e.name)?walk(d+'/'+e.name):e.isFile()?[d+'/'+e.name]:[]);
+for(const file of walk('scripts'))if(!/^scripts\/(?:browser-|check-npc-direct-sight-v1\.mjs$)/.test(file)&&!file.endsWith('.pyc'))files.add(file);
+const old=JSON.parse(fs.readFileSync(path.join(prior,'frozen-input-index.json'),'utf8'));
+for(const row of old.files){const p=row.path;if(p.startsWith('docs/qa/'))continue;if(p.startsWith('docs/experiments/runs/'))continue;if(p.startsWith('scripts/'))continue;if(/\.(?:zip|gz|png|jpg|jpeg|webp|mp4)$/i.test(p))continue;files.add(p);}
+for(const file of walk('docs/experiments/runs/food-shortage-strategies-32f911-20261017'))files.add(file);
+for(const file of ['docs/qa/runs/crop-target-v1-20261017/natural-fresh06/007-3-npc.interacted-before-save.json','docs/qa/runs/crop-target-v1-20261017/natural-fresh06/007-3-npc.interacted-before-ui.json','docs/qa/runs/crop-target-v1-20261017/natural-fresh06/report.json','docs/qa/runs/shortage-choice-v2-20261017/natural-baseline/fresh04/terminal-before-cleanup-save.json','docs/qa/runs/npc-public-actions-v1-20261017/npc-browser/original-writer.json'])files.add(file);
+const c2=JSON.parse(fs.readFileSync(path.join(root,'scripts/fixtures/scenario-boot-c2/capture-mapping.json'),'utf8'));
+for(const row of Object.values(c2).flatMap(v=>Array.isArray(v)?v:[v]))if(row&&typeof row.path==='string'&&!row.path.startsWith('artifact:'))files.add(row.path);
+const rows=[];
+for(const file of [...files].sort()){const from=path.resolve(root,file),to=path.resolve(dest,file);assert.ok(from.startsWith(path.resolve(root)+path.sep)&&to.startsWith(path.resolve(dest)+path.sep));const b=fs.readFileSync(from);fs.mkdirSync(path.dirname(to),{recursive:true});fs.writeFileSync(to,b);assert.equal(sha(fs.readFileSync(to)),sha(b));rows.push({path:file,bytes:b.length,sha256:sha(b),origin:'current-repository-exact-bytes'});}
+for(const file of ['run-checks.mjs','run-additional-checks.mjs']){const b=fs.readFileSync(path.join(prior,file));fs.writeFileSync(path.join(dest,file),b);rows.push({path:file,bytes:b.length,sha256:sha(b),origin:'unchanged-existing-review-runner'});}
+assert.equal(sha(fs.readFileSync(path.join(dest,'dist/index.html'))),'23b8c8c27234592673aa927f3909ea49247c372a937787f90355f87531f421b0');
+assert.equal(sha(fs.readFileSync(path.join(dest,'scripts/lib/npc-direct-sight-v1.mjs'))),'d464721a657a0c436e4bf1b3fd45cbe250f769ff932cbc01e3e0fbe4356a23af');
+const index={schema:'IndependentSourceClosureFrozenInputsV1',sourceHtmlSha256:sha(fs.readFileSync(path.join(dest,'dist/index.html'))),directSightCoreSha256:sha(fs.readFileSync(path.join(dest,'scripts/lib/npc-direct-sight-v1.mjs'))),scope:'42 existing source/method contracts: original30 + additional10 + C2 source66 + self104; no direct-sight checker or browser execution',exclusions:['all prior review-output','large QA archives','browser profiles','current direct-sight checker and browser scripts'],files:rows};
+fs.writeFileSync(path.join(out,'frozen-input-index.json'),JSON.stringify(index,null,2)+'\n');
+console.log(JSON.stringify({prepared:true,files:rows.length,bytes:rows.reduce((s,r)=>s+r.bytes,0),indexSha256:sha(fs.readFileSync(path.join(out,'frozen-input-index.json'))),sourceHtmlSha256:index.sourceHtmlSha256,directSightCoreSha256:index.directSightCoreSha256}));

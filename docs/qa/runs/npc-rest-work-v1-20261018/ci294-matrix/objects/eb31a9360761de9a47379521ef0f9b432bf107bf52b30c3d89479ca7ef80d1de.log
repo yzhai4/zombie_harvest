@@ -1,0 +1,18 @@
+camp-area source execution passed: 16 checks
+sourceHtmlSha256: c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571
+  ✓ displayed 1.17-distance barracks matches shared proximity and reducer
+  ✓ exact 1.25 boundary is accepted
+  ✓ out-of-range interaction rejects without progression or successful event
+  ✓ shared proximity selector retains its predicate filter
+  ✓ invalid area null is rejected through CommandBus
+  ✓ invalid area qa-absent is rejected through CommandBus
+  ✓ invalid area barracks is rejected through CommandBus
+  ✓ night wrapper and reducer both refuse area effects
+  ✓ game-over command is rejected before area mutations
+  ✓ successful repeated commandId cannot train or checkpoint twice
+  ✓ training spends no food and records before/after actual elapsed minutes
+  ✓ residence dinner charges one food and advances thirty minutes once
+  ✓ food-empty dinner emits rejection and no success/checkpoint/time
+  ✓ barracks with no active guards cannot emit a successful action
+  ✓ zero-minute core view still records its command and checkpoint honestly
+  ✓ zero-minute farmland view selects existing crop without time/resource cost

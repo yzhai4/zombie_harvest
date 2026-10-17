@@ -1,0 +1,304 @@
+{
+  "schema": "NpcSelfBrowserSourceInputManifestV1",
+  "sourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+  "originalWriter": {
+    "file": "original-writer.json",
+    "sha256": "1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f"
+  },
+  "scenes": [
+    {
+      "id": "normal-support",
+      "file": "normal-support-native.json",
+      "publicTargetTile": {
+        "x": 11,
+        "y": 11
+      },
+      "changes": [
+        "TEST-ONLY carpenter position .75 east of original player",
+        "TEST-ONLY self HP/life/three needs/actual trust per scene",
+        "carpenter motion target cleared; all enemies and resources retained"
+      ],
+      "artifact": "npc-self-observation-v1-artifacts/browser-inputs/normal-support-native.json",
+      "sha256": "34e43fe0ea760ba2be80d2cc8f2bea78340e5be548f2c5bf3d3d8f8f05ce8904",
+      "npcId": "carpenter",
+      "npcName": "阿梁",
+      "player": {
+        "x": 11,
+        "y": 11
+      },
+      "target": {
+        "x": 11.75,
+        "y": 11,
+        "hp": 100,
+        "lifeState": "healthy",
+        "trust": 0,
+        "needs": {
+          "hunger": 0,
+          "fatigue": 0,
+          "energy": 100
+        }
+      },
+      "clockPaused": false,
+      "sourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "inputOriginalSha256": "1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f"
+    },
+    {
+      "id": "needs-threshold",
+      "file": "needs-threshold-native.json",
+      "publicTargetTile": {
+        "x": 11,
+        "y": 11
+      },
+      "changes": [
+        "TEST-ONLY carpenter position .75 east of original player",
+        "TEST-ONLY self HP/life/three needs/actual trust per scene",
+        "carpenter motion target cleared; all enemies and resources retained"
+      ],
+      "artifact": "npc-self-observation-v1-artifacts/browser-inputs/needs-threshold-native.json",
+      "sha256": "3cc55a965effb2bf12e8d4c0257622744cf12ccb2ccdab5c64cdfa698aa5464c",
+      "npcId": "carpenter",
+      "npcName": "阿梁",
+      "player": {
+        "x": 11,
+        "y": 11
+      },
+      "target": {
+        "x": 11.75,
+        "y": 11,
+        "hp": 50,
+        "lifeState": "injured",
+        "trust": -10,
+        "needs": {
+          "hunger": 70,
+          "fatigue": 70,
+          "energy": 25
+        }
+      },
+      "clockPaused": false,
+      "sourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "inputOriginalSha256": "1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f"
+    },
+    {
+      "id": "low-trust",
+      "file": "low-trust-native.json",
+      "publicTargetTile": {
+        "x": 11,
+        "y": 11
+      },
+      "changes": [
+        "TEST-ONLY carpenter position .75 east of original player",
+        "TEST-ONLY self HP/life/three needs/actual trust per scene",
+        "carpenter motion target cleared; all enemies and resources retained"
+      ],
+      "artifact": "npc-self-observation-v1-artifacts/browser-inputs/low-trust-native.json",
+      "sha256": "66a08f8f763eeb289430a4caa96905b44b67fb9cad40d511b22823c2413eb2bd",
+      "npcId": "carpenter",
+      "npcName": "阿梁",
+      "player": {
+        "x": 11,
+        "y": 11
+      },
+      "target": {
+        "x": 11.75,
+        "y": 11,
+        "hp": 50,
+        "lifeState": "injured",
+        "trust": -11,
+        "needs": {
+          "hunger": 70,
+          "fatigue": 70,
+          "energy": 25
+        }
+      },
+      "clockPaused": false,
+      "sourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "inputOriginalSha256": "1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f"
+    },
+    {
+      "id": "critical-free",
+      "file": "critical-free-native.json",
+      "publicTargetTile": {
+        "x": 11,
+        "y": 11
+      },
+      "changes": [
+        "TEST-ONLY carpenter position .75 east of original player",
+        "TEST-ONLY self HP/life/three needs/actual trust per scene",
+        "carpenter motion target cleared; all enemies and resources retained",
+        "TEST-ONLY player energy0 and clock pausedtrue"
+      ],
+      "artifact": "npc-self-observation-v1-artifacts/browser-inputs/critical-free-native.json",
+      "sha256": "21a0c38810d0769894c1e645ca55adad17bdabbf0dc5d6acea8b397857c8125e",
+      "npcId": "carpenter",
+      "npcName": "阿梁",
+      "player": {
+        "x": 11,
+        "y": 11
+      },
+      "target": {
+        "x": 11.75,
+        "y": 11,
+        "hp": 20,
+        "lifeState": "critical",
+        "trust": 0,
+        "needs": {
+          "hunger": 5,
+          "fatigue": 70,
+          "energy": 25
+        }
+      },
+      "clockPaused": true,
+      "sourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "inputOriginalSha256": "1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f"
+    }
+  ],
+  "originalWriterSha256": "1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f",
+  "method": "TEST-ONLY actual loader plus explicit offline derivation plus real context renderer plus actual native writer; no source/Gate/AI modification, no resource addition, no worldZombie removal; no browser afterboot state changes",
+  "rows": [
+    {
+      "id": "normal-support",
+      "file": "normal-support-native.json",
+      "publicTargetTile": {
+        "x": 11,
+        "y": 11
+      },
+      "changes": [
+        "TEST-ONLY carpenter position .75 east of original player",
+        "TEST-ONLY self HP/life/three needs/actual trust per scene",
+        "carpenter motion target cleared; all enemies and resources retained"
+      ],
+      "artifact": "npc-self-observation-v1-artifacts/browser-inputs/normal-support-native.json",
+      "sha256": "34e43fe0ea760ba2be80d2cc8f2bea78340e5be548f2c5bf3d3d8f8f05ce8904",
+      "npcId": "carpenter",
+      "npcName": "阿梁",
+      "player": {
+        "x": 11,
+        "y": 11
+      },
+      "target": {
+        "x": 11.75,
+        "y": 11,
+        "hp": 100,
+        "lifeState": "healthy",
+        "trust": 0,
+        "needs": {
+          "hunger": 0,
+          "fatigue": 0,
+          "energy": 100
+        }
+      },
+      "clockPaused": false,
+      "sourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "inputOriginalSha256": "1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f"
+    },
+    {
+      "id": "needs-threshold",
+      "file": "needs-threshold-native.json",
+      "publicTargetTile": {
+        "x": 11,
+        "y": 11
+      },
+      "changes": [
+        "TEST-ONLY carpenter position .75 east of original player",
+        "TEST-ONLY self HP/life/three needs/actual trust per scene",
+        "carpenter motion target cleared; all enemies and resources retained"
+      ],
+      "artifact": "npc-self-observation-v1-artifacts/browser-inputs/needs-threshold-native.json",
+      "sha256": "3cc55a965effb2bf12e8d4c0257622744cf12ccb2ccdab5c64cdfa698aa5464c",
+      "npcId": "carpenter",
+      "npcName": "阿梁",
+      "player": {
+        "x": 11,
+        "y": 11
+      },
+      "target": {
+        "x": 11.75,
+        "y": 11,
+        "hp": 50,
+        "lifeState": "injured",
+        "trust": -10,
+        "needs": {
+          "hunger": 70,
+          "fatigue": 70,
+          "energy": 25
+        }
+      },
+      "clockPaused": false,
+      "sourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "inputOriginalSha256": "1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f"
+    },
+    {
+      "id": "low-trust",
+      "file": "low-trust-native.json",
+      "publicTargetTile": {
+        "x": 11,
+        "y": 11
+      },
+      "changes": [
+        "TEST-ONLY carpenter position .75 east of original player",
+        "TEST-ONLY self HP/life/three needs/actual trust per scene",
+        "carpenter motion target cleared; all enemies and resources retained"
+      ],
+      "artifact": "npc-self-observation-v1-artifacts/browser-inputs/low-trust-native.json",
+      "sha256": "66a08f8f763eeb289430a4caa96905b44b67fb9cad40d511b22823c2413eb2bd",
+      "npcId": "carpenter",
+      "npcName": "阿梁",
+      "player": {
+        "x": 11,
+        "y": 11
+      },
+      "target": {
+        "x": 11.75,
+        "y": 11,
+        "hp": 50,
+        "lifeState": "injured",
+        "trust": -11,
+        "needs": {
+          "hunger": 70,
+          "fatigue": 70,
+          "energy": 25
+        }
+      },
+      "clockPaused": false,
+      "sourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "inputOriginalSha256": "1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f"
+    },
+    {
+      "id": "critical-free",
+      "file": "critical-free-native.json",
+      "publicTargetTile": {
+        "x": 11,
+        "y": 11
+      },
+      "changes": [
+        "TEST-ONLY carpenter position .75 east of original player",
+        "TEST-ONLY self HP/life/three needs/actual trust per scene",
+        "carpenter motion target cleared; all enemies and resources retained",
+        "TEST-ONLY player energy0 and clock pausedtrue"
+      ],
+      "artifact": "npc-self-observation-v1-artifacts/browser-inputs/critical-free-native.json",
+      "sha256": "21a0c38810d0769894c1e645ca55adad17bdabbf0dc5d6acea8b397857c8125e",
+      "npcId": "carpenter",
+      "npcName": "阿梁",
+      "player": {
+        "x": 11,
+        "y": 11
+      },
+      "target": {
+        "x": 11.75,
+        "y": 11,
+        "hp": 20,
+        "lifeState": "critical",
+        "trust": 0,
+        "needs": {
+          "hunger": 5,
+          "fatigue": 70,
+          "energy": 25
+        }
+      },
+      "clockPaused": true,
+      "sourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "inputOriginalSha256": "1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f"
+    }
+  ]
+}

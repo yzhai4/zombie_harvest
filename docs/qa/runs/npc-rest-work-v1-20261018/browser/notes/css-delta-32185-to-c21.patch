@@ -1,0 +1,10 @@
+--- source-32185.html
++++ source-c21.html
+@@ -451,6 +451,7 @@
+     .toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom)); transform: translate(-50%, 18px); opacity: 0; pointer-events: none; z-index: 20; max-width: min(88vw, 400px); padding: 10px 14px; background: #e9efcf; color: #16231b; border-radius: 999px; font-size: 12px; font-weight: 800; box-shadow: 0 10px 30px rgba(0,0,0,.3); transition: .25s ease; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+     .toast.show { opacity: 1; transform: translate(-50%, 0); }
+     .npc-routine-report, .survivor-card .npc-routine-report { grid-column: 1 / -1; display: block; margin: 6px 0; padding: 8px; border-radius: 8px; background: rgba(91,150,130,.14); color: #bce5d2; font-size: 12px; line-height: 1.55; white-space: normal; overflow-wrap: anywhere; }
++    @media (max-width: 640px) { .survivor-list { grid-template-columns: 1fr; } }
+     .npc-sight-report { grid-column: 1 / -1; width: 100%; box-sizing: border-box; margin-top: 8px; padding: 9px 11px; border: 1px solid #75bcc566; border-radius: 9px; background: #142c31; color: #d7f1eb; font-size: 12px; line-height: 1.65; text-align: left; white-space: pre-line; overflow-wrap: anywhere; }
+     .npc-sight-report[hidden], .context-panel.hud-collapsed .npc-sight-report { display: none !important; }
+     .toast.npc-self-dialogue { width: max-content; max-width: min(90vw, 520px); box-sizing: border-box; white-space: normal; overflow: visible; text-overflow: clip; overflow-wrap: anywhere; line-height: 1.6; text-align: left; border-radius: 14px; }

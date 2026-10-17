@@ -1,0 +1,268 @@
+{
+  "schema": "RedactedNativeCompanionV1",
+  "transportOnly": true,
+  "newExecution": false,
+  "isOriginalNativeBytes": false,
+  "originalSha256": "471b0511af4f64eb5158664d2bd5cfaa603b14ca7d1ab68912194ecee42ed290",
+  "originalBytes": 12429,
+  "redaction": "Local filesystem locators only; all keys and non-path values retained.",
+  "portableReport": {
+    "schema": "ImpactExecutionMatrixV1",
+    "sourceHtmlSha256": "dc26573d8b6c443454e0c15951a756379dccd1ec34b290fb8a3dd05257f42d15",
+    "processes": [
+      {
+        "id": "c1-boot",
+        "impact": "Full real old-writer boot, seed/config/settings consumer, save/reload; C1 includes its existing pure/author controls unchanged.",
+        "runner": {
+          "path": "methods/c1-boot-executed.mjs",
+          "bytes": 44365,
+          "sha256": "fbd9d3022b78ebc8e0fae33ba978935b556b55e821ea9eb2286cf07a69bb3c76"
+        },
+        "sourceHtmlSha256": "dc26573d8b6c443454e0c15951a756379dccd1ec34b290fb8a3dd05257f42d15",
+        "startedAt": "2026-10-17T15:34:40.489Z",
+        "terminalAt": "2026-10-17T15:34:55.254Z",
+        "exitCode": 0,
+        "signal": null,
+        "error": null,
+        "stdout": {
+          "path": "logs/c1-boot.stdout.log",
+          "bytes": 244,
+          "sha256": "d6940e6015c1800b87cef9e248dec83d14960ea282e59b1a1826140b54eb0750"
+        },
+        "stderr": {
+          "path": "logs/c1-boot.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "nativeReport": {
+          "path": "native/c1/report.json",
+          "bytes": 160030,
+          "sha256": "168522321263f1afccd66331905b4ce04dba7161b5ef7d636b06947ac1258662"
+        },
+        "parseError": null,
+        "count": 120,
+        "passed": 120,
+        "failures": [],
+        "inputsUnchanged": true,
+        "changedInputs": []
+      },
+      {
+        "id": "c2-boot",
+        "impact": "Full native legacy/bound loading, content staging/choice/renderer/reducer and persistence.",
+        "runner": {
+          "path": "methods/c2-boot-executed.mjs",
+          "bytes": 40739,
+          "sha256": "43e77792082a2efceaebb4607f47596a1a59bf76cf060e449fca92e2bff665e9"
+        },
+        "sourceHtmlSha256": "dc26573d8b6c443454e0c15951a756379dccd1ec34b290fb8a3dd05257f42d15",
+        "startedAt": "2026-10-17T15:34:55.288Z",
+        "terminalAt": "2026-10-17T15:35:00.330Z",
+        "exitCode": 1,
+        "signal": null,
+        "error": null,
+        "stdout": {
+          "path": "logs/c2-boot.stdout.log",
+          "bytes": 3603,
+          "sha256": "c04081cccb82ccb18346c459459af9e79de8ff1144b317ed3e6c1ee6240eb4db"
+        },
+        "stderr": {
+          "path": "logs/c2-boot.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "nativeReport": {
+          "path": "native/c2/report.json",
+          "bytes": 128947,
+          "sha256": "8f8ff9ae6e8c4ebb85789db46cf05a7986217ba704aad699f76e2fc8ca211b1e"
+        },
+        "parseError": null,
+        "count": 66,
+        "passed": 60,
+        "failures": [
+          {
+            "name": "complete original save18-day preserves old world and C1 provenance through actual loader writer reload",
+            "ok": false,
+            "error": "old NPC facts retained; only absent established additive NPC domains excluded\n+ actual - expected\n... Skipped lines\n\n  {\n    actingFor: null,\n    actingRole: null,\n    appearance: {\n      bodyType: 'broad',\n...\n    },\n+   routineIntent: null,\n    sanity: 72,\n    sanityClock: 10,\n    sanityLastReason: '营地仍然安全',\n    scheduleState: '休整',\n    simMoveClock: 10,\n"
+          },
+          {
+            "name": "complete original legacy21 preserves old world and C1 provenance through actual loader writer reload",
+            "ok": false,
+            "error": "old NPC facts retained; only absent established additive NPC domains excluded\n+ actual - expected\n... Skipped lines\n\n  {\n    actingFor: null,\n    actingRole: null,\n    appearance: {\n      bodyType: 'broad',\n...\n    },\n+   routineIntent: null,\n    sanity: 68,\n    sanityClock: 10,\n    sanityLastReason: '岗位压力持续积累（-1）',\n    scheduleState: '岗位工作',\n    simMoveClock: 10,\n"
+          },
+          {
+            "name": "complete original pre-episode preserves old world and C1 provenance through actual loader writer reload",
+            "ok": false,
+            "error": "old NPC facts retained; only absent established additive NPC domains excluded\n+ actual - expected\n... Skipped lines\n\n  {\n    actingFor: null,\n    actingRole: null,\n    appearance: {\n      bodyType: 'broad',\n...\n    },\n+   routineIntent: null,\n    sanity: 72,\n    sanityClock: 0,\n    sanityLastReason: '营地仍然安全',\n    scheduleState: 'work',\n    simMoveClock: 0,\n"
+          },
+          {
+            "name": "complete original c1-bound preserves old world and C1 provenance through actual loader writer reload",
+            "ok": false,
+            "error": "old NPC facts retained; only absent established additive NPC domains excluded\n+ actual - expected\n... Skipped lines\n\n  {\n    actingFor: null,\n    actingRole: null,\n    appearance: {\n      bodyType: 'broad',\n...\n    },\n+   routineIntent: null,\n    sanity: 72,\n    sanityClock: 0,\n    sanityLastReason: '营地仍然安全',\n    scheduleState: 'work',\n    simMoveClock: 0,\n"
+          },
+          {
+            "name": "complete original used-cache preserves old world and C1 provenance through actual loader writer reload",
+            "ok": false,
+            "error": "old NPC facts retained; only absent established additive NPC domains excluded\n+ actual - expected\n... Skipped lines\n\n  {\n    actingFor: null,\n    actingRole: null,\n    appearance: {\n      bodyType: 'broad',\n...\n    },\n+   routineIntent: null,\n    sanity: 67,\n    sanityClock: 11,\n    sanityLastReason: '岗位压力持续积累（-1）',\n    scheduleState: '回到居住区',\n    simMoveClock: 1,\n"
+          },
+          {
+            "name": "complete original midnight-original preserves old world and C1 provenance through actual loader writer reload",
+            "ok": false,
+            "error": "old NPC facts retained; only absent established additive NPC domains excluded\n+ actual - expected\n... Skipped lines\n\n  {\n    actingFor: null,\n    actingRole: null,\n    appearance: {\n      bodyType: 'broad',\n...\n    },\n+   routineIntent: null,\n    sanity: 68,\n    sanityClock: 10,\n    sanityLastReason: '岗位压力持续积累（-1）',\n    scheduleState: '岗位工作',\n    simMoveClock: 10,\n"
+          }
+        ],
+        "inputsUnchanged": true,
+        "changedInputs": []
+      },
+      {
+        "id": "outpost",
+        "impact": "Camp/garrison membership across actual routine, work, motion, renderer, combat and population.",
+        "runner": {
+          "path": "methods/outpost-executed.mjs",
+          "bytes": 38153,
+          "sha256": "48b70201e649a11a5bd36d899960d46fe63f0219c69d32657eb4faebabb98998"
+        },
+        "sourceHtmlSha256": "dc26573d8b6c443454e0c15951a756379dccd1ec34b290fb8a3dd05257f42d15",
+        "startedAt": "2026-10-17T15:35:00.369Z",
+        "terminalAt": "2026-10-17T15:35:08.624Z",
+        "exitCode": 0,
+        "signal": null,
+        "error": null,
+        "stdout": {
+          "path": "logs/outpost.stdout.log",
+          "bytes": 8146,
+          "sha256": "73761d6058235782d9c3d08ae3c071e0308c572a631b289d627dcbcb1c29f01a"
+        },
+        "stderr": {
+          "path": "logs/outpost.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "nativeReport": {
+          "path": "logs/outpost.stdout.log",
+          "bytes": 8146,
+          "sha256": "73761d6058235782d9c3d08ae3c071e0308c572a631b289d627dcbcb1c29f01a"
+        },
+        "parseError": null,
+        "count": 41,
+        "passed": 41,
+        "failures": [],
+        "inputsUnchanged": true,
+        "changedInputs": []
+      },
+      {
+        "id": "camp-rest",
+        "impact": "Existing public camp rest lifecycle, actual minute simulation, demands, damage interruption and save/reload.",
+        "runner": {
+          "path": "methods/camp-rest-executed.mjs",
+          "bytes": 37078,
+          "sha256": "773c81abf2009ec58be790b2bf630ca40cc55176e0bb95cb9d30435a9fe9581b"
+        },
+        "sourceHtmlSha256": "dc26573d8b6c443454e0c15951a756379dccd1ec34b290fb8a3dd05257f42d15",
+        "startedAt": "2026-10-17T15:35:08.659Z",
+        "terminalAt": "2026-10-17T15:35:23.299Z",
+        "exitCode": 0,
+        "signal": null,
+        "error": null,
+        "stdout": {
+          "path": "logs/camp-rest.stdout.log",
+          "bytes": 12410,
+          "sha256": "e7e56c625d2fa361a4d2a9cd30160396dbc8b76fdcc663ad42bc5bd451c9c413"
+        },
+        "stderr": {
+          "path": "logs/camp-rest.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "nativeReport": {
+          "path": "native/camp-rest.json",
+          "bytes": 12410,
+          "sha256": "e7e56c625d2fa361a4d2a9cd30160396dbc8b76fdcc663ad42bc5bd451c9c413"
+        },
+        "parseError": null,
+        "count": 74,
+        "passed": 74,
+        "failures": [],
+        "inputsUnchanged": true,
+        "changedInputs": []
+      },
+      {
+        "id": "daytime-combat",
+        "impact": "Real daytime NPC/tower/enemy damage, Gate, phase, causal receipts and cleanup.",
+        "runner": {
+          "path": "methods/daytime-combat-executed.mjs",
+          "bytes": 26055,
+          "sha256": "b4ccfe1ec8d406a862eb5bd847574901130f4c43850156e6d4914d53a7604498"
+        },
+        "sourceHtmlSha256": "dc26573d8b6c443454e0c15951a756379dccd1ec34b290fb8a3dd05257f42d15",
+        "startedAt": "2026-10-17T15:35:23.345Z",
+        "terminalAt": "2026-10-17T15:35:24.042Z",
+        "exitCode": 0,
+        "signal": null,
+        "error": null,
+        "stdout": {
+          "path": "logs/daytime-combat.stdout.log",
+          "bytes": 2903,
+          "sha256": "1f41066773a40ba67832f99f389495a278d3d10fec2531fa7d91c26ecb27e0d4"
+        },
+        "stderr": {
+          "path": "logs/daytime-combat.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "nativeReport": {
+          "path": "logs/daytime-combat.stdout.log",
+          "bytes": 2903,
+          "sha256": "1f41066773a40ba67832f99f389495a278d3d10fec2531fa7d91c26ecb27e0d4"
+        },
+        "parseError": null,
+        "count": 26,
+        "passed": 26,
+        "failures": [],
+        "inputsUnchanged": true,
+        "changedInputs": []
+      },
+      {
+        "id": "attention",
+        "impact": "Actual old writer, perception to combat, presence and strict additive-migration metadata; failures retained.",
+        "runner": {
+          "path": "methods/attention-executed.mjs",
+          "bytes": 22585,
+          "sha256": "db3c5b00491e0ddd02c7ae5e3715f47be33e0cf55dfe466abaafbcbefdf7f1b0"
+        },
+        "sourceHtmlSha256": "dc26573d8b6c443454e0c15951a756379dccd1ec34b290fb8a3dd05257f42d15",
+        "startedAt": "2026-10-17T15:35:24.075Z",
+        "terminalAt": "2026-10-17T15:35:27.467Z",
+        "exitCode": 1,
+        "signal": null,
+        "error": null,
+        "stdout": {
+          "path": "logs/attention.stdout.log",
+          "bytes": 6155,
+          "sha256": "7fd7bfacaabb54da57ab118a332cf6e8ec5bc991d25b3adbf7a9a8ed94dd93ee"
+        },
+        "stderr": {
+          "path": "logs/attention.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "nativeReport": {
+          "path": "logs/attention.stdout.log",
+          "bytes": 6155,
+          "sha256": "7fd7bfacaabb54da57ab118a332cf6e8ec5bc991d25b3adbf7a9a8ed94dd93ee"
+        },
+        "parseError": null,
+        "count": 29,
+        "passed": 28,
+        "failures": [
+          {
+            "name": "actual loader preserves captured population health positions resources and RNG",
+            "ok": false,
+            "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\nfalse !== true\n\n    at [private-local-path:b2d8a1370e70]\n    at test ([private-local-path:3a472c7bb43f])\n    at [private-local-path:5528ecb7c9bf]\n    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)\n    at async node:internal/modules/esm/loader:643:26\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)"
+          }
+        ],
+        "inputsUnchanged": true,
+        "changedInputs": []
+      }
+    ]
+  }
+}

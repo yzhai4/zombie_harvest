@@ -18,6 +18,9 @@ requirePattern(/function startThreatEncounter\([\s\S]*?guardNightAction\(options
 requirePattern(/function commitPlanMeeting\([\s\S]*?if\s*\(state\.night\)\s*return\s*\{\s*ok:\s*false,\s*reason:\s*['"]night-lock/, 'plan meeting night guard');
 requirePattern(/function renderContext\([\s\S]*?if\s*\(state\.night\)[\s\S]*?contextActions.*?data-context-action="attack"/, 'night context menu isolation');
 requirePattern(/\$\('contextActions'\)\.addEventListener\('click',[\s\S]*?state\.night && action !== 'attack'/, 'legacy context click guard');
+requirePattern(/function resolveNpcEvent\([\s\S]*?if\s*\(!npcIsActive\(npc\)\)[\s\S]*?npc\.event\.cancelled/, 'inactive NPC event degradation');
+requirePattern(/function activateQueuedNpcEvent\([\s\S]*?for\s*\(const next of queued\)[\s\S]*?cancelReason\s*=\s*['"]npc-inactive/, 'queued NPC cancellation cannot wedge event slot');
+requirePattern(/record\.status\s*!==\s*['"]cancelled['"][\s\S]*?record\.status\s*=\s*['"]resolved['"]/, 'cancelled NPC event remains cancelled');
 requirePattern(/function appendMissingExpansionContent\([\s\S]*?const occupiedCell[\s\S]*?CAMP_AREAS/, 'expansion occupied registry');
 requirePattern(/const impactPosition\s*=\s*battleEnemyPosition\(enemy\)/, 'battle lane projection');
 

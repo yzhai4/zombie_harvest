@@ -1,0 +1,1189 @@
+{
+  "schema": "ScenarioBootC2BrowserV1",
+  "runner": "browser-scenario-boot-c2",
+  "runnerSha256": "a875110310d3d9abd37250049572cdf1893abe60dbc06cb9b1130a0aa74fc8bb",
+  "sourceHtmlSha256": "61ea64b27a65cc4a271c214c16126b40a453eae40c8684c106bc8edc89e5f115",
+  "captureReportSha256": "5384f11e094cc55d482d877884e8e02c2504194eb43526a81d95e6ece9be049e",
+  "knownC1InputSha256": "80d41c43a8ea07759aa88a852062b74f889b59c8e4edfc488d34f0e198c13d0e",
+  "privateOutput": {
+    "platform": "win32",
+    "aclVerified": true,
+    "inheritanceDisabled": true,
+    "allowedPrincipal": "current-user-only"
+  },
+  "naturalGameplay": false,
+  "naturalGameplayClaim": false,
+  "mode": "real-Chrome-public-actions-with-complete-source-native-preboot-fixtures",
+  "scope": {
+    "canonical": "public new start, initial content binding and reload; known C1 migration; explicit invalid inputs",
+    "variants": "food0 v2/v3 independent HTML SHA and native active inputs, public Choice +2/+1 and reload",
+    "calendarCrossDayBrowser": false,
+    "actorKnowledgeProjection": false,
+    "fullConfigurationGui": false,
+    "sourceCapture": "controlled source VM start/hook/native writer; no enemy deletion, repositioning or live GameState patch; not natural active-event discovery",
+    "validator": "separate actual source VM start + readonly native-save validator; not browser gameplay",
+    "IOObservationInstrumentation": "preboot complete save installation; pass-through Storage.setItem/setInterval/clearInterval observation with originals restored"
+  },
+  "parameters": {
+    "source": "artifact:source.html",
+    "captureReport": "artifact:source-capture/capture-report.json",
+    "c1Input": "artifact:known-c1-original-writer.json",
+    "output": "artifact:./",
+    "dependencyRoot": "explicit frozen repository",
+    "budgetSeconds": 180
+  },
+  "artifacts": [
+    {
+      "file": "source.html",
+      "bytes": 857218,
+      "sha256": "61ea64b27a65cc4a271c214c16126b40a453eae40c8684c106bc8edc89e5f115"
+    },
+    {
+      "file": "runner-executed.mjs",
+      "bytes": 32884,
+      "sha256": "a875110310d3d9abd37250049572cdf1893abe60dbc06cb9b1130a0aa74fc8bb"
+    },
+    {
+      "file": "scenario-core-executed.mjs",
+      "bytes": 15465,
+      "sha256": "343e52025cbda33ace694a4e281cfdb7fa66a2052370d67275c13a7a543004ce"
+    },
+    {
+      "file": "source-runtime-fixture-executed.mjs",
+      "bytes": 2959,
+      "sha256": "e9872eeba85d49019d1bd806f3dd18357a5abc8f2f92922922f6a5324ec220dc"
+    },
+    {
+      "file": "io-adapter-executed.mjs",
+      "bytes": 49798,
+      "sha256": "554c400c174ad1b069c4dfcc839c12b3b45ea79c5aa7669e093a440ffa4845d3"
+    },
+    {
+      "file": "actor-sprites-executed.js",
+      "bytes": 19246,
+      "sha256": "257f4b38760813c21c723bbb9f934f1198e742fd1223db48705f34787e0f71b7"
+    },
+    {
+      "file": "known-c1-original-writer.json",
+      "bytes": 61776,
+      "sha256": "80d41c43a8ea07759aa88a852062b74f889b59c8e4edfc488d34f0e198c13d0e"
+    },
+    {
+      "file": "source-capture/capture-report.json",
+      "bytes": 26837,
+      "sha256": "5384f11e094cc55d482d877884e8e02c2504194eb43526a81d95e6ece9be049e"
+    },
+    {
+      "file": "source-capture/source.html",
+      "bytes": 857218,
+      "sha256": "61ea64b27a65cc4a271c214c16126b40a453eae40c8684c106bc8edc89e5f115"
+    },
+    {
+      "file": "source-capture/runner-executed.mjs",
+      "bytes": 14546,
+      "sha256": "128d51c6dd38dc53a5106219ce1f185bbba4ff7429f73967d064cf8eaf0cf0fa"
+    },
+    {
+      "file": "source-capture/io-adapter-executed.mjs",
+      "bytes": 49132,
+      "sha256": "ee5bb659c0439044e1ec07a4aecf931293457c2478f35d0850fe90770b4367cf"
+    },
+    {
+      "file": "source-capture/inputs/author-v2-oracle.json",
+      "bytes": 4810,
+      "sha256": "afdd0a2c79fbb74ba28b58ba0f3a43930de8367d18d8c7641a8cfec9e82a6fe7"
+    },
+    {
+      "file": "source-capture/inputs/capture-mapping.json",
+      "bytes": 3064,
+      "sha256": "2bef1652768748f55b6316ec4b47917533fe726d4be0dd2babe6dc2388070bb5"
+    },
+    {
+      "file": "source-capture/inputs/author-v2-baseline-source.txt",
+      "bytes": 2454,
+      "sha256": "59716de13862e506e8cee8214742d5ba6f17f0d9331b53d3268e98242503a07c"
+    },
+    {
+      "file": "source-capture/inputs/original/save18-day.json",
+      "bytes": 58883,
+      "sha256": "0fe3b3e33d630621feb20cba3bb08b4db7cef247464d3b32f748c3c17bf829c3"
+    },
+    {
+      "file": "source-capture/inputs/original/legacy21.json",
+      "bytes": 496785,
+      "sha256": "5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4"
+    },
+    {
+      "file": "source-capture/inputs/original/pre-episode.json",
+      "bytes": 54441,
+      "sha256": "eb3b163e5b55e17f356b3ec95a4f9e5e55147bb78b8250ba0fac6ec3b6a0096d"
+    },
+    {
+      "file": "source-capture/inputs/original/c1-bound.json",
+      "bytes": 61776,
+      "sha256": "80d41c43a8ea07759aa88a852062b74f889b59c8e4edfc488d34f0e198c13d0e"
+    },
+    {
+      "file": "source-capture/inputs/original/used-cache.json",
+      "bytes": 281763,
+      "sha256": "fa8e79d3dda157bcaf4e6048fad50133aedc26174f368c6e1084128b29831508"
+    },
+    {
+      "file": "source-capture/inputs/original/midnight-original.json",
+      "bytes": 260163,
+      "sha256": "aafac0f27b14febce001281a67066efddae74ed19b0335af15f2df5425ba9498"
+    },
+    {
+      "file": "source-capture/capture-parent-method-43e.mjs",
+      "bytes": 40739,
+      "sha256": "43e77792082a2efceaebb4607f47596a1a59bf76cf060e449fca92e2bff665e9"
+    },
+    {
+      "file": "source-capture/variants/browser-v2.html",
+      "bytes": 857216,
+      "sha256": "9f3a82202980386966579f10f5e1b1950214ea7feddfab0abd0a5f40d15c7e4c"
+    },
+    {
+      "file": "source-capture/inputs/TEST-ONLY-package-browser-v2.json",
+      "bytes": 5513,
+      "sha256": "c5780832b29399caeed9bd0b33aa55086a4a0e0928e1ce66285042feb6d2a818"
+    },
+    {
+      "file": "source-capture/native/v2-active-before-choice.json",
+      "bytes": 64986,
+      "sha256": "ed2ac2270c74f5e28cf322503648b15b419c2a601e59352ca7228140e6de1f3b"
+    },
+    {
+      "file": "source-capture/native/v2-settled-forage.json",
+      "bytes": 72984,
+      "sha256": "1a38787d1f5877de77bc2c23da300633d8546f13f376015f3ef63c51cbc48efd"
+    },
+    {
+      "file": "source-capture/inputs/TEST-ONLY-v2-near-midnight.json",
+      "bytes": 36517,
+      "sha256": "db2a8c6ae27e33ece328aaf85f37054b765f33978a1cf9fc72abf80b2660f721"
+    },
+    {
+      "file": "source-capture/native/v2-near-midnight-native.json",
+      "bytes": 73005,
+      "sha256": "731fa12d1f8b72f6bc11a20dc7121c637cc58df1f8e3883b22ecc18c9c2c97f7"
+    },
+    {
+      "file": "source-capture/variants/browser-v3.html",
+      "bytes": 857028,
+      "sha256": "9e8aab2a7dad5036f8c60b0f8d7fb0a42cdc7075469ca4456c49783848177a1a"
+    },
+    {
+      "file": "source-capture/inputs/TEST-ONLY-package-browser-v3.json",
+      "bytes": 5325,
+      "sha256": "5eb0227c2944684a9bb9b9385c07157dd47f63f043a00b3afe52e0c54ee1cb21"
+    },
+    {
+      "file": "source-capture/native/v3-active-before-choice.json",
+      "bytes": 64986,
+      "sha256": "61037cdc5b3502f915586521a9d9bea44dcb0ef563d3c6c40cd9120dcf8b5101"
+    },
+    {
+      "file": "source-capture/native/v3-settled-forage.json",
+      "bytes": 72984,
+      "sha256": "90841ddf07133d47af0c27cf28e9974fb76c5f81f537d57c8703c47621102c19"
+    },
+    {
+      "file": "source-capture/inputs/TEST-ONLY-v3-near-midnight.json",
+      "bytes": 36517,
+      "sha256": "e6fe6f876850696ea67fb04e9a520c74a20845c3ed1ca584010c811231e7abdf"
+    },
+    {
+      "file": "source-capture/native/v3-near-midnight-native.json",
+      "bytes": 73005,
+      "sha256": "9548f100966bea415bf598381077118cf9d896664f51c970931c1f57e0d3793a"
+    },
+    {
+      "file": "source-v2.html",
+      "bytes": 857216,
+      "sha256": "9f3a82202980386966579f10f5e1b1950214ea7feddfab0abd0a5f40d15c7e4c"
+    },
+    {
+      "file": "v2-active-original-writer.json",
+      "bytes": 64986,
+      "sha256": "ed2ac2270c74f5e28cf322503648b15b419c2a601e59352ca7228140e6de1f3b"
+    },
+    {
+      "file": "source-v3.html",
+      "bytes": 857028,
+      "sha256": "9e8aab2a7dad5036f8c60b0f8d7fb0a42cdc7075469ca4456c49783848177a1a"
+    },
+    {
+      "file": "v3-active-original-writer.json",
+      "bytes": 64986,
+      "sha256": "61037cdc5b3502f915586521a9d9bea44dcb0ef563d3c6c40cd9120dcf8b5101"
+    },
+    {
+      "file": "TEST-ONLY-unknown-content-digest-primary.json",
+      "bytes": 32558,
+      "sha256": "22ef6d9c775dbb3eb2416078f6eb33023a6eab4013e1e490ed1b9d4b348cc093"
+    },
+    {
+      "file": "source-TEST-ONLY-late-invalid.html",
+      "bytes": 859522,
+      "sha256": "a10f4b08db31c784aa0bd65b9798ceb1079d8d839c888e4f4455331f1e9ebb54"
+    },
+    {
+      "file": "canonical-newstart-reload-first-native-save.json",
+      "bytes": 63008,
+      "sha256": "70b9ea6a3dddd81b28ac5f4104b187e3e726e87f4be1ed14b15c84e02610027b"
+    },
+    {
+      "file": "canonical-newstart-reload-pagehide-before-continue-save.json",
+      "bytes": 63036,
+      "sha256": "6754bdfe37f262a98cfdb408b905b3277182e2ac9ff9c16ffa761baf6377e8ea"
+    },
+    {
+      "file": "canonical-newstart-reload-reloaded-first-native-save.json",
+      "bytes": 63070,
+      "sha256": "3b9227d32da6eace01972eaca0b0dbe40c5c00a57fe4ad20a9c97d6dfc10d67f"
+    },
+    {
+      "file": "v2-public-forage-first-native-save.json",
+      "bytes": 65024,
+      "sha256": "725e87531ca4db6dc084a41639e02438b76ecf570f909f8b255ed0b53407b2d9"
+    },
+    {
+      "file": "v2-public-forage-after-public-choice-save.json",
+      "bytes": 75288,
+      "sha256": "23092519237d621180a53fb8e48c17c6fc5b0f6f2c58ad37d1664bf54485d32c"
+    },
+    {
+      "file": "v2-public-forage-pagehide-before-continue-save.json",
+      "bytes": 75251,
+      "sha256": "539f78e01af5b68a32a285cd6b17cab9b6f0bf93b8b1f9701cfdf002f93c3ce3"
+    },
+    {
+      "file": "v2-public-forage-reloaded-first-native-save.json",
+      "bytes": 75198,
+      "sha256": "17ff3cb78dd383527d5f179e5ab2ec838ed8d19e4d5f507fd56f597546f0b9f6"
+    },
+    {
+      "file": "v3-public-forage-first-native-save.json",
+      "bytes": 65024,
+      "sha256": "a3a1fd235db442570f1da5addf98721682f2462fead7c1f69fdf33d4256c6c2a"
+    },
+    {
+      "file": "v3-public-forage-after-public-choice-save.json",
+      "bytes": 75287,
+      "sha256": "521049fa90846a73aecfdf030a7f5b24c1b7bc4863974bbf37780437e491e90e"
+    },
+    {
+      "file": "v3-public-forage-pagehide-before-continue-save.json",
+      "bytes": 75252,
+      "sha256": "c7b6eeb6953bfa283178f2db9abe165bb3147bfb4cb3ae26cf907e932a12f43a"
+    },
+    {
+      "file": "v3-public-forage-reloaded-first-native-save.json",
+      "bytes": 75198,
+      "sha256": "e34378689bc7ea5f0cf100215f417891fadacb036f6ce5c6af2ac24adcc0c6a1"
+    },
+    {
+      "file": "known-c1-migration-first-native-save.json",
+      "bytes": 64192,
+      "sha256": "e01198be21cc241f09f7d61f7c809b350a356d5866e1573e158eed065a4eaace"
+    },
+    {
+      "file": "known-c1-migration-pagehide-before-continue-save.json",
+      "bytes": 64200,
+      "sha256": "eb320120f1bb7ea9f914f7b61fef3b381061ae3b3f0876ea0c6ead28b62e0d19"
+    },
+    {
+      "file": "known-c1-migration-reloaded-first-native-save.json",
+      "bytes": 64188,
+      "sha256": "a4df11e2ba90862e8478b8618c70182e0385c73d0c7f55465baac4aee294617c"
+    },
+    {
+      "file": "unknown-content-digest-preserved-primary.json",
+      "bytes": 32558,
+      "sha256": "22ef6d9c775dbb3eb2416078f6eb33023a6eab4013e1e490ed1b9d4b348cc093"
+    },
+    {
+      "file": "unknown-content-digest-preserved-backup.json",
+      "bytes": 64986,
+      "sha256": "ed2ac2270c74f5e28cf322503648b15b419c2a601e59352ca7228140e6de1f3b"
+    },
+    {
+      "file": "late-invalid-package-preserved-primary.json",
+      "bytes": 64986,
+      "sha256": "ed2ac2270c74f5e28cf322503648b15b419c2a601e59352ca7228140e6de1f3b"
+    },
+    {
+      "file": "late-invalid-package-preserved-backup.json",
+      "bytes": 61776,
+      "sha256": "80d41c43a8ea07759aa88a852062b74f889b59c8e4edfc488d34f0e198c13d0e"
+    }
+  ],
+  "checks": [
+    {
+      "name": "complete known C1 original writer passes actual installed-source validator",
+      "ok": true
+    },
+    {
+      "name": "unknown content digest fixture is rejected by actual installed-source validator",
+      "ok": true
+    },
+    {
+      "name": "canonical-newstart-reload: public committed lookup excludes uninstalled candidate",
+      "ok": true
+    },
+    {
+      "name": "canonical-newstart-reload: fresh isolated profile has no primary",
+      "ok": true
+    },
+    {
+      "name": "canonical-newstart-reload: public start or continue is enabled",
+      "ok": true
+    },
+    {
+      "name": "canonical-newstart-reload: public start reaches gameplay",
+      "ok": true
+    },
+    {
+      "name": "canonical-newstart-reload/first-native: actual source validates complete native writer",
+      "ok": true
+    },
+    {
+      "name": "canonical-newstart-reload: installed public definition is actual compiled plain data",
+      "ok": true
+    },
+    {
+      "name": "canonical-newstart-reload: first native content binding matches installed compiled identity",
+      "ok": true
+    },
+    {
+      "name": "canonical-newstart-reload: first writer has one actual provenance binding receipt",
+      "ok": true
+    },
+    {
+      "name": "canonical-newstart-reload: original IO restored at before-public-reload",
+      "ok": true
+    },
+    {
+      "name": "canonical-newstart-reload/pagehide-before-continue: actual source validates complete native writer",
+      "ok": true
+    },
+    {
+      "name": "canonical-newstart-reload: public start or continue is enabled",
+      "ok": true
+    },
+    {
+      "name": "canonical-newstart-reload: public start reaches gameplay",
+      "ok": true
+    },
+    {
+      "name": "canonical-newstart-reload/reloaded-first-native: actual source validates complete native writer",
+      "ok": true
+    },
+    {
+      "name": "canonical-newstart-reload: reload preserves bindings, RNG and finite initial stock without another receipt",
+      "ok": true
+    },
+    {
+      "name": "canonical-newstart-reload: original IO restored at scene-finally",
+      "ok": true
+    },
+    {
+      "name": "canonical-newstart-reload: every observed main body matches its own frozen HTML",
+      "ok": true
+    },
+    {
+      "name": "v2-public-forage: public committed lookup excludes uninstalled candidate",
+      "ok": true
+    },
+    {
+      "name": "v2-public-forage: public start or continue is enabled",
+      "ok": true
+    },
+    {
+      "name": "v2-public-forage: public start reaches gameplay",
+      "ok": true
+    },
+    {
+      "name": "v2-public-forage/first-native: actual source validates complete native writer",
+      "ok": true
+    },
+    {
+      "name": "v2-public-forage: installed public definition is actual compiled plain data",
+      "ok": true
+    },
+    {
+      "name": "v2-public-forage: first native content binding matches installed compiled identity",
+      "ok": true
+    },
+    {
+      "name": "v2-public-forage: loaded complete native active identity is unchanged",
+      "ok": true
+    },
+    {
+      "name": "v2-public-forage: public task panel is visible",
+      "ok": true
+    },
+    {
+      "name": "v2-public-forage: actual forage button is visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "v2-public-forage: visible authored amount matches independent expected yield",
+      "ok": true
+    },
+    {
+      "name": "v2-public-forage: rendered complete same-episode token matches native input",
+      "ok": true
+    },
+    {
+      "name": "v2-public-forage/after-public-choice: actual source validates complete native writer",
+      "ok": true
+    },
+    {
+      "name": "v2-public-forage: public Choice produces one correctly versioned player receipt",
+      "ok": true
+    },
+    {
+      "name": "v2-public-forage: actual player parent command carries all rendered CAS fields",
+      "ok": true
+    },
+    {
+      "name": "v2-public-forage: actual food delta and receipt are independently +2",
+      "ok": true
+    },
+    {
+      "name": "v2-public-forage: actual finite flag/history/episode completion persist",
+      "ok": true
+    },
+    {
+      "name": "v2-public-forage: resonance is an actual +2 meter effect",
+      "ok": true
+    },
+    {
+      "name": "v2-public-forage: original IO restored at before-public-reload",
+      "ok": true
+    },
+    {
+      "name": "v2-public-forage/pagehide-before-continue: actual source validates complete native writer",
+      "ok": true
+    },
+    {
+      "name": "v2-public-forage: public start or continue is enabled",
+      "ok": true
+    },
+    {
+      "name": "v2-public-forage: public start reaches gameplay",
+      "ok": true
+    },
+    {
+      "name": "v2-public-forage/reloaded-first-native: actual source validates complete native writer",
+      "ok": true
+    },
+    {
+      "name": "v2-public-forage: reload keeps source exhausted and cannot grant again",
+      "ok": true
+    },
+    {
+      "name": "v2-public-forage: public renderer offers no enabled repeat of completed forage",
+      "ok": true
+    },
+    {
+      "name": "v2-public-forage: original IO restored at scene-finally",
+      "ok": true
+    },
+    {
+      "name": "v2-public-forage: every observed main body matches its own frozen HTML",
+      "ok": true
+    },
+    {
+      "name": "v3-public-forage: public committed lookup excludes uninstalled candidate",
+      "ok": true
+    },
+    {
+      "name": "v3-public-forage: public start or continue is enabled",
+      "ok": true
+    },
+    {
+      "name": "v3-public-forage: public start reaches gameplay",
+      "ok": true
+    },
+    {
+      "name": "v3-public-forage/first-native: actual source validates complete native writer",
+      "ok": true
+    },
+    {
+      "name": "v3-public-forage: installed public definition is actual compiled plain data",
+      "ok": true
+    },
+    {
+      "name": "v3-public-forage: first native content binding matches installed compiled identity",
+      "ok": true
+    },
+    {
+      "name": "v3-public-forage: loaded complete native active identity is unchanged",
+      "ok": true
+    },
+    {
+      "name": "v3-public-forage: public task panel is visible",
+      "ok": true
+    },
+    {
+      "name": "v3-public-forage: actual forage button is visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "v3-public-forage: visible authored amount matches independent expected yield",
+      "ok": true
+    },
+    {
+      "name": "v3-public-forage: rendered complete same-episode token matches native input",
+      "ok": true
+    },
+    {
+      "name": "v3-public-forage/after-public-choice: actual source validates complete native writer",
+      "ok": true
+    },
+    {
+      "name": "v3-public-forage: public Choice produces one correctly versioned player receipt",
+      "ok": true
+    },
+    {
+      "name": "v3-public-forage: actual player parent command carries all rendered CAS fields",
+      "ok": true
+    },
+    {
+      "name": "v3-public-forage: actual food delta and receipt are independently +1",
+      "ok": true
+    },
+    {
+      "name": "v3-public-forage: actual finite flag/history/episode completion persist",
+      "ok": true
+    },
+    {
+      "name": "v3-public-forage: resonance is an actual +2 meter effect",
+      "ok": true
+    },
+    {
+      "name": "v3-public-forage: original IO restored at before-public-reload",
+      "ok": true
+    },
+    {
+      "name": "v3-public-forage/pagehide-before-continue: actual source validates complete native writer",
+      "ok": true
+    },
+    {
+      "name": "v3-public-forage: public start or continue is enabled",
+      "ok": true
+    },
+    {
+      "name": "v3-public-forage: public start reaches gameplay",
+      "ok": true
+    },
+    {
+      "name": "v3-public-forage/reloaded-first-native: actual source validates complete native writer",
+      "ok": true
+    },
+    {
+      "name": "v3-public-forage: reload keeps source exhausted and cannot grant again",
+      "ok": true
+    },
+    {
+      "name": "v3-public-forage: public renderer offers no enabled repeat of completed forage",
+      "ok": true
+    },
+    {
+      "name": "v3-public-forage: original IO restored at scene-finally",
+      "ok": true
+    },
+    {
+      "name": "v3-public-forage: every observed main body matches its own frozen HTML",
+      "ok": true
+    },
+    {
+      "name": "known-c1-migration: public committed lookup excludes uninstalled candidate",
+      "ok": true
+    },
+    {
+      "name": "known-c1-migration: public start or continue is enabled",
+      "ok": true
+    },
+    {
+      "name": "known-c1-migration: public start reaches gameplay",
+      "ok": true
+    },
+    {
+      "name": "known-c1-migration/first-native: actual source validates complete native writer",
+      "ok": true
+    },
+    {
+      "name": "known-c1-migration: installed public definition is actual compiled plain data",
+      "ok": true
+    },
+    {
+      "name": "known-c1-migration: first native content binding matches installed compiled identity",
+      "ok": true
+    },
+    {
+      "name": "known-c1-migration: original C1 initial binding retained exactly",
+      "ok": true
+    },
+    {
+      "name": "known-c1-migration: migration preserves old world facts and content state",
+      "ok": true
+    },
+    {
+      "name": "known-c1-migration: actual automatic migration writer records one explicit content adapter",
+      "ok": true
+    },
+    {
+      "name": "known-c1-migration: original IO restored at before-public-reload",
+      "ok": true
+    },
+    {
+      "name": "known-c1-migration/pagehide-before-continue: actual source validates complete native writer",
+      "ok": true
+    },
+    {
+      "name": "known-c1-migration: public start or continue is enabled",
+      "ok": true
+    },
+    {
+      "name": "known-c1-migration: public start reaches gameplay",
+      "ok": true
+    },
+    {
+      "name": "known-c1-migration/reloaded-first-native: actual source validates complete native writer",
+      "ok": true
+    },
+    {
+      "name": "known-c1-migration: reload repeats no content adapter, world scaling or initial binding",
+      "ok": true
+    },
+    {
+      "name": "known-c1-migration: original IO restored at scene-finally",
+      "ok": true
+    },
+    {
+      "name": "known-c1-migration: every observed main body matches its own frozen HTML",
+      "ok": true
+    },
+    {
+      "name": "unknown-content-digest: public committed lookup excludes uninstalled candidate",
+      "ok": true
+    },
+    {
+      "name": "unknown-content-digest: public recovery prevents button start",
+      "ok": true
+    },
+    {
+      "name": "unknown-content-digest: exact original primary and backup bytes preserved",
+      "ok": true
+    },
+    {
+      "name": "unknown-content-digest: public Enter rejection installs no first definition",
+      "ok": true
+    },
+    {
+      "name": "unknown-content-digest: rejected start writes neither primary nor backup and starts no world interval",
+      "ok": true
+    },
+    {
+      "name": "unknown-content-digest: original IO restored at scene-finally",
+      "ok": true
+    },
+    {
+      "name": "unknown-content-digest: every observed main body matches its own frozen HTML",
+      "ok": true
+    },
+    {
+      "name": "late-invalid-package: public committed lookup excludes uninstalled candidate",
+      "ok": true
+    },
+    {
+      "name": "late-invalid-package: public recovery prevents button start",
+      "ok": true
+    },
+    {
+      "name": "late-invalid-package: configuration error is accurately disclosed",
+      "ok": true
+    },
+    {
+      "name": "late-invalid-package: exact original primary and backup bytes preserved",
+      "ok": true
+    },
+    {
+      "name": "late-invalid-package: public Enter rejection installs no first definition",
+      "ok": true
+    },
+    {
+      "name": "late-invalid-package: rejected start writes neither primary nor backup and starts no world interval",
+      "ok": true
+    },
+    {
+      "name": "late-invalid-package: original IO restored at scene-finally",
+      "ok": true
+    },
+    {
+      "name": "late-invalid-package: every observed main body matches its own frozen HTML",
+      "ok": true
+    }
+  ],
+  "errors": [],
+  "scenes": [
+    {
+      "id": "canonical-newstart-reload",
+      "kind": "fresh",
+      "htmlSha256": "61ea64b27a65cc4a271c214c16126b40a453eae40c8684c106bc8edc89e5f115",
+      "canonicalBytes": true,
+      "fixtureNaturalGameplay": false,
+      "verified": true,
+      "writers": [
+        {
+          "file": "canonical-newstart-reload-first-native-save.json",
+          "sha256": "70b9ea6a3dddd81b28ac5f4104b187e3e726e87f4be1ed14b15c84e02610027b",
+          "reason": "scenario-initial-binding"
+        },
+        {
+          "file": "canonical-newstart-reload-pagehide-before-continue-save.json",
+          "sha256": "6754bdfe37f262a98cfdb408b905b3277182e2ac9ff9c16ffa761baf6377e8ea",
+          "reason": "visibility-hidden"
+        },
+        {
+          "file": "canonical-newstart-reload-reloaded-first-native-save.json",
+          "sha256": "3b9227d32da6eace01972eaca0b0dbe40c5c00a57fe4ad20a9c97d6dfc10d67f",
+          "reason": "session-start"
+        }
+      ],
+      "IOrestoration": [
+        {
+          "stage": "before-public-reload",
+          "storageOriginal": true,
+          "intervalOriginal": true,
+          "clearOriginal": true
+        },
+        {
+          "stage": "scene-finally",
+          "storageOriginal": true,
+          "intervalOriginal": true,
+          "clearOriginal": true
+        }
+      ]
+    },
+    {
+      "id": "v2-public-forage",
+      "kind": "choice",
+      "htmlSha256": "9f3a82202980386966579f10f5e1b1950214ea7feddfab0abd0a5f40d15c7e4c",
+      "canonicalBytes": false,
+      "fixtureNaturalGameplay": false,
+      "verified": true,
+      "writers": [
+        {
+          "file": "v2-public-forage-first-native-save.json",
+          "sha256": "725e87531ca4db6dc084a41639e02438b76ecf570f909f8b255ed0b53407b2d9",
+          "reason": "session-start"
+        },
+        {
+          "file": "v2-public-forage-after-public-choice-save.json",
+          "sha256": "23092519237d621180a53fb8e48c17c6fc5b0f6f2c58ad37d1664bf54485d32c",
+          "reason": "command:content.chain.resolve"
+        },
+        {
+          "file": "v2-public-forage-pagehide-before-continue-save.json",
+          "sha256": "539f78e01af5b68a32a285cd6b17cab9b6f0bf93b8b1f9701cfdf002f93c3ce3",
+          "reason": "visibility-hidden"
+        },
+        {
+          "file": "v2-public-forage-reloaded-first-native-save.json",
+          "sha256": "17ff3cb78dd383527d5f179e5ab2ec838ed8d19e4d5f507fd56f597546f0b9f6",
+          "reason": "session-start"
+        }
+      ],
+      "IOrestoration": [
+        {
+          "stage": "before-public-reload",
+          "storageOriginal": true,
+          "intervalOriginal": true,
+          "clearOriginal": true
+        },
+        {
+          "stage": "scene-finally",
+          "storageOriginal": true,
+          "intervalOriginal": true,
+          "clearOriginal": true
+        }
+      ],
+      "publicChoice": {
+        "text": "动用后勤应急藏粮\n整局一次 · 食物 +2 · 共振仪表 +2 · 需要健康后勤人员在岗",
+        "dataset": {
+          "eventSource": "chain:zh-food-shortage-001",
+          "eventChoiceId": "forage",
+          "eventNodeId": "shortage_choice",
+          "eventInstanceId": "content:zh-food-shortage-001:1",
+          "eventDefId": "zh-food-shortage-001",
+          "eventDefinitionVersion": "2",
+          "eventId": "",
+          "eventInstanceKey": "zh-food-shortage-001:1"
+        }
+      },
+      "receipt": {
+        "commandId": "cmd-000001",
+        "eventId": "evt-000007",
+        "instanceKey": "zh-food-shortage-001:1",
+        "definitionVersion": 2,
+        "foodResult": {
+          "ok": true,
+          "op": "addResource",
+          "key": "food",
+          "value": 2,
+          "before": 0,
+          "after": 2
+        },
+        "historyId": "zh-food-shortage-001:1:zh-food-shortage-001:forage"
+      },
+      "reloadedChoice": {
+        "visible": true,
+        "disabled": false,
+        "dataset": {
+          "eventSource": "daily",
+          "eventChoiceId": "b",
+          "eventNodeId": "",
+          "eventInstanceId": "event-initial",
+          "eventDefId": "supply",
+          "eventDefinitionVersion": "1",
+          "eventId": "supply",
+          "eventInstanceKey": ""
+        }
+      }
+    },
+    {
+      "id": "v3-public-forage",
+      "kind": "choice",
+      "htmlSha256": "9e8aab2a7dad5036f8c60b0f8d7fb0a42cdc7075469ca4456c49783848177a1a",
+      "canonicalBytes": false,
+      "fixtureNaturalGameplay": false,
+      "verified": true,
+      "writers": [
+        {
+          "file": "v3-public-forage-first-native-save.json",
+          "sha256": "a3a1fd235db442570f1da5addf98721682f2462fead7c1f69fdf33d4256c6c2a",
+          "reason": "session-start"
+        },
+        {
+          "file": "v3-public-forage-after-public-choice-save.json",
+          "sha256": "521049fa90846a73aecfdf030a7f5b24c1b7bc4863974bbf37780437e491e90e",
+          "reason": "command:content.chain.resolve"
+        },
+        {
+          "file": "v3-public-forage-pagehide-before-continue-save.json",
+          "sha256": "c7b6eeb6953bfa283178f2db9abe165bb3147bfb4cb3ae26cf907e932a12f43a",
+          "reason": "visibility-hidden"
+        },
+        {
+          "file": "v3-public-forage-reloaded-first-native-save.json",
+          "sha256": "e34378689bc7ea5f0cf100215f417891fadacb036f6ce5c6af2ac24adcc0c6a1",
+          "reason": "session-start"
+        }
+      ],
+      "IOrestoration": [
+        {
+          "stage": "before-public-reload",
+          "storageOriginal": true,
+          "intervalOriginal": true,
+          "clearOriginal": true
+        },
+        {
+          "stage": "scene-finally",
+          "storageOriginal": true,
+          "intervalOriginal": true,
+          "clearOriginal": true
+        }
+      ],
+      "publicChoice": {
+        "text": "动用后勤应急藏粮\n整局一次 · 食物 +1 · 共振仪表 +2 · 需要健康后勤人员在岗",
+        "dataset": {
+          "eventSource": "chain:zh-food-shortage-001",
+          "eventChoiceId": "forage",
+          "eventNodeId": "shortage_choice",
+          "eventInstanceId": "content:zh-food-shortage-001:1",
+          "eventDefId": "zh-food-shortage-001",
+          "eventDefinitionVersion": "3",
+          "eventId": "",
+          "eventInstanceKey": "zh-food-shortage-001:1"
+        }
+      },
+      "receipt": {
+        "commandId": "cmd-000001",
+        "eventId": "evt-000007",
+        "instanceKey": "zh-food-shortage-001:1",
+        "definitionVersion": 3,
+        "foodResult": {
+          "ok": true,
+          "op": "addResource",
+          "key": "food",
+          "value": 1,
+          "before": 0,
+          "after": 1
+        },
+        "historyId": "zh-food-shortage-001:1:zh-food-shortage-001:forage"
+      },
+      "reloadedChoice": {
+        "visible": true,
+        "disabled": false,
+        "dataset": {
+          "eventSource": "daily",
+          "eventChoiceId": "b",
+          "eventNodeId": "",
+          "eventInstanceId": "event-initial",
+          "eventDefId": "supply",
+          "eventDefinitionVersion": "1",
+          "eventId": "supply",
+          "eventInstanceKey": ""
+        }
+      }
+    },
+    {
+      "id": "known-c1-migration",
+      "kind": "c1",
+      "htmlSha256": "61ea64b27a65cc4a271c214c16126b40a453eae40c8684c106bc8edc89e5f115",
+      "canonicalBytes": true,
+      "fixtureNaturalGameplay": false,
+      "verified": true,
+      "writers": [
+        {
+          "file": "known-c1-migration-first-native-save.json",
+          "sha256": "e01198be21cc241f09f7d61f7c809b350a356d5866e1573e158eed065a4eaace",
+          "reason": "save-migration:resolved-report-recovery-001"
+        },
+        {
+          "file": "known-c1-migration-pagehide-before-continue-save.json",
+          "sha256": "eb320120f1bb7ea9f914f7b61fef3b381061ae3b3f0876ea0c6ead28b62e0d19",
+          "reason": "visibility-hidden"
+        },
+        {
+          "file": "known-c1-migration-reloaded-first-native-save.json",
+          "sha256": "a4df11e2ba90862e8478b8618c70182e0385c73d0c7f55465baac4aee294617c",
+          "reason": "session-start"
+        }
+      ],
+      "IOrestoration": [
+        {
+          "stage": "before-public-reload",
+          "storageOriginal": true,
+          "intervalOriginal": true,
+          "clearOriginal": true
+        },
+        {
+          "stage": "scene-finally",
+          "storageOriginal": true,
+          "intervalOriginal": true,
+          "clearOriginal": true
+        }
+      ]
+    },
+    {
+      "id": "unknown-content-digest",
+      "kind": "reject",
+      "htmlSha256": "61ea64b27a65cc4a271c214c16126b40a453eae40c8684c106bc8edc89e5f115",
+      "canonicalBytes": true,
+      "fixtureNaturalGameplay": false,
+      "verified": true,
+      "writers": [],
+      "IOrestoration": [
+        {
+          "stage": "scene-finally",
+          "storageOriginal": true,
+          "intervalOriginal": true,
+          "clearOriginal": true
+        }
+      ],
+      "publicRecoveryText": "主存档未能通过完整性检查。世界与战斗已停止；可恢复下列原安全存档，或重新开始。",
+      "registryObservation": {
+        "before": {
+          "available": true,
+          "ids": [
+            "camp-plan-meeting-001",
+            "watermill-002"
+          ],
+          "target": null
+        },
+        "after": {
+          "available": true,
+          "ids": [
+            "camp-plan-meeting-001",
+            "watermill-002"
+          ],
+          "target": null
+        },
+        "source": "existing public ZombieHarvestContent.get/all readonly"
+      }
+    },
+    {
+      "id": "late-invalid-package",
+      "kind": "reject-package",
+      "htmlSha256": "a10f4b08db31c784aa0bd65b9798ceb1079d8d839c888e4f4455331f1e9ebb54",
+      "canonicalBytes": false,
+      "fixtureNaturalGameplay": false,
+      "verified": true,
+      "writers": [],
+      "IOrestoration": [
+        {
+          "stage": "scene-finally",
+          "storageOriginal": true,
+          "intervalOriginal": true,
+          "clearOriginal": true
+        }
+      ],
+      "publicRecoveryText": "场景初始配置未能启动。尚未安装世界；已有保存记录保持不变。请重新载入有效场景后继续。",
+      "registryObservation": {
+        "before": {
+          "available": true,
+          "ids": [
+            "camp-plan-meeting-001",
+            "watermill-002"
+          ],
+          "target": null
+        },
+        "after": {
+          "available": true,
+          "ids": [
+            "camp-plan-meeting-001",
+            "watermill-002"
+          ],
+          "target": null
+        },
+        "source": "existing public ZombieHarvestContent.get/all readonly"
+      }
+    }
+  ],
+  "allMainDocuments": [
+    {
+      "scene": "canonical-newstart-reload",
+      "status": 200,
+      "sha256": "61ea64b27a65cc4a271c214c16126b40a453eae40c8684c106bc8edc89e5f115",
+      "bodyRef": "artifact:source.html",
+      "canonicalBytes": true
+    },
+    {
+      "scene": "canonical-newstart-reload",
+      "status": 200,
+      "sha256": "61ea64b27a65cc4a271c214c16126b40a453eae40c8684c106bc8edc89e5f115",
+      "bodyRef": "artifact:source.html",
+      "canonicalBytes": true
+    },
+    {
+      "scene": "v2-public-forage",
+      "status": 200,
+      "sha256": "9f3a82202980386966579f10f5e1b1950214ea7feddfab0abd0a5f40d15c7e4c",
+      "bodyRef": "artifact:source-v2.html",
+      "canonicalBytes": false
+    },
+    {
+      "scene": "v2-public-forage",
+      "status": 200,
+      "sha256": "9f3a82202980386966579f10f5e1b1950214ea7feddfab0abd0a5f40d15c7e4c",
+      "bodyRef": "artifact:source-v2.html",
+      "canonicalBytes": false
+    },
+    {
+      "scene": "v3-public-forage",
+      "status": 200,
+      "sha256": "9e8aab2a7dad5036f8c60b0f8d7fb0a42cdc7075469ca4456c49783848177a1a",
+      "bodyRef": "artifact:source-v3.html",
+      "canonicalBytes": false
+    },
+    {
+      "scene": "v3-public-forage",
+      "status": 200,
+      "sha256": "9e8aab2a7dad5036f8c60b0f8d7fb0a42cdc7075469ca4456c49783848177a1a",
+      "bodyRef": "artifact:source-v3.html",
+      "canonicalBytes": false
+    },
+    {
+      "scene": "known-c1-migration",
+      "status": 200,
+      "sha256": "61ea64b27a65cc4a271c214c16126b40a453eae40c8684c106bc8edc89e5f115",
+      "bodyRef": "artifact:source.html",
+      "canonicalBytes": true
+    },
+    {
+      "scene": "known-c1-migration",
+      "status": 200,
+      "sha256": "61ea64b27a65cc4a271c214c16126b40a453eae40c8684c106bc8edc89e5f115",
+      "bodyRef": "artifact:source.html",
+      "canonicalBytes": true
+    },
+    {
+      "scene": "unknown-content-digest",
+      "status": 200,
+      "sha256": "61ea64b27a65cc4a271c214c16126b40a453eae40c8684c106bc8edc89e5f115",
+      "bodyRef": "artifact:source.html",
+      "canonicalBytes": true
+    },
+    {
+      "scene": "late-invalid-package",
+      "status": 200,
+      "sha256": "a10f4b08db31c784aa0bd65b9798ceb1079d8d839c888e4f4455331f1e9ebb54",
+      "bodyRef": "artifact:source-TEST-ONLY-late-invalid.html",
+      "canonicalBytes": false
+    }
+  ],
+  "cleanup": {
+    "contextsClosed": true,
+    "browserClosed": true,
+    "httpServerClosed": true
+  },
+  "scenarioCoreModuleSha256": "343e52025cbda33ace694a4e281cfdb7fa66a2052370d67275c13a7a543004ce",
+  "sourceRuntimeHelperSha256": "e9872eeba85d49019d1bd806f3dd18357a5abc8f2f92922922f6a5324ec220dc",
+  "ioAdapterSha256": "554c400c174ad1b069c4dfcc839c12b3b45ea79c5aa7669e093a440ffa4845d3",
+  "actorSpritesSha256": "257f4b38760813c21c723bbb9f934f1198e742fd1223db48705f34787e0f71b7",
+  "plannedScenes": [
+    {
+      "id": "canonical-newstart-reload",
+      "kind": "fresh",
+      "htmlSha256": "61ea64b27a65cc4a271c214c16126b40a453eae40c8684c106bc8edc89e5f115",
+      "variant": false,
+      "sourceRef": "artifact:source.html"
+    },
+    {
+      "id": "v2-public-forage",
+      "kind": "choice",
+      "htmlSha256": "9f3a82202980386966579f10f5e1b1950214ea7feddfab0abd0a5f40d15c7e4c",
+      "variant": true,
+      "sourceRef": "artifact:source-v2.html"
+    },
+    {
+      "id": "v3-public-forage",
+      "kind": "choice",
+      "htmlSha256": "9e8aab2a7dad5036f8c60b0f8d7fb0a42cdc7075469ca4456c49783848177a1a",
+      "variant": true,
+      "sourceRef": "artifact:source-v3.html"
+    },
+    {
+      "id": "known-c1-migration",
+      "kind": "c1",
+      "htmlSha256": "61ea64b27a65cc4a271c214c16126b40a453eae40c8684c106bc8edc89e5f115",
+      "variant": false,
+      "sourceRef": "artifact:source.html"
+    },
+    {
+      "id": "unknown-content-digest",
+      "kind": "reject",
+      "htmlSha256": "61ea64b27a65cc4a271c214c16126b40a453eae40c8684c106bc8edc89e5f115",
+      "variant": false,
+      "sourceRef": "artifact:source.html"
+    },
+    {
+      "id": "late-invalid-package",
+      "kind": "reject-package",
+      "htmlSha256": "a10f4b08db31c784aa0bd65b9798ceb1079d8d839c888e4f4455331f1e9ebb54",
+      "variant": true,
+      "sourceRef": "artifact:source-TEST-ONLY-late-invalid.html"
+    }
+  ],
+  "browserVersion": "155.0.8059.80",
+  "elapsedWallMs": 20998,
+  "count": 102,
+  "passed": 102,
+  "ok": true
+}

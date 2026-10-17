@@ -1,0 +1,161 @@
+{
+  "schema": "NpcSelfFinalReadonlyProvenanceAuditV1",
+  "ok": true,
+  "findings": [],
+  "checks": [
+    {
+      "name": "frozen QA manifest and source identity",
+      "ok": true
+    },
+    {
+      "name": "all declared artifact hashes",
+      "ok": true
+    },
+    {
+      "name": "source and evidence stages and immutable source baseline",
+      "ok": true
+    },
+    {
+      "name": "15 standard ZIP full entry roundtrip",
+      "ok": true
+    },
+    {
+      "name": "438 native artifact transport reference closure",
+      "ok": true
+    },
+    {
+      "name": "self source content-addressed publication closure",
+      "ok": true
+    },
+    {
+      "name": "native counts current source and browser artifact hashes",
+      "ok": true
+    },
+    {
+      "name": "new publication and changed docs private path scan",
+      "ok": true
+    },
+    {
+      "name": "current report rows bounded claims and one original generic Gate run",
+      "ok": true
+    }
+  ],
+  "facts": {
+    "frozen QA manifest and source identity": {
+      "qaSha256": "4d592fbd515cc82aad4dc8476fe4d6a74f06ce1404725f9940fe232a718b35ec",
+      "manifestSha256": "ba247634c8d8be9b743e7ee34dff9ee1e1d16d8e3f91026ed16572a19c1d50c2",
+      "sourceHtmlSha256": "c42056ed08c9cbc0e27c09365828fae5d1c19dc25190e9e19d2e3beffa45bc91"
+    },
+    "all declared artifact hashes": {
+      "files": 622,
+      "allSha256Verified": true
+    },
+    "15 standard ZIP full entry roundtrip": {
+      "archives": 15,
+      "entries": 193,
+      "allCRCAndEntrySizeSha256AndIndependentExtractionVerified": true,
+      "uncompressedBytes": 50693540
+    },
+    "438 native artifact transport reference closure": {
+      "nativeReports": 5,
+      "references": 438,
+      "ordinaryFileReferences": 218,
+      "zipReferences": 220,
+      "unresolved": 0,
+      "unchangedHistoricalNatural19Reuse": [
+        {
+          "path": "docs/qa/runs/crop-target-v1-20261017/natural-fresh06/report.json",
+          "sha256": "aa4dbcdbd0dc7943af9940e8b7b87acf96b487145d626e1fcfbdc64ff357f4a5",
+          "newCopyCreated": false
+        }
+      ]
+    },
+    "self source content-addressed publication closure": {
+      "fileInventory": 54,
+      "blobs": 37,
+      "aliases": 118,
+      "mappedIncludedArtifacts": 153,
+      "explicitHistoricalOmissions": 6,
+      "negativePreserved101of104": true,
+      "negativeCompanionActualChecksVerified": {
+        "count": 104,
+        "passed": 101,
+        "failed": 3,
+        "sourceHtmlSha256": "d2512764bc54c9efb665168869cde08c6b8ac00f567ecb02229915fadd1d3896",
+        "isNativeReport": false,
+        "originalSha256": "669d845ce2e62b1fcdb0320b26bf38c85b1d8d0c1a7377b262b32aa6d4836eb0"
+      }
+    },
+    "native counts current source and browser artifact hashes": {
+      "source104": true,
+      "independent19": true,
+      "browsers": [
+        {
+          "path": "docs/qa/runs/npc-self-observation-v1-20261017/browser/01-self/report.json",
+          "count": 212,
+          "passed": 212,
+          "sha256": "57c9f97bb7864dd6dfb31bd4ea77e676fcd07c5c01732c3bdd2c5d8a135e2ceb",
+          "recordedMainBodies": 13
+        },
+        {
+          "path": "docs/qa/runs/npc-self-observation-v1-20261017/browser/02-npc/report.json",
+          "count": 112,
+          "passed": 112,
+          "sha256": "c9817322830f2080ae881543d31b98adc8d0c1b3e3825798c1dd0bbbd5409ff1",
+          "recordedMainBodies": 30
+        },
+        {
+          "path": "docs/qa/runs/npc-self-observation-v1-20261017/browser/03-episode/report.json",
+          "count": 12,
+          "passed": 12,
+          "sha256": "25c0e7021827a294caed6e00f5f3787c1984ea05bac5f96e9031af61d8b867cd",
+          "recordedMainBodies": 2
+        }
+      ],
+      "totalBrowserChecks": 336,
+      "allRecordedMainBodies": 45,
+      "selfNativeValidationRecords": 33,
+      "sourceUniqueContracts": 42,
+      "legacyContractRows": 40,
+      "distinctLegacyNames": 40
+    },
+    "new publication and changed docs private path scan": {
+      "newPublicationAndChangedDocFiles": 382,
+      "zipDecompressedEntries": 193,
+      "privatePathHits": 0,
+      "exceptionScope": "Previously published original natural19 report is reused by its original path/hash, not copied into the new publication tree."
+    },
+    "current report rows bounded claims and one original generic Gate run": {
+      "currentResults": 21,
+      "oldBrowserTransferDetected": false,
+      "genericGate": {
+        "count": 29,
+        "passed": 29,
+        "commitVerification": "unavailable"
+      },
+      "qaAndManifestStillFrozen": true
+    },
+    "source and evidence stages and immutable source baseline": {
+      "sourceStageFiles": 9,
+      "evidenceStageFiles": 395,
+      "allLocalRawBytesAndGitBlobSha1Matched": true,
+      "declaredScriptsDist": 89,
+      "unchangedScriptsDistBaselineMatched": 85,
+      "baselineSourceHtmlSha256": "61ea64b27a65cc4a271c214c16126b40a453eae40c8684c106bc8edc89e5f115"
+    }
+  },
+  "sourceCommit": "3213db16f5976dc3049f084851bcb3e811a094d5",
+  "sourceHtmlSha256": "c42056ed08c9cbc0e27c09365828fae5d1c19dc25190e9e19d2e3beffa45bc91",
+  "qaSha256": "4d592fbd515cc82aad4dc8476fe4d6a74f06ce1404725f9940fe232a718b35ec",
+  "manifestSha256": "ba247634c8d8be9b743e7ee34dff9ee1e1d16d8e3f91026ed16572a19c1d50c2",
+  "scope": "Frozen publication provenance, counts, file hashes, lossless transport and claims only; no source/game/browser tests rerun. Local raw-stage/Git-blob hashes are checked; remote tree claims are not independently queried and Git ancestry remains unavailable locally.",
+  "originalFilesModified": false,
+  "gameplayTestsExecuted": false,
+  "genericEvidenceGateExecutions": 1,
+  "methodCorrection": {
+    "kind": "auditor-baseline-location-correction",
+    "originalAttemptPreservedPrivately": true,
+    "originalAttemptSha256": "439c9e56cf987a9c34702c3c5e990cd666be2342b740e1c20d7ef11b48056fea",
+    "reason": "The first method used the explicitly partial six-file baseline as if it were the full repository. The supplied immutable full C2 review baseline was then used. No product files or original evidence changed; no game/browser/source checker rerun and generic Gate still executed once."
+  }
+}

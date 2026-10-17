@@ -1,0 +1,54 @@
+{
+  "schema": "ExplicitPrivatePathRedactedCompanionV1",
+  "nativeOriginalBytes": false,
+  "originalSha256": "22037b02914a319428f312e6f0e07feb87c4a4b66eaed24faaa85f0951b31307",
+  "originalBytes": 2313,
+  "transformation": "Replace private execution locations only; original external bytes retained. This companion is not a native report or a new execution.",
+  "portableData": {
+    "order": 11,
+    "name": "repair-proof",
+    "status": "terminal",
+    "startedAt": "2026-10-17T16:38:36.126539+00:00",
+    "command": [
+      "[PRIVATE_EXECUTION_PATH]",
+      "scripts/check-repair-proof.mjs",
+      "--html",
+      "[PRIVATE_EXECUTION_PATH]",
+      "--io-adapter",
+      "[PRIVATE_EXECUTION_PATH]",
+      "--out",
+      "[PRIVATE_EXECUTION_PATH]",
+      "--legacy-repair-fixture",
+      "[PRIVATE_EXECUTION_PATH]"
+    ],
+    "cwd": "[PRIVATE_EXECUTION_PATH]",
+    "sourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+    "runner": {
+      "path": "scripts/check-repair-proof.mjs",
+      "sha256": "c305ef6a389c62adbfe5fbada45fa25a971669557ae27e13cad1e00a7a1f31d8"
+    },
+    "finishedAt": "2026-10-17T16:38:39.218553+00:00",
+    "exitCode": 0,
+    "stdout": {
+      "path": "stdout.log",
+      "sha256": "7e7d5efdcb82580b17f35e5d312108746144c47dbb8a39b6c794101e7418eef1",
+      "bytes": 412
+    },
+    "stderr": {
+      "path": "stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "nativeReport": {
+      "path": "native-report.json",
+      "sha256": "3952c538bf8ad8217e9fe7e0772c097bb43c1942d01996eef00bf83a403b41a9",
+      "bytes": 6762
+    },
+    "reported": {
+      "runner": "source-repair-proof",
+      "ok": true,
+      "count": 41,
+      "failures": []
+    }
+  }
+}

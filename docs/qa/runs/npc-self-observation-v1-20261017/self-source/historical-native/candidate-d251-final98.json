@@ -1,0 +1,3451 @@
+{
+  "schema": "NpcSelfObservationSourceEvidenceV1",
+  "runner": "source-npc-self-observation-v1",
+  "sourceHtmlSha256": "d2512764bc54c9efb665168869cde08c6b8ac00f567ecb02229915fadd1d3896",
+  "runnerArtifact": {
+    "path": "candidate-d251-final98-artifacts/runner-executed.mjs",
+    "sha256": "7f235a08ba1ee913327ae3da87894c00f47844a1cd51f054bc1a46f127da7a5c"
+  },
+  "ioAdapterSha256": "554c400c174ad1b069c4dfcc839c12b3b45ea79c5aa7669e093a440ffa4845d3",
+  "source": {
+    "path": "candidate-d251-final98-artifacts/source-executed.html",
+    "sha256": "d2512764bc54c9efb665168869cde08c6b8ac00f567ecb02229915fadd1d3896"
+  },
+  "adapter": {
+    "path": "candidate-d251-final98-artifacts/io-adapter-executed.mjs",
+    "sha256": "554c400c174ad1b069c4dfcc839c12b3b45ea79c5aa7669e093a440ffa4845d3"
+  },
+  "inputs": [
+    {
+      "repositoryPath": "scripts/fixtures/npc-threat-attention-v1/browser-writer-day1-1110-save21.json",
+      "path": "candidate-d251-final98-artifacts/inputs/complete-original-writer.json",
+      "sha256": "5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4",
+      "bytes": 496785
+    },
+    {
+      "repositoryPath": "scripts/fixtures/npc-threat-attention-v1/capture-meta.json",
+      "path": "candidate-d251-final98-artifacts/inputs/original-capture-meta.json",
+      "sha256": "a24e58af9364dc6a81b86a7fddf0b618fc19ca72c9823dcaff0756e4f32b25e5",
+      "bytes": 1642
+    },
+    {
+      "repositoryPath": "docs/qa/runs/crop-target-v1-20261017/natural-fresh06/007-3-npc.interacted-before-save.json",
+      "path": "candidate-d251-final98-artifacts/inputs/actual-natural06-before-support-writer.json",
+      "sha256": "fbc8fb9d36d3d4dd478a1d6f9d31397515bf14ef9a014d0816e6b20746364e3b",
+      "bytes": 103471
+    },
+    {
+      "repositoryPath": "docs/qa/runs/npc-public-actions-v1-20261017/npc-browser/original-writer.json",
+      "path": "candidate-d251-final98-artifacts/inputs/browser-original-writer-1e29.json",
+      "sha256": "1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f",
+      "bytes": 58992
+    }
+  ],
+  "scope": {
+    "actual": "complete inline source, private self components, existing NPC Gate/reducer/CommandBus, actual context renderer/click/key listeners, advance/combat, writer/validator/loader",
+    "controlled": "existing explicit DOM/storage/queued timers IO adapter; unrelated top-level world/HUD/context render assignments suppressed after actual callable references captured",
+    "newGateOrProjectionMocked": false,
+    "receiptFabricated": false,
+    "variants": "TEST-ONLY explicit live scene derivations of unchanged complete native writers",
+    "excluded": "browser pixels, LLM, contacts, direct-sight/perception authorization, full ActorObservation ADR, balance, natural gameplay"
+  },
+  "browserStarted": false,
+  "naturalGameplay": false,
+  "count": 98,
+  "passed": 98,
+  "ok": true,
+  "checks": [
+    {
+      "name": "actual four private components exist without new public observer capability",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "privateApi": [
+          "capture",
+          "project",
+          "resolve",
+          "prepare"
+        ],
+        "publicObserverKeys": [
+          "comment",
+          "config",
+          "project",
+          "schema"
+        ]
+      }
+    },
+    {
+      "name": "same live speaker captures only fixed scalar self domains and revision",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfCaptureV1",
+        "version": 1,
+        "actorId": "carpenter",
+        "sourceRevision": {
+          "sessionGeneration": 0,
+          "worldMinute": 670,
+          "eventSeq": 254,
+          "stepIndex": 4987,
+          "phase": "DAY"
+        },
+        "self": {
+          "lifeState": "healthy",
+          "hp": 100,
+          "maxHp": 100,
+          "needs": {
+            "hunger": 0,
+            "fatigue": 0,
+            "energy": 100
+          }
+        },
+        "relationTrust": 0
+      }
+    },
+    {
+      "name": "authorized self knowledge is speaker-bound with only bands and self provenance",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "ActorObservationV1",
+        "version": 1,
+        "policyVersion": "npc-first-talk-self-v1",
+        "hashVersion": "fnv1a-utf16-base36-v1",
+        "actor": {
+          "id": "carpenter"
+        },
+        "audienceId": "player-1",
+        "sourceRevision": {
+          "sessionGeneration": 0,
+          "worldMinute": 670,
+          "eventSeq": 254,
+          "stepIndex": 4987,
+          "phase": "DAY"
+        },
+        "knowledge": [
+          {
+            "subjectId": "carpenter",
+            "status": "observed",
+            "facts": {
+              "lifeState": "healthy",
+              "hpBand": "4/4",
+              "needBands": {
+                "hunger": "normal",
+                "fatigue": "normal",
+                "energy": "normal"
+              }
+            },
+            "provenance": {
+              "kind": "self",
+              "sourceId": "carpenter",
+              "at": 670
+            }
+          }
+        ],
+        "unknown": [],
+        "observationHash": "1of7pt3"
+      }
+    },
+    {
+      "name": "identical inline/module core bytes and actual fixture outputs agree",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "moduleSha256": "715fca749327bc1302aa4869adda94044e5dfa9c6dd24cac733f1b98a7575868",
+        "observerModuleSha256": "fe78c38954227d4a93318badac915032a943a5bd008a061c0682758a61912f27"
+      }
+    },
+    {
+      "name": "pure capture preserves full live state/IO/registry/RNG/timers and original references",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "component": "capture",
+        "result": {
+          "schema": "NpcSelfCaptureV1",
+          "version": 1,
+          "actorId": "carpenter",
+          "sourceRevision": {
+            "sessionGeneration": 0,
+            "worldMinute": 670,
+            "eventSeq": 254,
+            "stepIndex": 4987,
+            "phase": "DAY"
+          },
+          "self": {
+            "lifeState": "healthy",
+            "hp": 100,
+            "maxHp": 100,
+            "needs": {
+              "hunger": 0,
+              "fatigue": 0,
+              "energy": 100
+            }
+          },
+          "relationTrust": 0
+        }
+      }
+    },
+    {
+      "name": "pure project preserves full live state/IO/registry/RNG/timers and original references",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "component": "project",
+        "result": {
+          "schema": "ActorObservationV1",
+          "version": 1,
+          "policyVersion": "npc-first-talk-self-v1",
+          "hashVersion": "fnv1a-utf16-base36-v1",
+          "actor": {
+            "id": "carpenter"
+          },
+          "audienceId": "player-1",
+          "sourceRevision": {
+            "sessionGeneration": 0,
+            "worldMinute": 670,
+            "eventSeq": 254,
+            "stepIndex": 4987,
+            "phase": "DAY"
+          },
+          "knowledge": [
+            {
+              "subjectId": "carpenter",
+              "status": "observed",
+              "facts": {
+                "lifeState": "healthy",
+                "hpBand": "4/4",
+                "needBands": {
+                  "hunger": "normal",
+                  "fatigue": "normal",
+                  "energy": "normal"
+                }
+              },
+              "provenance": {
+                "kind": "self",
+                "sourceId": "carpenter",
+                "at": 670
+              }
+            }
+          ],
+          "unknown": [],
+          "observationHash": "1of7pt3"
+        }
+      }
+    },
+    {
+      "name": "pure resolve preserves full live state/IO/registry/RNG/timers and original references",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "component": "resolve",
+        "result": {
+          "schema": "NpcSelfDialogueV1",
+          "version": 1,
+          "authority": "expression_only",
+          "mode": "authored",
+          "observerEnabled": false,
+          "facts": {
+            "kind": "npc",
+            "id": "carpenter",
+            "lifeState": "healthy",
+            "hpBand": "4/4",
+            "needBands": {
+              "hunger": "normal",
+              "fatigue": "normal",
+              "energy": "normal"
+            }
+          },
+          "text": "我目前没有受伤。我的生命余量接近完整。",
+          "sourceProjectionHash": "uhjkee",
+          "observationHash": "1of7pt3",
+          "fallbackReason": null,
+          "disclosureReason": "allowed"
+        }
+      }
+    },
+    {
+      "name": "pure prepare preserves full live state/IO/registry/RNG/timers and original references",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "component": "prepare",
+        "result": {
+          "observation": {
+            "schema": "ActorObservationV1",
+            "version": 1,
+            "policyVersion": "npc-first-talk-self-v1",
+            "hashVersion": "fnv1a-utf16-base36-v1",
+            "actor": {
+              "id": "carpenter"
+            },
+            "audienceId": "player-1",
+            "sourceRevision": {
+              "sessionGeneration": 0,
+              "worldMinute": 670,
+              "eventSeq": 254,
+              "stepIndex": 4987,
+              "phase": "DAY"
+            },
+            "knowledge": [
+              {
+                "subjectId": "carpenter",
+                "status": "observed",
+                "facts": {
+                  "lifeState": "healthy",
+                  "hpBand": "4/4",
+                  "needBands": {
+                    "hunger": "normal",
+                    "fatigue": "normal",
+                    "energy": "normal"
+                  }
+                },
+                "provenance": {
+                  "kind": "self",
+                  "sourceId": "carpenter",
+                  "at": 670
+                }
+              }
+            ],
+            "unknown": [],
+            "observationHash": "1of7pt3"
+          },
+          "expression": {
+            "schema": "NpcSelfDialogueV1",
+            "version": 1,
+            "authority": "expression_only",
+            "mode": "authored",
+            "observerEnabled": false,
+            "facts": {
+              "kind": "npc",
+              "id": "carpenter",
+              "lifeState": "healthy",
+              "hpBand": "4/4",
+              "needBands": {
+                "hunger": "normal",
+                "fatigue": "normal",
+                "energy": "normal"
+              }
+            },
+            "text": "我目前没有受伤。我的生命余量接近完整。",
+            "sourceProjectionHash": "uhjkee",
+            "observationHash": "1of7pt3",
+            "fallbackReason": null,
+            "disclosureReason": "allowed"
+          }
+        }
+      }
+    },
+    {
+      "name": "capture has no writable live input alias and remains a point-in-time copy",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": null
+    },
+    {
+      "name": "literal injury and original quartile healthy/100",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": "carpenter",
+          "lifeState": "healthy",
+          "hpBand": "4/4",
+          "needBands": {
+            "hunger": "normal",
+            "fatigue": "normal",
+            "energy": "normal"
+          }
+        },
+        "text": "我目前没有受伤。我的生命余量接近完整。",
+        "sourceProjectionHash": "uhjkee",
+        "observationHash": "1of7pt3",
+        "fallbackReason": null,
+        "disclosureReason": "allowed"
+      }
+    },
+    {
+      "name": "literal injury and original quartile injured/50",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": "carpenter",
+          "lifeState": "injured",
+          "hpBand": "2/4",
+          "needBands": {
+            "hunger": "normal",
+            "fatigue": "normal",
+            "energy": "normal"
+          }
+        },
+        "text": "我受伤了。我的生命余量大约还剩一半。",
+        "sourceProjectionHash": "uvobqc",
+        "observationHash": "eak6xl",
+        "fallbackReason": null,
+        "disclosureReason": "allowed"
+      }
+    },
+    {
+      "name": "literal injury and original quartile critical/20",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": "carpenter",
+          "lifeState": "critical",
+          "hpBand": "1/4",
+          "needBands": {
+            "hunger": "normal",
+            "fatigue": "normal",
+            "energy": "normal"
+          }
+        },
+        "text": "我伤得很重。我的生命余量大约还剩四分之一。",
+        "sourceProjectionHash": "1m6i61t",
+        "observationHash": "1qzlohs",
+        "fallbackReason": null,
+        "disclosureReason": "allowed"
+      }
+    },
+    {
+      "name": "literal injury and original quartile critical/1",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": "carpenter",
+          "lifeState": "critical",
+          "hpBand": "0/4",
+          "needBands": {
+            "hunger": "normal",
+            "fatigue": "normal",
+            "energy": "normal"
+          }
+        },
+        "text": "我伤得很重。我的生命余量已经很少。",
+        "sourceProjectionHash": "odz7p0",
+        "observationHash": "1gw563r",
+        "fallbackReason": null,
+        "disclosureReason": "allowed"
+      }
+    },
+    {
+      "name": "literal injury and original quartile injured/75",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": "carpenter",
+          "lifeState": "injured",
+          "hpBand": "3/4",
+          "needBands": {
+            "hunger": "normal",
+            "fatigue": "normal",
+            "energy": "normal"
+          }
+        },
+        "text": "我受伤了。我的生命余量大约还剩四分之三。",
+        "sourceProjectionHash": "1lvlklt",
+        "observationHash": "1bhrmrm",
+        "fallbackReason": null,
+        "disclosureReason": "allowed"
+      }
+    },
+    {
+      "name": "independent need threshold hunger=69",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": "carpenter",
+          "lifeState": "healthy",
+          "hpBand": "4/4",
+          "needBands": {
+            "hunger": "normal",
+            "fatigue": "normal",
+            "energy": "normal"
+          }
+        },
+        "text": "我目前没有受伤。我的生命余量接近完整。",
+        "sourceProjectionHash": "uhjkee",
+        "observationHash": "1of7pt3",
+        "fallbackReason": null,
+        "disclosureReason": "allowed"
+      }
+    },
+    {
+      "name": "independent need threshold hunger=70",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": "carpenter",
+          "lifeState": "healthy",
+          "hpBand": "4/4",
+          "needBands": {
+            "hunger": "urgent",
+            "fatigue": "normal",
+            "energy": "normal"
+          }
+        },
+        "text": "我目前没有受伤。我的生命余量接近完整。我饿得厉害，得找点吃的。",
+        "sourceProjectionHash": "qyg56w",
+        "observationHash": "12njpm5",
+        "fallbackReason": null,
+        "disclosureReason": "allowed"
+      }
+    },
+    {
+      "name": "independent need threshold hunger=100",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": "carpenter",
+          "lifeState": "healthy",
+          "hpBand": "4/4",
+          "needBands": {
+            "hunger": "urgent",
+            "fatigue": "normal",
+            "energy": "normal"
+          }
+        },
+        "text": "我目前没有受伤。我的生命余量接近完整。我饿得厉害，得找点吃的。",
+        "sourceProjectionHash": "qyg56w",
+        "observationHash": "12njpm5",
+        "fallbackReason": null,
+        "disclosureReason": "allowed"
+      }
+    },
+    {
+      "name": "independent need threshold fatigue=69",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": "carpenter",
+          "lifeState": "healthy",
+          "hpBand": "4/4",
+          "needBands": {
+            "hunger": "normal",
+            "fatigue": "normal",
+            "energy": "normal"
+          }
+        },
+        "text": "我目前没有受伤。我的生命余量接近完整。",
+        "sourceProjectionHash": "uhjkee",
+        "observationHash": "1of7pt3",
+        "fallbackReason": null,
+        "disclosureReason": "allowed"
+      }
+    },
+    {
+      "name": "independent need threshold fatigue=70",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": "carpenter",
+          "lifeState": "healthy",
+          "hpBand": "4/4",
+          "needBands": {
+            "hunger": "normal",
+            "fatigue": "urgent",
+            "energy": "normal"
+          }
+        },
+        "text": "我目前没有受伤。我的生命余量接近完整。我累得厉害，需要休息。",
+        "sourceProjectionHash": "15mz37g",
+        "observationHash": "3xw9y1",
+        "fallbackReason": null,
+        "disclosureReason": "allowed"
+      }
+    },
+    {
+      "name": "independent need threshold energy=26",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": "carpenter",
+          "lifeState": "healthy",
+          "hpBand": "4/4",
+          "needBands": {
+            "hunger": "normal",
+            "fatigue": "normal",
+            "energy": "normal"
+          }
+        },
+        "text": "我目前没有受伤。我的生命余量接近完整。",
+        "sourceProjectionHash": "uhjkee",
+        "observationHash": "1of7pt3",
+        "fallbackReason": null,
+        "disclosureReason": "allowed"
+      }
+    },
+    {
+      "name": "independent need threshold energy=25",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": "carpenter",
+          "lifeState": "healthy",
+          "hpBand": "4/4",
+          "needBands": {
+            "hunger": "normal",
+            "fatigue": "normal",
+            "energy": "low"
+          }
+        },
+        "text": "我目前没有受伤。我的生命余量接近完整。我快没力气了，需要缓一缓。",
+        "sourceProjectionHash": "1pfbchn",
+        "observationHash": "wnsj5y",
+        "fallbackReason": null,
+        "disclosureReason": "allowed"
+      }
+    },
+    {
+      "name": "independent need threshold energy=0",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": "carpenter",
+          "lifeState": "healthy",
+          "hpBand": "4/4",
+          "needBands": {
+            "hunger": "normal",
+            "fatigue": "normal",
+            "energy": "low"
+          }
+        },
+        "text": "我目前没有受伤。我的生命余量接近完整。我快没力气了，需要缓一缓。",
+        "sourceProjectionHash": "1pfbchn",
+        "observationHash": "wnsj5y",
+        "fallbackReason": null,
+        "disclosureReason": "allowed"
+      }
+    },
+    {
+      "name": "literal need priority is hunger then fatigue then energy without fulfilling any need",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "hunger": {
+          "schema": "NpcSelfDialogueV1",
+          "version": 1,
+          "authority": "expression_only",
+          "mode": "authored",
+          "observerEnabled": false,
+          "facts": {
+            "kind": "npc",
+            "id": "carpenter",
+            "lifeState": "healthy",
+            "hpBand": "4/4",
+            "needBands": {
+              "hunger": "urgent",
+              "fatigue": "urgent",
+              "energy": "low"
+            }
+          },
+          "text": "我目前没有受伤。我的生命余量接近完整。我饿得厉害，得找点吃的。",
+          "sourceProjectionHash": "9p4u2j",
+          "observationHash": "ygf2gm",
+          "fallbackReason": null,
+          "disclosureReason": "allowed"
+        },
+        "fatigue": {
+          "schema": "NpcSelfDialogueV1",
+          "version": 1,
+          "authority": "expression_only",
+          "mode": "authored",
+          "observerEnabled": false,
+          "facts": {
+            "kind": "npc",
+            "id": "carpenter",
+            "lifeState": "healthy",
+            "hpBand": "4/4",
+            "needBands": {
+              "hunger": "normal",
+              "fatigue": "urgent",
+              "energy": "low"
+            }
+          },
+          "text": "我目前没有受伤。我的生命余量接近完整。我累得厉害，需要休息。",
+          "sourceProjectionHash": "1j9hpll",
+          "observationHash": "1hsyl4o",
+          "fallbackReason": null,
+          "disclosureReason": "allowed"
+        }
+      }
+    },
+    {
+      "name": "actual directional trust disclosure boundary -100",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": "carpenter",
+          "lifeState": "healthy"
+        },
+        "text": "我目前没有受伤。具体情况，我暂时不想多谈。",
+        "sourceProjectionHash": "1t846jz",
+        "observationHash": "12njpm5",
+        "fallbackReason": null,
+        "disclosureReason": "limited-trust"
+      }
+    },
+    {
+      "name": "actual directional trust disclosure boundary -10.001",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": "carpenter",
+          "lifeState": "healthy"
+        },
+        "text": "我目前没有受伤。具体情况，我暂时不想多谈。",
+        "sourceProjectionHash": "1t846jz",
+        "observationHash": "12njpm5",
+        "fallbackReason": null,
+        "disclosureReason": "limited-trust"
+      }
+    },
+    {
+      "name": "actual directional trust disclosure boundary -10",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": "carpenter",
+          "lifeState": "healthy",
+          "hpBand": "4/4",
+          "needBands": {
+            "hunger": "urgent",
+            "fatigue": "normal",
+            "energy": "normal"
+          }
+        },
+        "text": "我目前没有受伤。我的生命余量接近完整。我饿得厉害，得找点吃的。",
+        "sourceProjectionHash": "qyg56w",
+        "observationHash": "12njpm5",
+        "fallbackReason": null,
+        "disclosureReason": "allowed"
+      }
+    },
+    {
+      "name": "actual directional trust disclosure boundary 0",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": "carpenter",
+          "lifeState": "healthy",
+          "hpBand": "4/4",
+          "needBands": {
+            "hunger": "urgent",
+            "fatigue": "normal",
+            "energy": "normal"
+          }
+        },
+        "text": "我目前没有受伤。我的生命余量接近完整。我饿得厉害，得找点吃的。",
+        "sourceProjectionHash": "qyg56w",
+        "observationHash": "12njpm5",
+        "fallbackReason": null,
+        "disclosureReason": "allowed"
+      }
+    },
+    {
+      "name": "actual directional trust disclosure boundary 100",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": "carpenter",
+          "lifeState": "healthy",
+          "hpBand": "4/4",
+          "needBands": {
+            "hunger": "urgent",
+            "fatigue": "normal",
+            "energy": "normal"
+          }
+        },
+        "text": "我目前没有受伤。我的生命余量接近完整。我饿得厉害，得找点吃的。",
+        "sourceProjectionHash": "qyg56w",
+        "observationHash": "12njpm5",
+        "fallbackReason": null,
+        "disclosureReason": "allowed"
+      }
+    },
+    {
+      "name": "invalid actual trust withheld without inventing willingness missing",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": "carpenter",
+          "lifeState": "healthy"
+        },
+        "text": "我目前没有受伤。更多身体详情暂时无法确认。",
+        "sourceProjectionHash": "1t846jz",
+        "observationHash": "1of7pt3",
+        "fallbackReason": null,
+        "disclosureReason": "relation-unknown"
+      }
+    },
+    {
+      "name": "invalid actual trust withheld without inventing willingness null",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": "carpenter",
+          "lifeState": "healthy"
+        },
+        "text": "我目前没有受伤。更多身体详情暂时无法确认。",
+        "sourceProjectionHash": "1t846jz",
+        "observationHash": "1of7pt3",
+        "fallbackReason": null,
+        "disclosureReason": "relation-unknown"
+      }
+    },
+    {
+      "name": "invalid actual trust withheld without inventing willingness string",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": "carpenter",
+          "lifeState": "healthy"
+        },
+        "text": "我目前没有受伤。更多身体详情暂时无法确认。",
+        "sourceProjectionHash": "1t846jz",
+        "observationHash": "1of7pt3",
+        "fallbackReason": null,
+        "disclosureReason": "relation-unknown"
+      }
+    },
+    {
+      "name": "invalid actual trust withheld without inventing willingness boolean",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": "carpenter",
+          "lifeState": "healthy"
+        },
+        "text": "我目前没有受伤。更多身体详情暂时无法确认。",
+        "sourceProjectionHash": "1t846jz",
+        "observationHash": "1of7pt3",
+        "fallbackReason": null,
+        "disclosureReason": "relation-unknown"
+      }
+    },
+    {
+      "name": "invalid actual trust withheld without inventing willingness NaN",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": "carpenter",
+          "lifeState": "healthy"
+        },
+        "text": "我目前没有受伤。更多身体详情暂时无法确认。",
+        "sourceProjectionHash": "1t846jz",
+        "observationHash": "1of7pt3",
+        "fallbackReason": null,
+        "disclosureReason": "relation-unknown"
+      }
+    },
+    {
+      "name": "invalid actual trust withheld without inventing willingness Infinity",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": "carpenter",
+          "lifeState": "healthy"
+        },
+        "text": "我目前没有受伤。更多身体详情暂时无法确认。",
+        "sourceProjectionHash": "1t846jz",
+        "observationHash": "1of7pt3",
+        "fallbackReason": null,
+        "disclosureReason": "relation-unknown"
+      }
+    },
+    {
+      "name": "invalid actual trust withheld without inventing willingness below-range",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": "carpenter",
+          "lifeState": "healthy"
+        },
+        "text": "我目前没有受伤。更多身体详情暂时无法确认。",
+        "sourceProjectionHash": "1t846jz",
+        "observationHash": "1of7pt3",
+        "fallbackReason": null,
+        "disclosureReason": "relation-unknown"
+      }
+    },
+    {
+      "name": "invalid actual trust withheld without inventing willingness above-range",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": "carpenter",
+          "lifeState": "healthy"
+        },
+        "text": "我目前没有受伤。更多身体详情暂时无法确认。",
+        "sourceProjectionHash": "1t846jz",
+        "observationHash": "1of7pt3",
+        "fallbackReason": null,
+        "disclosureReason": "relation-unknown"
+      }
+    },
+    {
+      "name": "unknown individual need never becomes zero missing",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "observation": {
+          "schema": "ActorObservationV1",
+          "version": 1,
+          "policyVersion": "npc-first-talk-self-v1",
+          "hashVersion": "fnv1a-utf16-base36-v1",
+          "actor": {
+            "id": "carpenter"
+          },
+          "audienceId": "player-1",
+          "sourceRevision": {
+            "sessionGeneration": 0,
+            "worldMinute": 670,
+            "eventSeq": 254,
+            "stepIndex": 4987,
+            "phase": "DAY"
+          },
+          "knowledge": [
+            {
+              "subjectId": "carpenter",
+              "status": "observed",
+              "facts": {
+                "lifeState": "healthy",
+                "hpBand": "4/4",
+                "needBands": {
+                  "hunger": "unknown",
+                  "fatigue": "urgent",
+                  "energy": "normal"
+                }
+              },
+              "provenance": {
+                "kind": "self",
+                "sourceId": "carpenter",
+                "at": 670
+              }
+            }
+          ],
+          "unknown": [],
+          "observationHash": "5ao1hg"
+        },
+        "dialogue": {
+          "schema": "NpcSelfDialogueV1",
+          "version": 1,
+          "authority": "expression_only",
+          "mode": "authored",
+          "observerEnabled": false,
+          "facts": {
+            "kind": "npc",
+            "id": "carpenter",
+            "lifeState": "healthy",
+            "hpBand": "4/4",
+            "needBands": {
+              "hunger": "unknown",
+              "fatigue": "urgent",
+              "energy": "normal"
+            }
+          },
+          "text": "我目前没有受伤。我的生命余量接近完整。我累得厉害，需要休息。",
+          "sourceProjectionHash": "1dtxhz9",
+          "observationHash": "5ao1hg",
+          "fallbackReason": null,
+          "disclosureReason": "allowed"
+        }
+      }
+    },
+    {
+      "name": "unknown individual need never becomes zero null",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "observation": {
+          "schema": "ActorObservationV1",
+          "version": 1,
+          "policyVersion": "npc-first-talk-self-v1",
+          "hashVersion": "fnv1a-utf16-base36-v1",
+          "actor": {
+            "id": "carpenter"
+          },
+          "audienceId": "player-1",
+          "sourceRevision": {
+            "sessionGeneration": 0,
+            "worldMinute": 670,
+            "eventSeq": 254,
+            "stepIndex": 4987,
+            "phase": "DAY"
+          },
+          "knowledge": [
+            {
+              "subjectId": "carpenter",
+              "status": "observed",
+              "facts": {
+                "lifeState": "healthy",
+                "hpBand": "4/4",
+                "needBands": {
+                  "hunger": "unknown",
+                  "fatigue": "urgent",
+                  "energy": "normal"
+                }
+              },
+              "provenance": {
+                "kind": "self",
+                "sourceId": "carpenter",
+                "at": 670
+              }
+            }
+          ],
+          "unknown": [],
+          "observationHash": "5ao1hg"
+        },
+        "dialogue": {
+          "schema": "NpcSelfDialogueV1",
+          "version": 1,
+          "authority": "expression_only",
+          "mode": "authored",
+          "observerEnabled": false,
+          "facts": {
+            "kind": "npc",
+            "id": "carpenter",
+            "lifeState": "healthy",
+            "hpBand": "4/4",
+            "needBands": {
+              "hunger": "unknown",
+              "fatigue": "urgent",
+              "energy": "normal"
+            }
+          },
+          "text": "我目前没有受伤。我的生命余量接近完整。我累得厉害，需要休息。",
+          "sourceProjectionHash": "1dtxhz9",
+          "observationHash": "5ao1hg",
+          "fallbackReason": null,
+          "disclosureReason": "allowed"
+        }
+      }
+    },
+    {
+      "name": "unknown individual need never becomes zero string",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "observation": {
+          "schema": "ActorObservationV1",
+          "version": 1,
+          "policyVersion": "npc-first-talk-self-v1",
+          "hashVersion": "fnv1a-utf16-base36-v1",
+          "actor": {
+            "id": "carpenter"
+          },
+          "audienceId": "player-1",
+          "sourceRevision": {
+            "sessionGeneration": 0,
+            "worldMinute": 670,
+            "eventSeq": 254,
+            "stepIndex": 4987,
+            "phase": "DAY"
+          },
+          "knowledge": [
+            {
+              "subjectId": "carpenter",
+              "status": "observed",
+              "facts": {
+                "lifeState": "healthy",
+                "hpBand": "4/4",
+                "needBands": {
+                  "hunger": "unknown",
+                  "fatigue": "urgent",
+                  "energy": "normal"
+                }
+              },
+              "provenance": {
+                "kind": "self",
+                "sourceId": "carpenter",
+                "at": 670
+              }
+            }
+          ],
+          "unknown": [],
+          "observationHash": "5ao1hg"
+        },
+        "dialogue": {
+          "schema": "NpcSelfDialogueV1",
+          "version": 1,
+          "authority": "expression_only",
+          "mode": "authored",
+          "observerEnabled": false,
+          "facts": {
+            "kind": "npc",
+            "id": "carpenter",
+            "lifeState": "healthy",
+            "hpBand": "4/4",
+            "needBands": {
+              "hunger": "unknown",
+              "fatigue": "urgent",
+              "energy": "normal"
+            }
+          },
+          "text": "我目前没有受伤。我的生命余量接近完整。我累得厉害，需要休息。",
+          "sourceProjectionHash": "1dtxhz9",
+          "observationHash": "5ao1hg",
+          "fallbackReason": null,
+          "disclosureReason": "allowed"
+        }
+      }
+    },
+    {
+      "name": "unknown individual need never becomes zero NaN",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "observation": {
+          "schema": "ActorObservationV1",
+          "version": 1,
+          "policyVersion": "npc-first-talk-self-v1",
+          "hashVersion": "fnv1a-utf16-base36-v1",
+          "actor": {
+            "id": "carpenter"
+          },
+          "audienceId": "player-1",
+          "sourceRevision": {
+            "sessionGeneration": 0,
+            "worldMinute": 670,
+            "eventSeq": 254,
+            "stepIndex": 4987,
+            "phase": "DAY"
+          },
+          "knowledge": [
+            {
+              "subjectId": "carpenter",
+              "status": "observed",
+              "facts": {
+                "lifeState": "healthy",
+                "hpBand": "4/4",
+                "needBands": {
+                  "hunger": "unknown",
+                  "fatigue": "urgent",
+                  "energy": "normal"
+                }
+              },
+              "provenance": {
+                "kind": "self",
+                "sourceId": "carpenter",
+                "at": 670
+              }
+            }
+          ],
+          "unknown": [],
+          "observationHash": "5ao1hg"
+        },
+        "dialogue": {
+          "schema": "NpcSelfDialogueV1",
+          "version": 1,
+          "authority": "expression_only",
+          "mode": "authored",
+          "observerEnabled": false,
+          "facts": {
+            "kind": "npc",
+            "id": "carpenter",
+            "lifeState": "healthy",
+            "hpBand": "4/4",
+            "needBands": {
+              "hunger": "unknown",
+              "fatigue": "urgent",
+              "energy": "normal"
+            }
+          },
+          "text": "我目前没有受伤。我的生命余量接近完整。我累得厉害，需要休息。",
+          "sourceProjectionHash": "1dtxhz9",
+          "observationHash": "5ao1hg",
+          "fallbackReason": null,
+          "disclosureReason": "allowed"
+        }
+      }
+    },
+    {
+      "name": "unknown individual need never becomes zero Infinity",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "observation": {
+          "schema": "ActorObservationV1",
+          "version": 1,
+          "policyVersion": "npc-first-talk-self-v1",
+          "hashVersion": "fnv1a-utf16-base36-v1",
+          "actor": {
+            "id": "carpenter"
+          },
+          "audienceId": "player-1",
+          "sourceRevision": {
+            "sessionGeneration": 0,
+            "worldMinute": 670,
+            "eventSeq": 254,
+            "stepIndex": 4987,
+            "phase": "DAY"
+          },
+          "knowledge": [
+            {
+              "subjectId": "carpenter",
+              "status": "observed",
+              "facts": {
+                "lifeState": "healthy",
+                "hpBand": "4/4",
+                "needBands": {
+                  "hunger": "unknown",
+                  "fatigue": "urgent",
+                  "energy": "normal"
+                }
+              },
+              "provenance": {
+                "kind": "self",
+                "sourceId": "carpenter",
+                "at": 670
+              }
+            }
+          ],
+          "unknown": [],
+          "observationHash": "5ao1hg"
+        },
+        "dialogue": {
+          "schema": "NpcSelfDialogueV1",
+          "version": 1,
+          "authority": "expression_only",
+          "mode": "authored",
+          "observerEnabled": false,
+          "facts": {
+            "kind": "npc",
+            "id": "carpenter",
+            "lifeState": "healthy",
+            "hpBand": "4/4",
+            "needBands": {
+              "hunger": "unknown",
+              "fatigue": "urgent",
+              "energy": "normal"
+            }
+          },
+          "text": "我目前没有受伤。我的生命余量接近完整。我累得厉害，需要休息。",
+          "sourceProjectionHash": "1dtxhz9",
+          "observationHash": "5ao1hg",
+          "fallbackReason": null,
+          "disclosureReason": "allowed"
+        }
+      }
+    },
+    {
+      "name": "unknown individual need never becomes zero negative",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "observation": {
+          "schema": "ActorObservationV1",
+          "version": 1,
+          "policyVersion": "npc-first-talk-self-v1",
+          "hashVersion": "fnv1a-utf16-base36-v1",
+          "actor": {
+            "id": "carpenter"
+          },
+          "audienceId": "player-1",
+          "sourceRevision": {
+            "sessionGeneration": 0,
+            "worldMinute": 670,
+            "eventSeq": 254,
+            "stepIndex": 4987,
+            "phase": "DAY"
+          },
+          "knowledge": [
+            {
+              "subjectId": "carpenter",
+              "status": "observed",
+              "facts": {
+                "lifeState": "healthy",
+                "hpBand": "4/4",
+                "needBands": {
+                  "hunger": "unknown",
+                  "fatigue": "urgent",
+                  "energy": "normal"
+                }
+              },
+              "provenance": {
+                "kind": "self",
+                "sourceId": "carpenter",
+                "at": 670
+              }
+            }
+          ],
+          "unknown": [],
+          "observationHash": "5ao1hg"
+        },
+        "dialogue": {
+          "schema": "NpcSelfDialogueV1",
+          "version": 1,
+          "authority": "expression_only",
+          "mode": "authored",
+          "observerEnabled": false,
+          "facts": {
+            "kind": "npc",
+            "id": "carpenter",
+            "lifeState": "healthy",
+            "hpBand": "4/4",
+            "needBands": {
+              "hunger": "unknown",
+              "fatigue": "urgent",
+              "energy": "normal"
+            }
+          },
+          "text": "我目前没有受伤。我的生命余量接近完整。我累得厉害，需要休息。",
+          "sourceProjectionHash": "1dtxhz9",
+          "observationHash": "5ao1hg",
+          "fallbackReason": null,
+          "disclosureReason": "allowed"
+        }
+      }
+    },
+    {
+      "name": "unknown individual need never becomes zero above-range",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "observation": {
+          "schema": "ActorObservationV1",
+          "version": 1,
+          "policyVersion": "npc-first-talk-self-v1",
+          "hashVersion": "fnv1a-utf16-base36-v1",
+          "actor": {
+            "id": "carpenter"
+          },
+          "audienceId": "player-1",
+          "sourceRevision": {
+            "sessionGeneration": 0,
+            "worldMinute": 670,
+            "eventSeq": 254,
+            "stepIndex": 4987,
+            "phase": "DAY"
+          },
+          "knowledge": [
+            {
+              "subjectId": "carpenter",
+              "status": "observed",
+              "facts": {
+                "lifeState": "healthy",
+                "hpBand": "4/4",
+                "needBands": {
+                  "hunger": "unknown",
+                  "fatigue": "urgent",
+                  "energy": "normal"
+                }
+              },
+              "provenance": {
+                "kind": "self",
+                "sourceId": "carpenter",
+                "at": 670
+              }
+            }
+          ],
+          "unknown": [],
+          "observationHash": "5ao1hg"
+        },
+        "dialogue": {
+          "schema": "NpcSelfDialogueV1",
+          "version": 1,
+          "authority": "expression_only",
+          "mode": "authored",
+          "observerEnabled": false,
+          "facts": {
+            "kind": "npc",
+            "id": "carpenter",
+            "lifeState": "healthy",
+            "hpBand": "4/4",
+            "needBands": {
+              "hunger": "unknown",
+              "fatigue": "urgent",
+              "energy": "normal"
+            }
+          },
+          "text": "我目前没有受伤。我的生命余量接近完整。我累得厉害，需要休息。",
+          "sourceProjectionHash": "1dtxhz9",
+          "observationHash": "5ao1hg",
+          "fallbackReason": null,
+          "disclosureReason": "allowed"
+        }
+      }
+    },
+    {
+      "name": "actual own trust alone controls details; camp trust/progress/other NPC do not elevate knowledge",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": null
+    },
+    {
+      "name": "extra caller subject/trust/actor/policy arguments reject without overriding trusted capture",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": null
+    },
+    {
+      "name": "AI OFF/ON authored facts text and knowledge are identical",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": null
+    },
+    {
+      "name": "self output excludes unrelated private facts even when those fields contain unique sentinels",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "observation": {
+          "schema": "ActorObservationV1",
+          "version": 1,
+          "policyVersion": "npc-first-talk-self-v1",
+          "hashVersion": "fnv1a-utf16-base36-v1",
+          "actor": {
+            "id": "carpenter"
+          },
+          "audienceId": "player-1",
+          "sourceRevision": {
+            "sessionGeneration": 0,
+            "worldMinute": 670,
+            "eventSeq": 254,
+            "stepIndex": 4987,
+            "phase": "DAY"
+          },
+          "knowledge": [
+            {
+              "subjectId": "carpenter",
+              "status": "observed",
+              "facts": {
+                "lifeState": "healthy",
+                "hpBand": "4/4",
+                "needBands": {
+                  "hunger": "normal",
+                  "fatigue": "normal",
+                  "energy": "normal"
+                }
+              },
+              "provenance": {
+                "kind": "self",
+                "sourceId": "carpenter",
+                "at": 670
+              }
+            }
+          ],
+          "unknown": [],
+          "observationHash": "1of7pt3"
+        },
+        "dialogue": {
+          "schema": "NpcSelfDialogueV1",
+          "version": 1,
+          "authority": "expression_only",
+          "mode": "authored",
+          "observerEnabled": false,
+          "facts": {
+            "kind": "npc",
+            "id": "carpenter",
+            "lifeState": "healthy",
+            "hpBand": "4/4",
+            "needBands": {
+              "hunger": "normal",
+              "fatigue": "normal",
+              "energy": "normal"
+            }
+          },
+          "text": "我目前没有受伤。我的生命余量接近完整。",
+          "sourceProjectionHash": "uhjkee",
+          "observationHash": "1of7pt3",
+          "fallbackReason": null,
+          "disclosureReason": "allowed"
+        }
+      }
+    },
+    {
+      "name": "observation hash is deterministic and binds actor revision and self facts",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": null
+    },
+    {
+      "name": "capture fails closed without repair or other-target substitution detached",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": null,
+          "lifeState": "unknown"
+        },
+        "text": "暂时无法确认这位角色的伤势信息。",
+        "sourceProjectionHash": "1gfolxz",
+        "observationHash": null,
+        "fallbackReason": "not-observable",
+        "disclosureReason": "not-observable"
+      }
+    },
+    {
+      "name": "capture fails closed without repair or other-target substitution unknown ID",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": null,
+          "lifeState": "unknown"
+        },
+        "text": "暂时无法确认这位角色的伤势信息。",
+        "sourceProjectionHash": "1gfolxz",
+        "observationHash": null,
+        "fallbackReason": "not-observable",
+        "disclosureReason": "not-observable"
+      }
+    },
+    {
+      "name": "capture fails closed without repair or other-target substitution string ID is not live ref",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": null,
+          "lifeState": "unknown"
+        },
+        "text": "暂时无法确认这位角色的伤势信息。",
+        "sourceProjectionHash": "1gfolxz",
+        "observationHash": null,
+        "fallbackReason": "not-observable",
+        "disclosureReason": "not-observable"
+      }
+    },
+    {
+      "name": "capture fails closed without repair or other-target substitution duplicate ID",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": null,
+          "lifeState": "unknown"
+        },
+        "text": "暂时无法确认这位角色的伤势信息。",
+        "sourceProjectionHash": "1gfolxz",
+        "observationHash": null,
+        "fallbackReason": "not-observable",
+        "disclosureReason": "not-observable"
+      }
+    },
+    {
+      "name": "capture fails closed without repair or other-target substitution unknown fixed-roster live person",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": null,
+          "lifeState": "unknown"
+        },
+        "text": "暂时无法确认这位角色的伤势信息。",
+        "sourceProjectionHash": "1gfolxz",
+        "observationHash": null,
+        "fallbackReason": "not-observable",
+        "disclosureReason": "not-observable"
+      }
+    },
+    {
+      "name": "capture fails closed without repair or other-target substitution deleted live target",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": null,
+          "lifeState": "unknown"
+        },
+        "text": "暂时无法确认这位角色的伤势信息。",
+        "sourceProjectionHash": "1gfolxz",
+        "observationHash": null,
+        "fallbackReason": "not-observable",
+        "disclosureReason": "not-observable"
+      }
+    },
+    {
+      "name": "capture fails closed without repair or other-target substitution dead",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": null,
+          "lifeState": "unknown"
+        },
+        "text": "暂时无法确认这位角色的伤势信息。",
+        "sourceProjectionHash": "1gfolxz",
+        "observationHash": null,
+        "fallbackReason": "not-observable",
+        "disclosureReason": "not-observable"
+      }
+    },
+    {
+      "name": "capture fails closed without repair or other-target substitution garrison marker",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": null,
+          "lifeState": "unknown"
+        },
+        "text": "暂时无法确认这位角色的伤势信息。",
+        "sourceProjectionHash": "1gfolxz",
+        "observationHash": null,
+        "fallbackReason": "not-observable",
+        "disclosureReason": "not-observable"
+      }
+    },
+    {
+      "name": "capture fails closed without repair or other-target substitution reverse garrison assignment",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": null,
+          "lifeState": "unknown"
+        },
+        "text": "暂时无法确认这位角色的伤势信息。",
+        "sourceProjectionHash": "1gfolxz",
+        "observationHash": null,
+        "fallbackReason": "not-observable",
+        "disclosureReason": "not-observable"
+      }
+    },
+    {
+      "name": "capture fails closed without repair or other-target substitution distance1.018",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": null,
+          "lifeState": "unknown"
+        },
+        "text": "暂时无法确认这位角色的伤势信息。",
+        "sourceProjectionHash": "1gfolxz",
+        "observationHash": null,
+        "fallbackReason": "not-observable",
+        "disclosureReason": "not-observable"
+      }
+    },
+    {
+      "name": "capture fails closed without repair or other-target substitution invalid coordinate",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": null,
+          "lifeState": "unknown"
+        },
+        "text": "暂时无法确认这位角色的伤势信息。",
+        "sourceProjectionHash": "1gfolxz",
+        "observationHash": null,
+        "fallbackReason": "not-observable",
+        "disclosureReason": "not-observable"
+      }
+    },
+    {
+      "name": "capture fails closed without repair or other-target substitution NIGHT",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": null,
+          "lifeState": "unknown"
+        },
+        "text": "暂时无法确认这位角色的伤势信息。",
+        "sourceProjectionHash": "1gfolxz",
+        "observationHash": null,
+        "fallbackReason": "not-observable",
+        "disclosureReason": "not-observable"
+      }
+    },
+    {
+      "name": "capture fails closed without repair or other-target substitution session recovery",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": null,
+          "lifeState": "unknown"
+        },
+        "text": "暂时无法确认这位角色的伤势信息。",
+        "sourceProjectionHash": "1gfolxz",
+        "observationHash": null,
+        "fallbackReason": "not-observable",
+        "disclosureReason": "not-observable"
+      }
+    },
+    {
+      "name": "malformed private capture yields uniform unknown null",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": null
+    },
+    {
+      "name": "malformed private capture yields uniform unknown {}",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": null
+    },
+    {
+      "name": "malformed private capture yields uniform unknown []",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": null
+    },
+    {
+      "name": "malformed private capture yields uniform unknown {\"schema\":\"NpcSelfCaptureV1\",\"version\":99}",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": null
+    },
+    {
+      "name": "malformed private capture yields uniform unknown {\"schema\":\"NpcSelfCaptureV1\",\"version\":1,\"actorId\":\"fake\",\"self\":{\"hp\":100}}",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": null
+    },
+    {
+      "name": "strict private capture parsing rejects nested unknown",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": null,
+          "lifeState": "unknown"
+        },
+        "text": "暂时无法确认这位角色的伤势信息。",
+        "sourceProjectionHash": "1gfolxz",
+        "observationHash": null,
+        "fallbackReason": "not-observable",
+        "disclosureReason": "not-observable"
+      }
+    },
+    {
+      "name": "strict private capture parsing rejects future version",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": null,
+          "lifeState": "unknown"
+        },
+        "text": "暂时无法确认这位角色的伤势信息。",
+        "sourceProjectionHash": "1gfolxz",
+        "observationHash": null,
+        "fallbackReason": "not-observable",
+        "disclosureReason": "not-observable"
+      }
+    },
+    {
+      "name": "strict private capture parsing rejects unknown policy field",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": null,
+          "lifeState": "unknown"
+        },
+        "text": "暂时无法确认这位角色的伤势信息。",
+        "sourceProjectionHash": "1gfolxz",
+        "observationHash": null,
+        "fallbackReason": "not-observable",
+        "disclosureReason": "not-observable"
+      }
+    },
+    {
+      "name": "strict private capture parsing rejects wrong number type",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": null,
+          "lifeState": "unknown"
+        },
+        "text": "暂时无法确认这位角色的伤势信息。",
+        "sourceProjectionHash": "1gfolxz",
+        "observationHash": null,
+        "fallbackReason": "not-observable",
+        "disclosureReason": "not-observable"
+      }
+    },
+    {
+      "name": "strict private capture parsing rejects missing maximum",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": null,
+          "lifeState": "unknown"
+        },
+        "text": "暂时无法确认这位角色的伤势信息。",
+        "sourceProjectionHash": "1gfolxz",
+        "observationHash": null,
+        "fallbackReason": "not-observable",
+        "disclosureReason": "not-observable"
+      }
+    },
+    {
+      "name": "strict private capture parsing rejects contradictory injury state",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": null,
+          "lifeState": "unknown"
+        },
+        "text": "暂时无法确认这位角色的伤势信息。",
+        "sourceProjectionHash": "1gfolxz",
+        "observationHash": null,
+        "fallbackReason": "not-observable",
+        "disclosureReason": "not-observable"
+      }
+    },
+    {
+      "name": "strict private capture parsing rejects nonfinite revision",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": null,
+          "lifeState": "unknown"
+        },
+        "text": "暂时无法确认这位角色的伤势信息。",
+        "sourceProjectionHash": "1gfolxz",
+        "observationHash": null,
+        "fallbackReason": "not-observable",
+        "disclosureReason": "not-observable"
+      }
+    },
+    {
+      "name": "strict private capture parsing rejects unsafe generation",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": null,
+          "lifeState": "unknown"
+        },
+        "text": "暂时无法确认这位角色的伤势信息。",
+        "sourceProjectionHash": "1gfolxz",
+        "observationHash": null,
+        "fallbackReason": "not-observable",
+        "disclosureReason": "not-observable"
+      }
+    },
+    {
+      "name": "strict private observation/hash rejects tampering policy",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": null,
+          "lifeState": "unknown"
+        },
+        "text": "暂时无法确认这位角色的伤势信息。",
+        "sourceProjectionHash": "1gfolxz",
+        "observationHash": null,
+        "fallbackReason": "not-observable",
+        "disclosureReason": "not-observable"
+      }
+    },
+    {
+      "name": "strict private observation/hash rejects tampering audience",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": null,
+          "lifeState": "unknown"
+        },
+        "text": "暂时无法确认这位角色的伤势信息。",
+        "sourceProjectionHash": "1gfolxz",
+        "observationHash": null,
+        "fallbackReason": "not-observable",
+        "disclosureReason": "not-observable"
+      }
+    },
+    {
+      "name": "strict private observation/hash rejects tampering subject",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": null,
+          "lifeState": "unknown"
+        },
+        "text": "暂时无法确认这位角色的伤势信息。",
+        "sourceProjectionHash": "1gfolxz",
+        "observationHash": null,
+        "fallbackReason": "not-observable",
+        "disclosureReason": "not-observable"
+      }
+    },
+    {
+      "name": "strict private observation/hash rejects tampering source",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": null,
+          "lifeState": "unknown"
+        },
+        "text": "暂时无法确认这位角色的伤势信息。",
+        "sourceProjectionHash": "1gfolxz",
+        "observationHash": null,
+        "fallbackReason": "not-observable",
+        "disclosureReason": "not-observable"
+      }
+    },
+    {
+      "name": "strict private observation/hash rejects tampering unknown fact",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": null,
+          "lifeState": "unknown"
+        },
+        "text": "暂时无法确认这位角色的伤势信息。",
+        "sourceProjectionHash": "1gfolxz",
+        "observationHash": null,
+        "fallbackReason": "not-observable",
+        "disclosureReason": "not-observable"
+      }
+    },
+    {
+      "name": "strict private observation/hash rejects tampering hash",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": null,
+          "lifeState": "unknown"
+        },
+        "text": "暂时无法确认这位角色的伤势信息。",
+        "sourceProjectionHash": "1gfolxz",
+        "observationHash": null,
+        "fallbackReason": "not-observable",
+        "disclosureReason": "not-observable"
+      }
+    },
+    {
+      "name": "actual free first talk retains old business and self text normal",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "eventId": "evt-000255",
+        "seq": 255,
+        "type": "npc.dialogueOpened",
+        "actorId": "player-1",
+        "commandId": "cmd-000513",
+        "causationId": null,
+        "tick": {
+          "world": 670,
+          "phase": 0,
+          "schedule": 310
+        },
+        "payload": {
+          "ok": true,
+          "proofVersion": 1,
+          "npcId": "carpenter",
+          "operation": "dialogue-open",
+          "outcome": "completed",
+          "target": {
+            "id": "carpenter",
+            "before": {
+              "id": "carpenter",
+              "supportRequested": false,
+              "order": null,
+              "bond": 0,
+              "hp": 100,
+              "lifeState": "healthy",
+              "sanity": 68,
+              "helpedByPlayer": 0
+            },
+            "beforeAdvance": null,
+            "afterAdvance": null,
+            "atCompletion": {
+              "id": "carpenter",
+              "supportRequested": false,
+              "order": null,
+              "bond": 0,
+              "hp": 100,
+              "lifeState": "healthy",
+              "sanity": 68,
+              "helpedByPlayer": 0
+            },
+            "presentAtCompletion": true,
+            "snapshotStages": {
+              "before": "before-payment-and-own-effects",
+              "beforeAdvance": null,
+              "afterAdvance": null,
+              "atCompletion": "reducer-final-state"
+            }
+          },
+          "payment": {
+            "cost": {
+              "energy": 0
+            },
+            "before": {
+              "energy": 50
+            },
+            "after": {
+              "energy": 50
+            }
+          },
+          "resources": {
+            "energyBefore": 50,
+            "energyAfterPayment": 50,
+            "energyAfter": 50
+          },
+          "clock": {
+            "before": {
+              "day": 1,
+              "hour": 11,
+              "minute": 10,
+              "world": 670
+            },
+            "after": {
+              "day": 1,
+              "hour": 11,
+              "minute": 10,
+              "world": 670
+            },
+            "requestedMinutes": 0,
+            "elapsedMinutes": 0
+          },
+          "advance": null
+        }
+      }
+    },
+    {
+      "name": "actual free first talk retains old business and self text E0",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "eventId": "evt-000255",
+        "seq": 255,
+        "type": "npc.dialogueOpened",
+        "actorId": "player-1",
+        "commandId": "cmd-000513",
+        "causationId": null,
+        "tick": {
+          "world": 670,
+          "phase": 0,
+          "schedule": 310
+        },
+        "payload": {
+          "ok": true,
+          "proofVersion": 1,
+          "npcId": "carpenter",
+          "operation": "dialogue-open",
+          "outcome": "completed",
+          "target": {
+            "id": "carpenter",
+            "before": {
+              "id": "carpenter",
+              "supportRequested": false,
+              "order": null,
+              "bond": 0,
+              "hp": 100,
+              "lifeState": "healthy",
+              "sanity": 68,
+              "helpedByPlayer": 0
+            },
+            "beforeAdvance": null,
+            "afterAdvance": null,
+            "atCompletion": {
+              "id": "carpenter",
+              "supportRequested": false,
+              "order": null,
+              "bond": 0,
+              "hp": 100,
+              "lifeState": "healthy",
+              "sanity": 68,
+              "helpedByPlayer": 0
+            },
+            "presentAtCompletion": true,
+            "snapshotStages": {
+              "before": "before-payment-and-own-effects",
+              "beforeAdvance": null,
+              "afterAdvance": null,
+              "atCompletion": "reducer-final-state"
+            }
+          },
+          "payment": {
+            "cost": {
+              "energy": 0
+            },
+            "before": {
+              "energy": 0
+            },
+            "after": {
+              "energy": 0
+            }
+          },
+          "resources": {
+            "energyBefore": 0,
+            "energyAfterPayment": 0,
+            "energyAfter": 0
+          },
+          "clock": {
+            "before": {
+              "day": 1,
+              "hour": 11,
+              "minute": 10,
+              "world": 670
+            },
+            "after": {
+              "day": 1,
+              "hour": 11,
+              "minute": 10,
+              "world": 670
+            },
+            "requestedMinutes": 0,
+            "elapsedMinutes": 0
+          },
+          "advance": null
+        }
+      }
+    },
+    {
+      "name": "actual free first talk retains old business and self text paused",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "eventId": "evt-000255",
+        "seq": 255,
+        "type": "npc.dialogueOpened",
+        "actorId": "player-1",
+        "commandId": "cmd-000513",
+        "causationId": null,
+        "tick": {
+          "world": 670,
+          "phase": 0,
+          "schedule": 310
+        },
+        "payload": {
+          "ok": true,
+          "proofVersion": 1,
+          "npcId": "carpenter",
+          "operation": "dialogue-open",
+          "outcome": "completed",
+          "target": {
+            "id": "carpenter",
+            "before": {
+              "id": "carpenter",
+              "supportRequested": false,
+              "order": null,
+              "bond": 0,
+              "hp": 100,
+              "lifeState": "healthy",
+              "sanity": 68,
+              "helpedByPlayer": 0
+            },
+            "beforeAdvance": null,
+            "afterAdvance": null,
+            "atCompletion": {
+              "id": "carpenter",
+              "supportRequested": false,
+              "order": null,
+              "bond": 0,
+              "hp": 100,
+              "lifeState": "healthy",
+              "sanity": 68,
+              "helpedByPlayer": 0
+            },
+            "presentAtCompletion": true,
+            "snapshotStages": {
+              "before": "before-payment-and-own-effects",
+              "beforeAdvance": null,
+              "afterAdvance": null,
+              "atCompletion": "reducer-final-state"
+            }
+          },
+          "payment": {
+            "cost": {
+              "energy": 0
+            },
+            "before": {
+              "energy": 50
+            },
+            "after": {
+              "energy": 50
+            }
+          },
+          "resources": {
+            "energyBefore": 50,
+            "energyAfterPayment": 50,
+            "energyAfter": 50
+          },
+          "clock": {
+            "before": {
+              "day": 1,
+              "hour": 11,
+              "minute": 10,
+              "world": 670
+            },
+            "after": {
+              "day": 1,
+              "hour": 11,
+              "minute": 10,
+              "world": 670
+            },
+            "requestedMinutes": 0,
+            "elapsedMinutes": 0
+          },
+          "advance": null
+        }
+      }
+    },
+    {
+      "name": "actual free first talk retains old business and self text critical",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "eventId": "evt-000255",
+        "seq": 255,
+        "type": "npc.dialogueOpened",
+        "actorId": "player-1",
+        "commandId": "cmd-000513",
+        "causationId": null,
+        "tick": {
+          "world": 670,
+          "phase": 0,
+          "schedule": 310
+        },
+        "payload": {
+          "ok": true,
+          "proofVersion": 1,
+          "npcId": "carpenter",
+          "operation": "dialogue-open",
+          "outcome": "completed",
+          "target": {
+            "id": "carpenter",
+            "before": {
+              "id": "carpenter",
+              "supportRequested": false,
+              "order": null,
+              "bond": 0,
+              "hp": 1,
+              "lifeState": "critical",
+              "sanity": 68,
+              "helpedByPlayer": 0
+            },
+            "beforeAdvance": null,
+            "afterAdvance": null,
+            "atCompletion": {
+              "id": "carpenter",
+              "supportRequested": false,
+              "order": null,
+              "bond": 0,
+              "hp": 1,
+              "lifeState": "critical",
+              "sanity": 68,
+              "helpedByPlayer": 0
+            },
+            "presentAtCompletion": true,
+            "snapshotStages": {
+              "before": "before-payment-and-own-effects",
+              "beforeAdvance": null,
+              "afterAdvance": null,
+              "atCompletion": "reducer-final-state"
+            }
+          },
+          "payment": {
+            "cost": {
+              "energy": 0
+            },
+            "before": {
+              "energy": 50
+            },
+            "after": {
+              "energy": 50
+            }
+          },
+          "resources": {
+            "energyBefore": 50,
+            "energyAfterPayment": 50,
+            "energyAfter": 50
+          },
+          "clock": {
+            "before": {
+              "day": 1,
+              "hour": 11,
+              "minute": 10,
+              "world": 670
+            },
+            "after": {
+              "day": 1,
+              "hour": 11,
+              "minute": 10,
+              "world": 670
+            },
+            "requestedMinutes": 0,
+            "elapsedMinutes": 0
+          },
+          "advance": null
+        }
+      }
+    },
+    {
+      "name": "actual free first talk retains old business and self text critical E0 paused",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "eventId": "evt-000255",
+        "seq": 255,
+        "type": "npc.dialogueOpened",
+        "actorId": "player-1",
+        "commandId": "cmd-000513",
+        "causationId": null,
+        "tick": {
+          "world": 670,
+          "phase": 0,
+          "schedule": 310
+        },
+        "payload": {
+          "ok": true,
+          "proofVersion": 1,
+          "npcId": "carpenter",
+          "operation": "dialogue-open",
+          "outcome": "completed",
+          "target": {
+            "id": "carpenter",
+            "before": {
+              "id": "carpenter",
+              "supportRequested": false,
+              "order": null,
+              "bond": 0,
+              "hp": 1,
+              "lifeState": "critical",
+              "sanity": 68,
+              "helpedByPlayer": 0
+            },
+            "beforeAdvance": null,
+            "afterAdvance": null,
+            "atCompletion": {
+              "id": "carpenter",
+              "supportRequested": false,
+              "order": null,
+              "bond": 0,
+              "hp": 1,
+              "lifeState": "critical",
+              "sanity": 68,
+              "helpedByPlayer": 0
+            },
+            "presentAtCompletion": true,
+            "snapshotStages": {
+              "before": "before-payment-and-own-effects",
+              "beforeAdvance": null,
+              "afterAdvance": null,
+              "atCompletion": "reducer-final-state"
+            }
+          },
+          "payment": {
+            "cost": {
+              "energy": 0
+            },
+            "before": {
+              "energy": 0
+            },
+            "after": {
+              "energy": 0
+            }
+          },
+          "resources": {
+            "energyBefore": 0,
+            "energyAfterPayment": 0,
+            "energyAfter": 0
+          },
+          "clock": {
+            "before": {
+              "day": 1,
+              "hour": 11,
+              "minute": 10,
+              "world": 670
+            },
+            "after": {
+              "day": 1,
+              "hour": 11,
+              "minute": 10,
+              "world": 670
+            },
+            "requestedMinutes": 0,
+            "elapsedMinutes": 0
+          },
+          "advance": null
+        }
+      }
+    },
+    {
+      "name": "actual first-talk capture reads self before selectedNpc and talkOpen writes",
+      "ok": true,
+      "derivation": "TEST-ONLY normal scene plus pass-through hunger property read observer; real capture/project/Gate are unchanged. Stack filtering records only actual capture reads, not later old renderer reads.",
+      "evidence": {
+        "actualSelfReads": 2,
+        "states": [
+          {
+            "selected": null,
+            "talk": null
+          },
+          {
+            "selected": null,
+            "talk": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "real context renderer binds same NPC and original delegated click speaks self",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "eventId": "evt-000255",
+        "seq": 255,
+        "type": "npc.dialogueOpened",
+        "actorId": "player-1",
+        "commandId": "cmd-000513",
+        "causationId": null,
+        "tick": {
+          "world": 670,
+          "phase": 0,
+          "schedule": 310
+        },
+        "payload": {
+          "ok": true,
+          "proofVersion": 1,
+          "npcId": "carpenter",
+          "operation": "dialogue-open",
+          "outcome": "completed",
+          "target": {
+            "id": "carpenter",
+            "before": {
+              "id": "carpenter",
+              "supportRequested": false,
+              "order": null,
+              "bond": 0,
+              "hp": 100,
+              "lifeState": "healthy",
+              "sanity": 68,
+              "helpedByPlayer": 0
+            },
+            "beforeAdvance": null,
+            "afterAdvance": null,
+            "atCompletion": {
+              "id": "carpenter",
+              "supportRequested": false,
+              "order": null,
+              "bond": 0,
+              "hp": 100,
+              "lifeState": "healthy",
+              "sanity": 68,
+              "helpedByPlayer": 0
+            },
+            "presentAtCompletion": true,
+            "snapshotStages": {
+              "before": "before-payment-and-own-effects",
+              "beforeAdvance": null,
+              "afterAdvance": null,
+              "atCompletion": "reducer-final-state"
+            }
+          },
+          "payment": {
+            "cost": {
+              "energy": 0
+            },
+            "before": {
+              "energy": 50
+            },
+            "after": {
+              "energy": 50
+            }
+          },
+          "resources": {
+            "energyBefore": 50,
+            "energyAfterPayment": 50,
+            "energyAfter": 50
+          },
+          "clock": {
+            "before": {
+              "day": 1,
+              "hour": 11,
+              "minute": 10,
+              "world": 670
+            },
+            "after": {
+              "day": 1,
+              "hour": 11,
+              "minute": 10,
+              "world": 670
+            },
+            "requestedMinutes": 0,
+            "elapsedMinutes": 0
+          },
+          "advance": null
+        }
+      }
+    },
+    {
+      "name": "real E keydown first talk keeps same actor and self text",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "eventId": "evt-000255",
+        "seq": 255,
+        "type": "npc.dialogueOpened",
+        "actorId": "player-1",
+        "commandId": "cmd-000513",
+        "causationId": null,
+        "tick": {
+          "world": 670,
+          "phase": 0,
+          "schedule": 310
+        },
+        "payload": {
+          "ok": true,
+          "proofVersion": 1,
+          "npcId": "carpenter",
+          "operation": "dialogue-open",
+          "outcome": "completed",
+          "target": {
+            "id": "carpenter",
+            "before": {
+              "id": "carpenter",
+              "supportRequested": false,
+              "order": null,
+              "bond": 0,
+              "hp": 100,
+              "lifeState": "healthy",
+              "sanity": 68,
+              "helpedByPlayer": 0
+            },
+            "beforeAdvance": null,
+            "afterAdvance": null,
+            "atCompletion": {
+              "id": "carpenter",
+              "supportRequested": false,
+              "order": null,
+              "bond": 0,
+              "hp": 100,
+              "lifeState": "healthy",
+              "sanity": 68,
+              "helpedByPlayer": 0
+            },
+            "presentAtCompletion": true,
+            "snapshotStages": {
+              "before": "before-payment-and-own-effects",
+              "beforeAdvance": null,
+              "afterAdvance": null,
+              "atCompletion": "reducer-final-state"
+            }
+          },
+          "payment": {
+            "cost": {
+              "energy": 0
+            },
+            "before": {
+              "energy": 50
+            },
+            "after": {
+              "energy": 50
+            }
+          },
+          "resources": {
+            "energyBefore": 50,
+            "energyAfterPayment": 50,
+            "energyAfter": 50
+          },
+          "clock": {
+            "before": {
+              "day": 1,
+              "hour": 11,
+              "minute": 10,
+              "world": 670
+            },
+            "after": {
+              "day": 1,
+              "hour": 11,
+              "minute": 10,
+              "world": 670
+            },
+            "requestedMinutes": 0,
+            "elapsedMinutes": 0
+          },
+          "advance": null
+        }
+      }
+    },
+    {
+      "name": "view remains 1.25, does not open first-talk confirmation or create self ledger",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": null
+    },
+    {
+      "name": "paid second talk retains actual2E15min and original support attribution",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "eventId": "evt-000261",
+        "seq": 261,
+        "type": "npc.interacted",
+        "actorId": "player-1",
+        "commandId": "cmd-000514",
+        "causationId": null,
+        "tick": {
+          "world": 685,
+          "phase": 0,
+          "schedule": 325
+        },
+        "payload": {
+          "ok": true,
+          "proofVersion": 1,
+          "npcId": "carpenter",
+          "operation": "support-requested",
+          "outcome": "completed",
+          "target": {
+            "id": "carpenter",
+            "before": {
+              "id": "carpenter",
+              "supportRequested": false,
+              "order": null,
+              "bond": 0,
+              "hp": 100,
+              "lifeState": "healthy",
+              "sanity": 68,
+              "helpedByPlayer": 0
+            },
+            "beforeAdvance": {
+              "id": "carpenter",
+              "supportRequested": true,
+              "order": "guard",
+              "bond": 1,
+              "hp": 100,
+              "lifeState": "healthy",
+              "sanity": 68,
+              "helpedByPlayer": 0
+            },
+            "afterAdvance": {
+              "id": "carpenter",
+              "supportRequested": true,
+              "order": "guard",
+              "bond": 1,
+              "hp": 100,
+              "lifeState": "healthy",
+              "sanity": 68,
+              "helpedByPlayer": 0
+            },
+            "atCompletion": {
+              "id": "carpenter",
+              "supportRequested": true,
+              "order": "guard",
+              "bond": 1,
+              "hp": 100,
+              "lifeState": "healthy",
+              "sanity": 70,
+              "helpedByPlayer": 1
+            },
+            "presentAtCompletion": true,
+            "snapshotStages": {
+              "before": "before-payment-and-own-effects",
+              "beforeAdvance": "after-pre-simulation-own-effects",
+              "afterAdvance": "after-world-simulation-before-post-effects",
+              "atCompletion": "reducer-final-state"
+            }
+          },
+          "payment": {
+            "cost": {
+              "energy": 2
+            },
+            "before": {
+              "energy": 50
+            },
+            "after": {
+              "energy": 48
+            }
+          },
+          "resources": {
+            "energyBefore": 50,
+            "energyAfterPayment": 48,
+            "energyAfter": 49
+          },
+          "clock": {
+            "before": {
+              "day": 1,
+              "hour": 11,
+              "minute": 10,
+              "world": 670
+            },
+            "after": {
+              "day": 1,
+              "hour": 11,
+              "minute": 25,
+              "world": 685
+            },
+            "requestedMinutes": 15,
+            "elapsedMinutes": 15
+          },
+          "advance": {
+            "commandId": "cmd-000515",
+            "eventId": "evt-000257",
+            "causationId": "cmd-000514",
+            "minutes": 15,
+            "tick": {
+              "world": 685,
+              "phase": 0,
+              "schedule": 325
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "explicit duplicate first talk does not reopen UI or recapture current changed self facts",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": null
+    },
+    {
+      "name": "first-talk native writer adds no observation domain and reload duplicate remains inert",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "beforeWriterSha256": "56de0c4d9c0c951cbeab60547136e857630cfa24a88c6e05ebb5cbc39d56ac6b",
+        "afterNativeSha256": "8e8a0280ab4173f2550f35b914d91ab2f684ec5b98693b1f93f40b3e9378fad5"
+      }
+    },
+    {
+      "name": "legal native writer with contradictory old injury state remains unchanged and gets unknown free self dialogue",
+      "ok": true,
+      "derivation": "TEST-ONLY original complete5fdd writer with carpenter healthy+HP1, written by actual writer and accepted by actual validator/loader. New self projection must not fix old world facts or reject free dialogue.",
+      "evidence": {
+        "inputSha256": "f94b8d28f4de3829f74fdcda647634126a49e14d6c41cd659661f14b5026bdc7",
+        "retainedHp": 1,
+        "retainedLifeState": "healthy"
+      }
+    },
+    {
+      "name": "real advance kills critical participant and preserves interruption without posthumous support",
+      "ok": true,
+      "derivation": "TEST-ONLY: original5fdd/wz-4 unchanged normal enemy mechanics; original roster relocated, doctor1HP at16,20/player16,19.7/enemy16,20.4; actual advance15 causes death, no damage receipt synthesized.",
+      "evidence": {
+        "result": {
+          "ok": false,
+          "commandId": "self-death-support",
+          "reason": "npc-action-interrupted"
+        },
+        "enemyId": "wz-4",
+        "damage": [
+          {
+            "eventId": "evt-000256",
+            "seq": 256,
+            "type": "combat.damage.applied",
+            "actorId": "doctor",
+            "commandId": null,
+            "causationId": "cmd-000514",
+            "tick": {
+              "world": 685,
+              "phase": 0,
+              "schedule": 325
+            },
+            "payload": {
+              "schemaVersion": "CombatIntentV1",
+              "phase": "DAY",
+              "tick": 19,
+              "intentId": "day-118-1",
+              "attackSeq": 1,
+              "profileId": "npc.guard.day",
+              "sourceId": "doctor",
+              "targetId": "wz-4",
+              "sourceKind": "npc",
+              "targetKind": "event-enemy",
+              "amount": 7,
+              "before": 100,
+              "after": 93,
+              "damageType": "physical",
+              "sourceEventId": null
+            }
+          },
+          {
+            "eventId": "evt-000257",
+            "seq": 257,
+            "type": "combat.damage.applied",
+            "actorId": "wz-4",
+            "commandId": null,
+            "causationId": "cmd-000514",
+            "tick": {
+              "world": 685,
+              "phase": 0,
+              "schedule": 325
+            },
+            "payload": {
+              "schemaVersion": "CombatIntentV1",
+              "phase": "DAY",
+              "tick": 20,
+              "intentId": "day-118-2",
+              "attackSeq": 2,
+              "profileId": "enemy.normal.day",
+              "sourceId": "wz-4",
+              "targetId": "doctor",
+              "sourceKind": "event-enemy",
+              "targetKind": "npc",
+              "amount": 6,
+              "before": 1,
+              "after": 0,
+              "damageType": "bite",
+              "sourceEventId": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "unchanged old writer facts and history survive two real writer/loader rounds original5fdd",
+      "ok": true,
+      "derivation": "UNCHANGED complete original writer, actual loader/start/writer; no scene state edits or retroactive observation receipts.",
+      "evidence": {
+        "originalSha256": "5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4",
+        "roundtripSha256": "4a10dc0bcf65300f81bf93ee5c9cfed50321cbee52e2d25f728ec0659c0d5b93"
+      }
+    },
+    {
+      "name": "unchanged old writer facts and history survive two real writer/loader rounds actual-natural06",
+      "ok": true,
+      "derivation": "UNCHANGED complete original writer, actual loader/start/writer; no scene state edits or retroactive observation receipts.",
+      "evidence": {
+        "originalSha256": "fbc8fb9d36d3d4dd478a1d6f9d31397515bf14ef9a014d0816e6b20746364e3b",
+        "roundtripSha256": "d02579209df136f7ec3c4602fd241af81324d9a79f14203cb0ef8abc9cc80887"
+      }
+    },
+    {
+      "name": "four explicit browser inputs are actual full writer outputs without new resources or enemy removal",
+      "ok": true,
+      "derivation": "TEST-ONLY source-native browser fixture production: unchanged1e29 writer loaded; only carpenter relocated .75 east of original player, HP/life/three needs/actual trust set per authored scenario, motion target cleared; critical case E0/paused. Original world enemies, all other roster/resources/history preserved.",
+      "evidence": [
+        {
+          "id": "normal-support",
+          "file": "normal-support-native.json",
+          "publicTargetTile": {
+            "x": 11,
+            "y": 11
+          },
+          "changes": [
+            "TEST-ONLY carpenter position .75 east of original player",
+            "TEST-ONLY self HP/life/three needs/actual trust per scene",
+            "carpenter motion target cleared; all enemies and resources retained"
+          ],
+          "artifact": "candidate-d251-final98-artifacts/browser-inputs/normal-support-native.json",
+          "sha256": "bc49a505c8a1901b763604c38eeea20e0906e4ddca998ae53d6eabf536842e7c",
+          "npcId": "carpenter",
+          "npcName": "阿梁",
+          "player": {
+            "x": 11,
+            "y": 11
+          },
+          "target": {
+            "x": 11.75,
+            "y": 11,
+            "hp": 100,
+            "lifeState": "healthy",
+            "trust": 0,
+            "needs": {
+              "hunger": 0,
+              "fatigue": 0,
+              "energy": 100
+            }
+          },
+          "clockPaused": false,
+          "sourceHtmlSha256": "d2512764bc54c9efb665168869cde08c6b8ac00f567ecb02229915fadd1d3896",
+          "inputOriginalSha256": "1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f"
+        },
+        {
+          "id": "needs-threshold",
+          "file": "needs-threshold-native.json",
+          "publicTargetTile": {
+            "x": 11,
+            "y": 11
+          },
+          "changes": [
+            "TEST-ONLY carpenter position .75 east of original player",
+            "TEST-ONLY self HP/life/three needs/actual trust per scene",
+            "carpenter motion target cleared; all enemies and resources retained"
+          ],
+          "artifact": "candidate-d251-final98-artifacts/browser-inputs/needs-threshold-native.json",
+          "sha256": "85627dca55205eeaa08870b3e2cebf63cdf39df2fc472e188848192a02298484",
+          "npcId": "carpenter",
+          "npcName": "阿梁",
+          "player": {
+            "x": 11,
+            "y": 11
+          },
+          "target": {
+            "x": 11.75,
+            "y": 11,
+            "hp": 50,
+            "lifeState": "injured",
+            "trust": -10,
+            "needs": {
+              "hunger": 70,
+              "fatigue": 70,
+              "energy": 25
+            }
+          },
+          "clockPaused": false,
+          "sourceHtmlSha256": "d2512764bc54c9efb665168869cde08c6b8ac00f567ecb02229915fadd1d3896",
+          "inputOriginalSha256": "1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f"
+        },
+        {
+          "id": "low-trust",
+          "file": "low-trust-native.json",
+          "publicTargetTile": {
+            "x": 11,
+            "y": 11
+          },
+          "changes": [
+            "TEST-ONLY carpenter position .75 east of original player",
+            "TEST-ONLY self HP/life/three needs/actual trust per scene",
+            "carpenter motion target cleared; all enemies and resources retained"
+          ],
+          "artifact": "candidate-d251-final98-artifacts/browser-inputs/low-trust-native.json",
+          "sha256": "76cb11dc92271dafdb3bf9c23ea3eea44bb696be8f7e805c5da22d391844a31c",
+          "npcId": "carpenter",
+          "npcName": "阿梁",
+          "player": {
+            "x": 11,
+            "y": 11
+          },
+          "target": {
+            "x": 11.75,
+            "y": 11,
+            "hp": 50,
+            "lifeState": "injured",
+            "trust": -11,
+            "needs": {
+              "hunger": 70,
+              "fatigue": 70,
+              "energy": 25
+            }
+          },
+          "clockPaused": false,
+          "sourceHtmlSha256": "d2512764bc54c9efb665168869cde08c6b8ac00f567ecb02229915fadd1d3896",
+          "inputOriginalSha256": "1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f"
+        },
+        {
+          "id": "critical-free",
+          "file": "critical-free-native.json",
+          "publicTargetTile": {
+            "x": 11,
+            "y": 11
+          },
+          "changes": [
+            "TEST-ONLY carpenter position .75 east of original player",
+            "TEST-ONLY self HP/life/three needs/actual trust per scene",
+            "carpenter motion target cleared; all enemies and resources retained",
+            "TEST-ONLY player energy0 and clock pausedtrue"
+          ],
+          "artifact": "candidate-d251-final98-artifacts/browser-inputs/critical-free-native.json",
+          "sha256": "3944d388d822344c4e3d64a47afb129fb40121b8f4da17f84b41d75c4bebd071",
+          "npcId": "carpenter",
+          "npcName": "阿梁",
+          "player": {
+            "x": 11,
+            "y": 11
+          },
+          "target": {
+            "x": 11.75,
+            "y": 11,
+            "hp": 20,
+            "lifeState": "critical",
+            "trust": 0,
+            "needs": {
+              "hunger": 5,
+              "fatigue": 70,
+              "energy": 25
+            }
+          },
+          "clockPaused": true,
+          "sourceHtmlSha256": "d2512764bc54c9efb665168869cde08c6b8ac00f567ecb02229915fadd1d3896",
+          "inputOriginalSha256": "1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f"
+        }
+      ]
+    },
+    {
+      "name": "source and actual input module/adapter bytes did not change while executing",
+      "ok": true,
+      "derivation": "TEST-ONLY: complete original5fdd writer loaded through real loader; carpenter at4,4/player3.25,4, healthy HP100, needs hunger/fatigue0 energy100, actual trust0, supportfalse, talk closed, E50; all unrelated original entities/history retained.",
+      "evidence": {
+        "html": "d2512764bc54c9efb665168869cde08c6b8ac00f567ecb02229915fadd1d3896",
+        "adapter": "554c400c174ad1b069c4dfcc839c12b3b45ea79c5aa7669e093a440ffa4845d3",
+        "module": "715fca749327bc1302aa4869adda94044e5dfa9c6dd24cac733f1b98a7575868"
+      }
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "candidate-d251-final98-artifacts/source-executed.html",
+      "sha256": "d2512764bc54c9efb665168869cde08c6b8ac00f567ecb02229915fadd1d3896",
+      "bytes": 867699
+    },
+    {
+      "path": "candidate-d251-final98-artifacts/runner-executed.mjs",
+      "sha256": "7f235a08ba1ee913327ae3da87894c00f47844a1cd51f054bc1a46f127da7a5c",
+      "bytes": 39285
+    },
+    {
+      "path": "candidate-d251-final98-artifacts/io-adapter-executed.mjs",
+      "sha256": "554c400c174ad1b069c4dfcc839c12b3b45ea79c5aa7669e093a440ffa4845d3",
+      "bytes": 49798
+    },
+    {
+      "path": "candidate-d251-final98-artifacts/inputs/complete-original-writer.json",
+      "sha256": "5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4",
+      "bytes": 496785
+    },
+    {
+      "path": "candidate-d251-final98-artifacts/inputs/original-capture-meta.json",
+      "sha256": "a24e58af9364dc6a81b86a7fddf0b618fc19ca72c9823dcaff0756e4f32b25e5",
+      "bytes": 1642
+    },
+    {
+      "path": "candidate-d251-final98-artifacts/inputs/actual-natural06-before-support-writer.json",
+      "sha256": "fbc8fb9d36d3d4dd478a1d6f9d31397515bf14ef9a014d0816e6b20746364e3b",
+      "bytes": 103471
+    },
+    {
+      "path": "candidate-d251-final98-artifacts/modules/npc-self-observation-v1.mjs",
+      "sha256": "715fca749327bc1302aa4869adda94044e5dfa9c6dd24cac733f1b98a7575868",
+      "bytes": 7134
+    },
+    {
+      "path": "candidate-d251-final98-artifacts/modules/observer-expression-v1.mjs",
+      "sha256": "fe78c38954227d4a93318badac915032a943a5bd008a061c0682758a61912f27",
+      "bytes": 7421
+    },
+    {
+      "path": "candidate-d251-final98-artifacts/inputs/browser-original-writer-1e29.json",
+      "sha256": "1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f",
+      "bytes": 58992
+    },
+    {
+      "path": "candidate-d251-final98-artifacts/first-talk-before-native.json",
+      "sha256": "67ad19bed80e3be74bf2e35b787e022d95e8b3951aa18a9d17d553ae16ef6867",
+      "bytes": 264334
+    },
+    {
+      "path": "candidate-d251-final98-artifacts/first-talk-after-native.json",
+      "sha256": "8e8a0280ab4173f2550f35b914d91ab2f684ec5b98693b1f93f40b3e9378fad5",
+      "bytes": 266881
+    },
+    {
+      "path": "candidate-d251-final98-artifacts/TEST-ONLY-conflicting-health-native-input.json",
+      "sha256": "f94b8d28f4de3829f74fdcda647634126a49e14d6c41cd659661f14b5026bdc7",
+      "bytes": 264330
+    },
+    {
+      "path": "candidate-d251-final98-artifacts/conflicting-health-after-free-first-talk-native.json",
+      "sha256": "9a9ca1963510499823cefbc6e59c5401bd7594c4137e382914a8fd2142fee15c",
+      "bytes": 266809
+    },
+    {
+      "path": "candidate-d251-final98-artifacts/actual-combat-death-final-rejected-native.json",
+      "sha256": "1e60098476a50bc63aa248942c50758c9c9c663c62b6d2d63c018485c7e36f5c",
+      "bytes": 273389
+    },
+    {
+      "path": "candidate-d251-final98-artifacts/original5fdd-round1.json",
+      "sha256": "4a10dc0bcf65300f81bf93ee5c9cfed50321cbee52e2d25f728ec0659c0d5b93",
+      "bytes": 264484
+    },
+    {
+      "path": "candidate-d251-final98-artifacts/original5fdd-reload0.json",
+      "sha256": "4a10dc0bcf65300f81bf93ee5c9cfed50321cbee52e2d25f728ec0659c0d5b93",
+      "bytes": 264484
+    },
+    {
+      "path": "candidate-d251-final98-artifacts/original5fdd-reload1.json",
+      "sha256": "4a10dc0bcf65300f81bf93ee5c9cfed50321cbee52e2d25f728ec0659c0d5b93",
+      "bytes": 264484
+    },
+    {
+      "path": "candidate-d251-final98-artifacts/actual-natural06-round1.json",
+      "sha256": "d02579209df136f7ec3c4602fd241af81324d9a79f14203cb0ef8abc9cc80887",
+      "bytes": 107518
+    },
+    {
+      "path": "candidate-d251-final98-artifacts/actual-natural06-reload0.json",
+      "sha256": "d02579209df136f7ec3c4602fd241af81324d9a79f14203cb0ef8abc9cc80887",
+      "bytes": 107518
+    },
+    {
+      "path": "candidate-d251-final98-artifacts/actual-natural06-reload1.json",
+      "sha256": "d02579209df136f7ec3c4602fd241af81324d9a79f14203cb0ef8abc9cc80887",
+      "bytes": 107518
+    },
+    {
+      "path": "candidate-d251-final98-artifacts/browser-inputs/normal-support-native.json",
+      "sha256": "bc49a505c8a1901b763604c38eeea20e0906e4ddca998ae53d6eabf536842e7c",
+      "bytes": 63102
+    },
+    {
+      "path": "candidate-d251-final98-artifacts/browser-inputs/needs-threshold-native.json",
+      "sha256": "85627dca55205eeaa08870b3e2cebf63cdf39df2fc472e188848192a02298484",
+      "bytes": 63106
+    },
+    {
+      "path": "candidate-d251-final98-artifacts/browser-inputs/low-trust-native.json",
+      "sha256": "76cb11dc92271dafdb3bf9c23ea3eea44bb696be8f7e805c5da22d391844a31c",
+      "bytes": 63106
+    },
+    {
+      "path": "candidate-d251-final98-artifacts/browser-inputs/critical-free-native.json",
+      "sha256": "3944d388d822344c4e3d64a47afb129fb40121b8f4da17f84b41d75c4bebd071",
+      "bytes": 63098
+    },
+    {
+      "path": "candidate-d251-final98-artifacts/browser-inputs/original-writer.json",
+      "sha256": "1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f",
+      "bytes": 58992
+    },
+    {
+      "path": "candidate-d251-final98-artifacts/browser-inputs/manifest.json",
+      "sha256": "8a8d1742e79a5962764263e0fd1326b32086c9ff30110d3d06435d2cdcab5d6f",
+      "bytes": 9902
+    }
+  ]
+}

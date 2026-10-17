@@ -1,0 +1,5206 @@
+{
+  "schema": "NaturalMixedBrowserShortV1",
+  "runner": "browser-natural-mixed-v1",
+  "runnerSha256": "c2748abee248a26bd6398eb1ee7919859f8946e06cd3be8519d6db5af88a3abb",
+  "sourceHtmlSha256": "32f911f69a6a962ae69a0325afcffd1c5d6d923c0efe1fb0ca8787c1959d9fae",
+  "expectedHtmlSha256": "32f911f69a6a962ae69a0325afcffd1c5d6d923c0efe1fb0ca8787c1959d9fae",
+  "actorSpritesSha256": "257f4b38760813c21c723bbb9f934f1198e742fd1223db48705f34787e0f71b7",
+  "mode": "fresh-zero-save-injection-budgeted-short-natural-mixed-route",
+  "parameters": {
+    "--html": "C:/Users/DELL/AppData/Local/Temp/zh-iteration-20261017-ae1ced87/zombie_harvest-30eeefb5c20e4e8105dfe76e64ce9f806e3373cd/dist/index.html",
+    "--out": "C:/Users/DELL/AppData/Local/Temp/zh-calendar-20261017-de1114c7/natural-mixed-32f911-20261017-01",
+    "--expect-html-sha256": "32f911f69a6a962ae69a0325afcffd1c5d6d923c0efe1fb0ca8787c1959d9fae",
+    "--budget-seconds": "480"
+  },
+  "budgets": {
+    "wallSeconds": 480,
+    "meaningfulActions": 10,
+    "meals": 2,
+    "daytimeAttacks": 4,
+    "stopPlayerHp": 60,
+    "minimumLaborEnergy": 15,
+    "retainFood": 3,
+    "maximumSingleIdleSeconds": 120,
+    "maximumTotalIdleSeconds": 360,
+    "training": 0,
+    "purposelessRest": 0,
+    "maximumGoalDrivenRestMinutes": 30,
+    "maximumGoalDrivenRestInstances": 1,
+    "navigationSecondsPerGoal": 30,
+    "maximumNavigationDetours": 3,
+    "encounterWarningPercent": 80
+  },
+  "policy": {
+    "freshBrowserContext": true,
+    "initialStorageMustBeEmpty": true,
+    "publicStart": true,
+    "saveInjection": false,
+    "initScriptInjection": false,
+    "hiddenGameActions": false,
+    "hiddenStateMutation": false,
+    "resume": false,
+    "goalKnowledge": "public HUD, context controls and actually visible non-fogged map tile labels only",
+    "privilegedSafetySource": "read-only complete actual writer worldZombies and kind/speedFactor/position; conservative veto only; not actor-authorized observation",
+    "actorProjectionComplete": false,
+    "doesNotAssumeNpcOrTowerRescue": true,
+    "automaticThreeDayContinuation": false
+  },
+  "checks": [
+    {
+      "name": "fresh main document exact immutable bytes",
+      "ok": true
+    },
+    {
+      "name": "fresh origin has no saved progress before public start",
+      "ok": true
+    },
+    {
+      "name": "public start discloses a new game",
+      "ok": true
+    },
+    {
+      "name": "new game begins day1 06:00 with original ten identities",
+      "ok": true
+    },
+    {
+      "name": "event.resolved: actual command/receipt and measured intended change",
+      "ok": true
+    },
+    {
+      "name": "gather: actual visible public context enabled",
+      "ok": true
+    },
+    {
+      "name": "resource.collected: actual command/receipt and measured intended change",
+      "ok": false
+    },
+    {
+      "name": "terminal public reload retains exact build",
+      "ok": true
+    }
+  ],
+  "errors": [
+    {
+      "type": "runner",
+      "message": "AssertionError [ERR_ASSERTION]: resource.collected: actual command/receipt and measured intended change\n    at check (file:///C:/Users/DELL/AppData/Local/Temp/zh-iteration-20261017-ae1ced87/zombie_harvest-30eeefb5c20e4e8105dfe76e64ce9f806e3373cd/scripts/browser-natural-mixed-v1.mjs:43:131)\n    at action (file:///C:/Users/DELL/AppData/Local/Temp/zh-iteration-20261017-ae1ced87/zombie_harvest-30eeefb5c20e4e8105dfe76e64ce9f806e3373cd/scripts/browser-natural-mixed-v1.mjs:164:32)\n    at async file:///C:/Users/DELL/AppData/Local/Temp/zh-iteration-20261017-ae1ced87/zombie_harvest-30eeefb5c20e4e8105dfe76e64ce9f806e3373cd/scripts/browser-natural-mixed-v1.mjs:193:41"
+    }
+  ],
+  "documents": [
+    {
+      "kind": "fresh-main",
+      "sha256": "32f911f69a6a962ae69a0325afcffd1c5d6d923c0efe1fb0ca8787c1959d9fae"
+    },
+    {
+      "kind": "terminal-public-pagehide-checkpoint-no-continue",
+      "sha256": "32f911f69a6a962ae69a0325afcffd1c5d6d923c0efe1fb0ca8787c1959d9fae"
+    }
+  ],
+  "snapshots": [
+    {
+      "label": "fresh-initial",
+      "file": "000-fresh-initial-save.json",
+      "sha256": "1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f",
+      "htmlSha256": "32f911f69a6a962ae69a0325afcffd1c5d6d923c0efe1fb0ca8787c1959d9fae",
+      "day": 1,
+      "hour": 6,
+      "minute": 0,
+      "eventSeq": 1,
+      "checksum": "3b3d2df1",
+      "publicUiFile": "000-fresh-initial-ui.json",
+      "screenshot": "000-fresh-initial.png"
+    },
+    {
+      "label": "0-event.resolved-before",
+      "file": "001-0-event.resolved-before-save.json",
+      "sha256": "1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f",
+      "htmlSha256": "32f911f69a6a962ae69a0325afcffd1c5d6d923c0efe1fb0ca8787c1959d9fae",
+      "day": 1,
+      "hour": 6,
+      "minute": 0,
+      "eventSeq": 1,
+      "checksum": "3b3d2df1",
+      "publicUiFile": "001-0-event.resolved-before-ui.json"
+    },
+    {
+      "label": "0-event.resolved-after",
+      "file": "002-0-event.resolved-after-save.json",
+      "sha256": "033c580ceda34ae5287dcd4aa446f9d32cdfe0dc6398962dffc6db9d83d4af4f",
+      "htmlSha256": "32f911f69a6a962ae69a0325afcffd1c5d6d923c0efe1fb0ca8787c1959d9fae",
+      "day": 1,
+      "hour": 6,
+      "minute": 1,
+      "eventSeq": 3,
+      "checksum": "9512a271",
+      "publicUiFile": "002-0-event.resolved-after-ui.json",
+      "screenshot": "002-0-event.resolved-after.png"
+    },
+    {
+      "label": "1-resource.collected-before",
+      "file": "003-1-resource.collected-before-save.json",
+      "sha256": "033c580ceda34ae5287dcd4aa446f9d32cdfe0dc6398962dffc6db9d83d4af4f",
+      "htmlSha256": "32f911f69a6a962ae69a0325afcffd1c5d6d923c0efe1fb0ca8787c1959d9fae",
+      "day": 1,
+      "hour": 6,
+      "minute": 1,
+      "eventSeq": 3,
+      "checksum": "9512a271",
+      "publicUiFile": "003-1-resource.collected-before-ui.json"
+    }
+  ],
+  "actions": [
+    {
+      "index": 0,
+      "type": "event.resolved",
+      "motivation": "公开补给箱选项提供有限食物与零件，接受已披露的威胁代价，为农务和后续防线准备口粮。",
+      "estimatedActionMinutes": 0,
+      "wallMs": 722,
+      "before": {
+        "minute": 360,
+        "hp": 100,
+        "energy": 78,
+        "food": 8
+      },
+      "after": {
+        "minute": 361,
+        "hp": 100,
+        "energy": 74,
+        "food": 11
+      },
+      "beforePublic": {
+        "day": 1,
+        "hour": 6,
+        "minute": 0,
+        "hp": 100,
+        "energy": 78,
+        "food": 8,
+        "wood": 24,
+        "stone": 12,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "alert": "尸潮预警 0%",
+        "contextTitle": "营地核心 · 可用设施",
+        "context": "1✦ 营地核心预演：营地核心的功能交互，不会改变位置",
+        "rest": "营地等候：靠近庇护所选择30或60分钟；世界与风险继续。",
+        "inModal": true,
+        "tiles": [
+          {
+            "x": 2,
+            "y": 5,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 3,
+            "y": 5,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 4,
+            "y": 5,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 5,
+            "y": 5,
+            "text": "",
+            "tag": "石头",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-path path"
+          },
+          {
+            "x": 6,
+            "y": 5,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 7,
+            "y": 5,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 8,
+            "y": 5,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 9,
+            "y": 5,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 2,
+            "y": 6,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 3,
+            "y": 6,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 4,
+            "y": 6,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 5,
+            "y": 6,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 6,
+            "y": 6,
+            "text": "",
+            "tag": "木材",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 7,
+            "y": 6,
+            "text": "·",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 8,
+            "y": 6,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 9,
+            "y": 6,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 2,
+            "y": 7,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 3,
+            "y": 7,
+            "text": "·",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 4,
+            "y": 7,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 5,
+            "y": 7,
+            "text": "·",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 6,
+            "y": 7,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 7,
+            "y": 7,
+            "text": "·",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 8,
+            "y": 7,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 9,
+            "y": 7,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 2,
+            "y": 8,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 3,
+            "y": 8,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 4,
+            "y": 8,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 5,
+            "y": 8,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 6,
+            "y": 8,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 7,
+            "y": 8,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 8,
+            "y": 8,
+            "text": "·",
+            "tag": "木材",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 9,
+            "y": 8,
+            "text": "·",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 2,
+            "y": 9,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 3,
+            "y": 9,
+            "text": "·",
+            "tag": "食物",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 4,
+            "y": 9,
+            "text": "",
+            "tag": "",
+            "water": true,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-water water"
+          },
+          {
+            "x": 5,
+            "y": 9,
+            "text": "",
+            "tag": "",
+            "water": true,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-water water"
+          },
+          {
+            "x": 6,
+            "y": 9,
+            "text": "",
+            "tag": "",
+            "water": true,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-water water"
+          },
+          {
+            "x": 7,
+            "y": 9,
+            "text": "",
+            "tag": "工坊",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": true,
+            "className": "tile terrain-grass camp-area zone-workshop flow-service"
+          },
+          {
+            "x": 8,
+            "y": 9,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 9,
+            "y": 9,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 2,
+            "y": 10,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 3,
+            "y": 10,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 4,
+            "y": 10,
+            "text": "",
+            "tag": "",
+            "water": true,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-water water"
+          },
+          {
+            "x": 5,
+            "y": 10,
+            "text": "",
+            "tag": "",
+            "water": true,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-water water"
+          },
+          {
+            "x": 6,
+            "y": 10,
+            "text": "",
+            "tag": "",
+            "water": true,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-water water"
+          },
+          {
+            "x": 7,
+            "y": 10,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 8,
+            "y": 10,
+            "text": "·",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 9,
+            "y": 10,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 11,
+            "y": 10,
+            "text": "",
+            "tag": "核心",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": true,
+            "className": "tile terrain-forest camp-area zone-core flow-command"
+          },
+          {
+            "x": 2,
+            "y": 11,
+            "text": "·",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 3,
+            "y": 11,
+            "text": "·",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 4,
+            "y": 11,
+            "text": "",
+            "tag": "",
+            "water": true,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-water water"
+          },
+          {
+            "x": 5,
+            "y": 11,
+            "text": "",
+            "tag": "",
+            "water": true,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-water water"
+          },
+          {
+            "x": 6,
+            "y": 11,
+            "text": "",
+            "tag": "",
+            "water": true,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-water water"
+          },
+          {
+            "x": 7,
+            "y": 11,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 8,
+            "y": 11,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 9,
+            "y": 11,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 10,
+            "y": 11,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 11,
+            "y": 11,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 12,
+            "y": 11,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 11,
+            "y": 12,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-wetland"
+          }
+        ]
+      },
+      "events": [
+        {
+          "eventId": "evt-000002",
+          "seq": 2,
+          "type": "event.resolved",
+          "actorId": "system",
+          "commandId": "cmd-000001",
+          "causationId": null,
+          "tick": {
+            "world": 360,
+            "phase": 0,
+            "schedule": 0
+          },
+          "payload": {
+            "choice": "a",
+            "expectedInstanceId": "event-initial",
+            "expectedDefId": "supply",
+            "expectedDefinitionVersion": 1,
+            "expectedEventId": "supply",
+            "eventId": "supply",
+            "instanceId": "event-initial",
+            "defId": "supply",
+            "definitionVersion": 1,
+            "status": "resolved",
+            "reason": null
+          },
+          "defId": "supply",
+          "definitionVersion": 1,
+          "instanceId": "event-initial",
+          "effects": []
+        },
+        {
+          "eventId": "evt-000003",
+          "seq": 3,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000002",
+          "causationId": null,
+          "tick": {
+            "world": 361,
+            "phase": 0,
+            "schedule": 1
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 1,
+            "hour": 6,
+            "minute": 1
+          }
+        }
+      ],
+      "commands": [
+        {
+          "commandId": "cmd-000001",
+          "type": "event.resolve",
+          "actorId": "player-1",
+          "payload": {
+            "choice": "a",
+            "expectedInstanceId": "event-initial",
+            "expectedDefId": "supply",
+            "expectedDefinitionVersion": 1,
+            "expectedEventId": "supply"
+          }
+        },
+        {
+          "commandId": "cmd-000002",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 1
+          }
+        }
+      ],
+      "result": true
+    },
+    {
+      "type": "goal-observed",
+      "tag": "木材",
+      "chosenVisibleTile": {
+        "x": 8,
+        "y": 8,
+        "text": "·",
+        "tag": "木材",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      "publicPosition": {
+        "x": 11,
+        "y": 11
+      }
+    },
+    {
+      "index": 1,
+      "type": "resource.collected",
+      "motivation": "采集一个当前可见有限木材节点，补回计划农田防护塔的建设储备。",
+      "estimatedActionMinutes": 30,
+      "wallMs": 711,
+      "before": {
+        "minute": 361,
+        "hp": 100,
+        "energy": 74,
+        "food": 11
+      },
+      "after": {
+        "minute": 394,
+        "hp": 100,
+        "energy": 67,
+        "food": 11
+      },
+      "beforePublic": {
+        "day": 1,
+        "hour": 6,
+        "minute": 4,
+        "hp": 100,
+        "energy": 74,
+        "food": 11,
+        "wood": 24,
+        "stone": 12,
+        "player": {
+          "x": 8,
+          "y": 9
+        },
+        "alert": "尸潮预警 0%",
+        "contextTitle": "树林 · 可采集",
+        "context": "1🧺 采集木材消耗 8 行动体力 · 前往附近资源2⚒️ 工坊预演：工坊的功能交互，不会改变位置",
+        "rest": "营地等候：靠近庇护所选择30或60分钟；世界与风险继续。",
+        "inModal": false,
+        "tiles": [
+          {
+            "x": 0,
+            "y": 3,
+            "text": "",
+            "tag": "",
+            "water": true,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-water water"
+          },
+          {
+            "x": 1,
+            "y": 3,
+            "text": "·",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 2,
+            "y": 3,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-path path"
+          },
+          {
+            "x": 3,
+            "y": 3,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-path path"
+          },
+          {
+            "x": 4,
+            "y": 3,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-path path"
+          },
+          {
+            "x": 5,
+            "y": 3,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-path path"
+          },
+          {
+            "x": 6,
+            "y": 3,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-path path"
+          },
+          {
+            "x": 7,
+            "y": 3,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-path path"
+          },
+          {
+            "x": 8,
+            "y": 3,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 9,
+            "y": 3,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 10,
+            "y": 3,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-path path"
+          },
+          {
+            "x": 11,
+            "y": 3,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-path path"
+          },
+          {
+            "x": 12,
+            "y": 3,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-path path"
+          },
+          {
+            "x": 13,
+            "y": 3,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-path path"
+          },
+          {
+            "x": 14,
+            "y": 3,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-path path"
+          },
+          {
+            "x": 15,
+            "y": 3,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-path path"
+          },
+          {
+            "x": 16,
+            "y": 3,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-path path"
+          },
+          {
+            "x": 17,
+            "y": 3,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-path path"
+          },
+          {
+            "x": 0,
+            "y": 4,
+            "text": "",
+            "tag": "",
+            "water": true,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-water water"
+          },
+          {
+            "x": 1,
+            "y": 4,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 2,
+            "y": 4,
+            "text": "·",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 3,
+            "y": 4,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 4,
+            "y": 4,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 5,
+            "y": 4,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-path path"
+          },
+          {
+            "x": 6,
+            "y": 4,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 7,
+            "y": 4,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 8,
+            "y": 4,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 9,
+            "y": 4,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 10,
+            "y": 4,
+            "text": "",
+            "tag": "北门",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": true,
+            "className": "tile terrain-forest camp-area zone-northGate flow-defense"
+          },
+          {
+            "x": 11,
+            "y": 4,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 12,
+            "y": 4,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 13,
+            "y": 4,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 14,
+            "y": 4,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 15,
+            "y": 4,
+            "text": "",
+            "tag": "零件",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 16,
+            "y": 4,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 17,
+            "y": 4,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 0,
+            "y": 5,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 1,
+            "y": 5,
+            "text": "",
+            "tag": "木材",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 2,
+            "y": 5,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 3,
+            "y": 5,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 4,
+            "y": 5,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 5,
+            "y": 5,
+            "text": "",
+            "tag": "石头",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-path path"
+          },
+          {
+            "x": 6,
+            "y": 5,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 7,
+            "y": 5,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 8,
+            "y": 5,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 9,
+            "y": 5,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 10,
+            "y": 5,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 11,
+            "y": 5,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 12,
+            "y": 5,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 13,
+            "y": 5,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 14,
+            "y": 5,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 15,
+            "y": 5,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 16,
+            "y": 5,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 17,
+            "y": 5,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 0,
+            "y": 6,
+            "text": "·",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 1,
+            "y": 6,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 2,
+            "y": 6,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 3,
+            "y": 6,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 4,
+            "y": 6,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 5,
+            "y": 6,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 6,
+            "y": 6,
+            "text": "",
+            "tag": "木材",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 7,
+            "y": 6,
+            "text": "·",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 8,
+            "y": 6,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 9,
+            "y": 6,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 10,
+            "y": 6,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 11,
+            "y": 6,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 12,
+            "y": 6,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 13,
+            "y": 6,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 14,
+            "y": 6,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 15,
+            "y": 6,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 16,
+            "y": 6,
+            "text": "",
+            "tag": "石头",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 17,
+            "y": 6,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 0,
+            "y": 7,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 1,
+            "y": 7,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 2,
+            "y": 7,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 3,
+            "y": 7,
+            "text": "·",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 4,
+            "y": 7,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 5,
+            "y": 7,
+            "text": "·",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 6,
+            "y": 7,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 7,
+            "y": 7,
+            "text": "·",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 8,
+            "y": 7,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 9,
+            "y": 7,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 10,
+            "y": 7,
+            "text": "",
+            "tag": "加固指挥所 · 2×2",
+            "water": false,
+            "building": true,
+            "buildingType": "bunker",
+            "area": false,
+            "className": "tile terrain-forest building-footprint large-building is-building-anchor"
+          },
+          {
+            "x": 11,
+            "y": 7,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": true,
+            "buildingType": "bunker",
+            "area": false,
+            "className": "tile terrain-forest building-footprint large-building"
+          },
+          {
+            "x": 12,
+            "y": 7,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 13,
+            "y": 7,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 14,
+            "y": 7,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 15,
+            "y": 7,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 16,
+            "y": 7,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 17,
+            "y": 7,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 0,
+            "y": 8,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 1,
+            "y": 8,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 2,
+            "y": 8,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 3,
+            "y": 8,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 4,
+            "y": 8,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 5,
+            "y": 8,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 6,
+            "y": 8,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 7,
+            "y": 8,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 8,
+            "y": 8,
+            "text": "·",
+            "tag": "木材",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 9,
+            "y": 8,
+            "text": "·",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 10,
+            "y": 8,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": true,
+            "buildingType": "bunker",
+            "area": false,
+            "className": "tile terrain-forest building-footprint large-building"
+          },
+          {
+            "x": 11,
+            "y": 8,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": true,
+            "buildingType": "bunker",
+            "area": false,
+            "className": "tile terrain-forest building-footprint large-building"
+          },
+          {
+            "x": 12,
+            "y": 8,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 13,
+            "y": 8,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 14,
+            "y": 8,
+            "text": "",
+            "tag": "多格物资库 · 2×2",
+            "water": false,
+            "building": true,
+            "buildingType": "depot",
+            "area": false,
+            "className": "tile terrain-forest building-footprint large-building is-building-anchor"
+          },
+          {
+            "x": 15,
+            "y": 8,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": true,
+            "buildingType": "depot",
+            "area": false,
+            "className": "tile terrain-forest building-footprint large-building"
+          },
+          {
+            "x": 16,
+            "y": 8,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 17,
+            "y": 8,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 0,
+            "y": 9,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 1,
+            "y": 9,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 2,
+            "y": 9,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 3,
+            "y": 9,
+            "text": "·",
+            "tag": "食物",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 4,
+            "y": 9,
+            "text": "",
+            "tag": "",
+            "water": true,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-water water"
+          },
+          {
+            "x": 5,
+            "y": 9,
+            "text": "",
+            "tag": "",
+            "water": true,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-water water"
+          },
+          {
+            "x": 6,
+            "y": 9,
+            "text": "",
+            "tag": "",
+            "water": true,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-water water"
+          },
+          {
+            "x": 7,
+            "y": 9,
+            "text": "",
+            "tag": "工坊",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": true,
+            "className": "tile terrain-grass camp-area zone-workshop flow-service"
+          },
+          {
+            "x": 8,
+            "y": 9,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 9,
+            "y": 9,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 10,
+            "y": 9,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 11,
+            "y": 9,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 12,
+            "y": 9,
+            "text": "废弃水车",
+            "tag": "废弃水车",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest highlight"
+          },
+          {
+            "x": 13,
+            "y": 9,
+            "text": "",
+            "tag": "医疗",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": true,
+            "className": "tile terrain-forest camp-area zone-infirmary flow-service"
+          },
+          {
+            "x": 14,
+            "y": 9,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": true,
+            "buildingType": "depot",
+            "area": false,
+            "className": "tile terrain-forest building-footprint large-building"
+          },
+          {
+            "x": 15,
+            "y": 9,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": true,
+            "buildingType": "depot",
+            "area": false,
+            "className": "tile terrain-forest building-footprint large-building"
+          },
+          {
+            "x": 16,
+            "y": 9,
+            "text": "",
+            "tag": "后勤",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": true,
+            "className": "tile terrain-forest camp-area zone-warehouse flow-logistics"
+          },
+          {
+            "x": 17,
+            "y": 9,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 0,
+            "y": 10,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 1,
+            "y": 10,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 2,
+            "y": 10,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 3,
+            "y": 10,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 4,
+            "y": 10,
+            "text": "",
+            "tag": "",
+            "water": true,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-water water"
+          },
+          {
+            "x": 5,
+            "y": 10,
+            "text": "",
+            "tag": "",
+            "water": true,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-water water"
+          },
+          {
+            "x": 6,
+            "y": 10,
+            "text": "",
+            "tag": "",
+            "water": true,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-water water"
+          },
+          {
+            "x": 7,
+            "y": 10,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 8,
+            "y": 10,
+            "text": "·",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 9,
+            "y": 10,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 10,
+            "y": 10,
+            "text": "",
+            "tag": "建筑",
+            "water": false,
+            "building": true,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest building-footprint is-building-anchor"
+          },
+          {
+            "x": 11,
+            "y": 10,
+            "text": "",
+            "tag": "核心",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": true,
+            "className": "tile terrain-forest camp-area zone-core flow-command"
+          },
+          {
+            "x": 12,
+            "y": 10,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 13,
+            "y": 10,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 14,
+            "y": 10,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 15,
+            "y": 10,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 16,
+            "y": 10,
+            "text": "旧补给库",
+            "tag": "旧补给库",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest highlight"
+          },
+          {
+            "x": 17,
+            "y": 10,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 0,
+            "y": 11,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 1,
+            "y": 11,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 2,
+            "y": 11,
+            "text": "·",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 3,
+            "y": 11,
+            "text": "·",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 4,
+            "y": 11,
+            "text": "",
+            "tag": "",
+            "water": true,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-water water"
+          },
+          {
+            "x": 5,
+            "y": 11,
+            "text": "",
+            "tag": "",
+            "water": true,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-water water"
+          },
+          {
+            "x": 6,
+            "y": 11,
+            "text": "",
+            "tag": "",
+            "water": true,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-water water"
+          },
+          {
+            "x": 7,
+            "y": 11,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 8,
+            "y": 11,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 9,
+            "y": 11,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-grass"
+          },
+          {
+            "x": 10,
+            "y": 11,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 11,
+            "y": 11,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 12,
+            "y": 11,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 13,
+            "y": 11,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 14,
+            "y": 11,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 15,
+            "y": 11,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 16,
+            "y": 11,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          },
+          {
+            "x": 17,
+            "y": 11,
+            "text": "",
+            "tag": "",
+            "water": false,
+            "building": false,
+            "buildingType": null,
+            "area": false,
+            "className": "tile terrain-forest"
+          }
+        ]
+      },
+      "events": [
+        {
+          "eventId": "evt-000004",
+          "seq": 4,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000012",
+          "causationId": null,
+          "tick": {
+            "world": 362,
+            "phase": 0,
+            "schedule": 2
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 1,
+            "hour": 6,
+            "minute": 2
+          }
+        },
+        {
+          "eventId": "evt-000005",
+          "seq": 5,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000032",
+          "causationId": null,
+          "tick": {
+            "world": 363,
+            "phase": 0,
+            "schedule": 3
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 1,
+            "hour": 6,
+            "minute": 3
+          }
+        },
+        {
+          "eventId": "evt-000006",
+          "seq": 6,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000051",
+          "causationId": null,
+          "tick": {
+            "world": 364,
+            "phase": 0,
+            "schedule": 4
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 1,
+            "hour": 6,
+            "minute": 4
+          }
+        },
+        {
+          "eventId": "evt-000007",
+          "seq": 7,
+          "type": "player.standingChanged",
+          "actorId": "player-1",
+          "commandId": null,
+          "causationId": "cmd-000056",
+          "tick": {
+            "world": 364,
+            "phase": 0,
+            "schedule": 4
+          },
+          "payload": {
+            "delta": {
+              "merit": 1,
+              "contribution": 1,
+              "domains": {
+                "supply": 1
+              }
+            },
+            "before": {
+              "prestige": 0,
+              "merit": 0,
+              "fear": 0,
+              "legitimacy": 50,
+              "contribution": 0,
+              "domains": {
+                "rescue": 0,
+                "defense": 0,
+                "supply": 0,
+                "recon": 0
+              }
+            },
+            "after": {
+              "prestige": 0,
+              "merit": 1,
+              "fear": 0,
+              "legitimacy": 50,
+              "contribution": 1,
+              "domains": {
+                "rescue": 0,
+                "defense": 0,
+                "supply": 1,
+                "recon": 0
+              }
+            },
+            "visibility": "witnessed",
+            "reason": "采集tree",
+            "witnesses": []
+          }
+        },
+        {
+          "eventId": "evt-000008",
+          "seq": 8,
+          "type": "camp.trustChanged",
+          "actorId": "player-1",
+          "commandId": null,
+          "causationId": "cmd-000056",
+          "tick": {
+            "world": 364,
+            "phase": 0,
+            "schedule": 4
+          },
+          "payload": {
+            "before": 0,
+            "after": 0.5,
+            "delta": 0.5,
+            "reason": "采集tree"
+          },
+          "defId": "camp-plan-meeting-001",
+          "definitionVersion": 1,
+          "instanceId": "event-initial",
+          "effects": []
+        },
+        {
+          "eventId": "evt-000009",
+          "seq": 9,
+          "type": "combat.damage.applied",
+          "actorId": "bld-1rhfvwb",
+          "commandId": null,
+          "causationId": "cmd-000057",
+          "tick": {
+            "world": 394,
+            "phase": 0,
+            "schedule": 34
+          },
+          "payload": {
+            "schemaVersion": "CombatIntentV1",
+            "phase": "DAY",
+            "tick": 1,
+            "intentId": "day-5-1",
+            "attackSeq": 1,
+            "profileId": "tower.tower",
+            "sourceId": "bld-1rhfvwb",
+            "targetId": "wz-1",
+            "sourceKind": "tower",
+            "targetKind": "event-enemy",
+            "amount": 10,
+            "before": 100,
+            "after": 90,
+            "damageType": "physical",
+            "sourceEventId": null
+          }
+        },
+        {
+          "eventId": "evt-000010",
+          "seq": 10,
+          "type": "combat.damage.applied",
+          "actorId": "bld-1rhfvwb",
+          "commandId": null,
+          "causationId": "cmd-000057",
+          "tick": {
+            "world": 394,
+            "phase": 0,
+            "schedule": 34
+          },
+          "payload": {
+            "schemaVersion": "CombatIntentV1",
+            "phase": "DAY",
+            "tick": 2,
+            "intentId": "day-5-2",
+            "attackSeq": 2,
+            "profileId": "tower.tower",
+            "sourceId": "bld-1rhfvwb",
+            "targetId": "wz-1",
+            "sourceKind": "tower",
+            "targetKind": "event-enemy",
+            "amount": 10,
+            "before": 90,
+            "after": 80,
+            "damageType": "physical",
+            "sourceEventId": null
+          }
+        },
+        {
+          "eventId": "evt-000011",
+          "seq": 11,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000057",
+          "causationId": "cmd-000056",
+          "tick": {
+            "world": 394,
+            "phase": 0,
+            "schedule": 34
+          },
+          "payload": {
+            "minutes": 30,
+            "day": 1,
+            "hour": 6,
+            "minute": 34
+          }
+        },
+        {
+          "eventId": "evt-000012",
+          "seq": 12,
+          "type": "resource.collected",
+          "actorId": "system",
+          "commandId": "cmd-000056",
+          "causationId": null,
+          "tick": {
+            "world": 394,
+            "phase": 0,
+            "schedule": 34
+          },
+          "payload": {
+            "resourceId": null,
+            "delta": {
+              "wood": 4,
+              "stone": 0,
+              "food": 0,
+              "parts": 0
+            }
+          }
+        }
+      ],
+      "commands": [
+        {
+          "commandId": "cmd-000012",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 1
+          }
+        },
+        {
+          "commandId": "cmd-000032",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 1
+          }
+        },
+        {
+          "commandId": "cmd-000051",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 1
+          }
+        },
+        {
+          "commandId": "cmd-000056",
+          "type": "resource.collect",
+          "actorId": "player-1",
+          "payload": {
+            "resourceId": null
+          }
+        },
+        {
+          "commandId": "cmd-000057",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 30
+          }
+        }
+      ],
+      "result": false
+    }
+  ],
+  "safety": [
+    {
+      "label": "event.resolved",
+      "provenance": "read-only complete actual writer worldZombies and kind/speedFactor/position; conservative veto only; not actor-authorized observation",
+      "sourceSaveMinute": 360,
+      "publicMinute": 360,
+      "saveLagMinutes": 0,
+      "actionMinutes": 0,
+      "publicPlayer": {
+        "x": 11,
+        "y": 11
+      },
+      "publicHp": 100,
+      "publicEnergy": 78,
+      "enemies": [
+        {
+          "id": "wz-1",
+          "kind": "normal",
+          "distance": 10.816653826391969,
+          "x": 20,
+          "y": 5,
+          "hp": 100,
+          "aiState": "wander",
+          "known": true,
+          "envelope": 1.98
+        },
+        {
+          "id": "wz-2",
+          "kind": "runner",
+          "distance": 14.317821063276352,
+          "x": 25,
+          "y": 14,
+          "hp": 100,
+          "aiState": "wander",
+          "known": true,
+          "envelope": 2.09
+        },
+        {
+          "id": "wz-3",
+          "kind": "brute",
+          "distance": 20.09975124224178,
+          "x": 31,
+          "y": 9,
+          "hp": 150,
+          "aiState": "wander",
+          "known": true,
+          "envelope": 1.9300000000000002
+        },
+        {
+          "id": "wz-4",
+          "kind": "normal",
+          "distance": 10,
+          "x": 17,
+          "y": 19,
+          "hp": 100,
+          "aiState": "wander",
+          "known": true,
+          "envelope": 1.98
+        }
+      ],
+      "dangers": [],
+      "veto": false
+    },
+    {
+      "label": "resource.collected",
+      "provenance": "read-only complete actual writer worldZombies and kind/speedFactor/position; conservative veto only; not actor-authorized observation",
+      "sourceSaveMinute": 361,
+      "publicMinute": 364,
+      "saveLagMinutes": 3,
+      "actionMinutes": 30,
+      "publicPlayer": {
+        "x": 8,
+        "y": 9
+      },
+      "publicHp": 100,
+      "publicEnergy": 74,
+      "enemies": [
+        {
+          "id": "wz-1",
+          "kind": "normal",
+          "distance": 12.701170517185856,
+          "x": 20.061664414373332,
+          "y": 5.020554804791093,
+          "hp": 100,
+          "aiState": "wander",
+          "known": true,
+          "envelope": 4.125
+        },
+        {
+          "id": "wz-2",
+          "kind": "runner",
+          "distance": 17.616675661129985,
+          "x": 24.883582899982528,
+          "y": 14.029104275004368,
+          "hp": 100,
+          "aiState": "wander",
+          "known": true,
+          "envelope": 6.05
+        },
+        {
+          "id": "wz-3",
+          "kind": "brute",
+          "distance": 22.97173314146358,
+          "x": 30.971715728752528,
+          "y": 9.028284271247472,
+          "hp": 150,
+          "aiState": "wander",
+          "known": true,
+          "envelope": 3.2500000000000004
+        },
+        {
+          "id": "wz-4",
+          "kind": "normal",
+          "distance": 13.393146288769517,
+          "x": 16.941862232585024,
+          "y": 18.970931116292512,
+          "hp": 100,
+          "aiState": "wander",
+          "known": true,
+          "envelope": 4.125
+        }
+      ],
+      "dangers": [],
+      "veto": false
+    }
+  ],
+  "navigation": [
+    {
+      "target": {
+        "x": 8,
+        "y": 8,
+        "text": "·",
+        "tag": "木材",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass",
+        "approachRadius": 1
+      },
+      "motivation": "采集一个当前可见有限木材节点，补回计划农田防护塔的建设储备。",
+      "provenance": "actually visible map tile and public mapRegionLabel",
+      "startedAtMs": 3608,
+      "samples": [
+        {
+          "from": {
+            "x": 11,
+            "y": 11
+          },
+          "to": {
+            "x": 10.5,
+            "y": 11
+          },
+          "key": "a",
+          "heldMs": 230
+        },
+        {
+          "from": {
+            "x": 10.5,
+            "y": 11
+          },
+          "to": {
+            "x": 10,
+            "y": 11
+          },
+          "key": "a",
+          "heldMs": 230
+        },
+        {
+          "from": {
+            "x": 10,
+            "y": 11
+          },
+          "to": {
+            "x": 9.5,
+            "y": 11
+          },
+          "key": "a",
+          "heldMs": 230
+        },
+        {
+          "from": {
+            "x": 9.5,
+            "y": 11
+          },
+          "to": {
+            "x": 9,
+            "y": 11
+          },
+          "key": "a",
+          "heldMs": 230
+        },
+        {
+          "from": {
+            "x": 9,
+            "y": 11
+          },
+          "to": {
+            "x": 9,
+            "y": 10.5
+          },
+          "key": "w",
+          "heldMs": 230
+        },
+        {
+          "from": {
+            "x": 9,
+            "y": 10.5
+          },
+          "to": {
+            "x": 9,
+            "y": 10
+          },
+          "key": "w",
+          "heldMs": 230
+        },
+        {
+          "from": {
+            "x": 9,
+            "y": 10
+          },
+          "to": {
+            "x": 9,
+            "y": 9.5
+          },
+          "key": "w",
+          "heldMs": 230
+        },
+        {
+          "from": {
+            "x": 9,
+            "y": 9.5
+          },
+          "to": {
+            "x": 9,
+            "y": 9
+          },
+          "key": "w",
+          "heldMs": 230
+        },
+        {
+          "from": {
+            "x": 9,
+            "y": 9
+          },
+          "to": {
+            "x": 8.5,
+            "y": 9
+          },
+          "key": "a",
+          "heldMs": 230
+        },
+        {
+          "from": {
+            "x": 8.5,
+            "y": 9
+          },
+          "to": {
+            "x": 8,
+            "y": 9
+          },
+          "key": "a",
+          "heldMs": 230
+        }
+      ],
+      "detours": 0,
+      "completed": true,
+      "finalPublicPosition": {
+        "x": 8,
+        "y": 9
+      },
+      "wallMs": 3223
+    }
+  ],
+  "blockedGoals": [],
+  "coverage": {
+    "eventChoice": true
+  },
+  "timers": {
+    "readingMs": 34,
+    "saveVerificationMs": 1947,
+    "publicRestMs": 0,
+    "navigationMs": 3223,
+    "idleMs": 0
+  },
+  "naturalThreeDaysStatus": "NOT_COVERED",
+  "status": "RULE_OR_UI_FAILURE",
+  "terminal": {
+    "day": 1,
+    "hour": 6,
+    "minute": 35,
+    "playerHP": 100,
+    "energy": 67,
+    "sanity": 73,
+    "food": 11,
+    "roster": 10,
+    "living": 10,
+    "npcDeaths": [],
+    "campCollapse": 0,
+    "coreBuildings": [
+      {
+        "id": "bld-4ep952",
+        "type": "shelter",
+        "hp": null
+      },
+      {
+        "id": "bld-l3hz1u",
+        "type": "bunker",
+        "hp": 12
+      },
+      {
+        "id": "bld-1ofdmcs",
+        "type": "depot",
+        "hp": 10
+      }
+    ],
+    "eventSeq": 13
+  },
+  "browserVersion": "155.0.8059.80",
+  "initialIdentities": [
+    "carpenter",
+    "doctor",
+    "radio",
+    "commander",
+    "sergeant",
+    "guardJi",
+    "guardChen",
+    "guardJiang",
+    "quartermaster",
+    "cook"
+  ],
+  "seed": 1592639710,
+  "initialEventPublic": {
+    "title": "今日异动：废弃补给箱",
+    "a": "🔎 搜索补给箱\n消耗 6 体力，食物 +3、零件 +1，尸潮 +1",
+    "b": "🚶 安静绕开\n不消耗体力，士气 +2"
+  },
+  "terminalReason": "resource.collected: actual command/receipt and measured intended change",
+  "routeElapsedBeforeCleanupMs": 7586,
+  "terminalPublicUi": {
+    "day": 1,
+    "hour": 6,
+    "minute": 34,
+    "hp": 100,
+    "energy": 67,
+    "food": 11,
+    "wood": 28,
+    "stone": 12,
+    "player": {
+      "x": 8,
+      "y": 9
+    },
+    "alert": "尸潮预警 0%",
+    "contextTitle": "树林 · 可采集",
+    "context": "1🧺 采集木材消耗 8 行动体力 · 前往附近资源2⚒️ 工坊预演：工坊的功能交互，不会改变位置",
+    "rest": "营地等候：靠近庇护所选择30或60分钟；世界与风险继续。",
+    "inModal": false,
+    "tiles": [
+      {
+        "x": 0,
+        "y": 3,
+        "text": "",
+        "tag": "",
+        "water": true,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-water water"
+      },
+      {
+        "x": 1,
+        "y": 3,
+        "text": "·",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 2,
+        "y": 3,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-path path"
+      },
+      {
+        "x": 3,
+        "y": 3,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-path path"
+      },
+      {
+        "x": 4,
+        "y": 3,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-path path"
+      },
+      {
+        "x": 5,
+        "y": 3,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-path path"
+      },
+      {
+        "x": 6,
+        "y": 3,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-path path"
+      },
+      {
+        "x": 7,
+        "y": 3,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-path path"
+      },
+      {
+        "x": 8,
+        "y": 3,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 9,
+        "y": 3,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 10,
+        "y": 3,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-path path"
+      },
+      {
+        "x": 11,
+        "y": 3,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-path path"
+      },
+      {
+        "x": 12,
+        "y": 3,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-path path"
+      },
+      {
+        "x": 13,
+        "y": 3,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-path path"
+      },
+      {
+        "x": 14,
+        "y": 3,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-path path"
+      },
+      {
+        "x": 15,
+        "y": 3,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-path path"
+      },
+      {
+        "x": 16,
+        "y": 3,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-path path"
+      },
+      {
+        "x": 17,
+        "y": 3,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-path path"
+      },
+      {
+        "x": 0,
+        "y": 4,
+        "text": "",
+        "tag": "",
+        "water": true,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-water water"
+      },
+      {
+        "x": 1,
+        "y": 4,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 2,
+        "y": 4,
+        "text": "·",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 3,
+        "y": 4,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 4,
+        "y": 4,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 5,
+        "y": 4,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-path path"
+      },
+      {
+        "x": 6,
+        "y": 4,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 7,
+        "y": 4,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 8,
+        "y": 4,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 9,
+        "y": 4,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 10,
+        "y": 4,
+        "text": "",
+        "tag": "北门",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": true,
+        "className": "tile terrain-forest camp-area zone-northGate flow-defense"
+      },
+      {
+        "x": 11,
+        "y": 4,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 12,
+        "y": 4,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 13,
+        "y": 4,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 14,
+        "y": 4,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 15,
+        "y": 4,
+        "text": "",
+        "tag": "零件",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 16,
+        "y": 4,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 17,
+        "y": 4,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 0,
+        "y": 5,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 1,
+        "y": 5,
+        "text": "",
+        "tag": "木材",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 2,
+        "y": 5,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 3,
+        "y": 5,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 4,
+        "y": 5,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 5,
+        "y": 5,
+        "text": "",
+        "tag": "石头",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-path path"
+      },
+      {
+        "x": 6,
+        "y": 5,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 7,
+        "y": 5,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 8,
+        "y": 5,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 9,
+        "y": 5,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 10,
+        "y": 5,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 11,
+        "y": 5,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 12,
+        "y": 5,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 13,
+        "y": 5,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 14,
+        "y": 5,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 15,
+        "y": 5,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 16,
+        "y": 5,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 17,
+        "y": 5,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 0,
+        "y": 6,
+        "text": "·",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 1,
+        "y": 6,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 2,
+        "y": 6,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 3,
+        "y": 6,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 4,
+        "y": 6,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 5,
+        "y": 6,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 6,
+        "y": 6,
+        "text": "",
+        "tag": "木材",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 7,
+        "y": 6,
+        "text": "·",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 8,
+        "y": 6,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 9,
+        "y": 6,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 10,
+        "y": 6,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 11,
+        "y": 6,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 12,
+        "y": 6,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 13,
+        "y": 6,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 14,
+        "y": 6,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 15,
+        "y": 6,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 16,
+        "y": 6,
+        "text": "",
+        "tag": "石头",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 17,
+        "y": 6,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 0,
+        "y": 7,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 1,
+        "y": 7,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 2,
+        "y": 7,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 3,
+        "y": 7,
+        "text": "·",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 4,
+        "y": 7,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 5,
+        "y": 7,
+        "text": "·",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 6,
+        "y": 7,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 7,
+        "y": 7,
+        "text": "·",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 8,
+        "y": 7,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 9,
+        "y": 7,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 10,
+        "y": 7,
+        "text": "",
+        "tag": "加固指挥所 · 2×2",
+        "water": false,
+        "building": true,
+        "buildingType": "bunker",
+        "area": false,
+        "className": "tile terrain-forest building-footprint large-building is-building-anchor"
+      },
+      {
+        "x": 11,
+        "y": 7,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": true,
+        "buildingType": "bunker",
+        "area": false,
+        "className": "tile terrain-forest building-footprint large-building"
+      },
+      {
+        "x": 12,
+        "y": 7,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 13,
+        "y": 7,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 14,
+        "y": 7,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 15,
+        "y": 7,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 16,
+        "y": 7,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 17,
+        "y": 7,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 0,
+        "y": 8,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 1,
+        "y": 8,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 2,
+        "y": 8,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 3,
+        "y": 8,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 4,
+        "y": 8,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 5,
+        "y": 8,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 6,
+        "y": 8,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 7,
+        "y": 8,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 8,
+        "y": 8,
+        "text": "·",
+        "tag": "木材",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 9,
+        "y": 8,
+        "text": "·",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 10,
+        "y": 8,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": true,
+        "buildingType": "bunker",
+        "area": false,
+        "className": "tile terrain-forest building-footprint large-building"
+      },
+      {
+        "x": 11,
+        "y": 8,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": true,
+        "buildingType": "bunker",
+        "area": false,
+        "className": "tile terrain-forest building-footprint large-building"
+      },
+      {
+        "x": 12,
+        "y": 8,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 13,
+        "y": 8,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 14,
+        "y": 8,
+        "text": "",
+        "tag": "多格物资库 · 2×2",
+        "water": false,
+        "building": true,
+        "buildingType": "depot",
+        "area": false,
+        "className": "tile terrain-forest building-footprint large-building is-building-anchor"
+      },
+      {
+        "x": 15,
+        "y": 8,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": true,
+        "buildingType": "depot",
+        "area": false,
+        "className": "tile terrain-forest building-footprint large-building"
+      },
+      {
+        "x": 16,
+        "y": 8,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 17,
+        "y": 8,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 0,
+        "y": 9,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 1,
+        "y": 9,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 2,
+        "y": 9,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 3,
+        "y": 9,
+        "text": "·",
+        "tag": "食物",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 4,
+        "y": 9,
+        "text": "",
+        "tag": "",
+        "water": true,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-water water"
+      },
+      {
+        "x": 5,
+        "y": 9,
+        "text": "",
+        "tag": "",
+        "water": true,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-water water"
+      },
+      {
+        "x": 6,
+        "y": 9,
+        "text": "",
+        "tag": "",
+        "water": true,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-water water"
+      },
+      {
+        "x": 7,
+        "y": 9,
+        "text": "",
+        "tag": "工坊",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": true,
+        "className": "tile terrain-grass camp-area zone-workshop flow-service"
+      },
+      {
+        "x": 8,
+        "y": 9,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 9,
+        "y": 9,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 10,
+        "y": 9,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 11,
+        "y": 9,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 12,
+        "y": 9,
+        "text": "废弃水车",
+        "tag": "废弃水车",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest highlight"
+      },
+      {
+        "x": 13,
+        "y": 9,
+        "text": "",
+        "tag": "医疗",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": true,
+        "className": "tile terrain-forest camp-area zone-infirmary flow-service"
+      },
+      {
+        "x": 14,
+        "y": 9,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": true,
+        "buildingType": "depot",
+        "area": false,
+        "className": "tile terrain-forest building-footprint large-building"
+      },
+      {
+        "x": 15,
+        "y": 9,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": true,
+        "buildingType": "depot",
+        "area": false,
+        "className": "tile terrain-forest building-footprint large-building"
+      },
+      {
+        "x": 16,
+        "y": 9,
+        "text": "",
+        "tag": "后勤",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": true,
+        "className": "tile terrain-forest camp-area zone-warehouse flow-logistics"
+      },
+      {
+        "x": 17,
+        "y": 9,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 0,
+        "y": 10,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 1,
+        "y": 10,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 2,
+        "y": 10,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 3,
+        "y": 10,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 4,
+        "y": 10,
+        "text": "",
+        "tag": "",
+        "water": true,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-water water"
+      },
+      {
+        "x": 5,
+        "y": 10,
+        "text": "",
+        "tag": "",
+        "water": true,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-water water"
+      },
+      {
+        "x": 6,
+        "y": 10,
+        "text": "",
+        "tag": "",
+        "water": true,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-water water"
+      },
+      {
+        "x": 7,
+        "y": 10,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 8,
+        "y": 10,
+        "text": "·",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 9,
+        "y": 10,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 10,
+        "y": 10,
+        "text": "",
+        "tag": "建筑",
+        "water": false,
+        "building": true,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest building-footprint is-building-anchor"
+      },
+      {
+        "x": 11,
+        "y": 10,
+        "text": "",
+        "tag": "核心",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": true,
+        "className": "tile terrain-forest camp-area zone-core flow-command"
+      },
+      {
+        "x": 12,
+        "y": 10,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 13,
+        "y": 10,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 14,
+        "y": 10,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 15,
+        "y": 10,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 16,
+        "y": 10,
+        "text": "旧补给库",
+        "tag": "旧补给库",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest highlight"
+      },
+      {
+        "x": 17,
+        "y": 10,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 0,
+        "y": 11,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 1,
+        "y": 11,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 2,
+        "y": 11,
+        "text": "·",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 3,
+        "y": 11,
+        "text": "·",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 4,
+        "y": 11,
+        "text": "",
+        "tag": "",
+        "water": true,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-water water"
+      },
+      {
+        "x": 5,
+        "y": 11,
+        "text": "",
+        "tag": "",
+        "water": true,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-water water"
+      },
+      {
+        "x": 6,
+        "y": 11,
+        "text": "",
+        "tag": "",
+        "water": true,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-water water"
+      },
+      {
+        "x": 7,
+        "y": 11,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 8,
+        "y": 11,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 9,
+        "y": 11,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-grass"
+      },
+      {
+        "x": 10,
+        "y": 11,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 11,
+        "y": 11,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 12,
+        "y": 11,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 13,
+        "y": 11,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 14,
+        "y": 11,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 15,
+        "y": 11,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 16,
+        "y": 11,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      },
+      {
+        "x": 17,
+        "y": 11,
+        "text": "",
+        "tag": "",
+        "water": false,
+        "building": false,
+        "buildingType": null,
+        "area": false,
+        "className": "tile terrain-forest"
+      }
+    ]
+  },
+  "elapsedWallMs": 8168,
+  "passed": 7,
+  "count": 8,
+  "cleanup": {
+    "browserClosed": true,
+    "contextClosed": true,
+    "httpServerClosed": true
+  },
+  "ok": false
+}

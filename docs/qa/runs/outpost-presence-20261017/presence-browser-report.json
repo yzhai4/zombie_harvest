@@ -1,0 +1,268 @@
+{
+  "runner": "browser-outpost-presence-v1",
+  "runnerSha256": "718c1ab8eaed3e3bf2f42b6543ab585f8a305c1a776176452add5fc1e084beb2",
+  "sourceHtmlSha256": "efe039775346f4ee34269495810d9d9e778603d2bfac26996ff5e0b884cd7f0b",
+  "expectedHtmlSha256": "efe039775346f4ee34269495810d9d9e778603d2bfac26996ff5e0b884cd7f0b",
+  "sourceFixtureSha256": "5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4",
+  "captureMetaSha256": "a24e58af9364dc6a81b86a7fddf0b618fc19ca72c9823dcaff0756e4f32b25e5",
+  "sharedFixtureHelperSha256": "e9872eeba85d49019d1bd806f3dd18357a5abc8f2f92922922f6a5324ec220dc",
+  "ioAdapterSourceSha256": "ee5bb659c0439044e1ec07a4aecf931293457c2478f35d0850fe90770b4367cf",
+  "mode": "derived-complete-old-writer-boot-fixture-with-public-browser-actions",
+  "naturalGameplay": false,
+  "naturalGameplayClaim": false,
+  "productionCapture": false,
+  "fixtureInjectionAfterBoot": false,
+  "gameStateMutationAfterBoot": false,
+  "fixtureProvenance": {
+    "schema": "NpcThreatAttentionCaptureV1",
+    "version": 1,
+    "captureKind": "automation-browser-writer-capture",
+    "productionCapture": false,
+    "naturalGameplayClaim": false,
+    "fixtureInjectionAfterBoot": false,
+    "source": {
+      "commit": "17925e1c908beb710c6bcb210e20389355805bb8",
+      "htmlSha256": "cc900da9cdf865b101c37080eb7417148a8a388796ba808153c905ef8ad8494a",
+      "commitEvidence": "iteration-manifest-v1 at capture source",
+      "reportSha256": "08e4309113473164d886a39d8366f000491cb5449dcad86452d453b00e55a94b",
+      "runnerSha256": "5e3dfeadbc729caf9e80adc6d890ca0ff20a5fbe0bf2211f9f609efbbf4ae299",
+      "reportRunner": "server-three-days",
+      "reportMode": "public-action-calendar-progression",
+      "reportOk": false,
+      "sourceSnapshotName": "23-day-1-training-before-action-save.json",
+      "sourceSnapshotIndex": 23
+    },
+    "fixture": {
+      "path": "scripts/fixtures/npc-threat-attention-v1/browser-writer-day1-1110-save21.json",
+      "sha256": "5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4",
+      "checksum": "7fde7715",
+      "saveVersion": 21,
+      "contentVersion": 3,
+      "savedAt": 670,
+      "day": 1,
+      "hour": 11,
+      "minute": 10,
+      "eventSeq": 253
+    },
+    "offlineChanges": [],
+    "notes": [
+      "Exact writer bytes copied from a failed automation route; original source report remains FAILED.",
+      "The source route used public reset/actions without save injection; this boot fixture is not production or a natural-gameplay/balance acceptance.",
+      "The regression loader may seed this save before boot only in an isolated source VM; derived negative scenes are declared in the checker."
+    ]
+  },
+  "checks": [
+    {
+      "name": "capture: main document exact bytes",
+      "ok": true
+    },
+    {
+      "name": "public capture button is visible",
+      "ok": true
+    },
+    {
+      "name": "public capture button is enabled",
+      "ok": true
+    },
+    {
+      "name": "actual canvas before capture draws both future guards",
+      "ok": true
+    },
+    {
+      "name": "actual canvas positive local doctor visible",
+      "ok": true
+    },
+    {
+      "name": "public capture preserves all ten people",
+      "ok": true
+    },
+    {
+      "name": "public capture recorded exact two guards",
+      "ok": true
+    },
+    {
+      "name": "public capture bilateral markers agree",
+      "ok": true
+    },
+    {
+      "name": "public capture has command and successful event",
+      "ok": true
+    },
+    {
+      "name": "actual canvas completed frames omit away guard labels",
+      "ok": true
+    },
+    {
+      "name": "actual canvas retains local doctor after capture",
+      "ok": true
+    },
+    {
+      "name": "full roster has ten visible cards",
+      "ok": true
+    },
+    {
+      "name": "guardJi: roster card visible and disabled",
+      "ok": true
+    },
+    {
+      "name": "guardJi: roster declares outpost presence",
+      "ok": true
+    },
+    {
+      "name": "guardChen: roster card visible and disabled",
+      "ok": true
+    },
+    {
+      "name": "guardChen: roster declares outpost presence",
+      "ok": true
+    },
+    {
+      "name": "local doctor roster card remains enabled",
+      "ok": true
+    },
+    {
+      "name": "roster discloses 8 local / 2 garrison / 10 alive",
+      "ok": true
+    },
+    {
+      "name": "public context offers no away guard orders",
+      "ok": true
+    },
+    {
+      "name": "E executes a local NPC interaction positive control",
+      "ok": true
+    },
+    {
+      "name": "E never targets an away guard",
+      "ok": true
+    },
+    {
+      "name": "capture: main document exact bytes",
+      "ok": true
+    },
+    {
+      "name": "reload preserves ten identities and occupancy",
+      "ok": true
+    },
+    {
+      "name": "reload retains authoritative guard record",
+      "ok": true
+    },
+    {
+      "name": "reloaded actual canvas still omits away guards",
+      "ok": true
+    },
+    {
+      "name": "reloaded roster retains all ten and disabled guards",
+      "ok": true
+    },
+    {
+      "name": "midnight: main document exact bytes",
+      "ok": true
+    },
+    {
+      "name": "public barracks training visible",
+      "ok": true
+    },
+    {
+      "name": "public 30 minute training crosses actual midnight",
+      "ok": true
+    },
+    {
+      "name": "global ration retains living ten population base",
+      "ok": true,
+      "detail": {
+        "food": 26,
+        "expectedFood": 26
+      }
+    },
+    {
+      "name": "outpost upkeep is separately paid once",
+      "ok": true
+    },
+    {
+      "name": "away guards receive no local training memory",
+      "ok": true
+    },
+    {
+      "name": "local guard receives actual training memory positive control",
+      "ok": true
+    },
+    {
+      "name": "midnight: main document exact bytes",
+      "ok": true
+    },
+    {
+      "name": "midnight reload does not repay ration or upkeep",
+      "ok": true
+    },
+    {
+      "name": "midnight reload retains two away / eight local identities",
+      "ok": true
+    },
+    {
+      "name": "no browser runtime errors",
+      "ok": true
+    }
+  ],
+  "errors": [],
+  "documentHashes": [
+    {
+      "scene": "capture",
+      "sha256": "efe039775346f4ee34269495810d9d9e778603d2bfac26996ff5e0b884cd7f0b"
+    },
+    {
+      "scene": "capture",
+      "sha256": "efe039775346f4ee34269495810d9d9e778603d2bfac26996ff5e0b884cd7f0b"
+    },
+    {
+      "scene": "midnight",
+      "sha256": "efe039775346f4ee34269495810d9d9e778603d2bfac26996ff5e0b884cd7f0b"
+    },
+    {
+      "scene": "midnight",
+      "sha256": "efe039775346f4ee34269495810d9d9e778603d2bfac26996ff5e0b884cd7f0b"
+    }
+  ],
+  "scenes": [
+    {
+      "name": "capture",
+      "inputFile": "capture-input-save.json",
+      "inputSha256": "448cc47c45df49e3f7b74eaed46037c7b9008aef56d0051aa14ee5ed3469c987",
+      "changes": [
+        "actual candidate loader consumes immutable complete automation-browser writer input; original source route remains FAILED",
+        "offline derived isolation removes existing world/event enemies; no gameplay survival claim",
+        "player placed at authored waterMill; actual discoverLandmark command discovers it before browser boot",
+        "offline NPC needs set moderate, needClock zero, story cooldown 1000, motionTarget null",
+        "two actual selected guards placed adjacent to player; local doctor at authored infirmary for visible positive control",
+        "actual candidate writer emits complete validated input; no browser post-boot state mutations"
+      ]
+    },
+    {
+      "name": "midnight",
+      "inputFile": "midnight-input-save.json",
+      "inputSha256": "f283faa3778525ce762e9422e49aafbfa3ff36da0b6f00147e8a057f43612981",
+      "changes": [
+        "actual loader consumes first browser scene current writer save with genuine public capture receipts",
+        "offline derived calendar set day1 23:40 and daily/ration/upkeep watermarks to day1; player moved to authored barracks",
+        "offline isolation clears existing threats, sets shared food30 and moderate NPC needs; local NPCs relocated away from barracks context",
+        "public browser training advances 30 real runtime minutes across midnight; not natural play or balance evidence"
+      ]
+    }
+  ],
+  "canvasEvidence": "actual renderActorsCanvas IO; original clearRect/fillText always execute; completed frame labels plus screenshots",
+  "crossDayBrowser": "verified-derived-23:40-boot-public-training-30-minutes-and-reload",
+  "expectedGuardIds": [
+    "guardJi",
+    "guardChen"
+  ],
+  "browserVersion": "155.0.8059.80",
+  "passed": 37,
+  "count": 37,
+  "ok": true,
+  "cleanup": {
+    "browserClosed": true,
+    "contextsClosed": true,
+    "httpServerClosed": true
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "schema": "ExplicitPathOnlyExecutionCompanionV1",
+  "nativeReport": false,
+  "newExecution": false,
+  "original": {
+    "bytes": 2843,
+    "sha256": "cc53bc4829466e64ad1bafaa81cc1a84e50aed35fd70bea310c8d547ed56b517"
+  },
+  "launchOwnerEvidence": "Original completed subprocess terminal from the owner of this execution; not inferred from a browser report.",
+  "changes": "Exactly the listed executable/input/output path strings; exitCode, timestamps, PID, report SHA, actual results/errors/cleanup remain unchanged.",
+  "pathReplacements": [
+    {
+      "jsonPointer": "/cmd/0",
+      "originalStringSha256": "183a0befc95f5e0a24c8591b51f3c8076a679289f7020f7fede5a741e064ef72",
+      "originalStringBytes": 88,
+      "replacement": "tool:node"
+    },
+    {
+      "jsonPointer": "/cmd/1",
+      "originalStringSha256": "6552d6dfcd5e7265667a2c3c2c61d8eb17c4f7582dbe8dc45addecbab2ee47ef",
+      "originalStringBytes": 139,
+      "replacement": "package:runner-executed.mjs"
+    },
+    {
+      "jsonPointer": "/cmd/3",
+      "originalStringSha256": "d8b325940cf677c477b79267f9567997202bd23c9c6394fff7616e03e095f79b",
+      "originalStringBytes": 132,
+      "replacement": "repo:dist/index.html"
+    },
+    {
+      "jsonPointer": "/cmd/5",
+      "originalStringSha256": "539413d764f0a2f808b8a34103bb2796b4f650355241592d87bfabb32d49f386",
+      "originalStringBytes": 124,
+      "replacement": "repo:scripts/check-report-recovery.mjs"
+    },
+    {
+      "jsonPointer": "/cmd/7",
+      "originalStringSha256": "678e772611d6ca5e7b119485137a837aadac171b05287d320939609a3d066800",
+      "originalStringBytes": 145,
+      "replacement": "package:inputs/input-manifest.json"
+    },
+    {
+      "jsonPointer": "/cmd/9",
+      "originalStringSha256": "e2399f3d93f83cfb490a9835c0877c8b19998aa33b3a97af2e317556863b3060",
+      "originalStringBytes": 134,
+      "replacement": "repo:dist/actor-sprites.js"
+    },
+    {
+      "jsonPointer": "/cmd/11",
+      "originalStringSha256": "687aec101332132dbd1477ac12b8f9d305275afdb441aa93d1e44183034d16c4",
+      "originalStringBytes": 99,
+      "replacement": "tool:installed-playwright"
+    },
+    {
+      "jsonPointer": "/cmd/13",
+      "originalStringSha256": "1a3b8380e5a6be5f50644d38caa496f4ba3ee5954434abd3a6c69ebb9d007282",
+      "originalStringBytes": 53,
+      "replacement": "tool:Chrome-155.0.8059.80"
+    },
+    {
+      "jsonPointer": "/cmd/15",
+      "originalStringSha256": "23d947c921a93e5145828d40c354d140d71f79903b81fbb8c90669c95452978b",
+      "originalStringBytes": 141,
+      "replacement": "package:./"
+    }
+  ],
+  "execution": {
+    "schema": "RelayRoleUiShortExecutionV2",
+    "status": "TERMINAL",
+    "startedAt": "2026-10-17T22:13:37.009479+00:00",
+    "cmd": [
+      "tool:node",
+      "package:runner-executed.mjs",
+      "--html",
+      "repo:dist/index.html",
+      "--io",
+      "repo:scripts/check-report-recovery.mjs",
+      "--input-manifest",
+      "package:inputs/input-manifest.json",
+      "--actor-sprites",
+      "repo:dist/actor-sprites.js",
+      "--playwright-module",
+      "tool:installed-playwright",
+      "--chrome-executable",
+      "tool:Chrome-155.0.8059.80",
+      "--out",
+      "package:./"
+    ],
+    "sourceHtmlSha256": "54ef55a78d77ac1cd45fe4f234db744e035cffe4fa1111f25201aed4da5bf3e5",
+    "runnerSha256": "ded07c142031103084e1c68c87d9d903a87425904769a8866b9d2498da60a177",
+    "inputManifestSha256": "d8d7d9d6aa73681e9d8cbab697288f5901728c21494add5427042512f6c1f48a",
+    "pid": 2492,
+    "finishedAt": "2026-10-17T22:13:42.448244+00:00",
+    "exitCode": 0,
+    "sourceUnchanged": true,
+    "methodUnchanged": true,
+    "report": {
+      "file": "short-encounter-v2-execution01/report.json",
+      "sha256": "7cce642c6a47a0afb26bd2441216c76038d368fc7230053053ec627ef63f93a5",
+      "bytes": 33946
+    },
+    "actual": {
+      "status": "PUBLIC_BATTLE_START_CAPTURED_NOT_SETTLED",
+      "ok": true,
+      "browserVersion": "155.0.8059.80",
+      "actualPublicBattleEntered": true,
+      "legacyHiddenNodeObserved": true,
+      "unknownRouteBrowserCaseExecuted": false,
+      "elapsedWallMs": 5330,
+      "errors": [],
+      "cleanup": {
+        "contextClosed": true,
+        "browserClosed": true,
+        "httpServerClosed": true
+      },
+      "latestDurable": {
+        "file": "latest-actual-durable-native.json",
+        "sha256": "3e73c7733ea8840ee3338744428d1c2559a66bff3bd8bd5c156a457ddea7149f",
+        "reason": "session-start",
+        "hasActualBattle": false,
+        "lockedRouteId": null,
+        "threatStarted": null,
+        "parentCommand": null
+      }
+    }
+  }
+}

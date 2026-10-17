@@ -1,0 +1,75 @@
+{
+  "runner": "source-camp-rest-v1",
+  "mode": "baseline",
+  "sourceHtmlSha256": "efe039775346f4ee34269495810d9d9e778603d2bfac26996ff5e0b884cd7f0b",
+  "checkerSha256": "773c81abf2009ec58be790b2bf630ca40cc55176e0bb95cb9d30435a9fe9581b",
+  "ioAdapterSha256": "ee5bb659c0439044e1ec07a4aecf931293457c2478f35d0850fe90770b4367cf",
+  "originalWriter": {
+    "path": "scripts/fixtures/npc-threat-attention-v1/browser-writer-day1-1110-save21.json",
+    "sha256": "5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4",
+    "sourceHtmlSha256": "cc900da9cdf865b101c37080eb7417148a8a388796ba808153c905ef8ad8494a",
+    "naturalGameplayClaim": false
+  },
+  "derivation": {
+    "testOnly": true,
+    "baseScenesBeforeBoot": true,
+    "fields": [
+      "calendar/world watermarks",
+      "player coordinate/HP/energy/SAN",
+      "food",
+      "enemy list or declared enemy position/clock",
+      "handled event",
+      "NPC needs/clocks/cooldown/positions",
+      "garden growth and campTrust for midnight scene",
+      "authored landmark found flag for genuine garrison setup"
+    ],
+    "afterBootNegativeInputs": [
+      "session phase/generation",
+      "document visibility",
+      "clock pause/rate",
+      "enemy movement after actual perception",
+      "new enemy during rest",
+      "unknown enemy kind",
+      "command budget exhaustion",
+      "legacy nearby coordinates for genuine garrison guard"
+    ],
+    "actualSourceDiagnosticStimuli": [
+      "applyDayCombatDamage for local NPC/building/death interruptions",
+      "applyDayPlayerDamage for player interruption",
+      "applyContentEffects for healing and genuine garrison assignment"
+    ],
+    "receiptsFabricated": false,
+    "fixedRosterPreserved": true
+  },
+  "io": "controlled DOM collections, storage, Date/performance and timer/RAF scheduling; final bootstrap Canvas render skipped; actual tested context renderer captured before unrelated render suppression",
+  "browserStarted": false,
+  "naturalGameplay": false,
+  "count": 4,
+  "ok": true,
+  "failures": [],
+  "checks": [
+    {
+      "name": "exact old complete writer loads without changing fixed roster or stored resources",
+      "ok": true
+    },
+    {
+      "name": "public encounter entry remains an encounter and cannot be called a calendar day",
+      "ok": true
+    },
+    {
+      "name": "baseline exposes the actual passive-recovery fragmentation defect",
+      "ok": true
+    },
+    {
+      "name": "baseline has no public controlled rest API or context entry",
+      "ok": true
+    }
+  ],
+  "observations": {
+    "passiveRecovery": {
+      "one": 3,
+      "split": 0
+    }
+  },
+  "artifacts": []
+}

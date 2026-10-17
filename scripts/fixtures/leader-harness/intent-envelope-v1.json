@@ -1,0 +1,16 @@
+{
+  "schema": "IntentEnvelopeV1",
+  "intentId": "intent-commander-d1-0001",
+  "actorId": "commander",
+  "roleId": "camp.commander",
+  "policyVersion": "leader-policy-v1",
+  "sourceProjectionHash": "e95c4bc33883b6342f4706cf6f6a2e09d0518a1f4c2ae260e15a207249efe4f3",
+  "target": { "kind": "plan", "id": "plan-defend-core-001" },
+  "action": "support_proposal",
+  "deadline": { "day": 1, "minute": 780 },
+  "resourceBudget": { "commandPoints": 1 },
+  "cancelIf": ["phase-not-DAY", "plan-no-longer-candidate", "target-missing"],
+  "fallback": { "kind": "rule", "plannerId": "camp.commander.baseline", "action": "abstain" },
+  "model": { "kind": "rules-baseline", "provider": "local", "latencyMs": 0, "attempt": 0 },
+  "reason": { "summary": "核心防线承压，优先降低夜间失守风险。", "confidence": "high" }
+}

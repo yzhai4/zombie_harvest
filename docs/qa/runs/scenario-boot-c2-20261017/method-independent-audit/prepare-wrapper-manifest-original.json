@@ -1,0 +1,43 @@
+{
+  "sourceHtmlSha256": "61ea64b27a65cc4a271c214c16126b40a453eae40c8684c106bc8edc89e5f115",
+  "method": "QA prepare only explicitly forwards BootRecovery.scenarioContent || BootRecovery.draft?.scenarioContent to actual prepareSavedPayload; no install, product or assertion change.",
+  "results": [
+    {
+      "runner": "presence",
+      "count": 41,
+      "passed": 41,
+      "exitCode": 0,
+      "report": "presence.log"
+    },
+    {
+      "runner": "recovery",
+      "count": 177,
+      "passed": 177,
+      "exitCode": 0,
+      "report": "recovery.log"
+    }
+  ],
+  "notRerun": "command-id/repair do not call QA prepare and their scripts were unchanged; prior results remain bound to their original source.",
+  "artifacts": [
+    {
+      "path": "final-check-report-recovery.mjs",
+      "sha256": "554c400c174ad1b069c4dfcc839c12b3b45ea79c5aa7669e093a440ffa4845d3"
+    },
+    {
+      "path": "method.diff",
+      "sha256": "9467e9ac0b4408deccd653eab6b76be5756cf06c43d18312aa5c33e849f4bc6e"
+    },
+    {
+      "path": "original-check-report-recovery.mjs",
+      "sha256": "59c6986bbe8eee037811f409fad48e36fd5e32046e9d01ac6ef041b534ce055d"
+    },
+    {
+      "path": "presence.log",
+      "sha256": "b2f3324d873c7a362fe5a0202da2fd0c6833f2f86f615a93436d2bc59fdcaeee"
+    },
+    {
+      "path": "recovery.log",
+      "sha256": "e71fe91f618424ff1ceb97e26a72b385ba4df582d173935e852108183987cec3"
+    }
+  ]
+}

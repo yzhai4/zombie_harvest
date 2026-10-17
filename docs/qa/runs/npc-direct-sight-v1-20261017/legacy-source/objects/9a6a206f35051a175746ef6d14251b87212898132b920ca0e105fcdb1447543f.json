@@ -1,0 +1,205 @@
+{
+  "schemaVersion": 1,
+  "scenario": {
+    "id": "zombie-farm",
+    "version": 1,
+    "contentVersion": 3
+  },
+  "metadata": {
+    "title": "尸潮农场",
+    "campaign": "im-the-savior"
+  },
+  "world": {
+    "ordinaryNpcCount": 10,
+    "foodMultiplier": 1,
+    "medicineMultiplier": 1,
+    "materialMultiplier": 1,
+    "initialEnemyMultiplier": 1,
+    "waveGrowthMultiplier": 1,
+    "eventFrequency": 1
+  },
+  "difficulty": {
+    "presets": {
+      "standard": {},
+      "hard": {
+        "initialEnemyMultiplier": 1.3
+      }
+    },
+    "playerCustomizable": [
+      "world.foodMultiplier"
+    ]
+  },
+  "events": {
+    "registry": [
+      {
+        "kind": "eventDef",
+        "id": "relay-chain-001"
+      },
+      {
+        "kind": "eventChain",
+        "id": "zh-food-shortage-001"
+      }
+    ],
+    "storylets": [
+      {
+        "id": "zh-food-shortage-001",
+        "chainId": "zh-food-shortage-001",
+        "title": "断粮警报",
+        "description": "基础配给余量不足，需要决定现在动用两份应急藏粮，还是保留备用粮并另行筹粮。",
+        "definitionVersion": 2,
+        "category": "survival",
+        "phase": [
+          "day_1",
+          "day_13"
+        ],
+        "priority": 82,
+        "gateVersion": 1,
+        "evaluatePreconditions": true,
+        "gate": {
+          "version": 1,
+          "phase": "DAY",
+          "nightAllowed": false,
+          "preconditions": [
+            {
+              "type": "food_days",
+              "max": 1
+            }
+          ]
+        },
+        "preconditions": [
+          {
+            "type": "food_days",
+            "max": 1
+          }
+        ],
+        "startConditions": [
+          {
+            "type": "food_days",
+            "max": 1
+          }
+        ],
+        "nodes": [
+          {
+            "nodeId": "shortage_choice",
+            "title": "粮仓见底",
+            "text": "后勤官登记有两份应急藏粮，整局只可动用一次。可以现在动用，也可以保留备用粮，另行采集或收获；人物用餐与配给仍按真实库存结算。",
+            "choices": [
+              {
+                "id": "ration",
+                "label": "保留备用粮，另行筹粮",
+                "hint": "仅确认并记录 · 食物不变 · 不额外增加崩溃压力 · 原配给与人物需求照常",
+                "requires": [],
+                "effects": [
+                  {
+                    "op": "recordHistory",
+                    "key": "zh-food-shortage-001:ration",
+                    "payload": {
+                      "route": "ration"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "forage",
+                "label": "动用后勤应急藏粮",
+                "hint": "整局一次 · 食物 +2 · 共振仪表 +2 · 需要健康后勤人员在岗",
+                "requires": [
+                  {
+                    "type": "role_available",
+                    "role": "quartermaster",
+                    "healthyOnly": true
+                  },
+                  {
+                    "type": "flag",
+                    "id": "zh-shortage-cache-retrieved",
+                    "value": false
+                  }
+                ],
+                "effects": [
+                  {
+                    "op": "addResource",
+                    "key": "food",
+                    "value": 2
+                  },
+                  {
+                    "op": "adjustMeter",
+                    "key": "resonancePressure",
+                    "value": 2
+                  },
+                  {
+                    "op": "unlock",
+                    "key": "zh-shortage-cache-retrieved"
+                  },
+                  {
+                    "op": "recordHistory",
+                    "key": "zh-food-shortage-001:forage",
+                    "payload": {
+                      "route": "emergency-cache",
+                      "sourceId": "zh-shortage-cache-001",
+                      "amount": 2,
+                      "resonancePressure": 2
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "fallback": {
+          "ifMissingNpc": {
+            "id": "shortage_deferred",
+            "effects": [
+              {
+                "op": "adjustMeter",
+                "key": "campCollapse",
+                "value": 1
+              }
+            ]
+          },
+          "ifInsufficientPopulation": {
+            "id": "shortage_deferred",
+            "effects": [
+              {
+                "op": "adjustMeter",
+                "key": "campCollapse",
+                "value": 2
+              }
+            ]
+          },
+          "ifExpired": "ledger_only",
+          "ifSkipped": "ledger_only"
+        },
+        "hooks": [
+          "onDayStart"
+        ],
+        "repeatable": true,
+        "optional": true,
+        "source": {
+          "id": "zh-shortage-cache-001",
+          "food": 2,
+          "retrievalLimit": 1,
+          "flag": "zh-shortage-cache-retrieved"
+        },
+        "expression": {
+          "observerCommentary": {
+            "authority": "write_state"
+          }
+        }
+      }
+    ]
+  },
+  "ai": {
+    "generativeFeaturesDefault": false,
+    "policies": {
+      "observer": {
+        "authority": "expression_only"
+      }
+    }
+  },
+  "continuity": {
+    "importContracts": [],
+    "exportContracts": [
+      "observer_core_v1"
+    ]
+  }
+}

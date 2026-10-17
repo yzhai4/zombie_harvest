@@ -14,6 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -21,19 +23,170 @@ jobs:
         run: |
           node --check dist/actor-sprites.js
           node --check prototype/mobile-zombie-game/game.js
-          python - <<'PY'
-          from pathlib import Path
-          import re
-          html = Path('dist/index.html').read_text(encoding='utf-8')
-          scripts = re.findall(r'<script(?:\\s[^>]*)?>(.*?)</script>', html, re.S | re.I)
-          for i, script in enumerate(scripts):
-              Path(f'/tmp/zombie-inline-{i}.js').write_text(script, encoding='utf-8')
-          print(f'extracted {len(scripts)} inline scripts')
-          PY
-          for script in /tmp/zombie-inline-*.js; do node --check "$script"; done
+          node scripts/check-inline-syntax.mjs
+          node --check scripts/verify-three-days-artifacts.mjs
+          node --check scripts/export-three-days-artifacts.mjs
+          node --check scripts/runtime-source-target.mjs
+          node --check scripts/check-report-recovery.mjs
+          node --check scripts/check-plan-integrity.mjs
+          node --check scripts/check-plan-integrity-ui.mjs
+          node --check scripts/check-command-id-reservation.mjs
+          node --check scripts/check-repair-proof.mjs
+          node --check scripts/check-leader-llm-harness.mjs
+          node --check scripts/check-leader-harness-replay.mjs
+          node --check scripts/headless-leader-ledger-adapter.mjs
+          node --check scripts/check-leader-command-bridge.mjs
+          node --check scripts/check-leader-command-bridge-runtime.mjs
+          node --check scripts/check-daytime-combat.mjs
+          node --check scripts/check-combat-intent-v1.mjs
+          node --check scripts/lib/combat-intent-v1.mjs
+          node --check scripts/lib/event-gate-v1.mjs
+          node --check scripts/check-event-gate-v1.mjs
+          node --check scripts/check-event-gate-parity.mjs
+          node --check scripts/lib/relay-construction-v1.mjs
+          node --check scripts/check-relay-construction-v1.mjs
+          node --check scripts/check-relay-construction-producer.mjs
+          node --check scripts/lib/relay-construction-transaction-v1.mjs
+          node --check scripts/check-relay-construction-transaction-v1.mjs
+          node --check scripts/check-relay-construction-runtime.mjs
+          node --check scripts/check-relay-handoff-memory-v1.mjs
+          node --check scripts/browser-relay-handoff-memory-v1.mjs
+          node --check scripts/browser-relay-handoff-memory-context-v1.mjs
+          node --check scripts/browser-relay-handoff-memory-roster-v1.mjs
+          node --check scripts/lib/scenario-package-v1.mjs
+          node --check scripts/check-scenario-package-v1.mjs
+          node --check scripts/build-scenario-package.mjs
+          node --check scripts/check-scenario-boot-c1.mjs
+          node --check scripts/check-scenario-boot-c2.mjs
+          node --check scripts/browser-scenario-boot-c1.mjs
+          node --check scripts/browser-scenario-boot-c2.mjs
+          node --check scripts/lib/observer-expression-v1.mjs
+          node --check scripts/check-observer-expression-v1.mjs
+          node --check scripts/lib/npc-self-observation-v1.mjs
+          node --check scripts/check-npc-self-observation-v1.mjs
+          node --check scripts/lib/npc-direct-sight-v1.mjs
+          node --check scripts/check-npc-direct-sight-v1.mjs
+          node --check scripts/browser-npc-direct-sight-v1.mjs
+          node --check scripts/browser-npc-self-observation-v1.mjs
+          node --check scripts/check-gameplay-vertical-slice.mjs
+          node --check scripts/check-iteration-evidence.mjs
+          node --check scripts/check-iteration-evidence-self-test.mjs
+          node --check scripts/lib/source-runtime-fixture.mjs
+          node --check scripts/capture-episode-writer-fixture.mjs
+          node --check scripts/check-content-episode-v1.mjs
+          node --check scripts/browser-content-episode-v1.mjs
+          node --check scripts/check-npc-threat-attention.mjs
+          node --check scripts/check-outpost-presence-v1.mjs
+          node --check scripts/browser-outpost-presence-v1.mjs
+          node --check scripts/check-camp-rest-v1.mjs
+          node --check scripts/browser-camp-rest-v1.mjs
+          node --check scripts/browser-camp-rest-feedback-v1.mjs
+          node --check scripts/probe-food-shortage-strategies-v1.mjs
+          node --check scripts/check-shortage-choice-v2.mjs
+          node --check scripts/browser-natural-mixed-v1.mjs
+          node --check scripts/browser-shortage-choice-v2.mjs
+          node --check scripts/check-crop-target-v1.mjs
+          node --check scripts/browser-crop-target-v1.mjs
+          node --check scripts/check-npc-public-eligibility-v1.mjs
+          node --check scripts/browser-npc-public-actions-v1.mjs
       - name: Check deployable entrypoints
         run: |
           test -s dist/index.html
           test -s prototype/mobile-zombie-game/index.html
           grep -q '<html' dist/index.html
           grep -q '<html' prototype/mobile-zombie-game/index.html
+      - name: Validate content and night boundaries
+        run: |
+          node scripts/validate-content.mjs
+          node scripts/check-night-guard.mjs
+      - name: Execute registered-chain reducers
+        run: node scripts/check-content-chain.mjs
+      - name: Execute calendar, plan and camp input contracts
+        run: |
+          node scripts/check-plan-day.mjs
+          node scripts/check-camp-area.mjs
+          node scripts/check-plan-integrity.mjs
+          node scripts/check-plan-integrity-ui.mjs --html dist/index.html --io-adapter scripts/check-report-recovery.mjs --legacy-fixture scripts/fixtures/plan-integrity/plan-committed-legacy-basewriter.json --out "$RUNNER_TEMP/plan-integrity-ui.json"
+      - name: Execute save recovery and session lifecycle contracts
+        run: node scripts/check-report-recovery.mjs
+      - name: Execute command numbering and repair proof contracts
+        run: |
+          node scripts/check-command-id-reservation.mjs --html dist/index.html --io-adapter scripts/check-report-recovery.mjs --out "$RUNNER_TEMP/command-id-reservation.json"
+          node scripts/check-repair-proof.mjs --html dist/index.html --io-adapter scripts/check-report-recovery.mjs --legacy-repair-fixture scripts/fixtures/repair-proof/repair-legacy-basewriter.json --out "$RUNNER_TEMP/repair-proof.json"
+      - name: Execute leader LLM harness contract
+        run: node scripts/check-leader-llm-harness.mjs
+      - name: Execute leader harness replay contract
+        run: node scripts/check-leader-harness-replay.mjs
+      - name: Execute headless leader adapter contract
+        run: node scripts/headless-leader-ledger-adapter.mjs
+      - name: Execute leader CommandBus bridge contract
+        run: |
+          node scripts/check-leader-command-bridge.mjs
+          node scripts/check-leader-command-bridge-runtime.mjs
+      - name: Execute daytime combat contract
+        run: |
+          node scripts/check-daytime-combat.mjs
+          node scripts/check-combat-intent-v1.mjs
+          node scripts/check-npc-threat-attention.mjs
+          python scripts/check-three-day-safety.py
+      - name: Execute outpost presence and remote needs contracts
+        run: node scripts/check-outpost-presence-v1.mjs
+      - name: Execute incremental camp rest and passive recovery contracts
+        run: node scripts/check-camp-rest-v1.mjs --html dist/index.html --out "$RUNNER_TEMP/camp-rest-v1.json"
+      - name: Execute canonical EventGateV1 shadow contract
+        run: node scripts/check-event-gate-v1.mjs
+      - name: Compare inline and shadow EventGateV1 parity
+        run: node scripts/check-event-gate-parity.mjs
+      - name: Execute RelayConstructionV1 shadow contract
+        run: node scripts/check-relay-construction-v1.mjs
+      - name: Trace relay construction producer boundary
+        run: node scripts/check-relay-construction-producer.mjs
+      - name: Execute RelayConstructionV1 pure transaction contract
+        run: node scripts/check-relay-construction-transaction-v1.mjs
+      - name: Execute RelayConstructionTransactionV1 runtime stage contract
+        run: node scripts/check-relay-construction-runtime.mjs
+      - name: Execute sourced personal handoff memory and legacy save contracts
+        run: node scripts/check-relay-handoff-memory-v1.mjs --repo-root "$GITHUB_WORKSPACE" --html "$GITHUB_WORKSPACE/dist/index.html" --out "$RUNNER_TEMP/relay-handoff-memory-v1.json"
+      - name: Execute Scenario package and observer contracts
+        run: |
+          node scripts/build-scenario-package.mjs --check
+          node scripts/check-scenario-package-v1.mjs
+          node scripts/check-observer-expression-v1.mjs
+      - name: Execute actual Scenario C1 boot, first writer and legacy continuation
+        run: node scripts/check-scenario-boot-c1.mjs --html dist/index.html --core-module scripts/lib/scenario-package-v1.mjs --input-manifest scripts/fixtures/scenario-boot-c1/frozen-input-manifest.json --out "$RUNNER_TEMP/scenario-boot-c1"
+      - name: Execute Scenario C2 compilation, atomic catalog and content binding
+        run: node scripts/check-scenario-boot-c2.mjs --html dist/index.html --core-module scripts/lib/scenario-package-v1.mjs --repo-root . --out "$RUNNER_TEMP/scenario-boot-c2"
+      - name: Execute source gameplay vertical slice
+        run: node scripts/check-gameplay-vertical-slice.mjs
+      - name: Execute repeatable episode migration and CAS contracts
+        run: node scripts/check-content-episode-v1.mjs
+      - name: Execute shortage choice v2 and historical writer migration contracts
+        run: node scripts/check-shortage-choice-v2.mjs --html dist/index.html --baseline-report docs/experiments/runs/food-shortage-strategies-32f911-20261017/report.json --out "$RUNNER_TEMP/shortage-choice-v2.json"
+      - name: Execute live crop targets, public actions and newly built plot contracts
+        run: node scripts/check-crop-target-v1.mjs --html dist/index.html --out "$RUNNER_TEMP/crop-target-v1.json"
+      - name: Execute NPC public qualification, typed outcomes and actual interruption contracts
+        run: node scripts/check-npc-public-eligibility-v1.mjs --html dist/index.html --out "$RUNNER_TEMP/npc-public-eligibility-v1.json"
+      - name: Execute trusted NPC self knowledge, disclosure and first-talk contracts
+        run: node scripts/check-npc-self-observation-v1.mjs --html dist/index.html --io-adapter scripts/check-report-recovery.mjs --out "$RUNNER_TEMP/npc-self-observation-v1.json"
+      - name: Execute actual NPC direct sight, disclosure and public report contracts
+        run: node scripts/check-npc-direct-sight-v1.mjs --html dist/index.html --io-adapter scripts/check-report-recovery.mjs --out "$RUNNER_TEMP/npc-direct-sight-v1.json"
+      - name: Execute persistent NPC recovery through actual routine and native saves
+        run: |
+          REST_WORK_HTML_SHA=$(sha256sum dist/index.html | cut -d' ' -f1)
+          node scripts/check-npc-rest-work-v1.mjs --html dist/index.html --expect-html-sha256 "$REST_WORK_HTML_SHA" --io-adapter scripts/check-report-recovery.mjs --repro-root scripts/fixtures/npc-rest-work-v1/repro --out "$RUNNER_TEMP/npc-rest-work-v1.json"
+          node --check scripts/browser-npc-rest-work-v1.mjs
+      - name: Execute legacy and current crop proof method controls
+        run: python -c "import sys; sys.path.insert(0, 'scripts'); from report_recovery_full import crop_method_controls; result = crop_method_controls(); print('synthetic crop proof method checks:', len(result['controls']))"
+      - name: Reject stale or incomplete evidence manifests
+        run: node scripts/check-iteration-evidence-self-test.mjs
+      - name: Check iteration evidence freshness
+        run: node scripts/check-iteration-evidence.mjs --manifest docs/qa/iteration-manifest-v1.json --html dist/index.html --require-git
+      - name: Verify save projections and static smoke
+        run: |
+          node scripts/replay-harness.mjs --self-test
+          node scripts/smoke-three-days.mjs
+      - name: Check browser runner syntax
+        run: |
+          python -m py_compile scripts/server-playtest.py scripts/server-content-chain.py scripts/server-three-days.py
+          python -m py_compile scripts/check-three-day-safety.py
+          python -m py_compile scripts/server-report-recovery.py scripts/report_recovery_fixtures.py scripts/report_recovery_full.py

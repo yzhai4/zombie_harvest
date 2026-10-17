@@ -1,0 +1,496 @@
+{
+  "status": "EXECUTION_PASSED_INDEPENDENT_REVIEW_PENDING",
+  "terminalExitCode": 0,
+  "run": "fresh07",
+  "sourceHtmlSha256": "9edb6d3c3daa7ec63d90594381d811cb077828fd0955fb7095c601ce91b5b87b",
+  "runnerSha256": "87120f7f7d20ce4b9b64183730836f86d806b8bdecb8f04a81bb8a0280af6f1b",
+  "protocolSha256": "1cdf608d0ddd7e05a1dd711c0ec2ad51c7f26e5d181ce0bb6745f24687148e01",
+  "methodSupplementSha256": "fc8a9462eea25e74d411f07946670305dde4754b23997d3521880847e2973238",
+  "report": {
+    "file": "report.json",
+    "sha256": "8aaa08e16be87c8cb6278b1ce99c3b2e48d4c629cce740c1100e84202c825802"
+  },
+  "terminalWriter": {
+    "file": "terminal-before-cleanup-save.json",
+    "sha256": "4e4744b785cda0ebd5a7df9e4fa2894cdf18858f8f46ee2bfb9953d9577c75ac"
+  },
+  "result": "SHORT_MIXED_OBSERVED",
+  "ok": true,
+  "passed": 16,
+  "count": 16,
+  "errors": [],
+  "elapsedWallMs": 60493,
+  "meaningfulActions": 7,
+  "budget": {
+    "wallSeconds": 480,
+    "meaningfulActions": 10,
+    "meals": 2,
+    "daytimeAttacks": 4,
+    "stopPlayerHp": 60,
+    "minimumLaborEnergy": 15,
+    "retainFood": 3,
+    "maximumSingleIdleSeconds": 120,
+    "maximumTotalIdleSeconds": 360,
+    "training": 0,
+    "purposelessRest": 0,
+    "maximumGoalDrivenRestMinutes": 30,
+    "maximumGoalDrivenRestInstances": 1,
+    "navigationSecondsPerGoal": 30,
+    "maximumNavigationDetours": 3,
+    "encounterWarningPercent": 80,
+    "npcApproachRetryLimit": 2,
+    "npcCanvasObservationMaxMs": 250
+  },
+  "requiredCoverage": {
+    "required": [
+      "eventChoice",
+      "resourceCollection",
+      "npcInteraction",
+      "exploration",
+      "planting",
+      "usefulConstruction",
+      "goalDrivenRest"
+    ],
+    "missing": []
+  },
+  "terminal": {
+    "day": 1,
+    "hour": 9,
+    "minute": 23,
+    "playerHP": 100,
+    "energy": 67,
+    "sanity": 75,
+    "food": 13,
+    "roster": 10,
+    "living": 10,
+    "npcDeaths": [],
+    "campCollapse": 0,
+    "coreBuildings": [
+      {
+        "id": "bld-4ep952",
+        "type": "shelter",
+        "hp": null
+      },
+      {
+        "id": "bld-l3hz1u",
+        "type": "bunker",
+        "hp": 12
+      },
+      {
+        "id": "bld-1ofdmcs",
+        "type": "depot",
+        "hp": 10
+      }
+    ],
+    "eventSeq": 165
+  },
+  "capturedMainDocuments": [
+    {
+      "kind": "fresh-main",
+      "sha256": "9edb6d3c3daa7ec63d90594381d811cb077828fd0955fb7095c601ce91b5b87b"
+    },
+    {
+      "kind": "public-reload",
+      "sha256": "9edb6d3c3daa7ec63d90594381d811cb077828fd0955fb7095c601ce91b5b87b"
+    },
+    {
+      "kind": "terminal-public-pagehide-checkpoint-no-continue",
+      "sha256": "9edb6d3c3daa7ec63d90594381d811cb077828fd0955fb7095c601ce91b5b87b"
+    }
+  ],
+  "actualCanvasObservationCount": 0,
+  "actualApproachCount": 0,
+  "canvasBranchExecuted": false,
+  "scope": {
+    "naturalShortMixed": true,
+    "naturalThreeDays": false,
+    "encounter": false,
+    "harvest": false,
+    "actorProjectionComplete": false,
+    "privilegedSafetySource": "read-only complete actual writer worldZombies and kind/speedFactor/position; conservative veto only; not actor-authorized observation",
+    "automaticRestart": false
+  },
+  "facts": {
+    "firstDialogue": {
+      "eventId": "evt-000048",
+      "commandId": "cmd-000117",
+      "actorId": "player-1",
+      "npcId": "sergeant",
+      "type": "npc.dialogueOpened",
+      "grossEnergy": 0,
+      "elapsedMinutes": 0,
+      "countedAsSupport": false
+    },
+    "confirmedSupport": {
+      "eventId": "evt-000055",
+      "commandId": "cmd-000119",
+      "actorId": "player-1",
+      "npcId": "sergeant",
+      "operation": "support-requested",
+      "grossEnergy": 2,
+      "payment": {
+        "cost": {
+          "energy": 2
+        },
+        "before": {
+          "energy": 66
+        },
+        "after": {
+          "energy": 64
+        }
+      },
+      "clock": {
+        "before": {
+          "day": 1,
+          "hour": 7,
+          "minute": 12,
+          "world": 432
+        },
+        "after": {
+          "day": 1,
+          "hour": 7,
+          "minute": 27,
+          "world": 447
+        },
+        "requestedMinutes": 15,
+        "elapsedMinutes": 15
+      },
+      "advance": {
+        "commandId": "cmd-000120",
+        "eventId": "evt-000052",
+        "causationId": "cmd-000119",
+        "minutes": 15,
+        "tick": {
+          "world": 447,
+          "phase": 0,
+          "schedule": 87
+        }
+      },
+      "target": {
+        "id": "sergeant",
+        "before": {
+          "id": "sergeant",
+          "supportRequested": false,
+          "order": null,
+          "bond": 0,
+          "hp": 100,
+          "lifeState": "healthy",
+          "sanity": 74,
+          "helpedByPlayer": 0
+        },
+        "beforeAdvance": {
+          "id": "sergeant",
+          "supportRequested": true,
+          "order": "guard",
+          "bond": 1,
+          "hp": 100,
+          "lifeState": "healthy",
+          "sanity": 74,
+          "helpedByPlayer": 0
+        },
+        "afterAdvance": {
+          "id": "sergeant",
+          "supportRequested": true,
+          "order": "guard",
+          "bond": 1,
+          "hp": 100,
+          "lifeState": "healthy",
+          "sanity": 74,
+          "helpedByPlayer": 0
+        },
+        "atCompletion": {
+          "id": "sergeant",
+          "supportRequested": true,
+          "order": "guard",
+          "bond": 1,
+          "hp": 100,
+          "lifeState": "healthy",
+          "sanity": 76,
+          "helpedByPlayer": 1
+        },
+        "presentAtCompletion": true,
+        "snapshotStages": {
+          "before": "before-payment-and-own-effects",
+          "beforeAdvance": "after-pre-simulation-own-effects",
+          "afterAdvance": "after-world-simulation-before-post-effects",
+          "atCompletion": "reducer-final-state"
+        }
+      }
+    },
+    "realClock": {
+      "initialMinute": 360,
+      "terminalMinute": 563,
+      "timeEventCount": 78,
+      "summedActualMinutes": 203,
+      "allTimeEventsJoinActualReplayAdvance": true
+    }
+  },
+  "cleanup": {
+    "browserClosed": true,
+    "contextClosed": true,
+    "httpServerClosed": true,
+    "UIObserversRestored": true
+  },
+  "artifacts": [
+    {
+      "file": "000-fresh-initial-save.json",
+      "bytes": 58992,
+      "sha256": "1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f"
+    },
+    {
+      "file": "000-fresh-initial-ui.json",
+      "bytes": 15971,
+      "sha256": "a50feb31d6e4c7e9d221a085c7393e47beb85b6d59d1c9c250b58f278af867c8"
+    },
+    {
+      "file": "000-fresh-initial.png",
+      "bytes": 492022,
+      "sha256": "4d08ea879ab2396d6cd3ef89391b18dfdbf59df021933d266d10774b29585ba8"
+    },
+    {
+      "file": "001-0-event.resolved-before-save.json",
+      "bytes": 58992,
+      "sha256": "1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f"
+    },
+    {
+      "file": "001-0-event.resolved-before-ui.json",
+      "bytes": 16031,
+      "sha256": "7c437db7366682689c6eea036ffd6454c80f41fa3c966c021e3f163fa90ae9e1"
+    },
+    {
+      "file": "002-0-event.resolved-after-save.json",
+      "bytes": 63198,
+      "sha256": "033c580ceda34ae5287dcd4aa446f9d32cdfe0dc6398962dffc6db9d83d4af4f"
+    },
+    {
+      "file": "002-0-event.resolved-after-ui.json",
+      "bytes": 16032,
+      "sha256": "1a6bc1af53fe8e70a8e52d63237c822c7c7e32a849b246c97001d3523cae4b54"
+    },
+    {
+      "file": "002-0-event.resolved-after.png",
+      "bytes": 330232,
+      "sha256": "6f56eebea46b81723f81886561946d23badf137d62f090c8de38206e63a7dce0"
+    },
+    {
+      "file": "003-1-resource.collected-before-save.json",
+      "bytes": 70623,
+      "sha256": "357fa757fc6b4ac889e45bab8a543e56cc22e5b5a273d75ec8a30dc6ad7a8dc6"
+    },
+    {
+      "file": "003-1-resource.collected-before-ui.json",
+      "bytes": 42217,
+      "sha256": "2d289ca4a7292536c58205d47ad2c2d6e03c71e5fa40faf86fced394f9c2db04"
+    },
+    {
+      "file": "004-1-resource.collected-after-save.json",
+      "bytes": 78355,
+      "sha256": "53d2442a1c2e150fe4bd874ca314ab0e3036b91a8c5fbc6870451256de4543d9"
+    },
+    {
+      "file": "004-1-resource.collected-after-ui.json",
+      "bytes": 42217,
+      "sha256": "0a3dfae47de97aa945399cc3277b0071e5d0fd2bb694c1450275701641be1bc7"
+    },
+    {
+      "file": "004-1-resource.collected-after.png",
+      "bytes": 526690,
+      "sha256": "acf2f5110b31f5224f29ee26a62de15e6eea3515455dd1a7d50f800ccaae8cd3"
+    },
+    {
+      "file": "005-2-landmark.discovered-before-save.json",
+      "bytes": 85379,
+      "sha256": "10008b2426634eda5e6dfe00c7097eb1f6a754235babf6c348e616f0884b4a19"
+    },
+    {
+      "file": "005-2-landmark.discovered-before-ui.json",
+      "bytes": 38076,
+      "sha256": "62d8c27a8c3af6d815351d9c8f6e1ae6fa3006437b1ca4e7e3408cfa8cfea9ff"
+    },
+    {
+      "file": "006-2-landmark.discovered-after-save.json",
+      "bytes": 101338,
+      "sha256": "a7fe628c8b74360a8e0db5edae09d5ec8707b1a491fa9c24c7f6fcbeea0000d8"
+    },
+    {
+      "file": "006-2-landmark.discovered-after-ui.json",
+      "bytes": 38103,
+      "sha256": "cd4096731e34fac2fcfba49816cc4dc1ef9540717659e950c103b8c8f4b6b241"
+    },
+    {
+      "file": "006-2-landmark.discovered-after.png",
+      "bytes": 549000,
+      "sha256": "224f9e92df6597fe84ef182edc19067f229cad530b89f32baa7f8c4fd4c53cd6"
+    },
+    {
+      "file": "007-3-npc.interacted-before-save.json",
+      "bytes": 105329,
+      "sha256": "99bb75b63a163ca911d210c9e92e8ef1031a44e9e1f0ed64f2091be511449176"
+    },
+    {
+      "file": "007-3-npc.interacted-before-ui.json",
+      "bytes": 38100,
+      "sha256": "cb69462f8e81e84c528c9003eabfb3c8849eed31b19c55f352ee7e18ff63c632"
+    },
+    {
+      "file": "008-3-npc.interacted-after-save.json",
+      "bytes": 111505,
+      "sha256": "61cd1fa4c26b670ae9ab6b7ef2cfa3482e0399e3d8abcacdac100139e02f9475"
+    },
+    {
+      "file": "008-3-npc.interacted-after-ui.json",
+      "bytes": 37721,
+      "sha256": "3f6a353a6ab615b48c58497b7adf3013dec38be7d138a021d7838c99ecd3f00a"
+    },
+    {
+      "file": "008-3-npc.interacted-after.png",
+      "bytes": 533671,
+      "sha256": "fd1c9cd02dec40962936bc57910909a1b33a827a4922c66e069e412fccf1d9f6"
+    },
+    {
+      "file": "009-rest-purpose-before-save.json",
+      "bytes": 111505,
+      "sha256": "61cd1fa4c26b670ae9ab6b7ef2cfa3482e0399e3d8abcacdac100139e02f9475"
+    },
+    {
+      "file": "009-rest-purpose-before-ui.json",
+      "bytes": 40106,
+      "sha256": "b8c37ee90b9b9d02176cc030a3b2cf17fe8cbdcbb5fe5db7996c5ffeed58d9dd"
+    },
+    {
+      "file": "010-rest-purpose-after-save.json",
+      "bytes": 173534,
+      "sha256": "134a30b435d1e6d5e87f259b5fbcf3f2f8841d71556968506ea34ad057b722e8"
+    },
+    {
+      "file": "010-rest-purpose-after-ui.json",
+      "bytes": 40010,
+      "sha256": "0dc6116ab463de6dc6a9d1f4b1ef9e3b71270de361d037cc2f8c5d6bc99519cf"
+    },
+    {
+      "file": "010-rest-purpose-after.png",
+      "bytes": 541621,
+      "sha256": "eb43b8a1e0ba994145326f79438a1f07963f3ca765cbd26607a0029ae3e9ce42"
+    },
+    {
+      "file": "011-5-crop.changed-before-save.json",
+      "bytes": 194457,
+      "sha256": "9202844846169342cf52e528d59424faf05fa2e05a9a0db869b36f5c5af934ed"
+    },
+    {
+      "file": "011-5-crop.changed-before-ui.json",
+      "bytes": 56490,
+      "sha256": "347c4d60fb551ec0fd4d21c4e96e140c37a254ad5351eaedc44a293d63867a9d"
+    },
+    {
+      "file": "012-5-crop.changed-after-save.json",
+      "bytes": 199388,
+      "sha256": "f7ce6a060ce266b2ff98b3fa25c47c99cb4d894181a99cd31302b9aa57fe5f54"
+    },
+    {
+      "file": "012-5-crop.changed-after-ui.json",
+      "bytes": 56491,
+      "sha256": "226c36f1ce4813f3162c260beeec3e4660392f8a6dc21fa07f0910f7e08f9fb0"
+    },
+    {
+      "file": "012-5-crop.changed-after.png",
+      "bytes": 560587,
+      "sha256": "a9d1441e754f6b32e8590785d15e7f6d1d2e111fb85dbff31d01c8af60373c94"
+    },
+    {
+      "file": "013-6-building.constructed-before-save.json",
+      "bytes": 199388,
+      "sha256": "f7ce6a060ce266b2ff98b3fa25c47c99cb4d894181a99cd31302b9aa57fe5f54"
+    },
+    {
+      "file": "013-6-building.constructed-before-ui.json",
+      "bytes": 58637,
+      "sha256": "783ed650fcd514514727755b6db0c96fe0ac023a86d48d81ab0a3d865083863a"
+    },
+    {
+      "file": "014-6-building.constructed-after-save.json",
+      "bytes": 210595,
+      "sha256": "76cc53605216d3c166820257d3f217804315b37eecd156776714c0f419fe627b"
+    },
+    {
+      "file": "014-6-building.constructed-after-ui.json",
+      "bytes": 56536,
+      "sha256": "1f6af27bc011f368687f16405fafced686af7f9c7e6b8c291ec575baaa3fd14c"
+    },
+    {
+      "file": "014-6-building.constructed-after.png",
+      "bytes": 558117,
+      "sha256": "ce2e676e8d62baac10d213952f05451981149f3846e11223341f55e40b4f36cb"
+    },
+    {
+      "file": "015-before-public-reload-save.json",
+      "bytes": 210595,
+      "sha256": "76cc53605216d3c166820257d3f217804315b37eecd156776714c0f419fe627b"
+    },
+    {
+      "file": "015-before-public-reload-ui.json",
+      "bytes": 56526,
+      "sha256": "8afa92bc0f733e7980c321e5084a09cc2c7cfb0bf0263dad8be887ef6613b04d"
+    },
+    {
+      "file": "015-before-public-reload.png",
+      "bytes": 557732,
+      "sha256": "77cfd209b26f2e8c335c016189c54886841365d0f5b5ce3d8d87ac89b376580e"
+    },
+    {
+      "file": "016-after-reload-normal-tick-save.json",
+      "bytes": 210638,
+      "sha256": "38894a96ca2392cffe55751f87ab157b49d57b4e056e4cb3ea2a560880d2cd82"
+    },
+    {
+      "file": "016-after-reload-normal-tick-ui.json",
+      "bytes": 56558,
+      "sha256": "0b5c94c6fcffe1437f4eae4617373a065f3a70023293d818c1f66b23dc1c138a"
+    },
+    {
+      "file": "016-after-reload-normal-tick.png",
+      "bytes": 561178,
+      "sha256": "9f8f73f71c21fa65bb07eb40b701718ba7306788dbee832795415ce49634ec81"
+    },
+    {
+      "file": "actor-sprites-executed.js",
+      "bytes": 19246,
+      "sha256": "257f4b38760813c21c723bbb9f934f1198e742fd1223db48705f34787e0f71b7"
+    },
+    {
+      "file": "npc-method-supplement-executed.md",
+      "bytes": 2685,
+      "sha256": "fc8a9462eea25e74d411f07946670305dde4754b23997d3521880847e2973238"
+    },
+    {
+      "file": "protocol-executed.md",
+      "bytes": 16411,
+      "sha256": "1cdf608d0ddd7e05a1dd711c0ec2ad51c7f26e5d181ce0bb6745f24687148e01"
+    },
+    {
+      "file": "report.json",
+      "bytes": 542877,
+      "sha256": "8aaa08e16be87c8cb6278b1ce99c3b2e48d4c629cce740c1100e84202c825802"
+    },
+    {
+      "file": "runner-executed.mjs",
+      "bytes": 55756,
+      "sha256": "87120f7f7d20ce4b9b64183730836f86d806b8bdecb8f04a81bb8a0280af6f1b"
+    },
+    {
+      "file": "source.html",
+      "bytes": 822886,
+      "sha256": "9edb6d3c3daa7ec63d90594381d811cb077828fd0955fb7095c601ce91b5b87b"
+    },
+    {
+      "file": "terminal-before-cleanup-save.json",
+      "bytes": 210642,
+      "sha256": "4e4744b785cda0ebd5a7df9e4fa2894cdf18858f8f46ee2bfb9953d9577c75ac"
+    },
+    {
+      "file": "terminal-before-cleanup.png",
+      "bytes": 560528,
+      "sha256": "4b13d1c9c03a7bace43ba5848215f12aa55e9f8506b1817415dd5cd94dc826ee"
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import vm from 'node:vm';
+import {fileURLToPath} from 'node:url';
+import {createHash} from 'node:crypto';
+const dir=path.dirname(fileURLToPath(import.meta.url)),sha=b=>createHash('sha256').update(b).digest('hex'),plain=v=>JSON.parse(JSON.stringify(v));
+const out=path.join(dir,'execution01');assert.ok(!fs.existsSync(out));fs.mkdirSync(out);
+const spec=JSON.parse(fs.readFileSync(path.join(dir,'execution-inputs.json'),'utf8'));
+for(const f of spec.files)assert.equal(sha(fs.readFileSync(path.join(dir,f.path))),f.sha256);
+const htmlPath=path.join(dir,'source.html'),html=fs.readFileSync(htmlPath,'utf8');
+const inline=[...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map(x=>x[1]).filter(x=>x.trim());assert.equal(inline.length,1);new vm.Script(inline[0]);
+const io=fs.readFileSync(path.join(dir,'io-adapter.mjs'),'utf8'),start=io.indexOf('function runtime(entries = []) {'),end=io.indexOf('\nfunction envelope(payload)',start);assert.ok(start>=0&&end>start);
+const saveKey='zombie-harvest-progress-v12',runtime=vm.runInNewContext(`(${io.slice(start,end)})`,{inline,htmlPath,saveKey,vm,assert,console,URLSearchParams});
+const report={schema:'RelayActualHandoffSourceProducerV1',method:'TEST-ONLY actual full inline source/Continue/move/discover/handoff/writer; DOM/storage/timer IO controlled; privileged full-map navigation, no direct business-state mutation',sourceHtmlSha256:sha(Buffer.from(html)),adapterSha256:sha(Buffer.from(io)),runnerSha256:sha(fs.readFileSync(fileURLToPath(import.meta.url))),naturalGameplay:false,browser:false,timerPolicy:'Queued automatic timers are not drained while source movement pulses execute; only real discoverLandmark advance20 simulates the world. This is not wall-clock traversal or natural play.',steps:[],artifacts:[],ok:false};
+function artifact(name,data){const b=Buffer.isBuffer(data)?data:Buffer.from(typeof data==='string'?data:JSON.stringify(data,null,2)+'\n');fs.writeFileSync(path.join(out,name),b);const ref={path:name,sha256:sha(b),bytes:b.length};report.artifacts.push(ref);return ref;}
+const raw=fs.readFileSync(path.join(dir,'A-original-native.json'),'utf8'),original=JSON.parse(raw).payload;
+let r;
+function summary(s){return plain({day:s.day,hour:s.hour,minute:s.minute,hp:s.hp,energy:s.energy,food:s.food,player:s.player,relay:s.relayProject,specialItems:s.specialItems,population:s.npcs.length,living:s.npcs.filter(n=>n.lifeState!=='dead').length,enemies:s.worldZombies.map(z=>({id:z.id,hp:z.hp})),eventSeq:s.worldMeta.eventSeq,commandSeq:s.worldMeta.commandSeq});}
+function save(name){assert.equal(r.api.save(),true);const value=r.storage.get(saveKey);const validation=r.api.validate({raw:value,sourceCategory:'primary'});assert.equal(validation.ok,true,JSON.stringify(validation));return artifact(name,value);}
+try{
+ r=runtime([[saveKey,raw]]);r.emit('continueSaveBtn','click');assert.equal(r.api.started,true);assert.equal(r.api.session.mode,'DAY');
+ vm.runInContext(`globalThis.relayProducerQa={move,discoverLandmark,handoffRelayCore,token:relayHandoffToken,canOccupy:(x,y)=>canOccupyContinuous(state.player,x,y),blocked:isBlocked,distance:distanceBetween,minute:worldMinute};`,r.context);
+ const q=r.context.relayProducerQa,s=r.api.state;
+ assert.equal(s.npcs.length,10);assert.equal(s.worldZombies.length,4);assert.deepEqual(plain(s.worldZombies),original.worldZombies);assert.deepEqual(plain(s.scenarioSnapshot),original.scenarioSnapshot);assert.equal(s.worldMeta.rngState,original.worldMeta.rngState);
+ report.steps.push({operation:'actual-continue',after:summary(s)});save('01-after-continue-native.json');
+ function navigate(target,label){
+  // A* queries the actual source occupancy rule. No search node is installed in GameState.
+  const origin={x:s.player.x,y:s.player.y},key=(x,y)=>x+','+y,coords=(ix,iy)=>({x:origin.x+ix*.1,y:origin.y+iy*.1}),distance=p=>Math.hypot(p.x-target.x,p.y-target.y);
+  const heap=[],best=new Map([[key(0,0),0]]),parents=new Map(),known=new Map([[key(0,0),[0,0]]]);
+  const push=x=>{heap.push(x);let i=heap.length-1;while(i>0){let p=(i-1)>>1;if(heap[p].f<=x.f)break;heap[i]=heap[p];i=p;}heap[i]=x;};
+  const pop=()=>{const top=heap[0],last=heap.pop();if(heap.length){let i=0;while(i*2+1<heap.length){let c=i*2+1;if(c+1<heap.length&&heap[c+1].f<heap[c].f)c++;if(heap[c].f>=last.f)break;heap[i]=heap[c];i=c;}heap[i]=last;}return top;};
+  push({ix:0,iy:0,g:0,f:Math.max(0,distance(origin)-1.2)/.1});let goal=null,expanded=0;
+  while(heap.length&&expanded<90000){const n=pop(),nk=key(n.ix,n.iy);if(n.g!==best.get(nk))continue;expanded++;const p=coords(n.ix,n.iy);if(distance(p)<=1.2){goal=nk;break;}
+   for(const [dx,dy] of [[1,0],[0,1],[-1,0],[0,-1]]){const ix=n.ix+dx,iy=n.iy+dy,np=coords(ix,iy),k=key(ix,iy),g=n.g+1;if(np.x<0||np.y<0||np.x>=36||np.y>=24||g>=(best.get(k)??Infinity))continue;
+    const aligned=Math.abs(p.x-Math.round(p.x))<1e-6&&Math.abs(p.y-Math.round(p.y))<1e-6;
+    if(aligned&&q.blocked(Math.floor(p.x+dx),Math.floor(p.y+dy)))continue;
+    if(!q.canOccupy(np.x,np.y))continue;
+    best.set(k,g);known.set(k,[ix,iy]);parents.set(k,{prior:nk,dx,dy});push({ix,iy,g,f:g+Math.max(0,distance(np)-1.2)/.1});
+   }
+  }
+  assert.ok(goal,`navigation exhausted ${label}, expanded ${expanded}`);
+  const route=[];for(let k=goal;k!==key(0,0);){const edge=parents.get(k);route.push(edge);k=edge.prior;}route.reverse();
+  const executed=[];
+  for(const step of route){const before=plain(s.player),result=q.move(step.dx,step.dy),after=plain(s.player);executed.push({dx:step.dx,dy:step.dy,before,after,result:plain(result)});assert.equal(result.ok,true);assert.ok(Math.hypot(after.x-before.x,after.y-before.y)>.09,'real move must move');assert.equal(s.gameOver,null);}
+  assert.ok(q.distance(s.player,target)<=1.25);const ref=artifact(label+'-actual-movement.json',{target:plain(target),origin,expanded,pulses:executed.length,executed});report.steps.push({operation:'actual-movement',label,pulses:executed.length,worldMinute:q.minute(),artifact:ref,after:summary(s)});
+ }
+ const tower=s.landmarks.find(x=>x.type==='radioTower'&&!x.found);assert.ok(tower);navigate(tower,'02-to-radio-tower');save('03-before-discover-native.json');
+ const before=summary(s),seq=s.worldMeta.eventSeq,commandSeq=s.worldMeta.commandSeq,result=q.discoverLandmark(tower);assert.equal(result.ok,true);assert.equal(s.specialItems.relayCore,1);assert.equal(s.relayProject.status,'core-recovered');assert.equal((s.day-1)*1440+s.hour*60+s.minute,original.hour*60+original.minute+20);
+ const events=plain(s.worldMeta.events.filter(e=>e.seq>seq)),commands=plain(s.worldMeta.replay.commands.filter(c=>Number(c.commandId?.slice(4))>commandSeq));
+ report.steps.push({operation:'actual-discover',result:plain(result),before,after:summary(s),newEvents:events,newCommands:commands,grossEnergy:3,requestedMinutes:20});save('04-after-discover-native.json');assert.equal(s.gameOver,null);
+ const commander=s.npcs.find(x=>x.id==='commander'&&x.lifeState!=='dead');assert.ok(commander);navigate(commander,'05-to-commander');save('06-before-handoff-native.json');
+ const token=plain(q.token()),handoffSeq=s.worldMeta.eventSeq,beforeHandoff=summary(s),handoff=q.handoffRelayCore(token);assert.equal(handoff.ok,true);assert.equal(s.relayProject.status,'briefed');assert.equal(s.specialItems.relayCore,0);
+ const handoffEvents=plain(s.worldMeta.events.filter(e=>e.seq>handoffSeq)),handoffEvent=handoffEvents.find(e=>e.type==='relay.coreHandedOff');assert.ok(handoffEvent);assert.equal(handoffEvent.commandId,handoff.commandId);assert.equal(handoffEvent.actorId,'player-1');for(const [k,v] of Object.entries(token))assert.equal(handoffEvent.payload[k],v);
+ report.steps.push({operation:'actual-handoff',token,result:plain(handoff),before:beforeHandoff,after:summary(s),newEvents:handoffEvents});report.native=save('07-briefed-native.json');
+ const nativeRaw=r.storage.get(saveKey),first=JSON.parse(nativeRaw).payload;assert.deepEqual(first.scenarioSnapshot,original.scenarioSnapshot);assert.deepEqual(first.npcs.map(n=>n.id),original.npcs.map(n=>n.id));assert.deepEqual(first.worldZombies.map(z=>z.id),original.worldZombies.map(z=>z.id));
+ const again=runtime([[saveKey,nativeRaw]]);again.emit('continueSaveBtn','click');assert.equal(again.api.started,true);assert.equal(again.api.save(),true);const againRaw=again.storage.get(saveKey);assert.equal(again.api.validate({raw:againRaw,sourceCategory:'primary'}).ok,true);const second=JSON.parse(againRaw).payload,expected=plain(first);expected.worldMeta.lastCheckpointReason='session-start';assert.deepEqual(second,expected,'second Continue preserves entire payload except existing session-start checkpoint reason');artifact('08-second-continue-native.json',againRaw);
+ report.secondContinue={completePayloadEqualExceptExactCheckpointReason:true,noNewMigration:true,previousReason:first.worldMeta.lastCheckpointReason,currentReason:second.worldMeta.lastCheckpointReason};assert.deepEqual(second.worldMeta.events,first.worldMeta.events);report.ok=true;
+}catch(error){report.error=String(error.stack||error);if(r){artifact('failure-runtime.json',plain(r.api.state));try{report.failureNative=save('failure-native.json');}catch(e){report.failureSaveError=String(e.stack||e);}}}
+for(const f of spec.files)assert.equal(sha(fs.readFileSync(path.join(dir,f.path))),f.sha256);
+artifact('report.json',report);fs.writeFileSync(path.join(out,'terminal.json'),JSON.stringify({terminal:true,exitCode:report.ok?0:1,reportSha256:sha(fs.readFileSync(path.join(out,'report.json'))),sourceHtmlSha256:report.sourceHtmlSha256,runnerSha256:report.runnerSha256},null,2)+'\n');console.log(JSON.stringify({ok:report.ok,sourceHtmlSha256:report.sourceHtmlSha256,steps:report.steps.map(x=>({operation:x.operation,label:x.label,pulses:x.pulses,after:x.after})),error:report.error||null,native:report.native||null},null,2));process.exitCode=report.ok?0:1;

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Save fixtures and deterministic replay harness for v79.
+ * Save fixtures and deterministic replay harness for v83 outpost accounting.
  *
  * This intentionally does not import or execute dist/index.html.  It mirrors
  * the save envelope and replay ledger contracts so that malformed saves and
@@ -14,8 +14,8 @@ import { fileURLToPath } from 'node:url';
 // v81 adds the content-state plan meeting contract to the save envelope.
 // Keep the harness version in lockstep with the browser reducer so fixtures
 // catch accidental downgrades while still allowing migration of v79/v80 saves.
-export const SAVE_VERSION = 20;
-export const CONTENT_SCHEMA_VERSION = 2;
+export const SAVE_VERSION = 21;
+export const CONTENT_SCHEMA_VERSION = 3;
 export const WORLD_SEED = 481516234;
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -31,7 +31,6 @@ export function checksum(value) {
   }
   return (hash >>> 0).toString(16);
 }
-
 /** Stable object key ordering for replay hashes across Node/browser versions. */
 export function canonical(value) {
   if (Array.isArray(value)) return value.map(canonical);
@@ -84,6 +83,7 @@ const DEFAULT_CONTENT_STATE = Object.freeze({
     history: []
   },
   unlockedTech: [], unlockedWeapons: ['rustAxe'], unlockedBlueprints: [], flags: {},
+  npcRoster: { promotedNpcIds: [], promotionHistory: [] },
   scheduledEvents: [], triggeredEvents: [], activeChains: {}, completedChains: [],
   appliedEffects: [], outposts: {}, history: []
 });
@@ -105,7 +105,8 @@ export function migrateContentState(raw = {}) {
     contentVersion: CONTENT_SCHEMA_VERSION,
     meters: { ...defaults.meters, ...sourceMeters, ...(sourceMeters.campTrust == null && source.campTrust != null ? { campTrust: source.campTrust } : {}) },
     autonomyWeights: { ...defaults.autonomyWeights, ...(source.autonomyWeights || {}) },
-    planMeeting: { ...defaults.planMeeting, ...sourcePlan }
+    planMeeting: { ...defaults.planMeeting, ...sourcePlan },
+    npcRoster: { ...defaults.npcRoster, ...(source.npcRoster || {}) }
   };
   // Arrays/records are part of the stable shape.  A malformed legacy field
   // should not make replay non-deterministic or crash the loader.
@@ -115,8 +116,22 @@ export function migrateContentState(raw = {}) {
   for (const key of ['flags', 'activeChains', 'outposts']) {
     if (!state[key] || typeof state[key] !== 'object' || Array.isArray(state[key])) state[key] = {};
   }
+  // Clone nested outpost records before normalizing them; migration must not
+  // mutate the caller's save payload while computing a replay projection.
+  state.outposts = Object.fromEntries(Object.entries(state.outposts).map(([outpostId, raw]) => [
+    outpostId,
+    raw && typeof raw === 'object' ? { ...raw, guardNpcIds: Array.isArray(raw.guardNpcIds) ? [...raw.guardNpcIds] : [] } : raw
+  ]));
   if (!Array.isArray(state.planMeeting.candidates)) state.planMeeting.candidates = [];
   if (!Array.isArray(state.planMeeting.history)) state.planMeeting.history = [];
+  state.npcRoster.promotedNpcIds = [...new Set(Array.isArray(state.npcRoster.promotedNpcIds) ? state.npcRoster.promotedNpcIds : [])].slice(-10);
+  state.npcRoster.promotionHistory = Array.isArray(state.npcRoster.promotionHistory) ? state.npcRoster.promotionHistory.slice(-30) : [];
+  for (const [outpostId, raw] of Object.entries(state.outposts)) {
+    if (!raw || typeof raw !== 'object') { delete state.outposts[outpostId]; continue; }
+    raw.guardNpcIds = [...new Set(Array.isArray(raw.guardNpcIds) ? raw.guardNpcIds.filter(Boolean) : [])];
+    raw.status = ['secured', 'strained', 'vacant'].includes(raw.status) ? raw.status : 'secured';
+    raw.lastUpkeepDay = Math.max(0, Number(raw.lastUpkeepDay) || 0);
+  }
   state.commandPoints = Math.max(0, Number(state.commandPoints) || 0);
   state.commandPointsMax = Math.max(0, Number(state.commandPointsMax) || 0);
   state.commandPointsGrantedDay = Math.max(0, Number(state.commandPointsGrantedDay) || 0);
@@ -274,7 +289,92 @@ export function fixtureEnvelopes() {
     },
     worldMeta: { clock: { paused: false, rate: 1, phaseMinutes: 110, scheduleMinutes: 1010 } }
   }), 'fixture-night-resolved');
-  return { valid, 'corrupt-checksum': corruptChecksum, 'active-event': activeEvent, 'night-unresolved': nightUnresolved, 'night-resolved': nightResolved };
+  const fiveDayNpc = makeEnvelope(basePayload({
+    day: 5,
+    hour: 7,
+    contentState: migrateContentState({ ...DEFAULT_CONTENT_STATE, npcRoster: { promotedNpcIds: ['carpenter'], promotionHistory: [{ npcId: 'carpenter', day: 5, activeSkill: 'repair-squad' }] } }).state,
+    npcs: [
+      { id: 'carpenter', lifeState: 'healthy', attributes: { buildSkill: 86, production: 72 }, hero: { tier: 'hero', status: 'promoted', progress: 100, activeSkill: 'repair-squad', passiveSkill: 'construction-crew', promotedDay: 5 } },
+      { id: 'sergeant', lifeState: 'healthy', actingRole: 'commander', actingFor: 'commander', scheduleState: '继任培训', hero: { tier: 'ordinary', status: 'locked', progress: 0, activeSkill: null, passiveSkill: null, promotedDay: null } }
+    ],
+    roleVacancies: {},
+    worldMeta: {
+      events: [
+        ...basePayload().worldMeta.events,
+        event('npc.promotion.completed', 3, { npcId: 'carpenter', day: 5, activeSkill: 'repair-squad' }, 'cmd-000003')
+      ],
+      eventSeq: 3
+    }
+  }), 'fixture-five-day-npc');
+  // An event can remain active while its NPC is lost during the following
+  // threat.  The browser reducer must cancel that event without applying its
+  // effects, then activate the next live queued event.  Keep this save shape
+  // in the replay corpus so migrations cannot silently drop the edge case.
+  const npcDeadEvent = makeEnvelope(basePayload({
+    day: 2,
+    event: { id: 'npc.carpenter.wall-duty.0', defId: 'npc.wall-duty', handled: false, npcEvent: { npcId: 'carpenter', chainId: 'wall-duty', step: 0 } },
+    eventInstance: {
+      instanceId: 'npc.carpenter.wall-duty.0',
+      defId: 'npc.wall-duty',
+      status: 'active',
+      createdAt: 1440,
+      handled: false,
+      payload: { npcId: 'carpenter', chainId: 'wall-duty', step: 0 }
+    },
+    npcs: [
+      { id: 'carpenter', lifeState: 'dead', hp: 0, maxHp: 100, eventChain: { step: 0, active: { id: 'npc.carpenter.wall-duty.0', status: 'active' } } },
+      { id: 'doctor', lifeState: 'healthy', hp: 100, maxHp: 100, eventChain: { step: 0, active: null } }
+    ],
+    npcEvents: [
+      { id: 'npc.carpenter.wall-duty.0', npcId: 'carpenter', step: 0, status: 'active' },
+      { id: 'npc.doctor.triage-load.0', npcId: 'doctor', step: 0, status: 'queued', event: { id: 'npc.doctor.triage-load.0', defId: 'npc.triage-load', npcEvent: { npcId: 'doctor', chainId: 'triage-load', step: 0 } } }
+    ],
+    worldMeta: {
+      events: [
+        ...basePayload().worldMeta.events,
+        event('npc.event.triggered', 3, { eventId: 'npc.carpenter.wall-duty.0', npcId: 'carpenter', step: 0 }, 'cmd-000003'),
+        event('threat.resolved', 4, { threatId: 'threat-2-1-3', npcDeaths: 1 }, 'cmd-000004')
+      ],
+      eventSeq: 4,
+      lastEventId: 'evt-000004'
+    }
+  }), 'fixture-npc-dead-event');
+  const outpostGarrison = makeEnvelope(basePayload({
+    day: 2,
+    food: 9,
+    contentState: migrateContentState({ ...DEFAULT_CONTENT_STATE, outposts: { watchPost: { status: 'secured', guardNpcIds: ['guardJi'], guardSlots: 1, securedAt: 960, lastUpkeepDay: 2, lastUpkeepResult: 'paid' } } }).state,
+    npcs: [
+      { id: 'guardJi', lifeState: 'healthy', garrisonedOutpostId: 'watchPost' },
+      { id: 'guardChen', lifeState: 'healthy' },
+      { id: 'guardJiang', lifeState: 'injured' },
+      { id: 'commander', lifeState: 'healthy' }
+    ],
+    worldMeta: {
+      events: [
+        ...basePayload().worldMeta.events,
+        event('outpost.secured', 3, { outpostId: 'watchPost', guardNpcIds: ['guardJi'], population: { livingRoster: 4, campLocal: 3, garrisoned: 1 } }, 'cmd-000003'),
+        event('outpost.upkeep', 4, { outpostId: 'watchPost', day: 2, food: 1, paid: 1, status: 'secured' }, 'cmd-000004')
+      ],
+      eventSeq: 4
+    }
+  }), 'fixture-outpost-garrison');
+  const watermillChain = makeEnvelope(basePayload({
+    day: 4,
+    contentState: migrateContentState({
+      ...DEFAULT_CONTENT_STATE,
+      meters: { ...DEFAULT_CONTENT_STATE.meters, campTrust: 25 },
+      activeChains: { 'watermill-002': { chainId: 'watermill-002', nodeId: 'repair_gate', status: 'active', startedAt: 4320, actorId: 'camp-autonomy' } }
+    }).state,
+    worldMeta: {
+      events: [
+        ...basePayload().worldMeta.events,
+        event('content.chain.started', 3, { chainId: 'watermill-002', nodeId: 'repair_gate' }, 'cmd-000003')
+      ],
+      eventSeq: 3,
+      lastEventId: 'evt-000003'
+    }
+  }), 'fixture-watermill-chain');
+  return { valid, 'corrupt-checksum': corruptChecksum, 'active-event': activeEvent, 'night-unresolved': nightUnresolved, 'night-resolved': nightResolved, 'five-day-npc': fiveDayNpc, 'npc-dead-event': npcDeadEvent, 'outpost-garrison': outpostGarrison, 'watermill-chain': watermillChain };
 }
 
 export function writeFixtures(directory = FIXTURE_DIR) {
@@ -354,6 +454,14 @@ export function replayProjection(payload) {
     planMeetingDay: Number(plan.meetingDay || 0),
     planSelected: plan.selectedId || null,
     planPlayerAction: plan.playerAction || null,
+    promotedNpcIds: [...new Set(content.npcRoster?.promotedNpcIds || [])].sort(),
+    promotionCount: Array.isArray(content.npcRoster?.promotionHistory) ? content.npcRoster.promotionHistory.length : 0,
+    npcActiveCount: Array.isArray(payload?.npcs) ? payload.npcs.filter(npc => npc && npc.lifeState !== 'dead').length : 0,
+    successorRoles: Object.fromEntries((Array.isArray(payload?.npcs) ? payload.npcs : []).filter(npc => npc?.actingRole).map(npc => [npc.actingRole, npc.id]).sort()),
+    garrisonedNpcIds: (Array.isArray(payload?.npcs) ? payload.npcs : []).filter(npc => npc?.garrisonedOutpostId).map(npc => `${npc.garrisonedOutpostId}:${npc.id}`).sort(),
+    outposts: Object.fromEntries(Object.entries(content.outposts || {}).map(([id, value]) => [id, { status: value?.status || 'secured', guardNpcIds: [...new Set(value?.guardNpcIds || [])].sort(), lastUpkeepDay: Number(value?.lastUpkeepDay || 0) }]).sort(([a], [b]) => a.localeCompare(b))),
+    activeChainIds: Object.keys(content.activeChains || {}).sort(),
+    completedChainIds: [...new Set(content.completedChains || [])].sort(),
     commandCount: 0,
     commandTypes: [],
     choices: [],
@@ -400,6 +508,10 @@ export function replayProjection(payload) {
     payload: item.payload || null
   })).sort((left, right) => left.seq - right.seq) : [];
   for (const item of events) {
+    if (item.type === 'npc.promotion.completed') {
+      const eventPayload = item.payload && typeof item.payload === 'object' ? item.payload : {};
+      if (eventPayload.npcId) projection.promotedNpcIds = [...new Set([...projection.promotedNpcIds, String(eventPayload.npcId)])].sort();
+    }
     if (!/^plan\.meeting\.(committed|resolved|fallback)$/.test(String(item.type || ''))) continue;
     const eventPayload = item.payload && typeof item.payload === 'object' ? item.payload : {};
     if (eventPayload.status) projection.planStatus = String(eventPayload.status);
@@ -458,16 +570,33 @@ export function selfTest() {
   assert.equal(reports['night-unresolved'].saveAllowed, false);
   assert.equal(reports['night-unresolved'].nightUnresolved, true);
   assert.equal(reports['night-resolved'].saveAllowed, true);
+  assert.equal(reports['five-day-npc'].accepted, true);
+  assert.deepEqual(reports['five-day-npc'].replay.projection.promotedNpcIds, ['carpenter']);
+  assert.equal(reports['five-day-npc'].replay.projection.successorRoles.commander, 'sergeant');
+  assert.equal(reports['npc-dead-event'].accepted, true);
+  assert.equal(reports['npc-dead-event'].payload.eventInstance.status, 'active');
+  assert.equal(reports['npc-dead-event'].payload.npcEvents.find(item => item.status === 'queued')?.npcId, 'doctor');
+  assert.equal(reports['outpost-garrison'].accepted, true);
+  assert.deepEqual(reports['outpost-garrison'].replay.projection.garrisonedNpcIds, ['watchPost:guardJi']);
+  assert.equal(reports['outpost-garrison'].replay.projection.outposts.watchPost.status, 'secured');
+  assert.equal(reports['outpost-garrison'].replay.projection.outposts.watchPost.lastUpkeepDay, 2);
+  assert.equal(reports['watermill-chain'].accepted, true);
+  assert.deepEqual(reports['watermill-chain'].replay.projection.activeChainIds, ['watermill-002']);
   const legacy = migrateContentState({ contentVersion: 1, meters: { campCollapse: 7, resonancePressure: 31 } });
   assert.equal(legacy.migrated, true);
   assert.equal(legacy.state.contentVersion, CONTENT_SCHEMA_VERSION);
   assert.equal(legacy.state.meters.campTrust, 0);
   assert.equal(legacy.state.planMeeting.status, 'idle');
+  const migrationInput = { contentVersion: 1, outposts: { watchPost: { status: 'secured', guardNpcIds: ['guardJi'] } } };
+  const migrationOutpost = migrateContentState(migrationInput);
+  assert.notEqual(migrationOutpost.state.outposts, migrationInput.outposts);
+  assert.notEqual(migrationOutpost.state.outposts.watchPost, migrationInput.outposts.watchPost);
+  assert.deepEqual(migrationInput.outposts.watchPost.guardNpcIds, ['guardJi']);
   const replayA = replayProjection(reports.valid.payload).hash;
   const replayB = replayProjection(reports.valid.payload).hash;
   assert.equal(replayA, replayB);
   // Golden hash: changes require an explicit replay-contract review.
-  assert.equal(replayA, '1e15b5e1');
+  assert.equal(replayA, '4aec7a31');
   return { fixtureCount: Object.keys(reports).length, replayHash: replayA };
 }
 
@@ -515,4 +644,3 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     process.exitCode = 1;
   }
 }
-

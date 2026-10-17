@@ -1,0 +1,161 @@
+{
+  "schema": "ScenarioLegacyMethodIndependentReviewV2",
+  "status": "METHOD_READY_NOT_EXECUTED",
+  "sourceHtmlSha256": "a2fcdb647f2632fbf50f3ab0f3ba160f168082c602f6737c5ca4239eede137d2",
+  "adapterManifestSha256": "4b88710536f1e797013bd450f8e4b2c4884e5c8dac9e60341b743744b9cc408b",
+  "scripts": [
+    {
+      "name": "check-plan-integrity.mjs",
+      "original": {
+        "path": "originals/check-plan-integrity.mjs",
+        "sha256": "99f4f1db2c3dd723c70538a662d9692e3b6e760a0ee017e7b06a82b858f1bef8",
+        "bytes": 18130
+      },
+      "adapted": {
+        "path": "adapted/check-plan-integrity.mjs",
+        "sha256": "27db06e2fade987711cd852c4f7a0b978db12d68bed801fa092390832624f0e2",
+        "bytes": 21193
+      },
+      "diff": {
+        "path": "diffs/check-plan-integrity.mjs.diff",
+        "sha256": "50c8f634d39a996b9ac36b92f5cdfb920024101185d6e5605cca63659092487c",
+        "bytes": 4459
+      },
+      "onlyDocumentedChanges": true
+    },
+    {
+      "name": "check-plan-integrity-ui.mjs",
+      "original": {
+        "path": "originals/check-plan-integrity-ui.mjs",
+        "sha256": "def510b413634f818d32716f221c5f544b8334d6c9cc13d19a08a5d5c04c0410",
+        "bytes": 13351
+      },
+      "adapted": {
+        "path": "adapted/check-plan-integrity-ui.mjs",
+        "sha256": "a7bd003f1c50f9bfd195f1a735179df3fb05b9fe68835b4df89e3157939657ca",
+        "bytes": 16370
+      },
+      "diff": {
+        "path": "diffs/check-plan-integrity-ui.mjs.diff",
+        "sha256": "5f5ada016ef700265fba602411c46a71b61d3d65528d8722da469cac94666a43",
+        "bytes": 4600
+      },
+      "onlyDocumentedChanges": true
+    },
+    {
+      "name": "check-npc-threat-attention.mjs",
+      "original": {
+        "path": "originals/check-npc-threat-attention.mjs",
+        "sha256": "3b6302654d562cb991a1a2b128c5dd75c08475d6b9b2a1c502f223e7f15a7f44",
+        "bytes": 18739
+      },
+      "adapted": {
+        "path": "adapted/check-npc-threat-attention.mjs",
+        "sha256": "59e64b659ed4f62a55b8949ab45bd909254f160dcd8a52422b61845607fa5282",
+        "bytes": 21862
+      },
+      "diff": {
+        "path": "diffs/check-npc-threat-attention.mjs.diff",
+        "sha256": "90aecd13ba5429a56401ce284a6960e5202e1fae4950bef3cd79d59317fab99c",
+        "bytes": 4131
+      },
+      "onlyDocumentedChanges": true
+    },
+    {
+      "name": "check-shortage-choice-v2.mjs",
+      "original": {
+        "path": "originals/check-shortage-choice-v2.mjs",
+        "sha256": "9ff416e04bce466ff303b652fbd9d1cfad104f2870baf0202c6c1c0125fd8bbf",
+        "bytes": 28518
+      },
+      "adapted": {
+        "path": "adapted/check-shortage-choice-v2.mjs",
+        "sha256": "b5e2815e899d6648548f7787762bc9513859be1ede04ca38e5cb827d940490fe",
+        "bytes": 31563
+      },
+      "diff": {
+        "path": "diffs/check-shortage-choice-v2.mjs.diff",
+        "sha256": "b5522f31dd97ca033700ded37820422343509ce0d3c3be255640810d0ea9b048",
+        "bytes": 4757
+      },
+      "onlyDocumentedChanges": true
+    }
+  ],
+  "actualNativeDiagnoses": [
+    {
+      "original": {
+        "path": "inputs/plan-committed-legacy-basewriter.json",
+        "sha256": "d9b8811fed88c25f9f1da0849d772d92e19742280f41e2aec3871d178d9bb05b",
+        "bytes": 72739
+      },
+      "metadata": {
+        "path": "inputs/plan-committed-legacy-basewriter.meta.json",
+        "sha256": "cff723beb641b2ccd64086664bc0a678c11da781462581ac3347df8c6830e048",
+        "bytes": 702
+      },
+      "diagnosis": {
+        "path": "diagnoses/plan-legacy-readonly-Cy2DzW/report.json",
+        "sha256": "fc07518e93be0e9bab46266b19b9c29a0331c26e6d2edd1c5a13ff3d2652e485",
+        "bytes": 13659
+      },
+      "native": {
+        "path": "diagnoses/plan-legacy-readonly-Cy2DzW/first-native-writer.json",
+        "sha256": "b860d619ae20073867513a1fad4461d69f045be1cf15a63c528fe2c0bb6fc5ef",
+        "bytes": 75658
+      },
+      "eventSeq": {
+        "before": 3,
+        "after": 4
+      },
+      "commandSeq": {
+        "before": 1,
+        "after": 1
+      },
+      "exactlyOneMetadataEvent": true,
+      "replaySeenRngResourcesWorldPlanCpUnchanged": true,
+      "reloadNoAdditionalMigration": true
+    },
+    {
+      "original": {
+        "path": "inputs/browser-writer-day1-1110-save21.json",
+        "sha256": "5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4",
+        "bytes": 496785
+      },
+      "metadata": {
+        "path": "inputs/capture-meta.json",
+        "sha256": "a24e58af9364dc6a81b86a7fddf0b618fc19ca72c9823dcaff0756e4f32b25e5",
+        "bytes": 1642
+      },
+      "diagnosis": {
+        "path": "diagnoses/attention-shortage-legacy-readonly-F3b1dX/report.json",
+        "sha256": "a5edefa9d3ff04a133995e0e574cc8b6f7d72ce5c5a096556702535bb09152dc",
+        "bytes": 20900
+      },
+      "native": {
+        "path": "diagnoses/attention-shortage-legacy-readonly-F3b1dX/first-native-writer.json",
+        "sha256": "5de9d42db947947fa48997217aaf74c38836eeab56d947b8710520e2b0da51f0",
+        "bytes": 263282
+      },
+      "eventSeq": {
+        "before": 253,
+        "after": 254
+      },
+      "commandSeq": {
+        "before": 512,
+        "after": 512
+      },
+      "exactlyOneMetadataEvent": true,
+      "replaySeenRngResourcesWorldPlanCpUnchanged": true,
+      "reloadNoAdditionalMigration": true
+    }
+  ],
+  "supportedContract": "Only one exact C1 scenario-legacy-unbound-v1 metadata receipt for the two pinned complete SAVE21 writers. Full receipt actor/IDs/tick/payload/version/dates/checksums/adapter/declared and live seed are checked; original historical ledger, resources, plan, CP, population health, RNG, replay, commandSeq and seenCommands stay protected.",
+  "oldAssertionsPreserved": true,
+  "arbitraryMigrationFiltering": false,
+  "sourceGateOrReducerMocked": false,
+  "adaptedFourChecksExecuted": false,
+  "originalFourFailuresPreserved": true,
+  "browserRun": false,
+  "rootWritten": false,
+  "next": "Root may run only these four changed checkers in a new immutable copy; this review does not claim their execution passed."
+}

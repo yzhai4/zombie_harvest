@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "zombie-harvest://schemas/combat-intent-v1.json",
+  "title": "Zombie Harvest CombatIntentV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "intentId",
+    "sourceRef",
+    "targetRef",
+    "phase",
+    "attackSeq",
+    "profileId",
+    "amount",
+    "damageType"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "CombatIntentV1" },
+    "intentId": { "type": "string", "minLength": 1 },
+    "sourceRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "kind": { "type": "string", "minLength": 1 }
+      }
+    },
+    "targetRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "kind": { "type": "string", "minLength": 1 }
+      }
+    },
+    "phase": { "const": "DAY" },
+    "attackSeq": { "type": "integer", "minimum": 1 },
+    "profileId": { "type": "string", "minLength": 1 },
+    "amount": { "type": "integer", "minimum": 1 },
+    "damageType": { "type": "string", "minLength": 1 },
+    "sourceEventId": { "type": ["string", "null"] }
+  }
+}

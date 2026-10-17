@@ -1,0 +1,178 @@
+{
+  "schema": "EffectiveRoleConsumerMapV1",
+  "sourcePath": "dist/index.html",
+  "sourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+  "rows": [
+    {
+      "consumer": "npcHasRole",
+      "lines": [
+        4547,
+        4547
+      ],
+      "semantics": "active, local; original ID OR actingRole",
+      "evidence": "actual function executed",
+      "implication": "retains old-role permission while acting elsewhere"
+    },
+    {
+      "consumer": "npcFulfillsRole",
+      "lines": [
+        8819,
+        8819
+      ],
+      "semantics": "active, local; exclusive actingRole || id",
+      "evidence": "actual function executed",
+      "implication": "canonical current-role comparator disagrees with npcHasRole"
+    },
+    {
+      "consumer": "assignMorningSuccessors",
+      "lines": [
+        8820,
+        8844
+      ],
+      "semantics": "healthy candidate without actingRole; carpenter priority chooses original qm; opens original-role vacancy",
+      "evidence": "actual function executed once at day1 11:10",
+      "implication": "new qm vacancy not in Object.keys snapshot of this call"
+    },
+    {
+      "consumer": "relayActiveParticipants",
+      "lines": [
+        6838,
+        6838
+      ],
+      "semantics": "find per role; no exclusive-role or unique-npcId constraint",
+      "evidence": "actual returned radio,qm,qm; same live object twice",
+      "implication": "2 distinct actors fill 3 slots"
+    },
+    {
+      "consumer": "relayConstructionRuntimeParticipants / Snapshot",
+      "lines": [
+        6896,
+        6931
+      ],
+      "semantics": "union per-slot resolution; alive/active flags per role",
+      "evidence": "actual snapshot returned duplicate qm npcId in active/alive slots",
+      "implication": "transaction not enabled or executed"
+    },
+    {
+      "consumer": "relayConstructionRuntimeAdapter",
+      "lines": [
+        6952,
+        6977
+      ],
+      "semantics": "checks active/alive, not unique npcId; only briefed->staging",
+      "evidence": "source-read only; flag false",
+      "implication": "conditional staging inconsistency, not full-construction evidence"
+    },
+    {
+      "consumer": "updateRelayProject allPresent / staging",
+      "lines": [
+        7076,
+        7100
+      ],
+      "semantics": "legacy all roles may be satisfied by same union-role actor",
+      "evidence": "source-read conditional; authentic project unknown",
+      "implication": "missing qm could fail to block start"
+    },
+    {
+      "consumer": "updateRelayProject material collection",
+      "lines": [
+        7101,
+        7113
+      ],
+      "semantics": "materialClock once; find each role once: carpenter wood2, qm parts1, radio parts1 + later stone1",
+      "evidence": "source-read only; no collection executed",
+      "implication": "one actor can authorize two jobs; duplicate array does not multiply same material debit"
+    },
+    {
+      "consumer": "relayTakeMaterial",
+      "lines": [
+        6850,
+        6870
+      ],
+      "semantics": "bounded need; inventory first then finite world sources and receipts",
+      "evidence": "source-read only",
+      "implication": "source accounting exists; do not call this demonstrated minting or double output"
+    },
+    {
+      "consumer": "updateRelayProject building / online",
+      "lines": [
+        7115,
+        7136
+      ],
+      "semantics": "global workMinutes adds minutes once; foreach rewrites schedule/report; later standing reward",
+      "evidence": "source-read only; no work or completion executed",
+      "implication": "full-rate work may ignore missing distinct role; not doubled global minutes"
+    },
+    {
+      "consumer": "campWorkPulse / updateCampWorkPulses",
+      "lines": [
+        5168,
+        5206
+      ],
+      "semantics": "actingRole || id; state.npcs once, one workClock per actor",
+      "evidence": "source-read only; independent observer agreed",
+      "implication": "not multiplied by relay participant array"
+    },
+    {
+      "consumer": "npcRestWorkContext",
+      "lines": [
+        4472,
+        4483
+      ],
+      "semantics": "exclusive carpenter eligibility, union relay-duty owner",
+      "evidence": "source-read only",
+      "implication": "same subsystem has two role semantics"
+    },
+    {
+      "consumer": "renderRelayPanel crew",
+      "lines": [
+        5966,
+        5972
+      ],
+      "semantics": "union lookup and fixed original role names",
+      "evidence": "source-read only; no browser/renderer assertion",
+      "implication": "can misattribute successor and hide missing qm"
+    },
+    {
+      "consumer": "command-area vacancy branch",
+      "lines": [
+        7342,
+        7355
+      ],
+      "semantics": "filters vacancies with union helper; morale +1 with vacancy else +2",
+      "evidence": "source-read only; action not executed",
+      "implication": "original qm identity can conceal actual vacancy"
+    },
+    {
+      "consumer": "runWorldDayUpkeep role effects",
+      "lines": [
+        5592,
+        5623
+      ],
+      "semantics": "independent union branches; qm actingcarp meets wood1 and qm hunger-5 conditions",
+      "evidence": "source-read only; day upkeep not executed",
+      "implication": "conditional dual production/welfare authority; no measured yield"
+    },
+    {
+      "consumer": "continueMorningReducer role effects",
+      "lines": [
+        8904,
+        8919
+      ],
+      "semantics": "parallel union effects guarded by runDailyUpkeep",
+      "evidence": "source-read only; reducer not executed",
+      "implication": "same conditional ambiguity; no measured yield"
+    },
+    {
+      "consumer": "Gate role_available",
+      "lines": [
+        2746,
+        2746
+      ],
+      "semantics": "exclusive npcFulfillsRole plus optional healthyOnly",
+      "evidence": "source-read only",
+      "implication": "event Gate and relay consumer disagree"
+    }
+  ],
+  "scope": "Relay-focused map, not exhaustive caller approval. Battle/heal/evolution/plan and original-ID identity consumers need separate classification."
+}

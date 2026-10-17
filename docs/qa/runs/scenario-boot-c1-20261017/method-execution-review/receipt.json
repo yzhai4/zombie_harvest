@@ -1,0 +1,168 @@
+{
+  "schema": "ScenarioC1ExecutedFourIndependentReceiptV1",
+  "status": "EXECUTED_NATIVE_REVIEW_PASSED",
+  "source": {
+    "path": "source.html",
+    "sha256": "a2fcdb647f2632fbf50f3ab0f3ba160f168082c602f6737c5ca4239eede137d2",
+    "bytes": 842036
+  },
+  "sourceHtmlSha256": "a2fcdb647f2632fbf50f3ab0f3ba160f168082c602f6737c5ca4239eede137d2",
+  "executionSummary": {
+    "path": "executed/summary.json",
+    "sha256": "914e8c9d2b99634c1f3f041d3960dd27b3aa886b6ab44253d885c80e09cf281e",
+    "bytes": 550
+  },
+  "methodReview": {
+    "path": "method-review.json",
+    "sha256": "c912adc73af30f38a70715b13e803d5d8cc8bf7bd9060e93766185d02d16b46a",
+    "bytes": 6025
+  },
+  "results": [
+    {
+      "name": "plan-integrity",
+      "runner": "source-plan-integrity",
+      "script": {
+        "path": "scripts/check-plan-integrity.mjs",
+        "sha256": "27db06e2fade987711cd852c4f7a0b978db12d68bed801fa092390832624f0e2",
+        "bytes": 21193
+      },
+      "native": {
+        "path": "executed/plan-integrity.json",
+        "sha256": "aa223beb08bd6930046f7dc0c896923d221245831a0cd59ecdf9ed62e59dc349",
+        "bytes": 108532
+      },
+      "terminal": {
+        "path": "executed/plan-integrity.log",
+        "sha256": "9e801871f74f5faffc5fc7a306c746903886a848af505a93ad794e7f4fb44e1a",
+        "bytes": 287
+      },
+      "recordedExitCode": 0,
+      "ok": true,
+      "count": 48,
+      "passed": 48,
+      "actualNativeResultsParsed": true,
+      "artifactsVerified": 0,
+      "browserRun": false
+    },
+    {
+      "name": "plan-ui",
+      "runner": "source-plan-integrity-ui-phase",
+      "script": {
+        "path": "scripts/check-plan-integrity-ui.mjs",
+        "sha256": "a7bd003f1c50f9bfd195f1a735179df3fb05b9fe68835b4df89e3157939657ca",
+        "bytes": 16370
+      },
+      "native": {
+        "path": "executed/plan-ui.json",
+        "sha256": "768db92301c85e6ef94a4c407a00f6ede3cb6cc581bacb0cfbe93cd74ae70da8",
+        "bytes": 62255
+      },
+      "terminal": {
+        "path": "executed/plan-ui.log",
+        "sha256": "9181909bbd271cc734900c31ecf03fce78f0a343965db63fd6a8b82052ffe52a",
+        "bytes": 253
+      },
+      "recordedExitCode": 0,
+      "ok": true,
+      "count": 69,
+      "passed": 69,
+      "actualNativeResultsParsed": true,
+      "artifactsVerified": 0,
+      "browserRun": false
+    },
+    {
+      "name": "attention",
+      "runner": "source-npc-threat-attention",
+      "script": {
+        "path": "scripts/check-npc-threat-attention.mjs",
+        "sha256": "59e64b659ed4f62a55b8949ab45bd909254f160dcd8a52422b61845607fa5282",
+        "bytes": 21862
+      },
+      "native": {
+        "path": "executed/attention.log",
+        "sha256": "bc804a86f155b6cb947501008fa317a8de063b1f8f39e8c699cb265f13341fe7",
+        "bytes": 5290
+      },
+      "terminal": {
+        "path": "executed/attention.log",
+        "sha256": "bc804a86f155b6cb947501008fa317a8de063b1f8f39e8c699cb265f13341fe7",
+        "bytes": 5290
+      },
+      "recordedExitCode": 0,
+      "ok": true,
+      "count": 29,
+      "passed": 29,
+      "actualNativeResultsParsed": true,
+      "artifactsVerified": 0,
+      "browserRun": false
+    },
+    {
+      "name": "shortage",
+      "runner": "source-shortage-choice-v2",
+      "script": {
+        "path": "scripts/check-shortage-choice-v2.mjs",
+        "sha256": "b5e2815e899d6648548f7787762bc9513859be1ede04ca38e5cb827d940490fe",
+        "bytes": 31563
+      },
+      "native": {
+        "path": "executed/shortage.json",
+        "sha256": "ee5fceae80e5b072facb09f48a2d2d09fd96d23c8400dc3e34be31450b1b9229",
+        "bytes": 25602
+      },
+      "terminal": {
+        "path": "executed/shortage.log",
+        "sha256": "bcf747c25cece9bb5f002ebdc7f37ac34d9abcd8a1f99119f5d7ab71cd239ca2",
+        "bytes": 353
+      },
+      "recordedExitCode": 0,
+      "ok": true,
+      "count": 43,
+      "passed": 43,
+      "actualNativeResultsParsed": true,
+      "artifactsVerified": 36,
+      "browserRun": false
+    }
+  ],
+  "originalForty": {
+    "summaries": [
+      {
+        "path": "original-40/source-suite-summary.json",
+        "sha256": "b1a247a4eedd8c7b372433dce496e8508fcda8f51ce69305df6446e829a9cb2f",
+        "bytes": 1571
+      },
+      {
+        "path": "original-40/additional-summary.json",
+        "sha256": "49f9ed589712082c1ed1358508301cf0e4cd3667b093879894dea02ca8aed299",
+        "bytes": 1160
+      }
+    ],
+    "commands": 40,
+    "recordedPass": 36,
+    "recordedFail": 4,
+    "failedNames": [
+      "plan-integrity",
+      "plan-ui",
+      "attention",
+      "shortage"
+    ],
+    "originalFailuresUnmodified": true
+  },
+  "combinedInterpretation": {
+    "uniqueContracts": 40,
+    "uniqueContractsSatisfied": 40,
+    "commandsRecorded": 44,
+    "commandExitsZero": 40,
+    "originalCommandExitsNonzero": 4,
+    "scope": "36 original passing jobs plus the four specifically adapted reruns; original 40-run failures remain preserved. This is not 44 passing jobs."
+  },
+  "scope": {
+    "readOnlyEvidenceReview": true,
+    "adaptedTestsReexecutedByAuditor": false,
+    "browserRun": false,
+    "sourceOrCheckerModified": false,
+    "naturalGameplayClaim": false,
+    "C2": "OPEN",
+    "pending": "C1 browser execution evidence review is separate"
+  },
+  "artifactCount": 56
+}

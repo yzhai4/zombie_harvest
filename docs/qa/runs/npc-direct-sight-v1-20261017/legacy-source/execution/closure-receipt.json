@@ -1,0 +1,498 @@
+{
+  "schema": "IndependentSourceClosureReceiptV1",
+  "status": "EXECUTED",
+  "ok": true,
+  "sourceHtmlSha256": "23b8c8c27234592673aa927f3909ea49247c372a937787f90355f87531f421b0",
+  "directSightCoreSha256": "d464721a657a0c436e4bf1b3fd45cbe250f769ff932cbc01e3e0fbe4356a23af",
+  "uniqueContracts": 42,
+  "passed": 42,
+  "failed": 0,
+  "scope": "Existing42 source/method contracts only, no new direct-sight checker, browser, natural gameplay or player outcome claim",
+  "counting": "Original30 plus additional10 (already includes C1 source120), plus C2 source66 and self104 once each. Native assertion counts are not additional unique contracts.",
+  "staticSmokeMode": "static-contract",
+  "nativeReports": [
+    {
+      "name": "scenario-c1",
+      "runner": "source-scenario-boot-c1-v1",
+      "count": 120,
+      "passed": 120,
+      "sourceHtmlSha256": "23b8c8c27234592673aa927f3909ea49247c372a937787f90355f87531f421b0",
+      "report": {
+        "path": "frozen-repo/review-output/additional/scenario-boot/report.json",
+        "bytes": 160030,
+        "sha256": "65ae83df7478050494b793b35caaae2204b46b5ba4586147cd20e5f009c6d645"
+      }
+    },
+    {
+      "name": "scenario-c2",
+      "runner": "source-scenario-boot-c2-v1",
+      "count": 66,
+      "passed": 66,
+      "sourceHtmlSha256": "23b8c8c27234592673aa927f3909ea49247c372a937787f90355f87531f421b0",
+      "report": {
+        "path": "frozen-repo/review-output/final-extra/c2/report.json",
+        "bytes": 130898,
+        "sha256": "2b208ad5ac27ee66296b3571374602a16f6c126601b91b462bf1654db2b12bd7"
+      }
+    },
+    {
+      "name": "npc-self",
+      "runner": "source-npc-self-observation-v1",
+      "count": 104,
+      "passed": 104,
+      "sourceHtmlSha256": "23b8c8c27234592673aa927f3909ea49247c372a937787f90355f87531f421b0",
+      "report": {
+        "path": "frozen-repo/review-output/final-extra/self.json",
+        "bytes": 137416,
+        "sha256": "25c753de09422eb75d09cfe69672f0778976c956887144e5b186c9281c526090"
+      }
+    }
+  ],
+  "contracts": [
+    {
+      "name": "syntax",
+      "exitCode": 0,
+      "log": {
+        "path": "frozen-repo/review-output/source-suite/syntax.log",
+        "bytes": 44,
+        "sha256": "80369f7553cf4bc3aa5bebac486e2acfff10e3be92e1a49c6fde6e42c0646145"
+      }
+    },
+    {
+      "name": "content",
+      "exitCode": 0,
+      "log": {
+        "path": "frozen-repo/review-output/source-suite/content.log",
+        "bytes": 7086,
+        "sha256": "9b2234e93e90e8413117dbe2c32043b9343c1cd92b5bc9421aebbf3f19d86a68"
+      }
+    },
+    {
+      "name": "night",
+      "exitCode": 0,
+      "log": {
+        "path": "frozen-repo/review-output/source-suite/night.log",
+        "bytes": 27,
+        "sha256": "9b2b1165845101b05a226cd429aa2472fb83a687df277d476b5859e64326d707"
+      }
+    },
+    {
+      "name": "chains",
+      "exitCode": 0,
+      "log": {
+        "path": "frozen-repo/review-output/source-suite/chains.log",
+        "bytes": 4400,
+        "sha256": "e7c55539864e42654c4e3e74cbaa7ad8b97ed3fec355ffb8a94ca400684a0d1b"
+      }
+    },
+    {
+      "name": "plan-day",
+      "exitCode": 0,
+      "log": {
+        "path": "frozen-repo/review-output/source-suite/plan-day.log",
+        "bytes": 2204,
+        "sha256": "eefe4ffcf6fbf2f21185532a1babdd0b8635596637fdd7803b8e5b88c2bcb6bd"
+      }
+    },
+    {
+      "name": "camp-area",
+      "exitCode": 0,
+      "log": {
+        "path": "frozen-repo/review-output/source-suite/camp-area.log",
+        "bytes": 1191,
+        "sha256": "dc69153d2b847ba7e9dd15e460089153c8d7b8f3fdc3c29e556234efe5dc7521"
+      }
+    },
+    {
+      "name": "plan-integrity",
+      "exitCode": 0,
+      "log": {
+        "path": "frozen-repo/review-output/source-suite/plan-integrity.log",
+        "bytes": 287,
+        "sha256": "6f2e79ef77d51856111eb1cc797fb26071b296ea7c685eeaf91fbd6dace56e03"
+      }
+    },
+    {
+      "name": "plan-ui",
+      "exitCode": 0,
+      "log": {
+        "path": "frozen-repo/review-output/source-suite/plan-ui.log",
+        "bytes": 253,
+        "sha256": "5c8efa4a717a063bc839615800b19761f8e39ada4838847ff72eee4671868a2f"
+      }
+    },
+    {
+      "name": "save-recovery",
+      "exitCode": 0,
+      "log": {
+        "path": "frozen-repo/review-output/source-suite/save-recovery.log",
+        "bytes": 15243,
+        "sha256": "e40e5c1614f60480791376d152ecdbf116fdd73e8f2eb7a80200488eb4033f1f"
+      }
+    },
+    {
+      "name": "command-ids",
+      "exitCode": 0,
+      "log": {
+        "path": "frozen-repo/review-output/source-suite/command-ids.log",
+        "bytes": 404,
+        "sha256": "4ac7bbc9be93eac0f32e223fcb4417d48dd8235c00895a85f951e9cf40e6eea2"
+      }
+    },
+    {
+      "name": "repair",
+      "exitCode": 0,
+      "log": {
+        "path": "frozen-repo/review-output/source-suite/repair.log",
+        "bytes": 389,
+        "sha256": "9c027bc18d67ea5f6f79ef766614ed5b7d3e7915565f8d1bddfd48dfbe21ae57"
+      }
+    },
+    {
+      "name": "leader",
+      "exitCode": 0,
+      "log": {
+        "path": "frozen-repo/review-output/source-suite/leader.log",
+        "bytes": 871,
+        "sha256": "dec566451f9403164bb1ff54441f86bc039d000c90a1d693d0d8d23cb61c397b"
+      }
+    },
+    {
+      "name": "leader-replay",
+      "exitCode": 0,
+      "log": {
+        "path": "frozen-repo/review-output/source-suite/leader-replay.log",
+        "bytes": 696,
+        "sha256": "59bb22ed1a03193a0673a8d59fed94de517dda545f5fd942d0a5ea46e148e676"
+      }
+    },
+    {
+      "name": "leader-ledger",
+      "exitCode": 0,
+      "log": {
+        "path": "frozen-repo/review-output/source-suite/leader-ledger.log",
+        "bytes": 714,
+        "sha256": "c6d57ff0291bb26c94802021c8ff0038d33d3656efa5e22467a5a3d937e5bd82"
+      }
+    },
+    {
+      "name": "leader-bridge",
+      "exitCode": 0,
+      "log": {
+        "path": "frozen-repo/review-output/source-suite/leader-bridge.log",
+        "bytes": 639,
+        "sha256": "c9df67b92fdb34fc15f3a073908e18ef75ad071226eb1665e39acd0e56505e5b"
+      }
+    },
+    {
+      "name": "leader-runtime",
+      "exitCode": 0,
+      "log": {
+        "path": "frozen-repo/review-output/source-suite/leader-runtime.log",
+        "bytes": 1029,
+        "sha256": "4ac2a4a487dfb614a65c4244b2f6fbecd54a0f173e88fd19926c3955e2d00a1c"
+      }
+    },
+    {
+      "name": "combat",
+      "exitCode": 0,
+      "log": {
+        "path": "frozen-repo/review-output/source-suite/combat.log",
+        "bytes": 2904,
+        "sha256": "c06f56b0cb403eb3084069e938e89e2ff6e9e5981fc958631e3b12a05b5410ac"
+      }
+    },
+    {
+      "name": "combat-core",
+      "exitCode": 0,
+      "log": {
+        "path": "frozen-repo/review-output/source-suite/combat-core.log",
+        "bytes": 559,
+        "sha256": "903fb9315d203827d99c4bf202d33c0e0d5fe662eafb25ff2ddcb415bc44cec7"
+      }
+    },
+    {
+      "name": "gates",
+      "exitCode": 0,
+      "log": {
+        "path": "frozen-repo/review-output/source-suite/gates.log",
+        "bytes": 842,
+        "sha256": "e8d0197f358cc329a6d98c4b465fb89b6aaf273b256072588a8073b9a5b9e160"
+      }
+    },
+    {
+      "name": "gate-parity",
+      "exitCode": 0,
+      "log": {
+        "path": "frozen-repo/review-output/source-suite/gate-parity.log",
+        "bytes": 2170,
+        "sha256": "ebd21ec09f7b70b8cb1a2525cbdd866d7a8295f1d8ec1c121ea1a48f98a3440c"
+      }
+    },
+    {
+      "name": "relay-core",
+      "exitCode": 0,
+      "log": {
+        "path": "frozen-repo/review-output/source-suite/relay-core.log",
+        "bytes": 1382,
+        "sha256": "39ace17a4b899814dc62fcb3100d3725327e734a30f04c00ba151819cb153e57"
+      }
+    },
+    {
+      "name": "relay-producer",
+      "exitCode": 0,
+      "log": {
+        "path": "frozen-repo/review-output/source-suite/relay-producer.log",
+        "bytes": 1796,
+        "sha256": "daebb4c367f92b10e40ec43f0a0754e902cb17761c31cafd67e55ebf46380164"
+      }
+    },
+    {
+      "name": "relay-tx",
+      "exitCode": 0,
+      "log": {
+        "path": "frozen-repo/review-output/source-suite/relay-tx.log",
+        "bytes": 1250,
+        "sha256": "37695a6cd592241341542396e553a87ac317433ae5082ab318795ec35bf564c3"
+      }
+    },
+    {
+      "name": "relay-runtime",
+      "exitCode": 0,
+      "log": {
+        "path": "frozen-repo/review-output/source-suite/relay-runtime.log",
+        "bytes": 1731,
+        "sha256": "ea5bda7a065d598e876626d27df17e0b235371f303051a9477bce9c34627852d"
+      }
+    },
+    {
+      "name": "scenario",
+      "exitCode": 0,
+      "log": {
+        "path": "frozen-repo/review-output/source-suite/scenario.log",
+        "bytes": 1558,
+        "sha256": "42f4a3bf78cb37a7e1a8169249c277bed37692677330bd1cb2e4711634af5eeb"
+      }
+    },
+    {
+      "name": "observer",
+      "exitCode": 0,
+      "log": {
+        "path": "frozen-repo/review-output/source-suite/observer.log",
+        "bytes": 2309,
+        "sha256": "d4d62fd99365b357f8d07006c6bc4456877ff455f2c822dd3448080ae38a913d"
+      }
+    },
+    {
+      "name": "gameplay",
+      "exitCode": 0,
+      "log": {
+        "path": "frozen-repo/review-output/source-suite/gameplay.log",
+        "bytes": 291,
+        "sha256": "afcc36ee7b26dda7c5f9c0b03ccf1b9b7d2d00448b0a267d87f1477b386363aa"
+      }
+    },
+    {
+      "name": "episodes",
+      "exitCode": 0,
+      "log": {
+        "path": "frozen-repo/review-output/source-suite/episodes.log",
+        "bytes": 3832,
+        "sha256": "ae5c750f66cca8ddbb5b95110e3dd52e2244a7b29a7090d95bb94fe254492e48"
+      }
+    },
+    {
+      "name": "replay",
+      "exitCode": 0,
+      "log": {
+        "path": "frozen-repo/review-output/source-suite/replay.log",
+        "bytes": 68,
+        "sha256": "f54a3c327e0f8d7ad099648f86ee633ab2c503c3217a29abba3fd338dbaae62e"
+      }
+    },
+    {
+      "name": "static-smoke",
+      "exitCode": 0,
+      "log": {
+        "path": "frozen-repo/review-output/source-suite/static-smoke.log",
+        "bytes": 280,
+        "sha256": "b853f053a202a12a7bdeea1b91fdb08fd0b746713d2fe73f057462c30210d3f4"
+      }
+    },
+    {
+      "name": "presence",
+      "exitCode": 0,
+      "signal": null,
+      "error": null,
+      "log": {
+        "path": "frozen-repo/review-output/additional/presence.log",
+        "bytes": 8147,
+        "sha256": "faba6b30b77f1d7c3b7c6602f0a6488199246695154d4b21b3d430751ba5fbd9"
+      }
+    },
+    {
+      "name": "attention",
+      "exitCode": 0,
+      "signal": null,
+      "error": null,
+      "log": {
+        "path": "frozen-repo/review-output/additional/attention.log",
+        "bytes": 5290,
+        "sha256": "6ff60d13b1243252d6c30c69f8ce49ef2d02edbf4c47bc3a539c9ce61ae7313d"
+      }
+    },
+    {
+      "name": "evidence-method",
+      "exitCode": 0,
+      "signal": null,
+      "error": null,
+      "log": {
+        "path": "frozen-repo/review-output/additional/evidence-method.log",
+        "bytes": 7287,
+        "sha256": "052e4736e83005743702b732ac60b09b03429b1bada3c89706ac9fdcd7c2cc2f"
+      }
+    },
+    {
+      "name": "crop-method",
+      "exitCode": 0,
+      "signal": null,
+      "error": null,
+      "log": {
+        "path": "frozen-repo/review-output/additional/crop-method.log",
+        "bytes": 41,
+        "sha256": "deb2c162d4b9f33f56e571b83b83de7f3b0d980836b10c855d2964e1d9185571"
+      }
+    },
+    {
+      "name": "safety",
+      "exitCode": 0,
+      "signal": null,
+      "error": null,
+      "log": {
+        "path": "frozen-repo/review-output/additional/safety.log",
+        "bytes": 3696,
+        "sha256": "c8b36207ecb9d1e68bda7ffe0548caf8834dcb0086f43f833252b1b2a82a4964"
+      }
+    },
+    {
+      "name": "rest",
+      "exitCode": 0,
+      "signal": null,
+      "error": null,
+      "log": {
+        "path": "frozen-repo/review-output/additional/rest.log",
+        "bytes": 12371,
+        "sha256": "1f872bf1198272c0e56ce207d06880143a5c6f96d6941646349b616fe2342c4f"
+      }
+    },
+    {
+      "name": "crop",
+      "exitCode": 0,
+      "signal": null,
+      "error": null,
+      "log": {
+        "path": "frozen-repo/review-output/additional/crop.log",
+        "bytes": 236,
+        "sha256": "7b29b151e4fd8165e9569cf42f8f31b1c5f63ce00b0203e6ac26cd1e46574e2c"
+      }
+    },
+    {
+      "name": "shortage",
+      "exitCode": 0,
+      "signal": null,
+      "error": null,
+      "log": {
+        "path": "frozen-repo/review-output/additional/shortage.log",
+        "bytes": 353,
+        "sha256": "ebfb00d4d9a1f110847750757c444f466a041db7986295db4a5ff45306384f88"
+      }
+    },
+    {
+      "name": "npc",
+      "exitCode": 0,
+      "signal": null,
+      "error": null,
+      "log": {
+        "path": "frozen-repo/review-output/additional/npc.log",
+        "bytes": 280,
+        "sha256": "311c6c0331ca2b46b1ccb510d939da4cf413069653cb17cdeaf538066ae37226"
+      }
+    },
+    {
+      "name": "scenario-boot",
+      "exitCode": 0,
+      "signal": null,
+      "error": null,
+      "log": {
+        "path": "frozen-repo/review-output/additional/scenario-boot.log",
+        "bytes": 245,
+        "sha256": "6f2e3837824736dec18778b05ff0979d488dc1a0d011674c23d3994da88c3d64"
+      }
+    },
+    {
+      "name": "scenario-c2",
+      "exitCode": 0,
+      "stdout": {
+        "path": "c2.stdout.log",
+        "bytes": 284,
+        "sha256": "f11d2fd6ae8cb25475f4d63aa46192635346a68f0548924c8ca2cdc41331cfee"
+      },
+      "stderr": {
+        "path": "c2.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "npc-self",
+      "exitCode": 0,
+      "stdout": {
+        "path": "self.stdout.log",
+        "bytes": 204,
+        "sha256": "fcd368706b22a325a8f43892484efdf38cccf8c5e416ea62f581183b90c2d7e7"
+      },
+      "stderr": {
+        "path": "self.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "inputIndex": {
+    "path": "frozen-input-index.json",
+    "bytes": 70915,
+    "sha256": "434945a650655ddaf8f059d2fa4fc8fcc24f12bfda3c2ee816ac77041d878722"
+  },
+  "methodIndex": {
+    "path": "execution-method-index.json",
+    "bytes": 1168,
+    "sha256": "059d3f57e7ca317a14d1feb082e336b4a128472bf483532c9cb1abaa42994199"
+  },
+  "processEvents": {
+    "child": {
+      "path": "process-events.jsonl",
+      "bytes": 17860,
+      "sha256": "b4e39b336092b7f7d4de03d4c358977a51d4b217b9bfa74b645ad9953a5ccf5a"
+    },
+    "suite": {
+      "path": "suite-process-events.jsonl",
+      "bytes": 2241,
+      "sha256": "1c58f1ff730ca828a132ca176473e9ed58ab68c8b40db20376bcc69355bdff82"
+    },
+    "childStarts": 40,
+    "childTerminals": 40,
+    "additionalActualFinalContracts": 2
+  },
+  "terminal": {
+    "path": "terminal.json",
+    "bytes": 1546,
+    "sha256": "a0c4090342920369616723012a0ceca59ff4b60303c219251f92e9d032ce77d4"
+  },
+  "outputIndex": {
+    "path": "output-artifacts-index.json",
+    "bytes": 124139,
+    "sha256": "def8e9402a521a2a8b59794773b01a8c9493dd14dd8981aeee32fad8020147a3"
+  },
+  "frozenInputChanges": [],
+  "rootFilesEdited": false
+}

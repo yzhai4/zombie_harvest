@@ -1,0 +1,614 @@
+{
+  "schema": "CropPythonNativeSourceExecutionV1",
+  "terminal": {
+    "status": "COMPLETED",
+    "exitCode": 0
+  },
+  "sourceHtmlSha256": "19cb05c4341ab1353e1ac5362b685a4af3a88fc826e349504b9d57a42639eb6f",
+  "runnerSha256": "cdc72f04e9f31887272a632d6e200975577621e25e9699e3c9ba0b0ca2897947",
+  "originalWriterSha256": "0e91022d25944ee63d30f75efb3d0a9e57db795ea5d1708485c0449fb34700a9",
+  "ioAdapterSha256": "ee5bb659c0439044e1ec07a4aecf931293457c2478f35d0850fe90770b4367cf",
+  "pythonHelperSha256": "7a6d4f7ac30c4ddb54343cb7208fa8930b6ed4262157c187f14457a2bc77e6d2",
+  "gardenId": "bld-mazjx8",
+  "refs": [
+    {
+      "path": "inputs/source.html",
+      "sha256": "19cb05c4341ab1353e1ac5362b685a4af3a88fc826e349504b9d57a42639eb6f",
+      "kind": "executed-full-inline-runtime"
+    },
+    {
+      "path": "inputs/original-fresh04-writer.json",
+      "sha256": "0e91022d25944ee63d30f75efb3d0a9e57db795ea5d1708485c0449fb34700a9",
+      "kind": "unchanged-original-complete-browser-writer",
+      "rootRelativeSource": "docs/qa/runs/shortage-choice-v2-20261017/natural-baseline/fresh04/terminal-before-cleanup-save.json"
+    },
+    {
+      "path": "inputs/io-adapter.mjs",
+      "sha256": "ee5bb659c0439044e1ec07a4aecf931293457c2478f35d0850fe90770b4367cf",
+      "kind": "actual-full-inline-io-adapter",
+      "rootRelativeSource": "scripts/check-report-recovery.mjs"
+    },
+    {
+      "path": "inputs/report_recovery_full.py",
+      "sha256": "7a6d4f7ac30c4ddb54343cb7208fa8930b6ed4262157c187f14457a2bc77e6d2",
+      "kind": "unchanged-executed-python-evidence-helper",
+      "rootRelativeSource": "scripts/report_recovery_full.py"
+    },
+    {
+      "path": "inputs/report_recovery_fixtures.py",
+      "sha256": "c9ec8771a76b2e6e8581cf3fa2c9edb6b667410e5f62448acc66201a51467e8e",
+      "kind": "unchanged-python-import-dependency",
+      "rootRelativeSource": "scripts/report_recovery_fixtures.py"
+    },
+    {
+      "path": "writers/before-harvest.json",
+      "sha256": "66626274c2a8f0c9b526bb66df38ed8a24cc0410c083e1f295fae78940853469",
+      "kind": "actual-source-native-complete-writer"
+    },
+    {
+      "path": "writers/after-harvest.json",
+      "sha256": "fd283876f0b148e3e77e57d7c5a0c02411933d50adcf9a6c8ad515adad95b9bf",
+      "kind": "actual-source-native-complete-writer"
+    },
+    {
+      "path": "writers/after-actual-reload.json",
+      "sha256": "eb25fedc1025e7ff1197c84e34aaa2cbe2d52f5bc4802bb4f072b12d86b4d50f",
+      "kind": "actual-source-native-complete-writer"
+    }
+  ],
+  "inputClassification": {
+    "initial": "unchanged actual fresh04 complete writer",
+    "scene": "TEST-ONLY derived mature garden: only original live garden planted=true ready=true growth=2 after actual loader; original fractional player retained",
+    "originalGarden": {
+      "x": 7,
+      "y": 14,
+      "type": "garden",
+      "planted": false,
+      "growth": 0,
+      "ready": false,
+      "id": "bld-mazjx8"
+    },
+    "sourceWritesAllReceipts": true,
+    "inputHistoryUnmodified": true
+  },
+  "actualPublicContext": {
+    "title": "菜畦",
+    "button": "<button class=\"context-action primary\" data-context-action=\"crop\" data-context-index=\"0\" data-building-id=\"bld-mazjx8\" data-crop-target=\"true\" ><kbd class=\"action-index\">1</kbd>🌽 收获作物<small>消耗 6 行动体力 · 食物 +3</small></button>",
+    "dataset": {
+      "contextAction": "crop",
+      "contextIndex": "0",
+      "buildingId": "bld-mazjx8",
+      "cropTarget": "true"
+    }
+  },
+  "actualWindow": {
+    "beforeMinute": 469,
+    "afterMinute": 489,
+    "foodBefore": 13,
+    "foodAfter": 16,
+    "energyBefore": 66,
+    "energyAfter": 61,
+    "newEvents": [
+      {
+        "eventId": "evt-000114",
+        "seq": 114,
+        "type": "npc.work.completed",
+        "actorId": "carpenter",
+        "commandId": null,
+        "causationId": "cmd-000277",
+        "tick": {
+          "world": 489,
+          "phase": 0,
+          "schedule": 129
+        },
+        "payload": {
+          "workId": "work.carpenter.2",
+          "npcId": "carpenter",
+          "role": "carpenter",
+          "task": "检查工坊与墙体库存",
+          "destination": "workshop",
+          "relayProjectId": null
+        }
+      },
+      {
+        "eventId": "evt-000115",
+        "seq": 115,
+        "type": "npc.work.completed",
+        "actorId": "doctor",
+        "commandId": null,
+        "causationId": "cmd-000277",
+        "tick": {
+          "world": 489,
+          "phase": 0,
+          "schedule": 129
+        },
+        "payload": {
+          "workId": "work.doctor.2",
+          "npcId": "doctor",
+          "role": "doctor",
+          "task": "巡查伤员与医务库存",
+          "destination": "infirmary",
+          "relayProjectId": null
+        }
+      },
+      {
+        "eventId": "evt-000116",
+        "seq": 116,
+        "type": "npc.work.completed",
+        "actorId": "radio",
+        "commandId": null,
+        "causationId": "cmd-000277",
+        "tick": {
+          "world": 489,
+          "phase": 0,
+          "schedule": 129
+        },
+        "payload": {
+          "workId": "work.radio.2",
+          "npcId": "radio",
+          "role": "radio",
+          "task": "监听频道并标记尸群方向",
+          "destination": "command",
+          "relayProjectId": null
+        }
+      },
+      {
+        "eventId": "evt-000117",
+        "seq": 117,
+        "type": "npc.work.completed",
+        "actorId": "commander",
+        "commandId": null,
+        "causationId": "cmd-000277",
+        "tick": {
+          "world": 489,
+          "phase": 0,
+          "schedule": 129
+        },
+        "payload": {
+          "workId": "work.commander.2",
+          "npcId": "commander",
+          "role": "commander",
+          "task": "分派营地岗位与防线任务",
+          "destination": "command",
+          "relayProjectId": null
+        }
+      },
+      {
+        "eventId": "evt-000118",
+        "seq": 118,
+        "type": "npc.work.completed",
+        "actorId": "guardJi",
+        "commandId": null,
+        "causationId": "cmd-000277",
+        "tick": {
+          "world": 489,
+          "phase": 0,
+          "schedule": 129
+        },
+        "payload": {
+          "workId": "work.guardJi.2",
+          "npcId": "guardJi",
+          "role": "guardJi",
+          "task": "巡检防线与索敌范围",
+          "destination": "eastGate",
+          "relayProjectId": null
+        }
+      },
+      {
+        "eventId": "evt-000119",
+        "seq": 119,
+        "type": "npc.work.completed",
+        "actorId": "guardChen",
+        "commandId": null,
+        "causationId": "cmd-000277",
+        "tick": {
+          "world": 489,
+          "phase": 0,
+          "schedule": 129
+        },
+        "payload": {
+          "workId": "work.guardChen.2",
+          "npcId": "guardChen",
+          "role": "guardChen",
+          "task": "巡检防线与索敌范围",
+          "destination": "northGate",
+          "relayProjectId": null
+        }
+      },
+      {
+        "eventId": "evt-000120",
+        "seq": 120,
+        "type": "npc.work.completed",
+        "actorId": "guardJiang",
+        "commandId": null,
+        "causationId": "cmd-000277",
+        "tick": {
+          "world": 489,
+          "phase": 0,
+          "schedule": 129
+        },
+        "payload": {
+          "workId": "work.guardJiang.2",
+          "npcId": "guardJiang",
+          "role": "guardJiang",
+          "task": "巡检防线与索敌范围",
+          "destination": "eastOutpost",
+          "relayProjectId": null
+        }
+      },
+      {
+        "eventId": "evt-000121",
+        "seq": 121,
+        "type": "npc.work.completed",
+        "actorId": "quartermaster",
+        "commandId": null,
+        "causationId": "cmd-000277",
+        "tick": {
+          "world": 489,
+          "phase": 0,
+          "schedule": 129
+        },
+        "payload": {
+          "workId": "work.quartermaster.2",
+          "npcId": "quartermaster",
+          "role": "quartermaster",
+          "task": "盘点仓库并整理物流",
+          "destination": "warehouse",
+          "relayProjectId": null
+        }
+      },
+      {
+        "eventId": "evt-000122",
+        "seq": 122,
+        "type": "npc.work.completed",
+        "actorId": "cook",
+        "commandId": null,
+        "causationId": "cmd-000277",
+        "tick": {
+          "world": 489,
+          "phase": 0,
+          "schedule": 129
+        },
+        "payload": {
+          "workId": "work.cook.2",
+          "npcId": "cook",
+          "role": "cook",
+          "task": "安排营地餐火与配给",
+          "destination": "residence",
+          "relayProjectId": null
+        }
+      },
+      {
+        "eventId": "evt-000123",
+        "seq": 123,
+        "type": "combat.damage.applied",
+        "actorId": "bld-1rhfvwb",
+        "commandId": null,
+        "causationId": "cmd-000277",
+        "tick": {
+          "world": 489,
+          "phase": 0,
+          "schedule": 129
+        },
+        "payload": {
+          "schemaVersion": "CombatIntentV1",
+          "phase": "DAY",
+          "tick": 10,
+          "intentId": "day-48-1",
+          "attackSeq": 1,
+          "profileId": "tower.tower",
+          "sourceId": "bld-1rhfvwb",
+          "targetId": "wz-1",
+          "sourceKind": "tower",
+          "targetKind": "event-enemy",
+          "amount": 10,
+          "before": 10,
+          "after": 0,
+          "damageType": "physical",
+          "sourceEventId": null
+        }
+      },
+      {
+        "eventId": "evt-000124",
+        "seq": 124,
+        "type": "combat.entity.defeated",
+        "actorId": "bld-1rhfvwb",
+        "commandId": null,
+        "causationId": "cmd-000277",
+        "tick": {
+          "world": 489,
+          "phase": 0,
+          "schedule": 129
+        },
+        "payload": {
+          "schemaVersion": "CombatIntentV1",
+          "phase": "DAY",
+          "tick": 10,
+          "intentId": "day-48-1",
+          "attackSeq": 1,
+          "profileId": "tower.tower",
+          "sourceId": "bld-1rhfvwb",
+          "targetId": "wz-1",
+          "sourceKind": "tower",
+          "targetKind": "event-enemy",
+          "amount": 10,
+          "before": 10,
+          "after": 0,
+          "damageType": "physical",
+          "sourceEventId": null,
+          "defeatedAt": 489
+        }
+      },
+      {
+        "eventId": "evt-000125",
+        "seq": 125,
+        "type": "time.advanced",
+        "actorId": "system",
+        "commandId": "cmd-000277",
+        "causationId": "cmd-000276",
+        "tick": {
+          "world": 489,
+          "phase": 0,
+          "schedule": 129
+        },
+        "payload": {
+          "minutes": 20,
+          "day": 1,
+          "hour": 8,
+          "minute": 9
+        }
+      },
+      {
+        "eventId": "evt-000126",
+        "seq": 126,
+        "type": "crop.changed",
+        "actorId": "player-1",
+        "commandId": "cmd-000276",
+        "causationId": null,
+        "tick": {
+          "world": 489,
+          "phase": 0,
+          "schedule": 129
+        },
+        "payload": {
+          "ok": true,
+          "proofVersion": 1,
+          "buildingId": "bld-mazjx8",
+          "buildingType": "garden",
+          "operation": "harvest",
+          "target": {
+            "id": "bld-mazjx8",
+            "type": "garden",
+            "before": {
+              "planted": true,
+              "ready": true,
+              "growth": 2
+            },
+            "afterAction": {
+              "planted": false,
+              "ready": false,
+              "growth": 0
+            },
+            "presentAtCompletion": true,
+            "atCompletion": {
+              "planted": false,
+              "ready": false,
+              "growth": 0
+            }
+          },
+          "payment": {
+            "cost": {
+              "energy": 6,
+              "seeds": 0
+            },
+            "before": {
+              "energy": 66,
+              "seeds": 4
+            },
+            "after": {
+              "energy": 60,
+              "seeds": 4
+            }
+          },
+          "yield": {
+            "food": 3,
+            "medicine": 0
+          },
+          "resources": {
+            "before": {
+              "wood": 28,
+              "stone": 12,
+              "food": 13,
+              "parts": 5,
+              "medicine": 0,
+              "seeds": 4,
+              "energy": 66
+            },
+            "afterPayment": {
+              "wood": 28,
+              "stone": 12,
+              "food": 13,
+              "parts": 5,
+              "medicine": 0,
+              "seeds": 4,
+              "energy": 60
+            },
+            "afterAction": {
+              "wood": 28,
+              "stone": 12,
+              "food": 16,
+              "parts": 5,
+              "medicine": 0,
+              "seeds": 4,
+              "energy": 60
+            },
+            "after": {
+              "wood": 28,
+              "stone": 12,
+              "food": 16,
+              "parts": 5,
+              "medicine": 0,
+              "seeds": 4,
+              "energy": 61
+            }
+          },
+          "delta": {
+            "wood": 0,
+            "stone": 0,
+            "food": 3,
+            "parts": 0,
+            "medicine": 0,
+            "seeds": 0,
+            "energy": -5
+          },
+          "clock": {
+            "before": {
+              "day": 1,
+              "hour": 7,
+              "minute": 49,
+              "world": 469
+            },
+            "after": {
+              "day": 1,
+              "hour": 8,
+              "minute": 9,
+              "world": 489
+            },
+            "requestedMinutes": 20,
+            "elapsedMinutes": 20
+          },
+          "advance": {
+            "commandId": "cmd-000277",
+            "eventId": "evt-000125",
+            "causationId": "cmd-000276",
+            "minutes": 20,
+            "tick": {
+              "world": 489,
+              "phase": 0,
+              "schedule": 129
+            }
+          },
+          "advanceEffects": {
+            "resourceDelta": {
+              "wood": 0,
+              "stone": 0,
+              "food": 0,
+              "parts": 0,
+              "medicine": 0,
+              "seeds": 0,
+              "energy": 1
+            },
+            "events": [
+              {
+                "eventId": "evt-000114",
+                "type": "npc.work.completed",
+                "actorId": "carpenter",
+                "commandId": null,
+                "causationId": "cmd-000277"
+              },
+              {
+                "eventId": "evt-000115",
+                "type": "npc.work.completed",
+                "actorId": "doctor",
+                "commandId": null,
+                "causationId": "cmd-000277"
+              },
+              {
+                "eventId": "evt-000116",
+                "type": "npc.work.completed",
+                "actorId": "radio",
+                "commandId": null,
+                "causationId": "cmd-000277"
+              },
+              {
+                "eventId": "evt-000117",
+                "type": "npc.work.completed",
+                "actorId": "commander",
+                "commandId": null,
+                "causationId": "cmd-000277"
+              },
+              {
+                "eventId": "evt-000118",
+                "type": "npc.work.completed",
+                "actorId": "guardJi",
+                "commandId": null,
+                "causationId": "cmd-000277"
+              },
+              {
+                "eventId": "evt-000119",
+                "type": "npc.work.completed",
+                "actorId": "guardChen",
+                "commandId": null,
+                "causationId": "cmd-000277"
+              },
+              {
+                "eventId": "evt-000120",
+                "type": "npc.work.completed",
+                "actorId": "guardJiang",
+                "commandId": null,
+                "causationId": "cmd-000277"
+              },
+              {
+                "eventId": "evt-000121",
+                "type": "npc.work.completed",
+                "actorId": "quartermaster",
+                "commandId": null,
+                "causationId": "cmd-000277"
+              },
+              {
+                "eventId": "evt-000122",
+                "type": "npc.work.completed",
+                "actorId": "cook",
+                "commandId": null,
+                "causationId": "cmd-000277"
+              },
+              {
+                "eventId": "evt-000123",
+                "type": "combat.damage.applied",
+                "actorId": "bld-1rhfvwb",
+                "commandId": null,
+                "causationId": "cmd-000277"
+              },
+              {
+                "eventId": "evt-000124",
+                "type": "combat.entity.defeated",
+                "actorId": "bld-1rhfvwb",
+                "commandId": null,
+                "causationId": "cmd-000277"
+              },
+              {
+                "eventId": "evt-000125",
+                "type": "time.advanced",
+                "actorId": "system",
+                "commandId": "cmd-000277",
+                "causationId": "cmd-000276"
+              }
+            ],
+            "npcMeals": []
+          }
+        }
+      }
+    ],
+    "newCommands": [
+      {
+        "commandId": "cmd-000276",
+        "type": "crop.change",
+        "actorId": "player-1",
+        "payload": {
+          "buildingId": "bld-mazjx8"
+        }
+      },
+      {
+        "commandId": "cmd-000277",
+        "type": "world.advance",
+        "actorId": "player-1",
+        "payload": {
+          "minutes": 20
+        }
+      }
+    ]
+  },
+  "ioScope": "full actual inline; actual loader/SessionController/CommandBus/crop Gate/reducer/writer/context renderer/click listener; DOM/storage/clock/timer IO controlled, no timer callbacks fired; unrelated Canvas/HUD/world rendering suppressed after capturing actual context renderer",
+  "browserStarted": false,
+  "naturalGameplay": false
+}

@@ -1,0 +1,21 @@
+{
+  "schema": "LeaderCommandBridgeV1",
+  "intentAction": "support_proposal",
+  "command": {
+    "type": "plan.meeting.commit",
+    "actorId": "leader:commander",
+    "payload": { "action": "support", "planId": "plan-defend-core-001" }
+  },
+  "eventType": "plan.meeting.committed",
+  "cost": { "commandPoints": 1 },
+  "receipt": {
+    "accepted": ["intentId", "normalizedIntentHash", "commandId", "eventIds", "replayHash"],
+    "rejected": ["intentId", "reasonCode", "fallbackIntentId", "eventIds", "replayHash"],
+    "duplicate": ["intentId", "commandId", "replayOf", "replayHash"]
+  },
+  "saveProjection": {
+    "requiredExistingPaths": ["worldMeta.replay.commands", "worldMeta.seenCommands", "contentState.commandPoints", "contentState.planMeeting"],
+    "leaderIntentPersistence": "forbidden-until-separate-save-migration-adr"
+  },
+  "sixViews": ["player", "npc", "camp", "faction", "enemy", "global-event-chain"]
+}

@@ -1,0 +1,36 @@
+{
+  "runner": "offline-leader-llm-harness-contract",
+  "fixtureDir": "scripts\\fixtures\\leader-harness",
+  "ok": true,
+  "count": 6,
+  "passed": 6,
+  "checks": [
+    {
+      "name": "ProjectionV1 whitelist and hash",
+      "ok": true
+    },
+    {
+      "name": "rules baseline emits only a structured IntentEnvelopeV1",
+      "ok": true
+    },
+    {
+      "name": "valid support proposal is accepted by deterministic Gate",
+      "ok": true
+    },
+    {
+      "name": "unregistered command and script target are rejected",
+      "ok": true
+    },
+    {
+      "name": "unknown state patch field is rejected before capability checks",
+      "ok": true
+    },
+    {
+      "name": "expected GateReport is a small receipt, not a game-state mutation",
+      "ok": true
+    }
+  ],
+  "failures": [],
+  "productionWiring": false,
+  "source": "ADR-20261014-leader-llm-harness"
+}

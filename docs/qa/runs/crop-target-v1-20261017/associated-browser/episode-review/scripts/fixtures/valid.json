@@ -1,0 +1,509 @@
+{
+  "version": 21,
+  "day": 1,
+  "hour": 7,
+  "minute": 12,
+  "energy": 92,
+  "sanity": 72,
+  "sanityClock": 0,
+  "sanityLastReason": "fixture",
+  "hp": 100,
+  "wood": 14,
+  "stone": 8,
+  "food": 20,
+  "seeds": 3,
+  "parts": 4,
+  "medicine": 1,
+  "morale": 72,
+  "campaign": {
+    "id": "zombie-farm",
+    "title": "我是大救星",
+    "scenarioId": "zombie-farm"
+  },
+  "campStanding": {
+    "prestige": 10,
+    "merit": 6,
+    "legitimacy": 50,
+    "domains": {
+      "logistics": 2,
+      "defense": 1
+    }
+  },
+  "specialItems": {
+    "relayCore": 1
+  },
+  "relayProject": {
+    "id": "camp-relay-001",
+    "status": "briefed",
+    "coreItemId": "item-relayCore-001",
+    "materialNeed": {
+      "wood": 10,
+      "parts": 5,
+      "stone": 4
+    },
+    "materialProgress": {
+      "wood": 0,
+      "parts": 0,
+      "stone": 0
+    },
+    "workMinutes": 0,
+    "targetMinutes": 180,
+    "assignedNpcIds": [
+      "radio",
+      "carpenter",
+      "quartermaster"
+    ]
+  },
+  "hordeForecast": {
+    "confidence": 18,
+    "leadMinutes": 0,
+    "routeId": "eastern-breach",
+    "source": "fixture",
+    "updatedAt": 0
+  },
+  "contentState": {
+    "contentVersion": 3,
+    "meters": {
+      "campCollapse": 0,
+      "resonancePressure": 25,
+      "campTrust": 0
+    },
+    "commandPoints": 0,
+    "commandPointsMax": 0,
+    "commandPointsGrantedDay": 0,
+    "autonomyWeights": {
+      "defense": 40,
+      "harvest": 25,
+      "logistics": 20,
+      "research": 10,
+      "diplomacy": 5
+    },
+    "planMeeting": {
+      "version": 1,
+      "status": "idle",
+      "meetingDay": 0,
+      "instanceId": null,
+      "source": "summary",
+      "candidates": [],
+      "selectedId": null,
+      "playerAction": null,
+      "committedDay": null,
+      "resolvedDay": null,
+      "autonomyResult": null,
+      "history": []
+    },
+    "unlockedTech": [],
+    "unlockedWeapons": [
+      "rustAxe"
+    ],
+    "unlockedBlueprints": [],
+    "flags": {},
+    "npcRoster": {
+      "promotedNpcIds": [],
+      "promotionHistory": []
+    },
+    "scheduledEvents": [],
+    "triggeredEvents": [],
+    "activeChains": {},
+    "completedChains": [],
+    "appliedEffects": [],
+    "outposts": {},
+    "history": []
+  },
+  "collection": {},
+  "weapon": {
+    "id": "rusty-pistol"
+  },
+  "event": {
+    "id": "relay-briefing",
+    "handled": false,
+    "result": ""
+  },
+  "eventInstance": {
+    "instanceId": "event-relay-briefing-1",
+    "defId": "relay-briefing",
+    "status": "active",
+    "createdAt": 420,
+    "handled": false,
+    "payload": {
+      "relayProjectId": "camp-relay-001"
+    }
+  },
+  "eventThreat": 0,
+  "eventShield": 0,
+  "night": false,
+  "nightBattle": null,
+  "mapRevision": 8,
+  "player": {
+    "id": "player-1",
+    "x": 19,
+    "y": 3
+  },
+  "motion": {
+    "enabled": true,
+    "stepIndex": 0,
+    "input": {
+      "x": 0,
+      "y": 0
+    }
+  },
+  "buildings": [],
+  "resources": [],
+  "landmarks": [],
+  "world": {},
+  "worldZombies": [],
+  "npcs": [],
+  "npcEvents": [],
+  "visitedRegions": {
+    "core": true
+  },
+  "areaFlags": {},
+  "roleVacancies": {},
+  "tempCoordination": false,
+  "settings": {
+    "continuousWorld": true
+  },
+  "staminaRules": {
+    "actionCosts": {}
+  },
+  "quests": [
+    {
+      "id": "relay-chain-001",
+      "completedSteps": [
+        "recover-relay-core",
+        "brief-commander"
+      ]
+    }
+  ],
+  "worldMeta": {
+    "seed": 481516234,
+    "rngState": 481516234,
+    "eventSeq": 2,
+    "commandSeq": 2,
+    "events": [
+      {
+        "eventId": "evt-000001",
+        "seq": 1,
+        "type": "resource.collected",
+        "actorId": "system",
+        "commandId": "cmd-000001",
+        "causationId": "cmd-000001",
+        "tick": {
+          "world": 421,
+          "phase": 0,
+          "schedule": 1
+        },
+        "payload": {
+          "resource": "wood",
+          "amount": 4
+        }
+      },
+      {
+        "eventId": "evt-000002",
+        "seq": 2,
+        "type": "relay.coreHandedOff",
+        "actorId": "system",
+        "commandId": "cmd-000002",
+        "causationId": "cmd-000002",
+        "tick": {
+          "world": 422,
+          "phase": 0,
+          "schedule": 2
+        },
+        "payload": {
+          "itemId": "relayCore"
+        }
+      }
+    ],
+    "seenCommands": [
+      "cmd-000001",
+      "cmd-000002"
+    ],
+    "replay": {
+      "seed": 481516234,
+      "commands": [
+        {
+          "commandId": "cmd-000001",
+          "type": "resource.collect",
+          "actorId": "player-1",
+          "payload": {
+            "resource": "wood",
+            "amount": 4
+          }
+        },
+        {
+          "commandId": "cmd-000002",
+          "type": "relay.coreHandOff",
+          "actorId": "player-1",
+          "payload": {
+            "itemId": "relayCore"
+          }
+        }
+      ]
+    },
+    "feedback": [],
+    "clock": {
+      "paused": false,
+      "rate": 1,
+      "phaseMinutes": 0,
+      "scheduleMinutes": 12
+    },
+    "lastEventId": "evt-000002"
+  },
+  "checksum": "3de74d2c",
+  "payload": {
+    "version": 21,
+    "day": 1,
+    "hour": 7,
+    "minute": 12,
+    "energy": 92,
+    "sanity": 72,
+    "sanityClock": 0,
+    "sanityLastReason": "fixture",
+    "hp": 100,
+    "wood": 14,
+    "stone": 8,
+    "food": 20,
+    "seeds": 3,
+    "parts": 4,
+    "medicine": 1,
+    "morale": 72,
+    "campaign": {
+      "id": "zombie-farm",
+      "title": "我是大救星",
+      "scenarioId": "zombie-farm"
+    },
+    "campStanding": {
+      "prestige": 10,
+      "merit": 6,
+      "legitimacy": 50,
+      "domains": {
+        "logistics": 2,
+        "defense": 1
+      }
+    },
+    "specialItems": {
+      "relayCore": 1
+    },
+    "relayProject": {
+      "id": "camp-relay-001",
+      "status": "briefed",
+      "coreItemId": "item-relayCore-001",
+      "materialNeed": {
+        "wood": 10,
+        "parts": 5,
+        "stone": 4
+      },
+      "materialProgress": {
+        "wood": 0,
+        "parts": 0,
+        "stone": 0
+      },
+      "workMinutes": 0,
+      "targetMinutes": 180,
+      "assignedNpcIds": [
+        "radio",
+        "carpenter",
+        "quartermaster"
+      ]
+    },
+    "hordeForecast": {
+      "confidence": 18,
+      "leadMinutes": 0,
+      "routeId": "eastern-breach",
+      "source": "fixture",
+      "updatedAt": 0
+    },
+    "contentState": {
+      "contentVersion": 3,
+      "meters": {
+        "campCollapse": 0,
+        "resonancePressure": 25,
+        "campTrust": 0
+      },
+      "commandPoints": 0,
+      "commandPointsMax": 0,
+      "commandPointsGrantedDay": 0,
+      "autonomyWeights": {
+        "defense": 40,
+        "harvest": 25,
+        "logistics": 20,
+        "research": 10,
+        "diplomacy": 5
+      },
+      "planMeeting": {
+        "version": 1,
+        "status": "idle",
+        "meetingDay": 0,
+        "instanceId": null,
+        "source": "summary",
+        "candidates": [],
+        "selectedId": null,
+        "playerAction": null,
+        "committedDay": null,
+        "resolvedDay": null,
+        "autonomyResult": null,
+        "history": []
+      },
+      "unlockedTech": [],
+      "unlockedWeapons": [
+        "rustAxe"
+      ],
+      "unlockedBlueprints": [],
+      "flags": {},
+      "npcRoster": {
+        "promotedNpcIds": [],
+        "promotionHistory": []
+      },
+      "scheduledEvents": [],
+      "triggeredEvents": [],
+      "activeChains": {},
+      "completedChains": [],
+      "appliedEffects": [],
+      "outposts": {},
+      "history": []
+    },
+    "collection": {},
+    "weapon": {
+      "id": "rusty-pistol"
+    },
+    "event": {
+      "id": "relay-briefing",
+      "handled": false,
+      "result": ""
+    },
+    "eventInstance": {
+      "instanceId": "event-relay-briefing-1",
+      "defId": "relay-briefing",
+      "status": "active",
+      "createdAt": 420,
+      "handled": false,
+      "payload": {
+        "relayProjectId": "camp-relay-001"
+      }
+    },
+    "eventThreat": 0,
+    "eventShield": 0,
+    "night": false,
+    "nightBattle": null,
+    "mapRevision": 8,
+    "player": {
+      "id": "player-1",
+      "x": 19,
+      "y": 3
+    },
+    "motion": {
+      "enabled": true,
+      "stepIndex": 0,
+      "input": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    "buildings": [],
+    "resources": [],
+    "landmarks": [],
+    "world": {},
+    "worldZombies": [],
+    "npcs": [],
+    "npcEvents": [],
+    "visitedRegions": {
+      "core": true
+    },
+    "areaFlags": {},
+    "roleVacancies": {},
+    "tempCoordination": false,
+    "settings": {
+      "continuousWorld": true
+    },
+    "staminaRules": {
+      "actionCosts": {}
+    },
+    "quests": [
+      {
+        "id": "relay-chain-001",
+        "completedSteps": [
+          "recover-relay-core",
+          "brief-commander"
+        ]
+      }
+    ],
+    "worldMeta": {
+      "seed": 481516234,
+      "rngState": 481516234,
+      "eventSeq": 2,
+      "commandSeq": 2,
+      "events": [
+        {
+          "eventId": "evt-000001",
+          "seq": 1,
+          "type": "resource.collected",
+          "actorId": "system",
+          "commandId": "cmd-000001",
+          "causationId": "cmd-000001",
+          "tick": {
+            "world": 421,
+            "phase": 0,
+            "schedule": 1
+          },
+          "payload": {
+            "resource": "wood",
+            "amount": 4
+          }
+        },
+        {
+          "eventId": "evt-000002",
+          "seq": 2,
+          "type": "relay.coreHandedOff",
+          "actorId": "system",
+          "commandId": "cmd-000002",
+          "causationId": "cmd-000002",
+          "tick": {
+            "world": 422,
+            "phase": 0,
+            "schedule": 2
+          },
+          "payload": {
+            "itemId": "relayCore"
+          }
+        }
+      ],
+      "seenCommands": [
+        "cmd-000001",
+        "cmd-000002"
+      ],
+      "replay": {
+        "seed": 481516234,
+        "commands": [
+          {
+            "commandId": "cmd-000001",
+            "type": "resource.collect",
+            "actorId": "player-1",
+            "payload": {
+              "resource": "wood",
+              "amount": 4
+            }
+          },
+          {
+            "commandId": "cmd-000002",
+            "type": "relay.coreHandOff",
+            "actorId": "player-1",
+            "payload": {
+              "itemId": "relayCore"
+            }
+          }
+        ]
+      },
+      "feedback": [],
+      "clock": {
+        "paused": false,
+        "rate": 1,
+        "phaseMinutes": 0,
+        "scheduleMinutes": 12
+      },
+      "lastEventId": "evt-000002"
+    }
+  },
+  "savedAt": 1872,
+  "reason": "fixture-valid"
+}

@@ -1,0 +1,59 @@
+{
+  "runner": "source-relay-construction-runtime",
+  "schema": "RelayConstructionTransactionV1",
+  "version": 1,
+  "sourceHash": "23b8c8c27234592673aa927f3909ea49247c372a937787f90355f87531f421b0",
+  "htmlPath": "[private-local-path:762c56da7326]",
+  "fixturePath": "[private-local-path:afb3d57e5472]",
+  "fixtureCases": [
+    "flag-off-compatibility",
+    "stage-success-once",
+    "missing-worker",
+    "stale-token",
+    "duplicate-child",
+    "virtual-occupancy",
+    "save-reload-token",
+    "same-tick-order"
+  ],
+  "ok": true,
+  "count": 8,
+  "passed": 8,
+  "checks": [
+    {
+      "name": "flag-off compatibility and default false",
+      "ok": true
+    },
+    {
+      "name": "stage success exactly once",
+      "ok": true
+    },
+    {
+      "name": "missing worker leaves relay cross-domain state unchanged",
+      "ok": true
+    },
+    {
+      "name": "stale token leaves relay cross-domain state unchanged",
+      "ok": true
+    },
+    {
+      "name": "duplicate child command is a no-op",
+      "ok": true
+    },
+    {
+      "name": "virtual occupancy commits only after success",
+      "ok": true
+    },
+    {
+      "name": "save/reload preserves transaction token and replay child",
+      "ok": true
+    },
+    {
+      "name": "same-tick order keeps relay construction before world combat",
+      "ok": true
+    }
+  ],
+  "productionWiring": "feature-gated-stage-only",
+  "naturalGameplay": false,
+  "sitesVersion": "v81-unchanged"
+}
+

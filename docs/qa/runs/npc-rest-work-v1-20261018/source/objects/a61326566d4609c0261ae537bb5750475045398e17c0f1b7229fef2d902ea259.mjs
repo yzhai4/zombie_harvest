@@ -1,0 +1,74 @@
+#!/usr/bin/env node
+// Independent authored/source-reproduction expectations. No runtime Gate or need/motion/combat mock.
+// Working method: execute only against an explicitly frozen --expect-html-sha256.
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import vm from 'node:vm';
+import {createHash} from 'node:crypto';
+import {fileURLToPath,pathToFileURL} from 'node:url';
+
+const usage='node scripts/check-npc-rest-work-v1.mjs --html HTML --expect-html-sha256 SHA --io-adapter IO --repro-root ORIGINAL_REPRO --out NEW_REPORT_JSON [--repo-root ROOT]';
+const argv=process.argv.slice(2),options={};
+if(argv.includes('--help')){console.log(usage);process.exit(0);}
+assert.equal(argv.length%2,0,usage);
+for(let i=0;i<argv.length;i+=2){assert.ok(['--html','--expect-html-sha256','--io-adapter','--repro-root','--out','--repo-root'].includes(argv[i])&&argv[i+1]&&!Object.hasOwn(options,argv[i]),usage);options[argv[i]]=argv[i]==='--expect-html-sha256'?argv[i+1]:path.resolve(argv[i+1]);}
+for(const key of ['--html','--expect-html-sha256','--io-adapter','--repro-root','--out'])assert.ok(options[key],usage);
+assert.match(options['--expect-html-sha256'],/^[a-f0-9]{64}$/);
+const root=options['--repo-root']||path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..'),repro=options['--repro-root'];
+const reportFile=options['--out'],artifactDir=path.basename(reportFile,path.extname(reportFile))+'-artifacts',out=path.join(path.dirname(reportFile),artifactDir);
+assert.ok(!fs.existsSync(reportFile)&&!fs.existsSync(out),'new outputs only');
+const sha=bytes=>createHash('sha256').update(bytes).digest('hex'),plain=value=>JSON.parse(JSON.stringify(value));
+const sourceBytes=fs.readFileSync(options['--html']),source=sourceBytes.toString('utf8'),sourceHash=sha(sourceBytes),runnerBytes=fs.readFileSync(fileURLToPath(import.meta.url)),ioBytes=fs.readFileSync(options['--io-adapter']);
+assert.equal(sourceHash,options['--expect-html-sha256'],'explicit immutable HTML binding');
+assert.equal(sha(ioBytes),'554c400c174ad1b069c4dfcc839c12b3b45ea79c5aa7669e093a440ffa4845d3','immutable actual IO factory');
+const inline=[...source.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map(v=>v[1]).filter(v=>v.trim());assert.equal(inline.length,1);new vm.Script(inline[0]);
+const io=ioBytes.toString('utf8'),start=io.indexOf('function runtime(entries = []) {'),end=io.indexOf('\nfunction envelope(payload)',start);assert.ok(start>=0&&end>start);
+let factory=io.slice(start,end);const marker='  const api = context.qa;\n  api.instrumentRendering();';assert.equal(factory.split(marker).length,2);
+factory=factory.replace(marker,`  vm.runInContext(\`qa.restWork={
+  advance,updateNpcRoutine,campWorkPulse,integrateContinuousMotion,updateNpcSanity,
+  view:viewNpc,interact:interactNpc,order:setNpcOrder,gate:npcPublicActionGate,
+  renderContext,renderSurvivors,serializeNpc,stop:stopWorldSimulation,
+  roles:()=>state.npcs.filter(n=>npcFulfillsRole(n,'carpenter')).map(n=>n.id),
+  context:typeof npcRestWorkContext==='function'?npcRestWorkContext:null,
+  active:typeof npcRoutineRestActive==='function'?npcRoutineRestActive:null,
+  text:typeof npcRoutineRestText==='function'?npcRoutineRestText:null,
+  present:typeof presentNpcRoutineRest==='function'?presentNpcRoutineRest:null,
+  areas:CAMP_AREAS,minute:worldMinute
+};\`,context);
+  const api = context.qa;
+  api.instrumentRendering();`);
+const makeRuntime=new Function('inline','htmlPath','vm','assert',factory+'\nreturn runtime;')(inline,options['--html'],vm,assert);
+const modulePath=path.join(root,'scripts/lib/npc-rest-work-v1.mjs'),moduleBytes=fs.readFileSync(modulePath),core=await import(pathToFileURL(modulePath).href+'?sha='+sha(moduleBytes));
+const saveKey='zombie-harvest-progress-v12',checks=[],artifacts=[];fs.mkdirSync(out,{recursive:true});
+function artifact(name,bytes){const b=Buffer.isBuffer(bytes)?bytes:Buffer.from(bytes),p=path.join(out,name);assert.ok(!fs.existsSync(p));fs.mkdirSync(path.dirname(p),{recursive:true});fs.writeFileSync(p,b);const ref={path:artifactDir+'/'+name,sha256:sha(b),bytes:b.length};artifacts.push(ref);return ref;}
+artifact('source-executed.html',sourceBytes);artifact('runner-executed.mjs',runnerBytes);artifact('io-adapter-executed.mjs',ioBytes);artifact('modules/npc-rest-work-v1.mjs',moduleBytes);
+const inputSpecs=[['low-due-pulse','6a74a12b9ce2ff269342adc52e509ff139b2201137760f338b12bf4653b2a3cf'],['normal-due-pulse','3efe46db8fd013b39ee4b6cc97b0b3eb31f30e09beb2f826a1fd7283534ca786'],['low-not-yet-due','53af765389266905225ada5ea8c7c01059a3e09f805a77477335908b48afc4d8']];
+const inputs=new Map();for(const[id,h]of inputSpecs){const b=fs.readFileSync(path.join(repro,'inputs',id+'-native.json'));assert.equal(sha(b),h);inputs.set(id,b.toString('utf8'));artifact('inputs/'+id+'-native.json',b);}
+const originalReportBytes=fs.readFileSync(path.join(repro,'report.json'));assert.equal(sha(originalReportBytes),'e8ae592913a7b363caf493999ab8c6a1bd7ae124ddb38a8b019082004a9bb21e');artifact('inputs/original-three-scene-report.json',originalReportBytes);
+function test(name,fn,derivation='UNCHANGED original complete repro native input; actual source loader/start/advance/writer/validator.'){try{checks.push({name,ok:true,derivation,evidence:fn()??null});}catch(error){checks.push({name,ok:false,derivation,error:error.stack});}}
+function load(raw){const r=makeRuntime([[saveKey,raw]]);assert.equal(r.api.validate({raw,sourceCategory:'primary'}).ok,true,'actual input validator');assert.equal(r.api.start().ok,true,'actual public boot');r.api.restWork.stop();r.tasks.clear();return r;}
+function native(r,label){const ok=r.api.save({reason:'TEST-ONLY next-planning after actual one-minute advance'}),raw=r.storage.get(saveKey);if(typeof raw==='string')artifact(label+'.json',raw);assert.equal(ok,true,'actual native save');assert.equal(r.api.validate({raw,sourceCategory:'primary'}).ok,true,'actual native writer validator');return raw;}
+const actor=r=>r.api.state.npcs.find(n=>n.id==='carpenter');
+const events=(r,seq=0)=>r.api.state.worldMeta.events.filter(e=>e.seq>seq);
+function approximate(actual,expected){assert.ok(Math.abs(actual-expected)<1e-9,`${actual} vs independent frozen literal ${expected}`);}
+const intentKeys=['actorId','intentId','policyVersion','roleId','startedAt','version'];
+function assertIntent(value,r){assert.ok(value);assert.deepEqual(Object.keys(value).sort(),intentKeys);assert.equal(value.version,1);assert.equal(value.policyVersion,'carpenter-rest-work-v1');assert.equal(value.roleId,'carpenter');assert.equal(value.actorId,'carpenter');assert.ok(typeof value.intentId==='string'&&value.intentId.length>0);assert.ok(Number.isFinite(value.startedAt)&&value.startedAt>=540&&value.startedAt<=r.api.restWork.minute());}
+
+test('policy is explicitly new24-in36-out and inline/core marker body is identical',()=>{assert.deepEqual(plain(core.NPC_REST_WORK_POLICY_V1),{enterEnergy:24,releaseEnergy:36,policyVersion:'carpenter-rest-work-v1'});const body=s=>s.split('// NPC_REST_WORK_CORE_START')[1]?.split('// NPC_REST_WORK_CORE_END')[0].replace(/\r\n/g,'\n').trim();assert.ok(body(source),'actual inline core exists');assert.equal(body(source),body(moduleBytes.toString('utf8')));});
+test('pure six-field intent validator rejects malformed/future/extra/mismatched input',()=>{const v={version:1,policyVersion:'carpenter-rest-work-v1',intentId:'rest-proof',actorId:'carpenter',roleId:'carpenter',startedAt:540};assert.equal(core.validateNpcRoutineIntentV1(null,'carpenter',541),true);assert.equal(core.validateNpcRoutineIntentV1(v,'carpenter',541),true);for(const mutate of [x=>x.version=2,x=>x.policyVersion='future',x=>x.actorId='doctor',x=>x.roleId='radio',x=>x.startedAt=542,x=>x.startedAt='540',x=>x.goalEnergy=24,x=>delete x.intentId]){const x=plain(v);mutate(x);assert.equal(core.validateNpcRoutineIntentV1(x,'carpenter',541),false);}assert.equal(core.validateNpcRoutineIntentV1(undefined,'carpenter',541),false);});
+test('independent threshold/owner literal decisions and pure input preservation',()=>{const intent={version:1,policyVersion:'carpenter-rest-work-v1',intentId:'rest-proof',actorId:'carpenter',roleId:'carpenter',startedAt:540};for(const[energy,v,eligible,ownerReason,action,reason]of [[23.999,null,true,null,'start','low-energy'],[24,null,true,null,'unhandled','energy-not-low'],[35.999,intent,true,null,'continue','recovery-in-progress'],[36,intent,true,null,'finish','energy-recovered'],[10,intent,true,'support','cancel','support'],[10,intent,false,null,'cancel','ineligible']]){const input={energy,eligible,ownerReason,intent:v,actorId:'carpenter',worldMinute:541},before=structuredClone(input);assert.deepEqual(plain(core.decideNpcRestWorkV1(input)),{action,reason});assert.deepEqual(input,before);}});
+
+for(const id of ['low-due-pulse','low-not-yet-due'])test('actual one-minute low-energy routine truly pauses work and targets authored home '+id,()=>{const r=load(inputs.get(id)),s=r.api.state,n=actor(r),before=structuredClone(s),seq=s.worldMeta.eventSeq;assert.deepEqual(plain(r.api.restWork.roles()),['carpenter']);assert.equal(n.homeZone,'workshop');assert.equal(n.workZone,'eastGate');assert.equal(r.api.advance(1).ok,true);assertIntent(n.routineIntent,r);approximate(n.needs.energy,23.545);approximate(n.needs.fatigue,11.972);assert.deepEqual(plain(n.motionTarget),{x:7,y:9});assert.equal(n.workClock,0);assert.equal(n.workPulseSeq,before.npcs.find(v=>v.id==='carpenter').workPulseSeq);assert.deepEqual(plain(n.workHistory),plain(before.npcs.find(v=>v.id==='carpenter').workHistory));assert.equal(events(r,seq).filter(e=>e.type==='npc.work.completed'&&e.payload.npcId==='carpenter').length,0);for(const key of ['food','wood','stone','seeds','parts','medicine','energy','hp'])assert.equal(s[key],before[key]);const raw=native(r,id+'-actual-after');return{nativeSha256:sha(raw),actor:plain(n),freshEvents:plain(events(r,seq))};});
+test('normal40 preserves the original complete native outcome apart from explicit new null fields',()=>{const r=load(inputs.get('normal-due-pulse'));assert.equal(r.api.advance(1).ok,true);const raw=native(r,'normal-due-pulse-actual-after'),actual=JSON.parse(raw).payload,baselineBytes=fs.readFileSync(path.join(repro,'normal-due-pulse/after-native.json'));assert.equal(sha(baselineBytes),'1b1f759d3e137842311736958744c8880f291e3b28b87ff4dfe03b1012ff54b1');artifact('inputs/original-normal-after-native.json',baselineBytes);for(const n of actual.npcs){if(Object.hasOwn(n,'routineIntent')){assert.equal(n.routineIntent,null);delete n.routineIntent;}}assert.deepEqual(actual,JSON.parse(baselineBytes).payload);return{nativeSha256:sha(raw),originalNativeSha256:sha(baselineBytes)};});
+
+test('actual active intent survives native save and public continue without a new start or work credit',()=>{const r=load(inputs.get('low-due-pulse'));assert.equal(r.api.advance(1).ok,true);assertIntent(actor(r).routineIntent,r);const raw=native(r,'active-reload-before'),before=JSON.parse(raw).payload,next=load(raw);assert.deepEqual(plain(actor(next).routineIntent),plain(actor(r).routineIntent));assert.equal(actor(next).workClock,0);const afterRaw=native(next,'active-reload-after'),after=JSON.parse(afterRaw).payload;assert.deepEqual(after,before);return{beforeSha256:sha(raw),afterSha256:sha(afterRaw)};});
+
+test('the real final recovery minute retains its SAN recovery consumer before returning ordinary work',()=>{const setup=load(inputs.get('low-due-pulse'));assert.equal(setup.api.advance(1).ok,true);assertIntent(actor(setup).routineIntent,setup);const n=actor(setup);n.needs.energy=35.99;n.sanity=72;n.sanityClock=29;const raw=native(setup,'TEST-ONLY-final-recovery-san-input'),r=load(raw),target=actor(r),seq=r.api.state.worldMeta.eventSeq;assert.equal(target.sanity,72);assert.equal(r.api.advance(1).ok,true);assert.equal(target.routineIntent,null);assert.equal(target.workClock,0);assert.equal(target.sanity,73,'actual final resting span must use existing +1 SAN, not post-finish work -1');assert.equal(events(r,seq).filter(e=>e.type==='npc.work.completed'&&e.payload.npcId==='carpenter').length,0);native(r,'final-recovery-san-after');return{sanity:target.sanity,events:plain(events(r,seq))};},'TEST-ONLY native derivation from actual started intent: only carpenter energy35.99, sanity72 and sanityClock29; actual writer/validator/reload before a real one-minute completion. No SAN function or receipt is mocked.');
+
+// Additional actual long-span, arbitration, native lifecycle and renderer cases
+// will be appended after the runtime owner freezes its interface and candidate.
+// This working file has not been executed and is not an acceptance receipt.
+test('actual source/module/IO/runner bytes stay immutable during execution',()=>{assert.equal(sha(fs.readFileSync(options['--html'])),sourceHash);assert.equal(sha(fs.readFileSync(options['--io-adapter'])),sha(ioBytes));assert.equal(sha(fs.readFileSync(modulePath)),sha(moduleBytes));assert.equal(sha(fs.readFileSync(fileURLToPath(import.meta.url))),sha(runnerBytes));});
+const report={schema:'NpcRestWorkSourceEvidenceV1',runner:'source-npc-rest-work-v1',sourceHtmlSha256:sourceHash,source:{path:artifactDir+'/source-executed.html',sha256:sourceHash},runnerArtifact:{path:artifactDir+'/runner-executed.mjs',sha256:sha(runnerBytes)},module:{path:artifactDir+'/modules/npc-rest-work-v1.mjs',sha256:sha(moduleBytes)},adapter:{path:artifactDir+'/io-adapter-executed.mjs',sha256:sha(ioBytes)},scope:{actual:'Complete inline actual loader, public boot, world.advance, routine, motion, needs/SAN, work, writer and validator; TEST-ONLY original repro native scenes.',controlled:'Frozen DOM/storage/queued timer IO; unrelated broad rendering suppressed after actual renderer references captured.',gameplayClaim:false,browser:false,naturalGameplay:false},count:checks.length,passed:checks.filter(v=>v.ok).length,ok:checks.every(v=>v.ok),checks,artifacts};
+fs.writeFileSync(reportFile,JSON.stringify(report,null,2)+'\n');fs.writeFileSync(reportFile.replace(/\.json$/i,'')+'.terminal.json',JSON.stringify({schema:'SourceCheckTerminalV1',terminal:true,exitCode:report.ok?0:1,sourceHtmlSha256:sourceHash,runnerSha256:sha(runnerBytes),report:{path:path.basename(reportFile),sha256:sha(fs.readFileSync(reportFile))}},null,2)+'\n');console.log(JSON.stringify({runner:report.runner,ok:report.ok,count:report.count,passed:report.passed,sourceHtmlSha256:sourceHash,failures:checks.filter(v=>!v.ok).map(v=>({name:v.name,error:v.error}))},null,2));process.exitCode=report.ok?0:1;

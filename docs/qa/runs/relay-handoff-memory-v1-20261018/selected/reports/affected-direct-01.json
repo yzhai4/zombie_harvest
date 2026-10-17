@@ -1,0 +1,3531 @@
+{
+  "schema": "NpcDirectSightBrowserV1",
+  "runner": "browser-npc-direct-sight-v1",
+  "runnerSha256": "b44726a12e1cf527a10fb1710f71cfae7519c680557cf47db4974dfcfa03ef74",
+  "sourceHtmlSha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+  "coreModuleSha256": "d464721a657a0c436e4bf1b3fd45cbe250f769ff932cbc01e3e0fbe4356a23af",
+  "mode": "TEST-ONLY complete source-native preboot fixtures and actual public Chrome controls",
+  "naturalGameplay": false,
+  "naturalGameplayClaim": false,
+  "injectionBeforeLoader": true,
+  "gameStateMutationAfterBoot": false,
+  "hiddenGameActionsAfterBoot": false,
+  "forceClicks": false,
+  "policyVersion": "npc-view-direct-sight-v1",
+  "designId": "npc-direct-sight-observation-v1",
+  "budgetSeconds": 180,
+  "parameters": {
+    "source": "artifact:source.html",
+    "core": "artifact:core-executed.mjs",
+    "inputs": "artifact:source-native-inputs/manifest.json",
+    "output": "artifact:./",
+    "repoRoot": "explicit dependency root"
+  },
+  "scope": {
+    "fixedRuleExpression": true,
+    "directSight": true,
+    "fullActorObservation": false,
+    "contactsKnowledge": false,
+    "sharedKnowledge": false,
+    "LLM": false,
+    "liveSnapshotEvidence": "root-authorized read-only WorldSnapshot.capture; verification only, not a production actor input",
+    "phaseProbe": "public N starts a real optional encounter; it is not calendar night or a midnight/calendar regression",
+    "hiddenVisibility": "not tested",
+    "relatedOldSuites": "not executed by this runner"
+  },
+  "checks": [
+    {
+      "name": "HTML and core bytes match explicit expected SHAs",
+      "ok": true
+    },
+    {
+      "name": "private Windows ACL actually verified",
+      "ok": true
+    },
+    {
+      "name": "source-native input manifest exact SHA",
+      "ok": true
+    },
+    {
+      "name": "source-native manifest schema and exact producer HTML",
+      "ok": true
+    },
+    {
+      "name": "four unique explicitly declared scene IDs",
+      "ok": true
+    },
+    {
+      "name": "controlled offline provenance is explicit",
+      "ok": true
+    },
+    {
+      "name": "original actual old writer bytes retained",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: exact complete native input",
+      "ok": true
+    },
+    {
+      "name": "direct-visible-input: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: original actor/player position and fixed roster",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: actual independent health/trust control",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: original population, enemy identities/health/kinds, discovery and resources retained",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: explicit paused-clock fixture without live patch",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: fixed actual normal enemy at actor-relative two cells",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: independent expected status/category/band",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: enemy region was not previously discovered by the player",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: second real public actor declared for target switch",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked: exact complete native input",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked-input: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked: original actor/player position and fixed roster",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked: actual independent health/trust control",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked: original population, enemy identities/health/kinds, discovery and resources retained",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked: explicit paused-clock fixture without live patch",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked: fixed actual normal enemy at actor-relative two cells",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked: independent expected status/category/band",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked: declared physical wall input",
+      "ok": true
+    },
+    {
+      "name": "low-trust: exact complete native input",
+      "ok": true
+    },
+    {
+      "name": "low-trust-input: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "low-trust: original actor/player position and fixed roster",
+      "ok": true
+    },
+    {
+      "name": "low-trust: actual independent health/trust control",
+      "ok": true
+    },
+    {
+      "name": "low-trust: original population, enemy identities/health/kinds, discovery and resources retained",
+      "ok": true
+    },
+    {
+      "name": "low-trust: explicit paused-clock fixture without live patch",
+      "ok": true
+    },
+    {
+      "name": "low-trust: fixed actual normal enemy at actor-relative two cells",
+      "ok": true
+    },
+    {
+      "name": "low-trust: independent expected status/category/band",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable: exact complete native input",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable-input: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable: original actor/player position and fixed roster",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable: actual independent health/trust control",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable: original population, enemy identities/health/kinds, discovery and resources retained",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable: explicit paused-clock fixture without live patch",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable: fixed actual normal enemy at actor-relative two cells",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable: independent expected status/category/band",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: boot actual HTTP exact HTML",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: public continue enabled",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: original same public context target",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: initial-real-pagehide actual HTTP exact HTML",
+      "ok": true
+    },
+    {
+      "name": "direct-visible-actual-pagehide-before-view: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: public continue enabled",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: original same public context target",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: actual public actor label matches capture label",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: initial session clears disclosed text",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: context-view synchronous full readonly projection unchanged",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: context-view retains original ordinary view toast",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: context-report-desktop same actor/status and real unclipped visible layout",
+      "ok": true,
+      "detail": {
+        "text": "第1天 06:00 · 本次所见\n阿梁：我看见一只普通僵尸，离我很近。",
+        "innerText": "第1天 06:00 · 本次所见\n阿梁：我看见一只普通僵尸，离我很近。",
+        "actorId": "carpenter",
+        "generation": "0",
+        "minute": "360",
+        "status": "observed",
+        "rect": {
+          "x": 30,
+          "y": 851.40625,
+          "width": 336,
+          "height": 59.59375
+        },
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "scrollWidth": 334,
+        "clientWidth": 334,
+        "scrollHeight": 58,
+        "clientHeight": 58,
+        "visibleStyle": true,
+        "withinViewport": true,
+        "ancestorClipped": false
+      }
+    },
+    {
+      "name": "direct-visible: actual authored category/distance or neutral unavailable",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: own response exposes no raw enemy ID, HP or intent",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: ordinary toast short timeout restored",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: asof-after-ordinary-toast same actor/status and real unclipped visible layout",
+      "ok": true,
+      "detail": {
+        "text": "第1天 06:00 · 本次所见\n阿梁：我看见一只普通僵尸，离我很近。",
+        "innerText": "第1天 06:00 · 本次所见\n阿梁：我看见一只普通僵尸，离我很近。",
+        "actorId": "carpenter",
+        "generation": "0",
+        "minute": "360",
+        "status": "observed",
+        "rect": {
+          "x": 30,
+          "y": 851.40625,
+          "width": 336,
+          "height": 59.59375
+        },
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "scrollWidth": 334,
+        "clientWidth": 334,
+        "scrollHeight": 58,
+        "clientHeight": 58,
+        "visibleStyle": true,
+        "withinViewport": true,
+        "ancestorClipped": false
+      }
+    },
+    {
+      "name": "direct-visible: disclosed report remains same as-of text",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: context-report-mobile-390 same actor/status and real unclipped visible layout",
+      "ok": true,
+      "detail": {
+        "text": "第1天 06:00 · 本次所见\n阿梁：我看见一只普通僵尸，离我很近。",
+        "innerText": "第1天 06:00 · 本次所见\n阿梁：我看见一只普通僵尸，离我很近。",
+        "actorId": "carpenter",
+        "generation": "0",
+        "minute": "360",
+        "status": "observed",
+        "rect": {
+          "x": 26,
+          "y": 391.734375,
+          "width": 338,
+          "height": 59.59375
+        },
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "scrollWidth": 336,
+        "clientWidth": 336,
+        "scrollHeight": 58,
+        "clientHeight": 58,
+        "visibleStyle": true,
+        "withinViewport": true,
+        "ancestorClipped": false
+      }
+    },
+    {
+      "name": "direct-visible: real resize redraw keeps same report revision",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: context close clears disclosed text",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: original public roster card enabled",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: roster-view synchronous full readonly projection unchanged",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: roster-view retains original ordinary view toast",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: roster-report-desktop same actor/status and real unclipped visible layout",
+      "ok": true,
+      "detail": {
+        "text": "第1天 06:00 · 本次所见\n阿梁：我看见一只普通僵尸，离我很近。",
+        "innerText": "第1天 06:00 · 本次所见\n阿梁：我看见一只普通僵尸，离我很近。",
+        "actorId": "carpenter",
+        "generation": "0",
+        "minute": "360",
+        "status": "observed",
+        "rect": {
+          "x": 267,
+          "y": 490.6875,
+          "width": 440.5,
+          "height": 59.59375
+        },
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "scrollWidth": 439,
+        "clientWidth": 439,
+        "scrollHeight": 58,
+        "clientHeight": 58,
+        "visibleStyle": true,
+        "withinViewport": true,
+        "ancestorClipped": false
+      }
+    },
+    {
+      "name": "direct-visible: roster consumes same authored report contract",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: roster-report-mobile-390 same actor/status and real unclipped visible layout",
+      "ok": true,
+      "detail": {
+        "text": "第1天 06:00 · 本次所见\n阿梁：我看见一只普通僵尸，离我很近。",
+        "innerText": "第1天 06:00 · 本次所见\n阿梁：我看见一只普通僵尸，离我很近。",
+        "actorId": "carpenter",
+        "generation": "0",
+        "minute": "360",
+        "status": "observed",
+        "rect": {
+          "x": 44.6875,
+          "y": 447.953125,
+          "width": 300.625,
+          "height": 59.59375
+        },
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "scrollWidth": 299,
+        "clientWidth": 299,
+        "scrollHeight": 58,
+        "clientHeight": 58,
+        "visibleStyle": true,
+        "withinViewport": true,
+        "ancestorClipped": false
+      }
+    },
+    {
+      "name": "direct-visible: real roster redraw retains its disclosed revision",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: same original second public actor available",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: different-actor-view synchronous full readonly projection unchanged",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: different-actor-view retains original ordinary view toast",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: different-actor-report same actor/status and real unclipped visible layout",
+      "ok": true,
+      "detail": {
+        "text": "第1天 06:00 · 本次所见\n苏禾：我看见一只普通僵尸，离我很近。",
+        "innerText": "第1天 06:00 · 本次所见\n苏禾：我看见一只普通僵尸，离我很近。",
+        "actorId": "doctor",
+        "generation": "0",
+        "minute": "360",
+        "status": "observed",
+        "rect": {
+          "x": 732.5,
+          "y": 490.6875,
+          "width": 440.5,
+          "height": 59.59375
+        },
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "scrollWidth": 439,
+        "clientWidth": 439,
+        "scrollHeight": 58,
+        "clientHeight": 58,
+        "visibleStyle": true,
+        "withinViewport": true,
+        "ancestorClipped": false
+      }
+    },
+    {
+      "name": "direct-visible: new target receives its own name not old actor text",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: status terminal close clears disclosed text",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: after-views-real-pagehide actual HTTP exact HTML",
+      "ok": true
+    },
+    {
+      "name": "direct-visible-actual-pagehide-after-views: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: actual full native business/map/contacts/ledger unchanged by views",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: reload start overlay clears disclosed text",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: public continue enabled",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: original same public context target",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: reloaded new session clears disclosed text",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: pre-encounter-view synchronous full readonly projection unchanged",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: pre-encounter-view retains original ordinary view toast",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: pre-encounter-report same actor/status and real unclipped visible layout",
+      "ok": true,
+      "detail": {
+        "text": "第1天 06:00 · 本次所见\n阿梁：我看见一只普通僵尸，离我很近。",
+        "innerText": "第1天 06:00 · 本次所见\n阿梁：我看见一只普通僵尸，离我很近。",
+        "actorId": "carpenter",
+        "generation": "0",
+        "minute": "360",
+        "status": "observed",
+        "rect": {
+          "x": 30,
+          "y": 851.40625,
+          "width": 336,
+          "height": 59.59375
+        },
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "scrollWidth": 334,
+        "clientWidth": 334,
+        "scrollHeight": 58,
+        "clientHeight": 58,
+        "visibleStyle": true,
+        "withinViewport": true,
+        "ancestorClipped": false
+      }
+    },
+    {
+      "name": "direct-visible: real optional encounter phase clears disclosed text",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: actual public encounter typed command/event recorded",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: every recorded main response is exact frozen HTML",
+      "ok": true
+    },
+    {
+      "name": "direct-visible: all declared scene coverage actually reached",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked: boot actual HTTP exact HTML",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked: public continue enabled",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked: original same public context target",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked: initial-real-pagehide actual HTTP exact HTML",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked-actual-pagehide-before-view: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked: public continue enabled",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked: original same public context target",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked: actual public actor label matches capture label",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked: initial session clears disclosed text",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked: context-view synchronous full readonly projection unchanged",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked: context-view retains original ordinary view toast",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked: context-report-desktop same actor/status and real unclipped visible layout",
+      "ok": true,
+      "detail": {
+        "text": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+        "innerText": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+        "actorId": "carpenter",
+        "generation": "0",
+        "minute": "360",
+        "status": "unavailable",
+        "rect": {
+          "x": 30,
+          "y": 860.9375,
+          "width": 336,
+          "height": 59.59375
+        },
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "scrollWidth": 334,
+        "clientWidth": 334,
+        "scrollHeight": 58,
+        "clientHeight": 58,
+        "visibleStyle": true,
+        "withinViewport": true,
+        "ancestorClipped": false
+      }
+    },
+    {
+      "name": "direct-blocked: actual authored category/distance or neutral unavailable",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked: own response exposes no raw enemy ID, HP or intent",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked: ordinary toast short timeout restored",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked: asof-after-ordinary-toast same actor/status and real unclipped visible layout",
+      "ok": true,
+      "detail": {
+        "text": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+        "innerText": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+        "actorId": "carpenter",
+        "generation": "0",
+        "minute": "360",
+        "status": "unavailable",
+        "rect": {
+          "x": 30,
+          "y": 860.9375,
+          "width": 336,
+          "height": 59.59375
+        },
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "scrollWidth": 334,
+        "clientWidth": 334,
+        "scrollHeight": 58,
+        "clientHeight": 58,
+        "visibleStyle": true,
+        "withinViewport": true,
+        "ancestorClipped": false
+      }
+    },
+    {
+      "name": "direct-blocked: disclosed report remains same as-of text",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked: context-report-mobile-390 same actor/status and real unclipped visible layout",
+      "ok": true,
+      "detail": {
+        "text": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+        "innerText": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+        "actorId": "carpenter",
+        "generation": "0",
+        "minute": "360",
+        "status": "unavailable",
+        "rect": {
+          "x": 26,
+          "y": 391.734375,
+          "width": 338,
+          "height": 59.59375
+        },
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "scrollWidth": 336,
+        "clientWidth": 336,
+        "scrollHeight": 58,
+        "clientHeight": 58,
+        "visibleStyle": true,
+        "withinViewport": true,
+        "ancestorClipped": false
+      }
+    },
+    {
+      "name": "direct-blocked: real resize redraw keeps same report revision",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked: context close clears disclosed text",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked: original public roster card enabled",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked: roster-view synchronous full readonly projection unchanged",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked: roster-view retains original ordinary view toast",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked: roster-report-desktop same actor/status and real unclipped visible layout",
+      "ok": true,
+      "detail": {
+        "text": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+        "innerText": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+        "actorId": "carpenter",
+        "generation": "0",
+        "minute": "360",
+        "status": "unavailable",
+        "rect": {
+          "x": 267,
+          "y": 490.6875,
+          "width": 440.5,
+          "height": 59.59375
+        },
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "scrollWidth": 439,
+        "clientWidth": 439,
+        "scrollHeight": 58,
+        "clientHeight": 58,
+        "visibleStyle": true,
+        "withinViewport": true,
+        "ancestorClipped": false
+      }
+    },
+    {
+      "name": "direct-blocked: roster consumes same authored report contract",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked: roster-report-mobile-390 same actor/status and real unclipped visible layout",
+      "ok": true,
+      "detail": {
+        "text": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+        "innerText": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+        "actorId": "carpenter",
+        "generation": "0",
+        "minute": "360",
+        "status": "unavailable",
+        "rect": {
+          "x": 44.6875,
+          "y": 447.953125,
+          "width": 300.625,
+          "height": 59.59375
+        },
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "scrollWidth": 299,
+        "clientWidth": 299,
+        "scrollHeight": 58,
+        "clientHeight": 58,
+        "visibleStyle": true,
+        "withinViewport": true,
+        "ancestorClipped": false
+      }
+    },
+    {
+      "name": "direct-blocked: real roster redraw retains its disclosed revision",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked: status terminal close clears disclosed text",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked: after-views-real-pagehide actual HTTP exact HTML",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked-actual-pagehide-after-views: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked: actual full native business/map/contacts/ledger unchanged by views",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked: reload start overlay clears disclosed text",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked: public continue enabled",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked: original same public context target",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked: reloaded new session clears disclosed text",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked: every recorded main response is exact frozen HTML",
+      "ok": true
+    },
+    {
+      "name": "direct-blocked: all declared scene coverage actually reached",
+      "ok": true
+    },
+    {
+      "name": "low-trust: boot actual HTTP exact HTML",
+      "ok": true
+    },
+    {
+      "name": "low-trust: public continue enabled",
+      "ok": true
+    },
+    {
+      "name": "low-trust: original same public context target",
+      "ok": true
+    },
+    {
+      "name": "low-trust: initial-real-pagehide actual HTTP exact HTML",
+      "ok": true
+    },
+    {
+      "name": "low-trust-actual-pagehide-before-view: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "low-trust: public continue enabled",
+      "ok": true
+    },
+    {
+      "name": "low-trust: original same public context target",
+      "ok": true
+    },
+    {
+      "name": "low-trust: actual public actor label matches capture label",
+      "ok": true
+    },
+    {
+      "name": "low-trust: initial session clears disclosed text",
+      "ok": true
+    },
+    {
+      "name": "low-trust: context-view synchronous full readonly projection unchanged",
+      "ok": true
+    },
+    {
+      "name": "low-trust: context-view retains original ordinary view toast",
+      "ok": true
+    },
+    {
+      "name": "low-trust: context-report-desktop same actor/status and real unclipped visible layout",
+      "ok": true,
+      "detail": {
+        "text": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+        "innerText": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+        "actorId": "carpenter",
+        "generation": "0",
+        "minute": "360",
+        "status": "unavailable",
+        "rect": {
+          "x": 30,
+          "y": 851.40625,
+          "width": 336,
+          "height": 59.59375
+        },
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "scrollWidth": 334,
+        "clientWidth": 334,
+        "scrollHeight": 58,
+        "clientHeight": 58,
+        "visibleStyle": true,
+        "withinViewport": true,
+        "ancestorClipped": false
+      }
+    },
+    {
+      "name": "low-trust: actual authored category/distance or neutral unavailable",
+      "ok": true
+    },
+    {
+      "name": "low-trust: own response exposes no raw enemy ID, HP or intent",
+      "ok": true
+    },
+    {
+      "name": "low-trust: ordinary toast short timeout restored",
+      "ok": true
+    },
+    {
+      "name": "low-trust: asof-after-ordinary-toast same actor/status and real unclipped visible layout",
+      "ok": true,
+      "detail": {
+        "text": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+        "innerText": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+        "actorId": "carpenter",
+        "generation": "0",
+        "minute": "360",
+        "status": "unavailable",
+        "rect": {
+          "x": 30,
+          "y": 851.40625,
+          "width": 336,
+          "height": 59.59375
+        },
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "scrollWidth": 334,
+        "clientWidth": 334,
+        "scrollHeight": 58,
+        "clientHeight": 58,
+        "visibleStyle": true,
+        "withinViewport": true,
+        "ancestorClipped": false
+      }
+    },
+    {
+      "name": "low-trust: disclosed report remains same as-of text",
+      "ok": true
+    },
+    {
+      "name": "low-trust: context-report-mobile-390 same actor/status and real unclipped visible layout",
+      "ok": true,
+      "detail": {
+        "text": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+        "innerText": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+        "actorId": "carpenter",
+        "generation": "0",
+        "minute": "360",
+        "status": "unavailable",
+        "rect": {
+          "x": 26,
+          "y": 391.734375,
+          "width": 338,
+          "height": 59.59375
+        },
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "scrollWidth": 336,
+        "clientWidth": 336,
+        "scrollHeight": 58,
+        "clientHeight": 58,
+        "visibleStyle": true,
+        "withinViewport": true,
+        "ancestorClipped": false
+      }
+    },
+    {
+      "name": "low-trust: real resize redraw keeps same report revision",
+      "ok": true
+    },
+    {
+      "name": "low-trust: context close clears disclosed text",
+      "ok": true
+    },
+    {
+      "name": "low-trust: original public roster card enabled",
+      "ok": true
+    },
+    {
+      "name": "low-trust: roster-view synchronous full readonly projection unchanged",
+      "ok": true
+    },
+    {
+      "name": "low-trust: roster-view retains original ordinary view toast",
+      "ok": true
+    },
+    {
+      "name": "low-trust: roster-report-desktop same actor/status and real unclipped visible layout",
+      "ok": true,
+      "detail": {
+        "text": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+        "innerText": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+        "actorId": "carpenter",
+        "generation": "0",
+        "minute": "360",
+        "status": "unavailable",
+        "rect": {
+          "x": 267,
+          "y": 490.6875,
+          "width": 440.5,
+          "height": 59.59375
+        },
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "scrollWidth": 439,
+        "clientWidth": 439,
+        "scrollHeight": 58,
+        "clientHeight": 58,
+        "visibleStyle": true,
+        "withinViewport": true,
+        "ancestorClipped": false
+      }
+    },
+    {
+      "name": "low-trust: roster consumes same authored report contract",
+      "ok": true
+    },
+    {
+      "name": "low-trust: roster-report-mobile-390 same actor/status and real unclipped visible layout",
+      "ok": true,
+      "detail": {
+        "text": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+        "innerText": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+        "actorId": "carpenter",
+        "generation": "0",
+        "minute": "360",
+        "status": "unavailable",
+        "rect": {
+          "x": 44.6875,
+          "y": 447.953125,
+          "width": 300.625,
+          "height": 59.59375
+        },
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "scrollWidth": 299,
+        "clientWidth": 299,
+        "scrollHeight": 58,
+        "clientHeight": 58,
+        "visibleStyle": true,
+        "withinViewport": true,
+        "ancestorClipped": false
+      }
+    },
+    {
+      "name": "low-trust: real roster redraw retains its disclosed revision",
+      "ok": true
+    },
+    {
+      "name": "low-trust: status terminal close clears disclosed text",
+      "ok": true
+    },
+    {
+      "name": "low-trust: after-views-real-pagehide actual HTTP exact HTML",
+      "ok": true
+    },
+    {
+      "name": "low-trust-actual-pagehide-after-views: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "low-trust: actual full native business/map/contacts/ledger unchanged by views",
+      "ok": true
+    },
+    {
+      "name": "low-trust: reload start overlay clears disclosed text",
+      "ok": true
+    },
+    {
+      "name": "low-trust: public continue enabled",
+      "ok": true
+    },
+    {
+      "name": "low-trust: original same public context target",
+      "ok": true
+    },
+    {
+      "name": "low-trust: reloaded new session clears disclosed text",
+      "ok": true
+    },
+    {
+      "name": "low-trust: every recorded main response is exact frozen HTML",
+      "ok": true
+    },
+    {
+      "name": "low-trust: all declared scene coverage actually reached",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable: boot actual HTTP exact HTML",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable: public continue enabled",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable: original same public context target",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable: initial-real-pagehide actual HTTP exact HTML",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable-actual-pagehide-before-view: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable: public continue enabled",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable: original same public context target",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable: actual public actor label matches capture label",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable: initial session clears disclosed text",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable: context-view synchronous full readonly projection unchanged",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable: context-view retains original ordinary view toast",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable: context-report-desktop same actor/status and real unclipped visible layout",
+      "ok": true,
+      "detail": {
+        "text": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+        "innerText": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+        "actorId": "carpenter",
+        "generation": "0",
+        "minute": "360",
+        "status": "unavailable",
+        "rect": {
+          "x": 30,
+          "y": 851.40625,
+          "width": 336,
+          "height": 59.59375
+        },
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "scrollWidth": 334,
+        "clientWidth": 334,
+        "scrollHeight": 58,
+        "clientHeight": 58,
+        "visibleStyle": true,
+        "withinViewport": true,
+        "ancestorClipped": false
+      }
+    },
+    {
+      "name": "critical-unavailable: actual authored category/distance or neutral unavailable",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable: own response exposes no raw enemy ID, HP or intent",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable: ordinary toast short timeout restored",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable: asof-after-ordinary-toast same actor/status and real unclipped visible layout",
+      "ok": true,
+      "detail": {
+        "text": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+        "innerText": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+        "actorId": "carpenter",
+        "generation": "0",
+        "minute": "360",
+        "status": "unavailable",
+        "rect": {
+          "x": 30,
+          "y": 851.40625,
+          "width": 336,
+          "height": 59.59375
+        },
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "scrollWidth": 334,
+        "clientWidth": 334,
+        "scrollHeight": 58,
+        "clientHeight": 58,
+        "visibleStyle": true,
+        "withinViewport": true,
+        "ancestorClipped": false
+      }
+    },
+    {
+      "name": "critical-unavailable: disclosed report remains same as-of text",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable: context-report-mobile-390 same actor/status and real unclipped visible layout",
+      "ok": true,
+      "detail": {
+        "text": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+        "innerText": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+        "actorId": "carpenter",
+        "generation": "0",
+        "minute": "360",
+        "status": "unavailable",
+        "rect": {
+          "x": 26,
+          "y": 391.734375,
+          "width": 338,
+          "height": 59.59375
+        },
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "scrollWidth": 336,
+        "clientWidth": 336,
+        "scrollHeight": 58,
+        "clientHeight": 58,
+        "visibleStyle": true,
+        "withinViewport": true,
+        "ancestorClipped": false
+      }
+    },
+    {
+      "name": "critical-unavailable: real resize redraw keeps same report revision",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable: context close clears disclosed text",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable: original public roster card enabled",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable: roster-view synchronous full readonly projection unchanged",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable: roster-view retains original ordinary view toast",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable: roster-report-desktop same actor/status and real unclipped visible layout",
+      "ok": true,
+      "detail": {
+        "text": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+        "innerText": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+        "actorId": "carpenter",
+        "generation": "0",
+        "minute": "360",
+        "status": "unavailable",
+        "rect": {
+          "x": 267,
+          "y": 490.6875,
+          "width": 440.5,
+          "height": 59.59375
+        },
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "scrollWidth": 439,
+        "clientWidth": 439,
+        "scrollHeight": 58,
+        "clientHeight": 58,
+        "visibleStyle": true,
+        "withinViewport": true,
+        "ancestorClipped": false
+      }
+    },
+    {
+      "name": "critical-unavailable: roster consumes same authored report contract",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable: roster-report-mobile-390 same actor/status and real unclipped visible layout",
+      "ok": true,
+      "detail": {
+        "text": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+        "innerText": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+        "actorId": "carpenter",
+        "generation": "0",
+        "minute": "360",
+        "status": "unavailable",
+        "rect": {
+          "x": 44.6875,
+          "y": 447.953125,
+          "width": 300.625,
+          "height": 59.59375
+        },
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "scrollWidth": 299,
+        "clientWidth": 299,
+        "scrollHeight": 58,
+        "clientHeight": 58,
+        "visibleStyle": true,
+        "withinViewport": true,
+        "ancestorClipped": false
+      }
+    },
+    {
+      "name": "critical-unavailable: real roster redraw retains its disclosed revision",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable: status terminal close clears disclosed text",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable: after-views-real-pagehide actual HTTP exact HTML",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable-actual-pagehide-after-views: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable: actual full native business/map/contacts/ledger unchanged by views",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable: reload start overlay clears disclosed text",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable: public continue enabled",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable: original same public context target",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable: reloaded new session clears disclosed text",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable: every recorded main response is exact frozen HTML",
+      "ok": true
+    },
+    {
+      "name": "critical-unavailable: all declared scene coverage actually reached",
+      "ok": true
+    }
+  ],
+  "errors": [],
+  "scenes": [
+    {
+      "id": "direct-visible",
+      "npcId": "carpenter",
+      "inputSha256": "e44eb94b8de650fb3bd305693db3ed4db869908a79a78a31827f77b99dcb70f8",
+      "changes": [
+        {
+          "entityId": "carpenter",
+          "field": "x",
+          "before": 1,
+          "after": 11.75
+        },
+        {
+          "entityId": "carpenter",
+          "field": "y",
+          "before": 2,
+          "after": 11
+        },
+        {
+          "entityId": "carpenter",
+          "field": "motionTarget",
+          "before": null,
+          "after": null
+        },
+        {
+          "entityId": "carpenter",
+          "field": "simMoveClock",
+          "before": 0,
+          "after": 0
+        },
+        {
+          "entityId": "carpenter.relations",
+          "field": "trustToPlayer",
+          "before": 0,
+          "after": 0
+        },
+        {
+          "entityId": "carpenter",
+          "field": "hp",
+          "before": 100,
+          "after": 100
+        },
+        {
+          "entityId": "carpenter",
+          "field": "lifeState",
+          "before": "healthy",
+          "after": "healthy"
+        },
+        {
+          "entityId": "wz-1",
+          "field": "x",
+          "before": 20,
+          "after": 11.75
+        },
+        {
+          "entityId": "wz-1",
+          "field": "y",
+          "before": 5,
+          "after": 13
+        },
+        {
+          "entityId": "worldMeta.clock",
+          "field": "paused",
+          "before": false,
+          "after": true
+        },
+        {
+          "entityId": "doctor",
+          "field": "x",
+          "before": 13,
+          "after": 11
+        },
+        {
+          "entityId": "doctor",
+          "field": "y",
+          "before": 9,
+          "after": 11.75
+        },
+        {
+          "entityId": "doctor",
+          "field": "motionTarget",
+          "before": null,
+          "after": null
+        },
+        {
+          "entityId": "doctor",
+          "field": "simMoveClock",
+          "before": 0,
+          "after": 0
+        }
+      ],
+      "verified": true,
+      "snapshots": [
+        {
+          "label": "actual-pagehide-before-view",
+          "file": "direct-visible-actual-pagehide-before-view-save.json",
+          "sha256": "9f355ff3a979153b15bcfe53445a2a784007469ac1c7b574c955a1de99dd0210"
+        },
+        {
+          "label": "actual-pagehide-after-views",
+          "file": "direct-visible-actual-pagehide-after-views-save.json",
+          "sha256": "a420eb01ccc351ee3a2782b850e5eb93b0a972794997c9d2b94e2ad9ac563d12"
+        }
+      ],
+      "observations": [
+        {
+          "label": "initial session",
+          "states": [
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "label": "context-view-ordinary-toast",
+          "text": "阿梁：健康 · HP 100/100 · work · 尚未请求支援；请求或命令需靠近到 1 格内",
+          "classes": [
+            "toast",
+            "show"
+          ]
+        },
+        {
+          "label": "context-report-desktop",
+          "text": "第1天 06:00 · 本次所见\n阿梁：我看见一只普通僵尸，离我很近。",
+          "innerText": "第1天 06:00 · 本次所见\n阿梁：我看见一只普通僵尸，离我很近。",
+          "actorId": "carpenter",
+          "generation": "0",
+          "minute": "360",
+          "status": "observed",
+          "rect": {
+            "x": 30,
+            "y": 851.40625,
+            "width": 336,
+            "height": 59.59375
+          },
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "scrollWidth": 334,
+          "clientWidth": 334,
+          "scrollHeight": 58,
+          "clientHeight": 58,
+          "visibleStyle": true,
+          "withinViewport": true,
+          "ancestorClipped": false
+        },
+        {
+          "label": "asof-after-ordinary-toast",
+          "text": "第1天 06:00 · 本次所见\n阿梁：我看见一只普通僵尸，离我很近。",
+          "innerText": "第1天 06:00 · 本次所见\n阿梁：我看见一只普通僵尸，离我很近。",
+          "actorId": "carpenter",
+          "generation": "0",
+          "minute": "360",
+          "status": "observed",
+          "rect": {
+            "x": 30,
+            "y": 851.40625,
+            "width": 336,
+            "height": 59.59375
+          },
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "scrollWidth": 334,
+          "clientWidth": 334,
+          "scrollHeight": 58,
+          "clientHeight": 58,
+          "visibleStyle": true,
+          "withinViewport": true,
+          "ancestorClipped": false
+        },
+        {
+          "label": "context-report-mobile-390",
+          "text": "第1天 06:00 · 本次所见\n阿梁：我看见一只普通僵尸，离我很近。",
+          "innerText": "第1天 06:00 · 本次所见\n阿梁：我看见一只普通僵尸，离我很近。",
+          "actorId": "carpenter",
+          "generation": "0",
+          "minute": "360",
+          "status": "observed",
+          "rect": {
+            "x": 26,
+            "y": 391.734375,
+            "width": 338,
+            "height": 59.59375
+          },
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "scrollWidth": 336,
+          "clientWidth": 336,
+          "scrollHeight": 58,
+          "clientHeight": 58,
+          "visibleStyle": true,
+          "withinViewport": true,
+          "ancestorClipped": false
+        },
+        {
+          "label": "context close",
+          "states": [
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "label": "roster-view-ordinary-toast",
+          "text": "阿梁：健康 · HP 100/100 · work · 尚未请求支援；请求或命令需靠近到 1 格内",
+          "classes": [
+            "toast",
+            "show"
+          ]
+        },
+        {
+          "label": "roster-report-desktop",
+          "text": "第1天 06:00 · 本次所见\n阿梁：我看见一只普通僵尸，离我很近。",
+          "innerText": "第1天 06:00 · 本次所见\n阿梁：我看见一只普通僵尸，离我很近。",
+          "actorId": "carpenter",
+          "generation": "0",
+          "minute": "360",
+          "status": "observed",
+          "rect": {
+            "x": 267,
+            "y": 490.6875,
+            "width": 440.5,
+            "height": 59.59375
+          },
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "scrollWidth": 439,
+          "clientWidth": 439,
+          "scrollHeight": 58,
+          "clientHeight": 58,
+          "visibleStyle": true,
+          "withinViewport": true,
+          "ancestorClipped": false
+        },
+        {
+          "label": "roster-report-mobile-390",
+          "text": "第1天 06:00 · 本次所见\n阿梁：我看见一只普通僵尸，离我很近。",
+          "innerText": "第1天 06:00 · 本次所见\n阿梁：我看见一只普通僵尸，离我很近。",
+          "actorId": "carpenter",
+          "generation": "0",
+          "minute": "360",
+          "status": "observed",
+          "rect": {
+            "x": 44.6875,
+            "y": 447.953125,
+            "width": 300.625,
+            "height": 59.59375
+          },
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "scrollWidth": 299,
+          "clientWidth": 299,
+          "scrollHeight": 58,
+          "clientHeight": 58,
+          "visibleStyle": true,
+          "withinViewport": true,
+          "ancestorClipped": false
+        },
+        {
+          "label": "different-actor-view-ordinary-toast",
+          "text": "苏禾：健康 · HP 100/100 · work · 尚未请求支援；请求或命令需靠近到 1 格内",
+          "classes": [
+            "toast",
+            "show"
+          ]
+        },
+        {
+          "label": "different-actor-report",
+          "text": "第1天 06:00 · 本次所见\n苏禾：我看见一只普通僵尸，离我很近。",
+          "innerText": "第1天 06:00 · 本次所见\n苏禾：我看见一只普通僵尸，离我很近。",
+          "actorId": "doctor",
+          "generation": "0",
+          "minute": "360",
+          "status": "observed",
+          "rect": {
+            "x": 732.5,
+            "y": 490.6875,
+            "width": 440.5,
+            "height": 59.59375
+          },
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "scrollWidth": 439,
+          "clientWidth": 439,
+          "scrollHeight": 58,
+          "clientHeight": 58,
+          "visibleStyle": true,
+          "withinViewport": true,
+          "ancestorClipped": false
+        },
+        {
+          "label": "status terminal close",
+          "states": [
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "label": "reload start overlay",
+          "states": [
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "label": "reloaded new session",
+          "states": [
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "label": "pre-encounter-view-ordinary-toast",
+          "text": "阿梁：健康 · HP 100/100 · work · 尚未请求支援；请求或命令需靠近到 1 格内",
+          "classes": [
+            "toast",
+            "show"
+          ]
+        },
+        {
+          "label": "pre-encounter-report",
+          "text": "第1天 06:00 · 本次所见\n阿梁：我看见一只普通僵尸，离我很近。",
+          "innerText": "第1天 06:00 · 本次所见\n阿梁：我看见一只普通僵尸，离我很近。",
+          "actorId": "carpenter",
+          "generation": "0",
+          "minute": "360",
+          "status": "observed",
+          "rect": {
+            "x": 30,
+            "y": 851.40625,
+            "width": 336,
+            "height": 59.59375
+          },
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "scrollWidth": 334,
+          "clientWidth": 334,
+          "scrollHeight": 58,
+          "clientHeight": 58,
+          "visibleStyle": true,
+          "withinViewport": true,
+          "ancestorClipped": false
+        },
+        {
+          "label": "real optional encounter phase",
+          "states": [
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            }
+          ]
+        }
+      ],
+      "coverage": {
+        "context": true,
+        "asofPersistence": true,
+        "mobile": true,
+        "contextClose": true,
+        "roster": true,
+        "rosterMobile": true,
+        "targetClear": true,
+        "nativeBusiness": true,
+        "sessionClear": true,
+        "phaseClear": true
+      },
+      "phaseProbe": {
+        "entry": "actual public N",
+        "calendarClaim": false,
+        "command": {
+          "commandId": "cmd-000001",
+          "type": "threat.start",
+          "actorId": "player-1",
+          "payload": null
+        },
+        "event": {
+          "eventId": "evt-000004",
+          "seq": 4,
+          "type": "threat.started",
+          "actorId": "system",
+          "commandId": "cmd-000001",
+          "causationId": null,
+          "tick": {
+            "world": 360,
+            "phase": 0,
+            "schedule": 0
+          },
+          "payload": {
+            "day": 1,
+            "hour": 6,
+            "enemyCount": 4
+          }
+        }
+      }
+    },
+    {
+      "id": "direct-blocked",
+      "npcId": "carpenter",
+      "inputSha256": "062abf7adb3e33ab3a9bb2a590c741f014553dc986005051549fdd0953724228",
+      "changes": [
+        {
+          "entityId": "carpenter",
+          "field": "x",
+          "before": 1,
+          "after": 11.75
+        },
+        {
+          "entityId": "carpenter",
+          "field": "y",
+          "before": 2,
+          "after": 11
+        },
+        {
+          "entityId": "carpenter",
+          "field": "motionTarget",
+          "before": null,
+          "after": null
+        },
+        {
+          "entityId": "carpenter",
+          "field": "simMoveClock",
+          "before": 0,
+          "after": 0
+        },
+        {
+          "entityId": "carpenter.relations",
+          "field": "trustToPlayer",
+          "before": 0,
+          "after": 0
+        },
+        {
+          "entityId": "carpenter",
+          "field": "hp",
+          "before": 100,
+          "after": 100
+        },
+        {
+          "entityId": "carpenter",
+          "field": "lifeState",
+          "before": "healthy",
+          "after": "healthy"
+        },
+        {
+          "entityId": "wz-1",
+          "field": "x",
+          "before": 20,
+          "after": 11.75
+        },
+        {
+          "entityId": "wz-1",
+          "field": "y",
+          "before": 5,
+          "after": 13
+        },
+        {
+          "entityId": "worldMeta.clock",
+          "field": "paused",
+          "before": false,
+          "after": true
+        },
+        {
+          "entityId": "qa-direct-sight-browser-wall",
+          "field": "new TEST-ONLY actual wall",
+          "before": null,
+          "after": {
+            "id": "qa-direct-sight-browser-wall",
+            "type": "wall",
+            "x": 11,
+            "y": 12,
+            "hp": 3
+          }
+        }
+      ],
+      "verified": true,
+      "snapshots": [
+        {
+          "label": "actual-pagehide-before-view",
+          "file": "direct-blocked-actual-pagehide-before-view-save.json",
+          "sha256": "5953497aa77160401b998133c04bfc48da09a363f50e19e030e6114b92540b13"
+        },
+        {
+          "label": "actual-pagehide-after-views",
+          "file": "direct-blocked-actual-pagehide-after-views-save.json",
+          "sha256": "c64031862255e16034aa6599a60cd34a7357a337bc98a9f6f154cfddf773f603"
+        }
+      ],
+      "observations": [
+        {
+          "label": "initial session",
+          "states": [
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "label": "context-view-ordinary-toast",
+          "text": "阿梁：健康 · HP 100/100 · work · 尚未请求支援；请求或命令需靠近到 1 格内",
+          "classes": [
+            "toast",
+            "show"
+          ]
+        },
+        {
+          "label": "context-report-desktop",
+          "text": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+          "innerText": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+          "actorId": "carpenter",
+          "generation": "0",
+          "minute": "360",
+          "status": "unavailable",
+          "rect": {
+            "x": 30,
+            "y": 860.9375,
+            "width": 336,
+            "height": 59.59375
+          },
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "scrollWidth": 334,
+          "clientWidth": 334,
+          "scrollHeight": 58,
+          "clientHeight": 58,
+          "visibleStyle": true,
+          "withinViewport": true,
+          "ancestorClipped": false
+        },
+        {
+          "label": "asof-after-ordinary-toast",
+          "text": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+          "innerText": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+          "actorId": "carpenter",
+          "generation": "0",
+          "minute": "360",
+          "status": "unavailable",
+          "rect": {
+            "x": 30,
+            "y": 860.9375,
+            "width": 336,
+            "height": 59.59375
+          },
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "scrollWidth": 334,
+          "clientWidth": 334,
+          "scrollHeight": 58,
+          "clientHeight": 58,
+          "visibleStyle": true,
+          "withinViewport": true,
+          "ancestorClipped": false
+        },
+        {
+          "label": "context-report-mobile-390",
+          "text": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+          "innerText": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+          "actorId": "carpenter",
+          "generation": "0",
+          "minute": "360",
+          "status": "unavailable",
+          "rect": {
+            "x": 26,
+            "y": 391.734375,
+            "width": 338,
+            "height": 59.59375
+          },
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "scrollWidth": 336,
+          "clientWidth": 336,
+          "scrollHeight": 58,
+          "clientHeight": 58,
+          "visibleStyle": true,
+          "withinViewport": true,
+          "ancestorClipped": false
+        },
+        {
+          "label": "context close",
+          "states": [
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "label": "roster-view-ordinary-toast",
+          "text": "阿梁：健康 · HP 100/100 · work · 尚未请求支援；请求或命令需靠近到 1 格内",
+          "classes": [
+            "toast",
+            "show"
+          ]
+        },
+        {
+          "label": "roster-report-desktop",
+          "text": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+          "innerText": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+          "actorId": "carpenter",
+          "generation": "0",
+          "minute": "360",
+          "status": "unavailable",
+          "rect": {
+            "x": 267,
+            "y": 490.6875,
+            "width": 440.5,
+            "height": 59.59375
+          },
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "scrollWidth": 439,
+          "clientWidth": 439,
+          "scrollHeight": 58,
+          "clientHeight": 58,
+          "visibleStyle": true,
+          "withinViewport": true,
+          "ancestorClipped": false
+        },
+        {
+          "label": "roster-report-mobile-390",
+          "text": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+          "innerText": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+          "actorId": "carpenter",
+          "generation": "0",
+          "minute": "360",
+          "status": "unavailable",
+          "rect": {
+            "x": 44.6875,
+            "y": 447.953125,
+            "width": 300.625,
+            "height": 59.59375
+          },
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "scrollWidth": 299,
+          "clientWidth": 299,
+          "scrollHeight": 58,
+          "clientHeight": 58,
+          "visibleStyle": true,
+          "withinViewport": true,
+          "ancestorClipped": false
+        },
+        {
+          "label": "status terminal close",
+          "states": [
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "label": "reload start overlay",
+          "states": [
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "label": "reloaded new session",
+          "states": [
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            }
+          ]
+        }
+      ],
+      "coverage": {
+        "context": true,
+        "asofPersistence": true,
+        "mobile": true,
+        "contextClose": true,
+        "roster": true,
+        "rosterMobile": true,
+        "nativeBusiness": true,
+        "sessionClear": true
+      }
+    },
+    {
+      "id": "low-trust",
+      "npcId": "carpenter",
+      "inputSha256": "16f47bfce3ef3d3872800a55b0b17caf49009f9da33921c03f8c5965e8282768",
+      "changes": [
+        {
+          "entityId": "carpenter",
+          "field": "x",
+          "before": 1,
+          "after": 11.75
+        },
+        {
+          "entityId": "carpenter",
+          "field": "y",
+          "before": 2,
+          "after": 11
+        },
+        {
+          "entityId": "carpenter",
+          "field": "motionTarget",
+          "before": null,
+          "after": null
+        },
+        {
+          "entityId": "carpenter",
+          "field": "simMoveClock",
+          "before": 0,
+          "after": 0
+        },
+        {
+          "entityId": "carpenter.relations",
+          "field": "trustToPlayer",
+          "before": 0,
+          "after": -11
+        },
+        {
+          "entityId": "carpenter",
+          "field": "hp",
+          "before": 100,
+          "after": 100
+        },
+        {
+          "entityId": "carpenter",
+          "field": "lifeState",
+          "before": "healthy",
+          "after": "healthy"
+        },
+        {
+          "entityId": "wz-1",
+          "field": "x",
+          "before": 20,
+          "after": 11.75
+        },
+        {
+          "entityId": "wz-1",
+          "field": "y",
+          "before": 5,
+          "after": 13
+        },
+        {
+          "entityId": "worldMeta.clock",
+          "field": "paused",
+          "before": false,
+          "after": true
+        }
+      ],
+      "verified": true,
+      "snapshots": [
+        {
+          "label": "actual-pagehide-before-view",
+          "file": "low-trust-actual-pagehide-before-view-save.json",
+          "sha256": "ec92cb284ed79815264faeaddb48ec1d4a9c0d650a2c8c98da34ec5b36db2e4f"
+        },
+        {
+          "label": "actual-pagehide-after-views",
+          "file": "low-trust-actual-pagehide-after-views-save.json",
+          "sha256": "fd2391a5ae2708d8140343edf23245ffa92589cc8c41ef30d8b13bb9a7c7aa7b"
+        }
+      ],
+      "observations": [
+        {
+          "label": "initial session",
+          "states": [
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "label": "context-view-ordinary-toast",
+          "text": "阿梁：健康 · HP 100/100 · work · 尚未请求支援；请求或命令需靠近到 1 格内",
+          "classes": [
+            "toast",
+            "show"
+          ]
+        },
+        {
+          "label": "context-report-desktop",
+          "text": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+          "innerText": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+          "actorId": "carpenter",
+          "generation": "0",
+          "minute": "360",
+          "status": "unavailable",
+          "rect": {
+            "x": 30,
+            "y": 851.40625,
+            "width": 336,
+            "height": 59.59375
+          },
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "scrollWidth": 334,
+          "clientWidth": 334,
+          "scrollHeight": 58,
+          "clientHeight": 58,
+          "visibleStyle": true,
+          "withinViewport": true,
+          "ancestorClipped": false
+        },
+        {
+          "label": "asof-after-ordinary-toast",
+          "text": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+          "innerText": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+          "actorId": "carpenter",
+          "generation": "0",
+          "minute": "360",
+          "status": "unavailable",
+          "rect": {
+            "x": 30,
+            "y": 851.40625,
+            "width": 336,
+            "height": 59.59375
+          },
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "scrollWidth": 334,
+          "clientWidth": 334,
+          "scrollHeight": 58,
+          "clientHeight": 58,
+          "visibleStyle": true,
+          "withinViewport": true,
+          "ancestorClipped": false
+        },
+        {
+          "label": "context-report-mobile-390",
+          "text": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+          "innerText": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+          "actorId": "carpenter",
+          "generation": "0",
+          "minute": "360",
+          "status": "unavailable",
+          "rect": {
+            "x": 26,
+            "y": 391.734375,
+            "width": 338,
+            "height": 59.59375
+          },
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "scrollWidth": 336,
+          "clientWidth": 336,
+          "scrollHeight": 58,
+          "clientHeight": 58,
+          "visibleStyle": true,
+          "withinViewport": true,
+          "ancestorClipped": false
+        },
+        {
+          "label": "context close",
+          "states": [
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "label": "roster-view-ordinary-toast",
+          "text": "阿梁：健康 · HP 100/100 · work · 尚未请求支援；请求或命令需靠近到 1 格内",
+          "classes": [
+            "toast",
+            "show"
+          ]
+        },
+        {
+          "label": "roster-report-desktop",
+          "text": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+          "innerText": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+          "actorId": "carpenter",
+          "generation": "0",
+          "minute": "360",
+          "status": "unavailable",
+          "rect": {
+            "x": 267,
+            "y": 490.6875,
+            "width": 440.5,
+            "height": 59.59375
+          },
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "scrollWidth": 439,
+          "clientWidth": 439,
+          "scrollHeight": 58,
+          "clientHeight": 58,
+          "visibleStyle": true,
+          "withinViewport": true,
+          "ancestorClipped": false
+        },
+        {
+          "label": "roster-report-mobile-390",
+          "text": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+          "innerText": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+          "actorId": "carpenter",
+          "generation": "0",
+          "minute": "360",
+          "status": "unavailable",
+          "rect": {
+            "x": 44.6875,
+            "y": 447.953125,
+            "width": 300.625,
+            "height": 59.59375
+          },
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "scrollWidth": 299,
+          "clientWidth": 299,
+          "scrollHeight": 58,
+          "clientHeight": 58,
+          "visibleStyle": true,
+          "withinViewport": true,
+          "ancestorClipped": false
+        },
+        {
+          "label": "status terminal close",
+          "states": [
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "label": "reload start overlay",
+          "states": [
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "label": "reloaded new session",
+          "states": [
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            }
+          ]
+        }
+      ],
+      "coverage": {
+        "context": true,
+        "asofPersistence": true,
+        "mobile": true,
+        "contextClose": true,
+        "roster": true,
+        "rosterMobile": true,
+        "nativeBusiness": true,
+        "sessionClear": true
+      }
+    },
+    {
+      "id": "critical-unavailable",
+      "npcId": "carpenter",
+      "inputSha256": "f6a17080e86ddccba4624cbeefc140be61bdd2294b76e6b0bb2e92384eac9d96",
+      "changes": [
+        {
+          "entityId": "carpenter",
+          "field": "x",
+          "before": 1,
+          "after": 11.75
+        },
+        {
+          "entityId": "carpenter",
+          "field": "y",
+          "before": 2,
+          "after": 11
+        },
+        {
+          "entityId": "carpenter",
+          "field": "motionTarget",
+          "before": null,
+          "after": null
+        },
+        {
+          "entityId": "carpenter",
+          "field": "simMoveClock",
+          "before": 0,
+          "after": 0
+        },
+        {
+          "entityId": "carpenter.relations",
+          "field": "trustToPlayer",
+          "before": 0,
+          "after": 0
+        },
+        {
+          "entityId": "carpenter",
+          "field": "hp",
+          "before": 100,
+          "after": 20
+        },
+        {
+          "entityId": "carpenter",
+          "field": "lifeState",
+          "before": "healthy",
+          "after": "critical"
+        },
+        {
+          "entityId": "wz-1",
+          "field": "x",
+          "before": 20,
+          "after": 11.75
+        },
+        {
+          "entityId": "wz-1",
+          "field": "y",
+          "before": 5,
+          "after": 13
+        },
+        {
+          "entityId": "worldMeta.clock",
+          "field": "paused",
+          "before": false,
+          "after": true
+        }
+      ],
+      "verified": true,
+      "snapshots": [
+        {
+          "label": "actual-pagehide-before-view",
+          "file": "critical-unavailable-actual-pagehide-before-view-save.json",
+          "sha256": "e1cd9fc17738ba69b032d0cb5ca84dcfc4cd971155d8f6cb1078584f0b5a2798"
+        },
+        {
+          "label": "actual-pagehide-after-views",
+          "file": "critical-unavailable-actual-pagehide-after-views-save.json",
+          "sha256": "330d271ec0a1accee5205a123063a29ce83cd46715ebef8778ab351a1e8c2be8"
+        }
+      ],
+      "observations": [
+        {
+          "label": "initial session",
+          "states": [
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "label": "context-view-ordinary-toast",
+          "text": "阿梁：重伤 · HP 20/100 · work · 尚未请求支援；请求或命令需靠近到 1 格内",
+          "classes": [
+            "toast",
+            "show"
+          ]
+        },
+        {
+          "label": "context-report-desktop",
+          "text": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+          "innerText": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+          "actorId": "carpenter",
+          "generation": "0",
+          "minute": "360",
+          "status": "unavailable",
+          "rect": {
+            "x": 30,
+            "y": 851.40625,
+            "width": 336,
+            "height": 59.59375
+          },
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "scrollWidth": 334,
+          "clientWidth": 334,
+          "scrollHeight": 58,
+          "clientHeight": 58,
+          "visibleStyle": true,
+          "withinViewport": true,
+          "ancestorClipped": false
+        },
+        {
+          "label": "asof-after-ordinary-toast",
+          "text": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+          "innerText": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+          "actorId": "carpenter",
+          "generation": "0",
+          "minute": "360",
+          "status": "unavailable",
+          "rect": {
+            "x": 30,
+            "y": 851.40625,
+            "width": 336,
+            "height": 59.59375
+          },
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "scrollWidth": 334,
+          "clientWidth": 334,
+          "scrollHeight": 58,
+          "clientHeight": 58,
+          "visibleStyle": true,
+          "withinViewport": true,
+          "ancestorClipped": false
+        },
+        {
+          "label": "context-report-mobile-390",
+          "text": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+          "innerText": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+          "actorId": "carpenter",
+          "generation": "0",
+          "minute": "360",
+          "status": "unavailable",
+          "rect": {
+            "x": 26,
+            "y": 391.734375,
+            "width": 338,
+            "height": 59.59375
+          },
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "scrollWidth": 336,
+          "clientWidth": 336,
+          "scrollHeight": 58,
+          "clientHeight": 58,
+          "visibleStyle": true,
+          "withinViewport": true,
+          "ancestorClipped": false
+        },
+        {
+          "label": "context close",
+          "states": [
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "label": "roster-view-ordinary-toast",
+          "text": "阿梁：重伤 · HP 20/100 · work · 尚未请求支援；请求或命令需靠近到 1 格内",
+          "classes": [
+            "toast",
+            "show"
+          ]
+        },
+        {
+          "label": "roster-report-desktop",
+          "text": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+          "innerText": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+          "actorId": "carpenter",
+          "generation": "0",
+          "minute": "360",
+          "status": "unavailable",
+          "rect": {
+            "x": 267,
+            "y": 490.6875,
+            "width": 440.5,
+            "height": 59.59375
+          },
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "scrollWidth": 439,
+          "clientWidth": 439,
+          "scrollHeight": 58,
+          "clientHeight": 58,
+          "visibleStyle": true,
+          "withinViewport": true,
+          "ancestorClipped": false
+        },
+        {
+          "label": "roster-report-mobile-390",
+          "text": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+          "innerText": "第1天 06:00 · 本次所见\n这次查看没有得到可确认的视线报告。",
+          "actorId": "carpenter",
+          "generation": "0",
+          "minute": "360",
+          "status": "unavailable",
+          "rect": {
+            "x": 44.6875,
+            "y": 447.953125,
+            "width": 300.625,
+            "height": 59.59375
+          },
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "scrollWidth": 299,
+          "clientWidth": 299,
+          "scrollHeight": 58,
+          "clientHeight": 58,
+          "visibleStyle": true,
+          "withinViewport": true,
+          "ancestorClipped": false
+        },
+        {
+          "label": "status terminal close",
+          "states": [
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            },
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "label": "reload start overlay",
+          "states": [
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "label": "reloaded new session",
+          "states": [
+            {
+              "text": "",
+              "hidden": true,
+              "displayed": "none",
+              "visible": false
+            }
+          ]
+        }
+      ],
+      "coverage": {
+        "context": true,
+        "asofPersistence": true,
+        "mobile": true,
+        "contextClose": true,
+        "roster": true,
+        "rosterMobile": true,
+        "nativeBusiness": true,
+        "sessionClear": true
+      }
+    }
+  ],
+  "nativeValidations": [
+    {
+      "label": "direct-visible-input",
+      "sha256": "e44eb94b8de650fb3bd305693db3ed4db869908a79a78a31827f77b99dcb70f8",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "direct-blocked-input",
+      "sha256": "062abf7adb3e33ab3a9bb2a590c741f014553dc986005051549fdd0953724228",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "low-trust-input",
+      "sha256": "16f47bfce3ef3d3872800a55b0b17caf49009f9da33921c03f8c5965e8282768",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "critical-unavailable-input",
+      "sha256": "f6a17080e86ddccba4624cbeefc140be61bdd2294b76e6b0bb2e92384eac9d96",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "direct-visible-actual-pagehide-before-view",
+      "sha256": "9f355ff3a979153b15bcfe53445a2a784007469ac1c7b574c955a1de99dd0210",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "direct-visible-actual-pagehide-after-views",
+      "sha256": "a420eb01ccc351ee3a2782b850e5eb93b0a972794997c9d2b94e2ad9ac563d12",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "direct-blocked-actual-pagehide-before-view",
+      "sha256": "5953497aa77160401b998133c04bfc48da09a363f50e19e030e6114b92540b13",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "direct-blocked-actual-pagehide-after-views",
+      "sha256": "c64031862255e16034aa6599a60cd34a7357a337bc98a9f6f154cfddf773f603",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "low-trust-actual-pagehide-before-view",
+      "sha256": "ec92cb284ed79815264faeaddb48ec1d4a9c0d650a2c8c98da34ec5b36db2e4f",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "low-trust-actual-pagehide-after-views",
+      "sha256": "fd2391a5ae2708d8140343edf23245ffa92589cc8c41ef30d8b13bb9a7c7aa7b",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "critical-unavailable-actual-pagehide-before-view",
+      "sha256": "e1cd9fc17738ba69b032d0cb5ca84dcfc4cd971155d8f6cb1078584f0b5a2798",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "critical-unavailable-actual-pagehide-after-views",
+      "sha256": "330d271ec0a1accee5205a123063a29ce83cd46715ebef8778ab351a1e8c2be8",
+      "ok": true,
+      "reason": null
+    }
+  ],
+  "allMainDocuments": [
+    {
+      "scene": "direct-visible",
+      "sequence": 1,
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "url": "http://127.0.0.1:53952/"
+    },
+    {
+      "scene": "direct-visible",
+      "sequence": 2,
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "url": "http://127.0.0.1:53952/"
+    },
+    {
+      "scene": "direct-visible",
+      "sequence": 3,
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "url": "http://127.0.0.1:53952/"
+    },
+    {
+      "scene": "direct-blocked",
+      "sequence": 1,
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "url": "http://127.0.0.1:53952/"
+    },
+    {
+      "scene": "direct-blocked",
+      "sequence": 2,
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "url": "http://127.0.0.1:53952/"
+    },
+    {
+      "scene": "direct-blocked",
+      "sequence": 3,
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "url": "http://127.0.0.1:53952/"
+    },
+    {
+      "scene": "low-trust",
+      "sequence": 1,
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "url": "http://127.0.0.1:53952/"
+    },
+    {
+      "scene": "low-trust",
+      "sequence": 2,
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "url": "http://127.0.0.1:53952/"
+    },
+    {
+      "scene": "low-trust",
+      "sequence": 3,
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "url": "http://127.0.0.1:53952/"
+    },
+    {
+      "scene": "critical-unavailable",
+      "sequence": 1,
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "url": "http://127.0.0.1:53952/"
+    },
+    {
+      "scene": "critical-unavailable",
+      "sequence": 2,
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "url": "http://127.0.0.1:53952/"
+    },
+    {
+      "scene": "critical-unavailable",
+      "sequence": 3,
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "url": "http://127.0.0.1:53952/"
+    }
+  ],
+  "documentHashes": [
+    {
+      "scene": "direct-visible",
+      "stage": "boot",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "direct-visible",
+      "stage": "initial-real-pagehide",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "direct-visible",
+      "stage": "after-views-real-pagehide",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "direct-blocked",
+      "stage": "boot",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "direct-blocked",
+      "stage": "initial-real-pagehide",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "direct-blocked",
+      "stage": "after-views-real-pagehide",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "low-trust",
+      "stage": "boot",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "low-trust",
+      "stage": "initial-real-pagehide",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "low-trust",
+      "stage": "after-views-real-pagehide",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "critical-unavailable",
+      "stage": "boot",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "critical-unavailable",
+      "stage": "initial-real-pagehide",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "critical-unavailable",
+      "stage": "after-views-real-pagehide",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    }
+  ],
+  "privateOutput": {
+    "aclVerified": true,
+    "inheritanceDisabled": true,
+    "allowedPrincipal": "current-user-only"
+  },
+  "dependencies": [
+    {
+      "file": "scripts/lib/source-runtime-fixture.mjs",
+      "bytes": 2959,
+      "sha256": "e9872eeba85d49019d1bd806f3dd18357a5abc8f2f92922922f6a5324ec220dc"
+    },
+    {
+      "file": "scripts/check-report-recovery.mjs",
+      "bytes": 51157,
+      "sha256": "e0b467f2b9ee75b941f72c6338ed5376f4e6d0a8c7a1d1a7c210fa630efc63e7"
+    },
+    {
+      "file": "dist/actor-sprites.js",
+      "bytes": 19246,
+      "sha256": "257f4b38760813c21c723bbb9f934f1198e742fd1223db48705f34787e0f71b7"
+    }
+  ],
+  "inputManifestSha256": "182b523c5ac224a4becc945f9684da1d9ba7a8ea2470bfd4dbf3aeba7746c094",
+  "inputCaptureMethod": "TEST-ONLY complete original1e29 loader, offline declared scene derivation, actual renderer/native writer/validator/reload. No browser execution, original enemy removal, resource supplement or roster reorder.",
+  "browserVersion": "155.0.8059.80",
+  "cleanup": {
+    "contextsClosed": true,
+    "browserClosed": true,
+    "httpServerClosed": true
+  },
+  "elapsedWallMs": 45516,
+  "count": 200,
+  "passed": 200,
+  "ok": true,
+  "artifacts": [
+    {
+      "file": "core-executed.mjs",
+      "bytes": 6958,
+      "sha256": "d464721a657a0c436e4bf1b3fd45cbe250f769ff932cbc01e3e0fbe4356a23af"
+    },
+    {
+      "file": "critical-unavailable-actual-pagehide-after-views-save.json",
+      "bytes": 65066,
+      "sha256": "330d271ec0a1accee5205a123063a29ce83cd46715ebef8778ab351a1e8c2be8"
+    },
+    {
+      "file": "critical-unavailable-actual-pagehide-before-view-save.json",
+      "bytes": 65066,
+      "sha256": "e1cd9fc17738ba69b032d0cb5ca84dcfc4cd971155d8f6cb1078584f0b5a2798"
+    },
+    {
+      "file": "critical-unavailable-asof-after-ordinary-toast.png",
+      "bytes": 506186,
+      "sha256": "a798224f8cabe822cd04bb5364ead008f9aa82209faedc655c061e02e5f90316"
+    },
+    {
+      "file": "critical-unavailable-context-report-desktop.png",
+      "bytes": 506312,
+      "sha256": "224c73c067b572686b53ffa04b1911279d0e8f114cdc086bd71ea84bc6b278e8"
+    },
+    {
+      "file": "critical-unavailable-context-report-mobile-390.png",
+      "bytes": 145044,
+      "sha256": "26fc12c292be2ec129c09d449b20d17e00aa49bd397c4763c4207821ff2220e0"
+    },
+    {
+      "file": "critical-unavailable-context-view-after-readonly-world-snapshot.json",
+      "bytes": 54108,
+      "sha256": "34e9f5e0b08f34cc6a2ceeeadd4b821bfcc51a04caa8b3b44087c3a7757f14b8"
+    },
+    {
+      "file": "critical-unavailable-context-view-before-readonly-world-snapshot.json",
+      "bytes": 54108,
+      "sha256": "34e9f5e0b08f34cc6a2ceeeadd4b821bfcc51a04caa8b3b44087c3a7757f14b8"
+    },
+    {
+      "file": "critical-unavailable-roster-report-desktop.png",
+      "bytes": 348510,
+      "sha256": "925863b2a904fc9a4fbe259b8c08e1a5a72f2e7afb1b09fa17f8c83f8aaa361c"
+    },
+    {
+      "file": "critical-unavailable-roster-report-mobile-390.png",
+      "bytes": 181349,
+      "sha256": "4db4776992c7dfc86575d3729a9ae0eed1124a1d4f38425beeffe510a87ca8b5"
+    },
+    {
+      "file": "critical-unavailable-roster-view-after-readonly-world-snapshot.json",
+      "bytes": 54108,
+      "sha256": "38e7ec5a20c437526e160d9faa0cdb854b546d093c98696689b3ae7824cd6f61"
+    },
+    {
+      "file": "critical-unavailable-roster-view-before-readonly-world-snapshot.json",
+      "bytes": 54108,
+      "sha256": "38e7ec5a20c437526e160d9faa0cdb854b546d093c98696689b3ae7824cd6f61"
+    },
+    {
+      "file": "direct-blocked-actual-pagehide-after-views-save.json",
+      "bytes": 65212,
+      "sha256": "c64031862255e16034aa6599a60cd34a7357a337bc98a9f6f154cfddf773f603"
+    },
+    {
+      "file": "direct-blocked-actual-pagehide-before-view-save.json",
+      "bytes": 65212,
+      "sha256": "5953497aa77160401b998133c04bfc48da09a363f50e19e030e6114b92540b13"
+    },
+    {
+      "file": "direct-blocked-asof-after-ordinary-toast.png",
+      "bytes": 515380,
+      "sha256": "8a56008df36d9d5467bc95917b8ea40e0f587057a0d43616df142c19f78c2e46"
+    },
+    {
+      "file": "direct-blocked-context-report-desktop.png",
+      "bytes": 515463,
+      "sha256": "6c9864678ba981805f0dac9120ff830b6e489c9affc1ed79da537769d62a615c"
+    },
+    {
+      "file": "direct-blocked-context-report-mobile-390.png",
+      "bytes": 150908,
+      "sha256": "68e8918f854af74fa6bf416dfd12b999305a3fb97025791820fa75a0f4a0bcd6"
+    },
+    {
+      "file": "direct-blocked-context-view-after-readonly-world-snapshot.json",
+      "bytes": 54232,
+      "sha256": "450823d7b3a1e7d44f92cf7bc8c1379fd442539488af04cac2d666f8e5740db4"
+    },
+    {
+      "file": "direct-blocked-context-view-before-readonly-world-snapshot.json",
+      "bytes": 54232,
+      "sha256": "450823d7b3a1e7d44f92cf7bc8c1379fd442539488af04cac2d666f8e5740db4"
+    },
+    {
+      "file": "direct-blocked-roster-report-desktop.png",
+      "bytes": 347614,
+      "sha256": "03e5792d1674faa96e626e99eb57a259f6c3ee3c4ac8fb174fc135790b778ef7"
+    },
+    {
+      "file": "direct-blocked-roster-report-mobile-390.png",
+      "bytes": 181661,
+      "sha256": "4aefa2b964594e1347ea21e147ba66c61e3bcd4ae399afa4118cae208078eef0"
+    },
+    {
+      "file": "direct-blocked-roster-view-after-readonly-world-snapshot.json",
+      "bytes": 54232,
+      "sha256": "bda00fb8d46e70aa9eced2907cd346554b40589b99b02aa91cfba23995d70e63"
+    },
+    {
+      "file": "direct-blocked-roster-view-before-readonly-world-snapshot.json",
+      "bytes": 54232,
+      "sha256": "bda00fb8d46e70aa9eced2907cd346554b40589b99b02aa91cfba23995d70e63"
+    },
+    {
+      "file": "direct-visible-actual-battle-report-cleared.png",
+      "bytes": 638793,
+      "sha256": "79b934901cd9870d2dc1c968d2c967c7cf04ad76a0c1c1490a26e862474eb161"
+    },
+    {
+      "file": "direct-visible-actual-pagehide-after-views-save.json",
+      "bytes": 65074,
+      "sha256": "a420eb01ccc351ee3a2782b850e5eb93b0a972794997c9d2b94e2ad9ac563d12"
+    },
+    {
+      "file": "direct-visible-actual-pagehide-before-view-save.json",
+      "bytes": 65074,
+      "sha256": "9f355ff3a979153b15bcfe53445a2a784007469ac1c7b574c955a1de99dd0210"
+    },
+    {
+      "file": "direct-visible-after-public-encounter-readonly-world-snapshot.json",
+      "bytes": 56099,
+      "sha256": "cabdbca4a63137cfc92ef3cd316329f6e6d7206f9a17c125c1dd71727d63c78d"
+    },
+    {
+      "file": "direct-visible-asof-after-ordinary-toast.png",
+      "bytes": 505105,
+      "sha256": "cc85ff23230e425a4690de64973b2738525467221681c1773ef88275b4154954"
+    },
+    {
+      "file": "direct-visible-before-public-encounter-readonly-world-snapshot.json",
+      "bytes": 54113,
+      "sha256": "60bee947d3ce7c25eb474ffa751d16bf6794b3c79e55c1b99e604fb46c6c067e"
+    },
+    {
+      "file": "direct-visible-context-report-desktop.png",
+      "bytes": 505292,
+      "sha256": "ebf9bdc30a87aebabf0fa976ec20fba80f82f3b80467f55fec25ea579b3376af"
+    },
+    {
+      "file": "direct-visible-context-report-mobile-390.png",
+      "bytes": 144697,
+      "sha256": "da400715c4809e524762903493a931d7b69148823f0b7c3295cbee9f733efac2"
+    },
+    {
+      "file": "direct-visible-context-view-after-readonly-world-snapshot.json",
+      "bytes": 54113,
+      "sha256": "60bee947d3ce7c25eb474ffa751d16bf6794b3c79e55c1b99e604fb46c6c067e"
+    },
+    {
+      "file": "direct-visible-context-view-before-readonly-world-snapshot.json",
+      "bytes": 54113,
+      "sha256": "60bee947d3ce7c25eb474ffa751d16bf6794b3c79e55c1b99e604fb46c6c067e"
+    },
+    {
+      "file": "direct-visible-different-actor-report.png",
+      "bytes": 349401,
+      "sha256": "e5a9d3f9e3cb4d730ee05dd32cf099674f9cb98ca24dae21d7046b766c2d39e4"
+    },
+    {
+      "file": "direct-visible-different-actor-view-after-readonly-world-snapshot.json",
+      "bytes": 54113,
+      "sha256": "c67a73f56ef9d98984cc860bf19960c2a48a92f9699d363913b6c4492fb79e1c"
+    },
+    {
+      "file": "direct-visible-different-actor-view-before-readonly-world-snapshot.json",
+      "bytes": 54113,
+      "sha256": "c67a73f56ef9d98984cc860bf19960c2a48a92f9699d363913b6c4492fb79e1c"
+    },
+    {
+      "file": "direct-visible-pre-encounter-report.png",
+      "bytes": 505298,
+      "sha256": "12486fe23d179e0d6fe5608c853fafb9d5d92706111e5c19402289833a4e5ce2"
+    },
+    {
+      "file": "direct-visible-pre-encounter-view-after-readonly-world-snapshot.json",
+      "bytes": 54113,
+      "sha256": "60bee947d3ce7c25eb474ffa751d16bf6794b3c79e55c1b99e604fb46c6c067e"
+    },
+    {
+      "file": "direct-visible-pre-encounter-view-before-readonly-world-snapshot.json",
+      "bytes": 54113,
+      "sha256": "60bee947d3ce7c25eb474ffa751d16bf6794b3c79e55c1b99e604fb46c6c067e"
+    },
+    {
+      "file": "direct-visible-roster-report-desktop.png",
+      "bytes": 349109,
+      "sha256": "c8f9ab213c5e4f8ab9b476204007e2fb4723ddd79ffc40447bc86d3ba7b79044"
+    },
+    {
+      "file": "direct-visible-roster-report-mobile-390.png",
+      "bytes": 182073,
+      "sha256": "3f0a9598e946af1c1f7bca7ec7ccc052ea1beea9ef9c426efadbc6a84fa11f99"
+    },
+    {
+      "file": "direct-visible-roster-view-after-readonly-world-snapshot.json",
+      "bytes": 54113,
+      "sha256": "c67a73f56ef9d98984cc860bf19960c2a48a92f9699d363913b6c4492fb79e1c"
+    },
+    {
+      "file": "direct-visible-roster-view-before-readonly-world-snapshot.json",
+      "bytes": 54113,
+      "sha256": "c67a73f56ef9d98984cc860bf19960c2a48a92f9699d363913b6c4492fb79e1c"
+    },
+    {
+      "file": "frozen/dist/actor-sprites.js",
+      "bytes": 19246,
+      "sha256": "257f4b38760813c21c723bbb9f934f1198e742fd1223db48705f34787e0f71b7"
+    },
+    {
+      "file": "frozen/scripts/check-report-recovery.mjs",
+      "bytes": 51157,
+      "sha256": "e0b467f2b9ee75b941f72c6338ed5376f4e6d0a8c7a1d1a7c210fa630efc63e7"
+    },
+    {
+      "file": "frozen/scripts/lib/source-runtime-fixture.mjs",
+      "bytes": 2959,
+      "sha256": "e9872eeba85d49019d1bd806f3dd18357a5abc8f2f92922922f6a5324ec220dc"
+    },
+    {
+      "file": "low-trust-actual-pagehide-after-views-save.json",
+      "bytes": 65070,
+      "sha256": "fd2391a5ae2708d8140343edf23245ffa92589cc8c41ef30d8b13bb9a7c7aa7b"
+    },
+    {
+      "file": "low-trust-actual-pagehide-before-view-save.json",
+      "bytes": 65069,
+      "sha256": "ec92cb284ed79815264faeaddb48ec1d4a9c0d650a2c8c98da34ec5b36db2e4f"
+    },
+    {
+      "file": "low-trust-asof-after-ordinary-toast.png",
+      "bytes": 506180,
+      "sha256": "8726d4461cb95eb46b48828449cd80c1c139d408f09745f4e95e683e2f48d6a1"
+    },
+    {
+      "file": "low-trust-context-report-desktop.png",
+      "bytes": 506353,
+      "sha256": "7c0010ebf5e1d33ca0ef546cd55f50f9763c57306a6c6cdd40c6a1b7dcea1c77"
+    },
+    {
+      "file": "low-trust-context-report-mobile-390.png",
+      "bytes": 145044,
+      "sha256": "26fc12c292be2ec129c09d449b20d17e00aa49bd397c4763c4207821ff2220e0"
+    },
+    {
+      "file": "low-trust-context-view-after-readonly-world-snapshot.json",
+      "bytes": 54111,
+      "sha256": "6e5270242e9a02f438f93ed5508d7d8eb2424d56d3a04f46d2d09ab7d2bb6199"
+    },
+    {
+      "file": "low-trust-context-view-before-readonly-world-snapshot.json",
+      "bytes": 54111,
+      "sha256": "6e5270242e9a02f438f93ed5508d7d8eb2424d56d3a04f46d2d09ab7d2bb6199"
+    },
+    {
+      "file": "low-trust-roster-report-desktop.png",
+      "bytes": 347680,
+      "sha256": "2f0131732267578cfcac528f1e16704f3f6c4da272155dffbcc654a6f02ce53c"
+    },
+    {
+      "file": "low-trust-roster-report-mobile-390.png",
+      "bytes": 181746,
+      "sha256": "734c1137da194790c54a40e457cb08810c3159445226a5e6093e26c2dc914dfb"
+    },
+    {
+      "file": "low-trust-roster-view-after-readonly-world-snapshot.json",
+      "bytes": 54111,
+      "sha256": "9f6eb9776f17070d4a55890cc5e6fa4367f7c5835286db3ed7a5f47d3c674ac2"
+    },
+    {
+      "file": "low-trust-roster-view-before-readonly-world-snapshot.json",
+      "bytes": 54111,
+      "sha256": "9f6eb9776f17070d4a55890cc5e6fa4367f7c5835286db3ed7a5f47d3c674ac2"
+    },
+    {
+      "file": "runner-executed.mjs",
+      "bytes": 27886,
+      "sha256": "b44726a12e1cf527a10fb1710f71cfae7519c680557cf47db4974dfcfa03ef74"
+    },
+    {
+      "file": "source-native-inputs/critical-unavailable-native.json",
+      "bytes": 65054,
+      "sha256": "f6a17080e86ddccba4624cbeefc140be61bdd2294b76e6b0bb2e92384eac9d96"
+    },
+    {
+      "file": "source-native-inputs/direct-blocked-native.json",
+      "bytes": 65200,
+      "sha256": "062abf7adb3e33ab3a9bb2a590c741f014553dc986005051549fdd0953724228"
+    },
+    {
+      "file": "source-native-inputs/direct-visible-native.json",
+      "bytes": 65062,
+      "sha256": "e44eb94b8de650fb3bd305693db3ed4db869908a79a78a31827f77b99dcb70f8"
+    },
+    {
+      "file": "source-native-inputs/low-trust-native.json",
+      "bytes": 65058,
+      "sha256": "16f47bfce3ef3d3872800a55b0b17caf49009f9da33921c03f8c5965e8282768"
+    },
+    {
+      "file": "source-native-inputs/manifest.json",
+      "bytes": 9712,
+      "sha256": "182b523c5ac224a4becc945f9684da1d9ba7a8ea2470bfd4dbf3aeba7746c094"
+    },
+    {
+      "file": "source-native-inputs/original-writer.json",
+      "bytes": 58992,
+      "sha256": "1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f"
+    },
+    {
+      "file": "source.html",
+      "bytes": 917189,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    }
+  ]
+}

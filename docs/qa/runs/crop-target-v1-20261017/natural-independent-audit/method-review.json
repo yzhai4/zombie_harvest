@@ -1,0 +1,25 @@
+{
+  "schema": "Natural06StaticMethodBoundaryReviewV1",
+  "sourceHtmlSha256": "19cb05c4341ab1353e1ac5362b685a4af3a88fc826e349504b9d57a42639eb6f",
+  "naturalRunnerSha256": "2ff1fb866e23d4fad9af66adefb262bc6f59f5b424315bc72b3bd7e64bd57aed",
+  "status": "METHOD_READY_ONLY",
+  "actualObserverInstalled": false,
+  "actualObservations": 0,
+  "sourceCulling": {
+    "canvas": "camp-local actors only, actor inBounds, viewport plus one-cell margin; name label additionally actual distance<=3",
+    "canvasFogGate": false,
+    "domMapTiles": "fogged cells do not disclose normal tile contents; public route uses #world .tile:not(.fogged)",
+    "importance": "Canvas rendering is not a global authorized actor projection; any observer must remain limited to the already public current context target"
+  },
+  "runnerBoundary": {
+    "nativeInvocation": "Reflect.apply original before inspection; original this, full arguments and return preserved",
+    "target": "exact current context name and public npcOrder data-npc-id, only #world actor-canvas",
+    "observation": "first matched draw restores immediately; 200ms timeout and finally restoration; configured250ms limit",
+    "visibility": "actual getTransform plus canvas rect/pixel dimensions, label font bounds, visible ancestors, viewport, topmost map hits and nonfog actor tile",
+    "budget": "at most2 observations and2 keyboard approaches of100ms each; existing30s target-navigation budget plus480s global budget",
+    "restoration": "original method JSHandle identity checked before reload and terminal, then disposed",
+    "unavailable": "stop without writer-position fallback",
+    "actualExecutionScope": "none of the observation/follow/restore branches ran in fresh06; the legal first NPC dialogue made them unnecessary"
+  },
+  "originalsModified": false
+}

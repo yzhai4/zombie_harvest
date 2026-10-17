@@ -1,0 +1,134 @@
+{
+  "roles": {
+    "hasCarpenter": true,
+    "hasQuartermaster": true,
+    "fulfillsCarpenter": true,
+    "fulfillsQuartermaster": false
+  },
+  "assignedRoles": [
+    "radio",
+    "carpenter",
+    "quartermaster"
+  ],
+  "participants": [
+    {
+      "id": "radio",
+      "actingRole": null,
+      "hp": 100,
+      "lifeState": "healthy",
+      "local": true
+    },
+    {
+      "id": "quartermaster",
+      "actingRole": "carpenter",
+      "hp": 100,
+      "lifeState": "healthy",
+      "local": true
+    },
+    {
+      "id": "quartermaster",
+      "actingRole": "carpenter",
+      "hp": 100,
+      "lifeState": "healthy",
+      "local": true
+    }
+  ],
+  "uniqueParticipantIds": [
+    "radio",
+    "quartermaster"
+  ],
+  "sameLiveObject": true,
+  "transactionSnapshot": {
+    "schema": "RelayConstructionTransactionV1",
+    "version": 1,
+    "instance": {
+      "schema": "RelayConstructionV1",
+      "version": 1,
+      "instanceId": "camp-relay-001",
+      "defId": "relay-chain-001",
+      "definitionVersion": 1,
+      "status": "unknown",
+      "phase": "unknown",
+      "coreItemId": null,
+      "handoffAt": null,
+      "materialNeed": {
+        "wood": 10,
+        "parts": 5,
+        "stone": 4
+      },
+      "materialProgress": {
+        "wood": 0,
+        "parts": 0,
+        "stone": 0
+      },
+      "materialClock": 0,
+      "workMinutes": 0,
+      "targetMinutes": 180,
+      "buildingId": "bld-relay-station",
+      "assignedNpcIds": [
+        "radio",
+        "carpenter",
+        "quartermaster"
+      ],
+      "latestEventId": null,
+      "appliedCommandIds": [],
+      "history": []
+    },
+    "inventory": {
+      "wood": 28,
+      "parts": 5,
+      "stone": 12
+    },
+    "building": {
+      "id": "bld-relay-station",
+      "status": "vacant",
+      "occupiedBy": null,
+      "virtual": true
+    },
+    "participants": [
+      {
+        "id": "radio",
+        "npcId": "radio",
+        "alive": true,
+        "active": true,
+        "scheduleState": "岗位工作",
+        "behaviorState": "work",
+        "lastReport": "监听频道并标记尸群方向（工作脉冲 5）"
+      },
+      {
+        "id": "carpenter",
+        "npcId": "quartermaster",
+        "alive": true,
+        "active": true,
+        "scheduleState": "继任培训",
+        "behaviorState": "work",
+        "lastReport": "暂代木匠"
+      },
+      {
+        "id": "quartermaster",
+        "npcId": "quartermaster",
+        "alive": true,
+        "active": true,
+        "scheduleState": "继任培训",
+        "behaviorState": "work",
+        "lastReport": "暂代木匠"
+      }
+    ]
+  },
+  "resourcesBefore": {
+    "wood": 28,
+    "stone": 12,
+    "parts": 5,
+    "food": 15,
+    "seeds": 2,
+    "medicine": 0
+  },
+  "resourcesAfter": {
+    "wood": 28,
+    "stone": 12,
+    "parts": 5,
+    "food": 15,
+    "seeds": 2,
+    "medicine": 0
+  }
+}

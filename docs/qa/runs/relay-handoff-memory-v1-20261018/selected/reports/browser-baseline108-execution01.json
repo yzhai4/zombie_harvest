@@ -1,0 +1,217 @@
+{
+  "runner": "browser-relay-handoff-memory-v1",
+  "runnerSha256": "9e8b4b303349a2c0926052761a32da527749535c259cd1bae781f17cb738096c",
+  "sourceHtmlSha256": "108042213a6defbfd16cbd2f56cde8fbc2c575717c5eefff942753353a19b09a",
+  "inputManifestSha256": "d81b844fee77987e9a626f60e670ba5ee94839b657f750916d1d3e870d00143f",
+  "mode": "original-complete-source-native-preboot-fixtures-public-Chrome-controls",
+  "naturalGameplay": false,
+  "humanExperience": false,
+  "testStateWritesAfterBoot": false,
+  "hiddenGameActionsAfterBoot": false,
+  "forceClicks": false,
+  "sourceVmExecuted": false,
+  "normalSaveBeforePagehideRequired": true,
+  "budget": {
+    "overallSeconds": 120,
+    "sceneSeconds": 50,
+    "minimumPlayerHp": 35,
+    "maximumObservedHpLoss": 12,
+    "maximumPublicControlsPerScene": 18,
+    "navigationActions": 0
+  },
+  "checks": [
+    {
+      "name": "actual-held-core: continue-original-writer is visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "actual-held-core: actual-handoff is visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "actual-held-core: one actual new handoff success is saved before pagehide",
+      "ok": true
+    },
+    {
+      "name": "actual-held-core: memory matches actual successful receipt and original player actor",
+      "ok": false
+    },
+    {
+      "name": "actual-old-delivered: continue-original-writer is visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "actual-old-delivered: original old successful history is not backfilled",
+      "ok": false
+    },
+    {
+      "name": "main document actual-held-core matches frozen source",
+      "ok": true
+    },
+    {
+      "name": "main document actual-old-delivered matches frozen source",
+      "ok": true
+    }
+  ],
+  "errors": [
+    {
+      "scene": "actual-held-core",
+      "type": "AssertionError",
+      "message": "actual-held-core: memory matches actual successful receipt and original player actor"
+    },
+    {
+      "scene": "actual-old-delivered",
+      "type": "AssertionError",
+      "message": "actual-old-delivered: original old successful history is not backfilled"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "actual-held-core",
+      "inputSha256": "3096e2c66bb8ecda5a88dc81cfbda4ed8160055fc33f358d25990c0d4edfc0a9",
+      "kind": "original-complete-source-native-writer",
+      "originalEnemyIds": [
+        "wz-1",
+        "wz-2",
+        "wz-3",
+        "wz-4",
+        "frontier-1"
+      ],
+      "actions": [
+        {
+          "label": "continue-original-writer",
+          "selector": "#continueSaveBtn"
+        },
+        {
+          "label": "actual-handoff",
+          "selector": "[data-context-action=\"relayHandoff\"]"
+        }
+      ],
+      "captures": [
+        {
+          "file": "actual-held-core-normal-post-boot-native.json",
+          "sha256": "9940f8b93d2f25a5338a7190dba0cc31c5faf26ff48fc84c4ea54f044669acf5",
+          "bytes": 84481
+        },
+        {
+          "file": "actual-held-core-normal-handoff-native.json",
+          "sha256": "d4aac64376b36c1ed7bb3059a1b4e81523314610c1b0fe1e0ca744502c8023eb",
+          "bytes": 93544
+        },
+        {
+          "file": "actual-held-core-failure.png",
+          "sha256": "7ec96d6ec31dbff5cfb473deb4c8637b9296b7268792846a10892fadaec8a443",
+          "bytes": 546791
+        }
+      ],
+      "status": "FAILED",
+      "lastPublicSafety": {
+        "label": "wait-normal-handoff",
+        "started": true,
+        "hp": 94,
+        "battle": false
+      },
+      "actualReceipt": {
+        "eventId": "evt-000029",
+        "seq": 29,
+        "type": "relay.coreHandedOff",
+        "actorId": "player-1",
+        "commandId": "cmd-000265",
+        "causationId": null,
+        "tick": {
+          "world": 390,
+          "phase": 0,
+          "schedule": 30
+        },
+        "payload": {
+          "projectId": "camp-relay-001",
+          "itemId": "relayCore",
+          "itemInstanceId": "item-relayCore-001",
+          "commanderId": "commander",
+          "status": "briefed",
+          "expectedInstanceId": "camp-relay-001",
+          "expectedDefId": "relay-chain-001",
+          "expectedDefinitionVersion": 1,
+          "expectedEventId": "evt-000003"
+        },
+        "defId": "relay-chain-001",
+        "definitionVersion": 1,
+        "instanceId": "camp-relay-001",
+        "effects": [
+          {
+            "type": "fact",
+            "key": "briefed",
+            "eventType": "relay.coreHandedOff",
+            "amount": 0,
+            "payload": {}
+          }
+        ]
+      },
+      "recipientId": "commander"
+    },
+    {
+      "id": "actual-old-delivered",
+      "inputSha256": "38cdf0a6ce9a38263091f475db7a6730444464d510f812e84a0658b7a5bc2b77",
+      "kind": "original-complete-source-native-writer",
+      "originalEnemyIds": [
+        "wz-1",
+        "wz-2",
+        "wz-3",
+        "wz-4",
+        "frontier-1"
+      ],
+      "actions": [
+        {
+          "label": "continue-original-writer",
+          "selector": "#continueSaveBtn"
+        }
+      ],
+      "captures": [
+        {
+          "file": "actual-old-delivered-normal-post-boot-native.json",
+          "sha256": "04d119b3e74980f7cefde68567ce577cedac615191740ebe765b9b9c246bde85",
+          "bytes": 92821
+        },
+        {
+          "file": "actual-old-delivered-normal-old-adapted-native.json",
+          "sha256": "04d119b3e74980f7cefde68567ce577cedac615191740ebe765b9b9c246bde85",
+          "bytes": 92821
+        },
+        {
+          "file": "actual-old-delivered-failure.png",
+          "sha256": "c5ee611a04b6de820085a2d882f3e06850f6e6ec6aca0266a0463038ed63f4ee",
+          "bytes": 546450
+        }
+      ],
+      "status": "FAILED",
+      "lastPublicSafety": {
+        "label": "wait-normal-old-adapted",
+        "started": true,
+        "hp": 94,
+        "battle": false
+      }
+    }
+  ],
+  "documents": [
+    {
+      "scene": "actual-held-core",
+      "status": 200,
+      "sha256": "108042213a6defbfd16cbd2f56cde8fbc2c575717c5eefff942753353a19b09a"
+    },
+    {
+      "scene": "actual-old-delivered",
+      "status": 200,
+      "sha256": "108042213a6defbfd16cbd2f56cde8fbc2c575717c5eefff942753353a19b09a"
+    }
+  ],
+  "cleanup": {
+    "contextsClosed": true,
+    "browserClosed": true,
+    "serverClosed": true
+  },
+  "browserVersion": "155.0.8059.80",
+  "count": 8,
+  "passed": 6,
+  "ok": false,
+  "elapsedMs": 30207
+}

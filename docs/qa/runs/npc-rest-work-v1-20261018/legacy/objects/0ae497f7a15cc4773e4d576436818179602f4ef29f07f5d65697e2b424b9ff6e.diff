@@ -1,0 +1,23 @@
+--- a/scripts/check-npc-threat-attention.mjs
++++ b/scripts/check-npc-threat-attention.mjs
+@@ -14,9 +14,10 @@
+   const date = { day: p.day, hour: p.hour, minute: p.minute }, seq = p.worldMeta.eventSeq + 1;
+   const expected = { eventId: `evt-${String(seq).padStart(6,'0')}`, seq, type: 'save.migrated', actorId: 'system', commandId: null, causationId: null,
+     tick: { world: (p.day-1)*1440+p.hour*60+p.minute, phase: p.worldMeta.clock.phaseMinutes, schedule: p.worldMeta.clock.scheduleMinutes },
+-    payload: { migration: 'resolved-report-recovery-001', migrationVersion: 1, reason: 'scenario-legacy-unbound-v1,scenario-content-binding-v1', sourceCategory: 'primary',
++    payload: { migration: 'resolved-report-recovery-001', migrationVersion: 1, reason: 'npc-routine-intent-v1,scenario-legacy-unbound-v1,scenario-content-binding-v1', sourceCategory: 'primary',
+       originalChecksum: envelope.checksum, originalDate: date, selectedChecksum: envelope.checksum, selectedDate: date, rollback: false, instanceId: null,
+-      fromSaveVersion: 21, fromContentVersion: 3, adapter: null, addedDomains: [], scenarioBindingAdapters: [{ adapter: 'scenario-legacy-unbound-v1',
++      fromSaveVersion: 21, fromContentVersion: 3, adapter: null, addedDomains: ['npc.routineIntent'],
++      npcRoutineIntentAdapters: [{adapter:'npc-routine-intent-v1',npcIds:p.npcs.map(n=>n.id),defaultValue:null}], scenarioBindingAdapters: [{ adapter: 'scenario-legacy-unbound-v1',
+         sourceSeed: p.worldMeta.seed, hadDeclaredSnapshot: Object.hasOwn(p,'scenarioSnapshot'), seedSource: 'saved-world-meta', declaredSeed: p.scenarioSnapshot?.seed ?? null,
+         liveSeed: p.worldMeta.seed, aiDowngraded: false, effectiveAuthority: 'expression_only' }],
+       scenarioContentAdapters: [{adapter:'scenario-content-binding-v1',oldPackageDigest:null,oldBindingStatus:'missing',
+@@ -31,6 +32,7 @@
+     && s.worldMeta.commandSeq === p.worldMeta.commandSeq && eq(s.worldMeta.seenCommands,p.worldMeta.seenCommands)
+     && eq(s.world,p.world) && ['day','hour','minute','hp','energy','sanity','wood','stone','food','seeds','parts','medicine','morale'].every(key => s[key] === p[key])
+     && eq(s.resources,p.resources) && eq(s.npcs.map(n=>({id:n.id,hp:n.hp,lifeState:n.lifeState})),p.npcs.map(n=>({id:n.id,hp:n.hp,lifeState:n.lifeState})))
++    && s.npcs.every(n=>n.routineIntent===null) && written.npcs.every(n=>n.routineIntent===null)
+     && eq(s.contentState.planMeeting,p.contentState.planMeeting) && s.contentState.commandPoints === p.contentState.commandPoints
+     && eq(s.scenarioSnapshot.binding,{version:1,status:'legacy-unbound',sourceSeed:p.worldMeta.seed,declaredSnapshot:p.scenarioSnapshot??null})
+     && s.scenarioSnapshot.seed === p.worldMeta.seed

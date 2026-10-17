@@ -1,0 +1,1557 @@
+{
+  "schema": "IterationEvidenceV1",
+  "version": 1,
+  "status": "verified",
+  "scope": "Selected relay public-feedback evidence draft; verified is existing format, not release approval. Builder does not run Gate.",
+  "source": {
+    "repository": "yzhai4/zombie_harvest",
+    "branch": "codex/v82-npc-succession",
+    "commit": "8feac8b4eec67964b4336a7570b33dcfdc712724",
+    "tree": "686be510127acf3576d5700ab7ca58dd4efffa8e",
+    "htmlSha256": "54ef55a78d77ac1cd45fe4f234db744e035cffe4fa1111f25201aed4da5bf3e5"
+  },
+  "compatibility": {
+    "saveVersion": 21,
+    "contentVersion": 3
+  },
+  "runtime": {
+    "naturalGameplayClaim": false,
+    "productionDeployed": false,
+    "fullMemoryAccepted": false,
+    "fullActorObservationAccepted": false,
+    "publicRelayMainlineCompleted": false
+  },
+  "tests": {
+    "required": [
+      "content-chain",
+      "event-gate-parity",
+      "observer-expression",
+      "gameplay-vertical-slice",
+      "content-episode",
+      "replay-self-test",
+      "static-three-day-smoke"
+    ],
+    "results": [
+      {
+        "name": "content-chain",
+        "status": "passed",
+        "count": 54,
+        "passed": 54,
+        "artifact": {
+          "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/content-chain.log",
+          "sha256": "c4f42766fa69b5f93479dbb8326f77c30be5a6b451eee32f1f65e3d376889375"
+        }
+      },
+      {
+        "name": "event-gate-parity",
+        "status": "passed",
+        "count": 20,
+        "passed": 20,
+        "artifact": {
+          "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/event-gate-parity.log",
+          "sha256": "cb1100f32759ed674eedc83cb8c9bfe32e14387ced65b49c26e443f1cab21271"
+        }
+      },
+      {
+        "name": "observer-expression",
+        "status": "passed",
+        "count": 21,
+        "passed": 21,
+        "artifact": {
+          "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/observer-expression.log",
+          "sha256": "975dd345dcca51b71dd8acf37eaa4222038525acd3c1e2e959ad6010d3a5eabf"
+        }
+      },
+      {
+        "name": "gameplay-vertical-slice",
+        "status": "passed",
+        "count": 5,
+        "passed": 5,
+        "artifact": {
+          "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/gameplay-vertical-slice.log",
+          "sha256": "dc2cf63f0af7a31b6f6ffc2e1350c64bdb21e4b107e13a5a9c02d5e3a2e0e862"
+        }
+      },
+      {
+        "name": "content-episode",
+        "status": "passed",
+        "count": 30,
+        "passed": 30,
+        "artifact": {
+          "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/content-episode.log",
+          "sha256": "ffb891bafa532e57fb8140a1f1d47ca38fbdcc35a01d8548b7fb87d5d3ebd393"
+        }
+      },
+      {
+        "name": "replay-self-test",
+        "status": "passed",
+        "count": 19,
+        "passed": 19,
+        "artifact": {
+          "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/replay-self-test.log",
+          "sha256": "0813da21b6068f27a332a072cc73180b1362f2dffb7ed3b99e31a2a8392a8538"
+        }
+      },
+      {
+        "name": "static-three-day-smoke",
+        "status": "passed",
+        "count": 55,
+        "passed": 55,
+        "artifact": {
+          "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/static-three-day-smoke.json",
+          "sha256": "563d6dad20579a3d534df7047f227ac078eb50d798d7138f4cc5923f6a859446"
+        }
+      },
+      {
+        "name": "relay-handoff-memory-v1",
+        "status": "passed",
+        "count": 25,
+        "passed": 25,
+        "artifact": {
+          "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/relay-handoff-memory-v1.json",
+          "sha256": "8f81f0fb828cce94097fb98a9c3bbbcc2928d1071d7a2b8f08b483ed77b58ac2"
+        }
+      }
+    ],
+    "aggregateCurrentCoverage": {
+      "uniqueContracts": 15,
+      "selectedPassContracts": 15,
+      "sourceContractExecutions": 15,
+      "originalMatrixPassed": 15,
+      "originalMatrixFailed": 0,
+      "artifact": {
+        "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/source-selected-coverage.json",
+        "sha256": "536aeb283128a1019ee87e864973b768324704a07451f04dd416cc35386d7294"
+      }
+    }
+  },
+  "browser": {
+    "status": "fixture-browser",
+    "naturalGameplayClaim": false,
+    "count": 12,
+    "passed": 12,
+    "artifact": {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/episode-browser.json",
+      "sha256": "07fcb4921bf9b3b79bc30f9d5053e2b8f3bd1e579f55a6740c21e0c9cdf5bbcd"
+    }
+  },
+  "localExecution": {
+    "sourceUniqueContracts": 15,
+    "originalSourceExecutions": 15,
+    "originalSourcePassed": 15,
+    "originalSourceFailed": 0,
+    "memorySupplementExecutions": 0,
+    "selectedSourcePassContracts": 15,
+    "freshnessGateExecutedByBuilder": false,
+    "selftestExecutedByBuilder": false,
+    "gitCommitVerification": "supplied API proof/local bytes only; no local ancestry, ref or exact CI claim"
+  },
+  "supplementaryEvidence": {
+    "publicationIndex": {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/index.json",
+      "sha256": "232c65f51c95cce608b20cfb6f7d542c760591c61d9f2ad9d734bb0008d2f15b"
+    },
+    "sourceCoverage": {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/source-selected-coverage.json",
+      "sha256": "536aeb283128a1019ee87e864973b768324704a07451f04dd416cc35386d7294"
+    },
+    "sourceArtifactProof": {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/source-artifact-proof.json",
+      "sha256": "0acba843f29d1ab9e02d8955e5e4ac0a360c582f54f298a2277fa99d2acafaa0"
+    },
+    "selectedTransport": {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/transport-map.json",
+      "sha256": "0bd72fbd33e466c1f0dd9804b17ca885c7d48657a93c3aedb8322c2353a125f8"
+    },
+    "episodeExecution": {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/episode-execution.json",
+      "sha256": "435ca7099781c174e862ae98aaf3bb81e7ac6f29600521f5eafce44e51d332f9"
+    },
+    "historicalSelection": {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/historical-selection.json",
+      "sha256": "41283ddf552633add120153b37e66607a9953d913daa5337c6ed87185796092a"
+    },
+    "currentShortEncounter": {
+      "artifact": {
+        "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/index.json",
+        "sha256": "502d33c360b1746e268a92b4320601b199836a2c34e0f2b2a4a4efeaf71c74c7"
+      },
+      "htmlSha256": "54ef55a78d77ac1cd45fe4f234db744e035cffe4fa1111f25201aed4da5bf3e5",
+      "inputProducerHtmlSha256": "04a7ff13dc663d679330004867e2e960ab6e6472ddaaf3489d2597fc4cde50c7",
+      "status": "PUBLIC_BATTLE_START_CAPTURED_NOT_SETTLED",
+      "exitCode": 0,
+      "actualPublicBattleStart": true,
+      "encounterSettled": false,
+      "battleDurabilityEstablished": false,
+      "unknownRouteBrowserCaseExecuted": false,
+      "naturalGameplayClaim": false,
+      "humanExperience": false,
+      "notAdditionalPrimaryTestRows": true
+    }
+  },
+  "historicalEvidence": {
+    "previousManifestSha256": "e32c7daf146b5dd8f95056b3ff31251977d5a4b1f04f459fde6c6df02a2ee9b1",
+    "previousSourceCommit": "d1542fd0e299ad7e44d094413c76199d6f3e07d9",
+    "previousRowsAreNotCurrent": true,
+    "originalMemoryMethodFailurePreserved": true
+  },
+  "artifacts": [
+    {
+      "path": ".github/workflows/validate.yml",
+      "sha256": "58fbdc62371313805856ed691326fda5b8e4aa0055f59f3ad44d80775085f062"
+    },
+    {
+      "path": "dist/actor-sprites.js",
+      "sha256": "257f4b38760813c21c723bbb9f934f1198e742fd1223db48705f34787e0f71b7"
+    },
+    {
+      "path": "dist/index.html",
+      "sha256": "54ef55a78d77ac1cd45fe4f234db744e035cffe4fa1111f25201aed4da5bf3e5"
+    },
+    {
+      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/e4fbb6c158e5a85bed24141dbc5b5a115860c47d4f580fa767747ef38d0d3f59.json",
+      "sha256": "e4fbb6c158e5a85bed24141dbc5b5a115860c47d4f580fa767747ef38d0d3f59"
+    },
+    {
+      "path": "docs/qa/runs/npc-rest-work-v1-20261018/ci294-matrix/objects/98b4e89ae2aa70077a55f74b974ff4e53b400577ad028a90b1d1d1f28f456315.log",
+      "sha256": "98b4e89ae2aa70077a55f74b974ff4e53b400577ad028a90b1d1d1f28f456315"
+    },
+    {
+      "path": "docs/qa/runs/npc-rest-work-v1-20261018/legacy/objects/ebd2c2a6f1ab12b0e62dc6ba235231b4a229916759cdf1662c2594ed9ac4c7e6.json",
+      "sha256": "ebd2c2a6f1ab12b0e62dc6ba235231b4a229916759cdf1662c2594ed9ac4c7e6"
+    },
+    {
+      "path": "docs/qa/runs/npc-rest-work-v1-20261018/required-source/objects/531da710f88c511c95622c2e162f46d665aa5b5a56f033b718a21f39fec65732.log",
+      "sha256": "531da710f88c511c95622c2e162f46d665aa5b5a56f033b718a21f39fec65732"
+    },
+    {
+      "path": "docs/qa/runs/npc-rest-work-v1-20261018/required-source/objects/94448e79690ac6545423411245b25804ba13e0581dc84e046389548a24e8136a.log",
+      "sha256": "94448e79690ac6545423411245b25804ba13e0581dc84e046389548a24e8136a"
+    },
+    {
+      "path": "docs/qa/runs/npc-rest-work-v1-20261018/required-source/objects/9aa80de5d0ee99245c3b8a87e1e2a3522f078e67df2f9f13f74bf399447cd9e1.log",
+      "sha256": "9aa80de5d0ee99245c3b8a87e1e2a3522f078e67df2f9f13f74bf399447cd9e1"
+    },
+    {
+      "path": "docs/qa/runs/npc-rest-work-v1-20261018/required-source/objects/fdae2874e53f6d308e58cbec46fd5e2be5c0870e867a4cff494f9abf1d080e93.log",
+      "sha256": "fdae2874e53f6d308e58cbec46fd5e2be5c0870e867a4cff494f9abf1d080e93"
+    },
+    {
+      "path": "docs/qa/runs/npc-rest-work-v1-20261018/source/objects/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/historical-selection.json",
+      "sha256": "41283ddf552633add120153b37e66607a9953d913daa5337c6ed87185796092a"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/index.json",
+      "sha256": "232c65f51c95cce608b20cfb6f7d542c760591c61d9f2ad9d734bb0008d2f15b"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/05d8b88b3555d85e89d89dcf896d4759e3f95ac6c272ced81690cda0ce43ce90.json",
+      "sha256": "05d8b88b3555d85e89d89dcf896d4759e3f95ac6c272ced81690cda0ce43ce90"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/0701ba4b2673b7136923a04a1deb01f11d34e118d6b13c042905fe9422d8d85a.json",
+      "sha256": "0701ba4b2673b7136923a04a1deb01f11d34e118d6b13c042905fe9422d8d85a"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/09bb3f167b5d3aff4a62119f5fa7b20294e0ee7d0bb63cfb63d88504d79d76c8.log",
+      "sha256": "09bb3f167b5d3aff4a62119f5fa7b20294e0ee7d0bb63cfb63d88504d79d76c8"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/0c305702f7f72a59de26ca3071c019814e6778ddd862a666225a2213d9202e7c.json",
+      "sha256": "0c305702f7f72a59de26ca3071c019814e6778ddd862a666225a2213d9202e7c"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/1440bc84a140e6b4cb0beb325a0c4196f1f68c97540e4db858bf8c18af03fc35.png",
+      "sha256": "1440bc84a140e6b4cb0beb325a0c4196f1f68c97540e4db858bf8c18af03fc35"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/1b4874fd015fedc3ed914ad3050ed919de7bfa9281fb07bcc1fc800a6d04a304.json",
+      "sha256": "1b4874fd015fedc3ed914ad3050ed919de7bfa9281fb07bcc1fc800a6d04a304"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/1c6cd2aa5a48666b55665174fe56ec4789cbea96adb4299982bc2cacb04b1fa9.log",
+      "sha256": "1c6cd2aa5a48666b55665174fe56ec4789cbea96adb4299982bc2cacb04b1fa9"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/1cd09599e01236be5e691e079e127f8dac8e78259f14f71f4a9bf5a08a2efa5e.json",
+      "sha256": "1cd09599e01236be5e691e079e127f8dac8e78259f14f71f4a9bf5a08a2efa5e"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/3b11eb59aa1dc8d475bdbd155b71364ee59782eae2dde81df9597ce5f3f76307.json",
+      "sha256": "3b11eb59aa1dc8d475bdbd155b71364ee59782eae2dde81df9597ce5f3f76307"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/3e73c7733ea8840ee3338744428d1c2559a66bff3bd8bd5c156a457ddea7149f.json",
+      "sha256": "3e73c7733ea8840ee3338744428d1c2559a66bff3bd8bd5c156a457ddea7149f"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/437a3fe9548b2dcab95c1fdd857fc9e2f9c4ef1f0f559e96d7f263d39ef26424.json",
+      "sha256": "437a3fe9548b2dcab95c1fdd857fc9e2f9c4ef1f0f559e96d7f263d39ef26424"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/563d6dad20579a3d534df7047f227ac078eb50d798d7138f4cc5923f6a859446.json",
+      "sha256": "563d6dad20579a3d534df7047f227ac078eb50d798d7138f4cc5923f6a859446"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/61da86f5b289b2cdea546624f0d4209dd50c5130c26d38dc9ff99d6e7193dcb1.json",
+      "sha256": "61da86f5b289b2cdea546624f0d4209dd50c5130c26d38dc9ff99d6e7193dcb1"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/6cb09a39d86a3d68ac98af9642debb4bfd0d01ad8255b99f62f488d0a5ae78fc.json",
+      "sha256": "6cb09a39d86a3d68ac98af9642debb4bfd0d01ad8255b99f62f488d0a5ae78fc"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/7284b642e45c87e2ce5c53237ca8de1f5521e84b841ba345613f3fe8bef1f7a8.json",
+      "sha256": "7284b642e45c87e2ce5c53237ca8de1f5521e84b841ba345613f3fe8bef1f7a8"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/744d28fe2a780f846768fe7cefaf07c37dab0f24195b710267a7ff0787cdbc43.json",
+      "sha256": "744d28fe2a780f846768fe7cefaf07c37dab0f24195b710267a7ff0787cdbc43"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/772182deac9c6e9032ca31257ae7d28a4aa97082b13d4c510dea81e9993194f1.json",
+      "sha256": "772182deac9c6e9032ca31257ae7d28a4aa97082b13d4c510dea81e9993194f1"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/78444a00126a2028622c03a46f877ed5da4017509026275f740672877cad8776.json",
+      "sha256": "78444a00126a2028622c03a46f877ed5da4017509026275f740672877cad8776"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/7a66c3ee29af484dbd575593acc41829b152d500f4a3eca427b9faa3fcfc3202.md",
+      "sha256": "7a66c3ee29af484dbd575593acc41829b152d500f4a3eca427b9faa3fcfc3202"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/80a533c99551569c779e83a275ae96a9a570b49b6a0ec1be7d09cf53482194c7.json",
+      "sha256": "80a533c99551569c779e83a275ae96a9a570b49b6a0ec1be7d09cf53482194c7"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/80fe8227fe45a69ea1d032ca070ebc3585dd8f3db477839775613e5c82f3a7d9.json",
+      "sha256": "80fe8227fe45a69ea1d032ca070ebc3585dd8f3db477839775613e5c82f3a7d9"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/84b7b1856a4cc03558c22442b484d8e1030607d9d7f728605983c41f5d8e254d.json",
+      "sha256": "84b7b1856a4cc03558c22442b484d8e1030607d9d7f728605983c41f5d8e254d"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/8d6e122f7515cde879cdcdb69267cf8ceb9d1ca6e03c0067b403ca181492789f.json",
+      "sha256": "8d6e122f7515cde879cdcdb69267cf8ceb9d1ca6e03c0067b403ca181492789f"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/8f81f0fb828cce94097fb98a9c3bbbcc2928d1071d7a2b8f08b483ed77b58ac2.json",
+      "sha256": "8f81f0fb828cce94097fb98a9c3bbbcc2928d1071d7a2b8f08b483ed77b58ac2"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/90a2a73e598e852f840523ba70affe90b5415126236ec0d5e0beae859a8ee7df.json",
+      "sha256": "90a2a73e598e852f840523ba70affe90b5415126236ec0d5e0beae859a8ee7df"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/910a07814bc78678fd7dacefca65d1b012eb126ca7944da54f42e71b6d36c275.json",
+      "sha256": "910a07814bc78678fd7dacefca65d1b012eb126ca7944da54f42e71b6d36c275"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/94f136e891475436f241f4224e147664f11392623a320b1714b8522a3d282aa4.sha256",
+      "sha256": "94f136e891475436f241f4224e147664f11392623a320b1714b8522a3d282aa4"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/a2d0db26e08b0c3e73e7556e366b4dbdce4727f86b52599ee72bfc62b927c881.json",
+      "sha256": "a2d0db26e08b0c3e73e7556e366b4dbdce4727f86b52599ee72bfc62b927c881"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/a378bbe46afea95e91943ca6d042ba1b9c411b32257d056fc9cab28b10a1139e.log",
+      "sha256": "a378bbe46afea95e91943ca6d042ba1b9c411b32257d056fc9cab28b10a1139e"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/a3ec48560ec190928073c3c9183aced3341b0ead8b6f18f0e356e660aa7fdd63.json",
+      "sha256": "a3ec48560ec190928073c3c9183aced3341b0ead8b6f18f0e356e660aa7fdd63"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/a5909e5019f7d7c63b38c8697819fe72eb57f4d3b10ff41ae5927ad204942404.json",
+      "sha256": "a5909e5019f7d7c63b38c8697819fe72eb57f4d3b10ff41ae5927ad204942404"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/bf4c9946574c562bf87727eda32793c3651e19542459850b24a8f2b9e2e15691.json",
+      "sha256": "bf4c9946574c562bf87727eda32793c3651e19542459850b24a8f2b9e2e15691"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/c253bbfaecca003fda71c2e830ef314887645068b84086d6a63614037b9383e0.json",
+      "sha256": "c253bbfaecca003fda71c2e830ef314887645068b84086d6a63614037b9383e0"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/c37ceaa878ddaaa59f8c2256f1efe270bd399bb0df0c081b72c7b6113470d2fb.json",
+      "sha256": "c37ceaa878ddaaa59f8c2256f1efe270bd399bb0df0c081b72c7b6113470d2fb"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/c4f42766fa69b5f93479dbb8326f77c30be5a6b451eee32f1f65e3d376889375.log",
+      "sha256": "c4f42766fa69b5f93479dbb8326f77c30be5a6b451eee32f1f65e3d376889375"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/cb1100f32759ed674eedc83cb8c9bfe32e14387ced65b49c26e443f1cab21271.log",
+      "sha256": "cb1100f32759ed674eedc83cb8c9bfe32e14387ced65b49c26e443f1cab21271"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/d1dc3ecbdcfa5cdb8bb1f0467632d7ed8cc27e06002e8dd3f627b42d0f05531b.json",
+      "sha256": "d1dc3ecbdcfa5cdb8bb1f0467632d7ed8cc27e06002e8dd3f627b42d0f05531b"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/d4aaa8142e61d680d9d83b18a9ed959f52e422b9210461709ab7c666a8f2538e.json",
+      "sha256": "d4aaa8142e61d680d9d83b18a9ed959f52e422b9210461709ab7c666a8f2538e"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/e06c2796e492c19315128a936403e19488cf0df9ff28448136b8a8f559bcb58a.log",
+      "sha256": "e06c2796e492c19315128a936403e19488cf0df9ff28448136b8a8f559bcb58a"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/ebb45f6e9756947c068c7c33c422cbb7fc33116130dc1875046a63f8f13a2d2a.png",
+      "sha256": "ebb45f6e9756947c068c7c33c422cbb7fc33116130dc1875046a63f8f13a2d2a"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/ffb891bafa532e57fb8140a1f1d47ca38fbdcc35a01d8548b7fb87d5d3ebd393.log",
+      "sha256": "ffb891bafa532e57fb8140a1f1d47ca38fbdcc35a01d8548b7fb87d5d3ebd393"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/check-night-guard.log",
+      "sha256": "531da710f88c511c95622c2e162f46d665aa5b5a56f033b718a21f39fec65732"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/content-chain.log",
+      "sha256": "c4f42766fa69b5f93479dbb8326f77c30be5a6b451eee32f1f65e3d376889375"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/content-episode.log",
+      "sha256": "ffb891bafa532e57fb8140a1f1d47ca38fbdcc35a01d8548b7fb87d5d3ebd393"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/current-source-closure.public-companion.json",
+      "sha256": "f049132065c61c62c9dd0cc60c41e2b439a33ae7ecbbb315f35f4c290467413b"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/daytime-combat.log",
+      "sha256": "a378bbe46afea95e91943ca6d042ba1b9c411b32257d056fc9cab28b10a1139e"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/episode-browser.json",
+      "sha256": "07fcb4921bf9b3b79bc30f9d5053e2b8f3bd1e579f55a6740c21e0c9cdf5bbcd"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/episode-execution.json",
+      "sha256": "435ca7099781c174e862ae98aaf3bb81e7ac6f29600521f5eafce44e51d332f9"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/event-gate-parity.log",
+      "sha256": "cb1100f32759ed674eedc83cb8c9bfe32e14387ced65b49c26e443f1cab21271"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/gameplay-vertical-slice.log",
+      "sha256": "dc2cf63f0af7a31b6f6ffc2e1350c64bdb21e4b107e13a5a9c02d5e3a2e0e862"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/historical-04a-memory-terminal.json",
+      "sha256": "c75d70470a502da23e54d48ca1e2934f13e5e801d885753ef57bdd8dcb73de7b"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/historical-04a-memory25.json",
+      "sha256": "02fe5ea7ee3bba4ba1fbe405c48082785ce2f4080e7113e40360611a43520de9"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/historical-04a-source-closure.public-companion.json",
+      "sha256": "355ba97f1822b197f4973493f570608ad951579548b151105b564e95fed41e6c"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/inline-syntax.log",
+      "sha256": "98b4e89ae2aa70077a55f74b974ff4e53b400577ad028a90b1d1d1f28f456315"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/npc-rest-work-v1.json",
+      "sha256": "05d8b88b3555d85e89d89dcf896d4759e3f95ac6c272ced81690cda0ce43ce90"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/observer-expression.log",
+      "sha256": "975dd345dcca51b71dd8acf37eaa4222038525acd3c1e2e959ad6010d3a5eabf"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/relay-handoff-memory-v1.json",
+      "sha256": "8f81f0fb828cce94097fb98a9c3bbbcc2928d1071d7a2b8f08b483ed77b58ac2"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/relay-runtime.public-companion.json",
+      "sha256": "ed3c2c513d0f00758a0ca330dfaa98f618ef8cbee8cd51abd927f78e06e7b08a"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/replay-self-test.log",
+      "sha256": "0813da21b6068f27a332a072cc73180b1362f2dffb7ed3b99e31a2a8392a8538"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/save-recovery.log",
+      "sha256": "1c6cd2aa5a48666b55665174fe56ec4789cbea96adb4299982bc2cacb04b1fa9"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/selected-memory-execution.public-companion.json",
+      "sha256": "9c86208f88253b89aa55659133f0cbabae4aa737c018f8f9ff6a0aff1052d096"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/source-git-api-proof.json",
+      "sha256": "2abdf894c593928e0cc6736805709b300a3773eefb3ee927c038b631e065d17b"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/static-three-day-smoke.json",
+      "sha256": "563d6dad20579a3d534df7047f227ac078eb50d798d7138f4cc5923f6a859446"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/validate-content.log",
+      "sha256": "fdae2874e53f6d308e58cbec46fd5e2be5c0870e867a4cff494f9abf1d080e93"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/source-artifact-proof.json",
+      "sha256": "0acba843f29d1ab9e02d8955e5e4ac0a360c582f54f298a2277fa99d2acafaa0"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/source-selected-coverage.json",
+      "sha256": "536aeb283128a1019ee87e864973b768324704a07451f04dd416cc35386d7294"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/station-damage-diagnostic-selection.json",
+      "sha256": "43fca1a416296ea897117e619bec6ffd6fd7b2fc1ea6b4480a48d170adc6b8b2"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/transport-map.json",
+      "sha256": "0bd72fbd33e466c1f0dd9804b17ca885c7d48657a93c3aedb8322c2353a125f8"
+    },
+    {
+      "path": "docs/qa/runs/relay-effective-role-v1-20261018/selected/objects/6bcd2714c3eda3b0c614cfca20bf4b653ca2694babce38fc6279b7261c464d19.json",
+      "sha256": "6bcd2714c3eda3b0c614cfca20bf4b653ca2694babce38fc6279b7261c464d19"
+    },
+    {
+      "path": "docs/qa/runs/relay-effective-role-v1-20261018/selected/objects/e2a3bacc2100521926700262fc71948b798c979bf571c50a6c26ed83268de1a6.json",
+      "sha256": "e2a3bacc2100521926700262fc71948b798c979bf571c50a6c26ed83268de1a6"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/012f856abaf6d3463d504eada038184357c76f5066caa54926ff98919cfa4828.json",
+      "sha256": "012f856abaf6d3463d504eada038184357c76f5066caa54926ff98919cfa4828"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/035a7b78aac616b6aaea76620e584aba2b568dc1d129dcad0f28773907ddcaaf.json",
+      "sha256": "035a7b78aac616b6aaea76620e584aba2b568dc1d129dcad0f28773907ddcaaf"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/0611476d3e5f71be7c51671b974654538f65855dff4203e41f087a974aa66d8c.json",
+      "sha256": "0611476d3e5f71be7c51671b974654538f65855dff4203e41f087a974aa66d8c"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/0f5ddb6aacb840722ea1258b817ceb44963d378093eb042be931ac34ca8d2078.json",
+      "sha256": "0f5ddb6aacb840722ea1258b817ceb44963d378093eb042be931ac34ca8d2078"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/118653262c4379ebb80ef55781de43fd9dfff5ca788486bba868faaf012a7502.json",
+      "sha256": "118653262c4379ebb80ef55781de43fd9dfff5ca788486bba868faaf012a7502"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/223686014aba901273f322069cbda044071a13701fb74feecbb4ad0c871197ff.json",
+      "sha256": "223686014aba901273f322069cbda044071a13701fb74feecbb4ad0c871197ff"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/282d3b7f91814b18b51d94794f1b6d22a2959c63fa4a7f1814b0665d64523b4c.json",
+      "sha256": "282d3b7f91814b18b51d94794f1b6d22a2959c63fa4a7f1814b0665d64523b4c"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/29ce4c584dca3910042e535e10d13b904d4f9805e1e7226605458b1dbc9ce19a.json",
+      "sha256": "29ce4c584dca3910042e535e10d13b904d4f9805e1e7226605458b1dbc9ce19a"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/2bc446c203d58fc9543f0debcbf8768ee742796e45eb28c40ff4e1f3dbf63982.json",
+      "sha256": "2bc446c203d58fc9543f0debcbf8768ee742796e45eb28c40ff4e1f3dbf63982"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/3114d4f790f9ae8a93747bd3ddfdf43d439e310c067c5e34cfbef060b071df6b.json",
+      "sha256": "3114d4f790f9ae8a93747bd3ddfdf43d439e310c067c5e34cfbef060b071df6b"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/31555a73d75022deb24f362253f58475787aae1fcfd023f551b2670ff2d3ff7e.json",
+      "sha256": "31555a73d75022deb24f362253f58475787aae1fcfd023f551b2670ff2d3ff7e"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/38b7d92f4099bf7b93a3f04b79c1e95c8c5de9677b29606f4cda85273d0d3b5a.json",
+      "sha256": "38b7d92f4099bf7b93a3f04b79c1e95c8c5de9677b29606f4cda85273d0d3b5a"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/3ecb409f8bff29a6154b482c1dfeb4bf2d4c9c2691b32971df41719a770a04a6.json",
+      "sha256": "3ecb409f8bff29a6154b482c1dfeb4bf2d4c9c2691b32971df41719a770a04a6"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/4007fb976378e7eb9cf60bb03c4cb32171e7d320ab238981490e6b157b797824.json",
+      "sha256": "4007fb976378e7eb9cf60bb03c4cb32171e7d320ab238981490e6b157b797824"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/40805d1d901c27bf853e38f17a22073d321ce1f70d4043b48bbdb7c75ddf00a8.json",
+      "sha256": "40805d1d901c27bf853e38f17a22073d321ce1f70d4043b48bbdb7c75ddf00a8"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/45e6686fc998482f217d4b55e9815b5d1bc96e23abaec1ab37cf61cfa42d38ea.json",
+      "sha256": "45e6686fc998482f217d4b55e9815b5d1bc96e23abaec1ab37cf61cfa42d38ea"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/45f2e8206e9df050e04bfec4ae61d2266042d21fd9c683d4f7dae247791a8e7f.json",
+      "sha256": "45f2e8206e9df050e04bfec4ae61d2266042d21fd9c683d4f7dae247791a8e7f"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/524c00efca49125587b1e2b2767192556145d3197a5c315f2b9cee268a09c444.json",
+      "sha256": "524c00efca49125587b1e2b2767192556145d3197a5c315f2b9cee268a09c444"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/56507da8c5861471f7fa2f0bfe082908046fc0d9e7eec00b4cc67ac061230aa9.json",
+      "sha256": "56507da8c5861471f7fa2f0bfe082908046fc0d9e7eec00b4cc67ac061230aa9"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/5837fcb20f1f54f48d61d6b6cb28eab8494ef97fd3c517a24a005e4edaed9873.json",
+      "sha256": "5837fcb20f1f54f48d61d6b6cb28eab8494ef97fd3c517a24a005e4edaed9873"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/58417fccf2efe9b68176d6af5295067150c2fedc93d5c08758198f4002e8c6c8.json",
+      "sha256": "58417fccf2efe9b68176d6af5295067150c2fedc93d5c08758198f4002e8c6c8"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/58ff002fc35ebc252ca661b35cbc16ff5ebe0fa42e0e110293d818302902c7a9.json",
+      "sha256": "58ff002fc35ebc252ca661b35cbc16ff5ebe0fa42e0e110293d818302902c7a9"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/5961ff1e6fef97b01748f22583ddbb2c1bf6a925a958dc111a5544a597f23efc.json",
+      "sha256": "5961ff1e6fef97b01748f22583ddbb2c1bf6a925a958dc111a5544a597f23efc"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/5a5cc8a4b7a5132f2befc4e0e585005b7ea4eab2dbf87998e6f1e0cd47b3e8aa.json",
+      "sha256": "5a5cc8a4b7a5132f2befc4e0e585005b7ea4eab2dbf87998e6f1e0cd47b3e8aa"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/5e28d24c97518376a599d402f3c6927cf86423f78b0bfa9cbbd438b2447e3d70.json",
+      "sha256": "5e28d24c97518376a599d402f3c6927cf86423f78b0bfa9cbbd438b2447e3d70"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/5f17d5395ffaf80bc8aa0a0935805c380cfce9c8be7fedd715e7776f4c2fdfbb.json",
+      "sha256": "5f17d5395ffaf80bc8aa0a0935805c380cfce9c8be7fedd715e7776f4c2fdfbb"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/6130e84da4f9ae3cf39617fda39f413c71b521d83b920108114f4ea07d47fa94.json",
+      "sha256": "6130e84da4f9ae3cf39617fda39f413c71b521d83b920108114f4ea07d47fa94"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/61594439948ceb420819c5b96a7611ac428c22a64165e137f893704d9d34daa7.json",
+      "sha256": "61594439948ceb420819c5b96a7611ac428c22a64165e137f893704d9d34daa7"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/7816a114fce8948d5f8bc55cee5b62fce2a02230394643fd16c5c6e38d54ef70.json",
+      "sha256": "7816a114fce8948d5f8bc55cee5b62fce2a02230394643fd16c5c6e38d54ef70"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/7a5114349f2bb39142bf7c996d03886e399677381fa2a7ffa11db38db70a0490.json",
+      "sha256": "7a5114349f2bb39142bf7c996d03886e399677381fa2a7ffa11db38db70a0490"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/7aa8bcd2f4ee45536434b0607b17352d2e5b4344503030697e5af2922d8dc9b1.json",
+      "sha256": "7aa8bcd2f4ee45536434b0607b17352d2e5b4344503030697e5af2922d8dc9b1"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/7c958a7bac6432f006f0ca45c31a4a3310bbfb62a39832834b6ec099c176da70.json",
+      "sha256": "7c958a7bac6432f006f0ca45c31a4a3310bbfb62a39832834b6ec099c176da70"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/865484b2dba9cfb9680c2c21c7c6a9e499fb9bcb57139421fa336fb663e92559.json",
+      "sha256": "865484b2dba9cfb9680c2c21c7c6a9e499fb9bcb57139421fa336fb663e92559"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/8b7434b532d308561d60c7f36f9c5fbded255e70a51c051a677f36f2ac430a6c.json",
+      "sha256": "8b7434b532d308561d60c7f36f9c5fbded255e70a51c051a677f36f2ac430a6c"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/8bb2be30e4d1c699c46b4f6b245e6149ba9c2242287870a77ceb7f4eae22b9e9.json",
+      "sha256": "8bb2be30e4d1c699c46b4f6b245e6149ba9c2242287870a77ceb7f4eae22b9e9"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/8cf6e73f9d5239f16cd4503589209c13a814870e758d1b25718ada84d5d0492a.json",
+      "sha256": "8cf6e73f9d5239f16cd4503589209c13a814870e758d1b25718ada84d5d0492a"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/90cd5ccde38a2737969971531ee360857831e4f0665202ceb0436b3470a2365e.json",
+      "sha256": "90cd5ccde38a2737969971531ee360857831e4f0665202ceb0436b3470a2365e"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/9b8cc2adbb0111ce4c30b715bb8526008ce3dbbfef3007470214d73aa0a5a22b.json",
+      "sha256": "9b8cc2adbb0111ce4c30b715bb8526008ce3dbbfef3007470214d73aa0a5a22b"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/a08c43cdd884e9b2ecacbb41e893d0a04d6bed93ab2743f8f924700cce0a14cb.json",
+      "sha256": "a08c43cdd884e9b2ecacbb41e893d0a04d6bed93ab2743f8f924700cce0a14cb"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/ab615483950eee7e493c81d811f750c4776d401b5155323720eebb765464c413.json",
+      "sha256": "ab615483950eee7e493c81d811f750c4776d401b5155323720eebb765464c413"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/b66c30d4a8c23ac49b396b8ce9aa1c020d5b61d127d532ae99acdad882dd3632.json",
+      "sha256": "b66c30d4a8c23ac49b396b8ce9aa1c020d5b61d127d532ae99acdad882dd3632"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/bd502d2d80ef0dddc97c6c4bf447bad65ca82d2b972e5520e080cde07b272803.json",
+      "sha256": "bd502d2d80ef0dddc97c6c4bf447bad65ca82d2b972e5520e080cde07b272803"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/be90d5b35601ae7b14201ee77baa32693211cc93505cf7fcf0b328fe2de3b74d.json",
+      "sha256": "be90d5b35601ae7b14201ee77baa32693211cc93505cf7fcf0b328fe2de3b74d"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/c03dea73057c8e0ed1629838e10aa2f55cb4803740e775c8c787065b1a8f5e4a.json",
+      "sha256": "c03dea73057c8e0ed1629838e10aa2f55cb4803740e775c8c787065b1a8f5e4a"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/c304ddd97b93898b04975d8a7996dddd447e52d94d07afee86b23ce9e33f0fa0.json",
+      "sha256": "c304ddd97b93898b04975d8a7996dddd447e52d94d07afee86b23ce9e33f0fa0"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/c9c8fe4e58b2818c51ec5745a5478826e59a0a6452f158eb979fb58766b2b8a7.json",
+      "sha256": "c9c8fe4e58b2818c51ec5745a5478826e59a0a6452f158eb979fb58766b2b8a7"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/cf4cddaf85e0e0ed828716ddc0f84453ced58f9a426fa0ffc7c3e043e00b7285.json",
+      "sha256": "cf4cddaf85e0e0ed828716ddc0f84453ced58f9a426fa0ffc7c3e043e00b7285"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/cfd36c7f286773855bd4ceebb4b432e5bb2c3e2476c56279a1ea7cf8f374a276.json",
+      "sha256": "cfd36c7f286773855bd4ceebb4b432e5bb2c3e2476c56279a1ea7cf8f374a276"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/d0c59cdb4b0f766e6da283af4ed7112fbee0f0ec448f239a5f6d2436300b6e05.json",
+      "sha256": "d0c59cdb4b0f766e6da283af4ed7112fbee0f0ec448f239a5f6d2436300b6e05"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/d2e2c0a485062527c18b4d91301b123deaafb59954e876fcad24fa34d63f0d08.json",
+      "sha256": "d2e2c0a485062527c18b4d91301b123deaafb59954e876fcad24fa34d63f0d08"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/d626118acd976af7f4dec8d5cd474110f8c6544e8b1d72708e43546d8b199b59.json",
+      "sha256": "d626118acd976af7f4dec8d5cd474110f8c6544e8b1d72708e43546d8b199b59"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/d8fcac374eb9fee25ad8d45c9a1658266f8ecfb9164b28ac5a24cf45f8952a11.json",
+      "sha256": "d8fcac374eb9fee25ad8d45c9a1658266f8ecfb9164b28ac5a24cf45f8952a11"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/d92a85cee98161b01d8f941a7e27ce484322da73d8ad6b8d3d5afecd131ddae5.json",
+      "sha256": "d92a85cee98161b01d8f941a7e27ce484322da73d8ad6b8d3d5afecd131ddae5"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/da982d24f4a0a9fd533cacf8cdbff8864f36b87fedff34da0e3785a83993da6e.json",
+      "sha256": "da982d24f4a0a9fd533cacf8cdbff8864f36b87fedff34da0e3785a83993da6e"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/eca8285455a0172af5509bc50594646fffdbf6308a5e091e13538dcd76c547be.json",
+      "sha256": "eca8285455a0172af5509bc50594646fffdbf6308a5e091e13538dcd76c547be"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/f166269d48d0f1279b01b7724b989c9af2bf8b56b1930c79fbd383e8d756c22f.json",
+      "sha256": "f166269d48d0f1279b01b7724b989c9af2bf8b56b1930c79fbd383e8d756c22f"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/f28b444ce50bf85442c584435d905066a1c790f12090f7bbb61cabfc672c4049.txt",
+      "sha256": "f28b444ce50bf85442c584435d905066a1c790f12090f7bbb61cabfc672c4049"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/f52842d28eb00c7399fd5aa402fd32c44fa178a29abcaae7b8b939ace6759735.json",
+      "sha256": "f52842d28eb00c7399fd5aa402fd32c44fa178a29abcaae7b8b939ace6759735"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/f7c417887ca5b496742b218de42c0a96984230cd92378af2124d128e704411ec.json",
+      "sha256": "f7c417887ca5b496742b218de42c0a96984230cd92378af2124d128e704411ec"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/fa16f55cc0e90e71fccdfad069ee383d0a5c3f65f1183943a8e2d0d77e882455.json",
+      "sha256": "fa16f55cc0e90e71fccdfad069ee383d0a5c3f65f1183943a8e2d0d77e882455"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/fb17a12f3a116584b539bf3f8dc9b8ab82b7e7032cc3ba33b9d8ee4ecceb68bc.json",
+      "sha256": "fb17a12f3a116584b539bf3f8dc9b8ab82b7e7032cc3ba33b9d8ee4ecceb68bc"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/fcf4adbdbf9c5000f808974bb1186a060e302f0794732a281636913d5226168a.json",
+      "sha256": "fcf4adbdbf9c5000f808974bb1186a060e302f0794732a281636913d5226168a"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/fd564792aba7d3787bb2124e63dceed0b9ddca6dbcd7415ef975cad9cd7e6367.json",
+      "sha256": "fd564792aba7d3787bb2124e63dceed0b9ddca6dbcd7415ef975cad9cd7e6367"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/gameplay-vertical-slice.json",
+      "sha256": "dc2cf63f0af7a31b6f6ffc2e1350c64bdb21e4b107e13a5a9c02d5e3a2e0e862"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/observer-expression.json",
+      "sha256": "975dd345dcca51b71dd8acf37eaa4222038525acd3c1e2e959ad6010d3a5eabf"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/replay-self-test.json",
+      "sha256": "0813da21b6068f27a332a072cc73180b1362f2dffb7ed3b99e31a2a8392a8538"
+    },
+    {
+      "path": "scripts/browser-camp-rest-feedback-v1.mjs",
+      "sha256": "98dfd95a54275eb1dab5ce7aca35b85059e3d39b4d0e185fc209b193618f98e8"
+    },
+    {
+      "path": "scripts/browser-camp-rest-v1.mjs",
+      "sha256": "b25bca13beb843de144ec1e12aed56ceb45ef250a16f9b415877a8947f741b60"
+    },
+    {
+      "path": "scripts/browser-content-episode-v1.mjs",
+      "sha256": "a91f58668aae7f0d5e2132fc5712bb4fca1f30cee403cadf7949bccea20f5be5"
+    },
+    {
+      "path": "scripts/browser-crop-target-v1.mjs",
+      "sha256": "d39c1eb4d2ecbe298e67af8259f2cfdeec4c97e5a3cd9cbf68ae77b8c7677d16"
+    },
+    {
+      "path": "scripts/browser-natural-mixed-v1.mjs",
+      "sha256": "b91ac11682389f48c9393ec4ec525afbadcb574de2c15ef3baa85584052f4eb8"
+    },
+    {
+      "path": "scripts/browser-npc-direct-sight-v1.mjs",
+      "sha256": "b44726a12e1cf527a10fb1710f71cfae7519c680557cf47db4974dfcfa03ef74"
+    },
+    {
+      "path": "scripts/browser-npc-public-actions-v1.mjs",
+      "sha256": "42ed580151cd311bdc116b013817b07e543f16039362f973946193fff10f2dcb"
+    },
+    {
+      "path": "scripts/browser-npc-rest-work-v1.mjs",
+      "sha256": "1bd9719efdb7a13c8f157665f129b1cebe96e6aba26faa5ff04d5b1178b8eb3b"
+    },
+    {
+      "path": "scripts/browser-npc-self-observation-v1.mjs",
+      "sha256": "83ad1873814ab1e0af1a98f6a7db97ca74819c1d594a735d0298b425be8a0dac"
+    },
+    {
+      "path": "scripts/browser-outpost-presence-v1.mjs",
+      "sha256": "2dae62c7c76fffea369fd76eedd37f66415b4bf9b8a635649c514e64ca8058b3"
+    },
+    {
+      "path": "scripts/browser-relay-effective-role-v1.mjs",
+      "sha256": "6e25d1dc84177855d52013bb1f6d68fc1e4e5d030350cd010a9b7f0277e6e904"
+    },
+    {
+      "path": "scripts/browser-relay-handoff-memory-context-v1.mjs",
+      "sha256": "16612136f26d715805c1aeaa70a87e5f953e10f65b4d76e287188530fbb8b9d7"
+    },
+    {
+      "path": "scripts/browser-relay-handoff-memory-roster-v1.mjs",
+      "sha256": "919a6fae90ca342e57626744e974dec94759e77ab50945404ecc74d92d803156"
+    },
+    {
+      "path": "scripts/browser-relay-handoff-memory-v1.mjs",
+      "sha256": "9e8b4b303349a2c0926052761a32da527749535c259cd1bae781f17cb738096c"
+    },
+    {
+      "path": "scripts/browser-scenario-boot-c1.mjs",
+      "sha256": "156b7649c26094975270e281213a7eaf711d7d1138320c564a8d12bfbd7ee1a5"
+    },
+    {
+      "path": "scripts/browser-scenario-boot-c2.mjs",
+      "sha256": "a875110310d3d9abd37250049572cdf1893abe60dbc06cb9b1130a0aa74fc8bb"
+    },
+    {
+      "path": "scripts/browser-shortage-choice-v2.mjs",
+      "sha256": "032cb18af241486544d903898bcbf96b1ea44141e5c5ed233a1cc2d0af192491"
+    },
+    {
+      "path": "scripts/build-scenario-package.mjs",
+      "sha256": "ff867a5a93f122adc0caf9a34d79d6b2df6015b23f930ad162e4ae45232d18d3"
+    },
+    {
+      "path": "scripts/capture-episode-writer-fixture.mjs",
+      "sha256": "65dae2d78cfb626eb7fbaea25cf090772444d80091afd069e4e5268c996fa9ac"
+    },
+    {
+      "path": "scripts/check-camp-area.mjs",
+      "sha256": "9642a958d2152234937bb670cc15815764ec9906fa8abdb78083996d15ca0c21"
+    },
+    {
+      "path": "scripts/check-camp-rest-v1.mjs",
+      "sha256": "f83c5158dfc6cd07b34dd4b895922f1d6d5582d16451fe9d9a22f69bcf9e7bab"
+    },
+    {
+      "path": "scripts/check-combat-intent-v1.mjs",
+      "sha256": "77297998abc92578230a08b531330a6108b3e71e3d36254c434e7c0a33997d00"
+    },
+    {
+      "path": "scripts/check-command-id-reservation.mjs",
+      "sha256": "b517fc569ea213029c876422d747c1923cb059a024fc54c3c9c86b1acb34c5c5"
+    },
+    {
+      "path": "scripts/check-content-chain.mjs",
+      "sha256": "72b8fd5344cd8df727625da0b301be7f884b3434f24680218944002e866ada25"
+    },
+    {
+      "path": "scripts/check-content-episode-v1.mjs",
+      "sha256": "ff7718a3ac2e7f485bd3b0cf014b4323269c693f094d18004bb8c1f3613f1797"
+    },
+    {
+      "path": "scripts/check-crop-target-v1.mjs",
+      "sha256": "8519b9817647b4193a5d9d1f3ef07fb22e4d0a493af13b868034c2c4dc252445"
+    },
+    {
+      "path": "scripts/check-daytime-combat.mjs",
+      "sha256": "b4ccfe1ec8d406a862eb5bd847574901130f4c43850156e6d4914d53a7604498"
+    },
+    {
+      "path": "scripts/check-event-gate-parity.mjs",
+      "sha256": "da7602a07f809bcbde568ed118eed3816dc7340d6b64177c7ef15e7b15625bd9"
+    },
+    {
+      "path": "scripts/check-event-gate-v1.mjs",
+      "sha256": "47c863fd1a3f73af3014b3a4d89d2b2c69cacaacce8767a0a57f77aeda1a2341"
+    },
+    {
+      "path": "scripts/check-gameplay-vertical-slice.mjs",
+      "sha256": "a47a4d3a922c3aa526fca633a0bd7d12f0e8f42f0b0a5d779a2cd6e5101fe3db"
+    },
+    {
+      "path": "scripts/check-inline-syntax.mjs",
+      "sha256": "e209492b8055b8fa8ac0558a2c2d766ecee7ee8ac31526d7e5d4ba42f6acd828"
+    },
+    {
+      "path": "scripts/check-iteration-evidence-self-test.mjs",
+      "sha256": "c56ff5a347c38a85bf9be644be64d2230477d996eadb4e5c8736912820d7c880"
+    },
+    {
+      "path": "scripts/check-iteration-evidence.mjs",
+      "sha256": "351d3c857cd27d424df6e4151fd4acfbc60320bb3220326942ee8b852d43cc97"
+    },
+    {
+      "path": "scripts/check-leader-command-bridge-runtime.mjs",
+      "sha256": "6bb58f7e13442c131778b69614105208588488a90d71c9af21f5d380724bbdda"
+    },
+    {
+      "path": "scripts/check-leader-command-bridge.mjs",
+      "sha256": "b427629fb798ae71f2cfe2f80378864f328e0e7dc0b63a0fc0e7eb30cbf59b12"
+    },
+    {
+      "path": "scripts/check-leader-harness-replay.mjs",
+      "sha256": "e82b43e19da475a1bb4c822446d76a46689acd97c8ac023df898604cabf3d0ab"
+    },
+    {
+      "path": "scripts/check-leader-llm-harness.mjs",
+      "sha256": "03020a9f99006039a34922347482787da0966702512a66d58d7d9a3edf6840e3"
+    },
+    {
+      "path": "scripts/check-night-guard.mjs",
+      "sha256": "627060e9b16337d4a2d2edebc494934a7a857410346d0b00bf7f23516ef5529a"
+    },
+    {
+      "path": "scripts/check-npc-direct-sight-v1.mjs",
+      "sha256": "31071e612ecdffe444739475b7edb20926e1a21f8b1f8da813078decdb6d3430"
+    },
+    {
+      "path": "scripts/check-npc-public-eligibility-v1.mjs",
+      "sha256": "1d5603b47c403ce940c4e5b7afe185739b87206a9db5879eaad4e3f4ac7fe0e0"
+    },
+    {
+      "path": "scripts/check-npc-rest-work-v1.mjs",
+      "sha256": "ed8a057399bbcc3a6aff769f5e57917f63d1183633ce7482abc79474d545d262"
+    },
+    {
+      "path": "scripts/check-npc-self-observation-v1.mjs",
+      "sha256": "83087ce3e0e8ce6953c8cb94fb3c19b63c7aba4c6772a23553758edc56545391"
+    },
+    {
+      "path": "scripts/check-npc-threat-attention.mjs",
+      "sha256": "73f181e036ea92729ffd8abc238030db627526e411b8118cd2fa8bcb06734f88"
+    },
+    {
+      "path": "scripts/check-observer-expression-v1.mjs",
+      "sha256": "73856ea6cafcc134da167d331942ba5faa490258dfa721fd8997910677c1b1f3"
+    },
+    {
+      "path": "scripts/check-outpost-presence-v1.mjs",
+      "sha256": "48b70201e649a11a5bd36d899960d46fe63f0219c69d32657eb4faebabb98998"
+    },
+    {
+      "path": "scripts/check-plan-day.mjs",
+      "sha256": "988589f462c87b4506058dc9432ecfabd6684fdbd88cb6895aa0f716ad8b4ef7"
+    },
+    {
+      "path": "scripts/check-plan-integrity-ui.mjs",
+      "sha256": "9f2778f3b7ca0d289adc76127ad4831c3b98f92551c655e6cf62d46fa4e9860c"
+    },
+    {
+      "path": "scripts/check-plan-integrity.mjs",
+      "sha256": "f689d5f350eb87285e175f933b751b8dbe75db3adb1d356fc978aeb5762f7777"
+    },
+    {
+      "path": "scripts/check-relay-construction-producer.mjs",
+      "sha256": "10ddbe458f88c864502dfc67f23dc06529606f1046ed0d5bb9988bc7e8881e2f"
+    },
+    {
+      "path": "scripts/check-relay-construction-runtime.mjs",
+      "sha256": "ec2cdcca561b80647fde3db0251f036a4158ba7a9be91286c4082da7156f4039"
+    },
+    {
+      "path": "scripts/check-relay-construction-transaction-v1.mjs",
+      "sha256": "3024a0f0a5d45fe6bee0a480f6fdefb83cd41fed5abcbc4480c8938f15e2be25"
+    },
+    {
+      "path": "scripts/check-relay-construction-v1.mjs",
+      "sha256": "3efa2f88290c274e087d4e5dedb55dbf47d632dd3c22061b0235a3a1460410c5"
+    },
+    {
+      "path": "scripts/check-relay-handoff-memory-v1.mjs",
+      "sha256": "36e311de1d91ad7ed958789ab7a376a2fe2532e1bb691fc633f8da4e09d6afe2"
+    },
+    {
+      "path": "scripts/check-repair-proof.mjs",
+      "sha256": "c305ef6a389c62adbfe5fbada45fa25a971669557ae27e13cad1e00a7a1f31d8"
+    },
+    {
+      "path": "scripts/check-report-recovery.mjs",
+      "sha256": "6e0da555742e930b8bf926eeec0db0ee22f17240a4fa305978841f8ba862c0a3"
+    },
+    {
+      "path": "scripts/check-scenario-boot-c1.mjs",
+      "sha256": "226590b12eb257e5b15edd9f46f3281ef58f8e654f1e0e322b6d36d560ef5ff0"
+    },
+    {
+      "path": "scripts/check-scenario-boot-c2.mjs",
+      "sha256": "fffb1e65b38f7012b9196cecda206f404491b76a46f2e998168dd90391297bea"
+    },
+    {
+      "path": "scripts/check-scenario-package-v1.mjs",
+      "sha256": "b866a5377f59e9264962034568fd230c7f38d052bbcda1161ac4de2b4831eda7"
+    },
+    {
+      "path": "scripts/check-shortage-choice-v2.mjs",
+      "sha256": "b07aa47005ed1ebcce4445deead106eee6ad48bc4b57baf77e710711449ef708"
+    },
+    {
+      "path": "scripts/check-three-day-safety.py",
+      "sha256": "f67943938956f0eb2f7f901e6c71b5e78f01d37e0993065da1121af21726a4cd"
+    },
+    {
+      "path": "scripts/export-three-days-artifacts.mjs",
+      "sha256": "6b22a2f32ae5af2e1d4a2ea1665f51050d21d585a4517a0dec8cc03cb330d5c5"
+    },
+    {
+      "path": "scripts/fixtures/active-event.json",
+      "sha256": "12f1ce6f01b1f38eed4cfa2c28328ecaceeeb3b1d3a2ad317dee5181e88bd085"
+    },
+    {
+      "path": "scripts/fixtures/content-episode-v1/save21-pre-identity-active.json",
+      "sha256": "eb3b163e5b55e17f356b3ec95a4f9e5e55147bb78b8250ba0fac6ec3b6a0096d"
+    },
+    {
+      "path": "scripts/fixtures/corrupt-checksum.json",
+      "sha256": "d40373822271524a3ce73277be5bfa5282cc530fee6ff0e4a64ac5cb93b54dba"
+    },
+    {
+      "path": "scripts/fixtures/day-combat-intent-v1.json",
+      "sha256": "dd73c37b46b48db0b5ddffe7f256f2d8bd407c3d1e79eaa277cca656f92a7258"
+    },
+    {
+      "path": "scripts/fixtures/event-gate-v1.json",
+      "sha256": "90a8e199555eeb85f8c5a5e32c64335849ff654045279b4aa546e2cab0f67040"
+    },
+    {
+      "path": "scripts/fixtures/five-day-npc.json",
+      "sha256": "0448fbd6af4f8b5a36974fc3bc79639663897d57ce69ef9636150c06b7a5e43b"
+    },
+    {
+      "path": "scripts/fixtures/gameplay-vertical-slice-v1.json",
+      "sha256": "5c1b3c7beb612166d2fe73569c967d7f3e31523b29ad0345267a3620cf6819e7"
+    },
+    {
+      "path": "scripts/fixtures/leader-harness/command-bridge-v1.json",
+      "sha256": "82645829fe7acfd7849b0829fcf7faf655ddbc9fbb9f52033370c09a99936898"
+    },
+    {
+      "path": "scripts/fixtures/leader-harness/gate-report-baseline.json",
+      "sha256": "ba684df1242e0a2c7c82700adcbb93bb2f2684725f52f2cb8fd5ee7c22c7cca5"
+    },
+    {
+      "path": "scripts/fixtures/leader-harness/intent-envelope-v1.json",
+      "sha256": "267cebdc29004e4fc4ecfd04de47df8a6c0c32593a80510c1451dad29765e6bb"
+    },
+    {
+      "path": "scripts/fixtures/leader-harness/intent-invalid-hidden-field.json",
+      "sha256": "e1288776c98a5672f643f2b957a1fb70312c18f987e76f94806949e95fc19253"
+    },
+    {
+      "path": "scripts/fixtures/leader-harness/intent-invalid-unsupported-command.json",
+      "sha256": "a5e0d05aadc55354451db41783cd10008de75677441e73e57d9f0f786d8f4ebc"
+    },
+    {
+      "path": "scripts/fixtures/leader-harness/legacy-save21-isolation.json",
+      "sha256": "45023eaa1c775d6838577d41b626c01ab9abc3d6f0f12df8431057595838c812"
+    },
+    {
+      "path": "scripts/fixtures/leader-harness/projection-v1.json",
+      "sha256": "717fdee1d66a4edc9295d3f2c132a15b7cb346e504faae776d2e7f8831e81a8e"
+    },
+    {
+      "path": "scripts/fixtures/leader-harness/replay-scenario.json",
+      "sha256": "714ee526d182c7959603c824c0abc982db631bfb14f04f7cc9a8a81a020e80b3"
+    },
+    {
+      "path": "scripts/fixtures/leader-harness/world-baseline.json",
+      "sha256": "1b1c66801e8b288758c4e705f3f93e4039a9dbecb1b0ab33c9ba76fa1f2cfde7"
+    },
+    {
+      "path": "scripts/fixtures/legacy-save18/CLOSED18-save.json",
+      "sha256": "5413783b32ebae6cc798593e90f034da596e17b20cda71b606054c8180b1b960"
+    },
+    {
+      "path": "scripts/fixtures/legacy-save18/DAY18-save.json",
+      "sha256": "0fe3b3e33d630621feb20cba3bb08b4db7cef247464d3b32f748c3c17bf829c3"
+    },
+    {
+      "path": "scripts/fixtures/legacy-save18/INITIAL18-reload-save.json",
+      "sha256": "3ae5ff906cfb1d6e50c9b5ea9467896f2537e64bfaab44b0c897984baa6ae460"
+    },
+    {
+      "path": "scripts/fixtures/legacy-save18/RESOLVED18-save.json",
+      "sha256": "1d10ec233d64ce9a0cedf3eae44fa1e6706065c0ff37ba3e13f5b663451d2d1e"
+    },
+    {
+      "path": "scripts/fixtures/night-resolved.json",
+      "sha256": "d721ee59b0fae05013d3ca72b76be883b885ff8bb07e71f6ee1da51edb60d5b1"
+    },
+    {
+      "path": "scripts/fixtures/night-unresolved.json",
+      "sha256": "4e4cecce4932fdb1579252c907753dc6870026fda944587f68a54be0fa8e5cc4"
+    },
+    {
+      "path": "scripts/fixtures/npc-dead-event.json",
+      "sha256": "37b9786510e1a9d2e589695b910e108dc2de64680d86a4ef32d2873028508091"
+    },
+    {
+      "path": "scripts/fixtures/npc-rest-work-v1/repro/input-manifest.json",
+      "sha256": "96749cb1b4e55abd1e575ec72681dc0067e6ae3674f987e4f2ef15c149194407"
+    },
+    {
+      "path": "scripts/fixtures/npc-rest-work-v1/repro/inputs/low-due-pulse-native.json",
+      "sha256": "6a74a12b9ce2ff269342adc52e509ff139b2201137760f338b12bf4653b2a3cf"
+    },
+    {
+      "path": "scripts/fixtures/npc-rest-work-v1/repro/inputs/low-not-yet-due-native.json",
+      "sha256": "53af765389266905225ada5ea8c7c01059a3e09f805a77477335908b48afc4d8"
+    },
+    {
+      "path": "scripts/fixtures/npc-rest-work-v1/repro/inputs/normal-due-pulse-native.json",
+      "sha256": "3efe46db8fd013b39ee4b6cc97b0b3eb31f30e09beb2f826a1fd7283534ca786"
+    },
+    {
+      "path": "scripts/fixtures/npc-rest-work-v1/repro/normal-due-pulse/after-native.json",
+      "sha256": "1b1f759d3e137842311736958744c8880f291e3b28b87ff4dfe03b1012ff54b1"
+    },
+    {
+      "path": "scripts/fixtures/npc-rest-work-v1/repro/report.json",
+      "sha256": "e8ae592913a7b363caf493999ab8c6a1bd7ae124ddb38a8b019082004a9bb21e"
+    },
+    {
+      "path": "scripts/fixtures/npc-threat-attention-v1/browser-writer-day1-1110-save21.json",
+      "sha256": "5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4"
+    },
+    {
+      "path": "scripts/fixtures/npc-threat-attention-v1/capture-meta.json",
+      "sha256": "a24e58af9364dc6a81b86a7fddf0b618fc19ca72c9823dcaff0756e4f32b25e5"
+    },
+    {
+      "path": "scripts/fixtures/observer-expression-v1.json",
+      "sha256": "5a316d9ce16275c7b786fb1582c0e61877c7c60d0885efeb361b72703d6aba3a"
+    },
+    {
+      "path": "scripts/fixtures/outpost-garrison.json",
+      "sha256": "b2b6d1a30358a4f6075a08ad4440fb6fa9c945e7ec6a33b51aa7584396de869d"
+    },
+    {
+      "path": "scripts/fixtures/plan-integrity/plan-committed-legacy-basewriter.json",
+      "sha256": "d9b8811fed88c25f9f1da0849d772d92e19742280f41e2aec3871d178d9bb05b"
+    },
+    {
+      "path": "scripts/fixtures/plan-integrity/plan-committed-legacy-basewriter.meta.json",
+      "sha256": "cff723beb641b2ccd64086664bc0a678c11da781462581ac3347df8c6830e048"
+    },
+    {
+      "path": "scripts/fixtures/relay-construction-role-v1/briefed-native.json",
+      "sha256": "38cdf0a6ce9a38263091f475db7a6730444464d510f812e84a0658b7a5bc2b77"
+    },
+    {
+      "path": "scripts/fixtures/relay-construction-role-v1/provenance.json",
+      "sha256": "6f0afef528651a2f1beaf0b5079f74f1cf870a17af703915414121b741696c95"
+    },
+    {
+      "path": "scripts/fixtures/relay-construction-runtime-v1.json",
+      "sha256": "4d829bde37994520e42da67a46c11fa1b89a7fc41554f32cce4e1cc06d28d23c"
+    },
+    {
+      "path": "scripts/fixtures/relay-construction-transaction-v1.json",
+      "sha256": "2334325fef1c3f923e6130d3871b7c18b63379419125bec2ea1246afb5cd494d"
+    },
+    {
+      "path": "scripts/fixtures/relay-construction-v1.json",
+      "sha256": "fbca5ac5621cc8b6cecd5c4aab68ce0274ef0838fa4ad9bfef449bffa0499bc6"
+    },
+    {
+      "path": "scripts/fixtures/relay-handoff-memory-browser-inputs.json",
+      "sha256": "c9fc68acfdaa3b5c2c8a1dee2a53a062e7ce0e90364f5339df51e475e9805af2"
+    },
+    {
+      "path": "scripts/fixtures/relay-handoff-memory-v1/actual-Chrome8b97-handoff-native.json",
+      "sha256": "e9d1bf223335acff04d755e760bdd44b0e6a7737305c9ed6cf9203a7daae5a9e"
+    },
+    {
+      "path": "scripts/fixtures/relay-handoff-memory-v1/far-held-core-native.json",
+      "sha256": "bc5ed70f1418496c4fbbbd7e08d35b133c45c87312085e54b5f0cf4f81a29a98"
+    },
+    {
+      "path": "scripts/fixtures/relay-handoff-memory-v1/held-core-native.json",
+      "sha256": "3096e2c66bb8ecda5a88dc81cfbda4ed8160055fc33f358d25990c0d4edfc0a9"
+    },
+    {
+      "path": "scripts/fixtures/relay-handoff-memory-v1/input-selection.json",
+      "sha256": "66fcf13bb445fc91ae8a644e37e75fa6e762f6f72e3e13a35f93c996fe631034"
+    },
+    {
+      "path": "scripts/fixtures/relay-handoff-memory-v1/producer-report-path-only-companion.json",
+      "sha256": "a27cc5089c6a0f5d7be1e540d2a9547401c99d68fa2d8e7add7ee576760dde20"
+    },
+    {
+      "path": "scripts/fixtures/relay-handoff-memory-v1/producer-runner-original.txt",
+      "sha256": "ac67a96b84496bd8482b71545af70714d86990a4d7a3faafee92b91107cbdd1f"
+    },
+    {
+      "path": "scripts/fixtures/relay-handoff-memory-v1/provenance.json",
+      "sha256": "126b697d057f18a914b221caec660945aa33d2b62f816ff86eb4e688f31921a3"
+    },
+    {
+      "path": "scripts/fixtures/repair-proof/repair-legacy-basewriter.json",
+      "sha256": "38dd27970b53e5569d01f6bdd60dc04503c94c1342845e00eb78c091b9accb52"
+    },
+    {
+      "path": "scripts/fixtures/repair-proof/repair-legacy-basewriter.meta.json",
+      "sha256": "ced6750738964cb443a0254c87710a213129c000d9c75e8c0c41a758d9ff2578"
+    },
+    {
+      "path": "scripts/fixtures/scenario-boot-c1/contract-matrix.md",
+      "sha256": "d0f496568d8ca7ca4e555f390d539ba219eeaa7bcf8c7516d3d3564ec438bd95"
+    },
+    {
+      "path": "scripts/fixtures/scenario-boot-c1/frozen-input-manifest.json",
+      "sha256": "ce3c11c8ef204863fa4d0d3ee38093159cd33cac470e06a98ed2d79e80603ab9"
+    },
+    {
+      "path": "scripts/fixtures/scenario-boot-c1/frozen/dist/index.html",
+      "sha256": "9edb6d3c3daa7ec63d90594381d811cb077828fd0955fb7095c601ce91b5b87b"
+    },
+    {
+      "path": "scripts/fixtures/scenario-boot-c1/frozen/docs/decisions/ADR-20261017-scenario-boot-contract.md",
+      "sha256": "fed314b712b701b9e076eb1402fb3bf1adf6d92170136722df7be98eb9ef587b"
+    },
+    {
+      "path": "scripts/fixtures/scenario-boot-c1/frozen/docs/problems/PROB-20261017-scenario-stored-not-bound.md",
+      "sha256": "7f23d5c005a266a19c20d5773d065a5e5a9122660e6b73bcc6cafba1cb899724"
+    },
+    {
+      "path": "scripts/fixtures/scenario-boot-c1/frozen/docs/qa/runs/npc-public-actions-v1-20261017/associated-browser/shortage/report.json",
+      "sha256": "6a9e39dbc5b2010b479b6e90a296f2d9b9b4a34f84f677d89049abb6e274e36d"
+    },
+    {
+      "path": "scripts/fixtures/scenario-boot-c1/frozen/docs/qa/runs/npc-public-actions-v1-20261017/associated-browser/shortage/supplied-forage-reloaded-save.json",
+      "sha256": "e9a650b313519f07a5d31b4fbbac3325d6ec0b91b8070cec3dbe37b0a950590a"
+    },
+    {
+      "path": "scripts/fixtures/scenario-boot-c1/frozen/docs/qa/runs/npc-public-actions-v1-20261017/associated-presence/midnight-reloaded-save.json",
+      "sha256": "9d196677f4f565bb07aa1420d000590ec77b55dfdd34ace5d5fc5e9c43d5b9b8"
+    },
+    {
+      "path": "scripts/fixtures/scenario-boot-c1/frozen/docs/qa/runs/npc-public-actions-v1-20261017/associated-presence/report.json",
+      "sha256": "8c5a2aa0e580c96b1b661b3efb2706efea7db36090e6d33a58fffe0fac5f37ad"
+    },
+    {
+      "path": "scripts/fixtures/scenario-boot-c1/frozen/docs/qa/runs/npc-public-actions-v1-20261017/natural-fresh07/execution-summary.json",
+      "sha256": "44bd1d2804aca79fbcab25efa6839cd16f36fe38afc33d7814a2d4c4d67d7898"
+    },
+    {
+      "path": "scripts/fixtures/scenario-boot-c1/frozen/docs/qa/runs/npc-public-actions-v1-20261017/natural-fresh07/report.json",
+      "sha256": "8aaa08e16be87c8cb6278b1ce99c3b2e48d4c629cce740c1100e84202c825802"
+    },
+    {
+      "path": "scripts/fixtures/scenario-boot-c1/frozen/docs/qa/runs/npc-public-actions-v1-20261017/natural-fresh07/terminal-before-cleanup-save.json",
+      "sha256": "4e4744b785cda0ebd5a7df9e4fa2894cdf18858f8f46ee2bfb9953d9577c75ac"
+    },
+    {
+      "path": "scripts/fixtures/scenario-boot-c1/frozen/docs/qa/runs/npc-public-actions-v1-20261017/source/npc-public-artifacts/order-combat-death-checkpoint-native.json",
+      "sha256": "39034467fff615ca0d553a80af3e08f670451c5fa31b58a461f6bee215d93a8a"
+    },
+    {
+      "path": "scripts/fixtures/scenario-boot-c1/frozen/docs/research/scenario-boot-c1-implementation-plan-20261017.md",
+      "sha256": "114f98350dd0ed390f5b8ad77f80e08fd9a6cdb9ac0fd9d6f51f39e4e064817d"
+    },
+    {
+      "path": "scripts/fixtures/scenario-boot-c1/frozen/docs/schemas/scenario-package-v1.json",
+      "sha256": "0f405ea295a5a8654f072650f2ae0cadc2c03757b2b92a3b92395dd5ff126f04"
+    },
+    {
+      "path": "scripts/fixtures/scenario-boot-c1/frozen/scripts/check-report-recovery.mjs",
+      "sha256": "ee5bb659c0439044e1ec07a4aecf931293457c2478f35d0850fe90770b4367cf"
+    },
+    {
+      "path": "scripts/fixtures/scenario-boot-c1/frozen/scripts/check-scenario-package-v1.mjs",
+      "sha256": "19c8091c108c8e6ae2903aad54ab4eac5192274a38e6b4fc16a35010b2eea537"
+    },
+    {
+      "path": "scripts/fixtures/scenario-boot-c1/frozen/scripts/fixtures/legacy-save18/CLOSED18-save.json",
+      "sha256": "5413783b32ebae6cc798593e90f034da596e17b20cda71b606054c8180b1b960"
+    },
+    {
+      "path": "scripts/fixtures/scenario-boot-c1/frozen/scripts/fixtures/legacy-save18/DAY18-save.json",
+      "sha256": "0fe3b3e33d630621feb20cba3bb08b4db7cef247464d3b32f748c3c17bf829c3"
+    },
+    {
+      "path": "scripts/fixtures/scenario-boot-c1/frozen/scripts/fixtures/legacy-save18/INITIAL18-reload-save.json",
+      "sha256": "3ae5ff906cfb1d6e50c9b5ea9467896f2537e64bfaab44b0c897984baa6ae460"
+    },
+    {
+      "path": "scripts/fixtures/scenario-boot-c1/frozen/scripts/fixtures/legacy-save18/RESOLVED18-save.json",
+      "sha256": "1d10ec233d64ce9a0cedf3eae44fa1e6706065c0ff37ba3e13f5b663451d2d1e"
+    },
+    {
+      "path": "scripts/fixtures/scenario-boot-c1/frozen/scripts/fixtures/npc-threat-attention-v1/browser-writer-day1-1110-save21.json",
+      "sha256": "5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4"
+    },
+    {
+      "path": "scripts/fixtures/scenario-boot-c1/frozen/scripts/fixtures/npc-threat-attention-v1/capture-meta.json",
+      "sha256": "a24e58af9364dc6a81b86a7fddf0b618fc19ca72c9823dcaff0756e4f32b25e5"
+    },
+    {
+      "path": "scripts/fixtures/scenario-boot-c1/frozen/scripts/fixtures/repair-proof/repair-legacy-basewriter.json",
+      "sha256": "38dd27970b53e5569d01f6bdd60dc04503c94c1342845e00eb78c091b9accb52"
+    },
+    {
+      "path": "scripts/fixtures/scenario-boot-c1/frozen/scripts/fixtures/repair-proof/repair-legacy-basewriter.meta.json",
+      "sha256": "ced6750738964cb443a0254c87710a213129c000d9c75e8c0c41a758d9ff2578"
+    },
+    {
+      "path": "scripts/fixtures/scenario-boot-c1/frozen/scripts/fixtures/scenario-zombie-harvest-v1.json",
+      "sha256": "4034e11bab5149010bd6503690ec5a94493d7c85df67092e39a02d02e70cdaee"
+    },
+    {
+      "path": "scripts/fixtures/scenario-boot-c1/frozen/scripts/lib/scenario-package-v1.mjs",
+      "sha256": "e194b22c73925960fae7d77c6eded96d2cabf79b5fa5357c5d6f0300e53b9948"
+    },
+    {
+      "path": "scripts/fixtures/scenario-boot-c1/frozen/scripts/lib/source-runtime-fixture.mjs",
+      "sha256": "e9872eeba85d49019d1bd806f3dd18357a5abc8f2f92922922f6a5324ec220dc"
+    },
+    {
+      "path": "scripts/fixtures/scenario-boot-c2/author-v2-baseline-source.txt",
+      "sha256": "59716de13862e506e8cee8214742d5ba6f17f0d9331b53d3268e98242503a07c"
+    },
+    {
+      "path": "scripts/fixtures/scenario-boot-c2/author-v2-oracle.json",
+      "sha256": "afdd0a2c79fbb74ba28b58ba0f3a43930de8367d18d8c7641a8cfec9e82a6fe7"
+    },
+    {
+      "path": "scripts/fixtures/scenario-boot-c2/capture-mapping.json",
+      "sha256": "2bef1652768748f55b6316ec4b47917533fe726d4be0dd2babe6dc2388070bb5"
+    },
+    {
+      "path": "scripts/fixtures/scenario-zombie-harvest-v1.json",
+      "sha256": "c5780832b29399caeed9bd0b33aa55086a4a0e0928e1ce66285042feb6d2a818"
+    },
+    {
+      "path": "scripts/fixtures/valid.json",
+      "sha256": "96acbc70057f5bdb92c04b8649a766064ced76b98e39fe8b84da28b7295bbfee"
+    },
+    {
+      "path": "scripts/fixtures/watermill-chain.json",
+      "sha256": "f4aac7bf7d247096abb9165ef1dad4321aab9991ab74ce2bde1b7a077bfd1972"
+    },
+    {
+      "path": "scripts/fixtures/watermill-repair-gate-v1.json",
+      "sha256": "a7dce2e7375a56ed6b18f22379868dff925537c5972bac683bc98aa18a72d8ec"
+    },
+    {
+      "path": "scripts/headless-leader-ledger-adapter.mjs",
+      "sha256": "0504dffe46f9c08c2b343364badba2e8cd20726c13a99ff6f0ad8b3638dd26b9"
+    },
+    {
+      "path": "scripts/lib/combat-intent-v1.mjs",
+      "sha256": "5bbd41e5b47231dbcf6db2ebff76cb19ec3d38ed7fc23c4ab09d4bab4f48fcd3"
+    },
+    {
+      "path": "scripts/lib/event-gate-v1.mjs",
+      "sha256": "7fa51e0a52eb0163caf3be27f86b0bb9ab2d359f5107f7cd483dc738a02459c1"
+    },
+    {
+      "path": "scripts/lib/npc-direct-sight-v1.mjs",
+      "sha256": "d464721a657a0c436e4bf1b3fd45cbe250f769ff932cbc01e3e0fbe4356a23af"
+    },
+    {
+      "path": "scripts/lib/npc-rest-work-v1.mjs",
+      "sha256": "266212a41dd4d9b7638c118659a1a0651e80855595f5584580c2113448b406bb"
+    },
+    {
+      "path": "scripts/lib/npc-self-observation-v1.mjs",
+      "sha256": "715fca749327bc1302aa4869adda94044e5dfa9c6dd24cac733f1b98a7575868"
+    },
+    {
+      "path": "scripts/lib/observer-expression-v1.mjs",
+      "sha256": "fe78c38954227d4a93318badac915032a943a5bd008a061c0682758a61912f27"
+    },
+    {
+      "path": "scripts/lib/relay-construction-transaction-v1.mjs",
+      "sha256": "9a3de6c749f7a643c3cc40b4f1dfed5a15781cf94b583780aaf5dff2b83fc3e1"
+    },
+    {
+      "path": "scripts/lib/relay-construction-v1.mjs",
+      "sha256": "7352c2222859001bd778da8d8d2c08850e030f8c548bf2611494be105bd7a602"
+    },
+    {
+      "path": "scripts/lib/scenario-package-v1.mjs",
+      "sha256": "343e52025cbda33ace694a4e281cfdb7fa66a2052370d67275c13a7a543004ce"
+    },
+    {
+      "path": "scripts/lib/source-runtime-fixture.mjs",
+      "sha256": "e9872eeba85d49019d1bd806f3dd18357a5abc8f2f92922922f6a5324ec220dc"
+    },
+    {
+      "path": "scripts/probe-food-shortage-strategies-v1.mjs",
+      "sha256": "c76a776764d080fb29ae95ee19a94a807aef96cdb41c3e9676aff8de792dcef6"
+    },
+    {
+      "path": "scripts/replay-harness.mjs",
+      "sha256": "6b4f64ac34994add7b6b6b950b817f24f671388003899e61b635f6cee30f007b"
+    },
+    {
+      "path": "scripts/report_recovery_fixtures.py",
+      "sha256": "c9ec8771a76b2e6e8581cf3fa2c9edb6b667410e5f62448acc66201a51467e8e"
+    },
+    {
+      "path": "scripts/report_recovery_full.py",
+      "sha256": "7a6d4f7ac30c4ddb54343cb7208fa8930b6ed4262157c187f14457a2bc77e6d2"
+    },
+    {
+      "path": "scripts/runtime-source-target.mjs",
+      "sha256": "bffeae0efdaabad3d92c46f669682d1924f5085002509c8a3374f0a813590168"
+    },
+    {
+      "path": "scripts/server-content-chain.py",
+      "sha256": "f63e0972b0340c586e25f30ed38300fc197d54f7a6568e647b3c9f8d4498edd1"
+    },
+    {
+      "path": "scripts/server-playtest.py",
+      "sha256": "f3bab6f68ebd99c3f9618ba58aff88a0e50490a5a321cd4a28525b2d47267c65"
+    },
+    {
+      "path": "scripts/server-report-recovery.py",
+      "sha256": "32273364d4ae4373938d005ab70bad95bd42f6b41f79020da85d4ce348878845"
+    },
+    {
+      "path": "scripts/server-three-days.py",
+      "sha256": "bc16789fb58d60ea141488c8a5bd393a98e7de673bbf21efcddf123418db93ff"
+    },
+    {
+      "path": "scripts/smoke-three-days.mjs",
+      "sha256": "0a623a20434a43ac004fa64617b4050ccc4ed2646efd0c98bcc4e5e521e5fdb4"
+    },
+    {
+      "path": "scripts/validate-content.mjs",
+      "sha256": "39a8edff9b24690d8ae5accee97a6c3326c31c2089249e952771c9b7554ebee6"
+    },
+    {
+      "path": "scripts/verify-three-days-artifacts.mjs",
+      "sha256": "4cca9356ceba55e47d9ac6c4ec0d08b62e926d2f7df2d29930f5af62f80b7434"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/actual-online-panel-390-public.json",
+      "bytes": 5631,
+      "sha256": "437ad8f8a259d46619313d3d4f1c05c8cbb7c0b969f35511bc8500add6fe2f3e"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/actual-online-panel-390.png",
+      "bytes": 157421,
+      "sha256": "54a409874ef8be0a2789560c5d0d061192a9198a82bf3744dd4550b356ee3de8"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/actual-online-panel-desktop-public.json",
+      "bytes": 5519,
+      "sha256": "dc140450505a6a476dd4199fc4b717db94ea8b1a729a39440c4b61188a2f2412"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/actual-online-panel-desktop.png",
+      "bytes": 317832,
+      "sha256": "bf026e4a32625ab652deed49f413f74725791dcd7f3d3f5a5a3574bcac398c4e"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/actual-public-battle-desktop.png",
+      "bytes": 697410,
+      "sha256": "7a50ca6883dfa4393538571c8c8ad42ffca119229cc710b91e1bb5efe9f97aef"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/actual-public-battle-public.json",
+      "bytes": 5464,
+      "sha256": "c38814911454bf5b570b696b21ce7b85e8a433dd1f9a81cc052e838bc9bef74d"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/actual-visible-day-hud-public.json",
+      "bytes": 5103,
+      "sha256": "21a796a0aca72da071e3fe62b7defe67245c125a74eb03a10ed46ace2fdcd641"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/before-public-n-public.json",
+      "bytes": 4939,
+      "sha256": "051829c803c1dff51d85a63d0392e19f1038c68c96b8884fd7fb7ed697475a4b"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/execution-terminal.path-companion.json",
+      "bytes": 4574,
+      "sha256": "b36fb6a612c888982f0a2563b2cec97664c3733c4fbb46a6c4c720d4599a36c5"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/inputs/input-manifest.json",
+      "bytes": 8955,
+      "sha256": "d8d7d9d6aa73681e9d8cbab697288f5901728c21494add5427042512f6c1f48a"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/inputs/presentation/old-online-native.json",
+      "bytes": 101558,
+      "sha256": "3e73c7733ea8840ee3338744428d1c2559a66bff3bd8bd5c156a457ddea7149f"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/producer-source-report.path-companion.json",
+      "bytes": 14117,
+      "sha256": "e60b876a67cea4cf60765c2a5732e08dc3e2c2193c49cc22830b4ee8f2e675fa"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/README.md",
+      "bytes": 2053,
+      "sha256": "b5ad3f544b0f710cbd2863e9313da2d7f72b7ae40e1da350591293806b80db29"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/report.json",
+      "bytes": 33946,
+      "sha256": "7cce642c6a47a0afb26bd2441216c76038d368fc7230053053ec627ef63f93a5"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/runner-executed.mjs",
+      "bytes": 11321,
+      "sha256": "ded07c142031103084e1c68c87d9d903a87425904769a8866b9d2498da60a177"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/transport-map.json",
+      "bytes": 19824,
+      "sha256": "cdcbd4b0674c05778e7ff9a9880f23522071b7f0ea5bf51b6d539f41d3c0330c"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/index.json",
+      "bytes": 5431,
+      "sha256": "502d33c360b1746e268a92b4320601b199836a2c34e0f2b2a4a4efeaf71c74c7"
+    }
+  ]
+}

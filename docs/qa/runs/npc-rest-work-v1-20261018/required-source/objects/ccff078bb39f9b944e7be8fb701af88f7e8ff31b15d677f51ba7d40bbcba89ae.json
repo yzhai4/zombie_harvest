@@ -1,0 +1,1172 @@
+{
+  "schema": "NpcDirectSightSourceEvidenceV1",
+  "runner": "source-npc-direct-sight-v1",
+  "sourceHtmlSha256": "d252771d729154ad087bf9e20260167ecf985ec50e7f0c1b6912ea335420bd79",
+  "runnerArtifact": {
+    "path": "direct-report-artifacts/runner-executed.mjs",
+    "sha256": "31071e612ecdffe444739475b7edb20926e1a21f8b1f8da813078decdb6d3430"
+  },
+  "source": {
+    "path": "direct-report-artifacts/source-executed.html",
+    "sha256": "d252771d729154ad087bf9e20260167ecf985ec50e7f0c1b6912ea335420bd79"
+  },
+  "adapter": {
+    "path": "direct-report-artifacts/io-adapter-executed.mjs",
+    "sha256": "554c400c174ad1b069c4dfcc839c12b3b45ea79c5aa7669e093a440ffa4845d3"
+  },
+  "module": {
+    "path": "direct-report-artifacts/modules/npc-direct-sight-v1.mjs",
+    "sha256": "d464721a657a0c436e4bf1b3fd45cbe250f769ff932cbc01e3e0fbe4356a23af"
+  },
+  "inputs": [
+    {
+      "repositoryPath": "scripts/fixtures/npc-threat-attention-v1/browser-writer-day1-1110-save21.json",
+      "path": "direct-report-artifacts/inputs/original5fdd-writer.json",
+      "sha256": "5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4",
+      "bytes": 496785
+    },
+    {
+      "repositoryPath": "scripts/fixtures/npc-threat-attention-v1/capture-meta.json",
+      "path": "direct-report-artifacts/inputs/original-capture-meta.json",
+      "sha256": "a24e58af9364dc6a81b86a7fddf0b618fc19ca72c9823dcaff0756e4f32b25e5",
+      "bytes": 1642
+    },
+    {
+      "repositoryPath": "docs/qa/runs/npc-public-actions-v1-20261017/npc-browser/original-writer.json",
+      "path": "direct-report-artifacts/inputs/original1e29-writer.json",
+      "sha256": "1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f",
+      "bytes": 58992
+    }
+  ],
+  "scope": {
+    "actual": "complete inline source, private direct-sight adapter/project/disclosure, original NPC Gate/view/CommandBus, actual canPerceive/profile/LOS and renderer/listeners, writer/validator/loader",
+    "controlled": "existing explicit DOM/storage/queued-timer IO adapter; unrelated broad rendering assignments suppressed after actual callable references captured",
+    "variants": "TEST-ONLY declared old-writer scene derivations",
+    "visibilityOrReceiptMocked": false,
+    "excluded": [
+      "real browser pixels/navigation",
+      "natural gameplay",
+      "LLM",
+      "contacts/shared knowledge authorization",
+      "full ActorObservation ADR",
+      "global legacy summary cleanup"
+    ]
+  },
+  "browserStarted": false,
+  "naturalGameplay": false,
+  "count": 91,
+  "passed": 91,
+  "ok": true,
+  "checks": [
+    {
+      "name": "actual private direct-sight components exist without widening public observer API",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "same live speaker capture contains only strict coarse sight and actual revision/trust",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": {
+        "schema": "NpcDirectSightCaptureV1",
+        "version": 1,
+        "actorId": "carpenter",
+        "sourceRevision": {
+          "sessionGeneration": 0,
+          "worldMinute": 670,
+          "eventSeq": 254,
+          "stepIndex": 4987,
+          "phase": "DAY"
+        },
+        "sight": {
+          "subjectId": "wz-4",
+          "category": "normal",
+          "distanceBand": "near"
+        },
+        "relationTrust": 0
+      }
+    },
+    {
+      "name": "actual authorized knowledge is current actor-bound direct sight only",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": {
+        "schema": "ActorObservationV1",
+        "version": 1,
+        "policyVersion": "npc-view-direct-sight-v1",
+        "hashVersion": "fnv1a-utf16-base36-v1",
+        "actor": {
+          "id": "carpenter"
+        },
+        "audienceId": "player-1",
+        "sourceRevision": {
+          "sessionGeneration": 0,
+          "worldMinute": 670,
+          "eventSeq": 254,
+          "stepIndex": 4987,
+          "phase": "DAY"
+        },
+        "knowledge": [
+          {
+            "subjectId": "wz-4",
+            "status": "observed",
+            "facts": {
+              "category": "normal",
+              "distanceBand": "near"
+            },
+            "provenance": {
+              "kind": "direct-sight",
+              "sourceId": "carpenter",
+              "at": 670
+            }
+          }
+        ],
+        "unknown": [],
+        "observationHash": "e6924z"
+      }
+    },
+    {
+      "name": "inline and headless core bytes and literal fixture outputs agree",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": {
+        "moduleSha256": "d464721a657a0c436e4bf1b3fd45cbe250f769ff932cbc01e3e0fbe4356a23af"
+      }
+    },
+    {
+      "name": "pure capture preserves full state references/storage/registry/RNG/ledger/timers",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": {
+        "component": "capture"
+      }
+    },
+    {
+      "name": "pure project preserves full state references/storage/registry/RNG/ledger/timers",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": {
+        "component": "project"
+      }
+    },
+    {
+      "name": "pure resolve preserves full state references/storage/registry/RNG/ledger/timers",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": {
+        "component": "resolve"
+      }
+    },
+    {
+      "name": "pure prepare preserves full state references/storage/registry/RNG/ledger/timers",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": {
+        "component": "prepare"
+      }
+    },
+    {
+      "name": "captured sight and revision have no writable alias to live actor or enemy",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "independent authored category/distance sentence normal/near",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": {
+        "schema": "NpcDirectSightReportV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "status": "observed",
+        "text": "我看见一只普通僵尸，离我很近。",
+        "disclosedFacts": [
+          {
+            "category": "normal",
+            "distanceBand": "near"
+          }
+        ],
+        "sourceProjectionHash": "ss3rjs"
+      }
+    },
+    {
+      "name": "independent authored category/distance sentence normal/farther",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": {
+        "schema": "NpcDirectSightReportV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "status": "observed",
+        "text": "我看见一只普通僵尸，离我还有一段距离。",
+        "disclosedFacts": [
+          {
+            "category": "normal",
+            "distanceBand": "farther"
+          }
+        ],
+        "sourceProjectionHash": "mra8os"
+      }
+    },
+    {
+      "name": "independent authored category/distance sentence runner/near",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": {
+        "schema": "NpcDirectSightReportV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "status": "observed",
+        "text": "我看见一只快速感染者，离我很近。",
+        "disclosedFacts": [
+          {
+            "category": "runner",
+            "distanceBand": "near"
+          }
+        ],
+        "sourceProjectionHash": "mygixb"
+      }
+    },
+    {
+      "name": "independent authored category/distance sentence runner/farther",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": {
+        "schema": "NpcDirectSightReportV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "status": "observed",
+        "text": "我看见一只快速感染者，离我还有一段距离。",
+        "disclosedFacts": [
+          {
+            "category": "runner",
+            "distanceBand": "farther"
+          }
+        ],
+        "sourceProjectionHash": "d85vxh"
+      }
+    },
+    {
+      "name": "independent authored category/distance sentence brute/near",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": {
+        "schema": "NpcDirectSightReportV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "status": "observed",
+        "text": "我看见一只装甲僵尸，离我很近。",
+        "disclosedFacts": [
+          {
+            "category": "brute",
+            "distanceBand": "near"
+          }
+        ],
+        "sourceProjectionHash": "19vibln"
+      }
+    },
+    {
+      "name": "independent authored category/distance sentence brute/farther",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": {
+        "schema": "NpcDirectSightReportV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "status": "observed",
+        "text": "我看见一只装甲僵尸，离我还有一段距离。",
+        "disclosedFacts": [
+          {
+            "category": "brute",
+            "distanceBand": "farther"
+          }
+        ],
+        "sourceProjectionHash": "1alsjk1"
+      }
+    },
+    {
+      "name": "actual directional trust disclosure threshold -100",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": {
+        "schema": "NpcDirectSightReportV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "status": "unavailable",
+        "text": "这次查看没有得到可确认的视线报告。",
+        "disclosedFacts": [],
+        "sourceProjectionHash": "w7k42t"
+      }
+    },
+    {
+      "name": "actual directional trust disclosure threshold -10.001",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": {
+        "schema": "NpcDirectSightReportV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "status": "unavailable",
+        "text": "这次查看没有得到可确认的视线报告。",
+        "disclosedFacts": [],
+        "sourceProjectionHash": "w7k42t"
+      }
+    },
+    {
+      "name": "actual directional trust disclosure threshold -10",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": {
+        "schema": "NpcDirectSightReportV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "status": "observed",
+        "text": "我看见一只普通僵尸，离我很近。",
+        "disclosedFacts": [
+          {
+            "category": "normal",
+            "distanceBand": "near"
+          }
+        ],
+        "sourceProjectionHash": "ss3rjs"
+      }
+    },
+    {
+      "name": "actual directional trust disclosure threshold 0",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": {
+        "schema": "NpcDirectSightReportV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "status": "observed",
+        "text": "我看见一只普通僵尸，离我很近。",
+        "disclosedFacts": [
+          {
+            "category": "normal",
+            "distanceBand": "near"
+          }
+        ],
+        "sourceProjectionHash": "ss3rjs"
+      }
+    },
+    {
+      "name": "actual directional trust disclosure threshold 100",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": {
+        "schema": "NpcDirectSightReportV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "status": "observed",
+        "text": "我看见一只普通僵尸，离我很近。",
+        "disclosedFacts": [
+          {
+            "category": "normal",
+            "distanceBand": "near"
+          }
+        ],
+        "sourceProjectionHash": "ss3rjs"
+      }
+    },
+    {
+      "name": "missing/nonfinite/out-of-range trust uniformly withholds without inventing willingness",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "trust/camp prestige/AI cannot increase knowledge; unknown public hash leaks no hidden branch",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "unknown/no-sight/withheld output is identical and cannot claim absence or safety",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "private observation hash binds actor revision and coarse authorized fact, not disclosure",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "strict private core rejects nested/unknown/type/hash tampering without calling accessors",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "caller extra actor/target/trust/profile/policy arguments cannot overwrite actual capture",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "actual canPerceive/FOV front within default range",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": {
+        "schema": "NpcDirectSightReportV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "status": "observed",
+        "text": "我看见一只普通僵尸，离我还有一段距离。",
+        "disclosedFacts": [
+          {
+            "category": "normal",
+            "distanceBand": "farther"
+          }
+        ],
+        "sourceProjectionHash": "mra8os"
+      }
+    },
+    {
+      "name": "actual canPerceive/FOV beyond default range",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": {
+        "schema": "NpcDirectSightReportV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "status": "unavailable",
+        "text": "这次查看没有得到可确认的视线报告。",
+        "disclosedFacts": [],
+        "sourceProjectionHash": "w7k42t"
+      }
+    },
+    {
+      "name": "actual canPerceive/FOV behind default facing",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": {
+        "schema": "NpcDirectSightReportV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "status": "unavailable",
+        "text": "这次查看没有得到可确认的视线报告。",
+        "disclosedFacts": [],
+        "sourceProjectionHash": "w7k42t"
+      }
+    },
+    {
+      "name": "actual canPerceive/FOV sprite facing alone does not change current real FOV",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": {
+        "schema": "NpcDirectSightReportV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "status": "unavailable",
+        "text": "这次查看没有得到可确认的视线报告。",
+        "disclosedFacts": [],
+        "sourceProjectionHash": "w7k42t"
+      }
+    },
+    {
+      "name": "actual canPerceive/FOV actual motion target faces behind target",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": {
+        "schema": "NpcDirectSightReportV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "status": "observed",
+        "text": "我看见一只普通僵尸，离我很近。",
+        "disclosedFacts": [
+          {
+            "category": "normal",
+            "distanceBand": "near"
+          }
+        ],
+        "sourceProjectionHash": "ss3rjs"
+      }
+    },
+    {
+      "name": "actual canPerceive/FOV side outside default cone",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": {
+        "schema": "NpcDirectSightReportV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "status": "unavailable",
+        "text": "这次查看没有得到可确认的视线报告。",
+        "disclosedFacts": [],
+        "sourceProjectionHash": "w7k42t"
+      }
+    },
+    {
+      "name": "actual canPerceive/FOV supported guard profile sees side",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": {
+        "schema": "NpcDirectSightReportV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "status": "observed",
+        "text": "我看见一只普通僵尸，离我还有一段距离。",
+        "disclosedFacts": [
+          {
+            "category": "normal",
+            "distanceBand": "farther"
+          }
+        ],
+        "sourceProjectionHash": "mra8os"
+      }
+    },
+    {
+      "name": "actual canPerceive/FOV supported patrol beyond default sight",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": {
+        "schema": "NpcDirectSightReportV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "status": "observed",
+        "text": "我看见一只普通僵尸，离我还有一段距离。",
+        "disclosedFacts": [
+          {
+            "category": "normal",
+            "distanceBand": "farther"
+          }
+        ],
+        "sourceProjectionHash": "mra8os"
+      }
+    },
+    {
+      "name": "actual sampled LOS preserves existing blocker semantics wall",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": {
+        "schema": "NpcDirectSightReportV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "status": "unavailable",
+        "text": "这次查看没有得到可确认的视线报告。",
+        "disclosedFacts": [],
+        "sourceProjectionHash": "w7k42t"
+      }
+    },
+    {
+      "name": "actual sampled LOS preserves existing blocker semantics spikeWall",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": {
+        "schema": "NpcDirectSightReportV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "status": "unavailable",
+        "text": "这次查看没有得到可确认的视线报告。",
+        "disclosedFacts": [],
+        "sourceProjectionHash": "w7k42t"
+      }
+    },
+    {
+      "name": "actual sampled LOS preserves existing blocker semantics garden",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": {
+        "schema": "NpcDirectSightReportV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "status": "observed",
+        "text": "我看见一只普通僵尸，离我很近。",
+        "disclosedFacts": [
+          {
+            "category": "normal",
+            "distanceBand": "near"
+          }
+        ],
+        "sourceProjectionHash": "ss3rjs"
+      }
+    },
+    {
+      "name": "need/SAN impairment affects actual profile but observing does not recover or normalize them",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "actual online relay bonus changes sight without granting memory or remote communication",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "physical radio profile remains real while actingRole is not inherited special base sight",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "nearest current visible target chosen stably without player masking or array-order dependence",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "actor can provide legitimate new reconnaissance outside player visited-region display",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "stale personal/shared contact and raw targetId cannot become current sight or leak hidden facts",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "qualification fails closed without repairing caller/world detached",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "qualification fails closed without repairing caller/world stringID",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "qualification fails closed without repairing caller/world unknown",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "qualification fails closed without repairing caller/world duplicateID",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "qualification fails closed without repairing caller/world unregistered live actor",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "qualification fails closed without repairing caller/world deleted",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "qualification fails closed without repairing caller/world dead",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "qualification fails closed without repairing caller/world critical self-only",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "qualification fails closed without repairing caller/world contradictory old life",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "qualification fails closed without repairing caller/world garrison marker",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "qualification fails closed without repairing caller/world reverse garrison",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "qualification fails closed without repairing caller/world outside1.25",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "qualification fails closed without repairing caller/world NIGHT",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "qualification fails closed without repairing caller/world RECOVERY",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "strict raw coordinates and actual profile dependencies do not default bad values",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "unknown kinds/dead/invalid coordinates/duplicate target IDs are not reinterpreted as real sight",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "a malformed candidate does not fabricate normal or block another separately legal current target",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "complete scan at64 candidates128 buildings and262144 AABB upper budget stays supported",
+      "ok": true,
+      "derivation": "TEST-ONLY budget boundary scene:64 separately copied actual enemy records at4,12.25;128 valid current-order buildings; actual online relay sight+20. Real canPerceive/LOS, no prefix truncation or visibility mock.",
+      "evidence": {
+        "candidateEntries": 64,
+        "buildingEntries": 128,
+        "fixtureDistance": 8.25,
+        "literalWorkUpperBound": 262144
+      }
+    },
+    {
+      "name": "work262400 just above262144 yields uniform unavailable rather than prefix result",
+      "ok": true,
+      "derivation": "TEST-ONLY same64x128 boundary; only last candidate distance8.51, real upper work262400. No world mutation by capture.",
+      "evidence": null
+    },
+    {
+      "name": "explicit input work cap fails only new report candidate65",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "explicit input work cap fails only new report building129",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "explicit input work cap fails only new report outposts17",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "explicit input work cap fails only new report guardIDs65",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "malformed AABB cannot be defaulted into clear LOS and buildings are not reordered to only walls",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "actual context listener displays one attributed as-of disclosed report with original plain toast",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": {
+        "cache": {
+          "actorId": "carpenter",
+          "actorName": "阿梁",
+          "generation": 0,
+          "sourceRevision": {
+            "sessionGeneration": 0,
+            "worldMinute": 670,
+            "eventSeq": 254,
+            "stepIndex": 4987,
+            "phase": "DAY"
+          },
+          "status": "observed",
+          "text": "我看见一只普通僵尸，离我很近。"
+        },
+        "row": {
+          "text": "第1天 11:10 · 本次所见\n阿梁：我看见一只普通僵尸，离我很近。",
+          "dataset": {
+            "npcSightSurface": "context",
+            "npcSightNpc": "carpenter",
+            "npcSightGeneration": "0",
+            "npcSightWorldMinute": "670",
+            "npcSightStatus": "observed"
+          }
+        }
+      }
+    },
+    {
+      "name": "uniform unavailable UI is not attributed to NPC and never falls through stale contacts",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "ordinary actual context/roster redraw preserves as-of text without new capture or timestamp",
+      "ok": true,
+      "derivation": "TEST-ONLY pass-through fatigue read observer records only the actual private capture stack; no function is replaced. Later target/time changes are fixture controls for static as-of presentation, not real time advancement.",
+      "evidence": {
+        "captureReads": 2,
+        "reportText": "第1天 11:10 · 本次所见\n阿梁：我看见一只普通僵尸，离我很近。"
+      }
+    },
+    {
+      "name": "UI lifecycle clears old report on close-context",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "UI lifecycle clears old report on selected-changed",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "UI lifecycle clears old report on generation",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "UI lifecycle clears old report on NIGHT",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "UI lifecycle clears old report on dead",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "UI lifecycle clears old report on garrison",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "UI lifecycle clears old report on too-far",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "actual public view over outpost budget retains one neutral unavailable row without business effects",
+      "ok": true,
+      "derivation": "TEST-ONLY actual old-writer scene plus17 shaped outpost records; source observation budget is unsupported, original public view Gate remains legal. This is a transient runtime boundary scene, not a claim of a canonical save containing17 new authored outposts.",
+      "evidence": null
+    },
+    {
+      "name": "actual roster-only view survives ordinary hidden-context helper and redraw",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "actual session freeze clears UI before any later render",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "actual session restart clears UI before any later render",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "real context actor changes A-to-B-to-A cannot resurrect an old report",
+      "ok": true,
+      "derivation": "TEST-ONLY both real NPCs legal and nearby; reorder the same fixed roster references to vary actual renderer first target without calling viewB. No identity/position/visibility function is mocked, and no report is recaptured.",
+      "evidence": null
+    },
+    {
+      "name": "actual roster renderer/listener replaces same-session report with the clicked NPC rather than old actor",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "view keeps generic toast reset after existing actual long self dialogue",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "new view UI cache is absent from native save and reload; no business or knowledge receipts are added",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": {
+        "nativeSha256": "e26545daecb04fac7f635f8cf26aa5c29f0107fd07ebff366d2d14c1aa3d6b22"
+      }
+    },
+    {
+      "name": "four browser inputs use actual new-source renderer/writer/validator/reload with original enemies and resources retained",
+      "ok": true,
+      "derivation": "TEST-ONLY original1e29→actual loader→offline same-roster derivation→actual context renderer→native writer→actual validator→reload. Player original11,11; carpenter11.75,11; original normal enemy11.75,13; pausedtrue; trust0/-11; healthy100/critical20; blocked one wall11,12; visible originaldoctor11,11.75. No original enemies removed or resources supplemented.",
+      "evidence": {
+        "manifest": {
+          "path": "direct-report-artifacts/browser-inputs/capture-manifest.json",
+          "sha256": "8d3a4be1d9937af592dea25a0e60c6a93c4a280947f4d107d308e243d188090a",
+          "bytes": 9712
+        },
+        "scenes": [
+          {
+            "id": "direct-visible",
+            "file": "direct-visible-native.json",
+            "sha256": "0ae04fdb012e86862d2f74d230298e56f02f074058e8b7ce6c2bb5efcf5c8edc",
+            "expected": {
+              "status": "observed",
+              "category": "normal",
+              "distanceBand": "near"
+            }
+          },
+          {
+            "id": "direct-blocked",
+            "file": "direct-blocked-native.json",
+            "sha256": "b5102b9a1e9f992d4b10e602d93570ab36b722df671e767c5214344632d826a3",
+            "expected": {
+              "status": "unavailable",
+              "category": null,
+              "distanceBand": null
+            }
+          },
+          {
+            "id": "low-trust",
+            "file": "low-trust-native.json",
+            "sha256": "e39cd0109d9d998303a3e528e5ebff152edaa53b79fab6c455aa5616eab3744d",
+            "expected": {
+              "status": "unavailable",
+              "category": null,
+              "distanceBand": null
+            }
+          },
+          {
+            "id": "critical-unavailable",
+            "file": "critical-unavailable-native.json",
+            "sha256": "c70288357d5b294a059ae363174f60c1a01f84c2be9f5cfad193a4cc49a584b8",
+            "expected": {
+              "status": "unavailable",
+              "category": null,
+              "distanceBand": null
+            }
+          }
+        ],
+        "noBrowserExecution": true
+      }
+    },
+    {
+      "name": "actual public view remains1.25/free/no command or support/clock effect",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "critical E0 paused keeps original pure view and free self first talk, not new reconnaissance",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    },
+    {
+      "name": "unchanged original writer business/history survives actual load/save/reload original5fdd",
+      "ok": true,
+      "derivation": "UNCHANGED complete actual old writer; no offline scene alterations, real loader/writer/validator twice; not a newly executed browser or natural route.",
+      "evidence": {
+        "originalSha256": "5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4",
+        "round1Sha256": "699455cff5f1d24d51fdfa71c0c5eed8cf4f31018a3c5760820dd5841c527d4b",
+        "round2Sha256": "699455cff5f1d24d51fdfa71c0c5eed8cf4f31018a3c5760820dd5841c527d4b"
+      }
+    },
+    {
+      "name": "unchanged original writer business/history survives actual load/save/reload original1e29",
+      "ok": true,
+      "derivation": "UNCHANGED complete actual old writer; no offline scene alterations, real loader/writer/validator twice; not a newly executed browser or natural route.",
+      "evidence": {
+        "originalSha256": "1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f",
+        "round1Sha256": "0f5e723ab4df326d905cf7306e439ea1575327389b087eda6d90cb695181ee2c",
+        "round2Sha256": "0f5e723ab4df326d905cf7306e439ea1575327389b087eda6d90cb695181ee2c"
+      }
+    },
+    {
+      "name": "actual source/module/IO/runner bytes stayed frozen while executing",
+      "ok": true,
+      "derivation": "TEST-ONLY complete original5fdd writer through actual loader; carpenter4,4/player3.25,4; original normal enemy4,6, other original enemies31+,21; healthy actor, needs0/0/100, SAN72, actualtrust0, no motionTarget, supportfalse. Original roster/resources/history retained. No reducer/Gate/LOS/profile mock.",
+      "evidence": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "direct-report-artifacts/source-executed.html",
+      "sha256": "d252771d729154ad087bf9e20260167ecf985ec50e7f0c1b6912ea335420bd79",
+      "bytes": 897898
+    },
+    {
+      "path": "direct-report-artifacts/runner-executed.mjs",
+      "sha256": "31071e612ecdffe444739475b7edb20926e1a21f8b1f8da813078decdb6d3430",
+      "bytes": 49765
+    },
+    {
+      "path": "direct-report-artifacts/io-adapter-executed.mjs",
+      "sha256": "554c400c174ad1b069c4dfcc839c12b3b45ea79c5aa7669e093a440ffa4845d3",
+      "bytes": 49798
+    },
+    {
+      "path": "direct-report-artifacts/inputs/original5fdd-writer.json",
+      "sha256": "5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4",
+      "bytes": 496785
+    },
+    {
+      "path": "direct-report-artifacts/inputs/original-capture-meta.json",
+      "sha256": "a24e58af9364dc6a81b86a7fddf0b618fc19ca72c9823dcaff0756e4f32b25e5",
+      "bytes": 1642
+    },
+    {
+      "path": "direct-report-artifacts/inputs/original1e29-writer.json",
+      "sha256": "1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f",
+      "bytes": 58992
+    },
+    {
+      "path": "direct-report-artifacts/modules/npc-direct-sight-v1.mjs",
+      "sha256": "d464721a657a0c436e4bf1b3fd45cbe250f769ff932cbc01e3e0fbe4356a23af",
+      "bytes": 6958
+    },
+    {
+      "path": "direct-report-artifacts/modules/observer-expression-v1.mjs",
+      "sha256": "fe78c38954227d4a93318badac915032a943a5bd008a061c0682758a61912f27",
+      "bytes": 7421
+    },
+    {
+      "path": "direct-report-artifacts/view-before-native.json",
+      "sha256": "ec3789a42b23f638ac9f126b27125b01e6bef6c8bb9264c67eb3706cdea59b98",
+      "bytes": 265022
+    },
+    {
+      "path": "direct-report-artifacts/view-after-native.json",
+      "sha256": "e26545daecb04fac7f635f8cf26aa5c29f0107fd07ebff366d2d14c1aa3d6b22",
+      "bytes": 265022
+    },
+    {
+      "path": "direct-report-artifacts/browser-inputs/original-writer.json",
+      "sha256": "1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f",
+      "bytes": 58992
+    },
+    {
+      "path": "direct-report-artifacts/browser-inputs/direct-visible-native.json",
+      "sha256": "0ae04fdb012e86862d2f74d230298e56f02f074058e8b7ce6c2bb5efcf5c8edc",
+      "bytes": 64030
+    },
+    {
+      "path": "direct-report-artifacts/browser-inputs/direct-visible-capture-audit.json",
+      "sha256": "a93611e1308f7cdc47e6b27bfef9abaf25ed8edac4bf437218f4b7d119209de3",
+      "bytes": 9217
+    },
+    {
+      "path": "direct-report-artifacts/browser-inputs/direct-blocked-native.json",
+      "sha256": "b5102b9a1e9f992d4b10e602d93570ab36b722df671e767c5214344632d826a3",
+      "bytes": 64170
+    },
+    {
+      "path": "direct-report-artifacts/browser-inputs/direct-blocked-capture-audit.json",
+      "sha256": "d7bd131c48a6f06170af50b0f8e5e99b789bbedfe35007f362ff7d86d5b108c5",
+      "bytes": 8890
+    },
+    {
+      "path": "direct-report-artifacts/browser-inputs/low-trust-native.json",
+      "sha256": "e39cd0109d9d998303a3e528e5ebff152edaa53b79fab6c455aa5616eab3744d",
+      "bytes": 64028
+    },
+    {
+      "path": "direct-report-artifacts/browser-inputs/low-trust-capture-audit.json",
+      "sha256": "e4348db4c71e9a320f34dce94bb8a04273bd731c10ec67d811a0ca8e7dbc1ad3",
+      "bytes": 8631
+    },
+    {
+      "path": "direct-report-artifacts/browser-inputs/critical-unavailable-native.json",
+      "sha256": "c70288357d5b294a059ae363174f60c1a01f84c2be9f5cfad193a4cc49a584b8",
+      "bytes": 64024
+    },
+    {
+      "path": "direct-report-artifacts/browser-inputs/critical-unavailable-capture-audit.json",
+      "sha256": "c8a4fc86558169f213ab84a8627be68370d1bee02e5b86cadffeee511da952ec",
+      "bytes": 8105
+    },
+    {
+      "path": "direct-report-artifacts/browser-inputs/capture-manifest.json",
+      "sha256": "8d3a4be1d9937af592dea25a0e60c6a93c4a280947f4d107d308e243d188090a",
+      "bytes": 9712
+    },
+    {
+      "path": "direct-report-artifacts/original5fdd-actual-round1.json",
+      "sha256": "699455cff5f1d24d51fdfa71c0c5eed8cf4f31018a3c5760820dd5841c527d4b",
+      "bytes": 265398
+    },
+    {
+      "path": "direct-report-artifacts/original5fdd-actual-round2.json",
+      "sha256": "699455cff5f1d24d51fdfa71c0c5eed8cf4f31018a3c5760820dd5841c527d4b",
+      "bytes": 265398
+    },
+    {
+      "path": "direct-report-artifacts/original1e29-actual-round1.json",
+      "sha256": "0f5e723ab4df326d905cf7306e439ea1575327389b087eda6d90cb695181ee2c",
+      "bytes": 64008
+    },
+    {
+      "path": "direct-report-artifacts/original1e29-actual-round2.json",
+      "sha256": "0f5e723ab4df326d905cf7306e439ea1575327389b087eda6d90cb695181ee2c",
+      "bytes": 64008
+    }
+  ]
+}

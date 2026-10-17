@@ -1,0 +1,13 @@
+# Natural fresh07 preparation, final NPC r3 contract
+
+This is an external method draft. ROOT runner 2ff1fb866e23d4fad9af66adefb262bc6f59f5b424315bc72b3bd7e64bd57aed and runs01-06 remain unchanged. No new natural browser has been started. Execution requires separate root authorization after fixture browser review.
+
+The new execution is bound to source9edb6d3c3daa7ec63d90594381d811cb077828fd0955fb7095c601ce91b5b87b. Keep the original maximum480seconds, maximum10 meaningful actions, seven required coverage items, zero training and zero purposeless rest. No initScript, save seeding, hidden action API, postboot GameState write or private NPC target coordinates are permitted. Full writer reads remain evidence and a separately disclosed conservative safety veto only; actor-authorized projection remains incomplete.
+
+The first publicly named original NPC can be disclosed by its disabled support button and pure-view control. Lock the exact public data-npc-id and context name. Do not click disabled actions or substitute another NPC. Only a real public one-cell approach hint permits a bounded follow. Pure view does not open dialogue or count as support.
+
+Reuse the previously reviewed Canvas observation method only for that exact currently public name and ID, visible world canvas, original fillText called first with identical this/args/return, first matching frame, <=250ms and finally restoration, transform-aware public pixel geometry, nonfog/unoccluded label and actor, original screenshot SHA. Maximum two100ms approach holds and two observations within the existing navigation/global budgets. Missing pixels, changed identity, non-distance rejection or exhausted bounds stops incomplete with no writer-coordinate fallback. The old06 did not execute this branch; only a future actual observation can establish it.
+
+First talk must produce npc.dialogueOpened, operation dialogue-open, exact same NPC/player parent and event, gross0E, requested/elapsed0min, no advance and null beforeAdvance/afterAdvance. npc.statusInquired never counts as first support. Confirmation must retain the same public ID and produce npc.interacted, operation support-requested, proofVersion1, actual gross2E, exact15min child/time event/causation, and actual support, bond and helpedByPlayer changes. The four stages are before, beforeAdvance, afterAdvance, atCompletion. Interrupted actions or lawful refusals are not successful coverage.
+
+No construction, harvest, enemy or rest rule is changed by this adaptation. A real refusal, public observation failure, loss or budget exhaustion remains a terminal incomplete/failed result. No automatic restart or continuation to three days is allowed.

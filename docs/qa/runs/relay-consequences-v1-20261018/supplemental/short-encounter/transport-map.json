@@ -1,0 +1,401 @@
+{
+  "schema": "RelayConsequencesShortSelectionTransportV1",
+  "repositoryPrefix": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/",
+  "newExecution": false,
+  "rawCurrentReportUnchanged": true,
+  "originalNativeReport": {
+    "bytes": 33946,
+    "sha256": "7cce642c6a47a0afb26bd2441216c76038d368fc7230053053ec627ef63f93a5"
+  },
+  "repositoryByteReuse": [
+    {
+      "originalFile": "source.html",
+      "repositoryPath": "dist/index.html",
+      "bytes": 919193,
+      "sha256": "54ef55a78d77ac1cd45fe4f234db744e035cffe4fa1111f25201aed4da5bf3e5",
+      "byteIdentical": true,
+      "copiedIntoSelection": false
+    },
+    {
+      "originalFile": "actor-sprites.js",
+      "repositoryPath": "dist/actor-sprites.js",
+      "bytes": 19246,
+      "sha256": "257f4b38760813c21c723bbb9f934f1198e742fd1223db48705f34787e0f71b7",
+      "byteIdentical": true,
+      "copiedIntoSelection": false
+    },
+    {
+      "originalFile": "io-dependency.mjs",
+      "repositoryPath": "scripts/check-report-recovery.mjs",
+      "bytes": 51172,
+      "sha256": "6e0da555742e930b8bf926eeec0db0ee22f17240a4fa305978841f8ba862c0a3",
+      "byteIdentical": true,
+      "copiedIntoSelection": false
+    }
+  ],
+  "exactReferenceMappings": [
+    {
+      "context": "report.json",
+      "jsonPointer": "/input/file",
+      "originalValue": "input-native.json",
+      "target": {
+        "file": "inputs/presentation/old-online-native.json",
+        "bytes": 101558,
+        "sha256": "3e73c7733ea8840ee3338744428d1c2559a66bff3bd8bd5c156a457ddea7149f"
+      },
+      "sameOriginalBytes": true
+    },
+    {
+      "context": "report.json",
+      "jsonPointer": "/latestDurable/file",
+      "originalValue": "latest-actual-durable-native.json",
+      "target": {
+        "file": "inputs/presentation/old-online-native.json",
+        "bytes": 101558,
+        "sha256": "3e73c7733ea8840ee3338744428d1c2559a66bff3bd8bd5c156a457ddea7149f"
+      },
+      "sameOriginalBytes": true,
+      "scope": "Actual latest durable was byte-identical pre-N input, not a saved BATTLE."
+    },
+    {
+      "context": "report.json",
+      "jsonPointer": "/sourceProducerProof/file",
+      "originalValue": "source-native-checker-report.json",
+      "originalReferenceBase": "The captured producer-input manifest directory, not the short output directory. This field was forwarded from that manifest; no same-named native file existed in the short output.",
+      "originalResolvedLogicalRef": "producer-inputs/source-native-checker-report.json",
+      "original": {
+        "bytes": 12415,
+        "sha256": "1aa626b2611c0a18a1f15d7609092b9d4bf6b8c92035be1ed4433b37b5207557"
+      },
+      "target": {
+        "file": "producer-source-report.path-companion.json",
+        "bytes": 14117,
+        "sha256": "e60b876a67cea4cf60765c2a5732e08dc3e2c2193c49cc22830b4ee8f2e675fa"
+      },
+      "transport": "explicit path-only companion; not the original native report bytes",
+      "sourceHtmlSha256": "04a7ff13dc663d679330004867e2e960ab6e6472ddaaf3489d2597fc4cde50c7"
+    },
+    {
+      "context": "inputs/input-manifest.json",
+      "jsonPointer": "/sourceCheckerProof/file",
+      "originalValue": "source-native-checker-report.json",
+      "original": {
+        "bytes": 12415,
+        "sha256": "1aa626b2611c0a18a1f15d7609092b9d4bf6b8c92035be1ed4433b37b5207557"
+      },
+      "target": {
+        "file": "producer-source-report.path-companion.json",
+        "bytes": 14117,
+        "sha256": "e60b876a67cea4cf60765c2a5732e08dc3e2c2193c49cc22830b4ee8f2e675fa"
+      },
+      "transport": "explicit path-only companion; original1aa retained privately"
+    },
+    {
+      "context": "execution-terminal.path-companion.json",
+      "jsonPointer": "/execution/report/file",
+      "originalValue": "short-encounter-v2-execution01/report.json",
+      "originalReferenceBase": "Original launch-owner execution directory",
+      "target": {
+        "file": "report.json",
+        "bytes": 33946,
+        "sha256": "7cce642c6a47a0afb26bd2441216c76038d368fc7230053053ec627ef63f93a5"
+      },
+      "sameOriginalBytes": true
+    },
+    {
+      "context": "execution-terminal.path-companion.json",
+      "jsonPointer": "/execution/actual/latestDurable/file",
+      "originalValue": "latest-actual-durable-native.json",
+      "originalReferenceBase": "Original short output directory",
+      "target": {
+        "file": "inputs/presentation/old-online-native.json",
+        "bytes": 101558,
+        "sha256": "3e73c7733ea8840ee3338744428d1c2559a66bff3bd8bd5c156a457ddea7149f"
+      },
+      "sameOriginalBytes": true
+    }
+  ],
+  "oldProducerSource": {
+    "sourceHtmlSha256": "04a7ff13dc663d679330004867e2e960ab6e6472ddaaf3489d2597fc4cde50c7",
+    "bytes": 918816,
+    "disposition": "Original04a7 source retained outside this selection; do not replace it with current54ef. Separate baseline provenance, not a current-source producer rerun."
+  },
+  "selectionScopeOnly": true,
+  "unselectedOriginalReferences": [
+    {
+      "context": "inputs/input-manifest.json",
+      "jsonPointer": "/originalWriter",
+      "originalFile": "ancestry/original-briefed-native.json",
+      "sha256": "38cdf0a6ce9a38263091f475db7a6730444464d510f812e84a0658b7a5bc2b77",
+      "bytes": 82162,
+      "disposition": "Not selected; retained original producer ancestry. Not required by this single online capture runner."
+    },
+    {
+      "context": "inputs/input-manifest.json",
+      "jsonPointer": "/ancestryOriginalA",
+      "originalFile": "ancestry/original-A-native.json",
+      "sha256": "ebd2c2a6f1ab12b0e62dc6ba235231b4a229916759cdf1662c2594ed9ac4c7e6",
+      "bytes": 63429,
+      "disposition": "Not selected; retained original producer ancestry. Not required by this single online capture runner."
+    },
+    {
+      "context": "inputs/input-manifest.json",
+      "jsonPointer": "/ancestryHandoffProvenance",
+      "originalFile": "ancestry/handoff-provenance.json",
+      "sha256": "6f0afef528651a2f1beaf0b5079f74f1cf870a17af703915414121b741696c95",
+      "bytes": 3709,
+      "disposition": "Not selected; retained original producer ancestry. Not required by this single online capture runner."
+    },
+    {
+      "context": "inputs/input-manifest.json",
+      "jsonPointer": "/scenes/0",
+      "originalFile": "inputs/normal-briefed-native.json",
+      "sha256": "f166269d48d0f1279b01b7724b989c9af2bf8b56b1930c79fbd383e8d756c22f",
+      "bytes": 84224,
+      "disposition": "Not selected; four original role cases remain separate 04a7 evidence, not transported as current54ef checks."
+    },
+    {
+      "context": "inputs/input-manifest.json",
+      "jsonPointer": "/scenes/1",
+      "originalFile": "inputs/missing-quartermaster-native.json",
+      "sha256": "bf4c9946574c562bf87727eda32793c3651e19542459850b24a8f2b9e2e15691",
+      "bytes": 95946,
+      "disposition": "Not selected; four original role cases remain separate 04a7 evidence, not transported as current54ef checks."
+    },
+    {
+      "context": "inputs/input-manifest.json",
+      "jsonPointer": "/scenes/2",
+      "originalFile": "inputs/restored-native.json",
+      "sha256": "0c305702f7f72a59de26ca3071c019814e6778ddd862a666225a2213d9202e7c",
+      "bytes": 96862,
+      "disposition": "Not selected; four original role cases remain separate 04a7 evidence, not transported as current54ef checks."
+    },
+    {
+      "context": "inputs/input-manifest.json",
+      "jsonPointer": "/scenes/3",
+      "originalFile": "inputs/invalid-config-native.json",
+      "sha256": "3b11eb59aa1dc8d475bdbd155b71364ee59782eae2dde81df9597ce5f3f76307",
+      "bytes": 84216,
+      "disposition": "Not selected; four original role cases remain separate 04a7 evidence, not transported as current54ef checks."
+    },
+    {
+      "context": "inputs/input-manifest.json",
+      "jsonPointer": "/presentationScenes/0",
+      "originalFile": "presentation/building-native.json",
+      "sha256": "44ba6b616b6da296c3778d7a0c767da4f41794a8429942f99ce80d408e5f1ef9",
+      "bytes": 96238,
+      "disposition": "Not selected; separate 04a7 building capture retained externally."
+    },
+    {
+      "context": "producer-source-report.path-companion.json#/report",
+      "originalFile": "report.json.artifacts/legacy-normal-briefed-native.json",
+      "sha256": "f166269d48d0f1279b01b7724b989c9af2bf8b56b1930c79fbd383e8d756c22f",
+      "bytes": 84224,
+      "disposition": "Original producer artifact retained externally; not claimed as recursive selection closure."
+    },
+    {
+      "context": "producer-source-report.path-companion.json#/report",
+      "originalFile": "report.json.artifacts/legacy-missing-role-native.json",
+      "sha256": "bf4c9946574c562bf87727eda32793c3651e19542459850b24a8f2b9e2e15691",
+      "bytes": 95946,
+      "disposition": "Original producer artifact retained externally; not claimed as recursive selection closure."
+    },
+    {
+      "context": "producer-source-report.path-companion.json#/report",
+      "originalFile": "report.json.artifacts/legacy-missing-role-consumer.json",
+      "sha256": "7284b642e45c87e2ce5c53237ca8de1f5521e84b841ba345613f3fe8bef1f7a8",
+      "bytes": 5557,
+      "disposition": "Original producer artifact retained externally; not claimed as recursive selection closure."
+    },
+    {
+      "context": "producer-source-report.path-companion.json#/report",
+      "originalFile": "report.json.artifacts/legacy-restored-before-consumer-native.json",
+      "sha256": "0c305702f7f72a59de26ca3071c019814e6778ddd862a666225a2213d9202e7c",
+      "bytes": 96862,
+      "disposition": "Original producer artifact retained externally; not claimed as recursive selection closure."
+    },
+    {
+      "context": "producer-source-report.path-companion.json#/report",
+      "originalFile": "report.json.artifacts/legacy-restored-before-reload-native.json",
+      "sha256": "61da86f5b289b2cdea546624f0d4209dd50c5130c26d38dc9ff99d6e7193dcb1",
+      "bytes": 99872,
+      "disposition": "Original producer artifact retained externally; not claimed as recursive selection closure."
+    },
+    {
+      "context": "producer-source-report.path-companion.json#/report",
+      "originalFile": "report.json.artifacts/legacy-restored-after-reload-native.json",
+      "sha256": "61da86f5b289b2cdea546624f0d4209dd50c5130c26d38dc9ff99d6e7193dcb1",
+      "bytes": 99872,
+      "disposition": "Original producer artifact retained externally; not claimed as recursive selection closure."
+    },
+    {
+      "context": "producer-source-report.path-companion.json#/report",
+      "originalFile": "report.json.artifacts/legacy-blocked-work-consumer.json",
+      "sha256": "e2a3bacc2100521926700262fc71948b798c979bf571c50a6c26ed83268de1a6",
+      "bytes": 645,
+      "disposition": "Original producer artifact retained externally; not claimed as recursive selection closure."
+    },
+    {
+      "context": "producer-source-report.path-companion.json#/report",
+      "originalFile": "report.json.artifacts/opt-in-normal-briefed-native.json",
+      "sha256": "80fe8227fe45a69ea1d032ca070ebc3585dd8f3db477839775613e5c82f3a7d9",
+      "bytes": 84320,
+      "disposition": "Original producer artifact retained externally; not claimed as recursive selection closure."
+    },
+    {
+      "context": "producer-source-report.path-companion.json#/report",
+      "originalFile": "report.json.artifacts/opt-in-missing-role-native.json",
+      "sha256": "1cd09599e01236be5e691e079e127f8dac8e78259f14f71f4a9bf5a08a2efa5e",
+      "bytes": 96042,
+      "disposition": "Original producer artifact retained externally; not claimed as recursive selection closure."
+    },
+    {
+      "context": "producer-source-report.path-companion.json#/report",
+      "originalFile": "report.json.artifacts/opt-in-missing-role-consumer.json",
+      "sha256": "7284b642e45c87e2ce5c53237ca8de1f5521e84b841ba345613f3fe8bef1f7a8",
+      "bytes": 5557,
+      "disposition": "Original producer artifact retained externally; not claimed as recursive selection closure."
+    },
+    {
+      "context": "producer-source-report.path-companion.json#/report",
+      "originalFile": "report.json.artifacts/opt-in-restored-before-consumer-native.json",
+      "sha256": "6cb09a39d86a3d68ac98af9642debb4bfd0d01ad8255b99f62f488d0a5ae78fc",
+      "bytes": 97294,
+      "disposition": "Original producer artifact retained externally; not claimed as recursive selection closure."
+    },
+    {
+      "context": "producer-source-report.path-companion.json#/report",
+      "originalFile": "report.json.artifacts/opt-in-restored-before-reload-native.json",
+      "sha256": "8d6e122f7515cde879cdcdb69267cf8ceb9d1ca6e03c0067b403ca181492789f",
+      "bytes": 106592,
+      "disposition": "Original producer artifact retained externally; not claimed as recursive selection closure."
+    },
+    {
+      "context": "producer-source-report.path-companion.json#/report",
+      "originalFile": "report.json.artifacts/opt-in-restored-after-reload-native.json",
+      "sha256": "8d6e122f7515cde879cdcdb69267cf8ceb9d1ca6e03c0067b403ca181492789f",
+      "bytes": 106592,
+      "disposition": "Original producer artifact retained externally; not claimed as recursive selection closure."
+    },
+    {
+      "context": "producer-source-report.path-companion.json#/report",
+      "originalFile": "report.json.artifacts/opt-in-blocked-work-consumer.json",
+      "sha256": "80a533c99551569c779e83a275ae96a9a570b49b6a0ec1be7d09cf53482194c7",
+      "bytes": 645,
+      "disposition": "Original producer artifact retained externally; not claimed as recursive selection closure."
+    },
+    {
+      "context": "producer-source-report.path-companion.json#/report",
+      "originalFile": "report.json.artifacts/config-empty-legacy-native.json",
+      "sha256": "d4aaa8142e61d680d9d83b18a9ed959f52e422b9210461709ab7c666a8f2538e",
+      "bytes": 84154,
+      "disposition": "Original producer artifact retained externally; not claimed as recursive selection closure."
+    },
+    {
+      "context": "producer-source-report.path-companion.json#/report",
+      "originalFile": "report.json.artifacts/config-empty-opt-in-native.json",
+      "sha256": "772182deac9c6e9032ca31257ae7d28a4aa97082b13d4c510dea81e9993194f1",
+      "bytes": 84250,
+      "disposition": "Original producer artifact retained externally; not claimed as recursive selection closure."
+    },
+    {
+      "context": "producer-source-report.path-companion.json#/report",
+      "originalFile": "report.json.artifacts/config-missing-legacy-native.json",
+      "sha256": "78444a00126a2028622c03a46f877ed5da4017509026275f740672877cad8776",
+      "bytes": 84192,
+      "disposition": "Original producer artifact retained externally; not claimed as recursive selection closure."
+    },
+    {
+      "context": "producer-source-report.path-companion.json#/report",
+      "originalFile": "report.json.artifacts/config-missing-opt-in-native.json",
+      "sha256": "a3ec48560ec190928073c3c9183aced3341b0ead8b6f18f0e356e660aa7fdd63",
+      "bytes": 84288,
+      "disposition": "Original producer artifact retained externally; not claimed as recursive selection closure."
+    },
+    {
+      "context": "producer-source-report.path-companion.json#/report",
+      "originalFile": "report.json.artifacts/config-foreign-known-legacy-native.json",
+      "sha256": "437a3fe9548b2dcab95c1fdd857fc9e2f9c4ef1f0f559e96d7f263d39ef26424",
+      "bytes": 84210,
+      "disposition": "Original producer artifact retained externally; not claimed as recursive selection closure."
+    },
+    {
+      "context": "producer-source-report.path-companion.json#/report",
+      "originalFile": "report.json.artifacts/config-foreign-known-opt-in-native.json",
+      "sha256": "c37ceaa878ddaaa59f8c2256f1efe270bd399bb0df0c081b72c7b6113470d2fb",
+      "bytes": 84306,
+      "disposition": "Original producer artifact retained externally; not claimed as recursive selection closure."
+    },
+    {
+      "context": "producer-source-report.path-companion.json#/report",
+      "originalFile": "report.json.artifacts/config-duplicate-legacy-native.json",
+      "sha256": "3b11eb59aa1dc8d475bdbd155b71364ee59782eae2dde81df9597ce5f3f76307",
+      "bytes": 84216,
+      "disposition": "Original producer artifact retained externally; not claimed as recursive selection closure."
+    },
+    {
+      "context": "producer-source-report.path-companion.json#/report",
+      "originalFile": "report.json.artifacts/config-duplicate-opt-in-native.json",
+      "sha256": "0701ba4b2673b7136923a04a1deb01f11d34e118d6b13c042905fe9422d8d85a",
+      "bytes": 84312,
+      "disposition": "Original producer artifact retained externally; not claimed as recursive selection closure."
+    },
+    {
+      "context": "producer-source-report.path-companion.json#/report",
+      "originalFile": "report.json.artifacts/config-reordered-legacy-native.json",
+      "sha256": "c253bbfaecca003fda71c2e830ef314887645068b84086d6a63614037b9383e0",
+      "bytes": 84224,
+      "disposition": "Original producer artifact retained externally; not claimed as recursive selection closure."
+    },
+    {
+      "context": "producer-source-report.path-companion.json#/report",
+      "originalFile": "report.json.artifacts/config-reordered-opt-in-native.json",
+      "sha256": "d1dc3ecbdcfa5cdb8bb1f0467632d7ed8cc27e06002e8dd3f627b42d0f05531b",
+      "bytes": 84320,
+      "disposition": "Original producer artifact retained externally; not claimed as recursive selection closure."
+    },
+    {
+      "context": "producer-source-report.path-companion.json#/report",
+      "originalFile": "report.json.artifacts/legacy-ui-building-native.json",
+      "sha256": "44ba6b616b6da296c3778d7a0c767da4f41794a8429942f99ce80d408e5f1ef9",
+      "bytes": 96238,
+      "disposition": "Original producer artifact retained externally; not claimed as recursive selection closure."
+    },
+    {
+      "context": "producer-source-report.path-companion.json#/report",
+      "originalFile": "report.json.artifacts/legacy-completion-at-terminal-consumer.json",
+      "sha256": "1b4874fd015fedc3ed914ad3050ed919de7bfa9281fb07bcc1fc800a6d04a304",
+      "bytes": 18455,
+      "disposition": "Original producer artifact retained externally; not claimed as recursive selection closure."
+    },
+    {
+      "context": "producer-source-report.path-companion.json#/report",
+      "originalFile": "report.json.artifacts/legacy-completion-consumer-steps.json",
+      "sha256": "6bcd2714c3eda3b0c614cfca20bf4b653ca2694babce38fc6279b7261c464d19",
+      "bytes": 12858,
+      "disposition": "Original producer artifact retained externally; not claimed as recursive selection closure."
+    },
+    {
+      "context": "producer-source-report.path-companion.json#/report",
+      "originalFile": "report.json.artifacts/legacy-completion-provenance.json",
+      "sha256": "90a2a73e598e852f840523ba70affe90b5415126236ec0d5e0beae859a8ee7df",
+      "bytes": 15033,
+      "disposition": "Original producer artifact retained externally; not claimed as recursive selection closure."
+    },
+    {
+      "context": "producer-source-report.path-companion.json#/report",
+      "originalFile": "report.json.artifacts/legacy-online-before-reload-native.json",
+      "sha256": "3e73c7733ea8840ee3338744428d1c2559a66bff3bd8bd5c156a457ddea7149f",
+      "bytes": 101558,
+      "disposition": "Original producer artifact retained externally; not claimed as recursive selection closure."
+    },
+    {
+      "context": "producer-source-report.path-companion.json#/report",
+      "originalFile": "report.json.artifacts/legacy-online-after-reload-native.json",
+      "sha256": "910a07814bc78678fd7dacefca65d1b012eb126ca7944da54f42e71b6d36c275",
+      "bytes": 101558,
+      "disposition": "Original producer artifact retained externally; not claimed as recursive selection closure."
+    }
+  ],
+  "noRecursiveClosureClaimForFullProducerOrFourCaseInputManifest": true
+}

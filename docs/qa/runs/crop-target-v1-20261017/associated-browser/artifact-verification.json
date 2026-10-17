@@ -1,0 +1,718 @@
+{
+  "schema": "BrowserRegressionArtifactVerificationV1",
+  "sourceHtmlSha256": "19cb05c4341ab1353e1ac5362b685a4af3a88fc826e349504b9d57a42639eb6f",
+  "scope": "19cb derived fixture browser regressions only, not natural gameplay, no production claim",
+  "ok": true,
+  "count": 70,
+  "passed": 70,
+  "summaries": [
+    {
+      "suite": "camp-rest",
+      "count": 93,
+      "passed": 93,
+      "reportSha256": "6ef98ce1ed51c58a9a92f2c7c6629c51e7fc8cb4bd9027252ec338159ebcb3a7",
+      "runnerSha256": "b25bca13beb843de144ec1e12aed56ceb45ef250a16f9b415877a8947f741b60",
+      "mainHttpBodies": 9,
+      "writerCount": 13,
+      "screenshotCount": 9,
+      "browserVersion": "155.0.8059.80",
+      "cleanup": {
+        "browserClosed": true,
+        "contextsClosed": true,
+        "httpServerClosed": true
+      },
+      "scenarios": [
+        {
+          "name": "normal30",
+          "ok": true,
+          "status": "verified"
+        },
+        {
+          "name": "zero-energy60",
+          "ok": true,
+          "status": "verified"
+        },
+        {
+          "name": "partial-cancel",
+          "ok": true,
+          "status": "verified"
+        },
+        {
+          "name": "midnight30",
+          "ok": true,
+          "status": "verified"
+        },
+        {
+          "name": "new-event",
+          "ok": true,
+          "status": "verified"
+        },
+        {
+          "name": "public-battle",
+          "ok": true,
+          "status": "verified"
+        },
+        {
+          "name": "visibility",
+          "ok": null,
+          "status": "unavailable",
+          "reason": "not-verified-browser-did-not-produce-trusted-hidden"
+        }
+      ],
+      "visibility": {
+        "status": "not-verified-browser-did-not-produce-trusted-hidden",
+        "method": "real Chrome foreground/background tabs after disabling Playwright focus emulation; trusted native events only",
+        "observation": {
+          "hidden": false,
+          "events": [
+            {
+              "at": 21.5,
+              "hidden": false,
+              "visibilityState": "visible",
+              "type": "initial"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "suite": "outpost-presence",
+      "count": 37,
+      "passed": 37,
+      "reportSha256": "1c8b0802c71d1dbb8c6b75a49ecb163997332598898a9e1a50e846488ac337e8",
+      "runnerSha256": "718c1ab8eaed3e3bf2f42b6543ab585f8a305c1a776176452add5fc1e084beb2",
+      "mainHttpBodies": 4,
+      "writerCount": 6,
+      "screenshotCount": 7,
+      "browserVersion": "155.0.8059.80",
+      "cleanup": {
+        "browserClosed": true,
+        "contextsClosed": true,
+        "httpServerClosed": true
+      },
+      "crossDayBrowser": "verified-derived-23:40-boot-public-training-30-minutes-and-reload"
+    },
+    {
+      "suite": "episode",
+      "count": 12,
+      "passed": 12,
+      "reportSha256": "2556a81ffbeb9c5a513b87e889bc59b947bcacf9e22ea5e4892b607db6be6616",
+      "runnerSha256": "a91f58668aae7f0d5e2132fc5712bb4fca1f30cee403cadf7949bccea20f5be5",
+      "mainHttpBodies": 2,
+      "rawWriterCount": 0,
+      "exportedPersistedPayloadCount": 1,
+      "screenshotCount": 2,
+      "browserVersion": "155.0.8059.80",
+      "cleanup": "actual process exit0 after runner awaited context/browser/server close; native report has no cleanup field"
+    }
+  ],
+  "checks": [
+    {
+      "name": "camp-rest: native terminal report",
+      "ok": true
+    },
+    {
+      "name": "camp-rest: source binding",
+      "ok": true
+    },
+    {
+      "name": "camp-rest: runner archive",
+      "ok": true
+    },
+    {
+      "name": "camp-rest: main HTTP bodies",
+      "ok": true
+    },
+    {
+      "name": "camp-rest: explicit evidence bounds",
+      "ok": true
+    },
+    {
+      "name": "camp-rest: cleanup",
+      "ok": true
+    },
+    {
+      "name": "camp-rest: input normal",
+      "ok": true
+    },
+    {
+      "name": "camp-rest: input zero-energy",
+      "ok": true
+    },
+    {
+      "name": "camp-rest: input new-event",
+      "ok": true
+    },
+    {
+      "name": "camp-rest: input midnight",
+      "ok": true
+    },
+    {
+      "name": "camp-rest: native writer validates midnight-input-save.json",
+      "ok": true
+    },
+    {
+      "name": "camp-rest: PNG midnight30-completed.png",
+      "ok": true
+    },
+    {
+      "name": "camp-rest: native writer validates midnight30-crossed-save.json",
+      "ok": true
+    },
+    {
+      "name": "camp-rest: native writer validates midnight30-reloaded-save.json",
+      "ok": true
+    },
+    {
+      "name": "camp-rest: PNG midnight30-reloaded.png",
+      "ok": true
+    },
+    {
+      "name": "camp-rest: native writer validates new-event-input-save.json",
+      "ok": true
+    },
+    {
+      "name": "camp-rest: native writer validates new-event-interrupted-save.json",
+      "ok": true
+    },
+    {
+      "name": "camp-rest: PNG new-event-interrupted.png",
+      "ok": true
+    },
+    {
+      "name": "camp-rest: native writer validates normal-input-save.json",
+      "ok": true
+    },
+    {
+      "name": "camp-rest: native writer validates normal30-completed-save.json",
+      "ok": true
+    },
+    {
+      "name": "camp-rest: PNG normal30-completed.png",
+      "ok": true
+    },
+    {
+      "name": "camp-rest: PNG normal30-progress.png",
+      "ok": true
+    },
+    {
+      "name": "camp-rest: native writer validates partial-cancel-cancelled-save.json",
+      "ok": true
+    },
+    {
+      "name": "camp-rest: native writer validates partial-cancel-reloaded-after-natural-ticks-save.json",
+      "ok": true
+    },
+    {
+      "name": "camp-rest: PNG partial-cancel-reloaded.png",
+      "ok": true
+    },
+    {
+      "name": "camp-rest: PNG partial-cancel-stopped.png",
+      "ok": true
+    },
+    {
+      "name": "camp-rest: native writer validates public-battle-battle-save.json",
+      "ok": true
+    },
+    {
+      "name": "camp-rest: PNG public-battle.png",
+      "ok": true
+    },
+    {
+      "name": "camp-rest: native writer validates visibility-unavailable-save.json",
+      "ok": true
+    },
+    {
+      "name": "camp-rest: native writer validates zero-energy-input-save.json",
+      "ok": true
+    },
+    {
+      "name": "camp-rest: native writer validates zero-energy60-completed-save.json",
+      "ok": true
+    },
+    {
+      "name": "camp-rest: PNG zero-energy60-completed.png",
+      "ok": true
+    },
+    {
+      "name": "camp-rest: dependency sharedFixtureHelperSha256",
+      "ok": true
+    },
+    {
+      "name": "camp-rest: dependency ioAdapterSourceSha256",
+      "ok": true
+    },
+    {
+      "name": "camp-rest: dependency captureMetaSha256",
+      "ok": true
+    },
+    {
+      "name": "camp-rest: dependency sourceFixtureSha256",
+      "ok": true
+    },
+    {
+      "name": "outpost-presence: native terminal report",
+      "ok": true
+    },
+    {
+      "name": "outpost-presence: source binding",
+      "ok": true
+    },
+    {
+      "name": "outpost-presence: runner archive",
+      "ok": true
+    },
+    {
+      "name": "outpost-presence: main HTTP bodies",
+      "ok": true
+    },
+    {
+      "name": "outpost-presence: explicit evidence bounds",
+      "ok": true
+    },
+    {
+      "name": "outpost-presence: cleanup",
+      "ok": true
+    },
+    {
+      "name": "outpost-presence: input capture",
+      "ok": true
+    },
+    {
+      "name": "outpost-presence: input midnight",
+      "ok": true
+    },
+    {
+      "name": "outpost-presence: PNG capture-after-map.png",
+      "ok": true
+    },
+    {
+      "name": "outpost-presence: native writer validates capture-after-reload-save.json",
+      "ok": true
+    },
+    {
+      "name": "outpost-presence: PNG capture-after-roster.png",
+      "ok": true
+    },
+    {
+      "name": "outpost-presence: PNG capture-before-map.png",
+      "ok": true
+    },
+    {
+      "name": "outpost-presence: native writer validates capture-before-reload-save.json",
+      "ok": true
+    },
+    {
+      "name": "outpost-presence: native writer validates capture-input-save.json",
+      "ok": true
+    },
+    {
+      "name": "outpost-presence: PNG capture-reloaded-map.png",
+      "ok": true
+    },
+    {
+      "name": "outpost-presence: PNG capture-reloaded-roster.png",
+      "ok": true
+    },
+    {
+      "name": "outpost-presence: PNG midnight-after-training.png",
+      "ok": true
+    },
+    {
+      "name": "outpost-presence: native writer validates midnight-crossed-save.json",
+      "ok": true
+    },
+    {
+      "name": "outpost-presence: native writer validates midnight-input-save.json",
+      "ok": true
+    },
+    {
+      "name": "outpost-presence: native writer validates midnight-reloaded-save.json",
+      "ok": true
+    },
+    {
+      "name": "outpost-presence: PNG midnight-reloaded.png",
+      "ok": true
+    },
+    {
+      "name": "outpost-presence: dependency sharedFixtureHelperSha256",
+      "ok": true
+    },
+    {
+      "name": "outpost-presence: dependency ioAdapterSourceSha256",
+      "ok": true
+    },
+    {
+      "name": "outpost-presence: dependency captureMetaSha256",
+      "ok": true
+    },
+    {
+      "name": "outpost-presence: dependency sourceFixtureSha256",
+      "ok": true
+    },
+    {
+      "name": "episode: native terminal report",
+      "ok": true
+    },
+    {
+      "name": "episode: source binding",
+      "ok": true
+    },
+    {
+      "name": "episode: main HTTP bodies",
+      "ok": true
+    },
+    {
+      "name": "episode: unchanged runner",
+      "ok": true
+    },
+    {
+      "name": "episode: exported persisted payload validates",
+      "ok": true
+    },
+    {
+      "name": "episode: awaited cleanup in executed runner",
+      "ok": true
+    },
+    {
+      "name": "episode: explicit fixture scope",
+      "ok": true
+    },
+    {
+      "name": "episode: PNG shortage-before.png",
+      "ok": true
+    },
+    {
+      "name": "episode: PNG shortage-reloaded.png",
+      "ok": true
+    }
+  ],
+  "inventory": [
+    {
+      "path": "camp-rest/io-adapter-source-executed.mjs",
+      "size": 49132,
+      "sha256": "ee5bb659c0439044e1ec07a4aecf931293457c2478f35d0850fe90770b4367cf"
+    },
+    {
+      "path": "camp-rest/midnight-input-save.json",
+      "size": 279252,
+      "sha256": "81eda3b5694494de32f991f51e3d0fdf20acfc2814a5da23ca4839c452d5ad48"
+    },
+    {
+      "path": "camp-rest/midnight30-completed.png",
+      "size": 551323,
+      "sha256": "f20872ecf9d30be9df60a65e266e6a04ffb03e83aae95e5571a51b3bf7de551b"
+    },
+    {
+      "path": "camp-rest/midnight30-crossed-save.json",
+      "size": 320089,
+      "sha256": "35082288e5890630cf4664fbde96234eecc00937b1451e8a0a217ce4fe33465f"
+    },
+    {
+      "path": "camp-rest/midnight30-receipts.json",
+      "size": 30287,
+      "sha256": "51c9fda8612b8f9a66d85cf86647f927149c64e76d3d4ef762c2f6d4ad0bf26a"
+    },
+    {
+      "path": "camp-rest/midnight30-reloaded-save.json",
+      "size": 320037,
+      "sha256": "fb08a947d00d40d1927726a86ea9051f6d655954844a280e08125570f4e45153"
+    },
+    {
+      "path": "camp-rest/midnight30-reloaded.png",
+      "size": 552749,
+      "sha256": "8396b4e12888d589e69e8cbef4d4306bf2d5349cf8b7458fa83af7acc5b29e29"
+    },
+    {
+      "path": "camp-rest/midnight30-time-control.json",
+      "size": 196,
+      "sha256": "95644444454dae10a794f03051193b10699d9ba9326935ce8c5805405b5b6d49"
+    },
+    {
+      "path": "camp-rest/new-event-input-save.json",
+      "size": 256817,
+      "sha256": "06e4e2e6d19c2180c0de7ec46428368f2f283c2f3fc225d57ea1cef4940da9fd"
+    },
+    {
+      "path": "camp-rest/new-event-interrupted-save.json",
+      "size": 272518,
+      "sha256": "647638c53a0c7c3d8f923cd2cc94cf16bbaafbc058e1228a941ad1c7bf5276c6"
+    },
+    {
+      "path": "camp-rest/new-event-interrupted.png",
+      "size": 325071,
+      "sha256": "efc51a727e7c98f784bac36164a92e6ce1dec3c20c18533c2bb9c7e8196e1aa7"
+    },
+    {
+      "path": "camp-rest/new-event-receipts.json",
+      "size": 6018,
+      "sha256": "08f8f7cc76e07e4e36a111151c8ef6402407701570fc3c1ed05d7f74b8e42830"
+    },
+    {
+      "path": "camp-rest/normal-input-save.json",
+      "size": 256817,
+      "sha256": "3a5e4ebe64ffff894d6323c197043c72195bd8d85909656ef90c7a62eb44a3a2"
+    },
+    {
+      "path": "camp-rest/normal30-completed-save.json",
+      "size": 308378,
+      "sha256": "b20507f54023c3af37afe52eb825830b8941e25e8199ce0c5b9269a71698d55e"
+    },
+    {
+      "path": "camp-rest/normal30-completed.png",
+      "size": 568820,
+      "sha256": "4821d8692085e351c6b25451504a111234f382857abead8bff0b206b21ddf666"
+    },
+    {
+      "path": "camp-rest/normal30-progress.png",
+      "size": 558573,
+      "sha256": "ca9061714c2cf047d9327adf247cdfc51a7841b339c6d44db0a375ce3aaafc6b"
+    },
+    {
+      "path": "camp-rest/normal30-receipts.json",
+      "size": 30181,
+      "sha256": "2654f00ba9d31e869cee0fb204b976b31a94eeda3dad3474492b2ef2f1377fd4"
+    },
+    {
+      "path": "camp-rest/normal30-time-control.json",
+      "size": 196,
+      "sha256": "9ca10032f529210461c3cceeeb6c5deda6e0b91c7921afdf95deabed0831c417"
+    },
+    {
+      "path": "camp-rest/partial-cancel-cancelled-save.json",
+      "size": 270410,
+      "sha256": "8527e03c5052329bf6ba15d04ab4d967bdd77f7ae9765f6aa48960a786815d9c"
+    },
+    {
+      "path": "camp-rest/partial-cancel-receipts.json",
+      "size": 6021,
+      "sha256": "b2b0598fa89c758cd9cbcd364ec3136e3faa815ffadc58d1d12a3205b5b47836"
+    },
+    {
+      "path": "camp-rest/partial-cancel-reloaded-after-natural-ticks-save.json",
+      "size": 277469,
+      "sha256": "6b30dd823aca2dac9d36753613fdcbb13a701a380c11bdf919a73c79ea548708"
+    },
+    {
+      "path": "camp-rest/partial-cancel-reloaded.png",
+      "size": 556313,
+      "sha256": "56576c1d981d6f4b281b697c8da453365c2a9e3f2ef21420066483c6e2723452"
+    },
+    {
+      "path": "camp-rest/partial-cancel-stopped.png",
+      "size": 557059,
+      "sha256": "184751ec75c3eac30e40b9d3be55abcf2d4f9b2baf92e4a97fbaba723d3c9513"
+    },
+    {
+      "path": "camp-rest/public-battle-battle-save.json",
+      "size": 278326,
+      "sha256": "7df47e08c057d7cf18b5fecf8f6477db470230bb7148f89eb2665a5042c6d9b5"
+    },
+    {
+      "path": "camp-rest/public-battle-receipts.json",
+      "size": 6021,
+      "sha256": "693779856d14f21650f4af16a943c9d10abd97f4ce8aaee2b262a3954705f7c2"
+    },
+    {
+      "path": "camp-rest/public-battle.png",
+      "size": 180282,
+      "sha256": "05741a68e936e9cd4380f421c68b6abd28ea3f086ba2427666dfd8e13be8bf9c"
+    },
+    {
+      "path": "camp-rest/report.json",
+      "size": 20333,
+      "sha256": "6ef98ce1ed51c58a9a92f2c7c6629c51e7fc8cb4bd9027252ec338159ebcb3a7"
+    },
+    {
+      "path": "camp-rest/runner-executed.mjs",
+      "size": 28120,
+      "sha256": "b25bca13beb843de144ec1e12aed56ceb45ef250a16f9b415877a8947f741b60"
+    },
+    {
+      "path": "camp-rest/source-fixture-capture-meta.json",
+      "size": 1642,
+      "sha256": "a24e58af9364dc6a81b86a7fddf0b618fc19ca72c9823dcaff0756e4f32b25e5"
+    },
+    {
+      "path": "camp-rest/source-fixture-original.json",
+      "size": 496785,
+      "sha256": "5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4"
+    },
+    {
+      "path": "camp-rest/source-runtime-fixture-executed.mjs",
+      "size": 2959,
+      "sha256": "e9872eeba85d49019d1bd806f3dd18357a5abc8f2f92922922f6a5324ec220dc"
+    },
+    {
+      "path": "camp-rest/source.html",
+      "size": 809909,
+      "sha256": "19cb05c4341ab1353e1ac5362b685a4af3a88fc826e349504b9d57a42639eb6f"
+    },
+    {
+      "path": "camp-rest/visibility-unavailable-save.json",
+      "size": 270398,
+      "sha256": "d83d61bd03881160f0727c6fecdba79d36e580144884a2307192c9975508c424"
+    },
+    {
+      "path": "camp-rest/zero-energy-input-save.json",
+      "size": 256815,
+      "sha256": "b4d0a3488a478595c968e43c6b294002ce72770bbb9f7feb547de4dd6f7fe42d"
+    },
+    {
+      "path": "camp-rest/zero-energy60-completed-save.json",
+      "size": 331556,
+      "sha256": "f9e5f853e309d1ea76816fe59104ec33666a7cf8e36fb0deb9d5c4ffcfa0ff5a"
+    },
+    {
+      "path": "camp-rest/zero-energy60-completed.png",
+      "size": 568330,
+      "sha256": "97d94bcb3ad7dc45835386770275415b2a56fbc86afd74a54a6fa8ae85b8d93f"
+    },
+    {
+      "path": "camp-rest/zero-energy60-receipts.json",
+      "size": 59181,
+      "sha256": "ddaf23cb05f60ade16ea51039c62ae51b35d2fb4980fdd68a6cbb90a2be4c76a"
+    },
+    {
+      "path": "camp-rest/zero-energy60-time-control.json",
+      "size": 194,
+      "sha256": "b3a7880aac8c716786dc163993f91ccadb3409291936ba52326e3eda3e69ff53"
+    },
+    {
+      "path": "outpost-presence/capture-after-canvas.json",
+      "size": 423,
+      "sha256": "6c57846d4bef6f6ffb0b122461c99bfce0c2f2eab29f2b20e5d3bed7309c60bf"
+    },
+    {
+      "path": "outpost-presence/capture-after-map.png",
+      "size": 547493,
+      "sha256": "79ec7242e08ff3f25bc72b7a12fbfcee06e146df0976f3a36b839d658fc082f3"
+    },
+    {
+      "path": "outpost-presence/capture-after-reload-save.json",
+      "size": 277208,
+      "sha256": "729e366fbae88e86a3002d5888e334ce6292c2086d040e8cbf93aa0add7c5cf6"
+    },
+    {
+      "path": "outpost-presence/capture-after-roster.png",
+      "size": 394199,
+      "sha256": "ea9423c661422573900270b6aa0f4e5d1a5f3960189979296df9c822cf8b20e1"
+    },
+    {
+      "path": "outpost-presence/capture-before-canvas.json",
+      "size": 604,
+      "sha256": "5e7e09f6fbe701528263ff0378ff81e60e829057baca2e422d37c5752e0d7739"
+    },
+    {
+      "path": "outpost-presence/capture-before-map.png",
+      "size": 554723,
+      "sha256": "f0a0e7ebdf5e38d753eed7d67a95fa51d94993f734ca965016cd13673b4912e7"
+    },
+    {
+      "path": "outpost-presence/capture-before-reload-save.json",
+      "size": 277269,
+      "sha256": "18dd690fb2d274566817a5967cbfbfb88348939b6b501fb3d3a30a89a8bef91f"
+    },
+    {
+      "path": "outpost-presence/capture-e-receipts.json",
+      "size": 500,
+      "sha256": "525a7cf624766b6781d1025699fc75470e14a64ae8ddd77ccbd0a872798283cc"
+    },
+    {
+      "path": "outpost-presence/capture-input-save.json",
+      "size": 261343,
+      "sha256": "448cc47c45df49e3f7b74eaed46037c7b9008aef56d0051aa14ee5ed3469c987"
+    },
+    {
+      "path": "outpost-presence/capture-reloaded-canvas.json",
+      "size": 410,
+      "sha256": "83814992d7ff506366efa99ffb68c2e8a0bf4491b84136603f3a0683409102a5"
+    },
+    {
+      "path": "outpost-presence/capture-reloaded-map.png",
+      "size": 548056,
+      "sha256": "51c4ecc99429a4c37b8fee9ac0a67bca079a5212b03120f3939687f5cf975ba9"
+    },
+    {
+      "path": "outpost-presence/capture-reloaded-roster.png",
+      "size": 394278,
+      "sha256": "dcc856fe0e81f5e502fa3ceeda21b02045a0feeb23aa130c4897c78ea6b9ae90"
+    },
+    {
+      "path": "outpost-presence/midnight-after-training.png",
+      "size": 535812,
+      "sha256": "668d727729c321fe540a08ed555eb9ede72f323b538b8de1be2d797d4f82dae3"
+    },
+    {
+      "path": "outpost-presence/midnight-crossed-save.json",
+      "size": 283098,
+      "sha256": "4e5ac69dc964274801583898e63f1e6ab7a7ee95b40149fd1fa76cccbc7c7626"
+    },
+    {
+      "path": "outpost-presence/midnight-input-save.json",
+      "size": 275335,
+      "sha256": "681e52de9085c2a07c2d9e5376001901be2fb4082aaa8670dcbb8283f966442a"
+    },
+    {
+      "path": "outpost-presence/midnight-reloaded-save.json",
+      "size": 283059,
+      "sha256": "5137a664ffc019eada98285b0d7a7642131da32ecb9e17e75c3dc608fcfa19dd"
+    },
+    {
+      "path": "outpost-presence/midnight-reloaded.png",
+      "size": 535376,
+      "sha256": "1a9eb87f02346052a6fba85ec947df02b77f1e9c5e43a49c8cc9534c0ef8f218"
+    },
+    {
+      "path": "outpost-presence/report.json",
+      "size": 8716,
+      "sha256": "1c8b0802c71d1dbb8c6b75a49ecb163997332598898a9e1a50e846488ac337e8"
+    },
+    {
+      "path": "outpost-presence/runner-executed.mjs",
+      "size": 20542,
+      "sha256": "718c1ab8eaed3e3bf2f42b6543ab585f8a305c1a776176452add5fc1e084beb2"
+    },
+    {
+      "path": "outpost-presence/source.html",
+      "size": 809909,
+      "sha256": "19cb05c4341ab1353e1ac5362b685a4af3a88fc826e349504b9d57a42639eb6f"
+    },
+    {
+      "path": "episode/original-boot-fixture.json",
+      "size": 54441,
+      "sha256": "eb3b163e5b55e17f356b3ec95a4f9e5e55147bb78b8250ba0fac6ec3b6a0096d"
+    },
+    {
+      "path": "episode/report.json",
+      "size": 1477,
+      "sha256": "2556a81ffbeb9c5a513b87e889bc59b947bcacf9e22ea5e4892b607db6be6616"
+    },
+    {
+      "path": "episode/runner-executed.mjs",
+      "size": 6475,
+      "sha256": "a91f58668aae7f0d5e2132fc5712bb4fca1f30cee403cadf7949bccea20f5be5"
+    },
+    {
+      "path": "episode/saved-after-reload.json",
+      "size": 60478,
+      "sha256": "e83d841ed1025b0e7e93ebbc38f5c329258b4a809de80bfccc878aa932d0c09a"
+    },
+    {
+      "path": "episode/shortage-before.png",
+      "size": 341271,
+      "sha256": "a4cef0748d9f7fc4c19c12c67c93da9570de156a8a69a774891c5bcc1e16ba7f"
+    },
+    {
+      "path": "episode/shortage-reloaded.png",
+      "size": 492430,
+      "sha256": "4782a136ecfb8aafdd37a2df3c8a843124f8c495a75ad6a109612aa5def33652"
+    },
+    {
+      "path": "episode/source.html",
+      "size": 809909,
+      "sha256": "19cb05c4341ab1353e1ac5362b685a4af3a88fc826e349504b9d57a42639eb6f"
+    }
+  ]
+}

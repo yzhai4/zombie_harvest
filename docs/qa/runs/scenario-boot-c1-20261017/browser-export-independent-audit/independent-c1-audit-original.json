@@ -1,0 +1,1247 @@
+{
+  "schema": "ScenarioC1BrowserIndependentAuditV1",
+  "status": "ACTUAL_BROWSER_EVIDENCE_ACCEPTED_WITH_SCOPED_VARIANTS",
+  "sourceHtmlSha256": "a2fcdb647f2632fbf50f3ab0f3ba160f168082c602f6737c5ca4239eede137d2",
+  "runnerSha256": "156b7649c26094975270e281213a7eaf711d7d1138320c564a8d12bfbd7ee1a5",
+  "report": {
+    "path": "original/report.json",
+    "sha256": "d9314bc07f550d2a10e4e65b3741fed5a0ec1addd3f2ecc67afc3df80f828bcb",
+    "bytes": 49413
+  },
+  "processResult": {
+    "path": "process/boot-c1-process.result.json",
+    "sha256": "77b4dd5fbc2ab5221ec0b4cdcfdcc5febd587512a2ddb3fc49ec9d74cf91ba44",
+    "bytes": 338
+  },
+  "processStdoutSha256": "3cb28c4bb6e3cff985e9f0c1eef51e3738ddec4da892df4b70eac1314a7f51ec",
+  "processStderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "processExitCode": 0,
+  "browserVersion": "155.0.8059.80",
+  "nativeChecks": {
+    "count": 134,
+    "passed": 134,
+    "errors": 0,
+    "scenes": 8
+  },
+  "preparationIndex": {
+    "path": "preparation/inputs-dependencies-index.json",
+    "sha256": "3edfa377136191bf83aee4590e3cf93768d746a41df00dae504a8a6ac683cb8b",
+    "bytes": 14691
+  },
+  "preparationIndexRemainsHistorical": "STAGED_BEFORE_BROWSER/browserExecuted=false is the original frozen input catalog, not the execution result; only C1 consumed subset copied below.",
+  "consumedFrozenInputs": [
+    {
+      "kind": "input:c1-legacy-garrison",
+      "mirrorRef": "docs/qa/runs/npc-public-actions-v1-20261017/associated-presence/midnight-reloaded-save.json",
+      "artifactRef": "artifact:frozen/docs/qa/runs/npc-public-actions-v1-20261017/associated-presence/midnight-reloaded-save.json",
+      "bytes": 284901,
+      "sha256": "9d196677f4f565bb07aa1420d000590ec77b55dfdd34ace5d5fc5e9c43d5b9b8"
+    },
+    {
+      "kind": "input:c1-legacy-dead",
+      "mirrorRef": "docs/qa/runs/npc-public-actions-v1-20261017/source/npc-public-artifacts/order-combat-death-checkpoint-native.json",
+      "artifactRef": "artifact:frozen/docs/qa/runs/npc-public-actions-v1-20261017/source/npc-public-artifacts/order-combat-death-checkpoint-native.json",
+      "bytes": 267005,
+      "sha256": "39034467fff615ca0d553a80af3e08f670451c5fa31b58a461f6bee215d93a8a"
+    },
+    {
+      "kind": "input:c1-legacy-cache",
+      "mirrorRef": "docs/qa/runs/npc-public-actions-v1-20261017/associated-browser/shortage/supplied-forage-reloaded-save.json",
+      "artifactRef": "artifact:frozen/docs/qa/runs/npc-public-actions-v1-20261017/associated-browser/shortage/supplied-forage-reloaded-save.json",
+      "bytes": 279995,
+      "sha256": "e9a650b313519f07a5d31b4fbbac3325d6ec0b91b8070cec3dbe37b0a950590a"
+    },
+    {
+      "kind": "runner:boot-c1",
+      "mirrorRef": "scripts/browser-scenario-boot-c1.mjs",
+      "artifactRef": "artifact:frozen/scripts/browser-scenario-boot-c1.mjs",
+      "bytes": 26801,
+      "sha256": "156b7649c26094975270e281213a7eaf711d7d1138320c564a8d12bfbd7ee1a5"
+    },
+    {
+      "kind": "runtime-dependency",
+      "mirrorRef": "dist/actor-sprites.js",
+      "artifactRef": "artifact:frozen/dist/actor-sprites.js",
+      "bytes": 19246,
+      "sha256": "257f4b38760813c21c723bbb9f934f1198e742fd1223db48705f34787e0f71b7"
+    },
+    {
+      "kind": "source-html",
+      "mirrorRef": "dist/index.html",
+      "artifactRef": "artifact:frozen/dist/index.html",
+      "bytes": 842036,
+      "sha256": "a2fcdb647f2632fbf50f3ab0f3ba160f168082c602f6737c5ca4239eede137d2"
+    },
+    {
+      "kind": "scenario-core-module",
+      "mirrorRef": "scripts/lib/scenario-package-v1.mjs",
+      "artifactRef": "artifact:frozen/scripts/lib/scenario-package-v1.mjs",
+      "bytes": 7846,
+      "sha256": "ff69cb5e4a701a748d1741297a2c1fee8f2ac9dd95f6e7b8ac7dbdab3a90588e"
+    },
+    {
+      "kind": "inline-module-source",
+      "artifactRef": "artifact:frozen/source-inline-module.js",
+      "bytes": 724998,
+      "sha256": "132fbf7d10c065281e83fe8ebe5bedae2e8a4b9ec39e957f4ee92e0c5ddc9a41"
+    }
+  ],
+  "variants": [
+    {
+      "id": "seed0-only",
+      "source": {
+        "path": "original/source-seed0-only.html",
+        "sha256": "5b42712be7625de5298b8fee3293cc34903218b2479d756ca4daffaa6f076083",
+        "bytes": 842027
+      },
+      "onlySingleBootOptionsLineChanged": true,
+      "canonicalCoverage": false
+    },
+    {
+      "id": "foodhalf-only",
+      "source": {
+        "path": "original/source-foodhalf-only.html",
+        "sha256": "c2f808467e71bcc3b8bd90a566d7d878370ab3a2808385a8717ab23ca56d3adb",
+        "bytes": 842038
+      },
+      "onlySingleBootOptionsLineChanged": true,
+      "canonicalCoverage": false
+    },
+    {
+      "id": "seed0-foodhalf",
+      "source": {
+        "path": "original/source-seed0-foodhalf.html",
+        "sha256": "ba0ce212910d8c50ca6cf911790d98468e971f5ab7bd4ca8a617574e747a3340",
+        "bytes": 842029
+      },
+      "onlySingleBootOptionsLineChanged": true,
+      "canonicalCoverage": false
+    }
+  ],
+  "mainDocumentResponses": [
+    {
+      "index": 1,
+      "scene": "default-button",
+      "status": 200,
+      "recordedResponseBodySha256": "a2fcdb647f2632fbf50f3ab0f3ba160f168082c602f6737c5ca4239eede137d2",
+      "matchingSavedBody": {
+        "path": "original/source.html",
+        "sha256": "a2fcdb647f2632fbf50f3ab0f3ba160f168082c602f6737c5ca4239eede137d2",
+        "bytes": 842036
+      },
+      "coverage": "canonical"
+    },
+    {
+      "index": 2,
+      "scene": "default-button",
+      "status": 200,
+      "recordedResponseBodySha256": "a2fcdb647f2632fbf50f3ab0f3ba160f168082c602f6737c5ca4239eede137d2",
+      "matchingSavedBody": {
+        "path": "original/source.html",
+        "sha256": "a2fcdb647f2632fbf50f3ab0f3ba160f168082c602f6737c5ca4239eede137d2",
+        "bytes": 842036
+      },
+      "coverage": "canonical"
+    },
+    {
+      "index": 3,
+      "scene": "default-enter-observer-toggle",
+      "status": 200,
+      "recordedResponseBodySha256": "a2fcdb647f2632fbf50f3ab0f3ba160f168082c602f6737c5ca4239eede137d2",
+      "matchingSavedBody": {
+        "path": "original/source.html",
+        "sha256": "a2fcdb647f2632fbf50f3ab0f3ba160f168082c602f6737c5ca4239eede137d2",
+        "bytes": 842036
+      },
+      "coverage": "canonical"
+    },
+    {
+      "index": 4,
+      "scene": "default-enter-observer-toggle",
+      "status": 200,
+      "recordedResponseBodySha256": "a2fcdb647f2632fbf50f3ab0f3ba160f168082c602f6737c5ca4239eede137d2",
+      "matchingSavedBody": {
+        "path": "original/source.html",
+        "sha256": "a2fcdb647f2632fbf50f3ab0f3ba160f168082c602f6737c5ca4239eede137d2",
+        "bytes": 842036
+      },
+      "coverage": "canonical"
+    },
+    {
+      "index": 5,
+      "scene": "seed0-only-fresh",
+      "status": 200,
+      "recordedResponseBodySha256": "5b42712be7625de5298b8fee3293cc34903218b2479d756ca4daffaa6f076083",
+      "matchingSavedBody": {
+        "path": "original/source-seed0-only.html",
+        "sha256": "5b42712be7625de5298b8fee3293cc34903218b2479d756ca4daffaa6f076083",
+        "bytes": 842027
+      },
+      "coverage": "TEST-ONLY-boot-input-variant"
+    },
+    {
+      "index": 6,
+      "scene": "seed0-only-fresh",
+      "status": 200,
+      "recordedResponseBodySha256": "5b42712be7625de5298b8fee3293cc34903218b2479d756ca4daffaa6f076083",
+      "matchingSavedBody": {
+        "path": "original/source-seed0-only.html",
+        "sha256": "5b42712be7625de5298b8fee3293cc34903218b2479d756ca4daffaa6f076083",
+        "bytes": 842027
+      },
+      "coverage": "TEST-ONLY-boot-input-variant"
+    },
+    {
+      "index": 7,
+      "scene": "foodhalf-only-fresh",
+      "status": 200,
+      "recordedResponseBodySha256": "c2f808467e71bcc3b8bd90a566d7d878370ab3a2808385a8717ab23ca56d3adb",
+      "matchingSavedBody": {
+        "path": "original/source-foodhalf-only.html",
+        "sha256": "c2f808467e71bcc3b8bd90a566d7d878370ab3a2808385a8717ab23ca56d3adb",
+        "bytes": 842038
+      },
+      "coverage": "TEST-ONLY-boot-input-variant"
+    },
+    {
+      "index": 8,
+      "scene": "foodhalf-only-fresh",
+      "status": 200,
+      "recordedResponseBodySha256": "c2f808467e71bcc3b8bd90a566d7d878370ab3a2808385a8717ab23ca56d3adb",
+      "matchingSavedBody": {
+        "path": "original/source-foodhalf-only.html",
+        "sha256": "c2f808467e71bcc3b8bd90a566d7d878370ab3a2808385a8717ab23ca56d3adb",
+        "bytes": 842038
+      },
+      "coverage": "TEST-ONLY-boot-input-variant"
+    },
+    {
+      "index": 9,
+      "scene": "legacy-garrison-consumed-rng",
+      "status": 200,
+      "recordedResponseBodySha256": "ba0ce212910d8c50ca6cf911790d98468e971f5ab7bd4ca8a617574e747a3340",
+      "matchingSavedBody": {
+        "path": "original/source-seed0-foodhalf.html",
+        "sha256": "ba0ce212910d8c50ca6cf911790d98468e971f5ab7bd4ca8a617574e747a3340",
+        "bytes": 842029
+      },
+      "coverage": "TEST-ONLY-boot-input-variant"
+    },
+    {
+      "index": 10,
+      "scene": "legacy-garrison-consumed-rng",
+      "status": 200,
+      "recordedResponseBodySha256": "ba0ce212910d8c50ca6cf911790d98468e971f5ab7bd4ca8a617574e747a3340",
+      "matchingSavedBody": {
+        "path": "original/source-seed0-foodhalf.html",
+        "sha256": "ba0ce212910d8c50ca6cf911790d98468e971f5ab7bd4ca8a617574e747a3340",
+        "bytes": 842029
+      },
+      "coverage": "TEST-ONLY-boot-input-variant"
+    },
+    {
+      "index": 11,
+      "scene": "legacy-actual-dead-npc",
+      "status": 200,
+      "recordedResponseBodySha256": "ba0ce212910d8c50ca6cf911790d98468e971f5ab7bd4ca8a617574e747a3340",
+      "matchingSavedBody": {
+        "path": "original/source-seed0-foodhalf.html",
+        "sha256": "ba0ce212910d8c50ca6cf911790d98468e971f5ab7bd4ca8a617574e747a3340",
+        "bytes": 842029
+      },
+      "coverage": "TEST-ONLY-boot-input-variant"
+    },
+    {
+      "index": 12,
+      "scene": "legacy-actual-dead-npc",
+      "status": 200,
+      "recordedResponseBodySha256": "ba0ce212910d8c50ca6cf911790d98468e971f5ab7bd4ca8a617574e747a3340",
+      "matchingSavedBody": {
+        "path": "original/source-seed0-foodhalf.html",
+        "sha256": "ba0ce212910d8c50ca6cf911790d98468e971f5ab7bd4ca8a617574e747a3340",
+        "bytes": 842029
+      },
+      "coverage": "TEST-ONLY-boot-input-variant"
+    },
+    {
+      "index": 13,
+      "scene": "legacy-actual-used-cache",
+      "status": 200,
+      "recordedResponseBodySha256": "ba0ce212910d8c50ca6cf911790d98468e971f5ab7bd4ca8a617574e747a3340",
+      "matchingSavedBody": {
+        "path": "original/source-seed0-foodhalf.html",
+        "sha256": "ba0ce212910d8c50ca6cf911790d98468e971f5ab7bd4ca8a617574e747a3340",
+        "bytes": 842029
+      },
+      "coverage": "TEST-ONLY-boot-input-variant"
+    },
+    {
+      "index": 14,
+      "scene": "legacy-actual-used-cache",
+      "status": 200,
+      "recordedResponseBodySha256": "ba0ce212910d8c50ca6cf911790d98468e971f5ab7bd4ca8a617574e747a3340",
+      "matchingSavedBody": {
+        "path": "original/source-seed0-foodhalf.html",
+        "sha256": "ba0ce212910d8c50ca6cf911790d98468e971f5ab7bd4ca8a617574e747a3340",
+        "bytes": 842029
+      },
+      "coverage": "TEST-ONLY-boot-input-variant"
+    },
+    {
+      "index": 15,
+      "scene": "first-native-write-failure-retry",
+      "status": 200,
+      "recordedResponseBodySha256": "a2fcdb647f2632fbf50f3ab0f3ba160f168082c602f6737c5ca4239eede137d2",
+      "matchingSavedBody": {
+        "path": "original/source.html",
+        "sha256": "a2fcdb647f2632fbf50f3ab0f3ba160f168082c602f6737c5ca4239eede137d2",
+        "bytes": 842036
+      },
+      "coverage": "canonical"
+    }
+  ],
+  "canonicalMainResponses": 5,
+  "variantMainResponses": 10,
+  "writerRecords": [
+    {
+      "scene": "default-button",
+      "artifact": {
+        "path": "original/default-button-initial-native-binding-save.json",
+        "sha256": "80d41c43a8ea07759aa88a852062b74f889b59c8e4edfc488d34f0e198c13d0e",
+        "bytes": 61776
+      },
+      "stored": true,
+      "worldMinute": 360,
+      "reason": "scenario-initial-binding",
+      "bindingStatus": "bound"
+    },
+    {
+      "scene": "default-button",
+      "artifact": {
+        "path": "original/default-button-pagehide-before-continue-save.json",
+        "sha256": "8ef5d13dc09d6c83fe52de9f48745d3883587f25b5eb9450462de1f7555b6c66",
+        "bytes": 61804
+      },
+      "stored": true,
+      "worldMinute": 360,
+      "reason": "visibility-hidden",
+      "bindingStatus": "bound"
+    },
+    {
+      "scene": "default-button",
+      "artifact": {
+        "path": "original/default-button-reloaded-first-native-writer-save.json",
+        "sha256": "52ab4c124deab93edace753b2c173a0a6960e87cf142fa522632955057eb1e45",
+        "bytes": 61838
+      },
+      "stored": true,
+      "worldMinute": 360,
+      "reason": "session-start",
+      "bindingStatus": "bound"
+    },
+    {
+      "scene": "default-enter-observer-toggle",
+      "artifact": {
+        "path": "original/default-enter-observer-toggle-initial-native-binding-save.json",
+        "sha256": "fc4f368d456eab5179435185ffc82c8f5f18e4b57efc23d64d0c124c35efb1d9",
+        "bytes": 61775
+      },
+      "stored": true,
+      "worldMinute": 360,
+      "reason": "scenario-initial-binding",
+      "bindingStatus": "bound"
+    },
+    {
+      "scene": "default-enter-observer-toggle",
+      "artifact": {
+        "path": "original/default-enter-observer-toggle-pagehide-before-continue-save.json",
+        "sha256": "73c2906e4892cdc0f100e221e9a9fb90ae9c97aeffb7462160778e92773339fa",
+        "bytes": 61802
+      },
+      "stored": true,
+      "worldMinute": 360,
+      "reason": "visibility-hidden",
+      "bindingStatus": "bound"
+    },
+    {
+      "scene": "default-enter-observer-toggle",
+      "artifact": {
+        "path": "original/default-enter-observer-toggle-reloaded-first-native-writer-save.json",
+        "sha256": "52ab4c124deab93edace753b2c173a0a6960e87cf142fa522632955057eb1e45",
+        "bytes": 61838
+      },
+      "stored": true,
+      "worldMinute": 360,
+      "reason": "session-start",
+      "bindingStatus": "bound"
+    },
+    {
+      "scene": "seed0-only-fresh",
+      "artifact": {
+        "path": "original/seed0-only-fresh-initial-native-binding-save.json",
+        "sha256": "6806fedbd07115b0316a266bed180f20fa09681cd9a12b1f72693acb2fbc8ce4",
+        "bytes": 61687
+      },
+      "stored": true,
+      "worldMinute": 360,
+      "reason": "scenario-initial-binding",
+      "bindingStatus": "bound"
+    },
+    {
+      "scene": "seed0-only-fresh",
+      "artifact": {
+        "path": "original/seed0-only-fresh-pagehide-before-continue-save.json",
+        "sha256": "05f3bcb0662879ac1a3abdebd2a486e3cbf7087f0ae3bf19596e22143c25f352",
+        "bytes": 61714
+      },
+      "stored": true,
+      "worldMinute": 360,
+      "reason": "visibility-hidden",
+      "bindingStatus": "bound"
+    },
+    {
+      "scene": "seed0-only-fresh",
+      "artifact": {
+        "path": "original/seed0-only-fresh-reloaded-first-native-writer-save.json",
+        "sha256": "d4b11b47763764f97eece0c66a6f7ded6bd5b8265e471bfd5825e938c7b8f07d",
+        "bytes": 61748
+      },
+      "stored": true,
+      "worldMinute": 360,
+      "reason": "session-start",
+      "bindingStatus": "bound"
+    },
+    {
+      "scene": "foodhalf-only-fresh",
+      "artifact": {
+        "path": "original/foodhalf-only-fresh-initial-native-binding-save.json",
+        "sha256": "7a3ced066d040d6dae344be1826f9e3d3a8b34c47300f6afc0cb05ff55341c6e",
+        "bytes": 61781
+      },
+      "stored": true,
+      "worldMinute": 360,
+      "reason": "scenario-initial-binding",
+      "bindingStatus": "bound"
+    },
+    {
+      "scene": "foodhalf-only-fresh",
+      "artifact": {
+        "path": "original/foodhalf-only-fresh-pagehide-before-continue-save.json",
+        "sha256": "edfafc89907f88daea38c556d22c75dbb48944814bd5ef9ebc736074593c0832",
+        "bytes": 61807
+      },
+      "stored": true,
+      "worldMinute": 360,
+      "reason": "visibility-hidden",
+      "bindingStatus": "bound"
+    },
+    {
+      "scene": "foodhalf-only-fresh",
+      "artifact": {
+        "path": "original/foodhalf-only-fresh-reloaded-first-native-writer-save.json",
+        "sha256": "ff7fa96b4350b6e2a896a5a8d44e1ea764151c7adb4773218ddd9f2cb3154aaf",
+        "bytes": 61842
+      },
+      "stored": true,
+      "worldMinute": 360,
+      "reason": "session-start",
+      "bindingStatus": "bound"
+    },
+    {
+      "scene": "legacy-garrison-consumed-rng",
+      "artifact": {
+        "path": "original/legacy-garrison-consumed-rng-migration-native-writer-save.json",
+        "sha256": "9f4aadfe5bed3784c9264aafbe404e8d417c817a2b7c2a19f0e7df34ad5733ec",
+        "bytes": 287775
+      },
+      "stored": true,
+      "worldMinute": 1450,
+      "reason": "save-migration:resolved-report-recovery-001",
+      "bindingStatus": "legacy-unbound"
+    },
+    {
+      "scene": "legacy-garrison-consumed-rng",
+      "artifact": {
+        "path": "original/legacy-garrison-consumed-rng-pagehide-before-reload-continue-save.json",
+        "sha256": "421d75585b560004bad5ba7ca8696470a4222747a71f509d241f90a284786269",
+        "bytes": 287757
+      },
+      "stored": true,
+      "worldMinute": 1450,
+      "reason": "visibility-hidden",
+      "bindingStatus": "legacy-unbound"
+    },
+    {
+      "scene": "legacy-garrison-consumed-rng",
+      "artifact": {
+        "path": "original/legacy-garrison-consumed-rng-legacy-reloaded-native-writer-save.json",
+        "sha256": "2cb4ec1e365a0e27945b69c52b3890a26496f5cddaa2c5b2922494531323fa33",
+        "bytes": 287745
+      },
+      "stored": true,
+      "worldMinute": 1450,
+      "reason": "session-start",
+      "bindingStatus": "legacy-unbound"
+    },
+    {
+      "scene": "legacy-actual-dead-npc",
+      "artifact": {
+        "path": "original/legacy-actual-dead-npc-migration-native-writer-save.json",
+        "sha256": "edce1a595c3ceea5aee2047c5a770958b0274ebff0a0aecd1e9239abf80f7d75",
+        "bytes": 269860
+      },
+      "stored": true,
+      "worldMinute": 685,
+      "reason": "save-migration:resolved-report-recovery-001",
+      "bindingStatus": "legacy-unbound"
+    },
+    {
+      "scene": "legacy-actual-dead-npc",
+      "artifact": {
+        "path": "original/legacy-actual-dead-npc-pagehide-before-reload-continue-save.json",
+        "sha256": "79e65a69deccc87a05948ae6c4b49fbbaa2f34a3b1ca969234f772543f25ddd6",
+        "bytes": 269800
+      },
+      "stored": true,
+      "worldMinute": 685,
+      "reason": "visibility-hidden",
+      "bindingStatus": "legacy-unbound"
+    },
+    {
+      "scene": "legacy-actual-dead-npc",
+      "artifact": {
+        "path": "original/legacy-actual-dead-npc-legacy-reloaded-native-writer-save.json",
+        "sha256": "57833ab689f36b4e2e79a6fdf582cb518267817f600445cbd1c2a9ff7fdcbc88",
+        "bytes": 269788
+      },
+      "stored": true,
+      "worldMinute": 685,
+      "reason": "session-start",
+      "bindingStatus": "legacy-unbound"
+    },
+    {
+      "scene": "legacy-actual-used-cache",
+      "artifact": {
+        "path": "original/legacy-actual-used-cache-migration-native-writer-save.json",
+        "sha256": "b1e81b7733f307940fc63902cf08d99b7ff34a7bcae70ccc172488a4770c5232",
+        "bytes": 282873
+      },
+      "stored": true,
+      "worldMinute": 1431,
+      "reason": "save-migration:resolved-report-recovery-001",
+      "bindingStatus": "legacy-unbound"
+    },
+    {
+      "scene": "legacy-actual-used-cache",
+      "artifact": {
+        "path": "original/legacy-actual-used-cache-pagehide-before-reload-continue-save.json",
+        "sha256": "f57777ddc4177e2a4e89ba8e5ded49a1b3837067c72b0b184e78184d2ac5d69d",
+        "bytes": 282854
+      },
+      "stored": true,
+      "worldMinute": 1431,
+      "reason": "visibility-hidden",
+      "bindingStatus": "legacy-unbound"
+    },
+    {
+      "scene": "legacy-actual-used-cache",
+      "artifact": {
+        "path": "original/legacy-actual-used-cache-legacy-reloaded-native-writer-save.json",
+        "sha256": "c71254de1abcb476fca28361931d136b681b22fe049588f2ca53cbd2d9b4b742",
+        "bytes": 282843
+      },
+      "stored": true,
+      "worldMinute": 1431,
+      "reason": "session-start",
+      "bindingStatus": "legacy-unbound"
+    },
+    {
+      "scene": "first-native-write-failure-retry",
+      "artifact": {
+        "path": "original/first-native-write-failure-retry-failed-attempted-native-writer-save.json",
+        "sha256": "80d41c43a8ea07759aa88a852062b74f889b59c8e4edfc488d34f0e198c13d0e",
+        "bytes": 61776
+      },
+      "stored": false,
+      "worldMinute": 360,
+      "reason": "scenario-initial-binding",
+      "bindingStatus": "bound"
+    },
+    {
+      "scene": "first-native-write-failure-retry",
+      "artifact": {
+        "path": "original/first-native-write-failure-retry-retry-first-native-writer-save.json",
+        "sha256": "80d41c43a8ea07759aa88a852062b74f889b59c8e4edfc488d34f0e198c13d0e",
+        "bytes": 61776
+      },
+      "stored": true,
+      "worldMinute": 360,
+      "reason": "scenario-initial-binding",
+      "bindingStatus": "bound"
+    },
+    {
+      "scene": "first-native-write-failure-retry",
+      "artifact": {
+        "path": "original/first-native-write-failure-retry-retry-normal-clock-writer-save.json",
+        "sha256": "bb1563303561104a78d91c37475cd9906d624e8614c9301fbbdd32fb1c95c7c1",
+        "bytes": 71677
+      },
+      "stored": true,
+      "worldMinute": 370,
+      "reason": "world-tick",
+      "bindingStatus": "bound"
+    }
+  ],
+  "storedNativeWriters": 23,
+  "failedAttemptedWriters": 1,
+  "fresh": [
+    {
+      "scene": "default-button",
+      "canonical": true,
+      "seed": 1592639710,
+      "multiplier": 1,
+      "food": 8,
+      "berryCounts": [
+        2,
+        2,
+        3,
+        2
+      ],
+      "oneBindingAndReloadUnchanged": true
+    },
+    {
+      "scene": "default-enter-observer-toggle",
+      "canonical": true,
+      "seed": 1592639710,
+      "multiplier": 1,
+      "food": 8,
+      "berryCounts": [
+        2,
+        2,
+        3,
+        2
+      ],
+      "oneBindingAndReloadUnchanged": true
+    },
+    {
+      "scene": "seed0-only-fresh",
+      "canonical": false,
+      "seed": 0,
+      "multiplier": 1,
+      "food": 8,
+      "berryCounts": [
+        2,
+        2,
+        3,
+        2
+      ],
+      "oneBindingAndReloadUnchanged": true
+    },
+    {
+      "scene": "foodhalf-only-fresh",
+      "canonical": false,
+      "seed": 1592639710,
+      "multiplier": 0.5,
+      "food": 4,
+      "berryCounts": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "oneBindingAndReloadUnchanged": true
+    }
+  ],
+  "legacy": [
+    {
+      "scene": "legacy-garrison-consumed-rng",
+      "input": {
+        "path": "original/garrison-consumed-rng-original-writer.json",
+        "sha256": "9d196677f4f565bb07aa1420d000590ec77b55dfdd34ace5d5fc5e9c43d5b9b8",
+        "bytes": 284901
+      },
+      "deployedHtmlSha256": "ba0ce212910d8c50ca6cf911790d98468e971f5ab7bd4ca8a617574e747a3340",
+      "canonicalCoverage": false,
+      "rngState": 4019839730,
+      "food": 26,
+      "deadNpcIds": [],
+      "garrison": [
+        {
+          "id": "guardJi",
+          "outpostId": "waterMill"
+        },
+        {
+          "id": "guardChen",
+          "outpostId": "waterMill"
+        }
+      ],
+      "cacheAlreadyRetrieved": false,
+      "resourcesDeathGarrisonCacheEpisodePreserved": true,
+      "oneMigrationNoRebindAndReloadStable": true
+    },
+    {
+      "scene": "legacy-actual-dead-npc",
+      "input": {
+        "path": "original/actual-dead-npc-original-writer.json",
+        "sha256": "39034467fff615ca0d553a80af3e08f670451c5fa31b58a461f6bee215d93a8a",
+        "bytes": 267005
+      },
+      "deployedHtmlSha256": "ba0ce212910d8c50ca6cf911790d98468e971f5ab7bd4ca8a617574e747a3340",
+      "canonicalCoverage": false,
+      "rngState": 1592639710,
+      "food": 15,
+      "deadNpcIds": [
+        "doctor"
+      ],
+      "garrison": [],
+      "cacheAlreadyRetrieved": false,
+      "resourcesDeathGarrisonCacheEpisodePreserved": true,
+      "oneMigrationNoRebindAndReloadStable": true
+    },
+    {
+      "scene": "legacy-actual-used-cache",
+      "input": {
+        "path": "original/actual-used-cache-original-writer.json",
+        "sha256": "e9a650b313519f07a5d31b4fbbac3325d6ec0b91b8070cec3dbe37b0a950590a",
+        "bytes": 279995
+      },
+      "deployedHtmlSha256": "ba0ce212910d8c50ca6cf911790d98468e971f5ab7bd4ca8a617574e747a3340",
+      "canonicalCoverage": false,
+      "rngState": 1592639710,
+      "food": 6,
+      "deadNpcIds": [],
+      "garrison": [],
+      "cacheAlreadyRetrieved": true,
+      "resourcesDeathGarrisonCacheEpisodePreserved": true,
+      "oneMigrationNoRebindAndReloadStable": true
+    }
+  ],
+  "observerConsumer": [
+    {
+      "label": "observer-ON-after-public-setting-and-native-save",
+      "enabled": true,
+      "mode": "deterministic-stub",
+      "authority": "expression_only",
+      "beforeSnapshot": {
+        "path": "original/default-enter-observer-toggle-observer-ON-after-public-setting-and-native-save-before-core-snapshot.json",
+        "sha256": "5d1a7f549030b2c2b47e6285968a36fb397dd2b3786d42351026714ccf5c60f2",
+        "bytes": 51302
+      },
+      "afterSnapshot": {
+        "path": "original/default-enter-observer-toggle-observer-ON-after-public-setting-and-native-save-after-core-snapshot.json",
+        "sha256": "5d1a7f549030b2c2b47e6285968a36fb397dd2b3786d42351026714ccf5c60f2",
+        "bytes": 51302
+      },
+      "beforeNativeSave": {
+        "path": "original/default-enter-observer-toggle-observer-ON-after-public-setting-and-native-save-before-native-save.json",
+        "sha256": "fc4f368d456eab5179435185ffc82c8f5f18e4b57efc23d64d0c124c35efb1d9",
+        "bytes": 61775
+      },
+      "afterNativeSave": {
+        "path": "original/default-enter-observer-toggle-observer-ON-after-public-setting-and-native-save-after-native-save.json",
+        "sha256": "fc4f368d456eab5179435185ffc82c8f5f18e4b57efc23d64d0c124c35efb1d9",
+        "bytes": 61775
+      },
+      "storageCallsBefore": 2,
+      "storageCallsAfter": 2,
+      "readOnlyExistingProjectionAndSavedBytesEqual": true,
+      "scope": "TEST-ONLY literal item consumer; not actual NPC dialogue or actor knowledge authorization"
+    },
+    {
+      "label": "observer-OFF-after-public-reload-setting-and-continue",
+      "enabled": false,
+      "mode": "fallback",
+      "authority": "expression_only",
+      "beforeSnapshot": {
+        "path": "original/default-enter-observer-toggle-observer-OFF-after-public-reload-setting-and-continue-before-core-snapshot.json",
+        "sha256": "e77d4bd8737de8d457efc68925a4e2e0613e60eb4f7df9b75d6dac09386e1a24",
+        "bytes": 51409
+      },
+      "afterSnapshot": {
+        "path": "original/default-enter-observer-toggle-observer-OFF-after-public-reload-setting-and-continue-after-core-snapshot.json",
+        "sha256": "e77d4bd8737de8d457efc68925a4e2e0613e60eb4f7df9b75d6dac09386e1a24",
+        "bytes": 51409
+      },
+      "beforeNativeSave": {
+        "path": "original/default-enter-observer-toggle-observer-OFF-after-public-reload-setting-and-continue-before-native-save.json",
+        "sha256": "52ab4c124deab93edace753b2c173a0a6960e87cf142fa522632955057eb1e45",
+        "bytes": 61838
+      },
+      "afterNativeSave": {
+        "path": "original/default-enter-observer-toggle-observer-OFF-after-public-reload-setting-and-continue-after-native-save.json",
+        "sha256": "52ab4c124deab93edace753b2c173a0a6960e87cf142fa522632955057eb1e45",
+        "bytes": 61838
+      },
+      "storageCallsBefore": 3,
+      "storageCallsAfter": 3,
+      "readOnlyExistingProjectionAndSavedBytesEqual": true,
+      "scope": "TEST-ONLY literal item consumer; not actual NPC dialogue or actor knowledge authorization"
+    }
+  ],
+  "firstSaveFailure": {
+    "scene": "first-native-write-failure-retry",
+    "attempted": {
+      "scene": "first-native-write-failure-retry",
+      "artifact": {
+        "path": "original/first-native-write-failure-retry-failed-attempted-native-writer-save.json",
+        "sha256": "80d41c43a8ea07759aa88a852062b74f889b59c8e4edfc488d34f0e198c13d0e",
+        "bytes": 61776
+      },
+      "stored": false,
+      "worldMinute": 360,
+      "reason": "scenario-initial-binding",
+      "bindingStatus": "bound"
+    },
+    "retry": {
+      "scene": "first-native-write-failure-retry",
+      "artifact": {
+        "path": "original/first-native-write-failure-retry-retry-first-native-writer-save.json",
+        "sha256": "80d41c43a8ea07759aa88a852062b74f889b59c8e4edfc488d34f0e198c13d0e",
+        "bytes": 61776
+      },
+      "stored": true,
+      "worldMinute": 360,
+      "reason": "scenario-initial-binding",
+      "bindingStatus": "bound"
+    },
+    "attemptAndSuccessfulRetryBytesIdentical": true,
+    "requestedRealBrowserRecoveryWaitMs": 2600,
+    "noRecordedIntervalsDuringRecovery": true,
+    "publicRecoveryAndExactlyOneIntervalAfterRetry": "passed actual frozen runner checks",
+    "normalClock": {
+      "before": 360,
+      "after": 370,
+      "actualTimeAdvancedEvents": [
+        {
+          "eventId": "evt-000003",
+          "seq": 3,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000001",
+          "causationId": null,
+          "tick": {
+            "world": 361,
+            "phase": 0,
+            "schedule": 1
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 1,
+            "hour": 6,
+            "minute": 1
+          }
+        },
+        {
+          "eventId": "evt-000004",
+          "seq": 4,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000002",
+          "causationId": null,
+          "tick": {
+            "world": 362,
+            "phase": 0,
+            "schedule": 2
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 1,
+            "hour": 6,
+            "minute": 2
+          }
+        },
+        {
+          "eventId": "evt-000005",
+          "seq": 5,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000003",
+          "causationId": null,
+          "tick": {
+            "world": 363,
+            "phase": 0,
+            "schedule": 3
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 1,
+            "hour": 6,
+            "minute": 3
+          }
+        },
+        {
+          "eventId": "evt-000006",
+          "seq": 6,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000004",
+          "causationId": null,
+          "tick": {
+            "world": 364,
+            "phase": 0,
+            "schedule": 4
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 1,
+            "hour": 6,
+            "minute": 4
+          }
+        },
+        {
+          "eventId": "evt-000007",
+          "seq": 7,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000005",
+          "causationId": null,
+          "tick": {
+            "world": 365,
+            "phase": 0,
+            "schedule": 5
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 1,
+            "hour": 6,
+            "minute": 5
+          }
+        },
+        {
+          "eventId": "evt-000008",
+          "seq": 8,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000006",
+          "causationId": null,
+          "tick": {
+            "world": 366,
+            "phase": 0,
+            "schedule": 6
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 1,
+            "hour": 6,
+            "minute": 6
+          }
+        },
+        {
+          "eventId": "evt-000009",
+          "seq": 9,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000007",
+          "causationId": null,
+          "tick": {
+            "world": 367,
+            "phase": 0,
+            "schedule": 7
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 1,
+            "hour": 6,
+            "minute": 7
+          }
+        },
+        {
+          "eventId": "evt-000010",
+          "seq": 10,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000008",
+          "causationId": null,
+          "tick": {
+            "world": 368,
+            "phase": 0,
+            "schedule": 8
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 1,
+            "hour": 6,
+            "minute": 8
+          }
+        },
+        {
+          "eventId": "evt-000011",
+          "seq": 11,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000009",
+          "causationId": null,
+          "tick": {
+            "world": 369,
+            "phase": 0,
+            "schedule": 9
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 1,
+            "hour": 6,
+            "minute": 9
+          }
+        },
+        {
+          "eventId": "evt-000012",
+          "seq": 12,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000010",
+          "causationId": null,
+          "tick": {
+            "world": 370,
+            "phase": 0,
+            "schedule": 10
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 1,
+            "hour": 6,
+            "minute": 10
+          }
+        }
+      ],
+      "actualReplayCommands": [
+        {
+          "commandId": "cmd-000001",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 1
+          }
+        },
+        {
+          "commandId": "cmd-000002",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 1
+          }
+        },
+        {
+          "commandId": "cmd-000003",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 1
+          }
+        },
+        {
+          "commandId": "cmd-000004",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 1
+          }
+        },
+        {
+          "commandId": "cmd-000005",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 1
+          }
+        },
+        {
+          "commandId": "cmd-000006",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 1
+          }
+        },
+        {
+          "commandId": "cmd-000007",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 1
+          }
+        },
+        {
+          "commandId": "cmd-000008",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 1
+          }
+        },
+        {
+          "commandId": "cmd-000009",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 1
+          }
+        },
+        {
+          "commandId": "cmd-000010",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 1
+          }
+        }
+      ],
+      "totalElapsedMinutes": 10
+    },
+    "oneBinding": true
+  },
+  "IOrestoration": [
+    {
+      "scene": "default-button",
+      "proofs": [
+        {
+          "stage": "before-public-reload",
+          "storageOriginal": true,
+          "intervalOriginal": true,
+          "clearOriginal": true
+        },
+        {
+          "stage": "scene-finally",
+          "storageOriginal": true,
+          "intervalOriginal": true,
+          "clearOriginal": true
+        }
+      ]
+    },
+    {
+      "scene": "default-enter-observer-toggle",
+      "proofs": [
+        {
+          "stage": "before-public-reload",
+          "storageOriginal": true,
+          "intervalOriginal": true,
+          "clearOriginal": true
+        },
+        {
+          "stage": "scene-finally",
+          "storageOriginal": true,
+          "intervalOriginal": true,
+          "clearOriginal": true
+        }
+      ]
+    },
+    {
+      "scene": "seed0-only-fresh",
+      "proofs": [
+        {
+          "stage": "before-public-reload",
+          "storageOriginal": true,
+          "intervalOriginal": true,
+          "clearOriginal": true
+        },
+        {
+          "stage": "scene-finally",
+          "storageOriginal": true,
+          "intervalOriginal": true,
+          "clearOriginal": true
+        }
+      ]
+    },
+    {
+      "scene": "foodhalf-only-fresh",
+      "proofs": [
+        {
+          "stage": "before-public-reload",
+          "storageOriginal": true,
+          "intervalOriginal": true,
+          "clearOriginal": true
+        },
+        {
+          "stage": "scene-finally",
+          "storageOriginal": true,
+          "intervalOriginal": true,
+          "clearOriginal": true
+        }
+      ]
+    },
+    {
+      "scene": "legacy-garrison-consumed-rng",
+      "proofs": [
+        {
+          "stage": "before-legacy-public-reload",
+          "storageOriginal": true,
+          "intervalOriginal": true,
+          "clearOriginal": true
+        },
+        {
+          "stage": "scene-finally",
+          "storageOriginal": true,
+          "intervalOriginal": true,
+          "clearOriginal": true
+        }
+      ]
+    },
+    {
+      "scene": "legacy-actual-dead-npc",
+      "proofs": [
+        {
+          "stage": "before-legacy-public-reload",
+          "storageOriginal": true,
+          "intervalOriginal": true,
+          "clearOriginal": true
+        },
+        {
+          "stage": "scene-finally",
+          "storageOriginal": true,
+          "intervalOriginal": true,
+          "clearOriginal": true
+        }
+      ]
+    },
+    {
+      "scene": "legacy-actual-used-cache",
+      "proofs": [
+        {
+          "stage": "before-legacy-public-reload",
+          "storageOriginal": true,
+          "intervalOriginal": true,
+          "clearOriginal": true
+        },
+        {
+          "stage": "scene-finally",
+          "storageOriginal": true,
+          "intervalOriginal": true,
+          "clearOriginal": true
+        }
+      ]
+    },
+    {
+      "scene": "first-native-write-failure-retry",
+      "proofs": [
+        {
+          "stage": "scene-finally",
+          "storageOriginal": true,
+          "intervalOriginal": true,
+          "clearOriginal": true
+        }
+      ]
+    }
+  ],
+  "cleanup": {
+    "contextsClosed": true,
+    "browserClosed": true,
+    "httpServerClosed": true
+  },
+  "scope": {
+    "readOnlyArtifactAudit": true,
+    "browserExecutedByAuditor": false,
+    "sourceRuntimeExecutedByAuditor": false,
+    "networkReplayedByAuditor": false,
+    "nativeValidatorReexecutedByAuditor": false,
+    "rawSnapshotAndSavedByteEqualityIndependentlyRecomputed": true,
+    "HUDAndPostRetryIntervalChecks": "actual frozen runner assertions; HUD raw values and post-retry interval array are not separately retained",
+    "fixtureNaturalGameplay": false,
+    "actualNpcDialogue": false,
+    "actorKnowledgeAuthorization": false,
+    "playerConfigGui": false,
+    "C1": "fresh/continue persistence and declared deployment boot options only",
+    "C2": "OPEN; JSON compiler and atomic registration not accepted",
+    "canonicalVariantSeparation": "canonical fresh/public preference/fault evidence separate from seed/food variants; all legacy browser scenes use the declared seed0/foodhalf variant",
+    "otherSixBrowserRegressions": "separate runs not audited here"
+  },
+  "originalFilesUnmodified": true
+}

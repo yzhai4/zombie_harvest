@@ -1,0 +1,136 @@
+{
+  "runner": "source-content-episode-v1",
+  "passed": 30,
+  "count": 30,
+  "checks": [
+    {
+      "name": "legacy full writer fixture validates; loader adds identity without settlement",
+      "ok": true
+    },
+    {
+      "name": "migrated active instance saves/reloads once and preserves original identity",
+      "ok": true
+    },
+    {
+      "name": "corrupt saved identity rejected: instanceKey=other:1",
+      "ok": true
+    },
+    {
+      "name": "corrupt saved identity rejected: instanceId=wrong",
+      "ok": true
+    },
+    {
+      "name": "corrupt saved identity rejected: defId=other",
+      "ok": true
+    },
+    {
+      "name": "corrupt saved identity rejected: definitionVersion=0",
+      "ok": true
+    },
+    {
+      "name": "corrupt saved identity rejected: definitionVersion=1",
+      "ok": true
+    },
+    {
+      "name": "corrupt saved identity rejected: definitionVersion=999",
+      "ok": true
+    },
+    {
+      "name": "corrupt saved identity rejected: episodeSchemaVersion=2",
+      "ok": true
+    },
+    {
+      "name": "missing old fields migrate using startedAt, never current day",
+      "ok": true
+    },
+    {
+      "name": "legacy one-shot completion holds saved day only without rewriting history",
+      "ok": true
+    },
+    {
+      "name": "legacy completed history cannot hide a new episode in the actual event menu after reload",
+      "ok": true
+    },
+    {
+      "name": "real rendered producer carries all five identity fields into replay and receipt",
+      "ok": true
+    },
+    {
+      "name": "CAS rejects stale expectedInstanceId before effects",
+      "ok": true
+    },
+    {
+      "name": "CAS rejects stale expectedInstanceKey before effects",
+      "ok": true
+    },
+    {
+      "name": "CAS rejects stale expectedDefId before effects",
+      "ok": true
+    },
+    {
+      "name": "CAS rejects stale expectedDefinitionVersion before effects",
+      "ok": true
+    },
+    {
+      "name": "CAS rejects stale expectedNodeId before effects",
+      "ok": true
+    },
+    {
+      "name": "missing token fails closed; a current token still succeeds",
+      "ok": true
+    },
+    {
+      "name": "old day button cannot settle the new day episode; current token and duplicate are safe",
+      "ok": true
+    },
+    {
+      "name": "active episode survives midnight/reload with original token",
+      "ok": true
+    },
+    {
+      "name": "fallback rejects stale identity and records the correct original instance",
+      "ok": true
+    },
+    {
+      "name": "fallback and choice history IDs remain distinct across daily episodes",
+      "ok": true
+    },
+    {
+      "name": "repeatable autonomy effects and history keep the active instance identity",
+      "ok": true
+    },
+    {
+      "name": "night and expiry reject choices and expiry scheduler settles without reward",
+      "ok": true
+    },
+    {
+      "name": "HUD and observer settings are independent; observer switch persists",
+      "ok": true
+    },
+    {
+      "name": "cache has a finite source and resonance meter cost; next episode and reload cannot reclaim it",
+      "ok": true
+    },
+    {
+      "name": "injured and critical expedition staff reject without granting cache; successor can recover it",
+      "ok": true
+    },
+    {
+      "name": "failed cache effect rolls back stock flag and resonance meter together",
+      "ok": true
+    },
+    {
+      "name": "actual embedded observer core equals Node core and cannot leak a withheld band",
+      "ok": true
+    }
+  ],
+  "sourceHtmlSha256": "23b8c8c27234592673aa927f3909ea49247c372a937787f90355f87531f421b0",
+  "fixtureProvenance": {
+    "sourceCommit": "30eeefb5c20e4e8105dfe76e64ce9f806e3373cd",
+    "sourceHtmlSha256": "b2cf9f2ef8a6b79686e8910a99913e909d7bbe224d5575b8680c0ced44ac1953",
+    "testOnly": true
+  },
+  "naturalGameplay": false,
+  "ok": true
+}
+

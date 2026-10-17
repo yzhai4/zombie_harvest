@@ -1,0 +1,135 @@
+{
+  "schemaVersion": 1,
+  "scenario": {
+    "id": "zombie-farm",
+    "version": 1,
+    "contentVersion": 3
+  },
+  "metadata": {
+    "title": "尸潮农场",
+    "campaign": "im-the-savior"
+  },
+  "world": {
+    "ordinaryNpcCount": 10,
+    "foodMultiplier": 1,
+    "medicineMultiplier": 1,
+    "materialMultiplier": 1,
+    "initialEnemyMultiplier": 1,
+    "waveGrowthMultiplier": 1,
+    "eventFrequency": 1
+  },
+  "difficulty": {
+    "presets": {
+      "standard": {},
+      "hard": {
+        "initialEnemyMultiplier": 1.3
+      }
+    },
+    "playerCustomizable": [
+      "world.foodMultiplier"
+    ]
+  },
+  "events": {
+    "registry": [
+      "relay-chain-001",
+      "zh-food-shortage-001"
+    ],
+    "storylets": [
+      {
+        "id": "zh-food-shortage-001",
+        "trigger": {
+          "type": "food_days",
+          "max": 1
+        },
+        "fallback": {
+          "ifMissingNpc": "shortage_deferred",
+          "ifInsufficientPopulation": "shortage_deferred",
+          "ifExpired": "ledger_only",
+          "ifSkipped": "ledger_only"
+        },
+        "choices": [
+          {
+            "id": "ration",
+            "effects": [
+              {
+                "op": "recordHistory",
+                "key": "zh-food-shortage-001:ration",
+                "payload": {
+                  "route": "ration"
+                }
+              }
+            ]
+          },
+          {
+            "id": "forage",
+            "requires": [
+              {
+                "type": "role_available",
+                "role": "quartermaster",
+                "healthyOnly": true
+              },
+              {
+                "type": "flag",
+                "id": "zh-shortage-cache-retrieved",
+                "value": false
+              }
+            ],
+            "effects": [
+              {
+                "op": "addResource",
+                "key": "food",
+                "value": 2
+              },
+              {
+                "op": "adjustMeter",
+                "key": "resonancePressure",
+                "value": 2
+              },
+              {
+                "op": "unlock",
+                "key": "zh-shortage-cache-retrieved"
+              },
+              {
+                "op": "recordHistory",
+                "key": "zh-food-shortage-001:forage",
+                "payload": {
+                  "route": "emergency-cache",
+                  "sourceId": "zh-shortage-cache-001",
+                  "amount": 2,
+                  "resonancePressure": 2
+                }
+              }
+            ]
+          }
+        ],
+        "expression": {
+          "observerCommentary": {
+            "authority": "expression_only"
+          }
+        },
+        "repeatable": true,
+        "source": {
+          "id": "zh-shortage-cache-001",
+          "food": 99,
+          "retrievalLimit": 1,
+          "flag": "zh-shortage-cache-retrieved"
+        },
+        "definitionVersion": 2
+      }
+    ]
+  },
+  "ai": {
+    "generativeFeaturesDefault": false,
+    "policies": {
+      "observer": {
+        "authority": "expression_only"
+      }
+    }
+  },
+  "continuity": {
+    "importContracts": [],
+    "exportContracts": [
+      "observer_core_v1"
+    ]
+  }
+}

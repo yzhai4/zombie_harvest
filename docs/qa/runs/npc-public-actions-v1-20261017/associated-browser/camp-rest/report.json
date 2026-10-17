@@ -1,0 +1,654 @@
+{
+  "runner": "browser-camp-rest-v1",
+  "runnerSha256": "b25bca13beb843de144ec1e12aed56ceb45ef250a16f9b415877a8947f741b60",
+  "sourceHtmlSha256": "9edb6d3c3daa7ec63d90594381d811cb077828fd0955fb7095c601ce91b5b87b",
+  "expectedHtmlSha256": "9edb6d3c3daa7ec63d90594381d811cb077828fd0955fb7095c601ce91b5b87b",
+  "sourceFixtureSha256": "5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4",
+  "captureMetaSha256": "a24e58af9364dc6a81b86a7fddf0b618fc19ca72c9823dcaff0756e4f32b25e5",
+  "sharedFixtureHelperSha256": "e9872eeba85d49019d1bd806f3dd18357a5abc8f2f92922922f6a5324ec220dc",
+  "ioAdapterSourceSha256": "ee5bb659c0439044e1ec07a4aecf931293457c2478f35d0850fe90770b4367cf",
+  "mode": "derived-complete-old-writer-boot-fixtures-public-browser-actions",
+  "naturalGameplay": false,
+  "naturalGameplayClaim": false,
+  "productionCapture": false,
+  "fixtureInjectionAfterBoot": false,
+  "gameStateMutationAfterBoot": false,
+  "originalFixtureProvenance": {
+    "schema": "NpcThreatAttentionCaptureV1",
+    "version": 1,
+    "captureKind": "automation-browser-writer-capture",
+    "productionCapture": false,
+    "naturalGameplayClaim": false,
+    "fixtureInjectionAfterBoot": false,
+    "source": {
+      "commit": "17925e1c908beb710c6bcb210e20389355805bb8",
+      "htmlSha256": "cc900da9cdf865b101c37080eb7417148a8a388796ba808153c905ef8ad8494a",
+      "commitEvidence": "iteration-manifest-v1 at capture source",
+      "reportSha256": "08e4309113473164d886a39d8366f000491cb5449dcad86452d453b00e55a94b",
+      "runnerSha256": "5e3dfeadbc729caf9e80adc6d890ca0ff20a5fbe0bf2211f9f609efbbf4ae299",
+      "reportRunner": "server-three-days",
+      "reportMode": "public-action-calendar-progression",
+      "reportOk": false,
+      "sourceSnapshotName": "23-day-1-training-before-action-save.json",
+      "sourceSnapshotIndex": 23
+    },
+    "fixture": {
+      "path": "scripts/fixtures/npc-threat-attention-v1/browser-writer-day1-1110-save21.json",
+      "sha256": "5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4",
+      "checksum": "7fde7715",
+      "saveVersion": 21,
+      "contentVersion": 3,
+      "savedAt": 670,
+      "day": 1,
+      "hour": 11,
+      "minute": 10,
+      "eventSeq": 253
+    },
+    "offlineChanges": [],
+    "notes": [
+      "Exact writer bytes copied from a failed automation route; original source report remains FAILED.",
+      "The source route used public reset/actions without save injection; this boot fixture is not production or a natural-gameplay/balance acceptance.",
+      "The regression loader may seed this save before boot only in an isolated source VM; derived negative scenes are declared in the checker."
+    ]
+  },
+  "checks": [
+    {
+      "name": "normal30: main document matches frozen input",
+      "ok": true
+    },
+    {
+      "name": "normal30: public 30 minute control visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "normal30: visible progress shows requested duration and risk",
+      "ok": true
+    },
+    {
+      "name": "normal30: cancel control visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "normal30: simultaneous public rest controls disabled",
+      "ok": true
+    },
+    {
+      "name": "normal30: started/stopped share a single instance",
+      "ok": true
+    },
+    {
+      "name": "normal30: consumed progress equals exact step receipts",
+      "ok": true
+    },
+    {
+      "name": "normal30: every step has one actual minute child and causation",
+      "ok": true
+    },
+    {
+      "name": "normal30: terminal reason and remainder truthful",
+      "ok": true
+    },
+    {
+      "name": "normal30: exactly thirty real world minutes consumed",
+      "ok": true
+    },
+    {
+      "name": "normal30: real scheduler elapsed is not instant skip",
+      "ok": true,
+      "detail": {
+        "elapsedWallMs": 6299
+      }
+    },
+    {
+      "name": "normal30: energy matches actual advance(1) source control",
+      "ok": true,
+      "detail": {
+        "before": 40,
+        "after": 42,
+        "expected": 42,
+        "elapsed": 30
+      }
+    },
+    {
+      "name": "normal30: HP and SAN match existing time effects without flat rest reward",
+      "ok": true,
+      "detail": {
+        "before": {
+          "hp": 52,
+          "sanity": 74
+        },
+        "after": {
+          "hp": 52,
+          "sanity": 75
+        },
+        "expected": {
+          "hp": 52,
+          "sanity": 75
+        }
+      }
+    },
+    {
+      "name": "normal30: NPC needs continue and match actual source time control",
+      "ok": true
+    },
+    {
+      "name": "normal30: no free food or population",
+      "ok": true
+    },
+    {
+      "name": "normal30: terminal UI restores public actions",
+      "ok": true
+    },
+    {
+      "name": "zero-energy60: main document matches frozen input",
+      "ok": true
+    },
+    {
+      "name": "zero-energy60: public 60 minute control visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "zero-energy60: visible progress shows requested duration and risk",
+      "ok": true
+    },
+    {
+      "name": "zero-energy60: cancel control visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "zero-energy60: simultaneous public rest controls disabled",
+      "ok": true
+    },
+    {
+      "name": "zero-energy60: started/stopped share a single instance",
+      "ok": true
+    },
+    {
+      "name": "zero-energy60: consumed progress equals exact step receipts",
+      "ok": true
+    },
+    {
+      "name": "zero-energy60: every step has one actual minute child and causation",
+      "ok": true
+    },
+    {
+      "name": "zero-energy60: terminal reason and remainder truthful",
+      "ok": true
+    },
+    {
+      "name": "zero-energy60: true 60-minute wait succeeds at zero starting energy",
+      "ok": true
+    },
+    {
+      "name": "zero-energy60: energy matches actual advance(1) source control",
+      "ok": true,
+      "detail": {
+        "before": 0,
+        "after": 3,
+        "expected": 3,
+        "elapsed": 60
+      }
+    },
+    {
+      "name": "zero-energy60: HP and SAN match existing time effects without flat rest reward",
+      "ok": true,
+      "detail": {
+        "before": {
+          "hp": 52,
+          "sanity": 74
+        },
+        "after": {
+          "hp": 52,
+          "sanity": 74
+        },
+        "expected": {
+          "hp": 52,
+          "sanity": 74
+        }
+      }
+    },
+    {
+      "name": "zero-energy60: NPC needs continue and match actual source time control",
+      "ok": true
+    },
+    {
+      "name": "partial-cancel: main document matches frozen input",
+      "ok": true
+    },
+    {
+      "name": "partial-cancel: public 60 minute control visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "partial-cancel: visible progress shows requested duration and risk",
+      "ok": true
+    },
+    {
+      "name": "partial-cancel: cancel control visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "partial-cancel: simultaneous public rest controls disabled",
+      "ok": true
+    },
+    {
+      "name": "partial-cancel: started/stopped share a single instance",
+      "ok": true
+    },
+    {
+      "name": "partial-cancel: consumed progress equals exact step receipts",
+      "ok": true
+    },
+    {
+      "name": "partial-cancel: every step has one actual minute child and causation",
+      "ok": true
+    },
+    {
+      "name": "partial-cancel: terminal reason and remainder truthful",
+      "ok": true
+    },
+    {
+      "name": "partial-cancel: real consumed prefix stays below request",
+      "ok": true
+    },
+    {
+      "name": "partial-cancel: remaining time disclosed without completion claim",
+      "ok": true
+    },
+    {
+      "name": "partial-cancel: main document matches frozen input",
+      "ok": true
+    },
+    {
+      "name": "partial-cancel: reload returns idle with no cancel timer",
+      "ok": true
+    },
+    {
+      "name": "partial-cancel: no persistent rest save domain added",
+      "ok": true
+    },
+    {
+      "name": "partial-cancel: reload never resumes or appends rest steps",
+      "ok": true
+    },
+    {
+      "name": "partial-cancel: ordinary clock resumes without remaining-time catchup",
+      "ok": true
+    },
+    {
+      "name": "partial-cancel: public start controls enabled again",
+      "ok": true
+    },
+    {
+      "name": "midnight30: main document matches frozen input",
+      "ok": true
+    },
+    {
+      "name": "midnight30: public 30 minute control visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "midnight30: visible progress shows requested duration and risk",
+      "ok": true
+    },
+    {
+      "name": "midnight30: cancel control visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "midnight30: simultaneous public rest controls disabled",
+      "ok": true
+    },
+    {
+      "name": "midnight30: started/stopped share a single instance",
+      "ok": true
+    },
+    {
+      "name": "midnight30: consumed progress equals exact step receipts",
+      "ok": true
+    },
+    {
+      "name": "midnight30: every step has one actual minute child and causation",
+      "ok": true
+    },
+    {
+      "name": "midnight30: terminal reason and remainder truthful",
+      "ok": true
+    },
+    {
+      "name": "midnight30: night calendar remains DAY and crosses midnight",
+      "ok": true
+    },
+    {
+      "name": "midnight30: global living-ten ration and separate outpost upkeep",
+      "ok": true
+    },
+    {
+      "name": "midnight30: upkeep paid exactly once",
+      "ok": true
+    },
+    {
+      "name": "midnight30: committed day1 plan and day2 CP refresh each occur once",
+      "ok": true
+    },
+    {
+      "name": "midnight30: energy matches actual advance(1) source control",
+      "ok": true,
+      "detail": {
+        "before": 34,
+        "after": 35,
+        "expected": 35,
+        "elapsed": 30
+      }
+    },
+    {
+      "name": "midnight30: HP and SAN match existing time effects without flat rest reward",
+      "ok": true,
+      "detail": {
+        "before": {
+          "hp": 52,
+          "sanity": 74
+        },
+        "after": {
+          "hp": 64,
+          "sanity": 75
+        },
+        "expected": {
+          "hp": 64,
+          "sanity": 75
+        }
+      }
+    },
+    {
+      "name": "midnight30: NPC needs continue and match actual source time control",
+      "ok": true
+    },
+    {
+      "name": "midnight30: main document matches frozen input",
+      "ok": true
+    },
+    {
+      "name": "midnight30: refresh preserves pending identity and no second food charge",
+      "ok": true
+    },
+    {
+      "name": "midnight30: refresh does not reexecute plan or refill CP",
+      "ok": true
+    },
+    {
+      "name": "new-event: main document matches frozen input",
+      "ok": true
+    },
+    {
+      "name": "new-event: public 30 minute control visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "new-event: visible progress shows requested duration and risk",
+      "ok": true
+    },
+    {
+      "name": "new-event: cancel control visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "new-event: simultaneous public rest controls disabled",
+      "ok": true
+    },
+    {
+      "name": "new-event: started/stopped share a single instance",
+      "ok": true
+    },
+    {
+      "name": "new-event: consumed progress equals exact step receipts",
+      "ok": true
+    },
+    {
+      "name": "new-event: every step has one actual minute child and causation",
+      "ok": true
+    },
+    {
+      "name": "new-event: terminal reason and remainder truthful",
+      "ok": true
+    },
+    {
+      "name": "new-event: real routine event interrupts before completion",
+      "ok": true
+    },
+    {
+      "name": "new-event: public event panel presents new NPC issue",
+      "ok": true
+    },
+    {
+      "name": "public-battle: main document matches frozen input",
+      "ok": true
+    },
+    {
+      "name": "public-battle: public 30 minute control visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "public-battle: visible progress shows requested duration and risk",
+      "ok": true
+    },
+    {
+      "name": "public-battle: cancel control visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "public-battle: simultaneous public rest controls disabled",
+      "ok": true
+    },
+    {
+      "name": "public-battle: started/stopped share a single instance",
+      "ok": true
+    },
+    {
+      "name": "public-battle: consumed progress equals exact step receipts",
+      "ok": true
+    },
+    {
+      "name": "public-battle: every step has one actual minute child and causation",
+      "ok": true
+    },
+    {
+      "name": "public-battle: terminal reason and remainder truthful",
+      "ok": true
+    },
+    {
+      "name": "public-battle: N starts actual encounter after stopping rest prefix",
+      "ok": true
+    },
+    {
+      "name": "public-battle: public rest entry unavailable during BATTLE",
+      "ok": true
+    },
+    {
+      "name": "public-battle: no remaining rest time advances battle phase",
+      "ok": true
+    },
+    {
+      "name": "visibility: main document matches frozen input",
+      "ok": true
+    },
+    {
+      "name": "visibility: public 60 minute control visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "visibility: visible progress shows requested duration and risk",
+      "ok": true
+    },
+    {
+      "name": "visibility: cancel control visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "visibility: simultaneous public rest controls disabled",
+      "ok": true
+    }
+  ],
+  "errors": [],
+  "scenes": [
+    {
+      "name": "normal",
+      "inputFile": "normal-input-save.json",
+      "inputSha256": "3a5e4ebe64ffff894d6323c197043c72195bd8d85909656ef90c7a62eb44a3a2",
+      "changes": [
+        "candidate actual loader consumes immutable complete old automation-browser writer capture; original route remains FAILED",
+        "offline derived isolation removes existing world/event threats; no survival or natural-gameplay claim",
+        "player relocated within .6 of actual shelter; world day1 11:10, food30, energy40, SAN74, player sanityClock0, zero frontier exposure",
+        "offline NPC moderate needs, needClock0, cleared motionTarget and story cooldown1000; roster and identities preserved",
+        "candidate actual writer emits complete validated save; no live browser mutation after boot"
+      ]
+    },
+    {
+      "name": "zero-energy",
+      "inputFile": "zero-energy-input-save.json",
+      "inputSha256": "b4d0a3488a478595c968e43c6b294002ce72770bbb9f7feb547de4dd6f7fe42d",
+      "changes": [
+        "candidate actual loader consumes immutable complete old automation-browser writer capture; original route remains FAILED",
+        "offline derived isolation removes existing world/event threats; no survival or natural-gameplay claim",
+        "player relocated within .6 of actual shelter; world day1 11:10, food30, energy40, SAN74, player sanityClock0, zero frontier exposure",
+        "offline NPC moderate needs, needClock0, cleared motionTarget and story cooldown1000; roster and identities preserved",
+        "candidate actual writer emits complete validated save; no live browser mutation after boot",
+        "player energy zero to prove no action-energy start cost"
+      ]
+    },
+    {
+      "name": "new-event",
+      "inputFile": "new-event-input-save.json",
+      "inputSha256": "06e4e2e6d19c2180c0de7ec46428368f2f283c2f3fc225d57ea1cef4940da9fd",
+      "changes": [
+        "candidate actual loader consumes immutable complete old automation-browser writer capture; original route remains FAILED",
+        "offline derived isolation removes existing world/event threats; no survival or natural-gameplay claim",
+        "player relocated within .6 of actual shelter; world day1 11:10, food30, energy40, SAN74, player sanityClock0, zero frontier exposure",
+        "offline NPC moderate needs, needClock0, cleared motionTarget and story cooldown1000; roster and identities preserved",
+        "candidate actual writer emits complete validated save; no live browser mutation after boot",
+        "carpenter hunger51.95/story cooldown5 lets actual routine naturally create a new NPC event during rest"
+      ]
+    },
+    {
+      "name": "midnight",
+      "inputFile": "midnight-input-save.json",
+      "inputSha256": "81eda3b5694494de32f991f51e3d0fdf20acfc2814a5da23ca4839c452d5ad48",
+      "changes": [
+        "candidate actual loader consumes immutable complete old automation-browser writer capture; original route remains FAILED",
+        "offline derived isolation removes existing world/event threats; no survival or natural-gameplay claim",
+        "player relocated within .6 of actual shelter; world day1 11:10, food30, energy40, SAN74, player sanityClock0, zero frontier exposure",
+        "offline NPC moderate needs, needClock0, cleared motionTarget and story cooldown1000; roster and identities preserved",
+        "candidate actual writer emits complete validated save; no live browser mutation after boot",
+        "actual candidate discover/capture commands establish waterMill with two genuine roster guards before fixture writer",
+        "offline trust60/CP3 cap3/day1 then actual plan commit pays1; crossing midnight must resolve/refill only once",
+        "offline calendar23:40 and day1 ration/daily/upkeep watermarks; shared food reset30, moderate NPC needs",
+        "authored supply event derived as already-pending with actual createEventInstance; prevents a new default daily event replacing it; not historical-production evidence"
+      ]
+    }
+  ],
+  "documentHashes": [
+    {
+      "scene": "normal30",
+      "sha256": "9edb6d3c3daa7ec63d90594381d811cb077828fd0955fb7095c601ce91b5b87b"
+    },
+    {
+      "scene": "zero-energy60",
+      "sha256": "9edb6d3c3daa7ec63d90594381d811cb077828fd0955fb7095c601ce91b5b87b"
+    },
+    {
+      "scene": "partial-cancel",
+      "sha256": "9edb6d3c3daa7ec63d90594381d811cb077828fd0955fb7095c601ce91b5b87b"
+    },
+    {
+      "scene": "partial-cancel",
+      "sha256": "9edb6d3c3daa7ec63d90594381d811cb077828fd0955fb7095c601ce91b5b87b"
+    },
+    {
+      "scene": "midnight30",
+      "sha256": "9edb6d3c3daa7ec63d90594381d811cb077828fd0955fb7095c601ce91b5b87b"
+    },
+    {
+      "scene": "midnight30",
+      "sha256": "9edb6d3c3daa7ec63d90594381d811cb077828fd0955fb7095c601ce91b5b87b"
+    },
+    {
+      "scene": "new-event",
+      "sha256": "9edb6d3c3daa7ec63d90594381d811cb077828fd0955fb7095c601ce91b5b87b"
+    },
+    {
+      "scene": "public-battle",
+      "sha256": "9edb6d3c3daa7ec63d90594381d811cb077828fd0955fb7095c601ce91b5b87b"
+    },
+    {
+      "scene": "visibility",
+      "sha256": "9edb6d3c3daa7ec63d90594381d811cb077828fd0955fb7095c601ce91b5b87b"
+    }
+  ],
+  "scenarioResults": [
+    {
+      "name": "normal30",
+      "ok": true,
+      "status": "verified"
+    },
+    {
+      "name": "zero-energy60",
+      "ok": true,
+      "status": "verified"
+    },
+    {
+      "name": "partial-cancel",
+      "ok": true,
+      "status": "verified"
+    },
+    {
+      "name": "midnight30",
+      "ok": true,
+      "status": "verified"
+    },
+    {
+      "name": "new-event",
+      "ok": true,
+      "status": "verified"
+    },
+    {
+      "name": "public-battle",
+      "ok": true,
+      "status": "verified"
+    },
+    {
+      "name": "visibility",
+      "ok": null,
+      "status": "unavailable",
+      "reason": "not-verified-browser-did-not-produce-trusted-hidden"
+    }
+  ],
+  "visibility": {
+    "status": "not-verified-browser-did-not-produce-trusted-hidden",
+    "method": "real Chrome foreground/background tabs after disabling Playwright focus emulation; trusted native events only",
+    "observation": {
+      "hidden": false,
+      "events": [
+        {
+          "at": 21.900000002235174,
+          "hidden": false,
+          "visibilityState": "visible",
+          "type": "initial"
+        }
+      ]
+    }
+  },
+  "sourceOracle": "separate actual candidate source VM advance(1) chain; scalar/needs control only; does not replace browser evidence",
+  "browserVersion": "155.0.8059.80",
+  "count": 93,
+  "passed": 93,
+  "coverage": {
+    "verifiedScenarios": 6,
+    "attemptedUnavailableScenarios": 1,
+    "failedScenarios": 0
+  },
+  "ok": true,
+  "cleanup": {
+    "browserClosed": true,
+    "contextsClosed": true,
+    "httpServerClosed": true
+  }
+}

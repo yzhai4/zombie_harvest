@@ -37,9 +37,24 @@ description: 为尸潮农场创建或修改主线、支线、NPC、势力、科�
 
 ## 当前运行时边界
 
-本 Skill 生成的设计 ID 默认是“设计冻结/待注册”，除非 `dist/index.html` 的注册表和交接包明确标为已接线。当前 v81 已接入 `campTrust`、`commandPoints`、`planMeeting`、内容 schema v2、SAVE20 迁移和回放投影；14 天最终尸潮、全量支线、完整 NPC 晋升与动态表现仍需逐轮接线。剧本卡必须标记“已接线/设计冻结/待开发”，不得把设计定义当成运行时能力。
+本 Skill 生成的设计 ID 默认是“设计冻结/待注册”，除非 `dist/index.html` 的注册表和交接包明确标为已接线。当前 v81 已接入 `campTrust`、`commandPoints`、`planMeeting`、内容 schema v3、SAVE21 迁移和回放投影；v82 已接入 NPC 属性默认值、英雄晋升入口、`npcRoster` 和岗位继任投影，但完整十人主动技能、死亡/失踪/重伤/拒绝合作分支仍需逐轮接线。14 天最终尸潮、全量支线和动态表现仍需逐轮接线。剧本卡必须标记“已接线/设计冻结/待开发”，不得把设计定义当成运行时能力。
 
 ## 版本对账与发布边界
 
 线上 Sites、Sites 源仓库和 GitHub 镜像可能处于不同提交。每轮先记录三者版本，不得用旧 GitHub `main` 覆盖线上。若 Sites Git endpoint 或本地 `.git` 不可写，使用 GitHub API 在独立分支创建 blob/tree/commit，并通过 draft PR 审阅；不要强行更新 `main` 或生产版本。公开 issue/PR 只写可公开的项目事实，凭据、内部路径和运行环境细节留在本地交接记录。
 
+## 长期记忆与 AI 边界
+
+内容迭代结束后，按 `docs/project-memory.md` 判断新增信息属于规则真相、架构决策、问题记录还是实验记录；不要把未验证的聊天结论写成运行时能力。新增内容若给 AI 首脑使用，必须声明观察字段、可用意图、资源预算、期限、拒绝原因和规则 fallback。LLM 只能生成候选意图或解释文本，不能绕过内容注册表、统一 reducer、night guard、人口守恒或回放契约。
+
+
+
+## 场景包内容合同（2026-10-17）
+
+新增故事、NPC、势力或营地事件时，同时更新版本化 JSON 包与设计卡。每个 storylet 必须有 stable ID、触发条件、fallback 及玩家/NPC/营地/势力/敌人/全局链账本。未知引用、循环、不可满足门槛和无 AI-OFF 路径需要分层校验；当前轻量JSON validator只核基础合同，不能据此宣称这些完整校验均已实现。内容包当前先以 headless fixture 验证，未由启动路径实际加载并记录 scenarioVersion/contentVersion 前，标记为设计冻结/fixture。
+
+Observer 台词只能读取白名单事实并生成表达/披露；不能改资源、人口、敌人、事件或存档。需要 AI 时同时提供规则 fallback、预算和拒绝回执，并在 manifest 中区分 browser 与 source-VM。
+
+## 可重复内容合同（2026-10-17）
+
+新增可重复故事时，必须在 JSON 包和设计卡声明 `repeatable` 与稳定 episode key，区分一次性 `completedChains` 与按 episode 的账本。效果必须通过统一 reducer/CommandBus 并以 episode key 做去重；同日重复不得重复奖励，跨日重开要有可回放事实。若只实现单个内容的试验，不得声称所有 EventDef 已完成 repeatable/SAVE 迁移。

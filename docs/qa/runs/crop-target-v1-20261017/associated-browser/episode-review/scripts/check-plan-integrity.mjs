@@ -1,0 +1,210 @@
+#!/usr/bin/env node
+/** Actual complete inline runtime; method evidence only, not a browser.
+ * commitPlanMeeting/generatePlanMeeting, CommandBus, calendar/effects/loader/
+ * writer are preserved. The explicit original recovery IO adapter stubs
+ * renderWorld/renderHud/renderContext, final bootstrap Canvas render, DOM/layout,
+ * storage, native clocks and queued timer IO. Transient same-day resolved inputs
+ * are TEST-ONLY and never saved. Legacy input is the pinned complete TEST-ONLY
+ * original 412c writer artifact; no old HTML or old writer is run by this test.
+ */
+import assert from 'node:assert/strict';
+import { readFileSync, writeFileSync } from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import vm from 'node:vm';
+import { createHash } from 'node:crypto';
+
+const scriptDir = path.dirname(fileURLToPath(import.meta.url));
+const repoRoot = path.resolve(scriptDir, '..');
+const usage = 'node scripts/check-plan-integrity.mjs [--html HTML] [--io-adapter RECOVERY_CHECKER] [--legacy-fixture JSON] [--out REPORT_JSON]';
+const args = process.argv.slice(2);
+if (args.length === 1 && args[0] === '--help') { console.log(usage); process.exit(0); }
+assert.ok(args.length % 2 === 0, usage);
+const options = { '--html': path.join(repoRoot, 'dist/index.html'), '--io-adapter': path.join(scriptDir, 'check-report-recovery.mjs'),
+  '--legacy-fixture': path.join(scriptDir, 'fixtures/plan-integrity/plan-committed-legacy-basewriter.json'), '--out': null };
+const supplied = new Set();
+for (let i = 0; i < args.length; i += 2) {
+  assert.ok(Object.hasOwn(options,args[i]) && typeof args[i+1] === 'string' && args[i+1] && !args[i+1].startsWith('--') && !supplied.has(args[i]), usage);
+  supplied.add(args[i]); options[args[i]] = path.resolve(args[i+1]);
+}
+const sha = bytes => createHash('sha256').update(bytes).digest('hex');
+const clone = value => JSON.parse(JSON.stringify(value));
+const saveKey = 'zombie-harvest-progress-v12';
+const htmlPath = options['--html'], sourceBytes = readFileSync(htmlPath), source = sourceBytes.toString('utf8');
+const adapterPath = options['--io-adapter'], adapterBytes = readFileSync(adapterPath), adapterSource = adapterBytes.toString('utf8');
+const fixturePath = options['--legacy-fixture'], fixtureBytes = readFileSync(fixturePath), legacyRaw = fixtureBytes.toString('utf8');
+const metaPath = fixturePath.replace(/\.json$/, '.meta.json');
+assert.notEqual(metaPath,fixturePath,'legacy fixture must have .json extension and adjacent .meta.json');
+const legacyMeta = JSON.parse(readFileSync(metaPath,'utf8')), legacyEnvelope = JSON.parse(legacyRaw);
+const originalWriterSha = '412c69fd80e79e8b307511798c4d6bf5bee712116dbb45c3df5c951ad3100ba8';
+const originalFixtureSha = 'd9b8811fed88c25f9f1da0849d772d92e19742280f41e2aec3871d178d9bb05b';
+assert.equal(legacyMeta.testOnly,true); assert.equal(legacyMeta.naturalGameplay,false); assert.equal(legacyMeta.receiptFabricated,false);
+assert.equal(legacyMeta.acquiredBy,'actual complete base inline runtime CommandBus commit and saveProgress writer');
+assert.equal(legacyMeta.writerHtmlSha256,originalWriterSha);
+assert.equal(legacyMeta.fileSha256,originalFixtureSha); assert.equal(sha(fixtureBytes),originalFixtureSha);
+assert.equal(legacyMeta.checksum,'707889bd'); assert.equal(legacyEnvelope.checksum,legacyMeta.checksum);
+assert.equal(legacyMeta.saveVersion,21); assert.equal(legacyEnvelope.version,21);
+assert.equal(legacyMeta.contentVersion,3); assert.equal(legacyEnvelope.payload.contentState.contentVersion,3);
+assert.deepEqual(legacyMeta.declaredInputs,{campTrust:20,commandPointsBeforeCommit:2,action:'modify',selectedOriginalRank:2});
+const originalPlan = legacyEnvelope.payload.contentState.planMeeting;
+assert.equal(legacyMeta.instanceId,'camp-plan-meeting-001:d1'); assert.equal(originalPlan.instanceId,legacyMeta.instanceId);
+assert.equal(originalPlan.status,'committed'); assert.equal(originalPlan.playerAction,'modify');
+assert.equal(legacyEnvelope.payload.contentState.meters.campTrust,20); assert.equal(legacyEnvelope.payload.contentState.commandPoints,1);
+const originalReceipts = legacyEnvelope.payload.worldMeta.events.filter(e=>e.type==='plan.meeting.committed');
+assert.equal(originalReceipts.length,1);
+const originalReceipt=originalReceipts[0];
+assert.equal(originalReceipt.payload.pointsBefore,2);assert.equal(originalReceipt.payload.pointsAfter,1);
+assert.equal(originalReceipt.payload.instanceId,originalPlan.instanceId);assert.equal(originalReceipt.payload.action,'modify');
+assert.equal(originalReceipt.payload.selectedId,originalPlan.selectedId);
+assert.equal(originalPlan.candidates.find(c=>c.rank===2)?.id,originalPlan.selectedId);
+const originalCommands=legacyEnvelope.payload.worldMeta.replay.commands.filter(c=>c.commandId===originalReceipt.commandId&&c.type==='plan.meeting.commit');
+assert.equal(originalCommands.length,1);assert.equal(originalCommands[0].payload.action,'modify');
+assert.equal(originalCommands[0].payload.planId,originalPlan.selectedId);
+const start = adapterSource.indexOf('function runtime(entries = []) {');
+const end = adapterSource.indexOf('\nfunction envelope(payload)', start);
+assert.ok(start >= 0 && end > start);
+const runtimeAdapter = adapterSource.slice(start, end).trim();
+function factory(text, filename) {
+  const inline = [...text.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map(m => m[1]).filter(s => s.trim());
+  assert.equal(inline.length, 1); new vm.Script(inline[0]);
+  return vm.runInNewContext(`(${runtimeAdapter})`, { inline, htmlPath: filename, saveKey, vm, assert, console, URLSearchParams });
+}
+const runtime = factory(source, htmlPath);
+const fixtureProbe = runtime();
+assert.equal(fixtureProbe.api.hash(legacyEnvelope.payload),legacyMeta.checksum,'actual source FNV must verify original payload');
+assert.equal(fixtureProbe.api.validate({raw:legacyRaw,sourceCategory:'primary'}).ok,true,'actual source must validate complete original legacy envelope');
+function currentRuntime(make = runtime, entries = []) {
+  const r = make(entries);
+  // Expose the actual existing functions to this VM only. The game definitions
+  // stay intact; rendering and asynchronous timer IO are the adapter's scope.
+  vm.runInContext('qa.advance = advance; qa.executePlan = executePlanMeeting;', r.context);
+  r.emit('continueSaveBtn', 'click');
+  assert.equal(r.api.started, true); assert.equal(r.api.session.mode, 'DAY');
+  return r;
+}
+function seeded(trust = 80, points = 4, make = runtime) {
+  const r = currentRuntime(make);
+  r.api.state.contentState.meters.campTrust = trust;
+  Object.assign(r.api.state.contentState, { commandPoints: points, commandPointsMax: points, commandPointsGrantedDay: r.api.state.day });
+  const result = r.api.generatePlan({ source: 'TEST-ONLY original generation' });
+  assert.equal(result.ok, true); return r;
+}
+const protectedFacts = r => clone({ contentState: r.api.state.contentState,
+  resources: Object.fromEntries(['hp','wood','stone','food','seeds','parts','medicine','energy','sanity','morale'].map(k => [k,r.api.state[k]])),
+  npcs: r.api.state.npcs, world: r.api.state.world, rng: r.api.state.worldMeta.rngState });
+const events = (r, type) => clone(r.api.state.worldMeta.events.filter(e => e.type === type));
+const report = { runner: 'source-plan-integrity', sourceHash: sha(sourceBytes), adapterSourceHash: sha(adapterBytes),
+  evidence: 'complete-actual-inline-VM', browserStarted: false, naturalGameplayExecuted: false, changedFunctionsMocked: false,
+  expectedBaselineDefects: sha(sourceBytes) === originalWriterSha,
+  ioMocks: { dom: 'in-memory nodes without native layout/focus', storage: 'Map-backed local/session storage', clocks: 'controlled Date.now/performance.now',
+    timers: 'queued callbacks; asynchronous real-time callbacks not run', bootstrap: 'unrelated final Canvas render omitted',
+    replacedRenderingFunctions: ['renderWorld','renderHud','renderContext'],
+    preservedFunctions: ['commitPlanMeeting','generatePlanMeeting','CommandBus','advance','runWorldDayUpkeep','executePlanMeeting','loadProgress','saveProgress'] },
+  fixtureBoundary: 'declared input states; transient same-day resolved/fallback inputs are never written/booted; pinned old fixture loaded without executing old HTML',
+  checks: [], failures: [] };
+function check(name, ok, detail = {}) {
+  report.checks.push({ name, ok: !!ok, detail }); if (!ok) report.failures.push(name);
+}
+function scenario(name, run) {
+  try { run(); } catch (error) { check(name + ' executes', false, { error: String(error.stack || error) }); }
+}
+
+for (const trust of [0,19,20,40,59,59.99]) for (const action of ['support','deny','modify']) scenario(`trust ${trust} ${action}`, () => {
+  const r = seeded(trust, 2), before = protectedFacts(r), result = r.api.commit(action, r.api.state.contentState.planMeeting.candidates[0].id);
+  const rejected = events(r,'command.rejected'), commits = events(r,'plan.meeting.committed');
+  check(`trust ${trust} ${action} rejected by actual CommandBus without plan/CP/reward`, result.ok === false
+    && result.reason === 'camp-trust-low' && JSON.stringify(protectedFacts(r)) === JSON.stringify(before)
+    && commits.length === 0 && rejected.length === 1 && rejected[0].payload.reason === 'camp-trust-low'
+    && rejected[0].commandId === result.commandId
+    && r.api.state.worldMeta.replay.commands.filter(c => c.commandId === result.commandId && c.type === 'plan.meeting.commit').length === 1,
+    { result: clone(result), pointsBefore: before.contentState.commandPoints, pointsAfter: r.api.state.contentState.commandPoints, committedReceipts: commits.length, rejected });
+});
+for (const trust of [60,80]) for (const action of ['support','deny','modify']) scenario(`trust ${trust} ${action} positive`, () => {
+  const r = seeded(trust,3), p = r.api.state.contentState.planMeeting, target = p.candidates[0].id;
+  const result = r.api.commit(action,target), plan = r.api.state.contentState.planMeeting;
+  check(`trust ${trust} ${action} commits exactly once for one CP`, result.ok === true && plan.status === 'committed'
+    && plan.playerAction === action && r.api.state.contentState.commandPoints === 2 && events(r,'plan.meeting.committed').length === 1,
+    { result: clone(result), selectedId: plan.selectedId });
+  const before = protectedFacts(r), repeated = r.api.commit('support',target);
+  check(`trust ${trust} ${action} second intervention is rejected without second debit`, repeated.ok === false
+    && JSON.stringify(protectedFacts(r)) === JSON.stringify(before) && events(r,'plan.meeting.committed').length === 1,
+    { result: clone(repeated), commandPoints: r.api.state.contentState.commandPoints });
+});
+
+for (const status of ['candidate','committed','resolved-transient','fallback-transient']) for (const force of [false,true]) scenario(`${status} force=${force}`, () => {
+  const r = seeded(); let fixtureMode = 'actual current-day source generation';
+  if (status === 'committed') assert.equal(r.api.commit('modify',r.api.state.contentState.planMeeting.candidates[1].id).ok,true);
+  if (status.endsWith('-transient')) {
+    if (status === 'fallback-transient') r.api.state.contentState.planMeeting.candidates.find(c => c.id === r.api.state.contentState.planMeeting.selectedId).effects = [{ op:'TEST-ONLY-invalid-effect' }];
+    assert.equal(r.api.advance(1080).ok,true); // actual day1 06:00 -> day2 00:00; real resolver/upkeep
+    const p = r.api.state.contentState.planMeeting; assert.equal(p.status,'resolved');
+    assert.equal(p.autonomyResult.route === 'fallback',status === 'fallback-transient');
+    // Valid SAVE21 resolvedDay must be greater than meetingDay. This explicit
+    // transient alias tests the generation fence, not a legal legacy save.
+    p.meetingDay = r.api.state.day; p.instanceId = `camp-plan-meeting-001:d${r.api.state.day}`;
+    p.candidates.forEach(c => { c.validDay = r.api.state.day; });
+    fixtureMode = 'TEST-ONLY same-day transient derived from real source resolution; never written/booted';
+  }
+  const before = protectedFacts(r), watermark = r.api.state.worldMeta.eventSeq;
+  const result = r.api.generatePlan({force,source:'TEST-ONLY repeat SUMMARY'});
+  check(`${status} force=${force} freezes exact meeting and ledger`, result.ok === true && result.duplicate === true
+    && JSON.stringify(protectedFacts(r)) === JSON.stringify(before) && r.api.state.worldMeta.eventSeq === watermark,
+    { fixtureMode, meetingDay: before.contentState.planMeeting.meetingDay, currentDay:r.api.state.day, result:clone({ok:result.ok,duplicate:result.duplicate}) });
+});
+scenario('additional same-day SUMMARY cannot reopen second intervention', () => {
+  const r = seeded(); assert.equal(r.api.commit('modify',r.api.state.contentState.planMeeting.candidates[1].id).ok,true);
+  const before = protectedFacts(r), originalId = before.contentState.planMeeting.instanceId;
+  const repeated = r.api.generatePlan({source:'summary'}), second = r.api.commit('deny',r.api.state.contentState.planMeeting.candidates[0].id);
+  check('extra same-day SUMMARY keeps playerAction/choice and blocks second CP intervention', repeated.duplicate === true && second.ok === false
+    && JSON.stringify(protectedFacts(r)) === JSON.stringify(before) && events(r,'plan.meeting.candidates').length === 1 && events(r,'plan.meeting.committed').length === 1,
+    { originalId, originalAction:before.contentState.planMeeting.playerAction, pointsBefore:before.contentState.commandPoints,
+      pointsAfter:r.api.state.contentState.commandPoints, generate:clone({ok:repeated.ok,duplicate:repeated.duplicate}), second:clone(second) });
+});
+scenario('zero CP and night preserve earlier guards', () => {
+  const r = seeded(80,0), before = protectedFacts(r), empty = r.api.commit();
+  check('trust eighty zero CP rejects without mutation',empty.ok === false && empty.reason === 'command-points-empty'
+    && JSON.stringify(protectedFacts(r)) === JSON.stringify(before));
+  const n = seeded(80,4); n.api.state.night = true; n.api.session.mode = 'BATTLE'; const original = protectedFacts(n), night = n.api.commit();
+  check('night command preserves its real night Gate without CP mutation',night.ok === false && night.reason === 'night-lock'
+    && JSON.stringify(protectedFacts(n)) === JSON.stringify(original));
+});
+
+// Use the pinned source-writer original and unchanged business assertions.
+// This run reads its declared provenance; it does not recapture an old game.
+report.legacyInput = { testOnly:true, naturalGameplay:false, acquiredBy:legacyMeta.acquiredBy, writerHtmlSha256:originalWriterSha,
+  fixtureName:path.basename(fixturePath), fixtureSha256:sha(fixtureBytes), checksum:legacyEnvelope.checksum,
+  instanceId:originalPlan.instanceId, commandPoints:legacyEnvelope.payload.contentState.commandPoints, provenance:legacyMeta };
+scenario('legacy committed boot and current low trust', () => {
+  const r = currentRuntime(runtime,[[saveKey,legacyRaw]]), expected = legacyEnvelope.payload.contentState.planMeeting;
+  check('old complete committed save boots without reward or schema change',r.api.state.contentState.planMeeting.status === 'committed'
+    && JSON.stringify(clone(r.api.state.contentState.planMeeting)) === JSON.stringify(expected)
+    && r.api.state.contentState.commandPoints === legacyEnvelope.payload.contentState.commandPoints && events(r,'save.migrated').length === 0);
+  const before = protectedFacts(r), force = r.api.generatePlan({force:true}), repeat = r.api.commit('support',expected.selectedId);
+  check('restored legacy meeting remains frozen and cannot spend another CP',force.duplicate === true && repeat.ok === false
+    && JSON.stringify(protectedFacts(r)) === JSON.stringify(before) && events(r,'plan.meeting.committed').length === 1);
+  check('legacy already-committed low-trust plan still executes once on real next day',r.api.advance(1080).ok === true
+    && r.api.state.day === 2 && r.api.state.contentState.planMeeting.status === 'resolved'
+    && events(r,'plan.meeting.resolved').length === 1 && r.api.state.contentState.planMeeting.history.length === 1,
+    {meeting:clone(r.api.state.contentState.planMeeting)});
+});
+for (const fallback of [false,true]) scenario(`real next day ${fallback?'fallback':'success'}`, () => {
+  const r = seeded(); const prior = clone(r.api.state.contentState.planMeeting);
+  if (fallback) r.api.state.contentState.planMeeting.candidates.find(c=>c.id===prior.selectedId).effects=[{op:'TEST-ONLY-invalid-effect'}];
+  assert.equal(r.api.advance(1080).ok,true);
+  const resolved = clone(r.api.state.contentState.planMeeting), kind = fallback?'plan.meeting.fallback':'plan.meeting.resolved';
+  check(`real day2 prior day1 ${fallback?'fallback':'success'} is authoritative once`,r.api.state.day === 2 && resolved.status === 'resolved'
+    && resolved.meetingDay === 1 && resolved.resolvedDay === 2 && events(r,kind).length === 1 && resolved.history.length === 1);
+  const first = r.api.generatePlan({source:'summary'}), day2 = clone(r.api.state.contentState.planMeeting), watermark = r.api.state.worldMeta.eventSeq;
+  const duplicate = r.api.generatePlan({force:true});
+  check(`real day2 first meeting after ${fallback?'fallback':'success'} remains allowed then frozen`,first.ok === true && !first.duplicate
+    && day2.instanceId === 'camp-plan-meeting-001:d2' && day2.meetingDay === 2 && day2.status === 'candidate'
+    && day2.history.length === 1 && day2.history[0].meetingDay === 1 && duplicate.duplicate === true
+    && JSON.stringify(clone(r.api.state.contentState.planMeeting)) === JSON.stringify(day2) && r.api.state.worldMeta.eventSeq === watermark);
+});
+
+report.ok = report.failures.length === 0;
+report.count = report.checks.length; report.passed = report.checks.filter(c=>c.ok).length;
+if (options['--out']) writeFileSync(options['--out'],JSON.stringify(report,null,2)+'\n');
+console.log(JSON.stringify({ runner:report.runner, sourceHash:report.sourceHash, ok:report.ok, count:report.count,passed:report.passed,
+  expectedBaselineDefects:report.expectedBaselineDefects,browserStarted:false,naturalGameplayExecuted:false,failures:report.failures },null,2));
+process.exitCode = report.ok ? 0 : 1;

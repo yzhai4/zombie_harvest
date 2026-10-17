@@ -1,0 +1,417 @@
+{
+  "schema": "NpcDirectSightBrowserSourceInputManifestV1",
+  "sourceHtmlSha256": "36b8399cb865e453cfd5931aeb427c1c0cbec8a2163a165cdf5224dd6082baa5",
+  "runnerSha256": "31071e612ecdffe444739475b7edb20926e1a21f8b1f8da813078decdb6d3430",
+  "moduleSha256": "d464721a657a0c436e4bf1b3fd45cbe250f769ff932cbc01e3e0fbe4356a23af",
+  "originalWriter": {
+    "file": "original-writer.json",
+    "sha256": "1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f"
+  },
+  "method": "TEST-ONLY complete original1e29 loader, offline declared scene derivation, actual renderer/native writer/validator/reload. No browser execution, original enemy removal, resource supplement or roster reorder.",
+  "scenes": [
+    {
+      "id": "direct-visible",
+      "file": "direct-visible-native.json",
+      "sha256": "8a9cd9010c1fa5c2c83eb299ed938d11b87ba027ff4cc1c8d17da4c045740e90",
+      "npcId": "carpenter",
+      "npcName": "阿梁",
+      "publicTargetTile": {
+        "x": 11,
+        "y": 11
+      },
+      "changes": [
+        {
+          "entityId": "carpenter",
+          "field": "x",
+          "before": 1,
+          "after": 11.75
+        },
+        {
+          "entityId": "carpenter",
+          "field": "y",
+          "before": 2,
+          "after": 11
+        },
+        {
+          "entityId": "carpenter",
+          "field": "motionTarget",
+          "before": null,
+          "after": null
+        },
+        {
+          "entityId": "carpenter",
+          "field": "simMoveClock",
+          "before": 0,
+          "after": 0
+        },
+        {
+          "entityId": "carpenter.relations",
+          "field": "trustToPlayer",
+          "before": 0,
+          "after": 0
+        },
+        {
+          "entityId": "carpenter",
+          "field": "hp",
+          "before": 100,
+          "after": 100
+        },
+        {
+          "entityId": "carpenter",
+          "field": "lifeState",
+          "before": "healthy",
+          "after": "healthy"
+        },
+        {
+          "entityId": "wz-1",
+          "field": "x",
+          "before": 20,
+          "after": 11.75
+        },
+        {
+          "entityId": "wz-1",
+          "field": "y",
+          "before": 5,
+          "after": 13
+        },
+        {
+          "entityId": "worldMeta.clock",
+          "field": "paused",
+          "before": false,
+          "after": true
+        },
+        {
+          "entityId": "doctor",
+          "field": "x",
+          "before": 13,
+          "after": 11
+        },
+        {
+          "entityId": "doctor",
+          "field": "y",
+          "before": 9,
+          "after": 11.75
+        },
+        {
+          "entityId": "doctor",
+          "field": "motionTarget",
+          "before": null,
+          "after": null
+        },
+        {
+          "entityId": "doctor",
+          "field": "simMoveClock",
+          "before": 0,
+          "after": 0
+        }
+      ],
+      "expected": {
+        "status": "observed",
+        "category": "normal",
+        "distanceBand": "near"
+      },
+      "controls": {
+        "clockPaused": true
+      },
+      "nativeValidation": {
+        "ok": true,
+        "reloaded": true
+      },
+      "originalEnemyIds": [
+        "wz-1",
+        "wz-2",
+        "wz-3",
+        "wz-4"
+      ],
+      "targetChangeProbe": {
+        "npcId": "doctor",
+        "npcName": "苏禾"
+      }
+    },
+    {
+      "id": "direct-blocked",
+      "file": "direct-blocked-native.json",
+      "sha256": "5fe0eee63175a148a82ed11d8ede54122261888d6c51c1be74842c1ec63e6264",
+      "npcId": "carpenter",
+      "npcName": "阿梁",
+      "publicTargetTile": {
+        "x": 11,
+        "y": 11
+      },
+      "changes": [
+        {
+          "entityId": "carpenter",
+          "field": "x",
+          "before": 1,
+          "after": 11.75
+        },
+        {
+          "entityId": "carpenter",
+          "field": "y",
+          "before": 2,
+          "after": 11
+        },
+        {
+          "entityId": "carpenter",
+          "field": "motionTarget",
+          "before": null,
+          "after": null
+        },
+        {
+          "entityId": "carpenter",
+          "field": "simMoveClock",
+          "before": 0,
+          "after": 0
+        },
+        {
+          "entityId": "carpenter.relations",
+          "field": "trustToPlayer",
+          "before": 0,
+          "after": 0
+        },
+        {
+          "entityId": "carpenter",
+          "field": "hp",
+          "before": 100,
+          "after": 100
+        },
+        {
+          "entityId": "carpenter",
+          "field": "lifeState",
+          "before": "healthy",
+          "after": "healthy"
+        },
+        {
+          "entityId": "wz-1",
+          "field": "x",
+          "before": 20,
+          "after": 11.75
+        },
+        {
+          "entityId": "wz-1",
+          "field": "y",
+          "before": 5,
+          "after": 13
+        },
+        {
+          "entityId": "worldMeta.clock",
+          "field": "paused",
+          "before": false,
+          "after": true
+        },
+        {
+          "entityId": "qa-direct-sight-browser-wall",
+          "field": "new TEST-ONLY actual wall",
+          "before": null,
+          "after": {
+            "id": "qa-direct-sight-browser-wall",
+            "type": "wall",
+            "x": 11,
+            "y": 12,
+            "hp": 3
+          }
+        }
+      ],
+      "expected": {
+        "status": "unavailable",
+        "category": null,
+        "distanceBand": null
+      },
+      "controls": {
+        "clockPaused": true
+      },
+      "nativeValidation": {
+        "ok": true,
+        "reloaded": true
+      },
+      "originalEnemyIds": [
+        "wz-1",
+        "wz-2",
+        "wz-3",
+        "wz-4"
+      ]
+    },
+    {
+      "id": "low-trust",
+      "file": "low-trust-native.json",
+      "sha256": "734ef771eba17e4eb0e403b83d53f9239ee98983884052ac76eeae01ad49e657",
+      "npcId": "carpenter",
+      "npcName": "阿梁",
+      "publicTargetTile": {
+        "x": 11,
+        "y": 11
+      },
+      "changes": [
+        {
+          "entityId": "carpenter",
+          "field": "x",
+          "before": 1,
+          "after": 11.75
+        },
+        {
+          "entityId": "carpenter",
+          "field": "y",
+          "before": 2,
+          "after": 11
+        },
+        {
+          "entityId": "carpenter",
+          "field": "motionTarget",
+          "before": null,
+          "after": null
+        },
+        {
+          "entityId": "carpenter",
+          "field": "simMoveClock",
+          "before": 0,
+          "after": 0
+        },
+        {
+          "entityId": "carpenter.relations",
+          "field": "trustToPlayer",
+          "before": 0,
+          "after": -11
+        },
+        {
+          "entityId": "carpenter",
+          "field": "hp",
+          "before": 100,
+          "after": 100
+        },
+        {
+          "entityId": "carpenter",
+          "field": "lifeState",
+          "before": "healthy",
+          "after": "healthy"
+        },
+        {
+          "entityId": "wz-1",
+          "field": "x",
+          "before": 20,
+          "after": 11.75
+        },
+        {
+          "entityId": "wz-1",
+          "field": "y",
+          "before": 5,
+          "after": 13
+        },
+        {
+          "entityId": "worldMeta.clock",
+          "field": "paused",
+          "before": false,
+          "after": true
+        }
+      ],
+      "expected": {
+        "status": "unavailable",
+        "category": null,
+        "distanceBand": null
+      },
+      "controls": {
+        "clockPaused": true
+      },
+      "nativeValidation": {
+        "ok": true,
+        "reloaded": true
+      },
+      "originalEnemyIds": [
+        "wz-1",
+        "wz-2",
+        "wz-3",
+        "wz-4"
+      ]
+    },
+    {
+      "id": "critical-unavailable",
+      "file": "critical-unavailable-native.json",
+      "sha256": "1886cb2d9467444a8964d92701c8e4091a89bd94f298a2f0ba22f27d2300cb08",
+      "npcId": "carpenter",
+      "npcName": "阿梁",
+      "publicTargetTile": {
+        "x": 11,
+        "y": 11
+      },
+      "changes": [
+        {
+          "entityId": "carpenter",
+          "field": "x",
+          "before": 1,
+          "after": 11.75
+        },
+        {
+          "entityId": "carpenter",
+          "field": "y",
+          "before": 2,
+          "after": 11
+        },
+        {
+          "entityId": "carpenter",
+          "field": "motionTarget",
+          "before": null,
+          "after": null
+        },
+        {
+          "entityId": "carpenter",
+          "field": "simMoveClock",
+          "before": 0,
+          "after": 0
+        },
+        {
+          "entityId": "carpenter.relations",
+          "field": "trustToPlayer",
+          "before": 0,
+          "after": 0
+        },
+        {
+          "entityId": "carpenter",
+          "field": "hp",
+          "before": 100,
+          "after": 20
+        },
+        {
+          "entityId": "carpenter",
+          "field": "lifeState",
+          "before": "healthy",
+          "after": "critical"
+        },
+        {
+          "entityId": "wz-1",
+          "field": "x",
+          "before": 20,
+          "after": 11.75
+        },
+        {
+          "entityId": "wz-1",
+          "field": "y",
+          "before": 5,
+          "after": 13
+        },
+        {
+          "entityId": "worldMeta.clock",
+          "field": "paused",
+          "before": false,
+          "after": true
+        }
+      ],
+      "expected": {
+        "status": "unavailable",
+        "category": null,
+        "distanceBand": null
+      },
+      "controls": {
+        "clockPaused": true
+      },
+      "nativeValidation": {
+        "ok": true,
+        "reloaded": true
+      },
+      "originalEnemyIds": [
+        "wz-1",
+        "wz-2",
+        "wz-3",
+        "wz-4"
+      ]
+    }
+  ]
+}
