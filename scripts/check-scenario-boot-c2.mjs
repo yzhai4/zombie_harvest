@@ -47,17 +47,27 @@ function compiled(r){assert.equal(typeof r.api.compile,'function','actual C2 com
 function weaponInput(r,weaponId){const weapon={...plain(r.api.contentRegistry.get('weapon','rustAxe')),id:weaponId,damage:{min:45,max:55},definitionVersion:1};assert.equal(r.api.contentRegistry.validate('weapon',weapon).ok,true,'TEST-ONLY weapon must satisfy the actual old public registration schema before namespace rejection');return weapon;}
 function visibleChoice(r,choice){r.api.selectChain(id);r.api.renderEvent();const index=choice==='ration'?0:1,button=r.node(index?'eventChoiceB':'eventChoiceA');return{button,selection:plain(button.dataset),text:button.innerHTML,title:r.node('eventTitle').textContent,body:r.node('eventText').textContent};}
 function settle(r,choice){const view=visibleChoice(r,choice);assert.equal(view.button.disabled,false);assert.equal(view.selection.eventChoiceId,choice);const before=plain(r.api.state),seq=before.worldMeta.eventSeq;r.emit(choice==='ration'?'eventChoiceA':'eventChoiceB','click');const after=plain(r.api.state);return{view:{...view,button:undefined},before,after,newEvents:after.worldMeta.events.filter(e=>e.seq>seq)};}
-function preservation(before,after){for(const k of ['food','seeds','wood','stone','parts','medicine','day','hour','minute','energy','hp','sanity','player','resources','buildings','campStanding','quests'])assert.deepEqual(after[k],before[k],k+' retained');const npcs=plain(after.npcs);assert.equal(npcs.length,before.npcs.length);for(let i=0;i<npcs.length;i++){for(const key of ['attributes','hero','garrisonedOutpostId'])if(!Object.hasOwn(before.npcs[i],key))delete npcs[i][key];if(!Object.hasOwn(before.npcs[i],'routineIntent')){assert.equal(npcs[i].routineIntent,null,'only the exact new null default is additive');delete npcs[i].routineIntent;}assert.deepEqual(npcs[i],before.npcs[i],'old NPC facts retained; only absent established additive NPC domains excluded');}assert.deepEqual([after.worldMeta.seed,after.worldMeta.rngState,after.worldMeta.replay.seed,after.worldMeta.commandSeq,after.worldMeta.seenCommands,after.worldMeta.replay.commands],[before.worldMeta.seed,before.worldMeta.rngState,before.worldMeta.replay.seed,before.worldMeta.commandSeq,before.worldMeta.seenCommands,before.worldMeta.replay.commands]);
+function preservation(before,after){for(const k of ['food','seeds','wood','stone','parts','medicine','day','hour','minute','energy','hp','sanity','player','resources','buildings','campStanding','quests'])assert.deepEqual(after[k],before[k],k+' retained');const npcs=plain(after.npcs);assert.equal(npcs.length,before.npcs.length);for(let i=0;i<npcs.length;i++){for(const key of ['attributes','hero','garrisonedOutpostId'])if(!Object.hasOwn(before.npcs[i],key))delete npcs[i][key];if(!Object.hasOwn(before.npcs[i],'routineIntent')){assert.equal(npcs[i].routineIntent,null,'only the exact new null default is additive');delete npcs[i].routineIntent;}if(!Object.hasOwn(before.npcs[i].memory,'relayCoreHandoff')){assert.equal(npcs[i].memory.relayCoreHandoff,null,'only missing handoff memory becomes null; no historical backfill');delete npcs[i].memory.relayCoreHandoff;}assert.deepEqual(npcs[i],before.npcs[i],'old NPC facts retained; only absent established additive NPC domains excluded');}assert.deepEqual([after.worldMeta.seed,after.worldMeta.rngState,after.worldMeta.replay.seed,after.worldMeta.commandSeq,after.worldMeta.seenCommands,after.worldMeta.replay.commands],[before.worldMeta.seed,before.worldMeta.rngState,before.worldMeta.replay.seed,before.worldMeta.commandSeq,before.worldMeta.seenCommands,before.worldMeta.replay.commands]);
   const missing=before.npcs.filter(n=>!Object.hasOwn(n,'routineIntent')).map(n=>n.id);
-  if(missing.length){
+  const handoffMissing=before.npcs.filter(n=>!Object.hasOwn(n.memory,'relayCoreHandoff')).map(n=>n.id);
+  if(missing.length||handoffMissing.length){
     const added=after.worldMeta.events.filter(e=>e.seq>before.worldMeta.eventSeq);
     assert.equal(added.length,1,'one actual additive boot migration, no routine business event');
     assert.equal(added[0].type,'save.migrated');
     assert.equal(after.worldMeta.eventSeq,before.worldMeta.eventSeq+1);
     assert.deepEqual(after.worldMeta.events.slice(0,before.worldMeta.events.length),before.worldMeta.events,'old event prefix retained');
-    assert.deepEqual(added[0].payload.npcRoutineIntentAdapters,[{adapter:'npc-routine-intent-v1',npcIds:missing,defaultValue:null}]);
-    assert.equal(added[0].payload.reason.split(',').filter(x=>x==='npc-routine-intent-v1').length,1);
-    assert.equal(added[0].payload.addedDomains.filter(x=>x==='npc.routineIntent').length,1);
+    if(missing.length){
+      assert.deepEqual(added[0].payload.npcRoutineIntentAdapters,[{adapter:'npc-routine-intent-v1',npcIds:missing,defaultValue:null}]);
+      assert.equal(added[0].payload.reason.split(',').filter(x=>x==='npc-routine-intent-v1').length,1);
+      assert.equal(added[0].payload.addedDomains.filter(x=>x==='npc.routineIntent').length,1);
+    }
+    if(handoffMissing.length){
+      assert.deepEqual(added[0].payload.npcRelayHandoffMemoryAdapters,[{adapter:'npc-relay-handoff-memory-v1',npcIds:handoffMissing,defaultValue:null}]);
+      assert.equal(added[0].payload.reason.split(',').filter(x=>x==='npc-relay-handoff-memory-v1').length,1);
+      assert.equal(added[0].payload.reason.split(',').at(-1),'npc-relay-handoff-memory-v1');
+      assert.equal(added[0].payload.addedDomains.filter(x=>x==='npc.memory.relayCoreHandoff').length,1);
+      assert.equal(added[0].payload.addedDomains.at(-1),'npc.memory.relayCoreHandoff');
+    }else assert.equal(Object.hasOwn(added[0].payload,'npcRelayHandoffMemoryAdapters'),false);
   }
 }
 

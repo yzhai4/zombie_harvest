@@ -49,6 +49,10 @@ jobs:
           node --check scripts/lib/relay-construction-transaction-v1.mjs
           node --check scripts/check-relay-construction-transaction-v1.mjs
           node --check scripts/check-relay-construction-runtime.mjs
+          node --check scripts/check-relay-handoff-memory-v1.mjs
+          node --check scripts/browser-relay-handoff-memory-v1.mjs
+          node --check scripts/browser-relay-handoff-memory-context-v1.mjs
+          node --check scripts/browser-relay-handoff-memory-roster-v1.mjs
           node --check scripts/lib/scenario-package-v1.mjs
           node --check scripts/check-scenario-package-v1.mjs
           node --check scripts/build-scenario-package.mjs
@@ -141,6 +145,8 @@ jobs:
         run: node scripts/check-relay-construction-transaction-v1.mjs
       - name: Execute RelayConstructionTransactionV1 runtime stage contract
         run: node scripts/check-relay-construction-runtime.mjs
+      - name: Execute sourced personal handoff memory and legacy save contracts
+        run: node scripts/check-relay-handoff-memory-v1.mjs --repo-root "$GITHUB_WORKSPACE" --html "$GITHUB_WORKSPACE/dist/index.html" --out "$RUNNER_TEMP/relay-handoff-memory-v1.json"
       - name: Execute Scenario package and observer contracts
         run: |
           node scripts/build-scenario-package.mjs --check

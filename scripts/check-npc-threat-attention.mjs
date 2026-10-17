@@ -6,22 +6,25 @@ import { createHash } from 'node:crypto';
 import { sourceRuntimeFactory, startRuntime, root, saveKey, plain } from './lib/source-runtime-fixture.mjs';
 
 // Only the two pinned complete SAVE21 fixtures in these four legacy checks.
-// This validates the exact additive Scenario receipt; it never removes arbitrary
+// This validates the exact additive Scenario/routine-intent/handoff-memory receipt; it never removes arbitrary
 // migrations or relaxes historical plan/resource/CP/population assertions.
 function hasOnlyExpectedScenarioLegacyMigration(runtime, envelope) {
   const s = runtime.api.state, p = envelope.payload, eq = (a,b) => JSON.stringify(a) === JSON.stringify(b);
   if (!['707889bd','7fde7715'].includes(envelope.checksum)) return false;
   const date = { day: p.day, hour: p.hour, minute: p.minute }, seq = p.worldMeta.eventSeq + 1;
+  const handoffMissing = p.npcs.filter(n=>!Object.hasOwn(n.memory,'relayCoreHandoff')).map(n=>n.id);
+  const expectedMemories = p.npcs.map(n=>Object.hasOwn(n.memory,'relayCoreHandoff') ? n.memory : {...n.memory,relayCoreHandoff:null});
   const expected = { eventId: `evt-${String(seq).padStart(6,'0')}`, seq, type: 'save.migrated', actorId: 'system', commandId: null, causationId: null,
     tick: { world: (p.day-1)*1440+p.hour*60+p.minute, phase: p.worldMeta.clock.phaseMinutes, schedule: p.worldMeta.clock.scheduleMinutes },
-    payload: { migration: 'resolved-report-recovery-001', migrationVersion: 1, reason: 'npc-routine-intent-v1,scenario-legacy-unbound-v1,scenario-content-binding-v1', sourceCategory: 'primary',
+    payload: { migration: 'resolved-report-recovery-001', migrationVersion: 1, reason: 'npc-routine-intent-v1,scenario-legacy-unbound-v1,scenario-content-binding-v1' + (handoffMissing.length ? ',npc-relay-handoff-memory-v1' : ''), sourceCategory: 'primary',
       originalChecksum: envelope.checksum, originalDate: date, selectedChecksum: envelope.checksum, selectedDate: date, rollback: false, instanceId: null,
-      fromSaveVersion: 21, fromContentVersion: 3, adapter: null, addedDomains: ['npc.routineIntent'],
+      fromSaveVersion: 21, fromContentVersion: 3, adapter: null, addedDomains: ['npc.routineIntent',...(handoffMissing.length ? ['npc.memory.relayCoreHandoff'] : [])],
       npcRoutineIntentAdapters: [{adapter:'npc-routine-intent-v1',npcIds:p.npcs.map(n=>n.id),defaultValue:null}], scenarioBindingAdapters: [{ adapter: 'scenario-legacy-unbound-v1',
         sourceSeed: p.worldMeta.seed, hadDeclaredSnapshot: Object.hasOwn(p,'scenarioSnapshot'), seedSource: 'saved-world-meta', declaredSeed: p.scenarioSnapshot?.seed ?? null,
         liveSeed: p.worldMeta.seed, aiDowngraded: false, effectiveAuthority: 'expression_only' }],
       scenarioContentAdapters: [{adapter:'scenario-content-binding-v1',oldPackageDigest:null,oldBindingStatus:'missing',
-        compilerVersion:'scenario-event-chain-v1',catalogDigest:'fnv1a-utf16-canonical-hex-v1:33e5b74b',rulesDigest:'fnv1a-utf16-canonical-hex-v1:b19c6fb5'}] } };
+        compilerVersion:'scenario-event-chain-v1',catalogDigest:'fnv1a-utf16-canonical-hex-v1:33e5b74b',rulesDigest:'fnv1a-utf16-canonical-hex-v1:b19c6fb5'}],
+      ...(handoffMissing.length ? {npcRelayHandoffMemoryAdapters:[{adapter:'npc-relay-handoff-memory-v1',npcIds:handoffMissing,defaultValue:null}]} : {}) } };
   const added = s.worldMeta.events.filter(event => event.seq > p.worldMeta.eventSeq), stored = runtime.storage.get(saveKey);
   if (!stored || !runtime.api.validate({raw:stored,sourceCategory:'primary'}).ok) return false;
   const written = JSON.parse(stored).payload;
@@ -33,6 +36,7 @@ function hasOnlyExpectedScenarioLegacyMigration(runtime, envelope) {
     && eq(s.world,p.world) && ['day','hour','minute','hp','energy','sanity','wood','stone','food','seeds','parts','medicine','morale'].every(key => s[key] === p[key])
     && eq(s.resources,p.resources) && eq(s.npcs.map(n=>({id:n.id,hp:n.hp,lifeState:n.lifeState})),p.npcs.map(n=>({id:n.id,hp:n.hp,lifeState:n.lifeState})))
     && s.npcs.every(n=>n.routineIntent===null) && written.npcs.every(n=>n.routineIntent===null)
+    && eq(s.npcs.map(n=>n.memory),expectedMemories) && eq(written.npcs.map(n=>n.memory),expectedMemories)
     && eq(s.contentState.planMeeting,p.contentState.planMeeting) && s.contentState.commandPoints === p.contentState.commandPoints
     && eq(s.scenarioSnapshot.binding,{version:1,status:'legacy-unbound',sourceSeed:p.worldMeta.seed,declaredSnapshot:p.scenarioSnapshot??null})
     && s.scenarioSnapshot.seed === p.worldMeta.seed

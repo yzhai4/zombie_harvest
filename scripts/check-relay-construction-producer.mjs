@@ -90,9 +90,18 @@ check('relay.projectAdvance keeps EventDef metadata and has one gated runtime ch
 });
 check('handoff has a separate tokenized CommandBus producer', () => {
   assert.match(inline, /function relayHandoffToken\(\)/);
-  assert.match(inline, /function handoffRelayCore\(options = \{\}\)/);
-  assert.match(inline, /dispatchCommand\(\{ type: 'relay\.coreHandoff'/);
-  assert.match(inline, /event-state-conflict/);
+  const handoffBody = bodyBetween('function handoffRelayCore(options = {})', 'function relayMaterialsReady()');
+  // Static source trace only: the actual producer now keeps its command object
+  // for the synchronous owned-result consumer. Do not replace this with a
+  // global literal search or claim dynamic handoff/save evidence.
+  assert.equal((handoffBody.match(/const command = \{ type: 'relay\.coreHandoff'/g) || []).length, 1);
+  assert.match(handoffBody, /const command = \{ type: 'relay\.coreHandoff', commandId: options\.commandId, actorId: options\.actorId \|\| 'player-1', payload: \{ projectId: state\.relayProject\?\.id \|\| 'camp-relay-001', itemId: 'relayCore', expectedInstanceId, expectedDefId, expectedDefinitionVersion, expectedEventId \} \}/);
+  assert.equal((handoffBody.match(/dispatchCommand\(command,/g) || []).length, 1);
+  orderOf(handoffBody, ["const command = { type: 'relay.coreHandoff'", 'const result = dispatchCommand(command,', 'const result = relayHandoffReducer()', "eventType: 'relay.coreHandedOff', defId: relayMeta.defId, instanceId: relayMeta.instanceId, definitionVersion: relayMeta.definitionVersion, effects: relayMeta.effects"]);
+  assert.match(handoffBody, /const relayMeta = relayEventMeta\('handoff', options\.actorId \|\| 'player-1'\)/);
+  for (const field of ['expectedInstanceId','expectedDefId','expectedDefinitionVersion','expectedEventId']) assert.ok(handoffBody.includes(field));
+  assert.match(handoffBody, /command\.payload\?\.expectedEventId !== live\.expectedEventId/);
+  assert.match(handoffBody, /event-state-conflict/);
 });
 check('construction exposes normalization and transaction token fields', () => {
   assert.match(inline, /function ensureRelayFacts\(\)/);

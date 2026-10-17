@@ -1107,6 +1107,7 @@
 
     <section class="context-panel hud-window" id="contextPanel" aria-live="polite">
       <div class="context-head"><div class="context-icon" id="contextIcon">✨</div><div class="context-copy"><b id="contextTitle">附近互动</b><span id="contextHint">走到资源、建筑或幸存者旁边后，这里会出现对应操作。</span></div><button class="context-close" id="contextClose" aria-label="关闭附近互动">×</button></div>
+      <div id="npcHandoffMemory" class="npc-sight-report" data-npc-handoff-surface="context" hidden></div>
       <div class="context-actions" id="contextActions"></div>
       <div id="npcSightReport" class="npc-sight-report" data-npc-sight-surface="context" hidden></div>
     </section>
@@ -1911,7 +1912,7 @@ function decideNpcRestWorkV1(input) {
         currentOrder: null, fallbackPoint: {...template.fallbackPoint}, inventory: { medicine: 0, ammo: 2 },
         appearance: npcAppearanceProfile(id), equipment: npcAppearanceProfile(id).equipment,
         personality: {...template.personality}, attributes: npcAttributeProfile(id, template), hero: { tier: ['commander', 'radio', 'doctor'].includes(id) ? 'hero' : 'ordinary', status: ['commander', 'radio', 'doctor'].includes(id) ? 'promoted' : 'locked', progress: ['commander', 'radio', 'doctor'].includes(id) ? 100 : 0, activeSkill: ['commander', 'radio', 'doctor'].includes(id) ? NPC_HERO_SKILLS[id] : null, passiveSkill: ['commander', 'radio', 'doctor'].includes(id) ? NPC_HERO_PASSIVES[id] : null, promotedDay: ['commander', 'radio', 'doctor'].includes(id) ? 1 : null }, relations: { trustToPlayer: 0, trustToCommander: 0, bondToPlayer: 0, respectToPlayer: 0, fearOfPlayer: 0, resentmentOfPlayer: 0, loyaltyToCamp: template.personality.loyalty, loyaltyToCommander: Math.max(45, template.personality.loyalty - 4), belongingToCamp: Math.max(35, template.personality.loyalty - 8), values: { safety: 50, order: template.personality.discipline, compassion: template.personality.compassion, autonomy: 50, truth: 50 }, knowledgeOfPlayer: { facts: [], lastHeardAt: 0 }, opinionFlags: {}, allies: ({ guardJi: ['guardChen'], guardChen: ['guardJi'], guardJiang: [], commander: ['sergeant'], sergeant: ['commander'], quartermaster: ['cook'], cook: ['quartermaster'] }[id] || []), rivals: ({ guardJiang: ['guardChen'], guardChen: ['guardJiang'] }[id] || []) },
-        memory: { helpedByPlayer: 0, witnessedDeaths: 0, failedOrders: 0, importantEvents: [] },
+        memory: { helpedByPlayer: 0, witnessedDeaths: 0, failedOrders: 0, importantEvents: [], relayCoreHandoff: null },
         needs: { ...NPC_NEED_DEFAULTS }, sanity: 72, sanityClock: 0, sanityLastReason: '营地仍然安全', scheduleState: 'work', lastReport: '', actingRole: null, actingFor: null,
         eventChain: { step: 0, cooldown: 0, active: null, resolved: [] },
         perception: { clock: 0, targetId: null, targetAt: 0, contacts: {}, sharedUntil: 0 },
@@ -2452,6 +2453,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
 }
 // NPC_DIRECT_SIGHT_CORE_END
     let npcSightReportUi = null;
+    let npcHandoffMemoryUi = null;
     function observerAiConfig() { return normalizeAiConfig(state.scenarioSnapshot?.aiConfig || {}); }
     function observerCommentary(subject = {}, context = {}) { return resolveObserverExpression({ subject, context, config: observerAiConfig() }); }
     function ensureStableIds() {
@@ -3864,6 +3866,76 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
     function savedNumbers(record, keys, min = 0, max = Infinity) { return savedRecord(record) && keys.every(key => Object.prototype.hasOwnProperty.call(record,key) && Number.isFinite(record[key]) && record[key] >= min && record[key] <= max); }
     function savedDate(value) { return { day: value.day, hour: value.hour, minute: value.minute }; }
     function savedMinute(value) { return (value.day - 1) * 1440 + value.hour * 60 + value.minute; }
+    // RELAY_HANDOFF_MEMORY_CORE_BEGIN
+    function relayHandoffMemoryDataRecord(value, keys) {
+      if (value === null || typeof value !== 'object' || Array.isArray(value)) return false;
+      const prototype = Object.getPrototypeOf(value);
+      if (prototype !== null) {
+        const constructor = Object.getOwnPropertyDescriptor(prototype, 'constructor');
+        if (Object.getPrototypeOf(prototype) !== null || !constructor || typeof constructor.value !== 'function'
+          || Function.prototype.toString.call(constructor.value) !== Function.prototype.toString.call(Object)
+          || Object.getOwnPropertyDescriptor(constructor.value, 'prototype')?.value !== prototype) return false;
+      }
+      return Reflect.ownKeys(value).length === keys.length && keys.every(key => {
+        const descriptor = Object.getOwnPropertyDescriptor(value, key);
+        return descriptor && Object.prototype.hasOwnProperty.call(descriptor, 'value') && descriptor.enumerable;
+      });
+    }
+    function validateRelayHandoffMemoryV1(value, npcId, payload) {
+      try {
+        if (value === null) return true;
+        const keys = ['version','eventId','eventSeq','commandId','causationId','tick','actorId','recipientId','projectId','itemId','itemInstanceId','defId','definitionVersion','instanceId','expectedEventId'];
+        const text = input => typeof input === 'string' && input.length > 0;
+        if (!relayHandoffMemoryDataRecord(value, keys) || value.version !== 1
+          || !Number.isSafeInteger(value.eventSeq) || value.eventSeq < 1 || value.eventId !== `evt-${String(value.eventSeq).padStart(6, '0')}`
+          || !text(value.commandId) || value.causationId !== null && !text(value.causationId)
+          || value.actorId !== 'player-1' || !text(npcId) || value.recipientId !== npcId
+          || value.itemId !== 'relayCore' || value.defId !== 'relay-chain-001' || value.definitionVersion !== 1
+          || !text(value.projectId) || value.instanceId !== value.projectId || !text(value.itemInstanceId)
+          || value.expectedEventId !== null && !text(value.expectedEventId)
+          || !relayHandoffMemoryDataRecord(value.tick, ['world','phase','schedule'])
+          || Object.values(value.tick).some(minute => !Number.isFinite(minute) || minute < 0)) return false;
+        const wm = payload?.worldMeta, project = payload?.relayProject, now = payload?.world?.totalMinutes;
+        if (!Number.isFinite(now) || now < 0 || value.tick.world > now || !Number.isSafeInteger(wm?.eventSeq) || value.eventSeq > wm.eventSeq
+          || value.projectId !== project?.id || value.itemInstanceId !== project?.coreItemId || !Array.isArray(wm.events) || !wm.events.length) return false;
+        const first = wm.events[0];
+        if (!Number.isSafeInteger(first?.seq) || first.seq < 1 || first.seq > wm.eventSeq
+          || wm.events[wm.events.length - 1]?.seq !== wm.eventSeq
+          || wm.events.some((event, index) => !Number.isSafeInteger(event?.seq) || index > 0 && event.seq !== wm.events[index - 1].seq + 1)) return false;
+        if (value.eventSeq < first.seq) return true; // Only a source before the retained continuous window may be absent.
+        const matches = wm.events.filter(event => event?.seq === value.eventSeq || event?.eventId === value.eventId);
+        if (matches.length !== 1) return false;
+        const source = matches[0], receipt = source.payload;
+        return source.seq === value.eventSeq && source.eventId === value.eventId && source.type === 'relay.coreHandedOff'
+          && source.actorId === value.actorId && source.commandId === value.commandId && source.causationId === value.causationId
+          && source.defId === value.defId && source.definitionVersion === value.definitionVersion && source.instanceId === value.instanceId
+          && relayHandoffMemoryDataRecord(source.tick, ['world','phase','schedule'])
+          && ['world','phase','schedule'].every(key => source.tick[key] === value.tick[key])
+          && receipt?.projectId === value.projectId && receipt.itemId === value.itemId && receipt.itemInstanceId === value.itemInstanceId
+          && receipt.commanderId === value.recipientId && receipt.status === 'briefed'
+          && receipt.expectedInstanceId === value.instanceId && receipt.expectedDefId === value.defId
+          && receipt.expectedDefinitionVersion === value.definitionVersion && receipt.expectedEventId === value.expectedEventId;
+      } catch { return false; }
+    }
+    function validateRelayHandoffMemoryRoster(payload, requireSlot = false) {
+      try {
+        if (!Array.isArray(payload?.npcs)) return false;
+        let recorded = 0;
+        const ids = new Set();
+        for (const npc of payload.npcs) {
+          if (typeof npc?.id !== 'string' || !npc.id || ids.has(npc.id)) return false;
+          ids.add(npc.id);
+          const memory = Object.getOwnPropertyDescriptor(npc, 'memory');
+          if (!memory || !Object.prototype.hasOwnProperty.call(memory, 'value') || memory.value === null || typeof memory.value !== 'object' || Array.isArray(memory.value)) return false;
+          const slot = Object.getOwnPropertyDescriptor(memory.value, 'relayCoreHandoff');
+          if (!slot) { if (requireSlot) return false; continue; }
+          if (!Object.prototype.hasOwnProperty.call(slot, 'value') || !slot.enumerable || !validateRelayHandoffMemoryV1(slot.value, npc.id, payload)) return false;
+          if (slot.value !== null && ++recorded > 1) return false;
+        }
+        return true;
+      } catch { return false; }
+    }
+    // RELAY_HANDOFF_MEMORY_CORE_END
     function source18InitialClockSentinel(payload) {
       const wm = payload.worldMeta;
       return payload.version === 18 && !Object.prototype.hasOwnProperty.call(payload,'contentState') && payload.day === 1 && payload.hour === 6 && payload.minute === 0 && savedRecord(payload.world) && payload.world.totalMinutes === 0 && payload.world.lastRationDay === 1 && payload.world.lastDailyUpkeepDay === 1 && savedRecord(wm) && wm.eventSeq === 0 && wm.commandSeq === 0 && Array.isArray(wm.events) && wm.events.length === 0 && Array.isArray(wm.seenCommands) && wm.seenCommands.length === 0 && savedRecord(wm.replay) && Array.isArray(wm.replay.commands) && wm.replay.commands.length === 0;
@@ -4006,6 +4078,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       }
       const commandIds = new Set();
       if (wm.events.length ? wm.events[wm.events.length - 1].seq !== wm.eventSeq || wm.events.some((event, index) => index > 0 && event.seq !== wm.events[index - 1].seq + 1) : wm.eventSeq !== 0) return fail('ledger-window-gap');
+      if (!validateRelayHandoffMemoryRoster(payload)) return fail('npc-relay-handoff-memory');
       for (const command of wm.replay.commands) {
         if (!savedRecord(command) || typeof command.commandId !== 'string' || !command.commandId || commandIds.has(command.commandId) || typeof command.type !== 'string' || !command.type || typeof command.actorId !== 'string' || command.payload != null && !savedRecord(command.payload)) return fail('ledger-command');
         commandIds.add(command.commandId);
@@ -4302,6 +4375,8 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       if (sourceVersion === 18) newDomains.push('contentState');
       const routineIntentMissing = saved.npcs.filter(npc => !Object.prototype.hasOwnProperty.call(npc, 'routineIntent')).map(npc => npc.id);
       if (routineIntentMissing.length) newDomains.push('npc.routineIntent');
+      const handoffMemoryMissing = saved.npcs.filter(npc => !Object.prototype.hasOwnProperty.call(npc.memory, 'relayCoreHandoff')).map(npc => npc.id);
+      if (handoffMemoryMissing.length) newDomains.push('npc.memory.relayCoreHandoff');
       Object.assign(candidate, saved);
       candidate.version = SAVE_VERSION;
       const initialClockCorrection = source18InitialClockSentinel(saved) ? { before: 0, after: savedMinute(saved), calendarUnchanged: true, writer: 'SAVE18-initial-sentinel' } : null;
@@ -4331,8 +4406,8 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       else { candidate.night = false; candidate.nightBattle = null; }
       const updates = prepareSavedRegistry(candidate);
       const episodeChanged = JSON.stringify(savedContent.activeChains || {}) !== JSON.stringify(candidate.contentState.activeChains || {}) || JSON.stringify(savedContent.episodeLegacyHolds || {}) !== JSON.stringify(candidate.contentState.episodeLegacyHolds || {});
-      const reasons = [...(recovery.migrationReasons || []), ...(routineIntentMissing.length ? ['npc-routine-intent-v1'] : []), ...(savedScenario.adapter ? ['scenario-legacy-unbound-v1'] : []), ...(savedScenario.contentAdapter ? ['scenario-content-binding-v1'] : []), ...(episodeChanged ? ['content-episode-identity-v1'] : []), ...(contentDefinitionAdapters.length ? ['shortage-choice-definition-v2'] : []), ...(sourceVersion < SAVE_VERSION ? ['save-schema-adapter'] : []), ...(selected.sourceCategory !== 'primary' ? ['selected-safe-checkpoint'] : []), ...(initialClockCorrection ? ['save18-initial-clock-sentinel'] : [])];
-      const migration = reasons.length ? { migration: REPORT_RECOVERY_MIGRATION, migrationVersion: 1, reason: [...new Set(reasons)].join(','), sourceCategory: selected.sourceCategory, originalChecksum: original?.ok ? original.originalChecksum : null, originalDate: original?.ok ? original.originalDate : null, selectedChecksum: selected.originalChecksum, selectedDate: selected.originalDate, rollback: selected !== original, instanceId: recovery.identity?.ok ? recovery.identity.instanceId : null, fromSaveVersion: sourceVersion, fromContentVersion: saved.contentState?.contentVersion || 0, adapter: sourceVersion === 18 && !Object.prototype.hasOwnProperty.call(saved,'contentState') ? 'save18-pre-content-to-save21' : sourceVersion < SAVE_VERSION ? `save${sourceVersion}-content-to-save21` : null, addedDomains: newDomains, ...(routineIntentMissing.length ? { npcRoutineIntentAdapters: [{ adapter: 'npc-routine-intent-v1', npcIds: routineIntentMissing, defaultValue: null }] } : {}), ...(contentDefinitionAdapters.length ? { contentDefinitionAdapters } : {}), ...(savedScenario.adapter ? { scenarioBindingAdapters: [savedScenario.adapter] } : {}), ...(savedScenario.contentAdapter ? { scenarioContentAdapters: [savedScenario.contentAdapter] } : {}), ...(initialClockCorrection ? { worldClockCorrection: initialClockCorrection } : {}) } : null;
+      const reasons = [...(recovery.migrationReasons || []), ...(routineIntentMissing.length ? ['npc-routine-intent-v1'] : []), ...(savedScenario.adapter ? ['scenario-legacy-unbound-v1'] : []), ...(savedScenario.contentAdapter ? ['scenario-content-binding-v1'] : []), ...(episodeChanged ? ['content-episode-identity-v1'] : []), ...(contentDefinitionAdapters.length ? ['shortage-choice-definition-v2'] : []), ...(sourceVersion < SAVE_VERSION ? ['save-schema-adapter'] : []), ...(selected.sourceCategory !== 'primary' ? ['selected-safe-checkpoint'] : []), ...(initialClockCorrection ? ['save18-initial-clock-sentinel'] : []), ...(handoffMemoryMissing.length ? ['npc-relay-handoff-memory-v1'] : [])];
+      const migration = reasons.length ? { migration: REPORT_RECOVERY_MIGRATION, migrationVersion: 1, reason: [...new Set(reasons)].join(','), sourceCategory: selected.sourceCategory, originalChecksum: original?.ok ? original.originalChecksum : null, originalDate: original?.ok ? original.originalDate : null, selectedChecksum: selected.originalChecksum, selectedDate: selected.originalDate, rollback: selected !== original, instanceId: recovery.identity?.ok ? recovery.identity.instanceId : null, fromSaveVersion: sourceVersion, fromContentVersion: saved.contentState?.contentVersion || 0, adapter: sourceVersion === 18 && !Object.prototype.hasOwnProperty.call(saved,'contentState') ? 'save18-pre-content-to-save21' : sourceVersion < SAVE_VERSION ? `save${sourceVersion}-content-to-save21` : null, addedDomains: newDomains, ...(routineIntentMissing.length ? { npcRoutineIntentAdapters: [{ adapter: 'npc-routine-intent-v1', npcIds: routineIntentMissing, defaultValue: null }] } : {}), ...(contentDefinitionAdapters.length ? { contentDefinitionAdapters } : {}), ...(savedScenario.adapter ? { scenarioBindingAdapters: [savedScenario.adapter] } : {}), ...(savedScenario.contentAdapter ? { scenarioContentAdapters: [savedScenario.contentAdapter] } : {}), ...(initialClockCorrection ? { worldClockCorrection: initialClockCorrection } : {}), ...(handoffMemoryMissing.length ? { npcRelayHandoffMemoryAdapters: [{ adapter: 'npc-relay-handoff-memory-v1', npcIds: handoffMemoryMissing, defaultValue: null }] } : {}) } : null;
       const finalCheck = validateProgressPayload({ ...candidate, npcs: candidate.npcs.map(serializeNpc) }, scenarioContent); if (!finalCheck.ok) throw new Error('prepared-candidate:' + finalCheck.reason);
       return { state: candidate, registryUpdates: updates, scenarioContent, recovery, migration, selected };
     }
@@ -4351,6 +4426,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       canSave() { return gameStarted && !this.exiting && !['RECOVERY','SAVING','EXITING'].includes(this.mode); },
       freeze(mode) {
         clearNpcSightReportUi();
+        clearNpcHandoffMemoryUi();
         cancelCampRest('session-freeze', { resume: false });
         if (['BATTLE','REPORT','LOSS'].includes(mode)) state.npcs.forEach(npc => cancelNpcRoutineIntent(npc, 'phase-changed'));
         this.mode = mode; stopWorldSimulation(); clearInterval(battleTimer); battleTimer = null; stopHeldMovement(); stopInteractionRepeat(); state.motion.input = { x: 0, y: 0 };
@@ -4360,6 +4436,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
         if (this.exiting && !this.restartError) return { ok: true, duplicate: true };
         if (!this.exiting) {
           clearNpcSightReportUi();
+          clearNpcHandoffMemoryUi();
           cancelCampRest('restart', { resume: false }); this.exiting = true; this.generation += 1; gameStarted = false; this.mode = 'EXITING';
           clearTimeout(checkpointTimer); checkpointTimer = null; stopWorldSimulation(); clearInterval(battleTimer); battleTimer = null; stopHeldMovement(); stopInteractionRepeat();
           for (const frame of [worldRenderFrame, continuousPositionFrame, state.moveTweenFrame]) if (frame !== null) cancelAnimationFrame(frame);
@@ -4402,6 +4479,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
           visitedRegions: state.visitedRegions, areaFlags: state.areaFlags, roleVacancies: state.roleVacancies, tempCoordination: !!state.tempCoordination,
           settings: state.settings, staminaRules: state.staminaRules, worldMeta: {...state.worldMeta, events: state.worldMeta.events.slice(-300), feedback: []}, quests: state.quests
         };
+        if (!validateRelayHandoffMemoryRoster(payload, true)) return false;
         const envelope = { ...payload, version: SAVE_VERSION, checksum: checksum(payload), payload, savedAt: worldMinute(), reason: options.reason || state.worldMeta.lastCheckpointReason };
         const raw = JSON.stringify(envelope), previous = localStorage.getItem(SAVE_KEY);
         if (!options.preserveBackup && previous && validateStoredProgress({ raw: previous, sourceCategory: 'primary' }).ok) localStorage.setItem(`${SAVE_KEY}.bak`, previous);
@@ -4702,7 +4780,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
     }
     function rememberNpc(npc, event, deltaTrust = 0) {
       if (!npc) return;
-      npc.memory = npc.memory || { helpedByPlayer: 0, witnessedDeaths: 0, failedOrders: 0, importantEvents: [] };
+      npc.memory = npc.memory || { helpedByPlayer: 0, witnessedDeaths: 0, failedOrders: 0, importantEvents: [], relayCoreHandoff: null };
       npc.memory.importantEvents = [...(npc.memory.importantEvents || []), `第${state.day}天：${event}`].slice(-8);
       if (deltaTrust) npc.relations = {...npc.relations, trustToPlayer: clampSocial((npc.relations?.trustToPlayer || 0) + deltaTrust), bondToPlayer: clampSocial((npc.relations?.bondToPlayer || 0) + deltaTrust * .7), respectToPlayer: clampSocial((npc.relations?.respectToPlayer || 0) + (deltaTrust > 0 ? deltaTrust * .25 : 0))};
     }
@@ -6523,9 +6601,12 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
     function hideContext() {
       const panel = $('contextPanel');
       const report = $('npcSightReport');
+      const memoryReport = $('npcHandoffMemory');
+      const hadMemory = panel?.classList.contains('show') && memoryReport && !memoryReport.hidden;
       const hadReport = panel?.classList.contains('show') && report && !report.hidden;
       if (panel) panel.classList.remove('show');
       if (hadReport) clearNpcSightReportUi();
+      if (hadMemory) clearNpcHandoffMemoryUi();
     }
     function interactionTargetKey(target, x = target?.item?.x, y = target?.item?.y) {
       if (!target) return null;
@@ -6561,8 +6642,10 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       return `互动：${names[building?.type] || '查看建筑状态'} · 不移动位置；结果会写入日志和世界事件`;
     }
     function renderContext() {
+      const previousMemoryActor = $('npcHandoffMemory')?.hidden === false ? $('npcHandoffMemory').dataset.npcHandoffNpc : null;
       const previousSightActor = $('npcSightReport')?.hidden === false ? $('npcSightReport').dataset.npcSightNpc : null;
       syncNpcSightReportUi();
+      syncNpcHandoffMemoryUi();
       const panel = $('contextPanel');
       if (!panel) return;
       if (state.gameOver || state.buildMode) { hideContext(); return; }
@@ -6716,7 +6799,9 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       panel.classList.add('show');
       if (campRestGates) renderCampRestStatus(campRestGates);
       if (previousSightActor && !Array.from($('contextActions').querySelectorAll('[data-context-action="npcView"]')).some(button => button.dataset.npcId === previousSightActor)) clearNpcSightReportUi();
+      if (previousMemoryActor && !Array.from($('contextActions').querySelectorAll('[data-context-action="npcView"]')).some(button => button.dataset.npcId === previousMemoryActor)) clearNpcHandoffMemoryUi();
       syncNpcSightReportUi();
+      syncNpcHandoffMemoryUi();
     }
     function triggerContextActionByIndex(index) {
       if (state.night) {
@@ -6784,10 +6869,11 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
         const garrisonedLabel = n.garrisonedOutpostId ? ` · 驻守${OUTPOST_DEFS[n.garrisonedOutpostId]?.name || n.garrisonedOutpostId}` : '';
         const detail = dead ? '该角色不会自动恢复；后续需要继任者接替岗位。' : n.desc + ' · 常驻' + zoneName + ' · ' + npcSkillSummary(n) + (actingLabel ? ' · ' + actingLabel : '') + garrisonedLabel + (n.lastReport ? ' · ' + n.lastReport : '');
         const condition = dead ? '功能失效' : npcStateSummary(n) + ` · SAN ${Math.round(sanityValue(n))} · ${sanityLabel(n.sanity)}` + (actingLabel ? ' · ' + actingLabel : '') + garrisonedLabel + ` · ${npcHeroLabel(n)} · 羁绊 ` + n.bond + '/3';
-        return '<button class="survivor-card ' + (near ? 'near' : '') + ' ' + (n.supportRequested ? 'supported' : '') + ' ' + (dead ? 'dead' : '') + ' ' + (n.lifeState === 'injured' ? 'injured' : '') + ' ' + (n.lifeState === 'critical' ? 'critical' : '') + '" data-npc="' + n.id + '" ' + disabled + '><div class="survivor-icon">' + actorSprite('npc', n.id, n.facing || 'down', n.lifeState === 'healthy' ? 'idle' : 'hurt', actorFrame(), npcActorVisual(n)) + '</div><b>' + n.name + ' · ' + n.role + '</b><span>' + detail + '</span><em>' + status + ' · ' + condition + '</em>' + (npcRoutineRestText(n) ? '<span class="npc-routine-report" data-npc-routine="' + eventUiText(n.id) + '">' + eventUiText(npcRoutineRestText(n)) + '</span>' : '') + '<div class="npc-sight-report" data-npc-sight-surface="roster" data-npc-sight-npc="' + n.id + '" hidden></div></button>';
+        return '<button class="survivor-card ' + (near ? 'near' : '') + ' ' + (n.supportRequested ? 'supported' : '') + ' ' + (dead ? 'dead' : '') + ' ' + (n.lifeState === 'injured' ? 'injured' : '') + ' ' + (n.lifeState === 'critical' ? 'critical' : '') + '" data-npc="' + n.id + '" ' + disabled + '><div class="survivor-icon">' + actorSprite('npc', n.id, n.facing || 'down', n.lifeState === 'healthy' ? 'idle' : 'hurt', actorFrame(), npcActorVisual(n)) + '</div><b>' + n.name + ' · ' + n.role + '</b><span>' + detail + '</span><em>' + status + ' · ' + condition + '</em>' + (npcRoutineRestText(n) ? '<span class="npc-routine-report" data-npc-routine="' + eventUiText(n.id) + '">' + eventUiText(npcRoutineRestText(n)) + '</span>' : '') + '<div class="npc-sight-report" data-npc-handoff-surface="roster" data-npc-handoff-npc="' + eventUiText(n.id) + '" hidden></div><div class="npc-sight-report" data-npc-sight-surface="roster" data-npc-sight-npc="' + n.id + '" hidden></div></button>';
       }).join('');
       document.querySelectorAll('[data-npc]').forEach(card => card.addEventListener('click', () => viewNpc(card.dataset.npc)));
       syncNpcSightReportUi();
+      syncNpcHandoffMemoryUi();
     }
     function render() {
       if (SessionController.exiting) return;
@@ -7078,6 +7164,46 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       applyStandingDelta({ prestige: 2, merit: 3, contribution: 2, domains: { recon: 2, defense: 1 } }, { reason: '向营地长官交付 relayCore', visibility: 'public' });
       return { payload: { projectId: project.id, itemId: 'relayCore', itemInstanceId: project.coreItemId, commanderId: commander.id, status: project.status } };
     }
+    function relayHandoffMemoryPreflight(command) {
+      if (command.actorId !== 'player-1') return { ok: true };
+      const wm = state.worldMeta;
+      if (command.type !== 'relay.coreHandoff' || command.payload?.expectedDefId !== 'relay-chain-001' || command.payload.expectedDefinitionVersion !== 1
+        || typeof command.payload.projectId !== 'string' || !command.payload.projectId
+        || !Number.isFinite(state.world?.totalMinutes) || state.world.totalMinutes < 0
+        || !Number.isSafeInteger(wm?.eventSeq) || wm.eventSeq < 0 || wm.eventSeq >= Number.MAX_SAFE_INTEGER
+        || !Number.isFinite(wm.clock?.phaseMinutes) || wm.clock.phaseMinutes < 0 || !Number.isFinite(wm.clock.scheduleMinutes) || wm.clock.scheduleMinutes < 0
+        || !validateRelayHandoffMemoryRoster(state, true)) return { ok: false, reason: 'relay-handoff-memory-invalid' };
+      if (state.npcs.some(npc => npc.memory.relayCoreHandoff !== null)) return { ok: false, reason: 'relay-handoff-memory-conflict' };
+      const recipient = state.npcs.find(npc => npcIsActive(npc) && npcHasRole(npc, 'commander'));
+      const slot = recipient && Object.getOwnPropertyDescriptor(recipient.memory, 'relayCoreHandoff');
+      if (!recipient || state.npcs.filter(npc => npc.id === recipient.id).length !== 1 || !slot?.writable) return { ok: false, reason: 'relay-handoff-memory-unwritable' };
+      return { ok: true };
+    }
+    function recordRelayHandoffMemory(result, command) {
+      try {
+        if (result?.ok !== true || result.duplicate || command.type !== 'relay.coreHandoff' || command.actorId !== 'player-1') return false;
+        const event = result.event, receipt = event?.payload, submitted = command.payload;
+        if (!event || !Array.isArray(state.worldMeta?.events) || !state.worldMeta.events.includes(event)
+          || event.type !== 'relay.coreHandedOff' || event.commandId !== result.commandId
+          || command.commandId && event.commandId !== command.commandId || event.actorId !== command.actorId
+          || event.defId !== submitted.expectedDefId || event.definitionVersion !== submitted.expectedDefinitionVersion || event.instanceId !== submitted.expectedInstanceId
+          || receipt?.projectId !== submitted.projectId || receipt.itemId !== submitted.itemId || receipt.status !== 'briefed'
+          || !['expectedInstanceId','expectedDefId','expectedDefinitionVersion','expectedEventId'].every(key => receipt[key] === submitted[key])) return false;
+        const recipients = state.npcs.filter(npc => npc.id === receipt.commanderId);
+        if (recipients.length !== 1 || !npcIsActive(recipients[0]) || !validateRelayHandoffMemoryRoster(state, true)) return false;
+        const recipient = recipients[0], slot = Object.getOwnPropertyDescriptor(recipient.memory, 'relayCoreHandoff');
+        if (!slot?.writable) return false;
+        const capsule = { version: 1, eventId: event.eventId, eventSeq: event.seq, commandId: event.commandId, causationId: event.causationId,
+          tick: { world: event.tick?.world, phase: event.tick?.phase, schedule: event.tick?.schedule }, actorId: event.actorId, recipientId: receipt.commanderId,
+          projectId: receipt.projectId, itemId: receipt.itemId, itemInstanceId: receipt.itemInstanceId, defId: event.defId,
+          definitionVersion: event.definitionVersion, instanceId: event.instanceId, expectedEventId: receipt.expectedEventId };
+        if (!validateRelayHandoffMemoryV1(capsule, recipient.id, state)) return false;
+        if (slot.value !== null) return slot.value.eventId === capsule.eventId && slot.value.commandId === capsule.commandId;
+        if (state.npcs.some(npc => npc.memory.relayCoreHandoff !== null)) return false;
+        recipient.memory.relayCoreHandoff = capsule;
+        return true;
+      } catch { return false; }
+    }
     function handoffRelayCore(options = {}) {
       if (!guardNightAction(options)) return nightActionResult();
       const relayMeta = relayEventMeta('handoff', options.actorId || 'player-1');
@@ -7086,7 +7212,8 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       const expectedDefId = options.expectedDefId === undefined ? token.expectedDefId : options.expectedDefId;
       const expectedDefinitionVersion = options.expectedDefinitionVersion === undefined ? token.expectedDefinitionVersion : Number(options.expectedDefinitionVersion);
       const expectedEventId = options.expectedEventId === undefined ? token.expectedEventId : options.expectedEventId;
-      return dispatchCommand({ type: 'relay.coreHandoff', commandId: options.commandId, actorId: options.actorId || 'player-1', payload: { projectId: state.relayProject?.id || 'camp-relay-001', itemId: 'relayCore', expectedInstanceId, expectedDefId, expectedDefinitionVersion, expectedEventId } }, () => {
+      const command = { type: 'relay.coreHandoff', commandId: options.commandId, actorId: options.actorId || 'player-1', payload: { projectId: state.relayProject?.id || 'camp-relay-001', itemId: 'relayCore', expectedInstanceId, expectedDefId, expectedDefinitionVersion, expectedEventId } };
+      const result = dispatchCommand(command, () => {
         const result = relayHandoffReducer();
         return result?.payload ? { ...result, payload: { ...result.payload, expectedInstanceId, expectedDefId, expectedDefinitionVersion, expectedEventId } } : result;
       }, {
@@ -7105,9 +7232,11 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
           if (!commander) return { ok: false, reason: 'commander-unavailable' };
           if (distanceBetween(commander, state.player) > 1.25) return { ok: false, reason: 'commander-too-far' };
           if (state.relayProject?.status !== 'core-recovered' || Number(state.specialItems?.relayCore) < 1) return { ok: false, reason: 'relay-core-unavailable' };
-          return { ok: true };
+          return relayHandoffMemoryPreflight(command);
         }
       });
+      recordRelayHandoffMemory(result, command);
+      return result;
     }
     function relayMaterialsReady() {
       const project = state.relayProject;
@@ -8011,17 +8140,52 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
           node.dataset.npcSightWorldMinute = String(minute); node.dataset.npcSightStatus = cached.status; }
       });
     }
+    function projectNpcRelayHandoffMemory(npc, payload = state) {
+      const unavailable = { status: 'unavailable', text: '交付记忆：暂不可核实' };
+      if (!npc || !validateRelayHandoffMemoryRoster(payload, true)) return unavailable;
+      const slot = Object.getOwnPropertyDescriptor(npc.memory || {}, 'relayCoreHandoff');
+      if (!slot || !Object.prototype.hasOwnProperty.call(slot, 'value') || !validateRelayHandoffMemoryV1(slot.value, npc.id, payload)) return unavailable;
+      if (slot.value === null) return { status: 'unrecorded', text: '交付记忆：未记录' };
+      const minute = slot.value.tick.world, day = Math.floor(minute / 1440) + 1, hour = Math.floor(minute % 1440 / 60), minutes = Math.floor(minute % 60);
+      return { status: 'recorded', text: `交付记忆：第${day}天 ${String(hour).padStart(2, '0')}:${String(minutes).padStart(2, '0')}，玩家把广播核心交给了我。` };
+    }
+    function clearNpcHandoffMemoryUi() {
+      npcHandoffMemoryUi = null;
+      document.querySelectorAll('[data-npc-handoff-surface]').forEach(node => {
+        node.hidden = true; node.textContent = '';
+        delete node.dataset.npcHandoffStatus;
+        if (node.dataset.npcHandoffSurface === 'context') delete node.dataset.npcHandoffNpc;
+      });
+    }
+    function syncNpcHandoffMemoryUi() {
+      if (!npcHandoffMemoryUi) return;
+      const cached = npcHandoffMemoryUi, npc = state.npcs?.find(item => item.id === cached.actorId);
+      if (cached.generation !== SessionController.generation || state.selectedNpc !== cached.actorId || !npcPublicActionGate(npc, { action: 'view' }).ok) { clearNpcHandoffMemoryUi(); return; }
+      const projection = projectNpcRelayHandoffMemory(npc);
+      document.querySelectorAll('[data-npc-handoff-surface]').forEach(node => {
+        const context = node.dataset.npcHandoffSurface === 'context';
+        const matches = context ? $('contextPanel')?.classList.contains('show')
+          && Array.from($('contextActions')?.querySelectorAll('[data-context-action="npcView"]') || []).some(button => button.dataset.npcId === cached.actorId)
+          : node.dataset.npcHandoffNpc === cached.actorId;
+        node.hidden = !matches; node.textContent = matches ? projection.text : '';
+        if (matches) { node.dataset.npcHandoffNpc = cached.actorId; node.dataset.npcHandoffStatus = projection.status; }
+        else { delete node.dataset.npcHandoffStatus; if (context) delete node.dataset.npcHandoffNpc; }
+      });
+    }
     function viewNpc(preferred) {
       const gate = npcPublicActionGate(preferred, { action: 'view' });
-      if (!gate.ok) { toast(npcPublicActionLabel(gate)); return gate; }
+      if (!gate.ok) { clearNpcHandoffMemoryUi(); toast(npcPublicActionLabel(gate)); return gate; }
       const { npc } = gate;
       clearNpcSightReportUi();
+      clearNpcHandoffMemoryUi();
       state.selectedNpc = npc.id;
+      npcHandoffMemoryUi = { actorId: npc.id, generation: SessionController.generation };
       const prepared = prepareNpcDirectSightReport(npc);
       const revision = prepared.observation?.sourceRevision || npcDirectSightRuntimeRevision();
       if (revision) npcSightReportUi = observerDeepFreeze({ actorId: npc.id, actorName: npc.name, generation: SessionController.generation,
         sourceRevision: { ...revision }, status: prepared.expression.status, text: prepared.expression.text });
       syncNpcSightReportUi();
+      syncNpcHandoffMemoryUi();
       // Read only the already-public local status. The generic summary/render
       // helpers can normalize social facts or evaluate promotion; do not invoke
       // them from this zero-business-effect view.
@@ -8747,6 +8911,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       state.npcs.forEach(npc => cancelNpcRoutineIntent(npc, 'phase-changed'));
       SessionController.mode = 'BATTLE';
       clearNpcSightReportUi();
+      clearNpcHandoffMemoryUi();
       state.night = true; state.buildMode = false; $('buildDrawer').classList.remove('open'); $('evolveDrawer').classList.remove('open'); $('eventPanel').classList.remove('open'); $('collectionPanel').classList.remove('open'); $('survivorPanel')?.classList.remove('open'); toggleWeaponPanel(false);
       document.body.classList.add('threat-map-active'); $('nightOverlay').classList.remove('show', 'summary-mode'); $('continueBtn').disabled = true; $('continueBtn').style.opacity = '.6'; $('nightAttackBtn').disabled = false; $('nightAttackBtn').style.opacity = '1';
       const activeSupports = state.npcs.filter(n => n.supportRequested && npcIsCampLocal(n));
@@ -9200,6 +9365,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
     function closeInfoModal() {
       if (SessionController.exiting) return;
       clearNpcSightReportUi();
+      clearNpcHandoffMemoryUi();
       infoModalOpen = false;
       state.inventoryOpen = false;
       $('infoModal')?.classList.remove('open');
@@ -9454,7 +9620,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
     $('infoModal').addEventListener('click', (event) => { if (event.target === $('infoModal')) closeInfoModal(); });
     $('infoPlanMount')?.addEventListener('click', handlePlanMeetingAction);
     document.querySelectorAll('[data-info-tab]').forEach(button => button.addEventListener('click', () => openInfoModal(button.dataset.infoTab)));
-    $('contextClose').addEventListener('click', () => { contextDismissedAt = tileKey(state.player.x, state.player.y); clearNpcSightReportUi(); hideContext(); });
+    $('contextClose').addEventListener('click', () => { contextDismissedAt = tileKey(state.player.x, state.player.y); clearNpcSightReportUi(); clearNpcHandoffMemoryUi(); hideContext(); });
     $('campRestCancel').addEventListener('click', () => { cancelCampRest(); renderContext(); });
     $('contextActions').addEventListener('click', (event) => {
       const button = event.target.closest('[data-context-action]');
