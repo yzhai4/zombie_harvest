@@ -57,13 +57,13 @@ try {
   check('public shortage choice visible', await page.locator('#eventChoiceB').isVisible());
   const dataset = await page.locator('#eventChoiceB').evaluate(button => ({ ...button.dataset }));
   check('rendered legacy save received instance identity', dataset.eventInstanceId === 'content:zh-food-shortage-001:1' && dataset.eventInstanceKey === 'zh-food-shortage-001:1');
-  check('choice discloses finite cache and cost', (await page.locator('#eventChoiceB').innerText()).includes('每局一次'));
+  check('choice discloses finite cache and cost', (await page.locator('#eventChoiceB').innerText()).includes('整局一次'));
   await page.screenshot({ path: path.join(out, 'shortage-before.png'), fullPage: false });
   await page.locator('#eventChoiceB').click();
   await page.waitForFunction(key => JSON.parse(localStorage.getItem(key)).payload.contentState.flags['zh-shortage-cache-retrieved'] === true, saveKey);
   const after = await saved();
   check('cache credited once', after.food === fixture.payload.food + 2);
-  check('exposure cost saved', after.contentState.meters.resonancePressure === fixture.payload.contentState.meters.resonancePressure + 2);
+  check('resonance meter change saved', after.contentState.meters.resonancePressure === fixture.payload.contentState.meters.resonancePressure + 2);
   check('instance receipt has correct identity', after.worldMeta.events.some(e => e.type === 'content.chain.resolved' && e.instanceId === dataset.eventInstanceId && e.payload.instanceKey === dataset.eventInstanceKey));
   const matching = after.worldMeta.replay.commands.filter(c => c.type === 'content.chain.resolve' && c.payload.chainId === 'zh-food-shortage-001');
   check('public click carried episode token into command', matching.length === 1 && matching[0].payload.expectedInstanceKey === dataset.eventInstanceKey);

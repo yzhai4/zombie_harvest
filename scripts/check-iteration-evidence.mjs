@@ -152,7 +152,8 @@ export function validateIterationEvidence(options = {}) {
       const summary = checksSummary(report);
       requireCondition(integer(report.count) && report.count >= 10 && report.passed === report.count, 'browser native count/passed required with at least 10 checks');
       const names = report.checks.map(row => row.name);
-      for (const name of ['document bytes match candidate', 'public shortage choice visible', 'cache credited once', 'exposure cost saved', 'public click carried episode token into command', 'reload cannot grant another cache', 'reload preserves completion identity', 'page produced no runtime errors']) requireCondition(names.includes(name), 'browser missing actual coverage: ' + name);
+      for (const name of ['document bytes match candidate', 'public shortage choice visible', 'cache credited once', 'public click carried episode token into command', 'reload cannot grant another cache', 'reload preserves completion identity', 'page produced no runtime errors']) requireCondition(names.includes(name), 'browser missing actual coverage: ' + name);
+      requireCondition(names.includes('resonance meter change saved') || names.includes('exposure cost saved'), 'browser missing saved resonance meter change');
       assertCounts(browser, summary);
     });
     check('git source commit and ancestry', () => {

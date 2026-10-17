@@ -12,5 +12,24 @@
     "events",
     "ai",
     "continuity"
-  ]
+  ],
+  "properties": {
+    "events": {
+      "type": "object",
+      "properties": {
+        "storylets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "definitionVersion": {
+                "type": "integer",
+                "minimum": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }

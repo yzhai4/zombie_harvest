@@ -65,6 +65,10 @@ jobs:
           node --check scripts/browser-outpost-presence-v1.mjs
           node --check scripts/check-camp-rest-v1.mjs
           node --check scripts/browser-camp-rest-v1.mjs
+          node --check scripts/probe-food-shortage-strategies-v1.mjs
+          node --check scripts/check-shortage-choice-v2.mjs
+          node --check scripts/browser-natural-mixed-v1.mjs
+          node --check scripts/browser-shortage-choice-v2.mjs
       - name: Check deployable entrypoints
         run: |
           test -s dist/index.html
@@ -129,6 +133,8 @@ jobs:
         run: node scripts/check-gameplay-vertical-slice.mjs
       - name: Execute repeatable episode migration and CAS contracts
         run: node scripts/check-content-episode-v1.mjs
+      - name: Execute shortage choice v2 and historical writer migration contracts
+        run: node scripts/check-shortage-choice-v2.mjs --html dist/index.html --baseline-report docs/experiments/runs/food-shortage-strategies-32f911-20261017/report.json --out "$RUNNER_TEMP/shortage-choice-v2.json"
       - name: Reject stale or incomplete evidence manifests
         run: node scripts/check-iteration-evidence-self-test.mjs
       - name: Check iteration evidence freshness

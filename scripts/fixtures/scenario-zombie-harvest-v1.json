@@ -52,9 +52,11 @@
             "id": "ration",
             "effects": [
               {
-                "op": "adjustMeter",
-                "key": "campCollapse",
-                "value": 2
+                "op": "recordHistory",
+                "key": "zh-food-shortage-001:ration",
+                "payload": {
+                  "route": "ration"
+                }
               }
             ]
           },
@@ -94,7 +96,7 @@
                   "route": "emergency-cache",
                   "sourceId": "zh-shortage-cache-001",
                   "amount": 2,
-                  "exposure": 2
+                  "resonancePressure": 2
                 }
               }
             ]
@@ -111,7 +113,8 @@
           "food": 2,
           "retrievalLimit": 1,
           "flag": "zh-shortage-cache-retrieved"
-        }
+        },
+        "definitionVersion": 2
       }
     ]
   },

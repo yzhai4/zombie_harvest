@@ -49,7 +49,7 @@ test('legacy full writer fixture validates; loader adds identity without settlem
   assert.equal(active.instanceKey, id + ':1');
   assert.equal(active.instanceId, 'content:' + id + ':1');
   assert.equal(active.defId, id);
-  assert.equal(active.definitionVersion, 1);
+  assert.equal(active.definitionVersion, 2);
   assert.equal(active.episodeSchemaVersion, 1);
   assert.equal(draft.state.food, before.food);
   assert.deepEqual(plain(draft.state.worldMeta.events), before.worldMeta.events);
@@ -115,7 +115,7 @@ test('real rendered producer carries all five identity fields into replay and re
   for (const [key, value] of Object.entries(expected)) assert.equal(command.payload[key], value);
   const receipt = r.api.state.worldMeta.events.find(e => e.type === 'content.chain.resolved' && e.payload.chainId === id);
   assert.equal(receipt.instanceId, expected.expectedInstanceId);
-  assert.equal(receipt.definitionVersion, 1);
+  assert.equal(receipt.definitionVersion, 2);
 });
 for (const [field, bad] of [
   ['expectedInstanceId', 'content:old:1'], ['expectedInstanceKey', id + ':0'],
@@ -162,7 +162,7 @@ test('fallback rejects stale identity and records the correct original instance'
   assert.equal(event.instanceId, current.expectedInstanceId);
   const effect = r.api.state.worldMeta.events.find(e => e.type === 'content.effects.applied' && e.payload.effectId === id + ':1:fallback:ifMissingNpc');
   assert.equal(effect.instanceId, current.expectedInstanceId);
-  assert.equal(effect.defId, id); assert.equal(effect.definitionVersion, 1);
+  assert.equal(effect.defId, id); assert.equal(effect.definitionVersion, 2);
   const after = JSON.stringify(r.api.state);
   assert.equal(r.api.contentRegistry.resolveFallback(id, 'ifMissingNpc', current).duplicate, true);
   assert.equal(JSON.stringify(r.api.state), after);
@@ -197,7 +197,7 @@ test('repeatable autonomy effects and history keep the active instance identity'
   assert.equal(r.api.contentRegistry.resolveAutonomy(customId, expected).ok, true);
   const effects = r.api.state.worldMeta.events.find(e => e.type === 'content.effects.applied' && e.defId === customId);
   assert.equal(effects.instanceId, expected.expectedInstanceId);
-  assert.equal(effects.definitionVersion, 1);
+  assert.equal(effects.definitionVersion, 2);
   const history = r.api.state.contentState.history.find(e => e.payload.testOnly);
   assert.equal(history.id, customId + ':1:closed');
   assert.equal(r.api.state.contentState.activeChains[customId], undefined);
@@ -226,7 +226,7 @@ test('HUD and observer settings are independent; observer switch persists', () =
   const reloaded = startRuntime(factory, [[saveKey, write(r)]]);
   assert.equal(reloaded.api.state.scenarioSnapshot.aiConfig.observerCommentary, true);
 });
-test('cache has a finite source and exposure cost; next episode and reload cannot reclaim it', () => {
+test('cache has a finite source and resonance meter cost; next episode and reload cannot reclaim it', () => {
   const r = fresh(), before = persistent(r);
   assert.equal(resolve(r, 'forage', 'cache-first').ok, true);
   assert.equal(r.api.state.food, 2);
@@ -259,7 +259,7 @@ test('injured and critical expedition staff reject without granting cache; succe
   assert.equal(r.api.state.food, 2);
   assert.equal(r.api.state.npcs.length, 10);
 });
-test('failed cache effect rolls back stock flag and exposure together', () => {
+test('failed cache effect rolls back stock flag and resonance meter together', () => {
   const r = fresh(), before = persistent(r);
   const definition = r.api.contentRegistry.get('eventChain', id);
   const effects = plain(definition.nodes[0].choices.find(c => c.id === 'forage').effects);

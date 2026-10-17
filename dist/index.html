@@ -3247,12 +3247,12 @@ function resolveObserverExpression(input = {}) {
      function registerContentPack(pack = {}) { const results = []; Object.entries(pack).forEach(([kind, definitions]) => { (Array.isArray(definitions) ? definitions : Object.values(definitions || {})).forEach(definition => results.push(registerContent(kind, definition))); }); return { ok: results.every(result => result.ok), results }; }
      const SCENARIO_RUNTIME_STORYLETS = Object.freeze({
        'zh-food-shortage-001': Object.freeze({
-         id: 'zh-food-shortage-001', chainId: 'zh-food-shortage-001', title: '断粮警报', description: '营地库存只够支撑很短时间，需要决定留守承担缺口，还是取回后勤官预存的两份应急藏粮。', definitionVersion: 1, category: 'survival', phase: ['day_1', 'day_13'], priority: 82, gateVersion: 1, evaluatePreconditions: true,
+         id: 'zh-food-shortage-001', chainId: 'zh-food-shortage-001', title: '断粮警报', description: '基础配给余量不足，需要决定现在动用两份应急藏粮，还是保留备用粮并另行筹粮。', definitionVersion: 2, category: 'survival', phase: ['day_1', 'day_13'], priority: 82, gateVersion: 1, evaluatePreconditions: true,
          gate: { version: 1, phase: 'DAY', nightAllowed: false, preconditions: [{ type: 'food_days', max: 1 }] },
          preconditions: [{ type: 'food_days', max: 1 }], startConditions: [{ type: 'food_days', max: 1 }],
-         nodes: [{ nodeId: 'shortage_choice', title: '粮仓见底', text: '库存仅够短期使用。后勤官在外围预存过两份应急藏粮，每局只可取回一次；取粮会增加暴露。', choices: [
-           { id: 'ration', label: '留守警戒，接受缺口', hint: '食物不变 · 营地崩溃压力 +2 · 不增加外围暴露', requires: [], effects: [{ op: 'adjustMeter', key: 'campCollapse', value: 2 }, { op: 'recordHistory', key: 'zh-food-shortage-001:ration', payload: { route: 'ration' } }] },
-           { id: 'forage', label: '取回后勤应急藏粮', hint: '每局一次 · 食物 +2 · 共振压力 +2 · 需要健康后勤人员在岗', requires: [{ type: 'role_available', role: 'quartermaster', healthyOnly: true }, { type: 'flag', id: 'zh-shortage-cache-retrieved', value: false }], effects: [{ op: 'addResource', key: 'food', value: 2 }, { op: 'adjustMeter', key: 'resonancePressure', value: 2 }, { op: 'unlock', key: 'zh-shortage-cache-retrieved' }, { op: 'recordHistory', key: 'zh-food-shortage-001:forage', payload: { route: 'emergency-cache', sourceId: 'zh-shortage-cache-001', amount: 2, exposure: 2 } }] }
+         nodes: [{ nodeId: 'shortage_choice', title: '粮仓见底', text: '后勤官登记有两份应急藏粮，整局只可动用一次。可以现在动用，也可以保留备用粮，另行采集或收获；人物用餐与配给仍按真实库存结算。', choices: [
+           { id: 'ration', label: '保留备用粮，另行筹粮', hint: '仅确认并记录 · 食物不变 · 不额外增加崩溃压力 · 原配给与人物需求照常', requires: [], effects: [{ op: 'recordHistory', key: 'zh-food-shortage-001:ration', payload: { route: 'ration' } }] },
+           { id: 'forage', label: '动用后勤应急藏粮', hint: '整局一次 · 食物 +2 · 共振仪表 +2 · 需要健康后勤人员在岗', requires: [{ type: 'role_available', role: 'quartermaster', healthyOnly: true }, { type: 'flag', id: 'zh-shortage-cache-retrieved', value: false }], effects: [{ op: 'addResource', key: 'food', value: 2 }, { op: 'adjustMeter', key: 'resonancePressure', value: 2 }, { op: 'unlock', key: 'zh-shortage-cache-retrieved' }, { op: 'recordHistory', key: 'zh-food-shortage-001:forage', payload: { route: 'emergency-cache', sourceId: 'zh-shortage-cache-001', amount: 2, resonancePressure: 2 } }] }
          ] }],
          fallback: { ifMissingNpc: { id: 'shortage_deferred', effects: [{ op: 'adjustMeter', key: 'campCollapse', value: 1 }] }, ifInsufficientPopulation: { id: 'shortage_deferred', effects: [{ op: 'adjustMeter', key: 'campCollapse', value: 2 }] }, ifExpired: 'ledger_only', ifSkipped: 'ledger_only' }, hooks: ['onDayStart'], repeatable: true, optional: true
        })
@@ -3520,6 +3520,34 @@ function resolveObserverExpression(input = {}) {
       if (latest && ({ 'plan.meeting.candidates':'candidate','plan.meeting.committed':'committed','plan.meeting.resolved':'resolved','plan.meeting.fallback':'resolved' })[latest.type] === plan.status && latest.payload.selectedId !== plan.selectedId) return false;
       return true;
     }
+    function shortageDefinitionAdapterSpec(content, active) {
+      const chainId = 'zh-food-shortage-001';
+      if (!savedRecord(content) || !savedRecord(active) || active.chainId !== chainId || active.nodeId !== 'shortage_choice' || active.status !== 'active') return null;
+      if (!Number.isFinite(active.startedAt) || active.startedAt < 0 || typeof active.actorId !== 'string' || !active.actorId) return null;
+      const declared = Object.prototype.hasOwnProperty.call(active, 'definitionVersion');
+      if (declared && active.definitionVersion !== 1) return null;
+      const instanceKey = `${chainId}:${Math.floor(active.startedAt / 1440) + 1}`, instanceId = `content:${instanceKey}`;
+      const identity = { instanceKey, instanceId, defId: chainId };
+      if (Object.entries(identity).some(([key, value]) => active[key] !== undefined && active[key] !== value)) return null;
+      if (active.episodeSchemaVersion !== undefined && active.episodeSchemaVersion !== 1) return null;
+      // A declared v1 writer emitted the complete identity. A genuinely older
+      // missing-version shape is handled separately by the existing identity adapter.
+      if (declared && (active.episodeSchemaVersion !== 1 || Object.entries(identity).some(([key, value]) => active[key] !== value))) return null;
+      if (!declared && active.episodeSchemaVersion !== undefined) return null;
+      if (active.resolvedNodeIds !== undefined && (!Array.isArray(active.resolvedNodeIds) || active.resolvedNodeIds.length !== 0) || active.history !== undefined && (!Array.isArray(active.history) || active.history.length !== 0)) return null;
+      if (!Array.isArray(content.completedChains) || !Array.isArray(content.appliedEffects) || !Array.isArray(content.history)) return null;
+      if (content.completedChains.includes(instanceKey) || !declared && content.completedChains.includes(chainId)) return null;
+      if (content.completedChains.includes(chainId)) {
+        const legacyHold = content.episodeLegacyHolds?.[chainId];
+        if (!Number.isSafeInteger(legacyHold) || legacyHold < 1 || legacyHold >= Math.floor(active.startedAt / 1440) + 1) return null;
+      }
+      const prefixes = [`${instanceKey}:shortage_choice:`, `${instanceKey}:fallback:`, `${instanceKey}:autonomy:`, ...(!declared ? [`${chainId}:shortage_choice:`] : [])];
+      if (content.appliedEffects.some(id => typeof id !== 'string' || prefixes.some(prefix => id.startsWith(prefix)))) return null;
+      if (content.history.some(entry => entry?.id === `${instanceKey}:${chainId}:ration` || entry?.id === `${instanceKey}:${chainId}:forage`)) return null;
+      return { chainId, ...identity, nodeId: active.nodeId, startedAt: active.startedAt, actorId: active.actorId,
+        fromDefinitionVersion: declared ? 1 : null, toDefinitionVersion: 2,
+        adapter: declared ? 'shortage-choice-v1-to-v2' : 'legacy-missing-version' };
+    }
     function validateProgressPayload(payload) {
       const fail = reason => ({ ok: false, reason });
       if (!savedRecord(payload) || !savedTreeSafe(payload)) return fail('payload-shape');
@@ -3604,9 +3632,12 @@ function resolveObserverExpression(input = {}) {
             chain.definitionVersion !== undefined && (!Number.isSafeInteger(chain.definitionVersion) || chain.definitionVersion < 1) ||
             chain.episodeSchemaVersion !== undefined && (chain.episodeSchemaVersion !== 1 || ['instanceKey','instanceId','defId','definitionVersion'].some(key => chain[key] === undefined))) return fail('content-episode-identity');
         const definition = contentDefinition('eventChain', id);
-        // No version adapter exists yet. Reject incompatible active content
-        // before installation instead of creating an episode that cannot close.
-        if (definition?.repeatable && chain.definitionVersion !== undefined && chain.definitionVersion !== (Number(definition.definitionVersion) || 1)) return fail('content-episode-definition-version');
+        const shortageLegacy = id === 'zh-food-shortage-001' && (chain.definitionVersion === 1 || !Object.prototype.hasOwnProperty.call(chain, 'definitionVersion'));
+        const shortageAdapter = shortageLegacy ? shortageDefinitionAdapterSpec(cs, chain) : null;
+        if (shortageLegacy && !shortageAdapter) return fail('content-shortage-definition-adapter');
+        // Only the named, unresolved v1 shortage shape has an explicit adapter.
+        // Other declared mismatches remain invalid before installation.
+        if (definition?.repeatable && chain.definitionVersion !== undefined && chain.definitionVersion !== (Number(definition.definitionVersion) || 1) && !shortageAdapter) return fail('content-episode-definition-version');
         if (chain.instanceKey && cs.completedChains.includes(chain.instanceKey)) return fail('content-episode-completed-active');
       }
       if (cs.episodeLegacyHolds !== undefined && (!savedRecord(cs.episodeLegacyHolds) || Object.values(cs.episodeLegacyHolds).some(day => !Number.isSafeInteger(day) || day < 1 || day > payload.day))) return fail('content-episode-legacy-hold');
@@ -3755,6 +3786,8 @@ function resolveObserverExpression(input = {}) {
       if (recovery.classification === 'RECOVERY_REQUIRED') throw new Error('unsafe-save-install');
       const candidate = stableClone(INITIAL_PROGRESS_STATE), saved = stableClone(selected.payload), sourceVersion = saved.version;
       const savedContent = contentForSavedVersion(saved);
+      const shortageAdapter = shortageDefinitionAdapterSpec(savedContent, savedContent.activeChains?.['zh-food-shortage-001']);
+      const contentDefinitionAdapters = shortageAdapter ? [shortageAdapter] : [];
       const newDomains = sourceVersion < SAVE_VERSION ? ['attributes','hero','garrisonedOutpostId'].filter(key => saved.npcs.some(npc => !Object.prototype.hasOwnProperty.call(npc,key))).map(key => `npc.${key}`) : [];
       if (sourceVersion === 18) newDomains.push('contentState');
       Object.assign(candidate, saved);
@@ -3771,6 +3804,9 @@ function resolveObserverExpression(input = {}) {
       });
       const contentDefaults = INITIAL_PROGRESS_STATE.contentState;
       candidate.contentState = migrateContentState({ ...stableClone(contentDefaults), ...savedContent, meters: { ...contentDefaults.meters, ...savedContent.meters }, planMeeting: { ...stableClone(contentDefaults.planMeeting), ...(savedContent.planMeeting || {}) } }, { day: saved.day });
+      // Upgrade only the private draft. Identity, resources, historical choices,
+      // applied effects and the permanent cache flag remain unchanged.
+      if (shortageAdapter) candidate.contentState.activeChains[shortageAdapter.chainId].definitionVersion = shortageAdapter.toDefinitionVersion;
       candidate.worldMeta = { ...saved.worldMeta, activeCommandId: null, feedback: [], projections: { ...(saved.worldMeta.projections || {}), threatZombies: [] }, clock: { ...saved.worldMeta.clock } };
       candidate.settings = { ...(saved.settings || {}), continuousWorld: P0_FEATURES.continuousWorld };
       candidate.scenarioSnapshot = normalizeScenarioSnapshot(saved.scenarioSnapshot || DEFAULT_SCENARIO_SNAPSHOT);
@@ -3782,8 +3818,8 @@ function resolveObserverExpression(input = {}) {
       else { candidate.night = false; candidate.nightBattle = null; }
       const updates = prepareSavedRegistry(candidate);
       const episodeChanged = JSON.stringify(savedContent.activeChains || {}) !== JSON.stringify(candidate.contentState.activeChains || {}) || JSON.stringify(savedContent.episodeLegacyHolds || {}) !== JSON.stringify(candidate.contentState.episodeLegacyHolds || {});
-      const reasons = [...(recovery.migrationReasons || []), ...(episodeChanged ? ['content-episode-identity-v1'] : []), ...(sourceVersion < SAVE_VERSION ? ['save-schema-adapter'] : []), ...(selected.sourceCategory !== 'primary' ? ['selected-safe-checkpoint'] : []), ...(initialClockCorrection ? ['save18-initial-clock-sentinel'] : [])];
-      const migration = reasons.length ? { migration: REPORT_RECOVERY_MIGRATION, migrationVersion: 1, reason: [...new Set(reasons)].join(','), sourceCategory: selected.sourceCategory, originalChecksum: original?.ok ? original.originalChecksum : null, originalDate: original?.ok ? original.originalDate : null, selectedChecksum: selected.originalChecksum, selectedDate: selected.originalDate, rollback: selected !== original, instanceId: recovery.identity?.ok ? recovery.identity.instanceId : null, fromSaveVersion: sourceVersion, fromContentVersion: saved.contentState?.contentVersion || 0, adapter: sourceVersion === 18 && !Object.prototype.hasOwnProperty.call(saved,'contentState') ? 'save18-pre-content-to-save21' : sourceVersion < SAVE_VERSION ? `save${sourceVersion}-content-to-save21` : null, addedDomains: newDomains, ...(initialClockCorrection ? { worldClockCorrection: initialClockCorrection } : {}) } : null;
+      const reasons = [...(recovery.migrationReasons || []), ...(episodeChanged ? ['content-episode-identity-v1'] : []), ...(contentDefinitionAdapters.length ? ['shortage-choice-definition-v2'] : []), ...(sourceVersion < SAVE_VERSION ? ['save-schema-adapter'] : []), ...(selected.sourceCategory !== 'primary' ? ['selected-safe-checkpoint'] : []), ...(initialClockCorrection ? ['save18-initial-clock-sentinel'] : [])];
+      const migration = reasons.length ? { migration: REPORT_RECOVERY_MIGRATION, migrationVersion: 1, reason: [...new Set(reasons)].join(','), sourceCategory: selected.sourceCategory, originalChecksum: original?.ok ? original.originalChecksum : null, originalDate: original?.ok ? original.originalDate : null, selectedChecksum: selected.originalChecksum, selectedDate: selected.originalDate, rollback: selected !== original, instanceId: recovery.identity?.ok ? recovery.identity.instanceId : null, fromSaveVersion: sourceVersion, fromContentVersion: saved.contentState?.contentVersion || 0, adapter: sourceVersion === 18 && !Object.prototype.hasOwnProperty.call(saved,'contentState') ? 'save18-pre-content-to-save21' : sourceVersion < SAVE_VERSION ? `save${sourceVersion}-content-to-save21` : null, addedDomains: newDomains, ...(contentDefinitionAdapters.length ? { contentDefinitionAdapters } : {}), ...(initialClockCorrection ? { worldClockCorrection: initialClockCorrection } : {}) } : null;
       return { state: candidate, registryUpdates: updates, recovery, migration, selected };
     }
     function installSavedPayload(draft) {
@@ -5798,7 +5834,13 @@ function resolveObserverExpression(input = {}) {
         };
         $('eventIcon').textContent = '📜';
         $('eventTitle').textContent = chain.definition.title || chain.definition.name || '营地支线';
-        $('eventText').textContent = chain.node.text || chain.definition.description || '营地正等待你的决定。你也可以先处理其他事项。';
+        const storyText = chain.node.text || chain.definition.description || '营地正等待你的决定。你也可以先处理其他事项。';
+        if (chain.active.chainId === 'zh-food-shortage-001') {
+          const food = foodSituation(), nextRationDay = state.day + 1;
+          const untilMidnight = 1440 - (worldMinute() % 1440);
+          const current = food.ratio > 1 ? '当前基础供给已缓解；这是原预警，仍可确认并保留备用粮。' : '结算时若库存不足，原配给缺口与人物需求后果照常发生。';
+          $('eventText').textContent = `${storyText} 当前库存 ${state.food} 份，基础日需 ${food.dailyNeed} 份；下次午夜配给为第 ${nextRationDay} 天 00:00（约 ${Math.ceil(untilMidnight)} 分钟后）。个人用餐与据点维护另计，库存会继续变化。${current}`;
+        } else $('eventText').textContent = storyText;
         $('eventState').textContent = chain.node.title || '等待决定';
         $('eventChoiceA').innerHTML = renderChoice(choices[0], 0);
         $('eventChoiceB').innerHTML = renderChoice(choices[1], 1);
