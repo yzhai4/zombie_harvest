@@ -6135,13 +6135,13 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       $('weaponDamage').textContent = `伤害 ${weapon.damage}${state.weapon.id === 'pulseAxe' ? ' · 一次命中 2只' : ''}`;
       document.querySelectorAll('[data-weapon]').forEach(btn => { const info = weaponInfo[btn.dataset.weapon]; btn.disabled = state.weapon.id !== 'rustAxe' || !!state.gameOver; btn.style.borderColor = state.weapon.id === btn.dataset.weapon ? 'var(--green)' : ''; if (info && state.weapon.id !== 'rustAxe') btn.title = '已选择一条进化路线'; });
       const attackBtn = $('attackBtn');
-      const liveZombies = getWorldZombies().filter(z => z.hp > 0).length;
+      const dayAttackGate = state.night ? null : playerDayAttackGate();
       const nearbyNightThreats = state.night ? nightNearbyEnemies().length : 0;
-      const attackAvailable = state.night ? nearbyNightThreats > 0 : liveZombies > 0;
+      const attackAvailable = state.night ? nearbyNightThreats > 0 : dayAttackGate.ok;
       attackBtn.disabled = !!state.gameOver || !attackAvailable;
       attackBtn.innerHTML = state.night
         ? (attackAvailable ? '🪓 补刀<small>尸潮目标</small>' : '🪓 补刀<small>暂无可攻击目标</small>')
-        : (liveZombies ? '🪓 攻击<small>相邻僵尸</small>' : '🪓 攻击<small>附近暂无尸群</small>');
+        : `🪓 攻击<small>${eventUiText(dayAttackGate.ok ? '相邻目标 · -5行动体力' : playerDayAttackReasonText(dayAttackGate.reason))}</small>`;
       const walls = state.buildings.filter(b => b.type === 'wall' || b.type === 'spikeWall').length;
       const supports = state.npcs.filter(n => n.supportRequested && npcIsCampLocal(n)).length;
       const missionDone = walls >= 3 && supports >= 1;
@@ -6691,13 +6691,14 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       let title = '附近互动';
       let hint = '靠近目标后按 E 交互；按 F 或空格攻击。';
       let actionIndex = 0;
-      const add = (label, sub, action, cls = '', disabled = false, cropTargetId = null, npcTargetId = null) => {
+      const dayAttackGate = playerDayAttackGate();
+      const add = (label, sub, action, cls = '', disabled = false, cropTargetId = null, npcTargetId = null, attackTargetId = null) => {
         const index = actionIndex++;
-        actions.push(`<button class="context-action ${cls}" data-context-action="${action}" data-context-index="${index}" ${/^campRest(30|60)$/.test(action) ? 'aria-describedby="campRestFeedback"' : ''} ${cropTargetId !== null ? `data-building-id="${eventUiText(cropTargetId)}" data-crop-target="true"` : ''} ${npcTargetId !== null ? `data-npc-id="${eventUiText(npcTargetId)}"` : ''} ${disabled ? 'disabled' : ''}><kbd class="action-index">${index + 1}</kbd>${label}<small>${sub}</small></button>`);
+        actions.push(`<button class="context-action ${cls}" data-context-action="${action}" data-context-index="${index}" ${/^campRest(30|60)$/.test(action) ? 'aria-describedby="campRestFeedback"' : ''} ${cropTargetId !== null ? `data-building-id="${eventUiText(cropTargetId)}" data-crop-target="true"` : ''} ${npcTargetId !== null ? `data-npc-id="${eventUiText(npcTargetId)}"` : ''} ${attackTargetId !== null ? `data-enemy-id="${eventUiText(attackTargetId)}"` : ''} ${action === 'attack' ? 'aria-describedby="playerAttackFeedback"' : ''} ${disabled ? 'disabled' : ''}><kbd class="action-index">${index + 1}</kbd>${label}<small>${sub}</small></button>`);
       };
       if (zombies.length) {
-        icon = '🧟'; title = '僵尸就在身边'; hint = `相邻 ${zombies.length} 只，立刻处理可以减少受伤风险。`;
-        add('🪓 攻击相邻僵尸', `使用${weaponInfo[state.weapon.id].name} · -5行动体力`, 'attack', 'attack', state.energy < 5);
+        icon = '🧟'; title = '附近有僵尸';
+        add('🪓 攻击相邻僵尸', `使用${(weaponInfo[state.weapon.id] || weaponInfo.rustAxe).name} · -5行动体力`, 'attack', 'attack', !dayAttackGate.ok, null, null, dayAttackGate.targetId || '');
       }
       if (npcs.length) {
         const npc = npcs[0]; icon = npc.icon; title = `${npc.name} · ${npc.role}`; hint = npc.desc;
@@ -6779,7 +6780,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
         add(`${area.icon} ${CAMP_ZONES[area.zone]?.name || '营地区域'}`, describeInteraction({kind:'area', item:area}), 'area', 'primary');
       }
       if (zombies.length) {
-        icon = '🧟'; title = `尸潮接触 · ${zombies.length} 只僵尸`; hint = '先处理相邻威胁，再决定是否采集或和幸存者交谈。';
+        icon = '🧟'; title = `附近威胁 · ${zombies.length} 只僵尸`;
       } else if (npcs.length) {
         const npc = npcs[0]; icon = npc.icon; title = `${npc.name} · ${npc.role}`; hint = npc.desc;
       } else if (resources.length) {
@@ -6795,13 +6796,14 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       }
       const preview = interactionCandidates()[0];
       if (preview && !areas.length) hint = describeInteraction(preview) || hint;
+      if (zombies.length) hint = dayAttackGate.ok ? '按 F 或空格攻击当前相邻目标 · 消耗5行动体力。' : playerDayAttackReasonText(dayAttackGate.reason);
       if (state.interactionFocus) hint += ' · 已锁定，再按 E 执行';
       if (!actions.length) { hideContext(); return; }
       if (actions.length > 1) hint += ' · 也可按 1-' + Math.min(9, actions.length) + ' 选择';
       $('contextIcon').textContent = icon;
       $('contextTitle').textContent = title;
       $('contextHint').textContent = hint;
-      $('contextActions').innerHTML = (campRestGates ? `<p class="camp-rest-feedback" id="campRestFeedback" role="status" aria-live="polite">${eventUiText(campRestGateFeedback(campRestGates))}</p>` : '') + actions.join('');
+      $('contextActions').innerHTML = (zombies.length ? `<p class="camp-rest-feedback" id="playerAttackFeedback" role="status">${eventUiText(dayAttackGate.ok ? '可攻击相邻目标 · 消耗5行动体力' : playerDayAttackReasonText(dayAttackGate.reason))}</p>` : '') + (campRestGates ? `<p class="camp-rest-feedback" id="campRestFeedback" role="status" aria-live="polite">${eventUiText(campRestGateFeedback(campRestGates))}</p>` : '') + actions.join('');
       panel.classList.add('show');
       if (campRestGates) renderCampRestStatus(campRestGates);
       if (previousSightActor && !Array.from($('contextActions').querySelectorAll('[data-context-action="npcView"]')).some(button => button.dataset.npcId === previousSightActor)) clearNpcSightReportUi();
@@ -8322,39 +8324,121 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       });
       checkpointNpcPublicOutcome(result, startSeq); return result;
     }
-    function attackNearestThreat() {
-      if (state.night) { nightAttack(); return; }
-      attack();
-    }
-    function attackReducer() {
-      setPlayerAction('attack', 420);
+    const PLAYER_DAY_ATTACK_RANGE = 1.15;
+    function resolvePlayerDayAttackTarget(preferredId = undefined) {
       const zombies = getWorldZombies();
-      if (!zombies.length) return;
-      const adjacent = zombies.filter(z => distanceBetween(z, state.player) <= 1.15 && z.hp > 0);
-      const locked = adjacent.find(z => z.id && z.id === state.combatTargetId);
-      const z = locked || adjacent[0];
-      if (!z) { toast('没有相邻僵尸'); return; }
-      state.combatTargetId = z.id || null;
-      if (!spendEnergy(5)) return;
-      const weapon = weaponInfo[state.weapon.id] || weaponInfo.rustAxe;
-      z.hp -= weapon.damage; z.hitUntil = Date.now() + 420; z.lastDamage = weapon.damage; z.hit = true; pushFx('damage', `-${weapon.damage}`, z.x, z.y, 'hit'); advance(10);
+      const idCounts = new Map();
+      for (const item of zombies) if (typeof item?.id === 'string') idCounts.set(item.id, (idCounts.get(item.id) || 0) + 1);
+      if (!Number.isFinite(state.player?.x) || !Number.isFinite(state.player?.y)) return { ok: false, reason: 'attack-target-invalid' };
+      const inspect = target => {
+        if (!target || typeof target.id !== 'string' || !target.id.trim() || idCounts.get(target.id) !== 1
+          || !Number.isFinite(target.x) || !Number.isFinite(target.y) || !Number.isFinite(target.hp)) return { ok: false, reason: 'attack-target-invalid' };
+        if (target.hp <= 0 || target.dead === true) return { ok: false, reason: 'attack-target-dead', targetId: target.id };
+        const distance = distanceBetween(target, state.player);
+        if (distance > PLAYER_DAY_ATTACK_RANGE) return { ok: false, reason: 'attack-too-far', targetId: target.id };
+        return { ok: true, targetId: target.id, target, distance };
+      };
+      if (preferredId !== undefined) {
+        if (preferredId === null || preferredId === '') return { ok: false, reason: 'attack-no-target' };
+        if (typeof preferredId !== 'string') return { ok: false, reason: 'attack-target-invalid' };
+        const matches = zombies.filter(item => item?.id === preferredId);
+        return matches.length === 1 ? inspect(matches[0]) : { ok: false, reason: 'attack-target-invalid' };
+      }
+      const candidates = zombies.map(inspect);
+      const eligible = candidates.filter(item => item.ok);
+      // Preserve the original locked-target / array-order policy. A rendered
+      // explicit target is never reselected if it moves, dies or disappears.
+      const chosen = eligible.find(item => item.targetId === state.combatTargetId) || eligible[0];
+      return chosen || candidates.find(item => item.reason === 'attack-too-far') || { ok: false, reason: 'attack-no-target' };
+    }
+    function playerDayAttackGate(targetId = undefined) {
+      if (state.gameOver) return { ok: false, reason: 'game-over' };
+      if (!SessionController.isDay() || state.night) return { ok: false, reason: state.night ? 'night-lock' : 'day-only' };
+      const target = resolvePlayerDayAttackTarget(targetId);
+      if (!target.ok) return target;
+      if (!Number.isFinite(state.energy) || state.energy < 5) return { ok: false, reason: 'attack-energy', targetId: target.targetId };
+      const clock = state.worldMeta.clock, now = worldMinute(), amount = 10 * clock.rate;
+      // Keep paused attacks and all persistable rate-scaled advances. Reject an
+      // unsavable fractional calendar before charging or damaging the target.
+      if (typeof clock.paused !== 'boolean' || !Number.isFinite(clock.rate) || clock.rate < .25 || clock.rate > 4
+        || !Number.isSafeInteger(now) || now < 0 || !Number.isFinite(clock.scheduleMinutes) || !Number.isFinite(clock.phaseMinutes)
+        || !clock.paused && (!Number.isSafeInteger(amount) || !Number.isSafeInteger(now + amount) || !Number.isFinite(clock.scheduleMinutes + amount))) return { ok: false, reason: 'attack-clock-invalid', targetId: target.targetId };
+      return target;
+    }
+    function playerDayAttackReasonText(reason) {
+      return ({ 'attack-no-target': '附近没有可攻击目标', 'attack-too-far': '再靠近目标后攻击',
+        'attack-target-invalid': '目标已变化，请重新确认', 'attack-target-dead': '目标已倒下，请重新确认',
+        'attack-energy': '需要5行动体力；可先休息或进食', 'game-over': '本局已结束',
+        'attack-clock-invalid': '当前时钟状态无法完成攻击',
+        'night-lock': '请使用本场尸潮攻击', 'day-only': '当前阶段无法进行白天攻击',
+        'session-frozen': '当前阶段无法攻击' })[reason] || '当前无法完成攻击';
+    }
+    function attackNearestThreat(options = {}) {
+      if (state.night) return nightAttack();
+      return attack(options);
+    }
+    function attackReducer(targetId) {
+      const gate = playerDayAttackGate(targetId);
+      if (!gate.ok) return gate;
+      // The existing Bus has already allocated the parent. Check its one child
+      // before payment; a paused clock still follows its original no-step path.
+      if (!state.worldMeta.clock.paused) {
+        const budget = CommandBus.nextAutomaticId(state.worldMeta);
+        if (!budget.ok) return { ok: false, reason: budget.reason };
+      }
+      const z = gate.target, weaponId = state.weapon.id;
+      const weapon = weaponInfo[weaponId] || weaponInfo.rustAxe;
+      const snapshot = () => ({ id: z.id, kind: z.kind, hp: z.hp, x: z.x, y: z.y, dead: z.dead === true });
+      const calendar = () => ({ day: state.day, hour: state.hour, minute: state.minute, world: worldMinute() });
+      const before = snapshot(), clockBefore = calendar(), energyBefore = state.energy;
+      setPlayerAction('attack', 420);
+      state.combatTargetId = z.id;
+      if (!spendEnergy(5)) return { ok: false, reason: 'attack-energy' };
+      const energyAfterPayment = state.energy;
+      z.hp -= weapon.damage; z.hitUntil = Date.now() + 420; z.lastDamage = weapon.damage; z.hit = true; pushFx('damage', `-${weapon.damage}`, z.x, z.y, 'hit');
+      const afterHit = snapshot(), advancement = advance(10), afterAdvance = snapshot();
+      let retaliationDamage = 0, salvage = 0;
       if (z.hp <= 0) {
         state.zombieKills += 1; state.morale = Math.min(100, state.morale+4); adjustSanity('player', 1, '成功击倒近身僵尸');
-        const salvage = state.weapon.id === 'hookBlade' && state.zombieKills % 2 === 0 ? 1 : 0; state.parts += salvage;
+        salvage = state.weapon.id === 'hookBlade' && state.zombieKills % 2 === 0 ? 1 : 0; state.parts += salvage;
         pushFx('death', '💥', z.x, z.y, 'death'); state.combatTargetId = null;
         clearInteractionFocus(); log(`你用${weapon.name}解决了一只僵尸${salvage ? '，并回收了 1 个零件' : ''}，士气上升。`); toast(`击倒僵尸 +1${salvage ? ' · 零件 +1' : ''}`);
       }
       else {
         const bite = z.kind === 'brute' ? 14 : z.kind === 'runner' ? 7 : 8;
+        retaliationDamage = Math.min(state.hp, bite);
         state.hp = Math.max(0, state.hp - bite);
         adjustSanity('player', z.kind === 'brute' ? -5 : -3, `${z.kind === 'brute' ? '重型' : z.kind === 'runner' ? '快速' : '普通'}僵尸近身反咬`);
         pushFx('player-hit', `-${bite}`, state.player.x, state.player.y, 'danger');
-        log(`${z.kind === 'brute' ? '装甲僵尸' : z.kind === 'runner' ? '快速感染者' : '僵尸'}反咬了一口，生命值 -${bite}。`, 'danger');
+        log(`${z.kind === 'brute' ? '装甲僵尸' : z.kind === 'runner' ? '快速' : '僵尸'}反咬了一口，生命值 -${bite}。`, 'danger');
         toast(`受伤了 · 生命 -${bite}`);
       }
-      render();
+      const clockAfter = calendar();
+      const proof = {
+        proofVersion: 1, targetId: gate.targetId, weaponId,
+        hit: { damage: weapon.damage, beforeHp: before.hp, afterHp: afterHit.hp },
+        target: { id: gate.targetId, before, afterHit, afterAdvance, presentAtCompletion: getWorldZombies().includes(z) },
+        payment: { cost: { energy: 5 }, before: { energy: energyBefore }, after: { energy: energyAfterPayment } },
+        clock: { before: clockBefore, after: clockAfter, requestedMinutes: 10, elapsedMinutes: clockAfter.world - clockBefore.world },
+        advance: { ok: advancement?.ok === true, paused: advancement?.paused === true, commandId: advancement?.commandId || null,
+          eventId: advancement?.event?.eventId || null, causationId: advancement?.event?.causationId || null,
+          minutes: advancement?.event?.payload?.minutes ?? (advancement?.paused ? 0 : null) },
+        outcome: { killed: z.hp <= 0, retaliationDamage, salvage }
+      };
+      render(); return { result: proof, payload: proof };
     }
-    function attack(options = {}) { return actionCommand('threat.attack','threat.attacked',{targetId:state.combatTargetId},()=>attackReducer(),options); }
+    function attackCommandReducer(command) { return attackReducer(command.payload?.targetId ?? null); }
+    function attack(options = {}) {
+      const explicit = Object.prototype.hasOwnProperty.call(options, 'targetId');
+      const selected = resolvePlayerDayAttackTarget(explicit ? options.targetId : undefined);
+      // Only a string/null identity crosses the command serialization boundary;
+      // other supplied types become a JSON-safe invalid value, rejected by the
+      // actual Gate after the Bus has honored an existing duplicate ID.
+      const targetId = explicit ? (typeof options.targetId === 'string' || options.targetId === null ? options.targetId : false) : selected.targetId || null;
+      const result = actionCommand('threat.attack', 'threat.attacked', { targetId }, attackCommandReducer, options);
+      if (!result.ok) { toast(playerDayAttackReasonText(result.reason)); renderContext(); }
+      return result;
+    }
     function placeBuildingReducer(x,y) {
       const info = buildInfo[state.selectedBuild];
       const fp = { w: Number(info.footprint?.[0] || 1), h: Number(info.footprint?.[1] || 1) };
@@ -9641,7 +9725,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       const nearbyBuilding = nearbyContextItem(state.buildings);
       const nearbyShelter = nearbyContextItem(state.buildings, b => b.type === 'shelter');
       if (action === 'campRest30' || action === 'campRest60') { const result = requestCampRest(action === 'campRest30' ? 30 : 60); if (!result.ok) toast('当前不可等候：' + campRestReasonText(result.reason)); renderContext(); }
-      else if (action === 'attack') attackNearestThreat();
+      else if (action === 'attack') attackNearestThreat({ targetId: button.dataset.enemyId || '' });
       else if (action === 'npcView') viewNpc(button.dataset.npcId || '');
       else if (action === 'npc') interactNpc(button.dataset.npcId || '');
       else if (action === 'npcOrder') setNpcOrder(button.dataset.npcId, button.dataset.order);
@@ -9666,7 +9750,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
     document.querySelectorAll('[data-hud-action]').forEach(button => button.addEventListener('click', () => runHudAction(button.dataset.hudAction)));
     $('gatherBtn').addEventListener('click', gather);
     $('buildBtn').addEventListener('click', toggleBuild);
-    $('attackBtn').addEventListener('click', attackNearestThreat);
+    $('attackBtn').addEventListener('click', () => attackNearestThreat());
     $('cropBtn').addEventListener('click', () => plantOrHarvest());
     $('eatBtn').addEventListener('click', eatFood);
     $('eatBtnAction').addEventListener('click', eatFood);
