@@ -7,3 +7,5 @@
 源码renderContext／nearbyContextItem以1.25连续半径选NPC，interactNpcReducer和setNpcOrderReducer的实际执行半径为1；角色移动也会令已渲染按钮过期。当前需要分开呈现可查看／可请求／已请求的资格，并在执行时重新校验原NPC，不能把提示靠近的空npc.interacted记录当作支援成功或人物功绩。
 
 下一评审决定UI显示范围、动作禁用／接近提示与实际支援范围如何一致，不在农务切片中擅自提高NPC动作距离。自然runner可按公开提示与当前可见角色位置进行有限贴近，再核实际状态／回执；成功只证明该路线真实完成，不表示本UI问题已经修复。人口、岗位、健康、驻守和真实敌人风险仍沿原规则。
+
+开发解决：源码80dea63c／HTML9edb6d3c统一查看与动作资格、同ID重核及typed结果，source110／实际Chrome112与fresh07通过；见[QA](../qa/npc-public-actions-v1-20261017.md)。下方原问题与自然fresh05仍保留，生产未部署。

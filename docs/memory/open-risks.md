@@ -1,5 +1,11 @@
 # 未关闭风险
 
+## 当前优先级覆盖：9ed NPC公开动作后（2026-10-17）
+
+NPC距离／同目标／typed空成功和真实耗时死亡后续奖励已在开发80dea63c／9ed列明source110、Chrome112及fresh07短路线验收，见[QA](../qa/npc-public-actions-v1-20261017.md)。不声称所有NPC入口、永久人物功绩账本或生产部署完成。
+
+下一为Scenario实际boot（C1初始seed／有限food，C2 JSON storylet编译及原子注册）和actor知识；完整SAVE21非默认rate的[整数日历矛盾](../problems/PROB-20261017-fractional-clock-calendar.md)仍open。当前动作仅提前拒绝已知无效15×rate，不是全局clock修复。继任双岗、采集目标ID回执、零粮计划词值、大步/小步模拟差异、自然三日、trusted hidden、移动端、最终尸潮与生产部署仍open。下方历史状态不覆盖本节。
+
 ## 当前优先级覆盖：19cb农务后（2026-10-17）
 
 农务live目标／空成功／玩家来源已完成列明source及真实Chrome验收；自然fresh06短路线7/7通过，见[QA](../qa/crop-target-v1-20261017.md)。它没有战斗、收获、三日，跟近Canvas分支未触发。fresh05暴露[NPC查看1.25与执行1.0](../problems/PROB-20261017-npc-context-distance.md)仍open，是下一P0；不因06直接在1内成功关闭。

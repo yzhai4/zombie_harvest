@@ -1,5 +1,13 @@
 # 当前状态
 
+## 当前检查点：NPC公开动作与真实中断（2026-10-17，优先于下方历史）
+
+源码`80dea63cb835f8e4da3a965156d06d15a8bf4074`／HTML`9edb6d3c3daa7ec63d90594381d811cb077828fd0955fb7095c601ce91b5b87b`，SAVE21／CONTENT3。查看1.25／执行1格共享live同ID准入；首谈／支援／询问typed结果，拒绝无空成功；真实advance内死亡停止后置奖励／命令，保留成本和世界后果，最终负账本自动保存。详见[QA](../qa/npc-public-actions-v1-20261017.md)。
+
+source110／Chrome NPC112与受影响农务35、断粮72、rest93、presence37、episode12通过。38项合同完成；一次漏参失败和旧源／r2负控、原浏览器方法失败均保留。fresh07全新七项短路线16/16，终点第1天09:23十人活，不含战斗／收获／夜间／三日，Canvas跟近0次。精确Git/CI在当前PR #4核；生产未部署，Sites v81仅上次已核。
+
+下一P0：真实Scenario初始seed／有限food配置绑定与旧档不重算，C1[技术计划](../research/scenario-boot-c1-implementation-plan-20261017.md)仍proposed；JSON storylet编译／原子注册另C2，不能整体宣称Scenario完成。之后actor知识投影。继任双岗、采集目标回执、非整数clock、零粮词值、大步模拟差异及自然三日另open；长期更大世界／多副本与特殊NPC连续性不变。
+
 ## 当前检查点：live农务与自然短路线（2026-10-17，优先于下方历史）
 
 源码 `b1abc2eed9376959412fa9c8ff9a6c6816e969c7`／HTML `19cb05c4341ab1353e1ac5362b685a4af3a88fc826e349504b9d57a42639eb6f`，SAVE21／CONTENT3。农务UI／执行共享live唯一田块与连续1.25范围；无目标显式拒绝，公开入口携同一ID，新建建筑立即稳定ID；实际农务父命令及成功事件均player-1。保持原种子／体力／产出／20分钟，旧空历史不补造。见[本轮QA](../qa/crop-target-v1-20261017.md)。

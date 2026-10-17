@@ -52,6 +52,8 @@ LLM 不得直接改全局状态、生成人口/资源、跳过事件节点、读
 
 涉及 NPC 参与资格时，区分存在/存活、营地本地、健康可工作和有效岗位；驻守者仍计人口，但不能跨地点重复行动。双向伤害、新感知/共享、routine、motion、render 与福利分别核 consumer；修了作战入口不能宣布整体离营完成。critical 是否可战按明确规则判断，不能从 dead Gate 推定已有健康 Gate。参见 `docs/problems/PROB-20261017-npc-outpost-camp-presence.md`。
 
+NPC公开动作按[NPC合同](../../../docs/decisions/ADR-20261017-npc-public-actions-v1.md)区分查看、首谈、确认支援、状态询问和命令；同一目标在提交时重核。规则前置拒绝、自主拒绝和真实耗时后的中断分别验收；中断保留已付成本及真实战斗，停止后置奖励，不把所有负结果都断言成无副作用。proof标明实际捕获阶段；失败分支需核自动checkpoint已含最终账本，先观察保存再reload，不能用pagehide掩盖漏存。
+
 自然路线先按 `docs/qa/natural-play-protocol-20261017.md` 追踪公开入口的真实命令与时间效果。遭遇开始/报告关闭不等于跨日；有意义行动耗尽可报告节奏未完成，不用重复增益或空等补成“自然三日”。公开休整若实施，必须有小步模拟、危险中断、午夜后果、timer ownership、幂等与旧档证据。
 
 ```text

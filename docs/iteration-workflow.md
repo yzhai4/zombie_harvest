@@ -179,3 +179,5 @@ Evidence manifest 绑定 branch、evidence commit、HTML SHA、SAVE/CONTENT、CI
 证据遵循 exact source/runner/input/artifact 绑定；static、source-VM、真实 boot fixture、自然 browser 和 Sites 分层列示。源码改变即使旧 browser 已通过也须重验受影响合同；pending、缺 hash、stale 与 unavailable 不作通过，旧失败不重标。详细验收项引用设计卡与 ADR，避免在工作流累积逐次日志。
 
 内容选择的合理性要同时比较立即选择、关闭/暂不处理和先补粮等公开可达策略；分别写清内部 fallback 与真实 UI 入口。旧一次性完成档迁入 repeatable 后，还要调用真实事件菜单/renderer，证明新 episode 可见，不能仅凭 startChain 成功宣布迁移闭环。
+
+NPC公开动作另按[NPC合同](decisions/ADR-20261017-npc-public-actions-v1.md)评估：查看／首谈／确认支援／询问／命令保持各自语义，提交时重核同一目标。规则拒绝、自主拒绝和已支付后的真实生命周期中断分别记账；实际模拟产生的伤亡不退款或回滚，后置奖励与命令停止。捕获阶段和父子事件来源分别列明；自动checkpoint必须在reload前被实际观察，负结果不能因Bus不保存而丢失。
