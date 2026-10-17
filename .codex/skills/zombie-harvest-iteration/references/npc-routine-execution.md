@@ -5,6 +5,7 @@
 - 分别核生理rest、schedule、behavior、motionTarget、workClock／pulse、SAN和公开解释。若它们各读不同阈值，单改文字或只挡成功回执会留下矛盾。复用真实运动，不以目标设置证明到达／安全。
 - 明确正式职责和需求的owner。高优先writer接管时取消或暂停须由设计选择；取消不能靠下一分钟才清理，也不能清掉已经写入的新目标。只读投影避免调用ensure／normalize等带副作用helper。
 - 持续政策有滞回时保存其最小身份；不能用中文标签或lastReport重建。旧writer缺失、显式坏字段、未知未来版本分别处理；同版本加性adapter只追加精确缺省，不借机补工时、奖励或旧历史。
+- 给NPC增加持久字段时，先跑真实完整旧writer的计划会与计划会UI继续路径（`check-plan-integrity.mjs`、`check-plan-integrity-ui.mjs`），再冻结大证据包。精确新增缺省、adapter原因／domain与一次账本水位；逐旧payload键核对并再次Continue验证不再迁移。只修失败方法的具体预期，不能用当前normalize生成expected、宽泛omit新字段或删旧比较。隔离运行要包含实际读取的schema依赖；依赖缺失保留为方法失败，补原字节后只重跑失败合同。
 - 时间按实际评估粒度声明。某段已用于恢复，即使末端完成，也不能把整段再次算为工作。SAN等延后consumer须消费同一本段事实；开始前已经让权不等于本段仍在恢复。不要由单步通过推导全世界bulk等价。
 - 使用真实原输入与反例，先测一个完整可见consumer。近完成fixture能定位退出，不能代替完整成本；长段遇到真实敌情、需求或事项中断应保留未完成，不删敌补粮／提速补出成功。工程一致性不证明玩家喜欢新代价。
 
