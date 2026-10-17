@@ -4,7 +4,7 @@
 
 dccb中继片已完成列明源码43合同、真实Chrome四场197与关联episode12；[QA](../qa/relay-effective-role-v1-20261018.md)分开原失败、方法修正、真实继任及消费者完工。中继绑定与一次完工在该范围有证明，全局有效岗仍open，不能把其它医疗／战斗／福利／计划／长官交付调用者一并关闭。旧已online历史保留，其后人员维护另立合同。
 
-新增[公开中继A02／B02](../qa/public-relay-mainline-20261018.md)已回收并交付，两臂都停在筹料、等候入口present-disabled；原方法将禁用误报为缺入口，独立更正但原exit1不改。实际界面未说明禁用原因，已列[反馈问题](../problems/PROB-20261018-camp-rest-disabled-feedback.md)，尚未修运行时；不因可见性缺口放开危险规则。原文和现有关系flag不等于持久EventFact，首个[本人记忆切片](../research/eventfact-handoff-plan-20261018.md)仍仅计划，旧档不回填。完整公开链、食物效果、自然三日和真人收益继续open。
+新增[公开中继A02／B02](../qa/public-relay-mainline-20261018.md)已回收并交付，两臂都停筹料、等候present-disabled；原方法误报缺入口，原exit1保留。[反馈问题](../problems/PROB-20261018-camp-rest-disabled-feedback.md)现已在HTML108042列明范围本地修复：source43（含camp-rest77）、新Chrome14＋休整93＋episode12均实际通过，hidden仍unavailable；selected／manifest已通过本地freshness，证据发布提交的精确CI由PR #4／本轮最终发布收据另核，本段不预填。不放开危险规则；原A／B没有online或reload证据，60a局部390呈现失败保留，不称Gatebug。原文和关系flag仍非持久EventFact，首个[本人记忆切片](../research/eventfact-handoff-plan-20261018.md)仅计划，旧档不回填。完整公开链、食物因果、自然三日及真人收益继续open。
 
 规范化旧引用确实曾使live状态与上线事件／奖励分叉；候选已使终态、station、forecast及一次收益一致。旧已保存重复收益／null时间不追溯猜补。新三岗准入收紧未来未完成执行，旧writer／loader保留声明；没有已实现的自定义工程岗位编辑器或转岗按钮。恢复仍依真实每日继任，一次补岗可能新开空缺。
 

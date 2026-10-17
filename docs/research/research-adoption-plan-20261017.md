@@ -2,14 +2,14 @@
 
 状态：active；日期：2026-10-17。这是当前优先级入口；逐轮构建证据仍以[当前状态](../memory/current-state.md)、[风险](../memory/open-risks.md)和[证据 manifest](../qa/iteration-manifest-v1.json)为准。
 
-## 当前下一轮（2026-10-18，中继修复后）
+## 当前下一轮（2026-10-18，反馈已本地完成、待开发收口）
 
 用户报告原文已核同59069字节／SHA940efac9，继续作为设计输入，不作新外部实证。木匠持续恢复列明范围已验；中继pilot暴露的双岗已落实为[三岗绑定合同](../decisions/ADR-20261018-relay-effective-role-v1.md)，并由真实legacy完工反例带出项目对象／一次收益修复。dccb的源码43合同、同方法旧版负控与Chrome四场197＋episode12已实际终态；开发ref／精确CI仍由本轮证据发布核验。详见[QA](../qa/relay-effective-role-v1-20261018.md)。
 
 下一按三个出口推进：
 
-1. **当前开发发布已完成，继续玩法出口。** 开发head9b387549与CI297 completed／success已重新实查；源码对象、实际native输入、终态和选中工件的来源核验保持。原失败／方法修正不覆盖，生产沿已批准源线另验；后续文档commit的精确CI另核，不继承本次head结论。
-2. **接公开完整主线后果与单因素路线。** [本轮A02／B02](../qa/public-relay-mainline-20261018.md)已从unknown实际回收并交付，仍在筹料，等候入口present-disabled使方法停止；两臂均未online／reload，不支持食物因果。下一先补[禁用原因反馈](../problems/PROB-20261018-camp-rest-disabled-feedback.md)，不解除安全Gate。严格C仍无合法单因素输入；死亡＋继任改变多项事实，另列机制例，不当严格C或其它切片前置。保留固定预算及原A死亡／B危险停止，source-only330消费者分钟完工不代替自然全链。目标仍是玩家能解释“探索→交付→有限施工→预警”，不是凑三日或检查数。
+1. **收口反馈开发发布。** [禁用原因反馈](../qa/camp-rest-feedback-20261018.md)已在HTML108042列明范围完成本地source43、Chrome14＋休整93＋episode12；源码对象1db8954及159条source inventory已绑，selected／manifest已安装并通过本地freshness16／16、self-test76／76；本地无.git，Git API159源项匹配与CI ancestry分别核。证据发布提交的精确CI由PR #4／本轮最终发布收据另核，本段不预填；原开发head9b387549／CI297成功是dccb基线，不继承给新head。原失败与方法修正保留，生产另验。
+2. **继续公开完整主线后果与单因素路线。** [A02／B02](../qa/public-relay-mainline-20261018.md)已从unknown真实回收并交付，仍在筹料；等候present-disabled与原方法误报均保留，两臂未online／reload，不支持食物因果。当前反馈说明已本地修复，不解除安全Gate；新方法应区分缺入口／disabled／enabled，再按原预算决定公开防卫、退避或停止。严格C仍无合法单因素输入；死亡＋继任是机制例，不当严格C或其它切片前置。原A死亡／B危险停止保留，source-only330消费者分钟不代替自然全链。目标仍是可读的“探索→交付→有限施工→预警”，不是凑三日或检查数。
 3. **接真实后果的EventFact／记忆。** 首片限定真实核心交付成功→当次接收长官保留带来源的事实→既有同ID免费查询→正常保存／Continue保留；不新发关系奖励，不把交付收据称为有期限的承诺，也不由旧briefed状态或关系flag倒推历史。拒绝、duplicate、继任、旧档未记录与账本窗口淘汰分别处理。发现足够真实来源即可实施，不等A/B/C全部通过、online或完整contacts收口；宽世界快照不交给LLM。真人可理解性／继续游玩意愿独立验收。
 
 全局有效岗（含长官交付）、完整NPC规划／Memory/Social、Studio、特殊角色连续性、更大世界／多副本与UI素材／引擎适配继续开放。硬Gate拥有规则与事实，LLM仅低频意图／表达并保AI OFF与确定性fallback；优先exact simulator反事实，learned World Model仍需先证明收益与成本缺口。下方历史切片保持各自时点，不覆盖本节。

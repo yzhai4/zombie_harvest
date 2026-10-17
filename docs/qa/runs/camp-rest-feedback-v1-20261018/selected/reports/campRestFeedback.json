@@ -1,0 +1,361 @@
+{
+  "runner": "browser-camp-rest-feedback-v1",
+  "sourceHtmlSha256": "108042213a6defbfd16cbd2f56cde8fbc2c575717c5eefff942753353a19b09a",
+  "inputSha256": "e4fbb6c158e5a85bed24141dbc5b5a115860c47d4f580fa767747ef38d0d3f59",
+  "runnerSha256": "98dfd95a54275eb1dab5ce7aca35b85059e3d39b4d0e185fc209b193618f98e8",
+  "naturalGameplay": false,
+  "humanExperience": false,
+  "postBootStateWrites": false,
+  "checks": [
+    {
+      "name": "actual-danger: actual document matches frozen source",
+      "ok": true
+    },
+    {
+      "name": "actual-danger: rest entries present disabled with visible coarse reason",
+      "ok": true
+    },
+    {
+      "name": "actual-danger: reason is outside disabled controls and linked accessibly",
+      "ok": true
+    },
+    {
+      "name": "actual-danger: 390 visible explanation retains readable size",
+      "ok": true
+    },
+    {
+      "name": "actual-danger: inspection cannot start rest or change save schema",
+      "ok": true
+    },
+    {
+      "name": "unknown-speed: actual document matches frozen source",
+      "ok": true
+    },
+    {
+      "name": "unknown-speed: unknown data is disabled with neutral reason",
+      "ok": true
+    },
+    {
+      "name": "unknown-speed: feedback discloses no enemy identity or coordinate",
+      "ok": true
+    },
+    {
+      "name": "safe-zero-supplies: actual document matches frozen source",
+      "ok": true
+    },
+    {
+      "name": "safe-zero-supplies: zero food and energy have no new hard gate",
+      "ok": true
+    },
+    {
+      "name": "safe-zero-supplies: available feedback clears old failure and retains risk",
+      "ok": true
+    },
+    {
+      "name": "safe-zero-supplies: active feedback and controls agree",
+      "ok": true
+    },
+    {
+      "name": "safe-zero-supplies: cancel restores availability without stale active reason",
+      "ok": true
+    },
+    {
+      "name": "safe-zero-supplies: real paid-time prefix stops once with no food grant",
+      "ok": true
+    }
+  ],
+  "errors": [],
+  "scenes": [
+    {
+      "name": "actual-danger",
+      "inputSha256": "e4fbb6c158e5a85bed24141dbc5b5a115860c47d4f580fa767747ef38d0d3f59",
+      "changes": [
+        "Original A02 terminal native writer, no business-field derivation; no new natural prefix claim"
+      ]
+    },
+    {
+      "name": "unknown-speed",
+      "inputSha256": "2fd0c65ed4d36b15049d4de12718b81a7c29f6630991cb43d32289de28c39bfe",
+      "changes": [
+        "Offline complete writer derived from original; first existing enemy speedFactor1.13 outside rest safety envelope, accepted by actual loader; no enemy position edits"
+      ]
+    },
+    {
+      "name": "safe-zero-supplies",
+      "inputSha256": "377b5416d57a8456db08ab6b21cafd9e5151cbe2f55f3eb23e4b81aa24c7dccc",
+      "changes": [
+        "Offline TEST-ONLY isolation: enemies removed, existing player position retained, food0/energy0, frontier clocks0, moderate NPC needs/cooldown1000; no player-gameplay survival claim"
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "scene": "actual-danger",
+      "sha256": "108042213a6defbfd16cbd2f56cde8fbc2c575717c5eefff942753353a19b09a"
+    },
+    {
+      "scene": "unknown-speed",
+      "sha256": "108042213a6defbfd16cbd2f56cde8fbc2c575717c5eefff942753353a19b09a"
+    },
+    {
+      "scene": "safe-zero-supplies",
+      "sha256": "108042213a6defbfd16cbd2f56cde8fbc2c575717c5eefff942753353a19b09a"
+    }
+  ],
+  "captures": [
+    {
+      "scene": "actual-danger",
+      "label": "desktop",
+      "public": {
+        "feedback": "暂不可等候：附近存在威胁",
+        "visible": true,
+        "rect": {
+          "x": 30,
+          "y": 771,
+          "width": 336,
+          "height": 18,
+          "bottom": 789
+        },
+        "fontSize": "12px",
+        "opacity": "1",
+        "buttons": [
+          {
+            "minutes": 30,
+            "present": true,
+            "disabled": true,
+            "description": "campRestFeedback"
+          },
+          {
+            "minutes": 60,
+            "present": true,
+            "disabled": true,
+            "description": "campRestFeedback"
+          }
+        ],
+        "status": "营地等候：暂不可等候：附近存在威胁"
+      },
+      "files": [
+        {
+          "file": "actual-danger-desktop-native.json",
+          "bytes": 215364,
+          "sha256": "e6203c13d6f7e633376d17b5dfc504a019567fbde8c118f7da30dcafea9336f2"
+        },
+        {
+          "file": "actual-danger-desktop-ui.json",
+          "bytes": 542,
+          "sha256": "84f894fb7eab0d98f02a149515ecb51e4e710699768b81d8b8f94d38fd890496"
+        },
+        {
+          "file": "actual-danger-desktop.png",
+          "bytes": 542963,
+          "sha256": "d1ce0e76acd424b51e5e7dd2581a2943b932f89f492238d7011389ab1474d21b"
+        }
+      ]
+    },
+    {
+      "scene": "actual-danger",
+      "label": "390",
+      "public": {
+        "feedback": "暂不可等候：附近存在威胁",
+        "visible": true,
+        "rect": {
+          "x": 26,
+          "y": 733.9375,
+          "width": 338,
+          "height": 18,
+          "bottom": 751.9375
+        },
+        "fontSize": "12px",
+        "opacity": "1",
+        "buttons": [
+          {
+            "minutes": 30,
+            "present": true,
+            "disabled": true,
+            "description": "campRestFeedback"
+          },
+          {
+            "minutes": 60,
+            "present": true,
+            "disabled": true,
+            "description": "campRestFeedback"
+          }
+        ],
+        "status": "营地等候：暂不可等候：附近存在威胁"
+      },
+      "files": [
+        {
+          "file": "actual-danger-390-native.json",
+          "bytes": 215364,
+          "sha256": "e6203c13d6f7e633376d17b5dfc504a019567fbde8c118f7da30dcafea9336f2"
+        },
+        {
+          "file": "actual-danger-390-ui.json",
+          "bytes": 552,
+          "sha256": "50a561a4ccbf585a772677513c961e4d152f4e93b58b446d579bbfe96a8974d8"
+        },
+        {
+          "file": "actual-danger-390.png",
+          "bytes": 178770,
+          "sha256": "272cbb796698a14dd8045b94b897d9125e39601c3b299a8e9d1acfc5cd2dac75"
+        }
+      ]
+    },
+    {
+      "scene": "unknown-speed",
+      "label": "desktop",
+      "public": {
+        "feedback": "暂不可等候：无法确认安全",
+        "visible": true,
+        "rect": {
+          "x": 30,
+          "y": 771,
+          "width": 336,
+          "height": 18,
+          "bottom": 789
+        },
+        "fontSize": "12px",
+        "opacity": "1",
+        "buttons": [
+          {
+            "minutes": 30,
+            "present": true,
+            "disabled": true,
+            "description": "campRestFeedback"
+          },
+          {
+            "minutes": 60,
+            "present": true,
+            "disabled": true,
+            "description": "campRestFeedback"
+          }
+        ],
+        "status": "营地等候：暂不可等候：无法确认安全"
+      },
+      "files": [
+        {
+          "file": "unknown-speed-desktop-native.json",
+          "bytes": 215402,
+          "sha256": "52a2412f908a39e6e2c3d3b7aa4a5f2f6d9e039c9831567471d9836141ddda2c"
+        },
+        {
+          "file": "unknown-speed-desktop-ui.json",
+          "bytes": 542,
+          "sha256": "93820cfd1810db6941ec9d3fd2de03dbe8a39aa53bddbf3a5bde6bca2cc49210"
+        },
+        {
+          "file": "unknown-speed-desktop.png",
+          "bytes": 542931,
+          "sha256": "95fa0a83328bd295986d5817d6e868e6f0f32303f8a3148ac1efd3a8f809b4fe"
+        }
+      ]
+    },
+    {
+      "scene": "safe-zero-supplies",
+      "label": "available",
+      "public": {
+        "feedback": "可等候 · 不额外治疗或补给；世界、需求与风险继续，不保证安全",
+        "visible": true,
+        "rect": {
+          "x": 30,
+          "y": 753,
+          "width": 336,
+          "height": 36,
+          "bottom": 789
+        },
+        "fontSize": "12px",
+        "opacity": "1",
+        "buttons": [
+          {
+            "minutes": 30,
+            "present": true,
+            "disabled": false,
+            "description": "campRestFeedback"
+          },
+          {
+            "minutes": 60,
+            "present": true,
+            "disabled": false,
+            "description": "campRestFeedback"
+          }
+        ],
+        "status": "营地等候：可等候 · 不额外治疗或补给；世界、需求与风险继续，不保证安全"
+      },
+      "files": [
+        {
+          "file": "safe-zero-supplies-available-native.json",
+          "bytes": 210878,
+          "sha256": "cf616b92ae6b426f744f3960bc9222b2b778bae40df6711db597e504833cecc6"
+        },
+        {
+          "file": "safe-zero-supplies-available-ui.json",
+          "bytes": 648,
+          "sha256": "b2737879ec17bc5341bbd8cb0126ab4f9c32e5aef53b7174baa98649fb628658"
+        },
+        {
+          "file": "safe-zero-supplies-available.png",
+          "bytes": 549242,
+          "sha256": "744f30a06aecebe7536d41db1fcb103557fefa5afb1841ccb6890e4a8301ab0a"
+        }
+      ]
+    },
+    {
+      "scene": "safe-zero-supplies",
+      "label": "cancelled",
+      "public": {
+        "feedback": "可等候 · 不额外治疗或补给；世界、需求与风险继续，不保证安全",
+        "visible": true,
+        "rect": {
+          "x": 30,
+          "y": 753,
+          "width": 336,
+          "height": 36,
+          "bottom": 789
+        },
+        "fontSize": "12px",
+        "opacity": "1",
+        "buttons": [
+          {
+            "minutes": 30,
+            "present": true,
+            "disabled": false,
+            "description": "campRestFeedback"
+          },
+          {
+            "minutes": 60,
+            "present": true,
+            "disabled": false,
+            "description": "campRestFeedback"
+          }
+        ],
+        "status": "上次等候停止 · 1/30 分钟 · 食物 0 · 体力 0 · 已取消 · 当前：可等候 · 不额外治疗或补给；世界、需求与风险继续，不保证安全"
+      },
+      "files": [
+        {
+          "file": "safe-zero-supplies-cancelled-native.json",
+          "bytes": 215630,
+          "sha256": "e3254472106ed8b0a107b0562e2ba1b531759097787582ce28f7a47f5ccfbc29"
+        },
+        {
+          "file": "safe-zero-supplies-cancelled-ui.json",
+          "bytes": 716,
+          "sha256": "5862d17658858d05a6c5a4493335adfeef737b339ee2a79094f463c6c43b26a5"
+        },
+        {
+          "file": "safe-zero-supplies-cancelled.png",
+          "bytes": 551685,
+          "sha256": "097a3cece61bb50c8e244343c5126a6c59cea4b9363b4cc5d7ce0f93d422eafe"
+        }
+      ]
+    }
+  ],
+  "cleanup": {
+    "contextsClosed": true,
+    "browserClosed": true,
+    "serverClosed": true
+  },
+  "browserVersion": "155.0.8059.80",
+  "count": 14,
+  "passed": 14,
+  "ok": true
+}

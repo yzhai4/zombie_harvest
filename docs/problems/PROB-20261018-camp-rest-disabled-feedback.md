@@ -1,6 +1,6 @@
 # 等候入口禁用原因未公开
 
-状态：open／设计已复核，尚未改运行时。来源：dccb、开发head9b387549；[公开路线A02／B02](../qa/public-relay-mainline-20261018.md)。
+状态：validated／列明范围已修复验证，selected与manifest已通过本地freshness；证据发布提交的精确CI由PR #4／本轮最终发布收据另核，本段不预填。源码对象1db8954edb1565acb5ffcd817cde9558873313c3／HTML108042213a6defbfd16cbd2f56cde8fbc2c575717c5eefff942753353a19b09a，见[本轮QA](../qa/camp-rest-feedback-20261018.md)。原问题来源：dccb、开发head9b387549；[公开路线A02／B02](../qa/public-relay-mainline-20261018.md)。
 
 ## 复现与影响
 
@@ -19,6 +19,6 @@ A02事后live资料符合原nearby-threat拒绝，未原帧调用Gate，B未另�
 
 ## 验证与后续
 
-优先复用camp-rest源码合同及真实renderer；补最小反例证明旧版disabled无说明、新版同原因可见并随条件恢复，不为每个映射词写重复测试。真实浏览器核危险、未知及安全入口、开始／取消与窄屏可读；测试fixture不称自然主线成功。继续使用正常writer／reload，不解除Gate来让pilot走完。
+最终同构建source43／43（含camp-rest77）、新反馈Chrome14／14、既有休整93／93及episode12／12均实际terminal0；休整六场verified，真实hidden仍unavailable。实际危险使用原A02终态native，unknown／safe两场为TEST-ONLY派生。旧dccb source74／77与Chrome3／6负控保留；中间60a的390局部p落在首屏下方仅是呈现缺口，v2一行前置p后重新验收，未改Gate或回填原失败。正常保存／刷新和取消保留，未解除危险规则。未证明自然主线、平衡、完整移动端或生产部署。
 
 方法单列：下一版区分absent、present-disabled、enabled；不能退役已有公开等候入口的点，也不能据事后几何生成下一条隐藏导航。新方法另冻身份，不改A02／B02。

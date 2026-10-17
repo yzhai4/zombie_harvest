@@ -1,6 +1,6 @@
 # EventFact首片：接收者记得真实交付
 
-状态：implementation plan／尚未接线。基线dccb，SAVE21／CONTENT3；源自[报告落地计划](research-adoption-plan-20261017.md)及[真实公开交付](../qa/public-relay-mainline-20261018.md)。不是完整Memory／Social或跨副本系统验收。
+状态：implementation plan／尚未接线。dccb为原来源锚点，下一实现以[当前manifest](../qa/iteration-manifest-v1.json)的108042／源码1db8954为基线，SAVE21／CONTENT3；源自[报告落地计划](research-adoption-plan-20261017.md)及[真实公开交付](../qa/public-relay-mainline-20261018.md)。不是完整Memory／Social或跨副本系统验收。
 
 玩家承诺：交付核心后，再次查看同一位实际接收长官，能读到何时、谁把什么交给了他；正常保存／Continue后仍可核实。查询不变成支援、额外耗时或刷关系。历史事实与实时工程状态分开，不承诺完工期限、安全或未发生的施工。
 
@@ -25,3 +25,5 @@
 最小验收包含实际成功交付→同人物公开回忆→正常writer→Continue及新tick仍同记忆／无重复收益；拒绝、duplicate、错人物、继任、旧档unknown及账本窗口淘汰作有意义负控。A02旧native可作真实旧writer输入，不能给它补造未来源码才引入的记忆。没有真人Attachment／乐趣结果时只称工程出口。
 
 A／B／严格C、online、完整contacts所有topic均不是本片无限前置。Studio、完整规划／记忆／关系、特殊角色跨副本连续性、更大世界、UI素材、GameCore／引擎适配和后续研究继续开放。
+
+[六视角与真实调用路径预评审](../qa/six-view-eventfact-handoff-20261018.md)已完成，只读设计结论不算实现或运行时验收。

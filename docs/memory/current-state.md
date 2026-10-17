@@ -1,5 +1,13 @@
 # 当前状态
 
+## 当前检查点：等候禁用原因反馈（2026-10-18，优先于下方历史）
+
+源码对象`1db8954edb1565acb5ffcd817cde9558873313c3`／HTML`108042213a6defbfd16cbd2f56cde8fbc2c575717c5eefff942753353a19b09a`，903224字节，159条source inventory已与Git API树匹配；SAVE21／CONTENT3不变。等候按钮、context常驻说明和footer共用当次真实Gate，提交仍重核；只披露固定粗原因，未知中性，不暴露敌实体信息。未改危险、费用、时钟、模拟、保存或LLM。见[QA](../qa/camp-rest-feedback-20261018.md)。
+
+本地最终source43／43，build检查另列exit0，camp-rest77是其中内部检查；新反馈Chrome14／14、旧休整93／93与episode12／12均terminal0并清理。休整六场verified，trusted hidden仍unavailable。actual-danger为原A02终态完整native原字节，unknown／safe是TEST-ONLY派生；root目视390说明。旧dccb source74／77、Chrome3／6及60a新反馈12／13原件保留；60a仅局部说明在首屏下方，HUD原因已可见，v2一行前置p后另绑实际验证，不称Gatebug。
+
+selected／manifest已安装，235条绑定；本地freshness16／16、方法self-test76／76均exit0，本地Git ancestry不可用，与Git API源树匹配159项分别报告；证据发布提交的精确CI由PR #4／本轮最终发布收据另核，本段不预填，不继承旧CI297。原公开A02／B02仍exit1、停筹料、未online／reload；反馈修复不增加自然全链／三日、食物因果、体验或生产证据。下一[本人交付EventFact](../research/eventfact-handoff-plan-20261018.md)仍待实现，旧档不由briefed／关系flag回填；完整Memory/Social、Actor、Studio和大世界目标保持开放。
+
 ## 当前检查点：中继有效岗与完工事实（2026-10-18，优先于下方历史）
 
 源码对象`ed9933f4efd1b61abdcbc6a86f9a1169ab5dc29a`／HTML`dccb52ff94a0101992f6696c3ecb93c7092b1049d85dbbe2701d5e6ad1ca004a`，SAVE21／CONTENT3。中继三岗共享唯一有效岗位绑定，实际筹料／施工、stage adapter、恢复职责、work-pulse与公开crew一致；缺岗或配置错误停新增成本／工时，保留合法进度。另修规范化替换项目引用导致live完工丢失、重复上线收益及预警事件缺失。旧null时间、角色身份、已投入历史和online不追溯重算。见[QA](../qa/relay-effective-role-v1-20261018.md)与[ADR](../decisions/ADR-20261018-relay-effective-role-v1.md)。

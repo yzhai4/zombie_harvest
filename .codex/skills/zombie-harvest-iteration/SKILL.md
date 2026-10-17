@@ -58,6 +58,8 @@ NPC持续安排／规划按[执行一致性](references/npc-routine-execution.md
 
 时间推进／休整先读 `docs/decisions/ADR-20261017-camp-rest-v1.md`。按同一真实起止区间比较大步、小步、午夜和保存刷新，检查取整是否吞掉原有再生；这只证明该结算维度，不能推广为整段战斗等价。时钟所有权同时挡住排队的旧callback；中断核每步真实伤害收据，不能只比开始时的净HP。公开进度和取消还须验真实CSS可见性，DOM存在或hidden=false不等于玩家可用。
 
+等候禁用说明与按钮共用同次真实Gate，提交仍重核；原因放在disabled控件之外的可读文本，不仅靠hover／title，也不泄露隐藏实体信息。VM若不解析innerHTML或选择器为空，不能用它证明DOM属性刷新；该边界与窄屏可读性须由实际Chrome覆盖，不为每句映射堆重复用例。
+
 涉及 NPC 参与资格时，区分存在/存活、营地本地、健康可工作和有效岗位；驻守者仍计人口，但不能跨地点重复行动。双向伤害、新感知/共享、routine、motion、render 与福利分别核 consumer；修了作战入口不能宣布整体离营完成。critical 是否可战按明确规则判断，不能从 dead Gate 推定已有健康 Gate。参见 `docs/problems/PROB-20261017-npc-outpost-camp-presence.md`。
 
 NPC公开动作按[NPC合同](../../../docs/decisions/ADR-20261017-npc-public-actions-v1.md)区分查看、首谈、确认支援、状态询问和命令；同一目标在提交时重核。规则前置拒绝、自主拒绝和真实耗时后的中断分别验收；中断保留已付成本及真实战斗，停止后置奖励，不把所有负结果都断言成无副作用。proof标明实际捕获阶段；失败分支需核自动checkpoint已含最终账本，先观察保存再reload，不能用pagehide掩盖漏存。
