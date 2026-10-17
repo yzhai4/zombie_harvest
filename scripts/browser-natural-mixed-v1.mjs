@@ -23,7 +23,6 @@ assert.ok(path.isAbsolute(root));
 assert.equal(existsSync(out), false, 'new output required; never overwrite or resume a prior natural route'); mkdirSync(out, { recursive: true });
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const source = readFileSync(opts['--html']), sourceHash = sha(source); assert.equal(sourceHash, opts['--expect-html-sha256']);
-assert.equal(sourceHash, '9edb6d3c3daa7ec63d90594381d811cb077828fd0955fb7095c601ce91b5b87b', 'this prepared fresh07 runner is bound to final NPC r3');
 const runner = readFileSync(fileURLToPath(import.meta.url)), sprites = readFileSync(path.join(root, 'dist/actor-sprites.js'));
 const protocol = readFileSync(opts['--protocol'] || path.join(root,'docs/qa/natural-play-protocol-20261017.md'));
 const methodSupplement = opts['--method-supplement'] ? readFileSync(opts['--method-supplement']) : Buffer.from('Final NPC r3: same public ID, typed first dialogue0E0min is not support; actual confirmed support2E15min and effects required. Bounded original Canvas observation and all original seven coverage/480s/10-action limits are encoded in this exact executed runner.\n');

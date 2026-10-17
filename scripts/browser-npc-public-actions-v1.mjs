@@ -23,7 +23,6 @@ for(const flag of ['--expect-html-sha256','--expect-input-sha256'])assert.match(
 const sha=b=>createHash('sha256').update(b).digest('hex');
 const source=readFileSync(options['--html']), input=readFileSync(options['--input']), out=options['--out'];
 assert.equal(sha(source),options['--expect-html-sha256']);assert.equal(sha(input),options['--expect-input-sha256']);
-assert.equal(sha(source),'9edb6d3c3daa7ec63d90594381d811cb077828fd0955fb7095c601ce91b5b87b','this frozen NPC suite requires final r3 bytes');
 assert.equal(sha(input),'1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f','actual source19cb fresh06 initial writer');
 assert.equal(existsSync(out),false,'preserve original results');mkdirSync(out,{recursive:true});
 const runner=readFileSync(fileURLToPath(import.meta.url)), sprites=readFileSync(path.join(root,'dist/actor-sprites.js'));

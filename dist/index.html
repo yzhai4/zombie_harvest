@@ -1912,6 +1912,58 @@
       worldConfig: { ordinaryNpcCount: 10, foodMultiplier: 1, medicineMultiplier: 1, materialMultiplier: 1, initialEnemyMultiplier: 1, waveGrowthMultiplier: 1, eventFrequency: 1 },
       aiConfig: { generativeDialogue: false, observerCommentary: false, generatedWorldEvents: false, learnedWorldModel: false, policyVersion: 'observer-expression-v1' }
     });
+// SCENARIO_C1_CORE_START
+const SCENARIO_C1_WORLD_KEYS = Object.freeze(['ordinaryNpcCount','foodMultiplier','medicineMultiplier','materialMultiplier','initialEnemyMultiplier','waveGrowthMultiplier','eventFrequency']);
+const SCENARIO_C1_BASE_WORLD = Object.freeze({ ordinaryNpcCount:10, foodMultiplier:1, medicineMultiplier:1, materialMultiplier:1, initialEnemyMultiplier:1, waveGrowthMultiplier:1, eventFrequency:1 });
+const SCENARIO_C1_APPLIED = Object.freeze(['seed','world.foodMultiplier']);
+const SCENARIO_C1_BASELINE_ONLY = Object.freeze(['world.ordinaryNpcCount','world.medicineMultiplier','world.materialMultiplier','world.initialEnemyMultiplier','world.waveGrowthMultiplier','world.eventFrequency','events']);
+const SCENARIO_C1_CATALOG = {"registry":["relay-chain-001","zh-food-shortage-001"],"storylets":[{"id":"zh-food-shortage-001","trigger":{"type":"food_days","max":1},"fallback":{"ifMissingNpc":"shortage_deferred","ifInsufficientPopulation":"shortage_deferred","ifExpired":"ledger_only","ifSkipped":"ledger_only"},"choices":[{"id":"ration","effects":[{"op":"recordHistory","key":"zh-food-shortage-001:ration","payload":{"route":"ration"}}]},{"id":"forage","requires":[{"type":"role_available","role":"quartermaster","healthyOnly":true},{"type":"flag","id":"zh-shortage-cache-retrieved","value":false}],"effects":[{"op":"addResource","key":"food","value":2},{"op":"adjustMeter","key":"resonancePressure","value":2},{"op":"unlock","key":"zh-shortage-cache-retrieved"},{"op":"recordHistory","key":"zh-food-shortage-001:forage","payload":{"route":"emergency-cache","sourceId":"zh-shortage-cache-001","amount":2,"resonancePressure":2}}]}],"expression":{"observerCommentary":{"authority":"expression_only"}},"repeatable":true,"source":{"id":"zh-shortage-cache-001","food":2,"retrievalLimit":1,"flag":"zh-shortage-cache-retrieved"},"definitionVersion":2}]};
+function scenarioRecord(v) { return v !== null && typeof v === 'object' && !Array.isArray(v) && Object.prototype.toString.call(v) === '[object Object]'; }
+function scenarioKeys(v, allowed, required = []) { return scenarioRecord(v) && Object.keys(v).every(k => allowed.includes(k)) && required.every(k => Object.hasOwn(v,k)); }
+function scenarioCanonical(v) { if (Array.isArray(v)) return '[' + v.map(scenarioCanonical).join(',') + ']'; if (scenarioRecord(v)) return '{' + Object.keys(v).sort().map(k => JSON.stringify(k)+':'+scenarioCanonical(v[k])).join(',') + '}'; return JSON.stringify(v); }
+function stableHash(v) { let h=2166136261; const s=scenarioCanonical(v); for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);} return (h>>>0).toString(16).padStart(8,'0'); }
+function scenarioDigest(v) { return 'fnv1a-utf16-canonical-hex-v1:' + stableHash(v); }
+function scenarioUint32(v) { return typeof v === 'number' && Number.isInteger(v) && v >= 0 && v <= 0xffffffff; }
+function scenarioAi(v) { return scenarioKeys(v,['generativeDialogue','observerCommentary','generatedWorldEvents','learnedWorldModel','policyVersion']) && Object.entries(v).every(([k,x])=>k==='policyVersion'?x==='observer-expression-v1':typeof x==='boolean'&&(k==='observerCommentary'||x===false)); }
+function validateScenarioPackage(p) {
+  const issues=[];
+  if(!scenarioKeys(p,['schemaVersion','scenario','metadata','world','difficulty','events','ai','continuity'],['schemaVersion','scenario','metadata','world','difficulty','events','ai','continuity'])) return {ok:false,issues:['package-shape']};
+  if(p.schemaVersion!==1||!scenarioKeys(p.scenario,['id','version','contentVersion'],['id','version','contentVersion'])||p.scenario.id!=='zombie-farm'||p.scenario.version!==1||p.scenario.contentVersion!==3) issues.push('scenario-version');
+  if(!scenarioKeys(p.metadata,['title','campaign'],['title'])||typeof p.metadata.title!=='string'||!p.metadata.title||p.metadata.campaign!==undefined&&typeof p.metadata.campaign!=='string') issues.push('metadata');
+  const worldOkay=(w,full)=>scenarioKeys(w,SCENARIO_C1_WORLD_KEYS,full?SCENARIO_C1_WORLD_KEYS:[])&&Object.values(w).every(x=>typeof x==='number'&&Number.isFinite(x)&&x>=0&&x<=100);
+  if(!worldOkay(p.world,true)) issues.push('world-shape');
+  if(!scenarioKeys(p.difficulty,['presets','playerCustomizable'],['presets','playerCustomizable'])||!scenarioKeys(p.difficulty.presets,['standard','hard'],['standard'])||Object.values(p.difficulty.presets).some(w=>!worldOkay(w,false))||scenarioCanonical(p.difficulty.playerCustomizable)!==scenarioCanonical(['world.foodMultiplier'])) issues.push('difficulty');
+  if(Array.isArray(p.events?.storylets)&&p.events.storylets.some(story=>story?.definitionVersion!==undefined&&(!Number.isSafeInteger(story.definitionVersion)||story.definitionVersion<1))) issues.push('storylet-definition-version');
+  if(scenarioCanonical(p.events)!==scenarioCanonical(SCENARIO_C1_CATALOG)) issues.push('unsupported-event-catalog');
+  if(!scenarioKeys(p.ai,['generativeFeaturesDefault','policies'],['generativeFeaturesDefault','policies'])||p.ai.generativeFeaturesDefault!==false||!scenarioKeys(p.ai.policies,['observer'],['observer'])||!scenarioKeys(p.ai.policies.observer,['authority'],['authority'])||p.ai.policies.observer.authority!=='expression_only') issues.push('ai-authority');
+  if(!scenarioKeys(p.continuity,['importContracts','exportContracts'],['importContracts','exportContracts'])||scenarioCanonical(p.continuity.importContracts)!=='[]'||scenarioCanonical(p.continuity.exportContracts)!==scenarioCanonical(['observer_core_v1'])) issues.push('unsupported-continuity');
+  return {ok:issues.length===0,issues};
+}
+function resolveScenarioConfig(p,o={}) {
+  const valid=validateScenarioPackage(p); if(!valid.ok) throw new Error(valid.issues.join(','));
+  if(!scenarioKeys(o,['seed','difficultyProfile','gameVersion','worldConfig','aiConfig'])) throw new Error('boot-options');
+  const seed=Object.hasOwn(o,'seed')?o.seed:0x5eedc0de, profile=Object.hasOwn(o,'difficultyProfile')?o.difficultyProfile:'standard';
+  if(!scenarioUint32(seed)) throw new Error('seed-uint32');
+  if(typeof profile!=='string'||!Object.hasOwn(p.difficulty.presets,profile)) throw new Error('unknown-profile');
+  if(profile!=='standard') throw new Error('unsupported-profile');
+  if(Object.hasOwn(o,'gameVersion')&&o.gameVersion!=='zfarm-world-1.0') throw new Error('game-version');
+  if(Object.hasOwn(o,'worldConfig')&&!scenarioKeys(o.worldConfig,SCENARIO_C1_WORLD_KEYS)) throw new Error('world-config');
+  if(Object.hasOwn(o,'aiConfig')&&!scenarioAi(o.aiConfig)) throw new Error('unsupported-ai-config');
+  const worldConfig={...p.world,...p.difficulty.presets[profile],...(o.worldConfig||{})};
+  for(const [key,value] of Object.entries(worldConfig)) {
+    if(typeof value!=='number'||!Number.isFinite(value)) throw new Error('world-config');
+    if(key==='foodMultiplier'?(value<0||value>2):value!==(key==='ordinaryNpcCount'?10:1)) throw new Error('unsupported-config:'+key);
+  }
+  return {scenarioId:p.scenario.id,schemaVersion:1,scenarioVersion:1,contentVersion:3,gameVersion:'zfarm-world-1.0',seed,difficultyProfile:profile,worldConfig,aiConfig:{generativeDialogue:false,observerCommentary:o.aiConfig?.observerCommentary===true,generatedWorldEvents:false,learnedWorldModel:false,policyVersion:'observer-expression-v1'}};
+}
+function createScenarioSnapshot(p,o={}) {
+  const snapshot=resolveScenarioConfig(p,o);
+  snapshot.binding={version:1,status:'bound',bindingId:'scenario-initial-v1',baselineId:'zombie-farm-authored-initial-v1',packageDigest:scenarioDigest(p),configDigest:scenarioDigest(snapshot),appliedKeys:[...SCENARIO_C1_APPLIED],baselineOnlyKeys:[...SCENARIO_C1_BASELINE_ONLY],deferredKeys:['continuity'],initialAiConfig:{...snapshot.aiConfig}};
+  return snapshot;
+}
+// SCENARIO_C1_CORE_END
+    const SCENARIO_BOOT_PACKAGE = observerDeepFreeze({"schemaVersion":1,"scenario":{"id":"zombie-farm","version":1,"contentVersion":3},"metadata":{"title":"尸潮农场","campaign":"im-the-savior"},"world":{"ordinaryNpcCount":10,"foodMultiplier":1,"medicineMultiplier":1,"materialMultiplier":1,"initialEnemyMultiplier":1,"waveGrowthMultiplier":1,"eventFrequency":1},"difficulty":{"presets":{"standard":{},"hard":{"initialEnemyMultiplier":1.3}},"playerCustomizable":["world.foodMultiplier"]},"events":{"registry":["relay-chain-001","zh-food-shortage-001"],"storylets":[{"id":"zh-food-shortage-001","trigger":{"type":"food_days","max":1},"fallback":{"ifMissingNpc":"shortage_deferred","ifInsufficientPopulation":"shortage_deferred","ifExpired":"ledger_only","ifSkipped":"ledger_only"},"choices":[{"id":"ration","effects":[{"op":"recordHistory","key":"zh-food-shortage-001:ration","payload":{"route":"ration"}}]},{"id":"forage","requires":[{"type":"role_available","role":"quartermaster","healthyOnly":true},{"type":"flag","id":"zh-shortage-cache-retrieved","value":false}],"effects":[{"op":"addResource","key":"food","value":2},{"op":"adjustMeter","key":"resonancePressure","value":2},{"op":"unlock","key":"zh-shortage-cache-retrieved"},{"op":"recordHistory","key":"zh-food-shortage-001:forage","payload":{"route":"emergency-cache","sourceId":"zh-shortage-cache-001","amount":2,"resonancePressure":2}}]}],"expression":{"observerCommentary":{"authority":"expression_only"}},"repeatable":true,"source":{"id":"zh-shortage-cache-001","food":2,"retrievalLimit":1,"flag":"zh-shortage-cache-retrieved"},"definitionVersion":2}]},"ai":{"generativeFeaturesDefault":false,"policies":{"observer":{"authority":"expression_only"}}},"continuity":{"importContracts":[],"exportContracts":["observer_core_v1"]}});
+    const SCENARIO_BOOT_OPTIONS = observerDeepFreeze({ seed: 0x5eedc0de, difficultyProfile: 'standard', worldConfig: { foodMultiplier: 1 } });
     function normalizeAiConfig(raw = {}) {
       const source = raw && typeof raw === 'object' ? raw : {};
       return { generativeDialogue: source.generativeDialogue === true, observerCommentary: source.observerCommentary === true, generatedWorldEvents: source.generatedWorldEvents === true, learnedWorldModel: source.learnedWorldModel === true, policyVersion: typeof source.policyVersion === 'string' && source.policyVersion ? source.policyVersion : DEFAULT_SCENARIO_SNAPSHOT.aiConfig.policyVersion };
@@ -1921,7 +1973,7 @@
       const world = source.worldConfig && typeof source.worldConfig === 'object' ? source.worldConfig : {};
       const base = DEFAULT_SCENARIO_SNAPSHOT, worldConfig = { ...base.worldConfig, ...world };
       for (const key of Object.keys(base.worldConfig)) { const value = Number(worldConfig[key]); worldConfig[key] = Number.isFinite(value) ? Math.max(0, Math.min(100, value)) : base.worldConfig[key]; }
-      return { scenarioId: typeof source.scenarioId === 'string' && source.scenarioId ? source.scenarioId : base.scenarioId, schemaVersion: Number.isInteger(source.schemaVersion) ? source.schemaVersion : base.schemaVersion, scenarioVersion: Number.isInteger(source.scenarioVersion) ? source.scenarioVersion : base.scenarioVersion, contentVersion: Number.isInteger(source.contentVersion) ? source.contentVersion : base.contentVersion, gameVersion: typeof source.gameVersion === 'string' && source.gameVersion ? source.gameVersion : base.gameVersion, seed: Number.isInteger(source.seed) ? source.seed : base.seed, difficultyProfile: typeof source.difficultyProfile === 'string' && source.difficultyProfile ? source.difficultyProfile : base.difficultyProfile, worldConfig, aiConfig: normalizeAiConfig(source.aiConfig) };
+      return { scenarioId: typeof source.scenarioId === 'string' && source.scenarioId ? source.scenarioId : base.scenarioId, schemaVersion: Number.isInteger(source.schemaVersion) ? source.schemaVersion : base.schemaVersion, scenarioVersion: Number.isInteger(source.scenarioVersion) ? source.scenarioVersion : base.scenarioVersion, contentVersion: Number.isInteger(source.contentVersion) ? source.contentVersion : base.contentVersion, gameVersion: typeof source.gameVersion === 'string' && source.gameVersion ? source.gameVersion : base.gameVersion, seed: source.binding?.version === 1 && source.binding?.status === 'legacy-unbound' && Number.isFinite(source.seed) ? source.seed : Number.isInteger(source.seed) ? source.seed : base.seed, difficultyProfile: typeof source.difficultyProfile === 'string' && source.difficultyProfile ? source.difficultyProfile : base.difficultyProfile, worldConfig, aiConfig: normalizeAiConfig(source.aiConfig), ...(Object.hasOwn(source, 'binding') ? { binding: stableClone(source.binding) } : {}) };
     }
     Object.defineProperty(state.player, 'id', { value: 'player-1', writable: true, configurable: true, enumerable: false });
     state.settings = { ...(state.settings || {}), continuousWorld: P0_FEATURES.continuousWorld };
@@ -3308,7 +3360,7 @@ function resolveObserverExpression(input = {}) {
       if (!ephemeral) {
         wm.seenCommands.push(commandId);
         if (wm.seenCommands.length > 500) wm.seenCommands.shift();
-        wm.replay = wm.replay || { seed: wm.seed || WORLD_SEED, commands: [] };
+        wm.replay = wm.replay || { seed: wm.seed ?? WORLD_SEED, commands: [] };
         wm.replay.commands.push(stableClone({ commandId, type: command.type, actorId: command.actorId || 'player-1', payload: command.payload || null }));
         if (wm.replay.commands.length > 500) wm.replay.commands.shift();
       }
@@ -3659,8 +3711,9 @@ function resolveObserverExpression(input = {}) {
       for (const key of ['campaign','campStanding','specialItems','relayProject','hordeForecast','collection','weapon','visitedRegions','areaFlags','roleVacancies','settings','staminaRules','motion']) if (payload[key] !== undefined && !savedRecord(payload[key])) return fail(`domain:${key}`);
       if (payload.scenarioSnapshot !== undefined) {
         const snapshot = payload.scenarioSnapshot;
-        if (!savedRecord(snapshot) || typeof snapshot.scenarioId !== 'string' || !snapshot.scenarioId || !Number.isInteger(snapshot.schemaVersion) || snapshot.schemaVersion !== SCENARIO_PACKAGE_SCHEMA_VERSION || !Number.isInteger(snapshot.scenarioVersion) || !Number.isInteger(snapshot.contentVersion) || typeof snapshot.gameVersion !== 'string' || !Number.isInteger(snapshot.seed) || typeof snapshot.difficultyProfile !== 'string' || !savedRecord(snapshot.worldConfig) || !savedRecord(snapshot.aiConfig)) return fail('scenario-snapshot');
+        if (!savedRecord(snapshot) || typeof snapshot.scenarioId !== 'string' || !snapshot.scenarioId || !Number.isInteger(snapshot.schemaVersion) || snapshot.schemaVersion !== SCENARIO_PACKAGE_SCHEMA_VERSION || !Number.isInteger(snapshot.scenarioVersion) || !Number.isInteger(snapshot.contentVersion) || typeof snapshot.gameVersion !== 'string' || !(snapshot.binding?.version === 1 && snapshot.binding?.status === 'legacy-unbound' ? Number.isFinite(snapshot.seed) : Number.isInteger(snapshot.seed)) || typeof snapshot.difficultyProfile !== 'string' || !savedRecord(snapshot.worldConfig) || !savedRecord(snapshot.aiConfig)) return fail('scenario-snapshot');
         if (Object.values(snapshot.worldConfig).some(value => !Number.isFinite(Number(value)) || Number(value) < 0 || Number(value) > 100)) return fail('scenario-world-config');
+        const bindingCheck = validateSavedScenarioBinding(snapshot, wm); if (!bindingCheck.ok) return fail(bindingCheck.reason);
       }
       const standing = payload.campStanding, relay = payload.relayProject, forecast = payload.hordeForecast;
       if (!savedNumbers(standing,['prestige','merit','fear','legitimacy','contribution'],-100,100) || !savedNumbers(standing.domains,['rescue','defense','supply','recon'],-100,100)) return fail('camp-standing-contract');
@@ -3781,6 +3834,55 @@ function resolveObserverExpression(input = {}) {
       }
       return updates;
     }
+    function validateSavedScenarioBinding(snapshot, worldMeta) {
+      if (snapshot.scenarioId !== 'zombie-farm' || snapshot.schemaVersion !== 1 || snapshot.scenarioVersion !== 1 || snapshot.contentVersion !== 3 || snapshot.gameVersion !== GAME_VERSION) return { ok: false, reason: 'scenario-version-unsupported' };
+      if (!Object.hasOwn(snapshot, 'binding')) return { ok: true, legacy: true };
+      const binding = snapshot.binding;
+      if (!savedRecord(binding) || binding.version !== 1) return { ok: false, reason: 'scenario-binding-version' };
+      if (binding.status === 'legacy-unbound') {
+        if (!scenarioKeys(binding, ['version','status','sourceSeed','declaredSnapshot'], ['version','status','sourceSeed','declaredSnapshot']) || !Number.isFinite(binding.sourceSeed) || binding.sourceSeed !== worldMeta.seed || snapshot.seed !== worldMeta.seed || binding.declaredSnapshot !== null && (!savedRecord(binding.declaredSnapshot) || Object.hasOwn(binding.declaredSnapshot,'binding')) || !scenarioAi(snapshot.aiConfig) || Object.keys(snapshot.aiConfig).length !== 5) return { ok: false, reason: 'scenario-legacy-binding' };
+        return { ok: true, legacy: true };
+      }
+      if (binding.status !== 'bound') return { ok: false, reason: 'scenario-binding-status' };
+      try {
+        if (!scenarioKeys(snapshot, ['scenarioId','schemaVersion','scenarioVersion','contentVersion','gameVersion','seed','difficultyProfile','worldConfig','aiConfig','binding'], ['scenarioId','schemaVersion','scenarioVersion','contentVersion','gameVersion','seed','difficultyProfile','worldConfig','aiConfig','binding']) || !scenarioKeys(snapshot.worldConfig, SCENARIO_C1_WORLD_KEYS, SCENARIO_C1_WORLD_KEYS) || !scenarioAi(snapshot.aiConfig) || Object.keys(snapshot.aiConfig).length !== 5 || !scenarioUint32(worldMeta.seed) || !scenarioUint32(worldMeta.rngState) || worldMeta.seed !== snapshot.seed || worldMeta.replay.seed !== snapshot.seed) return { ok: false, reason: 'scenario-seed-binding' };
+        const expected = createScenarioSnapshot(SCENARIO_BOOT_PACKAGE, { seed: snapshot.seed, difficultyProfile: snapshot.difficultyProfile, gameVersion: snapshot.gameVersion, worldConfig: snapshot.worldConfig, aiConfig: binding.initialAiConfig });
+        if (scenarioCanonical(binding) !== scenarioCanonical(expected.binding)) return { ok: false, reason: 'scenario-binding-digest' };
+        return { ok: true };
+      } catch (error) { return { ok: false, reason: 'scenario-binding-config' }; }
+    }
+    function prepareSavedScenario(saved) {
+      if (saved.scenarioSnapshot?.binding) return { snapshot: normalizeScenarioSnapshot(saved.scenarioSnapshot), adapter: null };
+      const declaredSnapshot = saved.scenarioSnapshot === undefined ? null : stableClone(saved.scenarioSnapshot);
+      const snapshot = normalizeScenarioSnapshot(saved.scenarioSnapshot || { ...DEFAULT_SCENARIO_SNAPSHOT, seed: saved.worldMeta.seed });
+      const sourceAi = declaredSnapshot?.aiConfig;
+      snapshot.aiConfig = { generativeDialogue: false, observerCommentary: sourceAi?.observerCommentary === true, generatedWorldEvents: false, learnedWorldModel: false, policyVersion: 'observer-expression-v1' };
+      snapshot.seed = saved.worldMeta.seed;
+      snapshot.binding = { version: 1, status: 'legacy-unbound', sourceSeed: saved.worldMeta.seed, declaredSnapshot };
+      return { snapshot, adapter: { adapter: 'scenario-legacy-unbound-v1', sourceSeed: saved.worldMeta.seed, hadDeclaredSnapshot: declaredSnapshot !== null, seedSource: 'saved-world-meta', declaredSeed: declaredSnapshot?.seed ?? null, liveSeed: saved.worldMeta.seed, aiDowngraded: !!sourceAi && scenarioCanonical(sourceAi) !== scenarioCanonical(snapshot.aiConfig), effectiveAuthority: 'expression_only' } };
+    }
+    function validateScenarioAuthoredCatalog() {
+      const spec = SCENARIO_C1_CATALOG.storylets[0], definition = contentDefinition('eventChain', spec.id);
+      if (!eventDefinition('relay-chain-001') || !definition || definition.nodes?.length !== 1 || definition.nodes[0].nodeId !== 'shortage_choice') return { ok: false, reason: 'scenario-authored-catalog-mismatch' };
+      const actual = { definitionVersion: definition.definitionVersion, repeatable: definition.repeatable, preconditions: definition.preconditions, gate: definition.gate, hooks: definition.hooks, phase: definition.phase,
+        choices: definition.nodes[0].choices.map(choice => ({ id: choice.id, requires: choice.requires || [], effects: choice.effects })), fallback: definition.fallback };
+      const expected = { definitionVersion: spec.definitionVersion, repeatable: spec.repeatable, preconditions: [spec.trigger], gate: { version: 1, phase: 'DAY', nightAllowed: false, preconditions: [spec.trigger] }, hooks: ['onDayStart'], phase: ['day_1','day_13'],
+        choices: spec.choices.map(choice => ({ id: choice.id, requires: choice.requires || [], effects: choice.effects })),
+        fallback: { ifMissingNpc: { id: spec.fallback.ifMissingNpc, effects: [{ op: 'adjustMeter', key: 'campCollapse', value: 1 }] }, ifInsufficientPopulation: { id: spec.fallback.ifInsufficientPopulation, effects: [{ op: 'adjustMeter', key: 'campCollapse', value: 2 }] }, ifExpired: spec.fallback.ifExpired, ifSkipped: spec.fallback.ifSkipped } };
+      return scenarioCanonical(actual) === scenarioCanonical(expected) ? { ok: true } : { ok: false, reason: 'scenario-authored-catalog-mismatch' };
+    }
+    function prepareFreshScenarioDraft() {
+      const snapshot = createScenarioSnapshot(SCENARIO_BOOT_PACKAGE, SCENARIO_BOOT_OPTIONS);
+      const candidate = stableClone(INITIAL_PROGRESS_STATE), multiplier = snapshot.worldConfig.foodMultiplier;
+      candidate.version = SAVE_VERSION;
+      candidate.food = Math.floor(INITIAL_PROGRESS_STATE.food * multiplier);
+      candidate.resources.forEach((resource, index) => { if (resource.type === 'berry') resource.amount = Math.floor(INITIAL_PROGRESS_STATE.resources[index].amount * multiplier); });
+      candidate.worldMeta.seed = snapshot.seed; candidate.worldMeta.rngState = snapshot.seed; candidate.worldMeta.replay.seed = snapshot.seed;
+      candidate.scenarioSnapshot = snapshot;
+      Object.defineProperty(candidate.player, 'id', { value: 'player-1', writable: true, configurable: true, enumerable: false });
+      const valid = validateProgressPayload({ ...candidate, npcs: candidate.npcs.map(serializeNpc) }); if (!valid.ok) throw new Error('fresh-candidate:' + valid.reason);
+      return { state: candidate, registryUpdates: {}, freshBinding: { bindingId: snapshot.binding.bindingId, packageDigest: snapshot.binding.packageDigest, configDigest: snapshot.binding.configDigest, seed: snapshot.seed, appliedKeys: [...snapshot.binding.appliedKeys], baselineOnlyKeys: [...snapshot.binding.baselineOnlyKeys], initialFood: candidate.food, initialBerries: candidate.resources.filter(resource => resource.type === 'berry').map(resource => ({ id: resource.id, amount: resource.amount })) } };
+    }
     function prepareSavedPayload(selected, recovery, original = selected) {
       const check = validateProgressPayload(selected.payload); if (!check.ok) throw new Error(check.reason);
       if (recovery.classification === 'RECOVERY_REQUIRED') throw new Error('unsafe-save-install');
@@ -3809,7 +3911,8 @@ function resolveObserverExpression(input = {}) {
       if (shortageAdapter) candidate.contentState.activeChains[shortageAdapter.chainId].definitionVersion = shortageAdapter.toDefinitionVersion;
       candidate.worldMeta = { ...saved.worldMeta, activeCommandId: null, feedback: [], projections: { ...(saved.worldMeta.projections || {}), threatZombies: [] }, clock: { ...saved.worldMeta.clock } };
       candidate.settings = { ...(saved.settings || {}), continuousWorld: P0_FEATURES.continuousWorld };
-      candidate.scenarioSnapshot = normalizeScenarioSnapshot(saved.scenarioSnapshot || DEFAULT_SCENARIO_SNAPSHOT);
+      const savedScenario = prepareSavedScenario(saved);
+      candidate.scenarioSnapshot = savedScenario.snapshot;
       candidate.motion = { ...INITIAL_PROGRESS_STATE.motion, ...(saved.motion || {}), accumulator: 0, input: { x: 0, y: 0 } };
       candidate.player = { ...saved.player }; Object.defineProperty(candidate.player, 'id', { value: 'player-1', writable: true, configurable: true, enumerable: false });
       candidate.playerVisual = { x: candidate.player.x, y: candidate.player.y };
@@ -3818,8 +3921,8 @@ function resolveObserverExpression(input = {}) {
       else { candidate.night = false; candidate.nightBattle = null; }
       const updates = prepareSavedRegistry(candidate);
       const episodeChanged = JSON.stringify(savedContent.activeChains || {}) !== JSON.stringify(candidate.contentState.activeChains || {}) || JSON.stringify(savedContent.episodeLegacyHolds || {}) !== JSON.stringify(candidate.contentState.episodeLegacyHolds || {});
-      const reasons = [...(recovery.migrationReasons || []), ...(episodeChanged ? ['content-episode-identity-v1'] : []), ...(contentDefinitionAdapters.length ? ['shortage-choice-definition-v2'] : []), ...(sourceVersion < SAVE_VERSION ? ['save-schema-adapter'] : []), ...(selected.sourceCategory !== 'primary' ? ['selected-safe-checkpoint'] : []), ...(initialClockCorrection ? ['save18-initial-clock-sentinel'] : [])];
-      const migration = reasons.length ? { migration: REPORT_RECOVERY_MIGRATION, migrationVersion: 1, reason: [...new Set(reasons)].join(','), sourceCategory: selected.sourceCategory, originalChecksum: original?.ok ? original.originalChecksum : null, originalDate: original?.ok ? original.originalDate : null, selectedChecksum: selected.originalChecksum, selectedDate: selected.originalDate, rollback: selected !== original, instanceId: recovery.identity?.ok ? recovery.identity.instanceId : null, fromSaveVersion: sourceVersion, fromContentVersion: saved.contentState?.contentVersion || 0, adapter: sourceVersion === 18 && !Object.prototype.hasOwnProperty.call(saved,'contentState') ? 'save18-pre-content-to-save21' : sourceVersion < SAVE_VERSION ? `save${sourceVersion}-content-to-save21` : null, addedDomains: newDomains, ...(contentDefinitionAdapters.length ? { contentDefinitionAdapters } : {}), ...(initialClockCorrection ? { worldClockCorrection: initialClockCorrection } : {}) } : null;
+      const reasons = [...(recovery.migrationReasons || []), ...(savedScenario.adapter ? ['scenario-legacy-unbound-v1'] : []), ...(episodeChanged ? ['content-episode-identity-v1'] : []), ...(contentDefinitionAdapters.length ? ['shortage-choice-definition-v2'] : []), ...(sourceVersion < SAVE_VERSION ? ['save-schema-adapter'] : []), ...(selected.sourceCategory !== 'primary' ? ['selected-safe-checkpoint'] : []), ...(initialClockCorrection ? ['save18-initial-clock-sentinel'] : [])];
+      const migration = reasons.length ? { migration: REPORT_RECOVERY_MIGRATION, migrationVersion: 1, reason: [...new Set(reasons)].join(','), sourceCategory: selected.sourceCategory, originalChecksum: original?.ok ? original.originalChecksum : null, originalDate: original?.ok ? original.originalDate : null, selectedChecksum: selected.originalChecksum, selectedDate: selected.originalDate, rollback: selected !== original, instanceId: recovery.identity?.ok ? recovery.identity.instanceId : null, fromSaveVersion: sourceVersion, fromContentVersion: saved.contentState?.contentVersion || 0, adapter: sourceVersion === 18 && !Object.prototype.hasOwnProperty.call(saved,'contentState') ? 'save18-pre-content-to-save21' : sourceVersion < SAVE_VERSION ? `save${sourceVersion}-content-to-save21` : null, addedDomains: newDomains, ...(contentDefinitionAdapters.length ? { contentDefinitionAdapters } : {}), ...(savedScenario.adapter ? { scenarioBindingAdapters: [savedScenario.adapter] } : {}), ...(initialClockCorrection ? { worldClockCorrection: initialClockCorrection } : {}) } : null;
       return { state: candidate, registryUpdates: updates, recovery, migration, selected };
     }
     function installSavedPayload(draft) {
@@ -8158,13 +8261,26 @@ function resolveObserverExpression(input = {}) {
     function saveSettings(settings) {
       try { sessionStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)); } catch (e) { /* ignore */ }
     }
+    function observerPreferencePreview() {
+      const settings = readSettings();
+      if (typeof settings.observerCommentary === 'boolean') return settings.observerCommentary;
+      if (!gameStarted && !BootRecovery.installed) {
+        if (BootRecovery.draft) return BootRecovery.draft.state.scenarioSnapshot?.aiConfig?.observerCommentary === true;
+        if (!PLAYTEST_MODE) { try { return createScenarioSnapshot(SCENARIO_BOOT_PACKAGE, SCENARIO_BOOT_OPTIONS).aiConfig.observerCommentary; } catch (error) { return false; } }
+      }
+      return state.scenarioSnapshot?.aiConfig?.observerCommentary === true;
+    }
+    function applyObserverPreferenceAfterInstall() {
+      const preference = readSettings().observerCommentary;
+      if (typeof preference === 'boolean' && state.scenarioSnapshot?.aiConfig) state.scenarioSnapshot.aiConfig.observerCommentary = preference;
+    }
     function applySettings() {
       const settings = readSettings();
       document.documentElement.classList.toggle('reduce-motion', !!settings.reduceMotion);
       document.querySelector('.app')?.classList.toggle('hud-compact', !!settings.compactHud);
       if ($('settingsReduceMotion')) $('settingsReduceMotion').checked = !!settings.reduceMotion;
       if ($('settingsCompactHud')) $('settingsCompactHud').checked = !!settings.compactHud;
-      if ($('settingsObserverCommentary')) $('settingsObserverCommentary').checked = settings.observerCommentary === undefined ? !!state.scenarioSnapshot?.aiConfig?.observerCommentary : !!settings.observerCommentary;
+      if ($('settingsObserverCommentary')) $('settingsObserverCommentary').checked = observerPreferencePreview();
     }
     function hideStartOverlay() {
       $('startOverlay')?.classList.add('hidden');
@@ -8174,11 +8290,17 @@ function resolveObserverExpression(input = {}) {
       if (SessionController.exiting) return { ok: false, reason: 'session-exiting' };
       if (gameStarted && !BootRecovery.savePending) return { ok: true, duplicate: true };
       if (BootRecovery.classification === 'RECOVERY_REQUIRED' && !BootRecovery.savePending) { showRecoveryScreen(); return { ok: false, reason: BootRecovery.reason }; }
+      const catalogCheck = validateScenarioAuthoredCatalog();
+      if (!catalogCheck.ok) { showRecoveryStatus('当前场景目录与已接线规则不一致；尚未安装或修改保存。'); return catalogCheck; }
       if (!BootRecovery.installed) {
+        if (!BootRecovery.draft && !PLAYTEST_MODE) {
+          try { BootRecovery.draft = prepareFreshScenarioDraft(); }
+          catch (error) { showRecoveryStatus(`场景初始配置未能启动：${error.message}。未安装世界或修改保存。`); return { ok: false, reason: 'scenario-boot-invalid' }; }
+        }
         if (BootRecovery.draft) installSavedPayload(BootRecovery.draft);
-        else if (!PLAYTEST_MODE) { const fresh = stableClone(INITIAL_PROGRESS_STATE); Object.defineProperty(fresh.player,'id',{value:'player-1',writable:true,configurable:true,enumerable:false}); installSavedPayload({ state: fresh, registryUpdates: {} }); }
         BootRecovery.installed = true;
       }
+      applyObserverPreferenceAfterInstall();
       gameStarted = true;
       if (BootRecovery.draft?.migration) {
         SessionController.freeze('SAVING');
@@ -8186,6 +8308,15 @@ function resolveObserverExpression(input = {}) {
         BootRecovery.savePending = true;
         if (!saveProgress({ recovery: true, preserveBackup: true, reason: `save-migration:${REPORT_RECOVERY_MIGRATION}` })) {
           SessionController.mode = 'RECOVERY'; gameStarted = false; showRecoveryScreen('恢复尚未保存；原安全存档仍保留。请重试保存或重新开始。'); return { ok: false, reason: 'migration-save-failed' };
+        }
+        BootRecovery.savePending = false;
+      }
+      if (BootRecovery.draft?.freshBinding) {
+        SessionController.freeze('SAVING');
+        if (!BootRecovery.bindingRecorded) { recordWorldEvent('scenario.bound', BootRecovery.draft.freshBinding, { actorId: 'system' }); BootRecovery.bindingRecorded = true; }
+        BootRecovery.savePending = true;
+        if (!saveProgress({ recovery: true, preserveBackup: true, reason: 'scenario-initial-binding' })) {
+          SessionController.mode = 'RECOVERY'; gameStarted = false; showRecoveryScreen('初始场景尚未保存；世界未运行。重试保存会保留同一初始状态，不再缩放或重新播种。'); return { ok: false, reason: 'scenario-initial-save-failed' };
         }
         BootRecovery.savePending = false;
       }
@@ -8619,7 +8750,7 @@ function resolveObserverExpression(input = {}) {
     $('closeSettingsBtn').addEventListener('click', () => toggleStartSettings(false));
     $('settingsReduceMotion').addEventListener('change', (event) => { const settings = readSettings(); settings.reduceMotion = event.target.checked; saveSettings(settings); applySettings(); });
     $('settingsCompactHud').addEventListener('change', (event) => { const settings = readSettings(); settings.compactHud = event.target.checked; saveSettings(settings); applySettings(); });
-    $('settingsObserverCommentary').addEventListener('change', (event) => { const settings = readSettings(); settings.observerCommentary = event.target.checked; saveSettings(settings); if (state.scenarioSnapshot) state.scenarioSnapshot.aiConfig.observerCommentary = event.target.checked; if (gameStarted) requestCheckpoint('ai.observer-commentary'); applySettings(); });
+    $('settingsObserverCommentary').addEventListener('change', (event) => { const preference = event.target.checked; if (typeof preference !== 'boolean') return; const settings = readSettings(); settings.observerCommentary = preference; saveSettings(settings); if (gameStarted || BootRecovery.installed) { applyObserverPreferenceAfterInstall(); if (gameStarted) requestCheckpoint('ai.observer-commentary'); } applySettings(); });
     $('eventChoiceA').addEventListener('click', event => handleEventChoice('a', { ...event.currentTarget.dataset }));
     $('eventChoiceB').addEventListener('click', event => handleEventChoice('b', { ...event.currentTarget.dataset }));
     $('eventSourceSelect').addEventListener('change', event => { eventPanelSelection = event.target.value; renderEvent(); });

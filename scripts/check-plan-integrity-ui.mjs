@@ -11,6 +11,35 @@ import path from 'node:path';
 import vm from 'node:vm';
 import { createHash } from 'node:crypto';
 
+// Only the two pinned complete SAVE21 fixtures in these four legacy checks.
+// This validates the exact additive Scenario receipt; it never removes arbitrary
+// migrations or relaxes historical plan/resource/CP/population assertions.
+function hasOnlyExpectedScenarioLegacyMigration(runtime, envelope) {
+  const s = runtime.api.state, p = envelope.payload, eq = (a,b) => JSON.stringify(a) === JSON.stringify(b);
+  if (!['707889bd','7fde7715'].includes(envelope.checksum)) return false;
+  const date = { day: p.day, hour: p.hour, minute: p.minute }, seq = p.worldMeta.eventSeq + 1;
+  const expected = { eventId: `evt-${String(seq).padStart(6,'0')}`, seq, type: 'save.migrated', actorId: 'system', commandId: null, causationId: null,
+    tick: { world: (p.day-1)*1440+p.hour*60+p.minute, phase: p.worldMeta.clock.phaseMinutes, schedule: p.worldMeta.clock.scheduleMinutes },
+    payload: { migration: 'resolved-report-recovery-001', migrationVersion: 1, reason: 'scenario-legacy-unbound-v1', sourceCategory: 'primary',
+      originalChecksum: envelope.checksum, originalDate: date, selectedChecksum: envelope.checksum, selectedDate: date, rollback: false, instanceId: null,
+      fromSaveVersion: 21, fromContentVersion: 3, adapter: null, addedDomains: [], scenarioBindingAdapters: [{ adapter: 'scenario-legacy-unbound-v1',
+        sourceSeed: p.worldMeta.seed, hadDeclaredSnapshot: Object.hasOwn(p,'scenarioSnapshot'), seedSource: 'saved-world-meta', declaredSeed: p.scenarioSnapshot?.seed ?? null,
+        liveSeed: p.worldMeta.seed, aiDowngraded: false, effectiveAuthority: 'expression_only' }] } };
+  const added = s.worldMeta.events.filter(event => event.seq > p.worldMeta.eventSeq), stored = runtime.storage.get(saveKey);
+  if (!stored || !runtime.api.validate({raw:stored,sourceCategory:'primary'}).ok) return false;
+  const written = JSON.parse(stored).payload;
+  return eq(added,[expected]) && s.worldMeta.eventSeq === seq
+    && eq(s.worldMeta.events.slice(0,p.worldMeta.events.length),p.worldMeta.events)
+    && eq(written.worldMeta.events,s.worldMeta.events) && written.version === 21 && written.contentState.contentVersion === 3
+    && s.worldMeta.seed === p.worldMeta.seed && s.worldMeta.rngState === p.worldMeta.rngState && eq(s.worldMeta.replay,p.worldMeta.replay)
+    && s.worldMeta.commandSeq === p.worldMeta.commandSeq && eq(s.worldMeta.seenCommands,p.worldMeta.seenCommands)
+    && eq(s.world,p.world) && ['day','hour','minute','hp','energy','sanity','wood','stone','food','seeds','parts','medicine','morale'].every(key => s[key] === p[key])
+    && eq(s.resources,p.resources) && eq(s.npcs.map(n=>({id:n.id,hp:n.hp,lifeState:n.lifeState})),p.npcs.map(n=>({id:n.id,hp:n.hp,lifeState:n.lifeState})))
+    && eq(s.contentState.planMeeting,p.contentState.planMeeting) && s.contentState.commandPoints === p.contentState.commandPoints
+    && eq(s.scenarioSnapshot.binding,{version:1,status:'legacy-unbound',sourceSeed:p.worldMeta.seed,declaredSnapshot:p.scenarioSnapshot??null})
+    && s.scenarioSnapshot.seed === p.worldMeta.seed;
+}
+
 const usage = 'node check-plan-integrity-ui.mjs --html HTML --io-adapter RECOVERY_CHECKER --legacy-fixture JSON --out REPORT_JSON';
 if (process.argv.slice(2).includes('--help')) { console.log(usage); process.exit(0); }
 const args = process.argv.slice(2), options = {};
@@ -148,7 +177,7 @@ scenario('complete old committed writer fixture',()=>{
   assert.equal(r.api.hash(p),fixture.checksum);assert.equal(r.api.validate({raw:legacyRaw,sourceCategory:'primary'}).ok,true);
   const view=render(r);
   check('complete old committed source-writer fixture boots with same plan and spent CP',JSON.stringify(clone(r.api.state.contentState.planMeeting))===JSON.stringify(p.contentState.planMeeting)
-    &&r.api.state.contentState.commandPoints===p.contentState.commandPoints&&r.api.state.worldMeta.events.filter(e=>e.type==='save.migrated').length===0);
+    &&r.api.state.contentState.commandPoints===p.contentState.commandPoints&&hasOnlyExpectedScenarioLegacyMigration(r,fixture));
   check('actual legacy committed renderer preserves serialized facts with no intervention buttons',view.pure&&view.buttons.length===0
     &&view.html.includes('已在第 1 天提交')&&view.html.includes(p.contentState.planMeeting.candidates.find(c=>c.id===p.contentState.planMeeting.selectedId).title));
   const before=snapshot(r);render(r);check('repeated legacy committed rendering cannot refund CP or erase commitment',snapshot(r)===before);

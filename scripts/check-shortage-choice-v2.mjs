@@ -9,6 +9,35 @@ import path from 'node:path';
 import vm from 'node:vm';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
+
+// Only the two pinned complete SAVE21 fixtures in these four legacy checks.
+// This validates the exact additive Scenario receipt; it never removes arbitrary
+// migrations or relaxes historical plan/resource/CP/population assertions.
+function hasOnlyExpectedScenarioLegacyMigration(runtime, envelope) {
+  const s = runtime.api.state, p = envelope.payload, eq = (a,b) => JSON.stringify(a) === JSON.stringify(b);
+  if (!['707889bd','7fde7715'].includes(envelope.checksum)) return false;
+  const date = { day: p.day, hour: p.hour, minute: p.minute }, seq = p.worldMeta.eventSeq + 1;
+  const expected = { eventId: `evt-${String(seq).padStart(6,'0')}`, seq, type: 'save.migrated', actorId: 'system', commandId: null, causationId: null,
+    tick: { world: (p.day-1)*1440+p.hour*60+p.minute, phase: p.worldMeta.clock.phaseMinutes, schedule: p.worldMeta.clock.scheduleMinutes },
+    payload: { migration: 'resolved-report-recovery-001', migrationVersion: 1, reason: 'scenario-legacy-unbound-v1', sourceCategory: 'primary',
+      originalChecksum: envelope.checksum, originalDate: date, selectedChecksum: envelope.checksum, selectedDate: date, rollback: false, instanceId: null,
+      fromSaveVersion: 21, fromContentVersion: 3, adapter: null, addedDomains: [], scenarioBindingAdapters: [{ adapter: 'scenario-legacy-unbound-v1',
+        sourceSeed: p.worldMeta.seed, hadDeclaredSnapshot: Object.hasOwn(p,'scenarioSnapshot'), seedSource: 'saved-world-meta', declaredSeed: p.scenarioSnapshot?.seed ?? null,
+        liveSeed: p.worldMeta.seed, aiDowngraded: false, effectiveAuthority: 'expression_only' }] } };
+  const added = s.worldMeta.events.filter(event => event.seq > p.worldMeta.eventSeq), stored = runtime.storage.get(saveKey);
+  if (!stored || !runtime.api.validate({raw:stored,sourceCategory:'primary'}).ok) return false;
+  const written = JSON.parse(stored).payload;
+  return eq(added,[expected]) && s.worldMeta.eventSeq === seq
+    && eq(s.worldMeta.events.slice(0,p.worldMeta.events.length),p.worldMeta.events)
+    && eq(written.worldMeta.events,s.worldMeta.events) && written.version === 21 && written.contentState.contentVersion === 3
+    && s.worldMeta.seed === p.worldMeta.seed && s.worldMeta.rngState === p.worldMeta.rngState && eq(s.worldMeta.replay,p.worldMeta.replay)
+    && s.worldMeta.commandSeq === p.worldMeta.commandSeq && eq(s.worldMeta.seenCommands,p.worldMeta.seenCommands)
+    && eq(s.world,p.world) && ['day','hour','minute','hp','energy','sanity','wood','stone','food','seeds','parts','medicine','morale'].every(key => s[key] === p[key])
+    && eq(s.resources,p.resources) && eq(s.npcs.map(n=>({id:n.id,hp:n.hp,lifeState:n.lifeState})),p.npcs.map(n=>({id:n.id,hp:n.hp,lifeState:n.lifeState})))
+    && eq(s.contentState.planMeeting,p.contentState.planMeeting) && s.contentState.commandPoints === p.contentState.commandPoints
+    && eq(s.scenarioSnapshot.binding,{version:1,status:'legacy-unbound',sourceSeed:p.worldMeta.seed,declaredSnapshot:p.scenarioSnapshot??null})
+    && s.scenarioSnapshot.seed === p.worldMeta.seed;
+}
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const usage = 'node scripts/check-shortage-choice-v2.mjs --baseline-report BASELINE_REPORT --out NEW_REPORT [--html HTML]';
 const args = process.argv.slice(2), options = {};
@@ -134,10 +163,10 @@ test('v2 definition removes ration effect tax and names new forage history preci
   assert.equal(history.resonancePressure, 2); assert.equal(Object.hasOwn(history, 'exposure'), false);
   assert.deepEqual(clone(forage.effects.filter(e => e.op !== 'recordHistory')), [{ op: 'addResource', key: 'food', value: 2 }, { op: 'adjustMeter', key: 'resonancePressure', value: 2 }, { op: 'unlock', key: flag }]);
 });
-test('original complete writer without active shortage loads without new rewards or migration', () => {
+test('original complete writer without active shortage preserves rewards with only explicit Scenario metadata migration', () => {
   const p = JSON.parse(originalBytes).payload, r = runtime(originalBytes.toString('utf8'));
   assert.deepEqual(protectedFacts(r.api.state), protectedFacts(p)); assert.equal(active(r), undefined);
-  assert.equal(events(r, 'save.migrated').length, p.worldMeta.events.filter(e => e.type === 'save.migrated').length);
+  assert.equal(hasOnlyExpectedScenarioLegacyMigration(r, JSON.parse(originalBytes)), true);
 });
 test('actual unresolved v1 writer validates and draft upgrades only version without live state or input effects', () => {
   const { r, input, result } = validatePure(activePayload); assert.equal(result.ok, true);
