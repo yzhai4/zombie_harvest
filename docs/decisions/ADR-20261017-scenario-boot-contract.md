@@ -1,8 +1,10 @@
 # ADR：ScenarioPackageV1 的真实启动与配置绑定
 
-日期：2026-10-17。**状态：proposed / 未接线。** 本文约定下一最小切片，不代表当前运行时已经具备 Scenario loader。对应问题见 [PROB-20261017-scenario-stored-not-bound](../problems/PROB-20261017-scenario-stored-not-bound.md)。生产 Sites v81 不因本提案改变。
+日期：2026-10-17。**状态：完整提案proposed/open；C1初值绑定已开发验收，C2未接线。** 本文约定下一最小切片，不代表当前运行时已经具备 Scenario loader。对应问题见 [PROB-20261017-scenario-stored-not-bound](../problems/PROB-20261017-scenario-stored-not-bound.md)。生产 Sites v81 不因本提案改变。
 
-## 当前事实与反例
+当前C1见[绑定合同](ADR-20261017-scenario-initial-binding-v1.md)与[QA](../qa/scenario-boot-c1-20261017.md)；下方反例保留为C1前基线，不能覆盖现有初值消费。完整JSON编译、原子目录和内容身份仍未完成。
+
+## C1前事实与反例
 
 只读源码路径为：内联 `state` → `INITIAL_PROGRESS_STATE` → `loadProgress` / `prepareSavedPayload` → 公开 `startFromSave` 安装 fresh 或恢复 draft。没有调用 `scripts/lib/scenario-package-v1.mjs`；断粮仍由内联 `SCENARIO_RUNTIME_STORYLETS` 注册，包 JSON 没有成为启动时的运行时来源。
 
@@ -72,4 +74,4 @@ authority 校验覆盖所有 `ai.policies.*` 与 storylet expression 路径，�
 
 通过源码合同后，冻结 exact HTML/包/runner 字节再做正常新局与旧档浏览器 smoke。fixture-browser、公开行动日历回归、自然体验和平衡分别报告。`server-three-days.py --strict-fresh` 使用兵营训练推进，属于单构建全新公开行动回归；自然时钟间隔证据不把整个训练路线变成自然游玩。即使该 runner 通过，也不满足本 ADR 的 loader 验收。
 
-任一原子性、旧事实保持或未授权能力负控失败，停止扩大配置面与后续 AI 功能，保留失败并修复。本文只有在实现、exact 证据及上述门槛完成后才能改为 adopted；目前没有接线或发布批准结论。
+任一原子性、旧事实保持或未授权能力负控失败，停止扩大配置面与后续 AI 功能，保留失败并修复。本文只有在实现、exact 证据及上述门槛完成后才能改为 adopted；C1部分接线不构成完整ADR采用或生产发布结论。

@@ -164,6 +164,8 @@ AI 规划器只产生结构化意图，不能写入 `GameState`。游戏主循�
 
 Scenario schema 或 snapshot 成功保存只证明存储合同；沿真实新开/继续 boot 路径看到配置被消费并改变相应世界事实，且旧 writer 事实保留通过后，才称 boot 生效。原用户报告是设计依据，真实实现以当前源码调用路径和运行证据判断；proposed 设计未接线时继续标为 proposed。
 
+启动与设置改动按[Skill参考](../.codex/skills/zombie-harvest-iteration/references/scenario-boot-verification.md)核实际可见入口→安装→first writer→consumer→reload；当前偏好与initial绑定分开。支持目录须独立于受测可变输入，或由实际内容注册/执行证明，不靠生成器同时改期望值。旧世界事实、原声明、新增来源说明分别保存；兼容仅限明确legacy合同。C1初值绑定、C2编译/原子注册与后续角色观察权限各自验收。
+
 Observer 采用“白名单事实投影 → 只读表达 → deterministic fallback”。不得创建资源、人口、事件或修改存档；SAVE21 只保存版本化 snapshot 与开关，不保存凭据或不可回放模型状态。超时、非法输出、越权和预算拒绝必须回到同一规则路径。
 
 可信调用者传入 subject/context 的纯表达 API，即使结果已逐层冻结，也不证明角色有权知道这些信息。先由可信代码产生 actor-bound 的授权 knowledge，再与信任披露策略取交集；高信任不能扩充知识。actor/perception Gate 未接线就列未完成，LLM 不得直接读取 GameState、WorldFacts 宽快照或任意原始 subject；具体 proposed 合同见[角色观察 ADR](decisions/ADR-20261017-actor-observation-v1.md)。

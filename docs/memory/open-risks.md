@@ -1,5 +1,11 @@
 # 未关闭风险
 
+## 当前优先级覆盖：C1初始绑定后（2026-10-17）
+
+开发C1实际seed/有限food、公开偏好、首存冻结/重试和旧来源表示已按[QA](../qa/scenario-boot-c1-20261017.md)验收；完整Scenario仍未完成。C2必须解决JSON→完整定义/typed refs/候选目录原子提交及早于start的保存校验依赖，已知C1 binding/digest要显式保留，不能忽略或追溯重算。
+
+ActorObservation/实际NPC表达、继任双岗、来源回执、fractional clock、零粮词值、大步模拟差异、自然三日/玩家体验、trusted hidden、最终尸潮/移动端和生产均另open。fresh08有后台旧塔击杀，不等于玩家战斗路线或新增防御塔验收。下方旧状态不覆盖本节。
+
 ## 当前优先级覆盖：9ed NPC公开动作后（2026-10-17）
 
 NPC距离／同目标／typed空成功和真实耗时死亡后续奖励已在开发80dea63c／9ed列明source110、Chrome112及fresh07短路线验收，见[QA](../qa/npc-public-actions-v1-20261017.md)。不声称所有NPC入口、永久人物功绩账本或生产部署完成。

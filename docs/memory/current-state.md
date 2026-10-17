@@ -1,5 +1,13 @@
 # 当前状态
 
+## 当前检查点：Scenario初始绑定C1（2026-10-17，优先于下方历史）
+
+源码`d65924431932d63ccfa6cb3da12f38fd126cd39c`／HTML`a2fcdb647f2632fbf50f3ab0f3ba160f168082c602f6737c5ca4239eede137d2`，SAVE21／CONTENT3；新局seed（含0）/有限初始food实际生效，first writer前不启动世界，失败冻结同draft公开重试。完整旧writer不reseed/scale；原声明与真实旧seed分开。公开observer偏好到实际纯表达consumer通过，不代表角色知识或LLM。见[QA](../qa/scenario-boot-c1-20261017.md)。
+
+pure14／source120，40 unique合同完成（44执行、40pass、4旧迁移假设fail保留）；七套Chrome495检查，C1主文档5 canonical/10 variant分列。fresh08七项短路线16/16、day1 09:13十活；未验玩家战斗/收获/夜间/三日，原塔后台击杀单列。hidden仍unavailable。精确HEAD/CI在PR #4另核，生产未部署。
+
+完整boot ADR仍open，下一[C2](../research/scenario-boot-c2-implementation-plan-20261017.md)为JSON完整定义编译与候选目录原子提交，不能用C1关闭；之后actor知识。更大世界/多副本/特殊NPC连续性长期目标不变。
+
 ## 当前检查点：NPC公开动作与真实中断（2026-10-17，优先于下方历史）
 
 源码`80dea63cb835f8e4da3a965156d06d15a8bf4074`／HTML`9edb6d3c3daa7ec63d90594381d811cb077828fd0955fb7095c601ce91b5b87b`，SAVE21／CONTENT3。查看1.25／执行1格共享live同ID准入；首谈／支援／询问typed结果，拒绝无空成功；真实advance内死亡停止后置奖励／命令，保留成本和世界后果，最终负账本自动保存。详见[QA](../qa/npc-public-actions-v1-20261017.md)。

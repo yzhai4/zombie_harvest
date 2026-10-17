@@ -116,6 +116,8 @@ AI 或实验变更还必须提供：baseline、变体、seed 集、失败重试�
 
 Scenario schema/版本化 snapshot 能保存，不等于 boot 已消费配置；须沿真实新开/继续入口验证实际世界效果和旧 writer 保留边界后，才称 loader 生效。
 
+修改Scenario启动、包或preboot设置时读[启动验证边界](references/scenario-boot-verification.md)：实际可见设置到consumer、旧事实与声明分开、独立目录对账、首存失败冻结及按构建证据。
+
 Observer 只能使用白名单只读投影，不能触碰可变 WorldFacts 或写 GameState。当前可信调用者提供的 subject/context 与深冻结纯表达 API 不是角色知识授权；低信任只对已授权 knowledge 取披露交集，高信任不能发现隐藏事实。actor/perception Gate 未接线就保持 proposed/未完成，LLM 不得直接读取 GameState、宽快照或任意原始 subject。AI-OFF、超时、非法输出、越权和预算拒绝使用 deterministic fallback。
 
 原用户报告只作设计依据；proposed ADR/剧本卡与字段存在不能证明实现。状态以真实调用路径、writer/loader 和当前构建证据为准，不由报告描述或历史绿色提升。

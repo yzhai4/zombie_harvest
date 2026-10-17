@@ -31,3 +31,5 @@
 执行 ADR 的实际 boot、JSON→registry→reducer、seed/config 生效、非法能力拒绝、原子失败、完整旧 writer 与 reload 合同；冻结源码/包/runner 后补浏览器新局和恢复证据。需有 applied 与 baseline-only/deferred 的清单，不能仅展示 snapshot 字段相等。
 
 `check-scenario-package-v1` 当前三个正例、断粮 fixture-browser 或 `server-three-days` 公开训练日历回归都不单独关闭本问题；后者即使 strict-fresh 通过，也不是自然玩法/平衡或 Scenario loader 验收。失败、未完成和旧构建证据分别保留。
+
+开发增量：d6592443／a2fcdb64的C1列明source120／Chrome134与旧writer验收已完成，见[QA](../qa/scenario-boot-c1-20261017.md)。C2 JSON编译/原子注册、ActorObservation与生产仍未完成；保留以上原问题和失败。

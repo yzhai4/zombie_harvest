@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "scenario": {
+    "id": "zombie-farm",
+    "version": 1,
+    "contentVersion": 3
+  },
+  "metadata": {
+    "title": "尸潮农场",
+    "campaign": "im-the-savior"
+  },
+  "world": {
+    "ordinaryNpcCount": 10,
+    "foodMultiplier": 1,
+    "medicineMultiplier": 1,
+    "materialMultiplier": 1,
+    "initialEnemyMultiplier": 1,
+    "waveGrowthMultiplier": 1,
+    "eventFrequency": 1
+  },
+  "difficulty": {
+    "presets": {
+      "standard": {},
+      "hard": {
+        "initialEnemyMultiplier": 1.3
+      }
+    },
+    "playerCustomizable": [
+      "world.foodMultiplier"
+    ]
+  },
+  "events": {
+    "registry": [],
+    "storylets": []
+  },
+  "ai": {
+    "generativeFeaturesDefault": false,
+    "policies": {
+      "observer": {
+        "authority": "expression_only"
+      }
+    }
+  },
+  "continuity": {
+    "importContracts": [],
+    "exportContracts": [
+      "observer_core_v1"
+    ]
+  }
+}

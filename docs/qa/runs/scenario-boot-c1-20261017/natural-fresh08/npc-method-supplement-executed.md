@@ -1,0 +1,1 @@
+Final NPC r3: same public ID, typed first dialogue0E0min is not support; actual confirmed support2E15min and effects required. Bounded original Canvas observation and all original seven coverage/480s/10-action limits are encoded in this exact executed runner.
