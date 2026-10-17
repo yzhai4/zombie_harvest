@@ -1,0 +1,943 @@
+{
+  "schema": "Natural06IndependentReadOnlyAuditV1",
+  "status": "SHORT_MIXED_SEVEN_OCCURRENCES_CONFIRMED_WITH_LIMITATIONS",
+  "okWithinStatedShortScope": true,
+  "sourceHtmlSha256": "19cb05c4341ab1353e1ac5362b685a4af3a88fc826e349504b9d57a42639eb6f",
+  "originalReportSha256": "aa4dbcdbd0dc7943af9940e8b7b87acf96b487145d626e1fcfbdc64ff357f4a5",
+  "originalTerminalSummarySha256": "f7d991dc7b387c6ef29af1e5d484674e1d5578790326616f191426aeebcad119",
+  "executedNaturalRunnerSha256": "2ff1fb866e23d4fad9af66adefb262bc6f59f5b424315bc72b3bd7e64bd57aed",
+  "executedProtocolSha256": "1cdf608d0ddd7e05a1dd711c0ec2ad51c7f26e5d181ce0bb6745f24687148e01",
+  "auditorSha256": "127c8115ef47c5208332c7affdc31c7fea08e22c2d29afa32d2b6917f6e1e1b4",
+  "posthocSourceValidatorAdapterSha256": "ee5bb659c0439044e1ec07a4aecf931293457c2478f35d0850fe90770b4367cf",
+  "originalsUnmodified": true,
+  "refs": [
+    {
+      "path": "inputs/fresh06/000-fresh-initial-save.json",
+      "sha256": "1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/000-fresh-initial-ui.json",
+      "sha256": "a50feb31d6e4c7e9d221a085c7393e47beb85b6d59d1c9c250b58f278af867c8",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/000-fresh-initial.png",
+      "sha256": "4d08ea879ab2396d6cd3ef89391b18dfdbf59df021933d266d10774b29585ba8",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/001-0-event.resolved-before-save.json",
+      "sha256": "1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/001-0-event.resolved-before-ui.json",
+      "sha256": "7c437db7366682689c6eea036ffd6454c80f41fa3c966c021e3f163fa90ae9e1",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/002-0-event.resolved-after-save.json",
+      "sha256": "033c580ceda34ae5287dcd4aa446f9d32cdfe0dc6398962dffc6db9d83d4af4f",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/002-0-event.resolved-after-ui.json",
+      "sha256": "1a6bc1af53fe8e70a8e52d63237c822c7c7e32a849b246c97001d3523cae4b54",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/002-0-event.resolved-after.png",
+      "sha256": "638b413f81069417b79fbd17b72a56537a6dc3aac5a6f6a3318173f2aac986ff",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/003-1-resource.collected-before-save.json",
+      "sha256": "3f7734b07416866b98d5c4da863df275b10a03b13c08f89a4f2bdff86821ec2c",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/003-1-resource.collected-before-ui.json",
+      "sha256": "2d289ca4a7292536c58205d47ad2c2d6e03c71e5fa40faf86fced394f9c2db04",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/004-1-resource.collected-after-save.json",
+      "sha256": "0ef462a8ed7ba48c96e4a617d5992d179d6f74b7064590bb309a6286738881d3",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/004-1-resource.collected-after-ui.json",
+      "sha256": "0a3dfae47de97aa945399cc3277b0071e5d0fd2bb694c1450275701641be1bc7",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/004-1-resource.collected-after.png",
+      "sha256": "64ec5069f3cf6610d19b8b809f161037d11f363e51d1dd2b3786cd36a3649cc7",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/005-2-landmark.discovered-before-save.json",
+      "sha256": "31c674dd6ace2cba804a9f48c141d8ec48bcf0d2067150190c5efc64753488d9",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/005-2-landmark.discovered-before-ui.json",
+      "sha256": "68a792fe78c95d048fd4d19e0487b3c810e0e545e0020c6d7663f21048a77249",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/006-2-landmark.discovered-after-save.json",
+      "sha256": "8437d1e52c21285fa36afa3d54fcc42a4e3e6ea417ca4dc70838118c7effec9c",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/006-2-landmark.discovered-after-ui.json",
+      "sha256": "4ccd047f01d2a6a3ac75c102ccea2b95d1a2b523fbfd536a4445fb0823066efb",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/006-2-landmark.discovered-after.png",
+      "sha256": "148d0dae6ba2109d3f33b317e7da7e719530fa29a1cadd4dad8c71fb3e632816",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/007-3-npc.interacted-before-save.json",
+      "sha256": "fbc8fb9d36d3d4dd478a1d6f9d31397515bf14ef9a014d0816e6b20746364e3b",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/007-3-npc.interacted-before-ui.json",
+      "sha256": "f450d7390ccd0c4496074fc29abb13ff455cc38e1fd75e2a3826dba0e42d470d",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/008-3-npc.interacted-after-save.json",
+      "sha256": "b7619a59f60aa180f4c3c5a0e6c0e3acb73c1ca1570309bf087d6349c0e00bab",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/008-3-npc.interacted-after-ui.json",
+      "sha256": "3f6a353a6ab615b48c58497b7adf3013dec38be7d138a021d7838c99ecd3f00a",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/008-3-npc.interacted-after.png",
+      "sha256": "c8c7e6209f0d8005200f9e8e47bd3c442133b978b54f86564ba8ca4a5be5e7ba",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/009-rest-purpose-before-save.json",
+      "sha256": "b7619a59f60aa180f4c3c5a0e6c0e3acb73c1ca1570309bf087d6349c0e00bab",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/009-rest-purpose-before-ui.json",
+      "sha256": "b8c37ee90b9b9d02176cc030a3b2cf17fe8cbdcbb5fe5db7996c5ffeed58d9dd",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/010-rest-purpose-after-save.json",
+      "sha256": "65423d20be3dd16c5a614c61fe62238333f2f4c6e0ad979d51de6049523f2d34",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/010-rest-purpose-after-ui.json",
+      "sha256": "0dc6116ab463de6dc6a9d1f4b1ef9e3b71270de361d037cc2f8c5d6bc99519cf",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/010-rest-purpose-after.png",
+      "sha256": "418852558a552f99f34fc1fa4c6932d42b06211eb56655f0f512ca14bc579cbe",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/011-5-crop.changed-before-save.json",
+      "sha256": "2e1a98577dbf9459f734ebe4d1aead7a6abed3cddd5d4b992bd1a9e6b5501b42",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/011-5-crop.changed-before-ui.json",
+      "sha256": "347c4d60fb551ec0fd4d21c4e96e140c37a254ad5351eaedc44a293d63867a9d",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/012-5-crop.changed-after-save.json",
+      "sha256": "0129faf29f8e188d81109dd99ad820f1792ef8e08f79f8ea9bd58eae1c9f8397",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/012-5-crop.changed-after-ui.json",
+      "sha256": "226c36f1ce4813f3162c260beeec3e4660392f8a6dc21fa07f0910f7e08f9fb0",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/012-5-crop.changed-after.png",
+      "sha256": "cf6024808db8896eb2ad112159791f0e387b8f75bb69caf9297f0429e46817a4",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/013-6-building.constructed-before-save.json",
+      "sha256": "0129faf29f8e188d81109dd99ad820f1792ef8e08f79f8ea9bd58eae1c9f8397",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/013-6-building.constructed-before-ui.json",
+      "sha256": "24269bcfb7d940d935d510562ce095c497d6901e85e2744626deb4499edc8ca7",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/014-6-building.constructed-after-save.json",
+      "sha256": "082d38f40f2e799e5ba9eec173753fdf98174a2b06377d819a12d2184c2abcca",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/014-6-building.constructed-after-ui.json",
+      "sha256": "1f6af27bc011f368687f16405fafced686af7f9c7e6b8c291ec575baaa3fd14c",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/014-6-building.constructed-after.png",
+      "sha256": "ce2e676e8d62baac10d213952f05451981149f3846e11223341f55e40b4f36cb",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/015-before-public-reload-save.json",
+      "sha256": "082d38f40f2e799e5ba9eec173753fdf98174a2b06377d819a12d2184c2abcca",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/015-before-public-reload-ui.json",
+      "sha256": "1310e5a9718958f61b01ff4387ef744fd34d185388f8ed477348b66e8e90e1ae",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/015-before-public-reload.png",
+      "sha256": "a9a3fa990791d39cd1f90965c535c2706752c54dd142cb1475d6a8617f5c3da5",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/016-after-reload-normal-tick-save.json",
+      "sha256": "47add567245e8d901a923d9bd7477e4457d38c3357d81ca08dc1a895e51c318d",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/016-after-reload-normal-tick-ui.json",
+      "sha256": "0b5c94c6fcffe1437f4eae4617373a065f3a70023293d818c1f66b23dc1c138a",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/016-after-reload-normal-tick.png",
+      "sha256": "5debcd3dcbd14516596749df8884925c4d29b5b6b3b6d84c6752efce17e53dcf",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/actor-sprites-executed.js",
+      "sha256": "257f4b38760813c21c723bbb9f934f1198e742fd1223db48705f34787e0f71b7",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/protocol-executed.md",
+      "sha256": "1cdf608d0ddd7e05a1dd711c0ec2ad51c7f26e5d181ce0bb6745f24687148e01",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/report.json",
+      "sha256": "aa4dbcdbd0dc7943af9940e8b7b87acf96b487145d626e1fcfbdc64ff357f4a5",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/runner-executed.mjs",
+      "sha256": "2ff1fb866e23d4fad9af66adefb262bc6f59f5b424315bc72b3bd7e64bd57aed",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/source.html",
+      "sha256": "19cb05c4341ab1353e1ac5362b685a4af3a88fc826e349504b9d57a42639eb6f",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/terminal-before-cleanup-save.json",
+      "sha256": "7bdf13bf4830bb0b3bcd3ed9e2a6bee0af45878d568836c86cea04cead94d114",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/terminal-before-cleanup.png",
+      "sha256": "160f2ed7d8222c2ac2c1d03b4b694f8ab3e5feeaa812b7dfced9203bb12769ee",
+      "kind": "unchanged-original-natural06-artifact"
+    },
+    {
+      "path": "inputs/fresh06/execution-summary.json",
+      "sha256": "f7d991dc7b387c6ef29af1e5d484674e1d5578790326616f191426aeebcad119",
+      "kind": "unchanged-original-observed-terminal-summary"
+    },
+    {
+      "path": "inputs/posthoc-validator-io-adapter.mjs",
+      "sha256": "ee5bb659c0439044e1ec07a4aecf931293457c2478f35d0850fe90770b4367cf",
+      "kind": "actual-existing-IO-factory-used-only-for-posthoc-pure-save-validation"
+    },
+    {
+      "path": "inputs/prior05/report.json",
+      "sha256": "3004fd66ee83951ae37e566cadb75229ce3f03b8bd39b340a34708c223cc0a1f",
+      "kind": "unchanged-separate-prior05-artifact"
+    },
+    {
+      "path": "inputs/prior05/execution-summary.json",
+      "sha256": "4e7d83770a701918a807a6a4447339dc1378b3aa2c5b938521b38ed92e3f21a4",
+      "kind": "unchanged-separate-prior05-artifact"
+    },
+    {
+      "path": "inputs/prior05/runner-executed.mjs",
+      "sha256": "65182b12cc02d7c73208b335765552197831b06dc8d7ce560af77221f2ec7ab3",
+      "kind": "unchanged-separate-prior05-artifact"
+    },
+    {
+      "path": "inputs/prior05/source.html",
+      "sha256": "6b8ea0f508265fcc439ceba2bd1aab8a88c1c31169709883cb8e0162a7bc151f",
+      "kind": "unchanged-separate-prior05-artifact"
+    }
+  ],
+  "checks": [
+    {
+      "name": "original terminal exit0 and report/summary joins",
+      "ok": true
+    },
+    {
+      "name": "all 51 original declared artifacts hash exactly and are copied unchanged",
+      "ok": true
+    },
+    {
+      "name": "exact archived HTML runner protocol sprites and three observed main documents",
+      "ok": true
+    },
+    {
+      "name": "17 snapshot writers and terminal writer validate through actual archived source and continuous ledger",
+      "ok": true
+    },
+    {
+      "name": "all actual calendar minutes join exact real clock replay",
+      "ok": true
+    },
+    {
+      "name": "actual source changes and causal evidence for event.resolved",
+      "ok": true
+    },
+    {
+      "name": "actual source changes and causal evidence for resource.collected",
+      "ok": true
+    },
+    {
+      "name": "actual source changes and causal evidence for landmark.discovered",
+      "ok": true
+    },
+    {
+      "name": "actual source changes and causal evidence for npc.interacted",
+      "ok": true
+    },
+    {
+      "name": "actual source changes and causal evidence for crop.changed",
+      "ok": true
+    },
+    {
+      "name": "actual source changes and causal evidence for building.constructed",
+      "ok": true
+    },
+    {
+      "name": "purposeful rest has one exact 30-minute instance and thirty real one-minute children",
+      "ok": true
+    },
+    {
+      "name": "real public reload plus normal tick repeats no action reward payment seed or NPC support",
+      "ok": true
+    },
+    {
+      "name": "actual limited fresh route budgets cleanup and unused observer",
+      "ok": true
+    },
+    {
+      "name": "old05 remains its own failed incomplete source and is not merged",
+      "ok": true
+    }
+  ],
+  "evidence": {
+    "observedProcessExitCode": 0,
+    "nativeWritersValidated": 18,
+    "originalArtifactHashesVerified": 51,
+    "continuousLedger": true,
+    "originalTenLivingIdentitiesThroughout": true,
+    "actualClock": {
+      "initialMinute": 360,
+      "terminalMinute": 563,
+      "exactJoinedClockMinutes": 203,
+      "uniqueClockReceipts": 78
+    },
+    "originalBrowserChecks": {
+      "passed": 15,
+      "count": 15
+    },
+    "actions": [
+      {
+        "kind": "event.resolved",
+        "principalIndex": 0,
+        "parentCommandId": "cmd-000001",
+        "eventId": "evt-000002",
+        "eventActorId": "system",
+        "parentActorId": "player-1",
+        "observedMinutes": [
+          360,
+          361
+        ],
+        "ownCausalMinutes": [],
+        "resources": {
+          "food": [
+            8,
+            11
+          ],
+          "parts": [
+            4,
+            5
+          ],
+          "wood": [
+            24,
+            24
+          ],
+          "stone": [
+            12,
+            12
+          ],
+          "seeds": [
+            3,
+            3
+          ],
+          "energy": [
+            78,
+            74
+          ]
+        }
+      },
+      {
+        "kind": "resource.collected",
+        "principalIndex": 1,
+        "parentCommandId": "cmd-000062",
+        "eventId": "evt-000019",
+        "eventActorId": "system",
+        "parentActorId": "player-1",
+        "observedMinutes": [
+          370,
+          401
+        ],
+        "ownCausalMinutes": [
+          30
+        ],
+        "resources": {
+          "food": [
+            11,
+            11
+          ],
+          "parts": [
+            5,
+            5
+          ],
+          "wood": [
+            24,
+            28
+          ],
+          "stone": [
+            12,
+            12
+          ],
+          "seeds": [
+            3,
+            3
+          ],
+          "energy": [
+            74,
+            68
+          ]
+        },
+        "sameFiniteNode": {
+          "id": "res-1cksxb7",
+          "x": 8,
+          "y": 8,
+          "amount": [
+            2,
+            1
+          ]
+        }
+      },
+      {
+        "kind": "landmark.discovered",
+        "principalIndex": 2,
+        "parentCommandId": "cmd-000114",
+        "eventId": "evt-000046",
+        "eventActorId": "player-1",
+        "parentActorId": "player-1",
+        "observedMinutes": [
+          410,
+          431
+        ],
+        "ownCausalMinutes": [
+          20
+        ],
+        "resources": {
+          "food": [
+            11,
+            13
+          ],
+          "parts": [
+            5,
+            5
+          ],
+          "wood": [
+            28,
+            28
+          ],
+          "stone": [
+            12,
+            12
+          ],
+          "seeds": [
+            3,
+            4
+          ],
+          "energy": [
+            68,
+            66
+          ]
+        },
+        "landmark": {
+          "id": "poi-zju9d8",
+          "x": 12,
+          "y": 9,
+          "found": [
+            false,
+            true
+          ]
+        }
+      },
+      {
+        "kind": "npc.interacted",
+        "principalIndex": 3,
+        "parentCommandId": "cmd-000119",
+        "eventId": "evt-000055",
+        "eventActorId": "player-1",
+        "parentActorId": "player-1",
+        "observedMinutes": [
+          432,
+          447
+        ],
+        "ownCausalMinutes": [
+          15
+        ],
+        "resources": {
+          "food": [
+            13,
+            13
+          ],
+          "parts": [
+            5,
+            5
+          ],
+          "wood": [
+            28,
+            28
+          ],
+          "stone": [
+            12,
+            12
+          ],
+          "seeds": [
+            4,
+            4
+          ],
+          "energy": [
+            66,
+            65
+          ]
+        },
+        "npc": {
+          "publicId": "sergeant",
+          "publicName": "贺川",
+          "support": [
+            false,
+            true
+          ],
+          "bond": [
+            0,
+            1
+          ],
+          "helpedByPlayer": [
+            0,
+            1
+          ]
+        }
+      },
+      {
+        "kind": "crop.changed",
+        "principalIndex": 5,
+        "parentCommandId": "cmd-000301",
+        "eventId": "evt-000151",
+        "eventActorId": "player-1",
+        "parentActorId": "player-1",
+        "observedMinutes": [
+          495,
+          516
+        ],
+        "ownCausalMinutes": [
+          20
+        ],
+        "resources": {
+          "food": [
+            13,
+            13
+          ],
+          "parts": [
+            5,
+            5
+          ],
+          "wood": [
+            28,
+            28
+          ],
+          "stone": [
+            12,
+            12
+          ],
+          "seeds": [
+            4,
+            3
+          ],
+          "energy": [
+            67,
+            64
+          ]
+        },
+        "crop": {
+          "id": "bld-mazjx8",
+          "x": 7,
+          "y": 14,
+          "actualFractionalPlayer": {
+            "x": 7.000000000000014,
+            "y": 12.999999999999993,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "gross": {
+            "energy": 4,
+            "seeds": 1
+          },
+          "actualAdvance": {
+            "commandId": "cmd-000302",
+            "eventId": "evt-000150",
+            "causationId": "cmd-000301",
+            "minutes": 20,
+            "tick": {
+              "world": 515,
+              "phase": 0,
+              "schedule": 155
+            }
+          }
+        }
+      },
+      {
+        "kind": "building.constructed",
+        "principalIndex": 6,
+        "parentCommandId": "cmd-000305",
+        "eventId": "evt-000164",
+        "eventActorId": "player-1",
+        "parentActorId": "player-1",
+        "observedMinutes": [
+          516,
+          562
+        ],
+        "ownCausalMinutes": [
+          45
+        ],
+        "resources": {
+          "food": [
+            13,
+            13
+          ],
+          "parts": [
+            5,
+            5
+          ],
+          "wood": [
+            28,
+            16
+          ],
+          "stone": [
+            12,
+            7
+          ],
+          "seeds": [
+            3,
+            3
+          ],
+          "energy": [
+            64,
+            67
+          ]
+        },
+        "newTower": {
+          "id": "bld-1rvyyf8",
+          "x": 8,
+          "y": 13,
+          "type": "tower",
+          "w": 1,
+          "h": 1,
+          "hp": 10,
+          "maxHp": 10,
+          "active": true,
+          "combatClock": 9
+        }
+      }
+    ],
+    "rest": {
+      "purpose": {
+        "goal": "恢复至少1点既有被动体力后继续实际播种与农田防护建设，避免为了少量体力立即消耗阵营口粮",
+        "requestedMinutes": 30,
+        "startPublicEnergy": 65,
+        "noCropMaturityClaim": true,
+        "goalAchieved": true
+      },
+      "start": {
+        "eventId": "evt-000058",
+        "seq": 58,
+        "type": "camp.rest.started",
+        "actorId": "system",
+        "commandId": "cmd-000133",
+        "causationId": null,
+        "tick": {
+          "world": 449,
+          "phase": 0,
+          "schedule": 89
+        },
+        "payload": {
+          "active": true,
+          "restId": "rest-0-1-cmd-000133",
+          "requested": 30,
+          "completed": 0,
+          "remaining": 30,
+          "stepIndex": 0,
+          "generation": 0,
+          "reason": null,
+          "anchorId": "bld-4ep952",
+          "startMinute": 449,
+          "currentMinute": 449,
+          "targetMinute": 479
+        }
+      },
+      "stop": {
+        "eventId": "evt-000122",
+        "seq": 122,
+        "type": "camp.rest.stopped",
+        "actorId": "system",
+        "commandId": "cmd-000194",
+        "causationId": null,
+        "tick": {
+          "world": 479,
+          "phase": 0,
+          "schedule": 119
+        },
+        "payload": {
+          "active": false,
+          "restId": "rest-0-1-cmd-000133",
+          "requested": 30,
+          "completed": 30,
+          "remaining": 0,
+          "stepIndex": 30,
+          "generation": 0,
+          "reason": "completed",
+          "anchorId": "bld-4ep952",
+          "startMinute": 449,
+          "currentMinute": 479
+        }
+      },
+      "oneMinuteChildCount": 30,
+      "observedWriterWindow": [
+        447,
+        479
+      ],
+      "energy": [
+        65,
+        66
+      ],
+      "food": [
+        13,
+        13
+      ],
+      "observationLagNote": "pre-rest writer447 precedes actual rest start449 by two normal minutes; actual rest449..479 is exactly30, not32"
+    },
+    "reload": {
+      "observedWriterWindow": [
+        562,
+        563
+      ],
+      "onlyNewEvent": {
+        "eventId": "evt-000165",
+        "seq": 165,
+        "type": "time.advanced",
+        "actorId": "system",
+        "commandId": "cmd-000307",
+        "causationId": null,
+        "tick": {
+          "world": 563,
+          "phase": 0,
+          "schedule": 203
+        },
+        "payload": {
+          "minutes": 1,
+          "day": 1,
+          "hour": 9,
+          "minute": 23
+        }
+      },
+      "resourceAndActionNoRepeat": true,
+      "sameBuildingIdentityCropAndHealth": true,
+      "npcSupportBondMemoryUnchanged": true,
+      "realCombatClockProgress": [
+        {
+          "id": "bld-1rhfvwb",
+          "before": 10,
+          "after": 11
+        },
+        {
+          "id": "bld-1rvyyf8",
+          "before": 9,
+          "after": 10
+        }
+      ]
+    },
+    "budgets": {
+      "wallLimitMs": 480000,
+      "actualWallMs": 60581,
+      "routeBeforeCleanupMs": 59929,
+      "principalActions": 7,
+      "principalLimit": 10,
+      "maximumNavigationGoalMs": 4183,
+      "timers": {
+        "readingMs": 26,
+        "saveVerificationMs": 5222,
+        "checkpointSynchronizationMs": 25063,
+        "publicRestMs": 6208,
+        "navigationMs": 16657,
+        "idleMs": 0
+      }
+    },
+    "cleanup": {
+      "browserClosed": true,
+      "contextClosed": true,
+      "httpServerClosed": true,
+      "UIObserversRestored": true
+    },
+    "terminal": {
+      "day": 1,
+      "hour": 9,
+      "minute": 23,
+      "playerHP": 100,
+      "energy": 67,
+      "sanity": 75,
+      "food": 13,
+      "roster": 10,
+      "living": 10,
+      "npcDeaths": [],
+      "campCollapse": 0,
+      "coreBuildings": [
+        {
+          "id": "bld-4ep952",
+          "type": "shelter",
+          "hp": null
+        },
+        {
+          "id": "bld-l3hz1u",
+          "type": "bunker",
+          "hp": 12
+        },
+        {
+          "id": "bld-1ofdmcs",
+          "type": "depot",
+          "hp": 10
+        }
+      ],
+      "eventSeq": 165
+    },
+    "publicObservation": {
+      "goalSelection": "source-audited rendered nonfogged tile/context/HUD only; writer does not choose NPC target",
+      "npc": "贺川",
+      "publicNpcId": "sergeant",
+      "firstDialogueCountedAsSupport": false,
+      "actualObserverInstalled": false,
+      "humanReadOnlyScreenshotsInspected": [
+        "008-3-npc.interacted-after.png",
+        "014-6-building.constructed-after.png"
+      ]
+    },
+    "prior05": {
+      "sourceHtmlSha256": "6b8ea0f508265fcc439ceba2bd1aab8a88c1c31169709883cb8e0162a7bc151f",
+      "status": "INCOMPLETE_COVERAGE",
+      "ok": false,
+      "missing": [
+        "npcInteraction"
+      ],
+      "mergedInto06": false
+    }
+  },
+  "findings": [
+    {
+      "id": "existing-supply-cost-hint",
+      "scope": "pre-existing UI wording mismatch; eventChoice actually occurred",
+      "publicHint": "🔎 搜索补给箱\n消耗 6 体力，食物 +3、零件 +1，尸潮 +1",
+      "actualEnergy": [
+        78,
+        74
+      ],
+      "sourceFact": "source supply choice branch calls spendEnergy(4), while public hint says6",
+      "sevenOccurrenceEvidenceInvalidated": false,
+      "fixedByThisAudit": false
+    },
+    {
+      "id": "legacy-event-and-collect-actor",
+      "scope": "global actor consistency is not established by the crop-only fix",
+      "actual": [
+        {
+          "kind": "event.resolved",
+          "eventActorId": "system",
+          "parentActorId": "player-1"
+        },
+        {
+          "kind": "resource.collected",
+          "eventActorId": "system",
+          "parentActorId": "player-1"
+        }
+      ],
+      "cropAndNpcActualActorsPlayer1": true,
+      "fixedByThisAudit": false
+    },
+    {
+      "id": "observer-not-triggered",
+      "scope": "static METHOD_READY only; no wrapper installed in actual06",
+      "observations": 0,
+      "approaches": 0,
+      "restorations": 0,
+      "executedFollowOrRestoreBranchClaim": false
+    },
+    {
+      "id": "privileged-safety-separate",
+      "scope": "read-only complete actual writer worldZombies and kind/speedFactor/position; conservative veto only; not actor-authorized observation",
+      "actorProjectionComplete": false
+    },
+    {
+      "id": "observed-main-document-scope",
+      "scope": "three explicit observed main-document response bodies all19cb; fixed local HTTP server served the immutable archived Buffer; no claim that sprite/other asset response hashes equal HTML"
+    },
+    {
+      "id": "bounded-short-slice",
+      "scope": "one fresh scripted natural mixed slice; encounter, harvest, threeDays, real hidden behavior and balance remain uncovered"
+    }
+  ],
+  "auditExecutionScope": "read original terminal artifacts; actual archived inline validator executed only posthoc under controlled IO; no new browser launched, no game state/receipt produced or altered in the natural run, no repository/source/original report changes",
+  "browserLaunchedByAuditor": false,
+  "naturalThreeDaysValidated": false,
+  "balanceValidated": false
+}

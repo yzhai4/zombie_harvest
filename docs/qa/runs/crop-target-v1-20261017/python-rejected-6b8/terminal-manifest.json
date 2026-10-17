@@ -1,0 +1,65 @@
+{
+  "schema": "ActualWriterCropCompatibilityTerminalV1",
+  "status": "FAILED_STRICT_CROP_COMPATIBILITY",
+  "sourceRuntimeExitCode": 0,
+  "pythonEvidenceExitCode": 1,
+  "ok": false,
+  "harvestOk": false,
+  "reloadOk": true,
+  "failedHarvest": [
+    "one new crop receipt joins one exact public crop command",
+    "harvest food gain is exactly three after recorded NPC meals"
+  ],
+  "classification": "crop actor is a real source regression; unsupported combat events remain a fail-closed helper coverage gap; source receipts were not edited",
+  "source": "6b8ea0f508265fcc439ceba2bd1aab8a88c1c31169709883cb8e0162a7bc151f",
+  "files": [
+    {
+      "path": "execute-source.mjs",
+      "sha256": "915ed5ed14dc35b41da9ff245a9669a0766d331ef525ace88d6e276191073fae"
+    },
+    {
+      "path": "inputs/io-adapter.mjs",
+      "sha256": "ee5bb659c0439044e1ec07a4aecf931293457c2478f35d0850fe90770b4367cf"
+    },
+    {
+      "path": "inputs/original-fresh04-writer.json",
+      "sha256": "0e91022d25944ee63d30f75efb3d0a9e57db795ea5d1708485c0449fb34700a9"
+    },
+    {
+      "path": "inputs/report_recovery_fixtures.py",
+      "sha256": "c9ec8771a76b2e6e8581cf3fa2c9edb6b667410e5f62448acc66201a51467e8e"
+    },
+    {
+      "path": "inputs/report_recovery_full.py",
+      "sha256": "f7d7d0ecc6f5523a545b71be229bf493236f4dfae7400a1156e037d9b7687d31"
+    },
+    {
+      "path": "inputs/source.html",
+      "sha256": "6b8ea0f508265fcc439ceba2bd1aab8a88c1c31169709883cb8e0162a7bc151f"
+    },
+    {
+      "path": "python-evidence.json",
+      "sha256": "9b253d794b77f1d8449092d38e649e9380c996fe907548334c960f781f8920fa"
+    },
+    {
+      "path": "source-execution.json",
+      "sha256": "a29460902fda890a2f1f9650fbe55b60ca26a5eb58d853eb354d86a36349f346"
+    },
+    {
+      "path": "verify-python.py",
+      "sha256": "9f6700420fea5cc7ddc208a55a565ea1855787b2b018981460b86a6c19026edb"
+    },
+    {
+      "path": "writers/after-actual-reload.json",
+      "sha256": "2eca19ebb2da69e4425efc0191a5410708e40321615eae05adc9de612e54eef9"
+    },
+    {
+      "path": "writers/after-harvest.json",
+      "sha256": "fea5aa5b2674d4842055bb13fc9882d12d7f2da5b311ea05c9d4679a0c996527"
+    },
+    {
+      "path": "writers/before-harvest.json",
+      "sha256": "66626274c2a8f0c9b526bb66df38ed8a24cc0410c083e1f295fae78940853469"
+    }
+  ]
+}

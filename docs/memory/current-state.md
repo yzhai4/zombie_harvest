@@ -1,5 +1,15 @@
 # 当前状态
 
+## 当前检查点：live农务与自然短路线（2026-10-17，优先于下方历史）
+
+源码 `b1abc2eed9376959412fa9c8ff9a6c6816e969c7`／HTML `19cb05c4341ab1353e1ac5362b685a4af3a88fc826e349504b9d57a42639eb6f`，SAVE21／CONTENT3。农务UI／执行共享live唯一田块与连续1.25范围；无目标显式拒绝，公开入口携同一ID，新建建筑立即稳定ID；实际农务父命令及成功事件均player-1。保持原种子／体力／产出／20分钟，旧空历史不补造。见[本轮QA](../qa/crop-target-v1-20261017.md)。
+
+38条source／方法命令exit0；农务64、断粮43、presence41、rest74等；当前Chrome农务35、断粮72、休整93、驻守37、episode12全部列明检查通过。新旧实际writer strict兼容通过，另79项是synthetic方法控制。当前head Git／CI在PR #4核，不从旧297继承；生产未部署，Sites v81仅上次已核。
+
+fresh06真实全新开局七项混合路线通过15/15、60.581s、7主要动作，第1天09:23／HP100／E67／food13／10活人。原01–05失败保留。未覆盖战斗／成熟收获／夜间／自然三日；NPC跟近观察器0次，不能称其恢复或跟近实测。下一P0是[NPC公开距离资格](../problems/PROB-20261017-npc-context-distance.md)，然后Scenario真实boot→actor知识投影。继任双岗、采集目标回执、零粮词值和大步模拟另open。长期更大世界／多副本方向不变，研究原文为设计输入。
+
+
+
 ## 当前检查点：断粮选择v2与自然反例（2026-10-17，优先于下方历史）
 
 开发HTML `297327ec6d0ccedcddac0bea6b1cee1d63681f7020f0cbbccf97bdb87e0e3c54`，源码 `549521e1dd56be8edefaf01792fdb5e17c9dd648`，SAVE21／CONTENT3。选择定义升2：保留备用只落历史，不再额外+2崩溃；有限取粮仍整局一次，显示实际库存／基础日需／下一午夜。已知旧v1待办纯draft适配、实际boot一次迁移；旧已结算成本与history不退款、不补奖，未知版本拒绝。详见[本轮QA](../qa/shortage-choice-v2-20261017.md)。

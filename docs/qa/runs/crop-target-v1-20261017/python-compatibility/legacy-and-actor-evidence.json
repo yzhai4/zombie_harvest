@@ -1,0 +1,584 @@
+{
+  "schema": "ActualWriterLegacyAndActorCompatibilityControlsV1",
+  "ok": true,
+  "legacy": {
+    "ok": true,
+    "checks": {
+      "complete actual harvest event window": true,
+      "harvest preserves the same unique source NPC identities": true,
+      "same mature garden actually becomes harvested": true,
+      "harvesting the mature garden does not spend seeds": true,
+      "one new crop receipt joins one exact public crop command": true,
+      "harvest receipt has an exact supported evidence contract": true,
+      "harvest advances twenty minutes by its own causal replay": true,
+      "harvest observation time is backed by all actual clock commands": true,
+      "harvest food gain is exactly three after recorded NPC meals": true
+    },
+    "gardenBefore": {
+      "x": 7,
+      "y": 14,
+      "type": "garden",
+      "planted": true,
+      "growth": 2,
+      "ready": true,
+      "id": "bld-mazjx8"
+    },
+    "gardenAfter": {
+      "x": 7,
+      "y": 14,
+      "type": "garden",
+      "planted": false,
+      "growth": 0,
+      "ready": false,
+      "id": "bld-mazjx8"
+    },
+    "beforeMinute": 2923,
+    "afterMinute": 2944,
+    "beforeEventSeq": 1698,
+    "afterEventSeq": 1711,
+    "foodBefore": 7,
+    "foodAfter": 10,
+    "foodAccounting": {
+      "ok": true,
+      "unsupported": [],
+      "meals": [],
+      "npcFoodConsumed": 0
+    },
+    "receipts": [
+      {
+        "eventId": "evt-001711",
+        "seq": 1711,
+        "type": "crop.changed",
+        "actorId": "player-1",
+        "commandId": "cmd-001781",
+        "causationId": null,
+        "tick": {
+          "world": 2944,
+          "phase": 0,
+          "schedule": 2584
+        },
+        "payload": {}
+      }
+    ],
+    "commands": [
+      {
+        "commandId": "cmd-001781",
+        "type": "crop.change",
+        "actorId": "player-1",
+        "payload": {
+          "buildingId": null
+        }
+      }
+    ],
+    "causalAdvance": [
+      {
+        "eventId": "evt-001710",
+        "seq": 1710,
+        "type": "time.advanced",
+        "actorId": "system",
+        "commandId": "cmd-001782",
+        "causationId": "cmd-001781",
+        "tick": {
+          "world": 2944,
+          "phase": 0,
+          "schedule": 2584
+        },
+        "payload": {
+          "minutes": 20,
+          "day": 3,
+          "hour": 1,
+          "minute": 4
+        }
+      }
+    ],
+    "causalAdvanceCommands": [
+      {
+        "commandId": "cmd-001782",
+        "type": "world.advance",
+        "actorId": "player-1",
+        "payload": {
+          "minutes": 20
+        }
+      }
+    ],
+    "clockEvidence": {
+      "ok": true,
+      "clockReceipts": [
+        {
+          "eventId": "evt-001699",
+          "seq": 1699,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-001780",
+          "causationId": null,
+          "tick": {
+            "world": 2924,
+            "phase": 0,
+            "schedule": 2564
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 3,
+            "hour": 0,
+            "minute": 44
+          }
+        },
+        {
+          "eventId": "evt-001710",
+          "seq": 1710,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-001782",
+          "causationId": "cmd-001781",
+          "tick": {
+            "world": 2944,
+            "phase": 0,
+            "schedule": 2584
+          },
+          "payload": {
+            "minutes": 20,
+            "day": 3,
+            "hour": 1,
+            "minute": 4
+          }
+        }
+      ],
+      "clockMinutes": 21,
+      "actualCalendarDelta": 21
+    },
+    "receiptContract": "legacy-empty",
+    "targetProofChecks": {}
+  },
+  "sixB8ActorNegative": {
+    "ok": false,
+    "checks": {
+      "complete actual harvest event window": true,
+      "harvest preserves the same unique source NPC identities": true,
+      "same mature garden actually becomes harvested": true,
+      "harvesting the mature garden does not spend seeds": true,
+      "one new crop receipt joins one exact public crop command": false,
+      "harvest receipt has an exact supported evidence contract": true,
+      "harvest advances twenty minutes by its own causal replay": true,
+      "harvest observation time is backed by all actual clock commands": true,
+      "harvest food gain is exactly three after recorded NPC meals": true
+    },
+    "gardenBefore": {
+      "x": 7,
+      "y": 14,
+      "type": "garden",
+      "planted": true,
+      "growth": 2,
+      "ready": true,
+      "id": "bld-mazjx8"
+    },
+    "gardenAfter": {
+      "x": 7,
+      "y": 14,
+      "type": "garden",
+      "planted": false,
+      "growth": 0,
+      "ready": false,
+      "id": "bld-mazjx8"
+    },
+    "beforeMinute": 469,
+    "afterMinute": 489,
+    "beforeEventSeq": 113,
+    "afterEventSeq": 126,
+    "foodBefore": 13,
+    "foodAfter": 16,
+    "foodAccounting": {
+      "ok": true,
+      "unsupported": [],
+      "meals": [],
+      "npcFoodConsumed": 0
+    },
+    "receipts": [
+      {
+        "eventId": "evt-000126",
+        "seq": 126,
+        "type": "crop.changed",
+        "actorId": "system",
+        "commandId": "cmd-000276",
+        "causationId": null,
+        "tick": {
+          "world": 489,
+          "phase": 0,
+          "schedule": 129
+        },
+        "payload": {
+          "ok": true,
+          "proofVersion": 1,
+          "buildingId": "bld-mazjx8",
+          "buildingType": "garden",
+          "operation": "harvest",
+          "target": {
+            "id": "bld-mazjx8",
+            "type": "garden",
+            "before": {
+              "planted": true,
+              "ready": true,
+              "growth": 2
+            },
+            "afterAction": {
+              "planted": false,
+              "ready": false,
+              "growth": 0
+            },
+            "presentAtCompletion": true,
+            "atCompletion": {
+              "planted": false,
+              "ready": false,
+              "growth": 0
+            }
+          },
+          "payment": {
+            "cost": {
+              "energy": 6,
+              "seeds": 0
+            },
+            "before": {
+              "energy": 66,
+              "seeds": 4
+            },
+            "after": {
+              "energy": 60,
+              "seeds": 4
+            }
+          },
+          "yield": {
+            "food": 3,
+            "medicine": 0
+          },
+          "resources": {
+            "before": {
+              "wood": 28,
+              "stone": 12,
+              "food": 13,
+              "parts": 5,
+              "medicine": 0,
+              "seeds": 4,
+              "energy": 66
+            },
+            "afterPayment": {
+              "wood": 28,
+              "stone": 12,
+              "food": 13,
+              "parts": 5,
+              "medicine": 0,
+              "seeds": 4,
+              "energy": 60
+            },
+            "afterAction": {
+              "wood": 28,
+              "stone": 12,
+              "food": 16,
+              "parts": 5,
+              "medicine": 0,
+              "seeds": 4,
+              "energy": 60
+            },
+            "after": {
+              "wood": 28,
+              "stone": 12,
+              "food": 16,
+              "parts": 5,
+              "medicine": 0,
+              "seeds": 4,
+              "energy": 61
+            }
+          },
+          "delta": {
+            "wood": 0,
+            "stone": 0,
+            "food": 3,
+            "parts": 0,
+            "medicine": 0,
+            "seeds": 0,
+            "energy": -5
+          },
+          "clock": {
+            "before": {
+              "day": 1,
+              "hour": 7,
+              "minute": 49,
+              "world": 469
+            },
+            "after": {
+              "day": 1,
+              "hour": 8,
+              "minute": 9,
+              "world": 489
+            },
+            "requestedMinutes": 20,
+            "elapsedMinutes": 20
+          },
+          "advance": {
+            "commandId": "cmd-000277",
+            "eventId": "evt-000125",
+            "causationId": "cmd-000276",
+            "minutes": 20,
+            "tick": {
+              "world": 489,
+              "phase": 0,
+              "schedule": 129
+            }
+          },
+          "advanceEffects": {
+            "resourceDelta": {
+              "wood": 0,
+              "stone": 0,
+              "food": 0,
+              "parts": 0,
+              "medicine": 0,
+              "seeds": 0,
+              "energy": 1
+            },
+            "events": [
+              {
+                "eventId": "evt-000114",
+                "type": "npc.work.completed",
+                "actorId": "carpenter",
+                "commandId": null,
+                "causationId": "cmd-000277"
+              },
+              {
+                "eventId": "evt-000115",
+                "type": "npc.work.completed",
+                "actorId": "doctor",
+                "commandId": null,
+                "causationId": "cmd-000277"
+              },
+              {
+                "eventId": "evt-000116",
+                "type": "npc.work.completed",
+                "actorId": "radio",
+                "commandId": null,
+                "causationId": "cmd-000277"
+              },
+              {
+                "eventId": "evt-000117",
+                "type": "npc.work.completed",
+                "actorId": "commander",
+                "commandId": null,
+                "causationId": "cmd-000277"
+              },
+              {
+                "eventId": "evt-000118",
+                "type": "npc.work.completed",
+                "actorId": "guardJi",
+                "commandId": null,
+                "causationId": "cmd-000277"
+              },
+              {
+                "eventId": "evt-000119",
+                "type": "npc.work.completed",
+                "actorId": "guardChen",
+                "commandId": null,
+                "causationId": "cmd-000277"
+              },
+              {
+                "eventId": "evt-000120",
+                "type": "npc.work.completed",
+                "actorId": "guardJiang",
+                "commandId": null,
+                "causationId": "cmd-000277"
+              },
+              {
+                "eventId": "evt-000121",
+                "type": "npc.work.completed",
+                "actorId": "quartermaster",
+                "commandId": null,
+                "causationId": "cmd-000277"
+              },
+              {
+                "eventId": "evt-000122",
+                "type": "npc.work.completed",
+                "actorId": "cook",
+                "commandId": null,
+                "causationId": "cmd-000277"
+              },
+              {
+                "eventId": "evt-000123",
+                "type": "combat.damage.applied",
+                "actorId": "bld-1rhfvwb",
+                "commandId": null,
+                "causationId": "cmd-000277"
+              },
+              {
+                "eventId": "evt-000124",
+                "type": "combat.entity.defeated",
+                "actorId": "bld-1rhfvwb",
+                "commandId": null,
+                "causationId": "cmd-000277"
+              },
+              {
+                "eventId": "evt-000125",
+                "type": "time.advanced",
+                "actorId": "system",
+                "commandId": "cmd-000277",
+                "causationId": "cmd-000276"
+              }
+            ],
+            "npcMeals": []
+          }
+        }
+      }
+    ],
+    "commands": [
+      {
+        "commandId": "cmd-000276",
+        "type": "crop.change",
+        "actorId": "player-1",
+        "payload": {
+          "buildingId": "bld-mazjx8"
+        }
+      }
+    ],
+    "causalAdvance": [
+      {
+        "eventId": "evt-000125",
+        "seq": 125,
+        "type": "time.advanced",
+        "actorId": "system",
+        "commandId": "cmd-000277",
+        "causationId": "cmd-000276",
+        "tick": {
+          "world": 489,
+          "phase": 0,
+          "schedule": 129
+        },
+        "payload": {
+          "minutes": 20,
+          "day": 1,
+          "hour": 8,
+          "minute": 9
+        }
+      }
+    ],
+    "causalAdvanceCommands": [
+      {
+        "commandId": "cmd-000277",
+        "type": "world.advance",
+        "actorId": "player-1",
+        "payload": {
+          "minutes": 20
+        }
+      }
+    ],
+    "clockEvidence": {
+      "ok": true,
+      "clockReceipts": [
+        {
+          "eventId": "evt-000125",
+          "seq": 125,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000277",
+          "causationId": "cmd-000276",
+          "tick": {
+            "world": 489,
+            "phase": 0,
+            "schedule": 129
+          },
+          "payload": {
+            "minutes": 20,
+            "day": 1,
+            "hour": 8,
+            "minute": 9
+          }
+        }
+      ],
+      "clockMinutes": 20,
+      "actualCalendarDelta": 20
+    },
+    "receiptContract": "target-proof-v1",
+    "targetProofChecks": {
+      "v1 exact live garden identity and harvest operation": true,
+      "v1 target transitions match the same actual garden": true,
+      "v1 gross six energy and zero seeds payment": true,
+      "v1 full resources separate payment and crop yield": true,
+      "v1 child proof exactly joins actual advance event": true,
+      "v1 twenty minute clock is within actual observed window": true,
+      "v1 parent command has the exact target id": true
+    }
+  },
+  "sixB8Reload": {
+    "ok": true,
+    "checks": {
+      "reload has a complete saved event window since harvest": true,
+      "reload calendar delta is backed by all exact clock replay joins": true,
+      "reload retains the same unique source NPC identities": true,
+      "reload keeps the exact harvested garden": true,
+      "reload retains the actual post-harvest seed inventory": true,
+      "reload never repeats crop receipt or command": true,
+      "reload food retains harvest yield with only recorded NPC meals": true
+    },
+    "foodAccounting": {
+      "ok": true,
+      "unsupported": [],
+      "meals": [],
+      "npcFoodConsumed": 0
+    },
+    "clockEvidence": {
+      "ok": true,
+      "clockReceipts": [],
+      "clockMinutes": 0,
+      "actualCalendarDelta": 0
+    },
+    "beforeMinute": 489,
+    "afterMinute": 489,
+    "foodBefore": 16,
+    "foodAfter": 16
+  },
+  "legacySourceBinding": {
+    "htmlSha256": "51faa0c7c62607aa0d4e280a5bc056e4eb01b374b1ae3f45782c232445ae1662",
+    "originalReportSha256": "6cf61c79eb81721c0f65eb402ce521b5dc7a54d3902e1e180aa8e671196494d6",
+    "scope": "existing original browser writer pair and original report/export manifest verified; no old runtime re-executed, no new legacy receipt produced"
+  },
+  "pythonHelperSha256": "7a6d4f7ac30c4ddb54343cb7208fa8930b6ed4262157c187f14457a2bc77e6d2",
+  "runnerSha256": "ece1f2429e20c4fc5f40aa0b5279eab8c770d72ccc0c0d150fd20a356df9554f",
+  "refs": [
+    {
+      "path": "legacy-inputs/original-report.json",
+      "sha256": "6cf61c79eb81721c0f65eb402ce521b5dc7a54d3902e1e180aa8e671196494d6",
+      "kind": "unchanged-original-prior-run-report"
+    },
+    {
+      "path": "legacy-inputs/original-export-manifest.json",
+      "sha256": "ff63e21d03ea72cf8a5476fcd6e25c0b588488b4410d5f5404ba2684c4209694",
+      "kind": "unchanged-prior-export-manifest"
+    },
+    {
+      "path": "legacy-inputs/151-harvest-pending-save.json",
+      "sha256": "3ee04716ce42de286b94b33b3737d54152fa864a13e0d6f3c2fbf5b1fe98a4c6",
+      "kind": "unchanged-actual-prior-browser-writer"
+    },
+    {
+      "path": "legacy-inputs/152-harvest-save.json",
+      "sha256": "21e8e0b70be04df693784f92f242659a3ebcd3b47c918a246850cc2da3318846",
+      "kind": "unchanged-actual-prior-browser-writer"
+    },
+    {
+      "path": "actor-negative-inputs/6b8-before-harvest.json",
+      "sha256": "66626274c2a8f0c9b526bb66df38ed8a24cc0410c083e1f295fae78940853469",
+      "kind": "unchanged-actual-6b8-source-writer"
+    },
+    {
+      "path": "actor-negative-inputs/6b8-after-harvest.json",
+      "sha256": "fea5aa5b2674d4842055bb13fc9882d12d7f2da5b311ea05c9d4679a0c996527",
+      "kind": "unchanged-actual-6b8-source-writer"
+    },
+    {
+      "path": "actor-negative-inputs/6b8-after-actual-reload.json",
+      "sha256": "2eca19ebb2da69e4425efc0191a5410708e40321615eae05adc9de612e54eef9",
+      "kind": "unchanged-actual-6b8-source-writer"
+    },
+    {
+      "path": "actor-negative-inputs/6b8-source-execution.json",
+      "sha256": "a29460902fda890a2f1f9650fbe55b60ca26a5eb58d853eb354d86a36349f346",
+      "kind": "unchanged-6b8-actual-source-execution-report"
+    }
+  ],
+  "browserStarted": false,
+  "receiptFabricated": false
+}

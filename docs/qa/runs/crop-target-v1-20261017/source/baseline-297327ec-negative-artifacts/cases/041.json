@@ -1,0 +1,40 @@
+{
+  "name": "rendered building farm changed to wall cannot become inspect success",
+  "inputClassification": "TEST-ONLY-derived-from-original-writer",
+  "derivations": [],
+  "observations": [
+    {
+      "actualContextRenderer": {
+        "title": "菜畦",
+        "crop": {
+          "disabled": false,
+          "attrs": {
+            "class": "context-action primary",
+            "data-context-action": "crop",
+            "data-context-index": "0"
+          },
+          "dataset": {
+            "contextAction": "crop",
+            "contextIndex": "0"
+          },
+          "text": "<kbd class=\"action-index\">1</kbd>🌱 播种<small>消耗 4 行动体力 · 消耗 1 种子</small>"
+        },
+        "building": {
+          "disabled": false,
+          "attrs": {
+            "class": "context-action primary",
+            "data-context-action": "building",
+            "data-context-index": "1"
+          },
+          "dataset": {
+            "contextAction": "building",
+            "contextIndex": "1"
+          },
+          "text": "<kbd class=\"action-index\">2</kbd>⚙️ 使用建筑<small>互动：播种或收获 · 不移动位置；结果会写入日志和世界事件</small>"
+        },
+        "html": "<button class=\"context-action primary\" data-context-action=\"crop\" data-context-index=\"0\" ><kbd class=\"action-index\">1</kbd>🌱 播种<small>消耗 4 行动体力 · 消耗 1 种子</small></button><button class=\"context-action primary\" data-context-action=\"building\" data-context-index=\"1\" ><kbd class=\"action-index\">2</kbd>⚙️ 使用建筑<small>互动：播种或收获 · 不移动位置；结果会写入日志和世界事件</small></button><button class=\"context-action \" data-context-action=\"evolve\" data-context-index=\"2\" ><kbd class=\"action-index\">3</kbd>🧬 查看建筑进化<small>需要蓝图、材料和对应 NPC 羁绊</small></button>"
+      }
+    }
+  ],
+  "error": "AssertionError: Expected values to be strictly equal:\n+ actual - expected\n\n+ undefined\n- 'true'\n"
+}

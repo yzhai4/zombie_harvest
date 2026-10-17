@@ -1,6 +1,6 @@
 # 尸潮农场迭代工作流
 
-改变选择语义按[定义v2适配](decisions/ADR-20261017-shortage-choice-v2.md)提升定义版本；纯候选校验／准备不写收据，实际boot安装记录一次，旧已结算历史与成本保留，未知版本拒绝。相同起点先比较立即确认、延期、先补粮；公开成功回执还须同目标资源／状态和真实时间旁证，近距离UI与执行器须共享目标范围。
+改变选择语义按[定义v2适配](decisions/ADR-20261017-shortage-choice-v2.md)提升定义版本；纯候选校验／准备不写收据，实际boot安装记录一次，旧已结算历史与成本保留，未知版本拒绝。相同起点先比较立即确认、延期、先补粮；公开成功回执还须同目标资源／状态和真实时间旁证，近距离UI与执行器须共享目标范围。[农务合同](decisions/ADR-20261017-crop-target-v1.md)要求创建时分配唯一实体身份、查询不修补身份、支付时重验live目标；新建→立即操作不依赖刷新。业务成功event与父command的actor分别核实，不能推定默认值相同；时钟system事件保留真实因果关系。
 
 时间推进／休整按[营地等候合同](decisions/ADR-20261017-camp-rest-v1.md)核真实advance链、单一timer所有权和排队旧回调、实际已消费分钟、半程writer与reload idle。恢复结算比较相同起止时间的分片与整段；伤害按实际收据及每步本地对象核对，避免治疗掩盖净损失。进度／取消须在真实布局可见；读DOM属性不能替代CSS与截图验收。源码／fixture-browser通过后另跑目标驱动的自然路线。
 
@@ -133,6 +133,8 @@ v80 冻结状态边界；v81 接入营地自治与计划会；v82 接入 NPC 属
 公开 GitHub 内容只包含可公开的项目事实。令牌、内部路径、部署凭据和环境错误保存在本地交接记录中。GitHub API 解决版本管理和审阅问题，不改变“Sites 生产版本必须经过保存、部署和线上 smoke”的发布闸门。
 
 ## 工作流技能
+
+GitHub API同步文本可使用[create-tree的content字段](https://docs.github.com/en/rest/git/trees?apiVersion=2022-11-28#create-a-tree)分批创建blob；本连接器已实测透传，UTF-8文本仍须保留BOM／CRLF原字节，图片用base64 blob。按接口载荷预算分批，持久保存冻结输入索引和每批tree SHA；最终递归树必须untruncated、所有目标Git blob SHA与本地冻结字节相同，才创建提交并用expected_sha租约更新ref。进度计数或尚未完成调用的内存缓存不作为中断恢复证明；可用不挂ref的tree校验既有SHA，缺失对象应明确拒绝。批量同步是发布工具改进，不改变源码／浏览器的证据范围。
 
 跨内容、运行时、验证、AI、实验和发布的整轮任务使用 `.codex/skills/zombie-harvest-iteration/SKILL.md`；单纯新增或修改主线、支线、NPC、势力、科技、建筑和武器时使用 `.codex/skills/zombie-harvest-content/SKILL.md`。完整技能要求每轮回填六视角评估矩阵，并根据重复出现的流程缺口更新技能或 references。
 

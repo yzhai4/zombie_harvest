@@ -1,5 +1,15 @@
 # 未关闭风险
 
+## 当前优先级覆盖：19cb农务后（2026-10-17）
+
+农务live目标／空成功／玩家来源已完成列明source及真实Chrome验收；自然fresh06短路线7/7通过，见[QA](../qa/crop-target-v1-20261017.md)。它没有战斗、收获、三日，跟近Canvas分支未触发。fresh05暴露[NPC查看1.25与执行1.0](../problems/PROB-20261017-npc-context-distance.md)仍open，是下一P0；不因06直接在1内成功关闭。
+
+[补给箱成本提示6而实际4、旧事件／采集system来源](../problems/PROB-20261017-public-event-cost-and-legacy-actor.md)亦open；农务来源修复不能泛称全局来源统一。
+
+之后Scenario实际boot和actor知识授权仍未接线；继任双岗、采集回执无目标ID、零粮计划词值、大步与小步模拟差异、自然三日／全面平衡、trusted hidden、移动端、最终尸潮及生产部署仍open。未知advance异常无新增全局回滚保证。下方旧版本风险状态不覆盖本节。
+
+
+
 ## 当前优先级覆盖（2026-10-17）
 
 源码549521e1／HTML297327ec的断粮v2已完成列明source与fixture-browser验证，见[QA](../qa/shortage-choice-v2-20261017.md)。旧确认点击税已移除，不等于全面平衡完成。旧32四次自然短路线均未达到完整coverage；04真实公开播种空成功是下一P0，修复须共享live目标／范围并显式拒绝无效目标，不能只加epsilon。自然三日、真实hidden、移动端、继任双岗位、Scenario真实boot、actor知识授权、完整最终尸潮和生产仍open。

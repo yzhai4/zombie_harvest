@@ -1,0 +1,25 @@
+{
+  "schema": "ProjectionV1",
+  "projectionVersion": 1,
+  "actorId": "commander",
+  "roleId": "camp.commander",
+  "day": 1,
+  "phase": "DAY",
+  "minute": 720,
+  "visibleLandmarks": [
+    { "id": "bld-core", "kind": "camp-core", "status": "stable" },
+    { "id": "bld-north-gate", "kind": "gate", "status": "strained" }
+  ],
+  "visibleThreats": [
+    { "id": "threat-east-001", "kind": "horde-scout", "severity": "medium", "distanceBand": "near" }
+  ],
+  "knownNpcs": [
+    { "id": "commander", "role": "commander", "presence": "camp", "lifeState": "healthy", "job": "command" },
+    { "id": "sergeant", "role": "sergeant", "presence": "camp", "lifeState": "healthy", "job": "guard" },
+    { "id": "radio", "role": "radio", "presence": "camp", "lifeState": "healthy", "job": "signal" }
+  ],
+  "inventorySummary": { "food": "adequate", "wood": "tight", "parts": "adequate", "medicine": "tight" },
+  "relationSummary": { "campTrust": 80, "commanderMandate": "active" },
+  "recentEvents": ["plan.meeting.candidates"],
+  "sourceProjectionHash": "e95c4bc33883b6342f4706cf6f6a2e09d0518a1f4c2ae260e15a207249efe4f3"
+}
