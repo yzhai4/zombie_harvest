@@ -1,0 +1,348 @@
+{
+  "schema": "NpcSelfIndependentReadonlyAuditV1",
+  "sourceHtmlSha256": "c42056ed08c9cbc0e27c09365828fae5d1c19dc25190e9e19d2e3beffa45bc91",
+  "moduleSha256": "715fca749327bc1302aa4869adda94044e5dfa9c6dd24cac733f1b98a7575868",
+  "runnerSha256": "58174be6872b69735a8ec0bbae81b77dd95d72fd765d7542c2d728b1e6cfaeb9",
+  "ok": true,
+  "count": 19,
+  "passed": 19,
+  "checks": [
+    {
+      "name": "actual embedded self core equals the frozen module byte range",
+      "ok": true
+    },
+    {
+      "name": "private component is deeply frozen and leaves complete state/storage/registry/timers untouched",
+      "ok": true
+    },
+    {
+      "name": "real personal trust -10 includes details and hunger has authored priority",
+      "ok": true
+    },
+    {
+      "name": "trust just below -10 withholds details without erasing authorized self knowledge",
+      "ok": true
+    },
+    {
+      "name": "missing/NaN/string/out-of-range personal trust remains unknown with no source normalization",
+      "ok": true
+    },
+    {
+      "name": "69/70 and 25/26 need boundaries use fixed literal expectations",
+      "ok": true
+    },
+    {
+      "name": "one invalid need stays unknown and does not suppress another known urgent need",
+      "ok": true
+    },
+    {
+      "name": "living lowest/highest HP bands neither claim death nor guarantee safety",
+      "ok": true
+    },
+    {
+      "name": "session generation, event watermark and motion revision change observation hash",
+      "ok": true
+    },
+    {
+      "name": "AI OFF/ON changes no authorized knowledge/facts/text",
+      "ok": true
+    },
+    {
+      "name": "runtime adapter rejects detached, duplicate, distant, dead and non-roster subjects",
+      "ok": true
+    },
+    {
+      "name": "reverse outpost assignment blocks self capture even when legacy view field says camp-local",
+      "ok": true
+    },
+    {
+      "name": "runtime adapter does not accept extra caller trust or a substituted subject",
+      "ok": true
+    },
+    {
+      "name": "failed private capture produces an unattributed UI fallback on the actual first-talk path",
+      "ok": true
+    },
+    {
+      "name": "actual free first talk remains dialogueOpened with critical, E0 and paused clock",
+      "ok": true
+    },
+    {
+      "name": "duplicate parent command does not recapture or open paid confirmation",
+      "ok": true
+    },
+    {
+      "name": "tampered pure format hash fails closed without claiming world authentication",
+      "ok": true
+    },
+    {
+      "name": "conflicting healthy HP1 is uniform unknown before and after actual unchanged native writer/loader",
+      "ok": true
+    },
+    {
+      "name": "conflicting healthy HP1 actual first talk stays free and preserves NPC/writer facts",
+      "ok": true
+    }
+  ],
+  "findings": [
+    {
+      "severity": "retained-global-open",
+      "name": "existing Gate/validator/old UI lifeState consistency policy remains unchanged",
+      "detail": "The exact original controlled native writer remains accepted and healthy+HP1 survives loader. Only the new self observation now rejects its contradiction; no global repair is claimed."
+    }
+  ],
+  "observations": [
+    {
+      "name": "actual-free-first-talk",
+      "result": {
+        "ok": true,
+        "commandId": "TEST-ONLY-free-first-talk",
+        "event": {
+          "eventId": "evt-000003",
+          "seq": 3,
+          "type": "npc.dialogueOpened",
+          "actorId": "player-1",
+          "commandId": "TEST-ONLY-free-first-talk",
+          "causationId": null,
+          "tick": {
+            "world": 360,
+            "phase": 0,
+            "schedule": 0
+          },
+          "payload": {
+            "ok": true,
+            "proofVersion": 1,
+            "npcId": "doctor",
+            "operation": "dialogue-open",
+            "outcome": "completed",
+            "target": {
+              "id": "doctor",
+              "before": {
+                "id": "doctor",
+                "supportRequested": false,
+                "order": null,
+                "bond": 0,
+                "hp": 1,
+                "lifeState": "critical",
+                "sanity": 72,
+                "helpedByPlayer": 0
+              },
+              "beforeAdvance": null,
+              "afterAdvance": null,
+              "atCompletion": {
+                "id": "doctor",
+                "supportRequested": false,
+                "order": null,
+                "bond": 0,
+                "hp": 1,
+                "lifeState": "critical",
+                "sanity": 72,
+                "helpedByPlayer": 0
+              },
+              "presentAtCompletion": true,
+              "snapshotStages": {
+                "before": "before-payment-and-own-effects",
+                "beforeAdvance": null,
+                "afterAdvance": null,
+                "atCompletion": "reducer-final-state"
+              }
+            },
+            "payment": {
+              "cost": {
+                "energy": 0
+              },
+              "before": {
+                "energy": 0
+              },
+              "after": {
+                "energy": 0
+              }
+            },
+            "resources": {
+              "energyBefore": 0,
+              "energyAfterPayment": 0,
+              "energyAfter": 0
+            },
+            "clock": {
+              "before": {
+                "day": 1,
+                "hour": 6,
+                "minute": 0,
+                "world": 360
+              },
+              "after": {
+                "day": 1,
+                "hour": 6,
+                "minute": 0,
+                "world": 360
+              },
+              "requestedMinutes": 0,
+              "elapsedMinutes": 0
+            },
+            "advance": null
+          }
+        },
+        "result": {
+          "ok": true,
+          "proofVersion": 1,
+          "npcId": "doctor",
+          "operation": "dialogue-open",
+          "outcome": "completed",
+          "target": {
+            "id": "doctor",
+            "before": {
+              "id": "doctor",
+              "supportRequested": false,
+              "order": null,
+              "bond": 0,
+              "hp": 1,
+              "lifeState": "critical",
+              "sanity": 72,
+              "helpedByPlayer": 0
+            },
+            "beforeAdvance": null,
+            "afterAdvance": null,
+            "atCompletion": {
+              "id": "doctor",
+              "supportRequested": false,
+              "order": null,
+              "bond": 0,
+              "hp": 1,
+              "lifeState": "critical",
+              "sanity": 72,
+              "helpedByPlayer": 0
+            },
+            "presentAtCompletion": true,
+            "snapshotStages": {
+              "before": "before-payment-and-own-effects",
+              "beforeAdvance": null,
+              "afterAdvance": null,
+              "atCompletion": "reducer-final-state"
+            }
+          },
+          "payment": {
+            "cost": {
+              "energy": 0
+            },
+            "before": {
+              "energy": 0
+            },
+            "after": {
+              "energy": 0
+            }
+          },
+          "resources": {
+            "energyBefore": 0,
+            "energyAfterPayment": 0,
+            "energyAfter": 0
+          },
+          "clock": {
+            "before": {
+              "day": 1,
+              "hour": 6,
+              "minute": 0,
+              "world": 360
+            },
+            "after": {
+              "day": 1,
+              "hour": 6,
+              "minute": 0,
+              "world": 360
+            },
+            "requestedMinutes": 0,
+            "elapsedMinutes": 0
+          },
+          "advance": null
+        }
+      },
+      "text": "苏禾：我伤得很重。我的生命余量已经很少。我饿得厉害，得找点吃的。 再次按 E 或点击确认请求支援",
+      "firstTalkUi": {
+        "npcSelfClass": true,
+        "showClass": true,
+        "timers": [
+          {
+            "id": 4,
+            "kind": "timeout",
+            "delay": 12000
+          },
+          {
+            "id": 5,
+            "kind": "timeout",
+            "delay": 650
+          }
+        ]
+      },
+      "ordinaryViewUi": {
+        "result": {
+          "ok": true,
+          "npcId": "doctor",
+          "operation": "view"
+        },
+        "npcSelfClass": false,
+        "showClass": true,
+        "timers": [
+          {
+            "id": 5,
+            "kind": "timeout",
+            "delay": 650
+          },
+          {
+            "id": 6,
+            "kind": "timeout",
+            "delay": 1800
+          }
+        ]
+      },
+      "uiScope": "Actual toast/class/timer IO fields only; no CSS layout, pixel visibility or duration-in-browser claim."
+    },
+    {
+      "name": "healthy-hp1-legal-writer-diagnostic",
+      "writerSha256": "8b64d54a0d04abd943ad928c495135270579023c96324b892e45abdb2fe545b4",
+      "validation": {
+        "ok": true,
+        "reason": null,
+        "originalChecksum": "f81cfa79"
+      },
+      "beforeLoad": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": null,
+          "lifeState": "unknown"
+        },
+        "text": "暂时无法确认这位角色的伤势信息。",
+        "sourceProjectionHash": "1gfolxz",
+        "observationHash": null,
+        "fallbackReason": "not-observable",
+        "disclosureReason": "not-observable"
+      },
+      "afterLoad": {
+        "schema": "NpcSelfDialogueV1",
+        "version": 1,
+        "authority": "expression_only",
+        "mode": "authored",
+        "observerEnabled": false,
+        "facts": {
+          "kind": "npc",
+          "id": null,
+          "lifeState": "unknown"
+        },
+        "text": "暂时无法确认这位角色的伤势信息。",
+        "sourceProjectionHash": "1gfolxz",
+        "observationHash": null,
+        "fallbackReason": "not-observable",
+        "disclosureReason": "not-observable"
+      },
+      "restoredLifeState": "healthy",
+      "restoredHp": 1
+    }
+  ],
+  "inputClassification": "TEST-ONLY source VM controlled preconditions; normal actual public start, actual helpers/Gate/reducer/Bus and native writer. Not naturally reached scenes.",
+  "ioScope": "Frozen canonical sourceRuntimeFactory and IO adapter; DOM/storage/timers simulated; renderWorld/renderHud/renderContext suppressed by original adapter. Actual renderSurvivors and NPC reducer remain. No browser or natural run.",
+  "authorizationBoundary": "Pure format functions accepting constructed JSON is not world authentication; only the internal live-reference capture path is evaluated as runtime authority.",
+  "rootFilesChanged": false
+}

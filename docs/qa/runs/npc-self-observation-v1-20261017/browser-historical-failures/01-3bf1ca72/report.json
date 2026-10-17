@@ -1,0 +1,416 @@
+{
+  "schema": "NpcSelfObservationBrowserV1",
+  "runner": "browser-npc-self-observation-v1",
+  "runnerSha256": "1559802d0317e519d1eda645f13615d2c0bc960ec0f3b79166fc743d9d127822",
+  "sourceHtmlSha256": "d2512764bc54c9efb665168869cde08c6b8ac00f567ecb02229915fadd1d3896",
+  "mode": "TEST-ONLY complete source-native preboot fixtures and actual public Chrome actions",
+  "naturalGameplay": false,
+  "naturalGameplayClaim": false,
+  "injectionBeforeLoader": true,
+  "gameStateMutationAfterBoot": false,
+  "hiddenGameActionsAfterBoot": false,
+  "forceClicks": false,
+  "policyVersion": "npc-first-talk-self-v1",
+  "designId": "npc-self-observation-v1",
+  "budgetSeconds": 180,
+  "parameters": {
+    "source": "artifact:source.html",
+    "inputManifest": "artifact:input-manifest.json",
+    "output": "artifact:./",
+    "repoRoot": "explicit dependency root"
+  },
+  "scope": {
+    "selfDialogue": true,
+    "fullPerception": false,
+    "contacts": false,
+    "LLM": false,
+    "statusInquiryBrowser": false,
+    "combatInterruptionBrowser": false,
+    "layoutViewports": [
+      {
+        "width": 1440,
+        "height": 1000
+      },
+      {
+        "width": 390,
+        "height": 844
+      }
+    ],
+    "durationScope": "same self toast remains beyond the original 1800ms; full 12-second expiry is not claimed",
+    "sourceValidation": "separate actual inline loader/validator in an isolated IO-adapter VM; no browser game hook calls",
+    "purity": "this runner checks visible integration and original typed outcomes; component purity is a separate source contract"
+  },
+  "checks": [
+    {
+      "name": "HTML bytes match explicit expected SHA",
+      "ok": true
+    },
+    {
+      "name": "private Windows ACL verified",
+      "ok": true
+    },
+    {
+      "name": "input manifest exact SHA",
+      "ok": true
+    },
+    {
+      "name": "actual source-native manifest schema",
+      "ok": true
+    },
+    {
+      "name": "input capture belongs to this exact HTML",
+      "ok": true
+    },
+    {
+      "name": "four unique declared native scenes",
+      "ok": true
+    },
+    {
+      "name": "unchanged actual old writer source is exact",
+      "ok": true
+    },
+    {
+      "name": "normal-support: complete input bytes exact",
+      "ok": true
+    },
+    {
+      "name": "normal-support-input: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "normal-support: declared target is original carpenter and fixed roster retained",
+      "ok": true
+    },
+    {
+      "name": "normal-support: independent injury/trust/needs input vector",
+      "ok": true
+    },
+    {
+      "name": "normal-support: no fabricated prior support",
+      "ok": true
+    },
+    {
+      "name": "normal-support: declared original player and public tile geometry",
+      "ok": true
+    },
+    {
+      "name": "normal-support: enemy population and inventory were not removed or supplemented",
+      "ok": true
+    },
+    {
+      "name": "normal-support: critical zero-energy paused admission or original clock preserved",
+      "ok": true
+    },
+    {
+      "name": "normal-support: offline changes and non-natural provenance declared",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: complete input bytes exact",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold-input: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: declared target is original carpenter and fixed roster retained",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: independent injury/trust/needs input vector",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: no fabricated prior support",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: declared original player and public tile geometry",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: enemy population and inventory were not removed or supplemented",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: critical zero-energy paused admission or original clock preserved",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: offline changes and non-natural provenance declared",
+      "ok": true
+    },
+    {
+      "name": "low-trust: complete input bytes exact",
+      "ok": true
+    },
+    {
+      "name": "low-trust-input: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "low-trust: declared target is original carpenter and fixed roster retained",
+      "ok": true
+    },
+    {
+      "name": "low-trust: independent injury/trust/needs input vector",
+      "ok": true
+    },
+    {
+      "name": "low-trust: no fabricated prior support",
+      "ok": true
+    },
+    {
+      "name": "low-trust: declared original player and public tile geometry",
+      "ok": true
+    },
+    {
+      "name": "low-trust: enemy population and inventory were not removed or supplemented",
+      "ok": true
+    },
+    {
+      "name": "low-trust: critical zero-energy paused admission or original clock preserved",
+      "ok": true
+    },
+    {
+      "name": "low-trust: offline changes and non-natural provenance declared",
+      "ok": true
+    },
+    {
+      "name": "critical-free: complete input bytes exact",
+      "ok": true
+    },
+    {
+      "name": "critical-free-input: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "critical-free: declared target is original carpenter and fixed roster retained",
+      "ok": true
+    },
+    {
+      "name": "critical-free: independent injury/trust/needs input vector",
+      "ok": true
+    },
+    {
+      "name": "critical-free: no fabricated prior support",
+      "ok": true
+    },
+    {
+      "name": "critical-free: declared original player and public tile geometry",
+      "ok": true
+    },
+    {
+      "name": "critical-free: enemy population and inventory were not removed or supplemented",
+      "ok": true
+    },
+    {
+      "name": "critical-free: critical zero-energy paused admission or original clock preserved",
+      "ok": true
+    },
+    {
+      "name": "critical-free: offline changes and non-natural provenance declared",
+      "ok": true
+    },
+    {
+      "name": "normal-support: boot HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "normal-support: actual continue control visible and enabled",
+      "ok": true
+    }
+  ],
+  "errors": [
+    {
+      "type": "runner",
+      "message": "page.waitForFunction: Timeout 12000ms exceeded."
+    }
+  ],
+  "scenes": [
+    {
+      "id": "normal-support",
+      "npcId": "carpenter",
+      "inputSha256": "bc49a505c8a1901b763604c38eeea20e0906e4ddca998ae53d6eabf536842e7c",
+      "changes": [
+        "TEST-ONLY carpenter position .75 east of original player",
+        "TEST-ONLY self HP/life/three needs/actual trust per scene",
+        "carpenter motion target cleared; all enemies and resources retained"
+      ],
+      "fixtureSourceCategory": "TEST-ONLY complete native-writer offline derivative; not natural gameplay",
+      "verified": false,
+      "receipts": [],
+      "snapshots": []
+    }
+  ],
+  "allMainDocuments": [
+    {
+      "scene": "normal-support",
+      "sequence": 1,
+      "status": 200,
+      "url": "http://127.0.0.1:62458/",
+      "sha256": "d2512764bc54c9efb665168869cde08c6b8ac00f567ecb02229915fadd1d3896",
+      "sourceRef": "artifact:source.html"
+    }
+  ],
+  "documentHashes": [
+    {
+      "scene": "normal-support",
+      "stage": "boot",
+      "sha256": "d2512764bc54c9efb665168869cde08c6b8ac00f567ecb02229915fadd1d3896"
+    }
+  ],
+  "nativeValidations": [
+    {
+      "label": "normal-support-input",
+      "sha256": "bc49a505c8a1901b763604c38eeea20e0906e4ddca998ae53d6eabf536842e7c",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "needs-threshold-input",
+      "sha256": "85627dca55205eeaa08870b3e2cebf63cdf39df2fc472e188848192a02298484",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "low-trust-input",
+      "sha256": "76cb11dc92271dafdb3bf9c23ea3eea44bb696be8f7e805c5da22d391844a31c",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "critical-free-input",
+      "sha256": "3944d388d822344c4e3d64a47afb129fb40121b8f4da17f84b41d75c4bebd071",
+      "ok": true,
+      "reason": null
+    }
+  ],
+  "privateOutput": {
+    "aclVerified": true,
+    "inheritanceDisabled": true,
+    "allowedPrincipal": "current-user-only"
+  },
+  "dependencies": [
+    {
+      "file": "scripts/lib/source-runtime-fixture.mjs",
+      "bytes": 2959,
+      "sha256": "e9872eeba85d49019d1bd806f3dd18357a5abc8f2f92922922f6a5324ec220dc"
+    },
+    {
+      "file": "scripts/check-report-recovery.mjs",
+      "bytes": 49798,
+      "sha256": "554c400c174ad1b069c4dfcc839c12b3b45ea79c5aa7669e093a440ffa4845d3"
+    },
+    {
+      "file": "scripts/lib/npc-self-observation-v1.mjs",
+      "bytes": 7134,
+      "sha256": "715fca749327bc1302aa4869adda94044e5dfa9c6dd24cac733f1b98a7575868"
+    },
+    {
+      "file": "scripts/lib/observer-expression-v1.mjs",
+      "bytes": 7421,
+      "sha256": "fe78c38954227d4a93318badac915032a943a5bd008a061c0682758a61912f27"
+    },
+    {
+      "file": "scripts/lib/scenario-package-v1.mjs",
+      "bytes": 15465,
+      "sha256": "343e52025cbda33ace694a4e281cfdb7fa66a2052370d67275c13a7a543004ce"
+    },
+    {
+      "file": "dist/actor-sprites.js",
+      "bytes": 19246,
+      "sha256": "257f4b38760813c21c723bbb9f934f1198e742fd1223db48705f34787e0f71b7"
+    }
+  ],
+  "inputManifestSha256": "8a8d1742e79a5962764263e0fd1326b32086c9ff30110d3d06435d2cdcab5d6f",
+  "inputCaptureMethod": "TEST-ONLY actual loader plus explicit offline derivation plus actual native writer; no source/Gate/AI modification, no resource addition, no worldZombie removal; no browser afterboot state changes",
+  "browserVersion": "155.0.8059.80",
+  "cleanup": {
+    "contextsClosed": true,
+    "browserClosed": true,
+    "httpServerClosed": true
+  },
+  "elapsedWallMs": 14503,
+  "count": 45,
+  "passed": 45,
+  "ok": false,
+  "artifacts": [
+    {
+      "file": "critical-free-input-save.json",
+      "bytes": 63098,
+      "sha256": "3944d388d822344c4e3d64a47afb129fb40121b8f4da17f84b41d75c4bebd071"
+    },
+    {
+      "file": "failure-0.png",
+      "bytes": 505956,
+      "sha256": "addd727cb7f6efc3de36c73e08fd8b918bd10a3ef57e74dafb31426ca3f8aeec"
+    },
+    {
+      "file": "frozen/dist/actor-sprites.js",
+      "bytes": 19246,
+      "sha256": "257f4b38760813c21c723bbb9f934f1198e742fd1223db48705f34787e0f71b7"
+    },
+    {
+      "file": "frozen/scripts/check-report-recovery.mjs",
+      "bytes": 49798,
+      "sha256": "554c400c174ad1b069c4dfcc839c12b3b45ea79c5aa7669e093a440ffa4845d3"
+    },
+    {
+      "file": "frozen/scripts/lib/npc-self-observation-v1.mjs",
+      "bytes": 7134,
+      "sha256": "715fca749327bc1302aa4869adda94044e5dfa9c6dd24cac733f1b98a7575868"
+    },
+    {
+      "file": "frozen/scripts/lib/observer-expression-v1.mjs",
+      "bytes": 7421,
+      "sha256": "fe78c38954227d4a93318badac915032a943a5bd008a061c0682758a61912f27"
+    },
+    {
+      "file": "frozen/scripts/lib/scenario-package-v1.mjs",
+      "bytes": 15465,
+      "sha256": "343e52025cbda33ace694a4e281cfdb7fa66a2052370d67275c13a7a543004ce"
+    },
+    {
+      "file": "frozen/scripts/lib/source-runtime-fixture.mjs",
+      "bytes": 2959,
+      "sha256": "e9872eeba85d49019d1bd806f3dd18357a5abc8f2f92922922f6a5324ec220dc"
+    },
+    {
+      "file": "input-manifest.json",
+      "bytes": 9902,
+      "sha256": "8a8d1742e79a5962764263e0fd1326b32086c9ff30110d3d06435d2cdcab5d6f"
+    },
+    {
+      "file": "low-trust-input-save.json",
+      "bytes": 63106,
+      "sha256": "76cb11dc92271dafdb3bf9c23ea3eea44bb696be8f7e805c5da22d391844a31c"
+    },
+    {
+      "file": "needs-threshold-input-save.json",
+      "bytes": 63106,
+      "sha256": "85627dca55205eeaa08870b3e2cebf63cdf39df2fc472e188848192a02298484"
+    },
+    {
+      "file": "normal-support-input-save.json",
+      "bytes": 63102,
+      "sha256": "bc49a505c8a1901b763604c38eeea20e0906e4ddca998ae53d6eabf536842e7c"
+    },
+    {
+      "file": "original-writer.json",
+      "bytes": 58992,
+      "sha256": "1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f"
+    },
+    {
+      "file": "runner-executed.mjs",
+      "bytes": 32103,
+      "sha256": "1559802d0317e519d1eda645f13615d2c0bc960ec0f3b79166fc743d9d127822"
+    },
+    {
+      "file": "source.html",
+      "bytes": 867699,
+      "sha256": "d2512764bc54c9efb665168869cde08c6b8ac00f567ecb02229915fadd1d3896"
+    }
+  ]
+}

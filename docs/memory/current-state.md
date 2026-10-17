@@ -1,6 +1,16 @@
 # 当前状态
 
-## 当前检查点：Scenario C1+C2 列明范围已开发验收（2026-10-17）
+## 当前检查点：NPC 自身知识与免费首谈（2026-10-17）
+
+源码 `3213db16f5976dc3049f084851bcb3e811a094d5`／HTML `c42056ed08c9cbc0e27c09365828fae5d1c19dc25190e9e19d2e3beffa45bc91`，SAVE21／CONTENT3。真实公开 Gate 绑定同一 live NPC，私有只读捕获本人伤势／需求与实际个人信任，再经 self 知识授权和披露生成固定自述。免费首谈、原支援2体力／15分钟、typed结果和真实中断保留；无新保存域、奖励、LLM或生产部署。见[本轮 QA](../qa/npc-self-observation-v1-20261017.md)。
+
+最终42个不同源码合同均通过，含新增source104、C1 source120、C2 source66；独立架构19另列。实际Chrome self四场212＋原NPC112＋episode12，共336检查／errors0，45个记录主文档响应均同c420。root目视需求桌面／390宽和低信任三张；完整12秒到期未实测，无新自然路线。原四次Chrome失败保留：前三次为启动／模板名称／过渡采样的方法问题，第四次发现负信任使旧晋升进度变负并写出非法保存，已按总分0下界修复并验证。source104同方法d251负控101／104，不能把3项失败说成3个独立游戏缺陷。
+
+仅[self ADR](../decisions/ADR-20261017-npc-self-observation-v1.md)adopted；完整ActorObservation的direct-sight、contacts来源／TTL、共享知识、有效岗位与模型边界继续open。lifeState／HP矛盾只在self降级unknown，[全局一致性](../problems/PROB-20261017-npc-life-state-hp-consistency.md)未修；既有eligible重复事件另open。下一P0继续真实感知与知识授权，再接NPC规划、EventFact／记忆及LLM表达。更大世界／多副本与特殊角色连续性目标不变。
+
+证据HEAD与exact CI以[PR #4](https://github.com/yzhai4/zombie_harvest/pull/4)终态对账，不继承旧green；生产未部署。下方C2及更早记录保留各自构建身份。
+
+## 历史检查点：Scenario C1+C2 列明范围已开发验收（2026-10-17）
 
 源码提交 `a544a6139e19c21f89526e3aafed11162d885552`／HTML `61ea64b27a65cc4a271c214c16126b40a453eae40c8684c106bc8edc89e5f115`，SAVE21／CONTENT3。C1 初始 seed／有限 food 绑定之上，C2 已由完整作者 JSON 编译真实 EventChainDef，经私有只读候选目录准备后一次安装，写入独立 contentBinding；已知 C1 迁入保留原 initial binding 与世界事实，只记一次内容 adapter。见[本轮 QA](../qa/scenario-boot-c2-20261017.md)与[内容绑定 ADR](../decisions/ADR-20261017-scenario-content-binding-v1.md)。候选表可写兼容、有限来源 flag／weapon 名空间保护及场景配置错误提示的初稿问题已修，原失败保留。
 

@@ -1,6 +1,6 @@
 # ADR：ActorObservationV1 角色知识投影
 
-**状态：** proposed / 未接线；本文件不是运行时 Gate、浏览器验收或发布证明。  
+**状态：** proposed／完整范围未完成；[self 首谈子片](ADR-20261017-npc-self-observation-v1.md)已开发验收，不覆盖本文件的直接感知、历史联系人、共享来源与通用授权出口。  
 **日期：** 2026-10-17。  
 **审计基线：** `dist/index.html` SHA-256 `cc900da9cdf865b101c37080eb7417148a8a388796ba808153c905ef8ad8494a`，SAVE21 / CONTENT3。  
 **关联：** [可信输入边界问题](../problems/PROB-20261017-observer-trusted-input-boundary.md)、[领袖 Harness ADR](ADR-20261014-leader-llm-harness.md)。
@@ -94,7 +94,7 @@ trust、valueAlignment、playerProgress 和 AI 开关都不能提升 knowledge�
 
 ## 保存、兼容与首切片范围
 
-首切片不新增 SAVE21/CONTENT3 域，不写持久摘要，不改变 contacts 的 TTL，不改变当前核心表达文案或已结算事实。捕获、投影、阅读、reload、AI 开关与表达均不产生 checkpoint、RNG 消费、命令或事件。若将来需要持久 knowledge、传闻、接收 receipt 或跨角色记忆，另立 schema/migration/replay ADR 后才保存。
+拟议纯捕获／投影／表达组件不新增 SAVE21/CONTENT3 域，不写持久摘要，不改变 contacts 的 TTL 或已结算事实，不产生 checkpoint、RNG 消费、命令或事件。已接线 self 子片替换首谈文案，但承载它的原公开动作仍有 UI、命令、账本和 checkpoint；不得把组件纯读扩为整个交互零写入。若将来需要持久 knowledge、传闻、接收 receipt 或跨角色记忆，另立 schema/migration/replay ADR 后才保存。
 
 公开纯表达 API 的保留属于内部/兼容层，不是给 LLM 的工具注册。LLM 只能获得 actor-bound 的授权 JSON 和声明过的表达/意图接口，不能访问 `WorldFacts.current/entity/snapshot`、完整保存、内部捕获、自由函数调用或任意 JavaScript。浏览器客户端持有全局数据不等于对同页恶意代码建立安全沙箱；本合同约束可信运行时与隔离模型适配边界。
 
@@ -109,4 +109,4 @@ trust、valueAlignment、playerProgress 和 AI 开关都不能提升 knowledge�
 5. 用实际 writer/validator/loader 做两次 source-VM reload，保存联系人来源与期限不延期，不补人、CP、知识、奖励或事件。旧 writer 使用保留原字节的真实 SAVE18/已有 SAVE21 档，标明版本、原 checksum 和改动列表；缺失字段保持 unknown，不把手改 version 当真实旧 writer。未结算夜战仍遵守原恢复合同。
 6. 保留现有表达核心、inline parity、content-chain、event-gate、episode、replay 与 static 回归。新观察 Gate 单独冻结 HTML/runner/fixture SHA 后再测公开 UI；源码、夹具浏览器、自然多日游玩分别报告。当前 cc900da9 的自然三日运行不能代替本 Gate 验收，也不因本 ADR 改标结果。
 
-本轮只新增设计与问题记录。当前运行时没有新增 ActorObservation Gate，没有新保存域、浏览器结果或发布结论。
+增量：HTML c42056ed 的 `npc-first-talk-self-v1` 已通过真实公开 Gate 绑定同一 live NPC，并捕获本人伤势、需求和实际个人信任，经 self 授权／披露后固定表达；证据见[self QA](../qa/npc-self-observation-v1-20261017.md)。它不是本提案的通用 policy。上列感知、contacts、共享知识、有效岗位及模型边界仍待实现和验收；无新保存域、LLM 或生产部署结论。

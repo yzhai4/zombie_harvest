@@ -22,6 +22,8 @@ NPC 参与资格复核补充：存在/存活不等于营地本地、健康可工
 
 P0–P6约束建设顺序，不冻结最终地图、NPC或副本规模。日志放QA/问题/实验，计划和Skill只保留决策规则及链接。只有新反例、体验矛盾、预算失败或新的有效证据才改工作流/Skill，避免每轮复制相同清单。
 
+NPC 自述按[角色观察验证边界](../.codex/skills/zombie-harvest-iteration/references/actor-observation-verification.md)分开知识与披露、纯组件与承载动作。有效存档必须经过真实继续／renderer／pagehide／reload；原生 writer 的合法性不能由输入 validator 推定。遇到实际浏览器反例先保留原报告、修正真实consumer，再按新HTML重新绑定；启动写入时机、模板名称和CSS过渡的测试假设另记方法失败。
+
 ## 角色与责任
 
 ### 迭代负责人

@@ -24,7 +24,7 @@ P0–P6表示证据依赖顺序，不是永久缩小产品，也不等同于旧�
 | 可玩规则与事件 | 已有命令/账本、昼夜战、统一事件样本、repeatable episode、有限资源及旧档夹具；当前自然多日与平衡未验收 | 有意义的公开行动能形成可读的数日因果，失败和代价有反制 |
 | NPC在场与岗位 | 据点在场合同已完成列明consumer、旧writer与公开浏览器验证；继任有效岗位仍有独立反例 | 保留世界人口/远端需求；另修继任双岗位，不把存在/本地/健康/岗位混为一谈 |
 | Scenario | C1+C2 声明支持矩阵已开发验收：真实初始绑定、闭合 JSON 编译、私有目录一次提交、内容绑定和已知 C1 adapter；见[C2 QA](../qa/scenario-boot-c2-20261017.md) | 保持旧事实与有限来源；新配置轴、任意图、Studio 与多版本内容另立合同 |
-| 记忆与Observer | 已有部分本地记忆与纯只读表达核心；角色知识授权、EventFact连续性未完成 | 事实出处、谁知道什么、信任披露交集、AI OFF与错误回退 |
+| 记忆与Observer | 已有本地记忆与纯表达核心；self首谈已由真实Gate接线并完成列明源码／Chrome验收；完整角色感知授权、EventFact连续性未完成 | 事实出处、谁知道什么、信任披露交集、AI OFF与错误回退 |
 | GameCore/引擎 | 运行时仍以HTML为主，部分独立纯模块及shadow合同存在 | 每次抽取保持实际调用与回放等价；不以模块名称代称独立核心或引擎迁移完成 |
 
 旧冻结HTML `51faa0c7`的训练式三日日历回归已经终态通过，但不证明后续构建的自然玩法。source-VM、真实boot夹具、自然游玩、玩家偏好、部署状态分别验收，不由CI绿色相互推导。
@@ -110,3 +110,9 @@ C 的首片[技术计划](scenario-boot-c1-implementation-plan-20261017.md)保�
 源码 a544a6139e19c21f89526e3aafed11162d885552／HTML61ea64b2 已完成[C2 QA](../qa/scenario-boot-c2-20261017.md)列明合同。最终 40 unique 源码合同均有通过结果，123 次执行为 108 pass／15 原 fail 保留；其中 pure14、C1 source120、C2 source66 分别记录。实际 Chrome 新 C2 六场102，加 NPC／农务／断粮／rest／presence／episode 六关联361，共463检查；C2 主文档5 canonical＋5独立variant，关联55 canonical。休整六场 verified，trusted hidden unavailable。本片没有新 natural run，最终证据 HEAD 的精确 CI 待核，不据源码提交存在声称远端 ref 更新或生产已部署。
 
 下一 P0 为 ActorObservation 实际 actor／perception 授权；readonly expression 只证明纯读 consumer，不证明角色有权知道输入事实。随后按既有依赖推进 NPC 规划、EventFact／记忆与 LLM 表达。任意图、Studio、更大世界／副本和特殊角色连续性继续开放，不能把本片验收称为整个项目完成。
+
+## self 首谈增量（2026-10-17）
+
+源码3213db16／HTMLc42056ed将“谁有权知道、再决定披露”先落实到本人伤势与需求，经实际免费首谈消费，见[QA](../qa/npc-self-observation-v1-20261017.md)。同一NPC、真实个人信任、AI OFF／ON等事实、非法数据unknown、无新奖励或保存域均保持。实际Chrome发现旧负信任晋升公式会写出不可恢复状态，已在总分下界修复；输入validator通过不再作为后续renderer／writer合法性的替代证据，此经验已写入工作流与Skill。
+
+下一入口仍为完整[ActorObservation合同](../decisions/ADR-20261017-actor-observation-v1.md)的实际感知／contacts／共享来源；self子片没有关闭这些出口。原报告是设计输入，未以检查数推导乐趣、自然三日、规划收益或模型效果。P0–P6与长期规模目标保持。

@@ -1,5 +1,13 @@
 # 未关闭风险
 
+## 当前优先级覆盖：self 首谈后（2026-10-17）
+
+HTML c42056ed 已完成 self 首谈与负信任晋升总分下界的列明开发验收，见[QA](../qa/npc-self-observation-v1-20261017.md)。source104、41个既有源码合同、独立19与Chrome336分层记录；原方法失败和真实负晋升进度反例保留。下界修复不改变负信任或信任对正进度的抑制。
+
+下一P0仍为完整ActorObservation：direct-sight、contacts TTL／来源、共享知识、侧信道和有效岗位授权未接线；self不授权全图、原始subject或宽快照给模型。lifeState／HP冲突仅在新自述unknown，[全局问题](../problems/PROB-20261017-npc-life-state-hp-consistency.md)保持open。旧晋升eligible重复事件、继任双岗、来源回执、fractional clock、零粮词值和大步模拟差异另open。
+
+本轮只有首谈提示的390宽验收，不代表完整移动端；无新自然多日或玩家体验结果。trusted hidden、最终尸潮、UI素材整体打磨、生产部署仍分别验收。历史C2的浏览器463不转移给c420；exact CI按当前PR核。
+
 ## 当前优先级覆盖：C1+C2 列明范围验收后（2026-10-17）
 
 源码 a544a6139e19c21f89526e3aafed11162d885552／HTML61ea64b2 的 C2 已完成真实 JSON 编译、私有候选目录／一次安装、contentBinding 和已知 C1 一次内容 adapter，见[QA](../qa/scenario-boot-c2-20261017.md)。最终 40 unique 源码合同有通过结果，123 次执行中的 15 次原失败保留；pure14／C1 source120／C2 source66 与 Chrome102＋关联361 分层记录。C1+C2 声明支持矩阵已 adopted，原“仅保存、未绑定”的问题在该范围关闭；任意图、额外配置轴、Scenario Studio 和多版本内容共存仍未交付。

@@ -1,0 +1,32 @@
+{
+  "schema": "NpcSelfFinal104FreezeV1",
+  "methodVersion": "source-npc-self-observation-v1-final104",
+  "runs": [
+    {
+      "report": {
+        "path": "../candidate-c420-final104.json",
+        "sha256": "0f8b3eec618eea66350b1c1030b1b54575497838de8f302f97162f226fbf5346"
+      },
+      "sourceHtmlSha256": "c42056ed08c9cbc0e27c09365828fae5d1c19dc25190e9e19d2e3beffa45bc91",
+      "runnerSha256": "83087ce3e0e8ce6953c8cb94fb3c19b63c7aba4c6772a23553758edc56545391",
+      "count": 104,
+      "passed": 104,
+      "ok": true,
+      "verifiedArtifacts": 48
+    },
+    {
+      "report": {
+        "path": "../negative-d251-final104.json",
+        "sha256": "669d845ce2e62b1fcdb0320b26bf38c85b1d8d0c1a7377b262b32aa6d4836eb0"
+      },
+      "sourceHtmlSha256": "d2512764bc54c9efb665168869cde08c6b8ac00f567ecb02229915fadd1d3896",
+      "runnerSha256": "83087ce3e0e8ce6953c8cb94fb3c19b63c7aba4c6772a23553758edc56545391",
+      "count": 104,
+      "passed": 101,
+      "ok": false,
+      "verifiedArtifacts": 39
+    }
+  ],
+  "scope": "Actual full-inline source contracts, not browser or natural gameplay. Six added actual-context-render/writer/validator/reload cases; browser input derivations now pass through real context renderer. Prior98 methods/results retained as historical only.",
+  "existingLimitation": "Already-eligible render may repeat npc.promotion.eligible; no deduplication claim or promotion reward is introduced by the lower-bound fix."
+}
