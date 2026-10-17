@@ -234,6 +234,7 @@
     .context-action.primary { color: #162319; background: var(--green); border-color: transparent; }
     .context-action.attack { color: #2c1511; background: #e88a61; border-color: transparent; }
     .context-action:disabled { opacity: .42; filter: grayscale(.55); cursor: not-allowed; }
+    .camp-rest-feedback { grid-column: 1 / -1; margin: 0; color: var(--cream); font-size: 12px; line-height: 1.5; }
     .context-action .action-index { display: inline-grid; place-items: center; width: 16px; height: 16px; margin-right: 4px; border-radius: 5px; background: rgba(10,24,22,.24); font-size: 9px; font-style: normal; }
     @keyframes context-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
     .panel-head-actions { display: flex; align-items: center; justify-content: flex-end; gap: 5px; }
@@ -5852,12 +5853,22 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
     }
     function requestCampRest(minutes, options = {}) { return CampRestController.begin(minutes, options); }
     function cancelCampRest(reason = 'player-cancel', options = {}) { return CampRestController.stop(reason, options); }
-    function renderCampRestStatus() {
+    function campRestReasonText(reason) {
+      const reasons = { 'player-cancel': '已取消', 'player-action': '开始主动行动', 'nearby-threat': '附近存在威胁', pursued: '仍被追踪', 'danger-unknown': '无法确认安全', 'new-matter': '出现新事项', 'player-damaged': '玩家受损', 'local-npc-damaged': '现场人员受损', 'building-damaged': '营地设施受损', 'population-loss': '人员伤亡', 'camp-deteriorated': '营地状况恶化', hidden: '页面已隐藏', pagehide: '离开页面', 'focus-lost': '窗口失去焦点', 'shelter-required': '请靠近可用庇护所后重试', 'player-moved': '已离开原位置', 'phase-changed': '当前阶段不可连续等候', 'session-freeze': '会话已停止', 'session-frozen': '会话暂不可用', restart: '重新开始', 'generation-changed': '会话已更换', 'clock-changed': '时钟设置改变', 'clock-unsupported': '连续等候需要正常速度且未暂停的时钟', 'player-unavailable': '玩家当前无法等候', 'command-sequence-exhausted': '命令预算耗尽', 'duration-invalid': '等候时长无效', 'rest-active': '正在等候，请先取消或等待结束' };
+      return typeof reason === 'string' && Object.hasOwn(reasons, reason) ? reasons[reason] : '无法确认连续等候条件';
+    }
+    function campRestGateFeedback(gates) {
+      const text = gate => gate?.ok === true ? '可等候 · 不额外治疗或补给；世界、需求与风险继续，不保证安全' : `暂不可等候：${campRestReasonText(gate?.reason)}`;
+      const short = text(gates?.[30]), long = text(gates?.[60]);
+      return short === long ? short : `30分钟：${short}；60分钟：${long}`;
+    }
+    function renderCampRestStatus(gates = null) {
       const status = CampRestController.status(), label = $('campRestStatus'), cancel = $('campRestCancel');
-      const reasons = { 'player-cancel': '已取消', 'player-action': '开始主动行动', 'nearby-threat': '附近存在威胁', pursued: '仍被追踪', 'danger-unknown': '无法确认安全', 'new-matter': '出现新事项', 'player-damaged': '玩家受损', 'local-npc-damaged': '现场人员受损', 'building-damaged': '营地设施受损', 'population-loss': '人员伤亡', 'camp-deteriorated': '营地状况恶化', hidden: '页面已隐藏', pagehide: '离开页面', 'focus-lost': '窗口失去焦点', 'shelter-required': '已离开庇护所', 'player-moved': '已离开原位置', 'phase-changed': '阶段改变', 'session-freeze': '会话已停止', restart: '重新开始', 'generation-changed': '会话已更换', 'clock-changed': '时钟设置改变', 'clock-unsupported': '时钟设置不支持', 'player-unavailable': '玩家无法继续', 'command-sequence-exhausted': '命令预算耗尽' };
-      if (label) label.textContent = status.restId ? `${status.active ? '等候中' : status.reason === 'completed' ? '等候完成' : '等候停止'} · ${status.completed}/${status.requested} 分钟 · 食物 ${state.food} · 体力 ${Math.floor(state.energy)}${status.active ? ' · 世界继续运行' : status.reason === 'completed' ? '' : ' · ' + (reasons[status.reason] || '无法继续')}` : '营地等候：靠近庇护所选择30或60分钟；世界与风险继续。';
+      const current = gates || { 30: restGate(30), 60: restGate(60) }, feedback = campRestGateFeedback(current);
+      if (label) label.textContent = status.restId ? `${status.active ? '等候中' : status.reason === 'completed' ? '上次等候完成' : '上次等候停止'} · ${status.completed}/${status.requested} 分钟 · 食物 ${state.food} · 体力 ${Math.floor(state.energy)}${status.active ? ' · 世界继续运行' : (status.reason === 'completed' ? '' : ' · ' + campRestReasonText(status.reason)) + ' · 当前：' + feedback}` : '营地等候：' + feedback;
       if (cancel) { cancel.hidden = !status.active; cancel.disabled = !status.active; }
-      document.querySelectorAll('[data-context-action="campRest30"], [data-context-action="campRest60"]').forEach(button => { button.disabled = status.active || !restGate(button.dataset.contextAction === 'campRest30' ? 30 : 60).ok; });
+      document.querySelectorAll('[data-context-action="campRest30"], [data-context-action="campRest60"]').forEach(button => { button.disabled = status.active || current[button.dataset.contextAction === 'campRest30' ? 30 : 60]?.ok !== true; });
+      const detail = $('campRestFeedback'); if (detail) detail.textContent = feedback;
     }
 
     let worldRenderFrame = null;
@@ -6593,7 +6604,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       let actionIndex = 0;
       const add = (label, sub, action, cls = '', disabled = false, cropTargetId = null, npcTargetId = null) => {
         const index = actionIndex++;
-        actions.push(`<button class="context-action ${cls}" data-context-action="${action}" data-context-index="${index}" ${cropTargetId !== null ? `data-building-id="${eventUiText(cropTargetId)}" data-crop-target="true"` : ''} ${npcTargetId !== null ? `data-npc-id="${eventUiText(npcTargetId)}"` : ''} ${disabled ? 'disabled' : ''}><kbd class="action-index">${index + 1}</kbd>${label}<small>${sub}</small></button>`);
+        actions.push(`<button class="context-action ${cls}" data-context-action="${action}" data-context-index="${index}" ${/^campRest(30|60)$/.test(action) ? 'aria-describedby="campRestFeedback"' : ''} ${cropTargetId !== null ? `data-building-id="${eventUiText(cropTargetId)}" data-crop-target="true"` : ''} ${npcTargetId !== null ? `data-npc-id="${eventUiText(npcTargetId)}"` : ''} ${disabled ? 'disabled' : ''}><kbd class="action-index">${index + 1}</kbd>${label}<small>${sub}</small></button>`);
       };
       if (zombies.length) {
         icon = '🧟'; title = '僵尸就在身边'; hint = `相邻 ${zombies.length} 只，立刻处理可以减少受伤风险。`;
@@ -6668,9 +6679,11 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
         add(gate.ok ? `🏕️ 接管${def?.name || outpost.name}` : `🏕️ ${def?.name || outpost.name}`, gate.ok ? `派驻 ${gate.guards.map(npc => npc.name).join('、')} · 消耗 6 行动体力 · 推进 30 分钟` : `接管 Gate：${gate.label}`, 'captureOutpost', 'primary', !gate.ok);
         hint = gate.ok ? '据点会占用固定人口，并在每日清晨消耗维护食物。' : `当前无法接管：${gate.label}`;
       }
+      let campRestGates = null;
       if (nearShelter) {
-        add('⏳ 等候30分钟', '不额外治疗或补给 · 世界继续运行，可随时取消', 'campRest30', '', !restGate(30).ok);
-        add('⏳ 等候60分钟', '真实消耗与危险继续 · 不保证安全', 'campRest60', '', !restGate(60).ok);
+        campRestGates = { 30: restGate(30), 60: restGate(60) };
+        add('⏳ 等候30分钟', '不额外治疗或补给 · 世界继续运行，可随时取消', 'campRest30', '', !campRestGates[30].ok);
+        add('⏳ 等候60分钟', '真实消耗与危险继续 · 不保证安全', 'campRest60', '', !campRestGates[60].ok);
       }
       if (areas.length) {
         const area = areas[0];
@@ -6699,8 +6712,9 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       $('contextIcon').textContent = icon;
       $('contextTitle').textContent = title;
       $('contextHint').textContent = hint;
-      $('contextActions').innerHTML = actions.join('');
+      $('contextActions').innerHTML = (campRestGates ? `<p class="camp-rest-feedback" id="campRestFeedback" role="status" aria-live="polite">${eventUiText(campRestGateFeedback(campRestGates))}</p>` : '') + actions.join('');
       panel.classList.add('show');
+      if (campRestGates) renderCampRestStatus(campRestGates);
       if (previousSightActor && !Array.from($('contextActions').querySelectorAll('[data-context-action="npcView"]')).some(button => button.dataset.npcId === previousSightActor)) clearNpcSightReportUi();
       syncNpcSightReportUi();
     }
@@ -9452,7 +9466,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       const nearbyOutpost = nearbyContextItem(state.landmarks, l => l.found === true && !!outpostDefinitionFor(l));
       const nearbyBuilding = nearbyContextItem(state.buildings);
       const nearbyShelter = nearbyContextItem(state.buildings, b => b.type === 'shelter');
-      if (action === 'campRest30' || action === 'campRest60') { const result = requestCampRest(action === 'campRest30' ? 30 : 60); if (!result.ok) toast('当前无法等候，请检查附近威胁、位置与时钟'); renderContext(); }
+      if (action === 'campRest30' || action === 'campRest60') { const result = requestCampRest(action === 'campRest30' ? 30 : 60); if (!result.ok) toast('当前不可等候：' + campRestReasonText(result.reason)); renderContext(); }
       else if (action === 'attack') attackNearestThreat();
       else if (action === 'npcView') viewNpc(button.dataset.npcId || '');
       else if (action === 'npc') interactNpc(button.dataset.npcId || '');

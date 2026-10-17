@@ -42,7 +42,8 @@ body = body.replace(exportMarker, `
     cancel: typeof cancelCampRest === 'function' ? cancelCampRest : null,
     gate: typeof restGate === 'function' ? restGate : null,
     controller: typeof CampRestController === 'object' ? CampRestController : null,
-    context: renderContext, hud: renderHud, advance, startWorld: startWorldSimulation,
+    context: renderContext, hud: renderHud, statusRenderer: typeof renderCampRestStatus === 'function' ? renderCampRestStatus : null,
+    advance, startWorld: startWorldSimulation,
     generatePlan: generatePlanMeeting, worldMinute, perceive: updateEnemyPerception,
     simulateEnemies: simulateWorldZombies, damage: applyDayCombatDamage, playerDamage: applyDayPlayerDamage, renderEvent,
     get timers() { return { world: worldTimer }; }
@@ -418,12 +419,78 @@ if (mode === 'baseline') {
     r.emit('campRestCancel', 'click'); assert.equal(status(r).active, false); assert.equal(r.node('campRestCancel').hidden, true);
     r.rest.context(); assert.match(r.node('contextActions').innerHTML, /data-context-action="campRest30"/);
   });
+  // IO554 intentionally does not parse innerHTML and querySelectorAll returns
+  // an empty collection. These source cases test authored context markup and
+  // the real status renderer's label output. Actual button-property refresh,
+  // accessibility relationships, visibility and layout require real Chrome;
+  // no synthetic button collection is used as evidence for those properties.
+  test('unstarted nearby-threat feedback is authored in context and footer without mutating the world', () => {
+    const r = fresh(p => {
+      const z = plain(originalPayload.worldZombies[0]);
+      z.x = 14; z.y = 11; z.aiState = 'wander';
+      z.perception = { clock: 0, targetId: null, targetAt: 0 }; p.worldZombies = [z];
+    });
+    assert.equal(r.rest.gate(30).reason, 'nearby-threat');
+    r.rest.context();
+    const markup = r.node('contextActions').innerHTML;
+    assert.match(markup, /id="campRestFeedback"[^>]*role="status"/);
+    assert.match(markup, /aria-describedby="campRestFeedback"/);
+    assert.match(markup, /附近存在威胁/);
+    assert.equal(typeof r.rest.statusRenderer, 'function');
+    const before = plain(r.api.state), storage = [...r.storage], tasks = [...r.tasks];
+    r.rest.statusRenderer();
+    assert.match(r.node('campRestFeedback').textContent, /附近存在威胁/);
+    assert.match(r.node('campRestStatus').textContent, /附近存在威胁/);
+    assert.doesNotMatch(r.node('campRestFeedback').textContent, /targetId|targetAt|wz-|frontier-|14[,，/ ]11/);
+    assert.deepEqual(plain(r.api.state), before, 'new status rendering preserves all live facts including RNG and ledger');
+    assert.deepEqual([...r.storage], storage); assert.deepEqual([...r.tasks], tasks);
+    assert.equal(status(r).active, false);
+  });
+  test('unknown threat stays neutral and actual condition recovery replaces stale feedback', () => {
+    const r = fresh(p => {
+      const z = plain(originalPayload.worldZombies[0]);
+      z.kind = 'TEST-ONLY-unknown-enemy'; z.x = 30; z.y = 5;
+      z.aiState = 'wander'; z.goal = { x: 30, y: 5 };
+      z.perception = { clock: 0, targetId: null, targetAt: 0 }; p.worldZombies = [z];
+    });
+    assert.equal(r.rest.gate(30).reason, 'danger-unknown');
+    r.rest.context(); r.rest.statusRenderer();
+    assert.match(r.node('campRestFeedback').textContent, /无法确认/);
+    assert.doesNotMatch(r.node('campRestFeedback').textContent, /附近存在威胁|TEST-ONLY|30[,，/ ]5/);
+    // Explicit controlled source diagnostic, not a browser mutation or a mock
+    // Gate: restore the authored kind while retaining the same live enemy.
+    r.api.state.worldZombies[0].kind = originalPayload.worldZombies[0].kind;
+    assert.equal(r.rest.gate(30).ok, true);
+    const before = plain(r.api.state), storage = [...r.storage], tasks = [...r.tasks];
+    r.rest.statusRenderer();
+    assert.match(r.node('campRestFeedback').textContent, /可等候/);
+    assert.match(r.node('campRestFeedback').textContent, /不保证安全/);
+    assert.doesNotMatch(r.node('campRestFeedback').textContent, /暂不可|无法确认|附近存在威胁/);
+    assert.deepEqual(plain(r.api.state), before); assert.deepEqual([...r.storage], storage); assert.deepEqual([...r.tasks], tasks);
+  });
+  test('a public begin rechecks changed danger and reports its actual refusal without a paid minute', () => {
+    const r = fresh(); r.rest.context(); r.rest.statusRenderer();
+    assert.match(r.node('campRestFeedback').textContent, /可等候/);
+    const z = plain(originalPayload.worldZombies[0]);
+    z.x = 14; z.y = 11; z.aiState = 'wander'; z.perception = { clock: 0, targetId: null, targetAt: 0 };
+    r.api.state.worldZombies.push(z); // TEST-ONLY changed-world stimulus after the real safe render.
+    const before = business(r), beforeSeq = r.api.state.worldMeta.eventSeq, beforeMinute = minute(r);
+    publicAction(r, 'campRest30'); // actual authored listener -> request -> begin -> live Gate
+    assert.equal(status(r).active, false); assert.equal(minute(r), beforeMinute);
+    assert.deepEqual(business(r), before);
+    assert.equal(events(r, 'camp.rest.started', beforeSeq).length, 0);
+    assert.equal(events(r, 'time.advanced', beforeSeq).length, 0);
+    assert.match(r.node('toast').textContent, /附近存在威胁/);
+    r.rest.statusRenderer();
+    assert.match(r.node('campRestFeedback').textContent, /附近存在威胁/);
+    assert.equal([...r.tasks.values()].some(t => t.kind === 'timeout' && t.delay === stepDelay), false);
+  });
 }
 const report = {
   runner: 'source-camp-rest-v1', mode, sourceHtmlSha256: hash(bytes), checkerSha256: hash(fs.readFileSync(new URL(import.meta.url))), ioAdapterSha256: hash(adapterBytes),
   originalWriter: { path: meta.fixture.path, sha256: hash(originalBytes), sourceHtmlSha256: meta.source.htmlSha256, naturalGameplayClaim: false },
   derivation: { testOnly: true, baseScenesBeforeBoot: true, fields: ['calendar/world watermarks', 'player coordinate/HP/energy/SAN', 'food', 'enemy list or declared enemy position/clock', 'handled event', 'NPC needs/clocks/cooldown/positions', 'garden growth and campTrust for midnight scene', 'authored landmark found flag for genuine garrison setup'], afterBootNegativeInputs: ['session phase/generation', 'document visibility', 'clock pause/rate', 'enemy movement after actual perception', 'new enemy during rest', 'unknown enemy kind', 'command budget exhaustion', 'legacy nearby coordinates for genuine garrison guard'], actualSourceDiagnosticStimuli: ['applyDayCombatDamage for local NPC/building/death interruptions', 'applyDayPlayerDamage for player interruption', 'applyContentEffects for healing and genuine garrison assignment'], receiptsFabricated: false, fixedRosterPreserved: true },
-  io: 'controlled DOM collections, storage, Date/performance and timer/RAF scheduling; final bootstrap Canvas render skipped; actual tested context renderer captured before unrelated render suppression',
+  io: 'controlled DOM collections, storage, Date/performance and timer/RAF scheduling; final bootstrap Canvas render skipped; actual tested context/status renderers captured before unrelated render suppression; querySelectorAll is empty and innerHTML is not parsed: authored context markup and status label output are covered, live button-property synchronization/accessibility/layout require real Chrome',
   browserStarted: false, naturalGameplay: false, count: checks.length, ok: failures.length === 0, failures, checks, observations, artifacts,
 };
 if (options['--out']) fs.writeFileSync(options['--out'], JSON.stringify(report, null, 2) + '\n');
