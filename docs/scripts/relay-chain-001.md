@@ -1,4 +1,7 @@
 # relay-chain-001：广播中继链
+## 当前接线说明（2026-10-18）
+
+下方draft设计包含尚未实施的频道／资源优先选择，不能当当前能力。默认交付与自治筹料／施工／上线已有真实consumer，handoff无额外推进时间；stage opt-in不代表全链事务迁移。公开面板现按实际有限来源／30分钟筹料节拍、真实施工累计与本场锁定通道说明后果，移除未形成倒计时或西侧出生几何的承诺。上线历史与物理维护仍分开，后者有[真实反例](../problems/PROB-20261018-relay-station-operational-state.md)待定义。列明验证和完整公开路线未完成的边界见[QA](../qa/relay-public-feedback-v1-20261018.md)；SAVE21／CONTENT3保持。
 
 ## Runtime status（2026-10-16）
 

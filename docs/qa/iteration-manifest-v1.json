@@ -2,13 +2,13 @@
   "schema": "IterationEvidenceV1",
   "version": 1,
   "status": "verified",
-  "scope": "Selected relay handoff memory slice provenance; exact source/static/VM and fixture-Chrome scope only. Verified is the existing manifest format; builder does not run Gate or grant release approval.",
+  "scope": "Selected relay public-feedback evidence draft; verified is existing format, not release approval. Builder does not run Gate.",
   "source": {
     "repository": "yzhai4/zombie_harvest",
     "branch": "codex/v82-npc-succession",
-    "commit": "d1542fd0e299ad7e44d094413c76199d6f3e07d9",
-    "tree": "dd5f66fb97261baea3859b2943a82e423064dfe7",
-    "htmlSha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    "commit": "8feac8b4eec67964b4336a7570b33dcfdc712724",
+    "tree": "686be510127acf3576d5700ab7ca58dd4efffa8e",
+    "htmlSha256": "54ef55a78d77ac1cd45fe4f234db744e035cffe4fa1111f25201aed4da5bf3e5"
   },
   "compatibility": {
     "saveVersion": 21,
@@ -17,9 +17,9 @@
   "runtime": {
     "naturalGameplayClaim": false,
     "productionDeployed": false,
-    "fullPlanningAccepted": false,
+    "fullMemoryAccepted": false,
     "fullActorObservationAccepted": false,
-    "fullMemoryAccepted": false
+    "publicRelayMainlineCompleted": false
   },
   "tests": {
     "required": [
@@ -38,8 +38,8 @@
         "count": 54,
         "passed": 54,
         "artifact": {
-          "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/content-chain.log",
-          "sha256": "24965273b7e7ce53f92c5d5be59ff5e7dae1301a9e3528f46da4ebfabd9ba2b4"
+          "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/content-chain.log",
+          "sha256": "c4f42766fa69b5f93479dbb8326f77c30be5a6b451eee32f1f65e3d376889375"
         }
       },
       {
@@ -48,8 +48,8 @@
         "count": 20,
         "passed": 20,
         "artifact": {
-          "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/event-gate-parity.json",
-          "sha256": "d94b3d6b88f7247185437662ebb578d7700983ce0c9eadb0bab18dfc4b2de749"
+          "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/event-gate-parity.log",
+          "sha256": "cb1100f32759ed674eedc83cb8c9bfe32e14387ced65b49c26e443f1cab21271"
         }
       },
       {
@@ -58,7 +58,7 @@
         "count": 21,
         "passed": 21,
         "artifact": {
-          "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/observer-expression.json",
+          "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/observer-expression.log",
           "sha256": "975dd345dcca51b71dd8acf37eaa4222038525acd3c1e2e959ad6010d3a5eabf"
         }
       },
@@ -68,7 +68,7 @@
         "count": 5,
         "passed": 5,
         "artifact": {
-          "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/gameplay-vertical-slice.json",
+          "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/gameplay-vertical-slice.log",
           "sha256": "dc2cf63f0af7a31b6f6ffc2e1350c64bdb21e4b107e13a5a9c02d5e3a2e0e862"
         }
       },
@@ -78,8 +78,8 @@
         "count": 30,
         "passed": 30,
         "artifact": {
-          "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/content-episode.json",
-          "sha256": "5a26337fc5baa1308db759a92665025eeeb9c5f71abd7d43e9053774e93ab130"
+          "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/content-episode.log",
+          "sha256": "ffb891bafa532e57fb8140a1f1d47ca38fbdcc35a01d8548b7fb87d5d3ebd393"
         }
       },
       {
@@ -88,7 +88,7 @@
         "count": 19,
         "passed": 19,
         "artifact": {
-          "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/replay-self-test.json",
+          "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/replay-self-test.log",
           "sha256": "0813da21b6068f27a332a072cc73180b1362f2dffb7ed3b99e31a2a8392a8538"
         }
       },
@@ -98,8 +98,8 @@
         "count": 55,
         "passed": 55,
         "artifact": {
-          "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/static-three-day-smoke.json",
-          "sha256": "cc14c79b507f543a1bd39141d501a95aa681ca63b1bc4b019e53bca0393cf9a5"
+          "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/static-three-day-smoke.json",
+          "sha256": "563d6dad20579a3d534df7047f227ac078eb50d798d7138f4cc5923f6a859446"
         }
       },
       {
@@ -108,36 +108,22 @@
         "count": 25,
         "passed": 25,
         "artifact": {
-          "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/relay-handoff-memory-v1.json",
-          "sha256": "dcba9c16d731df9575ca4dd242a9cfcda3c40abf81b27c73d1df7f437db4954f"
+          "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/relay-handoff-memory-v1.json",
+          "sha256": "8f81f0fb828cce94097fb98a9c3bbbcc2928d1071d7a2b8f08b483ed77b58ac2"
         }
       }
     ],
     "aggregateCurrentCoverage": {
-      "uniqueContracts": 44,
-      "selectedPassRows": 44,
+      "uniqueContracts": 15,
+      "selectedPassContracts": 15,
+      "sourceContractExecutions": 15,
+      "originalMatrixPassed": 15,
+      "originalMatrixFailed": 0,
       "artifact": {
-        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/source-execution-matrix.json",
-        "sha256": "7dc04c767ee0a18268326cc56b6a59d8cbbc1bb47f262bf412c4076c9fa2dbe3"
-      },
-      "originalMatrixV2": {
-        "passed": 43,
-        "failed": 1,
-        "executions": 44
-      },
-      "supplements": [
-        "npc-rest-work-v1",
-        "relay-handoff-memory-v1"
-      ],
-      "v2AndTwoSupplements": {
-        "executions": 46,
-        "passedExecutions": 45,
-        "failedExecutions": 1,
-        "uniqueContracts": 44,
-        "supplementMemoryAddsUnique": false
+        "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/source-selected-coverage.json",
+        "sha256": "536aeb283128a1019ee87e864973b768324704a07451f04dd416cc35386d7294"
       }
-    },
-    "scope": "Eight selected native/current reports are a subset of44 unique contracts. V2 remains43/44; 44 selected passes are not an all-green original matrix or44 executions of full current inline."
+    }
   },
   "browser": {
     "status": "fixture-browser",
@@ -145,195 +131,406 @@
     "count": 12,
     "passed": 12,
     "artifact": {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/episode-browser-01.json",
-      "sha256": "8dea2097f3cfb966a68b580161bf411f8a4644fccb171d8164819447923a7245"
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/episode-browser.json",
+      "sha256": "07fcb4921bf9b3b79bc30f9d5053e2b8f3bd1e579f55a6740c21e0c9cdf5bbcd"
     }
   },
   "localExecution": {
-    "uniqueSourceContracts": 44,
-    "selectedPassContracts": 44,
-    "v2AndTwoSupplements": {
-      "executions": 46,
-      "passedExecutions": 45,
-      "failedExecutions": 1,
-      "uniqueContracts": 44,
-      "supplementMemoryAddsUnique": false
-    },
-    "selectedCurrentTestRows": 8,
+    "sourceUniqueContracts": 15,
+    "originalSourceExecutions": 15,
+    "originalSourcePassed": 15,
+    "originalSourceFailed": 0,
+    "memorySupplementExecutions": 0,
+    "selectedSourcePassContracts": 15,
     "freshnessGateExecutedByBuilder": false,
-    "selfTestExecutedByBuilder": false,
-    "gitCommitVerificationLocal": "supplied-cached-Git-tree-only; local .git unavailable; no ancestry/ref/CI claim",
-    "allHistoricalIterationsPassed": false
+    "selftestExecutedByBuilder": false,
+    "gitCommitVerification": "supplied API proof/local bytes only; no local ancestry, ref or exact CI claim"
   },
   "supplementaryEvidence": {
-    "currentSourceCoverage": {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/source-execution-matrix.json",
-      "sha256": "7dc04c767ee0a18268326cc56b6a59d8cbbc1bb47f262bf412c4076c9fa2dbe3"
+    "publicationIndex": {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/index.json",
+      "sha256": "232c65f51c95cce608b20cfb6f7d542c760591c61d9f2ad9d734bb0008d2f15b"
     },
-    "historicalMatrixV2InputEnvelope": {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/a77fe1f04cc9b7474c6040ace7aa0297bcd49ddf679e40f41c26810f962c6739.json",
-      "sha256": "a77fe1f04cc9b7474c6040ace7aa0297bcd49ddf679e40f41c26810f962c6739"
-    },
-    "affected-direct-01": {
-      "artifact": {
-        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/affected-direct-01.json",
-        "sha256": "84222f7cb9b14788337d4f6f63e33da3090dddcbfe6e92e48a39efef408d4a17"
-      },
-      "execution": {
-        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/affected-direct-01-execution-facts.json",
-        "sha256": "5f85b8beb725c890edeeb864133146c8188c3c92a96a1e153cb1c94032a15509"
-      },
-      "count": 200,
-      "passed": 200,
-      "mainDocumentCount": 12,
-      "naturalGameplayClaim": false
-    },
-    "affected-self-01": {
-      "artifact": {
-        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/affected-self-01.json",
-        "sha256": "f4817fb08e2306fd4495c7c73cf0210cf01b586555801eeee84ef734a298a4ab"
-      },
-      "execution": {
-        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/affected-self-01-execution-facts.json",
-        "sha256": "ee45f9de5a27e191b65b7d9dc01d71f26fff8847c81d280f5eec4d73895a4748"
-      },
-      "count": 212,
-      "passed": 212,
-      "mainDocumentCount": 13,
-      "naturalGameplayClaim": false
-    },
-    "affected-npc-01": {
-      "artifact": {
-        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/affected-npc-01.json",
-        "sha256": "2228cb074cebe134c37b3dd30a74a86d2aa2660d1b56c93fcce25963d9fb2bbb"
-      },
-      "execution": {
-        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/affected-npc-01-execution-facts.json",
-        "sha256": "551561322e3db6b326e110883aa0d6b8bf344cefa785fe1f826c55dab0971816"
-      },
-      "count": 112,
-      "passed": 112,
-      "mainDocumentCount": 30,
-      "naturalGameplayClaim": false
-    },
-    "episode-browser-01": {
-      "artifact": {
-        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/episode-browser-01.json",
-        "sha256": "8dea2097f3cfb966a68b580161bf411f8a4644fccb171d8164819447923a7245"
-      },
-      "execution": {
-        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/episode-browser-01-execution-facts.json",
-        "sha256": "70f9acfb08ebce9354090a25de63d948d8b8ef8528fa8cfa5e9a95c1e91da3d1"
-      },
-      "count": 12,
-      "passed": 12,
-      "mainDocumentCount": 2,
-      "naturalGameplayClaim": false
-    },
-    "handoffBrowser": {
-      "artifact": {
-        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/handoff-browser.json",
-        "sha256": "1a88d5f9ebba268b166491971cf05ee91591ac609f588b2221e75dfad3c00322"
-      },
-      "count": 34,
-      "passed": 34,
-      "execution": {
-        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/handoff-browser-execution-facts.json",
-        "sha256": "b3f06944aac80b2c3bc53884a630ae940fd085de308909d576402c4e3b31c03d"
-      },
-      "mainDocumentCount": 4,
-      "naturalGameplayClaim": false
-    },
-    "cacheAndRosterDiagnostics": {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/diagnostic-index.json",
-      "sha256": "5fa48528168974c58cee3d6c40240d4d1c0a2ef03e53f838860775fa07355443"
-    },
-    "originalMatrixFailures": {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/original-matrix-failures.json",
-      "sha256": "98421b0c36619d6428e1c524489297f4b65c90fdc8c9b1bbd078bc02dd7a3de2"
-    },
-    "historicalSourceAndBrowserReports": {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/retained-original-reports.json",
-      "sha256": "366adafb36c80f12490757e49f0e6a9eb92299a653289a349ea247b8f4ce01ca"
+    "sourceCoverage": {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/source-selected-coverage.json",
+      "sha256": "536aeb283128a1019ee87e864973b768324704a07451f04dd416cc35386d7294"
     },
     "sourceArtifactProof": {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/source-artifact-proof.json",
-      "sha256": "d1add8485610e2dd471f1091a469c4a7e194d10eef6854459bc0dbcc374203c1"
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/source-artifact-proof.json",
+      "sha256": "0acba843f29d1ab9e02d8955e5e4ac0a360c582f54f298a2277fa99d2acafaa0"
     },
     "selectedTransport": {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/transport-map.json",
-      "sha256": "7b90c1c8535a715f2535420015cabb77e6d9d290f0f989cd9192773dea0731fa"
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/transport-map.json",
+      "sha256": "0bd72fbd33e466c1f0dd9804b17ca885c7d48657a93c3aedb8322c2353a125f8"
     },
-    "publicationIndex": {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/index.json",
-      "sha256": "621586dfaf39bb39ef9cfa6ae5fe40718fa9e39f2c623ff7decb7fd73d698771"
+    "episodeExecution": {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/episode-execution.json",
+      "sha256": "435ca7099781c174e862ae98aaf3bb81e7ac6f29600521f5eafce44e51d332f9"
+    },
+    "historicalSelection": {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/historical-selection.json",
+      "sha256": "41283ddf552633add120153b37e66607a9953d913daa5337c6ed87185796092a"
+    },
+    "currentShortEncounter": {
+      "artifact": {
+        "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/index.json",
+        "sha256": "502d33c360b1746e268a92b4320601b199836a2c34e0f2b2a4a4efeaf71c74c7"
+      },
+      "htmlSha256": "54ef55a78d77ac1cd45fe4f234db744e035cffe4fa1111f25201aed4da5bf3e5",
+      "inputProducerHtmlSha256": "04a7ff13dc663d679330004867e2e960ab6e6472ddaaf3489d2597fc4cde50c7",
+      "status": "PUBLIC_BATTLE_START_CAPTURED_NOT_SETTLED",
+      "exitCode": 0,
+      "actualPublicBattleStart": true,
+      "encounterSettled": false,
+      "battleDurabilityEstablished": false,
+      "unknownRouteBrowserCaseExecuted": false,
+      "naturalGameplayClaim": false,
+      "humanExperience": false,
+      "notAdditionalPrimaryTestRows": true
     }
   },
   "historicalEvidence": {
-    "previousManifestSha256": "7d0666e250c776d93b6fffe35e968c34589a1afc41aaed189cf9c8bdf40f602c",
-    "previousSourceCommit": "1db8954edb1565acb5ffcd817cde9558873313c3",
+    "previousManifestSha256": "e32c7daf146b5dd8f95056b3ff31251977d5a4b1f04f459fde6c6df02a2ee9b1",
+    "previousSourceCommit": "d1542fd0e299ad7e44d094413c76199d6f3e07d9",
     "previousRowsAreNotCurrent": true,
-    "v1AndV2FailuresPreserved": true,
-    "rawPrivateProducerOriginalExternalNotPublished": "5fe9ccc0a222f1c2476d25c52f24cc3dbd6985cb7f36e38a8c33c4008847a599"
-  },
-  "artifactTransportNotes": {
-    "selectedNotCompleteArchive": true,
-    "noNewZip": true,
-    "nativeRequiredSevenAndEpisodeUnchanged": true,
-    "privatePathReportCompanionsExplicit": true
+    "originalMemoryMethodFailurePreserved": true
   },
   "artifacts": [
+    {
+      "path": ".github/workflows/validate.yml",
+      "sha256": "58fbdc62371313805856ed691326fda5b8e4aa0055f59f3ad44d80775085f062"
+    },
     {
       "path": "dist/actor-sprites.js",
       "sha256": "257f4b38760813c21c723bbb9f934f1198e742fd1223db48705f34787e0f71b7"
     },
     {
       "path": "dist/index.html",
-      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
-    },
-    {
-      "path": "docs/experiments/runs/food-shortage-strategies-32f911-20261017/report-artifacts/common-episode-baseline.json",
-      "sha256": "aafac0f27b14febce001281a67066efddae74ed19b0335af15f2df5425ba9498"
-    },
-    {
-      "path": "docs/experiments/runs/food-shortage-strategies-32f911-20261017/report.json",
-      "sha256": "8d6544b1d6b073273b5f485505c724d44df60a5d4eb6866c025108c1fec93b9a"
-    },
-    {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/48fd42455963cfb2020918f014275e895c3d237271cc06de02e9f0c1e652f2d0.png",
-      "sha256": "48fd42455963cfb2020918f014275e895c3d237271cc06de02e9f0c1e652f2d0"
+      "sha256": "54ef55a78d77ac1cd45fe4f234db744e035cffe4fa1111f25201aed4da5bf3e5"
     },
     {
       "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/e4fbb6c158e5a85bed24141dbc5b5a115860c47d4f580fa767747ef38d0d3f59.json",
       "sha256": "e4fbb6c158e5a85bed24141dbc5b5a115860c47d4f580fa767747ef38d0d3f59"
     },
     {
+      "path": "docs/qa/runs/npc-rest-work-v1-20261018/ci294-matrix/objects/98b4e89ae2aa70077a55f74b974ff4e53b400577ad028a90b1d1d1f28f456315.log",
+      "sha256": "98b4e89ae2aa70077a55f74b974ff4e53b400577ad028a90b1d1d1f28f456315"
+    },
+    {
       "path": "docs/qa/runs/npc-rest-work-v1-20261018/legacy/objects/ebd2c2a6f1ab12b0e62dc6ba235231b4a229916759cdf1662c2594ed9ac4c7e6.json",
       "sha256": "ebd2c2a6f1ab12b0e62dc6ba235231b4a229916759cdf1662c2594ed9ac4c7e6"
+    },
+    {
+      "path": "docs/qa/runs/npc-rest-work-v1-20261018/required-source/objects/531da710f88c511c95622c2e162f46d665aa5b5a56f033b718a21f39fec65732.log",
+      "sha256": "531da710f88c511c95622c2e162f46d665aa5b5a56f033b718a21f39fec65732"
+    },
+    {
+      "path": "docs/qa/runs/npc-rest-work-v1-20261018/required-source/objects/94448e79690ac6545423411245b25804ba13e0581dc84e046389548a24e8136a.log",
+      "sha256": "94448e79690ac6545423411245b25804ba13e0581dc84e046389548a24e8136a"
+    },
+    {
+      "path": "docs/qa/runs/npc-rest-work-v1-20261018/required-source/objects/9aa80de5d0ee99245c3b8a87e1e2a3522f078e67df2f9f13f74bf399447cd9e1.log",
+      "sha256": "9aa80de5d0ee99245c3b8a87e1e2a3522f078e67df2f9f13f74bf399447cd9e1"
+    },
+    {
+      "path": "docs/qa/runs/npc-rest-work-v1-20261018/required-source/objects/fdae2874e53f6d308e58cbec46fd5e2be5c0870e867a4cff494f9abf1d080e93.log",
+      "sha256": "fdae2874e53f6d308e58cbec46fd5e2be5c0870e867a4cff494f9abf1d080e93"
     },
     {
       "path": "docs/qa/runs/npc-rest-work-v1-20261018/source/objects/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.log",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     {
-      "path": "docs/qa/runs/npc-self-observation-v1-20261017/self-source/blobs/1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f.json",
-      "sha256": "1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f"
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/historical-selection.json",
+      "sha256": "41283ddf552633add120153b37e66607a9953d913daa5337c6ed87185796092a"
     },
     {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/diagnostic-index.json",
-      "sha256": "5fa48528168974c58cee3d6c40240d4d1c0a2ef03e53f838860775fa07355443"
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/index.json",
+      "sha256": "232c65f51c95cce608b20cfb6f7d542c760591c61d9f2ad9d734bb0008d2f15b"
     },
     {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/index.json",
-      "sha256": "621586dfaf39bb39ef9cfa6ae5fe40718fa9e39f2c623ff7decb7fd73d698771"
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/05d8b88b3555d85e89d89dcf896d4759e3f95ac6c272ced81690cda0ce43ce90.json",
+      "sha256": "05d8b88b3555d85e89d89dcf896d4759e3f95ac6c272ced81690cda0ce43ce90"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/0701ba4b2673b7136923a04a1deb01f11d34e118d6b13c042905fe9422d8d85a.json",
+      "sha256": "0701ba4b2673b7136923a04a1deb01f11d34e118d6b13c042905fe9422d8d85a"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/09bb3f167b5d3aff4a62119f5fa7b20294e0ee7d0bb63cfb63d88504d79d76c8.log",
+      "sha256": "09bb3f167b5d3aff4a62119f5fa7b20294e0ee7d0bb63cfb63d88504d79d76c8"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/0c305702f7f72a59de26ca3071c019814e6778ddd862a666225a2213d9202e7c.json",
+      "sha256": "0c305702f7f72a59de26ca3071c019814e6778ddd862a666225a2213d9202e7c"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/1440bc84a140e6b4cb0beb325a0c4196f1f68c97540e4db858bf8c18af03fc35.png",
+      "sha256": "1440bc84a140e6b4cb0beb325a0c4196f1f68c97540e4db858bf8c18af03fc35"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/1b4874fd015fedc3ed914ad3050ed919de7bfa9281fb07bcc1fc800a6d04a304.json",
+      "sha256": "1b4874fd015fedc3ed914ad3050ed919de7bfa9281fb07bcc1fc800a6d04a304"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/1c6cd2aa5a48666b55665174fe56ec4789cbea96adb4299982bc2cacb04b1fa9.log",
+      "sha256": "1c6cd2aa5a48666b55665174fe56ec4789cbea96adb4299982bc2cacb04b1fa9"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/1cd09599e01236be5e691e079e127f8dac8e78259f14f71f4a9bf5a08a2efa5e.json",
+      "sha256": "1cd09599e01236be5e691e079e127f8dac8e78259f14f71f4a9bf5a08a2efa5e"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/3b11eb59aa1dc8d475bdbd155b71364ee59782eae2dde81df9597ce5f3f76307.json",
+      "sha256": "3b11eb59aa1dc8d475bdbd155b71364ee59782eae2dde81df9597ce5f3f76307"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/3e73c7733ea8840ee3338744428d1c2559a66bff3bd8bd5c156a457ddea7149f.json",
+      "sha256": "3e73c7733ea8840ee3338744428d1c2559a66bff3bd8bd5c156a457ddea7149f"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/437a3fe9548b2dcab95c1fdd857fc9e2f9c4ef1f0f559e96d7f263d39ef26424.json",
+      "sha256": "437a3fe9548b2dcab95c1fdd857fc9e2f9c4ef1f0f559e96d7f263d39ef26424"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/563d6dad20579a3d534df7047f227ac078eb50d798d7138f4cc5923f6a859446.json",
+      "sha256": "563d6dad20579a3d534df7047f227ac078eb50d798d7138f4cc5923f6a859446"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/61da86f5b289b2cdea546624f0d4209dd50c5130c26d38dc9ff99d6e7193dcb1.json",
+      "sha256": "61da86f5b289b2cdea546624f0d4209dd50c5130c26d38dc9ff99d6e7193dcb1"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/6cb09a39d86a3d68ac98af9642debb4bfd0d01ad8255b99f62f488d0a5ae78fc.json",
+      "sha256": "6cb09a39d86a3d68ac98af9642debb4bfd0d01ad8255b99f62f488d0a5ae78fc"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/7284b642e45c87e2ce5c53237ca8de1f5521e84b841ba345613f3fe8bef1f7a8.json",
+      "sha256": "7284b642e45c87e2ce5c53237ca8de1f5521e84b841ba345613f3fe8bef1f7a8"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/744d28fe2a780f846768fe7cefaf07c37dab0f24195b710267a7ff0787cdbc43.json",
+      "sha256": "744d28fe2a780f846768fe7cefaf07c37dab0f24195b710267a7ff0787cdbc43"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/772182deac9c6e9032ca31257ae7d28a4aa97082b13d4c510dea81e9993194f1.json",
+      "sha256": "772182deac9c6e9032ca31257ae7d28a4aa97082b13d4c510dea81e9993194f1"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/78444a00126a2028622c03a46f877ed5da4017509026275f740672877cad8776.json",
+      "sha256": "78444a00126a2028622c03a46f877ed5da4017509026275f740672877cad8776"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/7a66c3ee29af484dbd575593acc41829b152d500f4a3eca427b9faa3fcfc3202.md",
+      "sha256": "7a66c3ee29af484dbd575593acc41829b152d500f4a3eca427b9faa3fcfc3202"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/80a533c99551569c779e83a275ae96a9a570b49b6a0ec1be7d09cf53482194c7.json",
+      "sha256": "80a533c99551569c779e83a275ae96a9a570b49b6a0ec1be7d09cf53482194c7"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/80fe8227fe45a69ea1d032ca070ebc3585dd8f3db477839775613e5c82f3a7d9.json",
+      "sha256": "80fe8227fe45a69ea1d032ca070ebc3585dd8f3db477839775613e5c82f3a7d9"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/84b7b1856a4cc03558c22442b484d8e1030607d9d7f728605983c41f5d8e254d.json",
+      "sha256": "84b7b1856a4cc03558c22442b484d8e1030607d9d7f728605983c41f5d8e254d"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/8d6e122f7515cde879cdcdb69267cf8ceb9d1ca6e03c0067b403ca181492789f.json",
+      "sha256": "8d6e122f7515cde879cdcdb69267cf8ceb9d1ca6e03c0067b403ca181492789f"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/8f81f0fb828cce94097fb98a9c3bbbcc2928d1071d7a2b8f08b483ed77b58ac2.json",
+      "sha256": "8f81f0fb828cce94097fb98a9c3bbbcc2928d1071d7a2b8f08b483ed77b58ac2"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/90a2a73e598e852f840523ba70affe90b5415126236ec0d5e0beae859a8ee7df.json",
+      "sha256": "90a2a73e598e852f840523ba70affe90b5415126236ec0d5e0beae859a8ee7df"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/910a07814bc78678fd7dacefca65d1b012eb126ca7944da54f42e71b6d36c275.json",
+      "sha256": "910a07814bc78678fd7dacefca65d1b012eb126ca7944da54f42e71b6d36c275"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/94f136e891475436f241f4224e147664f11392623a320b1714b8522a3d282aa4.sha256",
+      "sha256": "94f136e891475436f241f4224e147664f11392623a320b1714b8522a3d282aa4"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/a2d0db26e08b0c3e73e7556e366b4dbdce4727f86b52599ee72bfc62b927c881.json",
+      "sha256": "a2d0db26e08b0c3e73e7556e366b4dbdce4727f86b52599ee72bfc62b927c881"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/a378bbe46afea95e91943ca6d042ba1b9c411b32257d056fc9cab28b10a1139e.log",
+      "sha256": "a378bbe46afea95e91943ca6d042ba1b9c411b32257d056fc9cab28b10a1139e"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/a3ec48560ec190928073c3c9183aced3341b0ead8b6f18f0e356e660aa7fdd63.json",
+      "sha256": "a3ec48560ec190928073c3c9183aced3341b0ead8b6f18f0e356e660aa7fdd63"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/a5909e5019f7d7c63b38c8697819fe72eb57f4d3b10ff41ae5927ad204942404.json",
+      "sha256": "a5909e5019f7d7c63b38c8697819fe72eb57f4d3b10ff41ae5927ad204942404"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/bf4c9946574c562bf87727eda32793c3651e19542459850b24a8f2b9e2e15691.json",
+      "sha256": "bf4c9946574c562bf87727eda32793c3651e19542459850b24a8f2b9e2e15691"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/c253bbfaecca003fda71c2e830ef314887645068b84086d6a63614037b9383e0.json",
+      "sha256": "c253bbfaecca003fda71c2e830ef314887645068b84086d6a63614037b9383e0"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/c37ceaa878ddaaa59f8c2256f1efe270bd399bb0df0c081b72c7b6113470d2fb.json",
+      "sha256": "c37ceaa878ddaaa59f8c2256f1efe270bd399bb0df0c081b72c7b6113470d2fb"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/c4f42766fa69b5f93479dbb8326f77c30be5a6b451eee32f1f65e3d376889375.log",
+      "sha256": "c4f42766fa69b5f93479dbb8326f77c30be5a6b451eee32f1f65e3d376889375"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/cb1100f32759ed674eedc83cb8c9bfe32e14387ced65b49c26e443f1cab21271.log",
+      "sha256": "cb1100f32759ed674eedc83cb8c9bfe32e14387ced65b49c26e443f1cab21271"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/d1dc3ecbdcfa5cdb8bb1f0467632d7ed8cc27e06002e8dd3f627b42d0f05531b.json",
+      "sha256": "d1dc3ecbdcfa5cdb8bb1f0467632d7ed8cc27e06002e8dd3f627b42d0f05531b"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/d4aaa8142e61d680d9d83b18a9ed959f52e422b9210461709ab7c666a8f2538e.json",
+      "sha256": "d4aaa8142e61d680d9d83b18a9ed959f52e422b9210461709ab7c666a8f2538e"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/e06c2796e492c19315128a936403e19488cf0df9ff28448136b8a8f559bcb58a.log",
+      "sha256": "e06c2796e492c19315128a936403e19488cf0df9ff28448136b8a8f559bcb58a"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/ebb45f6e9756947c068c7c33c422cbb7fc33116130dc1875046a63f8f13a2d2a.png",
+      "sha256": "ebb45f6e9756947c068c7c33c422cbb7fc33116130dc1875046a63f8f13a2d2a"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/ffb891bafa532e57fb8140a1f1d47ca38fbdcc35a01d8548b7fb87d5d3ebd393.log",
+      "sha256": "ffb891bafa532e57fb8140a1f1d47ca38fbdcc35a01d8548b7fb87d5d3ebd393"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/check-night-guard.log",
+      "sha256": "531da710f88c511c95622c2e162f46d665aa5b5a56f033b718a21f39fec65732"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/content-chain.log",
+      "sha256": "c4f42766fa69b5f93479dbb8326f77c30be5a6b451eee32f1f65e3d376889375"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/content-episode.log",
+      "sha256": "ffb891bafa532e57fb8140a1f1d47ca38fbdcc35a01d8548b7fb87d5d3ebd393"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/current-source-closure.public-companion.json",
+      "sha256": "f049132065c61c62c9dd0cc60c41e2b439a33ae7ecbbb315f35f4c290467413b"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/daytime-combat.log",
+      "sha256": "a378bbe46afea95e91943ca6d042ba1b9c411b32257d056fc9cab28b10a1139e"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/episode-browser.json",
+      "sha256": "07fcb4921bf9b3b79bc30f9d5053e2b8f3bd1e579f55a6740c21e0c9cdf5bbcd"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/episode-execution.json",
+      "sha256": "435ca7099781c174e862ae98aaf3bb81e7ac6f29600521f5eafce44e51d332f9"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/event-gate-parity.log",
+      "sha256": "cb1100f32759ed674eedc83cb8c9bfe32e14387ced65b49c26e443f1cab21271"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/gameplay-vertical-slice.log",
+      "sha256": "dc2cf63f0af7a31b6f6ffc2e1350c64bdb21e4b107e13a5a9c02d5e3a2e0e862"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/historical-04a-memory-terminal.json",
+      "sha256": "c75d70470a502da23e54d48ca1e2934f13e5e801d885753ef57bdd8dcb73de7b"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/historical-04a-memory25.json",
+      "sha256": "02fe5ea7ee3bba4ba1fbe405c48082785ce2f4080e7113e40360611a43520de9"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/historical-04a-source-closure.public-companion.json",
+      "sha256": "355ba97f1822b197f4973493f570608ad951579548b151105b564e95fed41e6c"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/inline-syntax.log",
+      "sha256": "98b4e89ae2aa70077a55f74b974ff4e53b400577ad028a90b1d1d1f28f456315"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/npc-rest-work-v1.json",
+      "sha256": "05d8b88b3555d85e89d89dcf896d4759e3f95ac6c272ced81690cda0ce43ce90"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/observer-expression.log",
+      "sha256": "975dd345dcca51b71dd8acf37eaa4222038525acd3c1e2e959ad6010d3a5eabf"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/relay-handoff-memory-v1.json",
+      "sha256": "8f81f0fb828cce94097fb98a9c3bbbcc2928d1071d7a2b8f08b483ed77b58ac2"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/relay-runtime.public-companion.json",
+      "sha256": "ed3c2c513d0f00758a0ca330dfaa98f618ef8cbee8cd51abd927f78e06e7b08a"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/replay-self-test.log",
+      "sha256": "0813da21b6068f27a332a072cc73180b1362f2dffb7ed3b99e31a2a8392a8538"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/save-recovery.log",
+      "sha256": "1c6cd2aa5a48666b55665174fe56ec4789cbea96adb4299982bc2cacb04b1fa9"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/selected-memory-execution.public-companion.json",
+      "sha256": "9c86208f88253b89aa55659133f0cbabae4aa737c018f8f9ff6a0aff1052d096"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/source-git-api-proof.json",
+      "sha256": "2abdf894c593928e0cc6736805709b300a3773eefb3ee927c038b631e065d17b"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/static-three-day-smoke.json",
+      "sha256": "563d6dad20579a3d534df7047f227ac078eb50d798d7138f4cc5923f6a859446"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/validate-content.log",
+      "sha256": "fdae2874e53f6d308e58cbec46fd5e2be5c0870e867a4cff494f9abf1d080e93"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/source-artifact-proof.json",
+      "sha256": "0acba843f29d1ab9e02d8955e5e4ac0a360c582f54f298a2277fa99d2acafaa0"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/source-selected-coverage.json",
+      "sha256": "536aeb283128a1019ee87e864973b768324704a07451f04dd416cc35386d7294"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/station-damage-diagnostic-selection.json",
+      "sha256": "43fca1a416296ea897117e619bec6ffd6fd7b2fc1ea6b4480a48d170adc6b8b2"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/transport-map.json",
+      "sha256": "0bd72fbd33e466c1f0dd9804b17ca885c7d48657a93c3aedb8322c2353a125f8"
+    },
+    {
+      "path": "docs/qa/runs/relay-effective-role-v1-20261018/selected/objects/6bcd2714c3eda3b0c614cfca20bf4b653ca2694babce38fc6279b7261c464d19.json",
+      "sha256": "6bcd2714c3eda3b0c614cfca20bf4b653ca2694babce38fc6279b7261c464d19"
+    },
+    {
+      "path": "docs/qa/runs/relay-effective-role-v1-20261018/selected/objects/e2a3bacc2100521926700262fc71948b798c979bf571c50a6c26ed83268de1a6.json",
+      "sha256": "e2a3bacc2100521926700262fc71948b798c979bf571c50a6c26ed83268de1a6"
     },
     {
       "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/012f856abaf6d3463d504eada038184357c76f5066caa54926ff98919cfa4828.json",
       "sha256": "012f856abaf6d3463d504eada038184357c76f5066caa54926ff98919cfa4828"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/016d6affc9f4242099742cae6b90cea5326e01235f86eb1731d6f4137717ae22.json",
-      "sha256": "016d6affc9f4242099742cae6b90cea5326e01235f86eb1731d6f4137717ae22"
     },
     {
       "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/035a7b78aac616b6aaea76620e584aba2b568dc1d129dcad0f28773907ddcaaf.json",
@@ -344,18 +541,6 @@
       "sha256": "0611476d3e5f71be7c51671b974654538f65855dff4203e41f087a974aa66d8c"
     },
     {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/062abf7adb3e33ab3a9bb2a590c741f014553dc986005051549fdd0953724228.json",
-      "sha256": "062abf7adb3e33ab3a9bb2a590c741f014553dc986005051549fdd0953724228"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/0a905a1fa8ef6604319d43de70179045ff4c0380b9ecd99eeafaddb1b2343d2a.json",
-      "sha256": "0a905a1fa8ef6604319d43de70179045ff4c0380b9ecd99eeafaddb1b2343d2a"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/0e9428aaa676dd57db2de734e8676a30c9acb51a43a1a641fd37bdae8b590514.json",
-      "sha256": "0e9428aaa676dd57db2de734e8676a30c9acb51a43a1a641fd37bdae8b590514"
-    },
-    {
       "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/0f5ddb6aacb840722ea1258b817ceb44963d378093eb042be931ac34ca8d2078.json",
       "sha256": "0f5ddb6aacb840722ea1258b817ceb44963d378093eb042be931ac34ca8d2078"
     },
@@ -364,28 +549,8 @@
       "sha256": "118653262c4379ebb80ef55781de43fd9dfff5ca788486bba868faaf012a7502"
     },
     {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/124918ef497832a51f5a62e0cbd730e19674004cb8549659d9f50f65ac28f76e.json",
-      "sha256": "124918ef497832a51f5a62e0cbd730e19674004cb8549659d9f50f65ac28f76e"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/16f47bfce3ef3d3872800a55b0b17caf49009f9da33921c03f8c5965e8282768.json",
-      "sha256": "16f47bfce3ef3d3872800a55b0b17caf49009f9da33921c03f8c5965e8282768"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/1c94a84fa2346e3d22a1974e4194f158b3043ad70452b8a08debcafaf0e76b76.png",
-      "sha256": "1c94a84fa2346e3d22a1974e4194f158b3043ad70452b8a08debcafaf0e76b76"
-    },
-    {
       "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/223686014aba901273f322069cbda044071a13701fb74feecbb4ad0c871197ff.json",
       "sha256": "223686014aba901273f322069cbda044071a13701fb74feecbb4ad0c871197ff"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/256c3c792ab4e4bbc6c61db52304fadc0f2d9b75675f1d2935d521b77629b4b6.png",
-      "sha256": "256c3c792ab4e4bbc6c61db52304fadc0f2d9b75675f1d2935d521b77629b4b6"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/273456de4e5fa69167cb756bee752e8ac019f9fb7ff01753ffc0b65da7e8c29f.json",
-      "sha256": "273456de4e5fa69167cb756bee752e8ac019f9fb7ff01753ffc0b65da7e8c29f"
     },
     {
       "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/282d3b7f91814b18b51d94794f1b6d22a2959c63fa4a7f1814b0665d64523b4c.json",
@@ -396,16 +561,8 @@
       "sha256": "29ce4c584dca3910042e535e10d13b904d4f9805e1e7226605458b1dbc9ce19a"
     },
     {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/2a63917a0157487c08fbb8a7dbb041ec3762b306d541d9c4856faca9f637e17b.json",
-      "sha256": "2a63917a0157487c08fbb8a7dbb041ec3762b306d541d9c4856faca9f637e17b"
-    },
-    {
       "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/2bc446c203d58fc9543f0debcbf8768ee742796e45eb28c40ff4e1f3dbf63982.json",
       "sha256": "2bc446c203d58fc9543f0debcbf8768ee742796e45eb28c40ff4e1f3dbf63982"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/2c7635a08a697d930e364337e5dffbb315b52fde63ab2dfbd1174cb015fe768c.png",
-      "sha256": "2c7635a08a697d930e364337e5dffbb315b52fde63ab2dfbd1174cb015fe768c"
     },
     {
       "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/3114d4f790f9ae8a93747bd3ddfdf43d439e310c067c5e34cfbef060b071df6b.json",
@@ -416,20 +573,8 @@
       "sha256": "31555a73d75022deb24f362253f58475787aae1fcfd023f551b2670ff2d3ff7e"
     },
     {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/330d271ec0a1accee5205a123063a29ce83cd46715ebef8778ab351a1e8c2be8.json",
-      "sha256": "330d271ec0a1accee5205a123063a29ce83cd46715ebef8778ab351a1e8c2be8"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/34f1f5f71709e992ffd26735858e60c92b15a264c1d5bb5a290a98a5cdc10e8e.json",
-      "sha256": "34f1f5f71709e992ffd26735858e60c92b15a264c1d5bb5a290a98a5cdc10e8e"
-    },
-    {
       "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/38b7d92f4099bf7b93a3f04b79c1e95c8c5de9677b29606f4cda85273d0d3b5a.json",
       "sha256": "38b7d92f4099bf7b93a3f04b79c1e95c8c5de9677b29606f4cda85273d0d3b5a"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/3cf75ff695344936a1eb0caa08219e8551c281ee5c0a44afeb131f688a1bd82e.json",
-      "sha256": "3cf75ff695344936a1eb0caa08219e8551c281ee5c0a44afeb131f688a1bd82e"
     },
     {
       "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/3ecb409f8bff29a6154b482c1dfeb4bf2d4c9c2691b32971df41719a770a04a6.json",
@@ -444,10 +589,6 @@
       "sha256": "40805d1d901c27bf853e38f17a22073d321ce1f70d4043b48bbdb7c75ddf00a8"
     },
     {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/410a77fd4e9d3f5a8136d47178a2e190e828ba085d2dff7ada028cb431f449a9.png",
-      "sha256": "410a77fd4e9d3f5a8136d47178a2e190e828ba085d2dff7ada028cb431f449a9"
-    },
-    {
       "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/45e6686fc998482f217d4b55e9815b5d1bc96e23abaec1ab37cf61cfa42d38ea.json",
       "sha256": "45e6686fc998482f217d4b55e9815b5d1bc96e23abaec1ab37cf61cfa42d38ea"
     },
@@ -456,28 +597,8 @@
       "sha256": "45f2e8206e9df050e04bfec4ae61d2266042d21fd9c683d4f7dae247791a8e7f"
     },
     {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/480e2d16c3a569fd513068556998fb6dc2ae5da92d192d9e730ce9eda7c2e2f4.json",
-      "sha256": "480e2d16c3a569fd513068556998fb6dc2ae5da92d192d9e730ce9eda7c2e2f4"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/4fb758e499bca2881741d44f9e1a83807a641c502c36bd5c73815b4c56bb1fef.json",
-      "sha256": "4fb758e499bca2881741d44f9e1a83807a641c502c36bd5c73815b4c56bb1fef"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/50065beae47be8456722246cb932b5616023b9606b013c71102337cf7294feca.json",
-      "sha256": "50065beae47be8456722246cb932b5616023b9606b013c71102337cf7294feca"
-    },
-    {
       "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/524c00efca49125587b1e2b2767192556145d3197a5c315f2b9cee268a09c444.json",
       "sha256": "524c00efca49125587b1e2b2767192556145d3197a5c315f2b9cee268a09c444"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/531c04b071a89785f9b00616790da6f43e37ce6acdf324ce09445a98eba306a2.json",
-      "sha256": "531c04b071a89785f9b00616790da6f43e37ce6acdf324ce09445a98eba306a2"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/554c400c174ad1b069c4dfcc839c12b3b45ea79c5aa7669e093a440ffa4845d3.mjs",
-      "sha256": "554c400c174ad1b069c4dfcc839c12b3b45ea79c5aa7669e093a440ffa4845d3"
     },
     {
       "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/56507da8c5861471f7fa2f0bfe082908046fc0d9e7eec00b4cc67ac061230aa9.json",
@@ -500,20 +621,8 @@
       "sha256": "5961ff1e6fef97b01748f22583ddbb2c1bf6a925a958dc111a5544a597f23efc"
     },
     {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/59ad3ef3bc757fad85c91119a3c618688f67bd8419296d6571bf813f99547dd8.json",
-      "sha256": "59ad3ef3bc757fad85c91119a3c618688f67bd8419296d6571bf813f99547dd8"
-    },
-    {
       "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/5a5cc8a4b7a5132f2befc4e0e585005b7ea4eab2dbf87998e6f1e0cd47b3e8aa.json",
       "sha256": "5a5cc8a4b7a5132f2befc4e0e585005b7ea4eab2dbf87998e6f1e0cd47b3e8aa"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/5a663e44e6e85be737e117103e6b1a138c37f87ea57607558bbf00def1e12cde.json",
-      "sha256": "5a663e44e6e85be737e117103e6b1a138c37f87ea57607558bbf00def1e12cde"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/5df16c8907980e51d4f23356e969950374e36d9dbc8e77fcffa56c9fa07fe6e9.json",
-      "sha256": "5df16c8907980e51d4f23356e969950374e36d9dbc8e77fcffa56c9fa07fe6e9"
     },
     {
       "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/5e28d24c97518376a599d402f3c6927cf86423f78b0bfa9cbbd438b2447e3d70.json",
@@ -532,30 +641,6 @@
       "sha256": "61594439948ceb420819c5b96a7611ac428c22a64165e137f893704d9d34daa7"
     },
     {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/622bb0633c20bf2d6ca0dfbc9ec7276f6a644078a4cc705f34c61bdd2f51d089.json",
-      "sha256": "622bb0633c20bf2d6ca0dfbc9ec7276f6a644078a4cc705f34c61bdd2f51d089"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/62e39ef3e8958c9fa452fb8d5767c249bdd3d4100a34f99c6387253ece6ab41d.json",
-      "sha256": "62e39ef3e8958c9fa452fb8d5767c249bdd3d4100a34f99c6387253ece6ab41d"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/63a527f7695b5ae06b5dd56575b1d8b4bb01a78e85f467241fc393feb21a28cd.json",
-      "sha256": "63a527f7695b5ae06b5dd56575b1d8b4bb01a78e85f467241fc393feb21a28cd"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/6dc91ad5796aefbcd767c7fcfff4696487401fe06794fe60bbd99f0762be9a86.json",
-      "sha256": "6dc91ad5796aefbcd767c7fcfff4696487401fe06794fe60bbd99f0762be9a86"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/6deb5dbe96259f0239cff32cc493bdab517aa6f2dd35e079cc086384defdd341.json",
-      "sha256": "6deb5dbe96259f0239cff32cc493bdab517aa6f2dd35e079cc086384defdd341"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/7545f4eef210449f626b489a4a11c048fb1f6ce6ed1986f5f8aec66659053f7f.json",
-      "sha256": "7545f4eef210449f626b489a4a11c048fb1f6ce6ed1986f5f8aec66659053f7f"
-    },
-    {
       "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/7816a114fce8948d5f8bc55cee5b62fce2a02230394643fd16c5c6e38d54ef70.json",
       "sha256": "7816a114fce8948d5f8bc55cee5b62fce2a02230394643fd16c5c6e38d54ef70"
     },
@@ -568,16 +653,8 @@
       "sha256": "7aa8bcd2f4ee45536434b0607b17352d2e5b4344503030697e5af2922d8dc9b1"
     },
     {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/7aa8df5bcd42ad6debaa91815672f49a012d8b7e357e8dad1ae8fa0c0b77c774.mjs",
-      "sha256": "7aa8df5bcd42ad6debaa91815672f49a012d8b7e357e8dad1ae8fa0c0b77c774"
-    },
-    {
       "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/7c958a7bac6432f006f0ca45c31a4a3310bbfb62a39832834b6ec099c176da70.json",
       "sha256": "7c958a7bac6432f006f0ca45c31a4a3310bbfb62a39832834b6ec099c176da70"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/7ca3daf7c40af9733cf9b89461d80c20921ad2789efb3e446b009d106e689db7.png",
-      "sha256": "7ca3daf7c40af9733cf9b89461d80c20921ad2789efb3e446b009d106e689db7"
     },
     {
       "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/865484b2dba9cfb9680c2c21c7c6a9e499fb9bcb57139421fa336fb663e92559.json",
@@ -600,14 +677,6 @@
       "sha256": "90cd5ccde38a2737969971531ee360857831e4f0665202ceb0436b3470a2365e"
     },
     {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/9131e889332f30693e53210aadb207c799052744f0befa4c3dc2f620446330c7.png",
-      "sha256": "9131e889332f30693e53210aadb207c799052744f0befa4c3dc2f620446330c7"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/91be3c3d7ccec14be4134563a0b4d8e8a43d207ea54c077cdcf99ec8add32725.json",
-      "sha256": "91be3c3d7ccec14be4134563a0b4d8e8a43d207ea54c077cdcf99ec8add32725"
-    },
-    {
       "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/9b8cc2adbb0111ce4c30b715bb8526008ce3dbbfef3007470214d73aa0a5a22b.json",
       "sha256": "9b8cc2adbb0111ce4c30b715bb8526008ce3dbbfef3007470214d73aa0a5a22b"
     },
@@ -616,40 +685,12 @@
       "sha256": "a08c43cdd884e9b2ecacbb41e893d0a04d6bed93ab2743f8f924700cce0a14cb"
     },
     {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/a77fe1f04cc9b7474c6040ace7aa0297bcd49ddf679e40f41c26810f962c6739.json",
-      "sha256": "a77fe1f04cc9b7474c6040ace7aa0297bcd49ddf679e40f41c26810f962c6739"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/a904a8c0e05ee01bcd3176e56b663b5c9d2f8010ded44f1bdfaba2e271189e50.json",
-      "sha256": "a904a8c0e05ee01bcd3176e56b663b5c9d2f8010ded44f1bdfaba2e271189e50"
-    },
-    {
       "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/ab615483950eee7e493c81d811f750c4776d401b5155323720eebb765464c413.json",
       "sha256": "ab615483950eee7e493c81d811f750c4776d401b5155323720eebb765464c413"
     },
     {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/ad2d56ea9c106142c40bdbd35105b1b9e6ef801068a44f790fceda38cc55c8ec.json",
-      "sha256": "ad2d56ea9c106142c40bdbd35105b1b9e6ef801068a44f790fceda38cc55c8ec"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/b251635db40e2ffaad578d4e011efb95a0737c51ab375176ad7d5ef8d7a06562.json",
-      "sha256": "b251635db40e2ffaad578d4e011efb95a0737c51ab375176ad7d5ef8d7a06562"
-    },
-    {
       "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/b66c30d4a8c23ac49b396b8ce9aa1c020d5b61d127d532ae99acdad882dd3632.json",
       "sha256": "b66c30d4a8c23ac49b396b8ce9aa1c020d5b61d127d532ae99acdad882dd3632"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/b7a6bc68fdb8e6aa3f0d8e28c2790b976191cb75e38e329f9e94efbc42cc4f44.json",
-      "sha256": "b7a6bc68fdb8e6aa3f0d8e28c2790b976191cb75e38e329f9e94efbc42cc4f44"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/b7d9a6f52594a0dd27d747934de6b632dcda37cb1f8c80574714acdd9929a47d.json",
-      "sha256": "b7d9a6f52594a0dd27d747934de6b632dcda37cb1f8c80574714acdd9929a47d"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/bb26a2fc6d91e3b01d2ce52207b3a6856a7567186be08baaa6c711a8cf4144dd.png",
-      "sha256": "bb26a2fc6d91e3b01d2ce52207b3a6856a7567186be08baaa6c711a8cf4144dd"
     },
     {
       "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/bd502d2d80ef0dddc97c6c4bf447bad65ca82d2b972e5520e080cde07b272803.json",
@@ -668,16 +709,8 @@
       "sha256": "c304ddd97b93898b04975d8a7996dddd447e52d94d07afee86b23ce9e33f0fa0"
     },
     {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/c9a3fef1663e70806fb43d01ff943cbc664714f67204faa8d83a8f83bf79fd22.json",
-      "sha256": "c9a3fef1663e70806fb43d01ff943cbc664714f67204faa8d83a8f83bf79fd22"
-    },
-    {
       "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/c9c8fe4e58b2818c51ec5745a5478826e59a0a6452f158eb979fb58766b2b8a7.json",
       "sha256": "c9c8fe4e58b2818c51ec5745a5478826e59a0a6452f158eb979fb58766b2b8a7"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/cbc43eb68e9bb66a649a1223793ddd4df14a576a9575239cfc951e4870700345.json",
-      "sha256": "cbc43eb68e9bb66a649a1223793ddd4df14a576a9575239cfc951e4870700345"
     },
     {
       "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/cf4cddaf85e0e0ed828716ddc0f84453ced58f9a426fa0ffc7c3e043e00b7285.json",
@@ -696,10 +729,6 @@
       "sha256": "d2e2c0a485062527c18b4d91301b123deaafb59954e876fcad24fa34d63f0d08"
     },
     {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/d612d1996556e62e0884649b9cd29f0dc203dda9b8a165d8aa13264733bb594e.mjs",
-      "sha256": "d612d1996556e62e0884649b9cd29f0dc203dda9b8a165d8aa13264733bb594e"
-    },
-    {
       "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/d626118acd976af7f4dec8d5cd474110f8c6544e8b1d72708e43546d8b199b59.json",
       "sha256": "d626118acd976af7f4dec8d5cd474110f8c6544e8b1d72708e43546d8b199b59"
     },
@@ -714,38 +743,6 @@
     {
       "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/da982d24f4a0a9fd533cacf8cdbff8864f36b87fedff34da0e3785a83993da6e.json",
       "sha256": "da982d24f4a0a9fd533cacf8cdbff8864f36b87fedff34da0e3785a83993da6e"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/dc5e326fe3498d28b1070f5777460a638bf60acded1fd7bdaaac122051afdf4b.json",
-      "sha256": "dc5e326fe3498d28b1070f5777460a638bf60acded1fd7bdaaac122051afdf4b"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/e348692d70ec97cb042fd2117f9ecf0ed3e0938dbabd0abb237604d3e9077f0f.png",
-      "sha256": "e348692d70ec97cb042fd2117f9ecf0ed3e0938dbabd0abb237604d3e9077f0f"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/e4484d7733c9a086545d8e3b0c537f21915082490c2b326fe28e6df2c69eb5ef.png",
-      "sha256": "e4484d7733c9a086545d8e3b0c537f21915082490c2b326fe28e6df2c69eb5ef"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/e44eb94b8de650fb3bd305693db3ed4db869908a79a78a31827f77b99dcb70f8.json",
-      "sha256": "e44eb94b8de650fb3bd305693db3ed4db869908a79a78a31827f77b99dcb70f8"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/e692e5e12cccaace2578055e990da3ba3f011f8c3a8cab68277aaecfb8e76634.json",
-      "sha256": "e692e5e12cccaace2578055e990da3ba3f011f8c3a8cab68277aaecfb8e76634"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/e90f600e3e55a5c0a8ef2ead9b02a5ce947c274813327ee7e504ecc4b9b2e984.json",
-      "sha256": "e90f600e3e55a5c0a8ef2ead9b02a5ce947c274813327ee7e504ecc4b9b2e984"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/ea61eb8fd3693596136cb4f146a14a3628c9dda48986f2b2f89863fb23d93db1.json",
-      "sha256": "ea61eb8fd3693596136cb4f146a14a3628c9dda48986f2b2f89863fb23d93db1"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/ec92cb284ed79815264faeaddb48ec1d4a9c0d650a2c8c98da34ec5b36db2e4f.json",
-      "sha256": "ec92cb284ed79815264faeaddb48ec1d4a9c0d650a2c8c98da34ec5b36db2e4f"
     },
     {
       "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/eca8285455a0172af5509bc50594646fffdbf6308a5e091e13538dcd76c547be.json",
@@ -764,16 +761,8 @@
       "sha256": "f52842d28eb00c7399fd5aa402fd32c44fa178a29abcaae7b8b939ace6759735"
     },
     {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/f6a17080e86ddccba4624cbeefc140be61bdd2294b76e6b0bb2e92384eac9d96.json",
-      "sha256": "f6a17080e86ddccba4624cbeefc140be61bdd2294b76e6b0bb2e92384eac9d96"
-    },
-    {
       "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/f7c417887ca5b496742b218de42c0a96984230cd92378af2124d128e704411ec.json",
       "sha256": "f7c417887ca5b496742b218de42c0a96984230cd92378af2124d128e704411ec"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/f9a553622a593a15be3952b29263158dec3423fabea50a940a36ab49b2f9062c.png",
-      "sha256": "f9a553622a593a15be3952b29263158dec3423fabea50a940a36ab49b2f9062c"
     },
     {
       "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/fa16f55cc0e90e71fccdfad069ee383d0a5c3f65f1183943a8e2d0d77e882455.json",
@@ -784,10 +773,6 @@
       "sha256": "fb17a12f3a116584b539bf3f8dc9b8ab82b7e7032cc3ba33b9d8ee4ecceb68bc"
     },
     {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/fb93046830414b0a9e8a26ed56c811a302f54b8d3dbb7c1d5b8411af4ded618a.png",
-      "sha256": "fb93046830414b0a9e8a26ed56c811a302f54b8d3dbb7c1d5b8411af4ded618a"
-    },
-    {
       "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/fcf4adbdbf9c5000f808974bb1186a060e302f0794732a281636913d5226168a.json",
       "sha256": "fcf4adbdbf9c5000f808974bb1186a060e302f0794732a281636913d5226168a"
     },
@@ -796,208 +781,16 @@
       "sha256": "fd564792aba7d3787bb2124e63dceed0b9ddca6dbcd7415ef975cad9cd7e6367"
     },
     {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/original-matrix-failures.json",
-      "sha256": "98421b0c36619d6428e1c524489297f4b65c90fdc8c9b1bbd078bc02dd7a3de2"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/affected-direct-01-execution-facts.json",
-      "sha256": "5f85b8beb725c890edeeb864133146c8188c3c92a96a1e153cb1c94032a15509"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/affected-direct-01.json",
-      "sha256": "84222f7cb9b14788337d4f6f63e33da3090dddcbfe6e92e48a39efef408d4a17"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/affected-npc-01-execution-facts.json",
-      "sha256": "551561322e3db6b326e110883aa0d6b8bf344cefa785fe1f826c55dab0971816"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/affected-npc-01.json",
-      "sha256": "2228cb074cebe134c37b3dd30a74a86d2aa2660d1b56c93fcce25963d9fb2bbb"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/affected-self-01-execution-facts.json",
-      "sha256": "ee45f9de5a27e191b65b7d9dc01d71f26fff8847c81d280f5eec4d73895a4748"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/affected-self-01.json",
-      "sha256": "f4817fb08e2306fd4495c7c73cf0210cf01b586555801eeee84ef734a298a4ab"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/baseline108-execution02.json",
-      "sha256": "422c95b54b8731d959a904ecd92716fd032e57a81c674928c5a4d3bc6069375e"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/browser-baseline108-execution01.json",
-      "sha256": "a09d48b3f4f26cf8453bdff08257eb138a9cb314aff2bcf10af0479ef22e3309"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/candidate8b97-execution01.json",
-      "sha256": "49183069a2693847cca9ae779434390d44ea3971840c87830a545759ae3b0baa"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/candidate8b97-execution02.json",
-      "sha256": "fe2d48a245ba982dd1d2cdfb94cba163f371a1c749161d50f0e4b10adfbda079"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/content-chain-execution-facts.json",
-      "sha256": "9c946566bd6b6c66d011385f758b44191aeb6086d665dab8c5a1c00e851685b1"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/content-chain.log",
-      "sha256": "24965273b7e7ce53f92c5d5be59ff5e7dae1301a9e3528f46da4ebfabd9ba2b4"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/content-episode-execution-facts.json",
-      "sha256": "434dffaa07c43eef0fe8e1ce4ed8c331beb35f1b23193319b12c54927facb606"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/content-episode.json",
-      "sha256": "5a26337fc5baa1308db759a92665025eeeb9c5f71abd7d43e9053774e93ab130"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/context-cache-8b97-execution01-execution-facts.json",
-      "sha256": "55c5f2172e9cd16b8a5350076104e4a2d02c6a41a0d33b6d0ab01fa2a3ac540c"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/context-cache-8b97-execution01.json",
-      "sha256": "46f1aa9184183dce5e17748eaa55a88c561414e05ea3be79229d86ddd4217c04"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/context-cache-fixed-execution01-execution-facts.json",
-      "sha256": "7de97563acc7364f6a9b58388174f97b364969a7d7c63894d8842e51b1432c6a"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/context-cache-fixed-execution01.json",
-      "sha256": "ab3be3cf83ec20bb71861b9cf6a57c1005804bf8f62a84878af6123e6ea15f54"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/context-cache-v3-execution01-execution-facts.json",
-      "sha256": "e493177954dd92c32a3cf23afa17909678f2b10bcbd37bbcb8b3d4b1b42e6f98"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/context-cache-v3-execution01.json",
-      "sha256": "4bcaad1a9a9c4ace77d2c3dae891b07c289133a83b38ce3a289928f07473723f"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/episode-browser-01-execution-facts.json",
-      "sha256": "70f9acfb08ebce9354090a25de63d948d8b8ef8528fa8cfa5e9a95c1e91da3d1"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/episode-browser-01.json",
-      "sha256": "8dea2097f3cfb966a68b580161bf411f8a4644fccb171d8164819447923a7245"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/event-gate-parity-execution-facts.json",
-      "sha256": "43b851ea05546d75c486367bc42dd19797790892537c9b3597cf3ad9fe5a5697"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/event-gate-parity.json",
-      "sha256": "d94b3d6b88f7247185437662ebb578d7700983ce0c9eadb0bab18dfc4b2de749"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/gameplay-vertical-slice-execution-facts.json",
-      "sha256": "d39995d361d2092b57314d3f99af9f448cb631292410b0919a6804cbb11fba4b"
-    },
-    {
       "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/gameplay-vertical-slice.json",
       "sha256": "dc2cf63f0af7a31b6f6ffc2e1350c64bdb21e4b107e13a5a9c02d5e3a2e0e862"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/handoff-browser-execution-facts.json",
-      "sha256": "b3f06944aac80b2c3bc53884a630ae940fd085de308909d576402c4e3b31c03d"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/handoff-browser.json",
-      "sha256": "1a88d5f9ebba268b166491971cf05ee91591ac609f588b2221e75dfad3c00322"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/npc-rest-work-v1-execution-facts.json",
-      "sha256": "9081aedc54b8beef59290c11e5df4cba74ff650d72ba657f2c5b4dfa010bd43e"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/npc-rest-work-v1.json",
-      "sha256": "89d43ff9404ea174342cd7248cce7f95777d1b2d0d3b7a696e9c1300d82143da"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/observer-expression-execution-facts.json",
-      "sha256": "b8946427ad0e6b074c77c2d8adea39a7ad1d673ebd37288ee58f2e73fd336654"
     },
     {
       "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/observer-expression.json",
       "sha256": "975dd345dcca51b71dd8acf37eaa4222038525acd3c1e2e959ad6010d3a5eabf"
     },
     {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/relay-handoff-memory-v1-execution-facts.json",
-      "sha256": "073f810d0aa659b6560a9be9512f0a163821308220ecf2f77ff29190e4456c83"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/relay-handoff-memory-v1.json",
-      "sha256": "dcba9c16d731df9575ca4dd242a9cfcda3c40abf81b27c73d1df7f437db4954f"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/replay-self-test-execution-facts.json",
-      "sha256": "0d8b77a935851790b2c790ebeccf9a1634be452c418d6daf8e69a8a554a8a260"
-    },
-    {
       "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/replay-self-test.json",
       "sha256": "0813da21b6068f27a332a072cc73180b1362f2dffb7ed3b99e31a2a8392a8538"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/roster-resize-v2-execution01-execution-facts.json",
-      "sha256": "43e4b3ab0b65d0e86b18f7e6150653ed66f58aeec24112246f294a1ca940c9d7"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/roster-resize-v2-execution01.json",
-      "sha256": "2cefc1bad8192dfc3f69ae4d1c1a35b2169eadd5be58b7f5be250f61cc61ccb7"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/roster-resize-v3-execution01-execution-facts.json",
-      "sha256": "c48d661a29be03c16e9a54f2b64f930e411bf2c492c736f322bb06d5f98ed12b"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/roster-resize-v3-execution01.json",
-      "sha256": "c0e40bac30f1e8e57befdb388d74ae79f329d9cce132c2c7571844784d14f1e7"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/static-three-day-smoke-execution-facts.json",
-      "sha256": "100c5ae11b3f1040c0c6a57522b097796bb55bf57e4a70a26a9051c02b42718f"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/static-three-day-smoke.json",
-      "sha256": "cc14c79b507f543a1bd39141d501a95aa681ca63b1bc4b019e53bca0393cf9a5"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/retained-original-reports.json",
-      "sha256": "366adafb36c80f12490757e49f0e6a9eb92299a653289a349ea247b8f4ce01ca"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/source-artifact-proof.json",
-      "sha256": "d1add8485610e2dd471f1091a469c4a7e194d10eef6854459bc0dbcc374203c1"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/source-commit-tree-proof-native.json",
-      "sha256": "4579dd98fe61d1bf5a49263f8dacf3b106ec8c1587faef58c662a502bdf87ec4"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/source-execution-matrix.json",
-      "sha256": "7dc04c767ee0a18268326cc56b6a59d8cbbc1bb47f262bf412c4076c9fa2dbe3"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/transport-map.json",
-      "sha256": "7b90c1c8535a715f2535420015cabb77e6d9d290f0f989cd9192773dea0731fa"
-    },
-    {
-      "path": "docs/qa/runs/scenario-boot-c1-20261017/browser/associated-shortage/supplied-forage-reloaded-save.json",
-      "sha256": "fa8e79d3dda157bcaf4e6048fad50133aedc26174f368c6e1084128b29831508"
-    },
-    {
-      "path": "docs/qa/runs/scenario-boot-c1-20261017/browser/boot-c1/default-button-initial-native-binding-save.json",
-      "sha256": "80d41c43a8ea07759aa88a852062b74f889b59c8e4edfc488d34f0e198c13d0e"
-    },
-    {
-      "path": "docs/qa/runs/shortage-choice-v2-20261017/natural-baseline/fresh04/terminal-before-cleanup-save.json",
-      "sha256": "0e91022d25944ee63d30f75efb3d0a9e57db795ea5d1708485c0449fb34700a9"
     },
     {
       "path": "scripts/browser-camp-rest-feedback-v1.mjs",
@@ -1161,7 +954,7 @@
     },
     {
       "path": "scripts/check-npc-rest-work-v1.mjs",
-      "sha256": "578f38978f9385ed9e40bc3d3a989cb8fe7bbecbff2ec44beef07255710b7853"
+      "sha256": "ed8a057399bbcc3a6aff769f5e57917f63d1183633ce7482abc79474d545d262"
     },
     {
       "path": "scripts/check-npc-self-observation-v1.mjs",
@@ -1217,7 +1010,7 @@
     },
     {
       "path": "scripts/check-report-recovery.mjs",
-      "sha256": "e0b467f2b9ee75b941f72c6338ed5376f4e6d0a8c7a1d1a7c210fa630efc63e7"
+      "sha256": "6e0da555742e930b8bf926eeec0db0ee22f17240a4fa305978841f8ba862c0a3"
     },
     {
       "path": "scripts/check-scenario-boot-c1.mjs",
@@ -1405,7 +1198,7 @@
     },
     {
       "path": "scripts/fixtures/relay-handoff-memory-browser-inputs.json",
-      "sha256": "8f1ad4d90c342e41620fe76c12c5653bf257cefdefe973a9108b64a706c5a4cd"
+      "sha256": "c9fc68acfdaa3b5c2c8a1dee2a53a062e7ce0e90364f5339df51e475e9805af2"
     },
     {
       "path": "scripts/fixtures/relay-handoff-memory-v1/actual-Chrome8b97-handoff-native.json",
@@ -1421,7 +1214,7 @@
     },
     {
       "path": "scripts/fixtures/relay-handoff-memory-v1/input-selection.json",
-      "sha256": "900f8936f39ce9ff4915eeb17266687cd6a08ca0eb087ca85888c2d3bbc1e9ff"
+      "sha256": "66fcf13bb445fc91ae8a644e37e75fa6e762f6f72e3e13a35f93c996fe631034"
     },
     {
       "path": "scripts/fixtures/relay-handoff-memory-v1/producer-report-path-only-companion.json",
@@ -1674,6 +1467,91 @@
     {
       "path": "scripts/verify-three-days-artifacts.mjs",
       "sha256": "4cca9356ceba55e47d9ac6c4ec0d08b62e926d2f7df2d29930f5af62f80b7434"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/actual-online-panel-390-public.json",
+      "bytes": 5631,
+      "sha256": "437ad8f8a259d46619313d3d4f1c05c8cbb7c0b969f35511bc8500add6fe2f3e"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/actual-online-panel-390.png",
+      "bytes": 157421,
+      "sha256": "54a409874ef8be0a2789560c5d0d061192a9198a82bf3744dd4550b356ee3de8"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/actual-online-panel-desktop-public.json",
+      "bytes": 5519,
+      "sha256": "dc140450505a6a476dd4199fc4b717db94ea8b1a729a39440c4b61188a2f2412"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/actual-online-panel-desktop.png",
+      "bytes": 317832,
+      "sha256": "bf026e4a32625ab652deed49f413f74725791dcd7f3d3f5a5a3574bcac398c4e"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/actual-public-battle-desktop.png",
+      "bytes": 697410,
+      "sha256": "7a50ca6883dfa4393538571c8c8ad42ffca119229cc710b91e1bb5efe9f97aef"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/actual-public-battle-public.json",
+      "bytes": 5464,
+      "sha256": "c38814911454bf5b570b696b21ce7b85e8a433dd1f9a81cc052e838bc9bef74d"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/actual-visible-day-hud-public.json",
+      "bytes": 5103,
+      "sha256": "21a796a0aca72da071e3fe62b7defe67245c125a74eb03a10ed46ace2fdcd641"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/before-public-n-public.json",
+      "bytes": 4939,
+      "sha256": "051829c803c1dff51d85a63d0392e19f1038c68c96b8884fd7fb7ed697475a4b"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/execution-terminal.path-companion.json",
+      "bytes": 4574,
+      "sha256": "b36fb6a612c888982f0a2563b2cec97664c3733c4fbb46a6c4c720d4599a36c5"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/inputs/input-manifest.json",
+      "bytes": 8955,
+      "sha256": "d8d7d9d6aa73681e9d8cbab697288f5901728c21494add5427042512f6c1f48a"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/inputs/presentation/old-online-native.json",
+      "bytes": 101558,
+      "sha256": "3e73c7733ea8840ee3338744428d1c2559a66bff3bd8bd5c156a457ddea7149f"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/producer-source-report.path-companion.json",
+      "bytes": 14117,
+      "sha256": "e60b876a67cea4cf60765c2a5732e08dc3e2c2193c49cc22830b4ee8f2e675fa"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/README.md",
+      "bytes": 2053,
+      "sha256": "b5ad3f544b0f710cbd2863e9313da2d7f72b7ae40e1da350591293806b80db29"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/report.json",
+      "bytes": 33946,
+      "sha256": "7cce642c6a47a0afb26bd2441216c76038d368fc7230053053ec627ef63f93a5"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/runner-executed.mjs",
+      "bytes": 11321,
+      "sha256": "ded07c142031103084e1c68c87d9d903a87425904769a8866b9d2498da60a177"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/transport-map.json",
+      "bytes": 19824,
+      "sha256": "cdcbd4b0674c05778e7ff9a9880f23522071b7f0ea5bf51b6d539f41d3c0330c"
+    },
+    {
+      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/index.json",
+      "bytes": 5431,
+      "sha256": "502d33c360b1746e268a92b4320601b199836a2c34e0f2b2a4a4efeaf71c74c7"
     }
   ]
 }

@@ -1,6 +1,13 @@
 # 当前状态
+## 当前检查点：中继公开后果与本场通道（2026-10-18）
 
-## 当前检查点：本人核心交付记忆（2026-10-18，优先于下方历史）
+源码8feac8b4／HTML54ef55a7、919193B，SAVE21／CONTENT3；171 scripts／dist＋1 workflow已与Git源树匹配。现有面板解释有限筹料／工时，移除未接实际调度／几何的提前180分钟与西侧承诺，公开BATTLE HUD只读本场锁定route，历史报告不补写当前功劳。规则、材料、敌人和保存不改。见[QA](../qa/relay-public-feedback-v1-20261018.md)。
+
+最终source-02真实15／15、episode Chrome12／12、唯一当前短N场exit0／errors0／清理完成。04a角色197内部pass但额外方法错误整体exit1、旧source14／15及补充25均保原来源，不迁绿。root目视当前390在线面板与桌面本场HUD；不是自然全链／真人。开发ref／精确CI由最终收据和PR核，生产未部署。
+
+公开A续段与看图短路线仍未online；v5在公开attack距离约1.19时被真实1.15安全邻接核验挡住，未按F。下一优先[攻击入口一致](../problems/PROB-20261018-player-attack-context-range.md)，再处理[中继受损能力](../problems/PROB-20261018-relay-station-operational-state.md)并继续主线。完整Actor／Planning／Memory／Social、Studio、大世界／多副本、UI素材与GameCore／引擎不缩减。
+
+## 历史检查点：本人核心交付记忆（2026-10-18，优先于下方历史）
 
 源码对象`d1542fd0e299ad7e44d094413c76199d6f3e07d9`／HTML`2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b`，917189字节，171项scripts／dist已与Git API源码树逐blob匹配；SAVE21／CONTENT3。真实成功返回收据只给当次接收者保留来源胶囊，同ID免费查看／名册消费，正常保存／Continue保留；旧缺槽一次null，不回填历史，不新增关系奖励。见[QA](../qa/relay-handoff-memory-v1-20261018.md)及[合同](../decisions/ADR-20261018-relay-handoff-memory-v1.md)。
 
@@ -16,7 +23,7 @@
 
 selected／manifest已安装，235条绑定；本地freshness16／16、方法self-test76／76均exit0，本地Git ancestry不可用，与Git API源树匹配159项分别报告；证据发布提交的精确CI由PR #4／本轮最终发布收据另核，本段不预填，不继承旧CI297。原公开A02／B02仍exit1、停筹料、未online／reload；反馈修复不增加自然全链／三日、食物因果、体验或生产证据。下一[本人交付EventFact](../research/eventfact-handoff-plan-20261018.md)仍待实现，旧档不由briefed／关系flag回填；完整Memory/Social、Actor、Studio和大世界目标保持开放。
 
-## 当前检查点：中继有效岗与完工事实（2026-10-18，优先于下方历史）
+## 历史检查点：中继有效岗与完工事实（2026-10-18，优先于下方历史）
 
 源码对象`ed9933f4efd1b61abdcbc6a86f9a1169ab5dc29a`／HTML`dccb52ff94a0101992f6696c3ecb93c7092b1049d85dbbe2701d5e6ad1ca004a`，SAVE21／CONTENT3。中继三岗共享唯一有效岗位绑定，实际筹料／施工、stage adapter、恢复职责、work-pulse与公开crew一致；缺岗或配置错误停新增成本／工时，保留合法进度。另修规范化替换项目引用导致live完工丢失、重复上线收益及预警事件缺失。旧null时间、角色身份、已投入历史和online不追溯重算。见[QA](../qa/relay-effective-role-v1-20261018.md)与[ADR](../decisions/ADR-20261018-relay-effective-role-v1.md)。
 
@@ -28,7 +35,7 @@ selected／manifest已安装，235条绑定；本地freshness16／16、方法sel
 
 全项目岗位互斥、长官交付与指挥所空缺、完整观察／规划／关系、自然三日／玩家体验、Studio、更大世界／多副本、UI素材及引擎迁移继续开放。原文已再核同59069字节／SHA940efac9，不增加外部实证；新文档与试玩Skill改动的开发发布另记，不预填新head CI。
 
-## 当前检查点：调研原文与中继工程pilot（2026-10-18）
+## 历史检查点：调研原文与中继工程pilot（2026-10-18）
 
 原文59069字节与归档同SHA940efac9，已有[调研计划](../research/research-adoption-plan-20261017.md)按最新实测更新。游戏运行时仍c21／SAVE21／CONTENT3；本轮没有业务源码变更或部署。开发基线a506的CI295已实际成功（[Actions](https://github.com/yzhai4/zombie_harvest/actions/runs/39051616474)），不是下方历史文字中的待核；后续文档commit不继承精确head CI。
 
@@ -36,7 +43,7 @@ selected／manifest已安装，235条绑定；本地freshness16／16、方法sel
 
 真实受控继任已复现中继两人占三岗，尚未证明重复产出／工时。下一先落实试玩方法的逐步停止与真实计数，产品修复优先[中继有效岗](../problems/PROB-20261017-effective-role-exclusivity.md)及停工解释，再走主线工程后果／单因素路线。规划、EventFact／记忆、contacts、Studio、多副本、UI素材及引擎目标继续开放，不把方法小修当完整能力交付。
 
-## 当前检查点：木匠低精力恢复与工作一致性（2026-10-18）
+## 历史检查点：木匠低精力恢复与工作一致性（2026-10-18）
 
 增量检验源`3c56e094ebc3e031c71b9172ca812a43d990f486`仅修两处旧档方法预期与工作流／Skill教训；运行时仍下列c21。CI294原计划47/48失败保留，补充矩阵42个unique通过、两个精确修复48/48与69/69通过后，当前44合同各有通过终态（含原执行复用）；完整新CI终态继续由PR服务确认。没有由旧green预填新green，浏览器与自然路线范围保持原说明。
 
@@ -46,7 +53,7 @@ c21新source17／13条必需及受影响旧合同均通过；6个影响回归保
 
 原162分钟源码路线因警觉取消，公开72分钟等候因追击中断；均未达到36，近完成fixture不代替全程成本。完整规划／记忆、EventFact、contacts、继任双岗、自然三日、玩家体验、Studio、更大世界／多副本及引擎迁移继续开放。下一先做同seed中继基线、缺粮、缺岗的单因素因果路线，按实际阻碍决定下一切片；不以assert计数代替体验。
 
-## 当前检查点：NPC当次直接视线报告（2026-10-17）
+## 历史检查点：NPC当次直接视线报告（2026-10-17）
 
 HTML `23b8c8c27234592673aa927f3909ea49247c372a937787f90355f87531f421b0`，SAVE21／CONTENT3；源码提交见[本轮QA](../qa/npc-direct-sight-v1-20261017.md)。真实近身view Gate→同live NPC→实际profile／canPerceive／LOS→粗类别／距NPC band→个人trust披露→context与同ID名册as-of行已接线。无新命令、奖励、时间推进、contacts续期、地图发现、保存域或LLM；生产未部署。
 
@@ -56,7 +63,7 @@ HTML `23b8c8c27234592673aa927f3909ea49247c372a937787f90355f87531f421b0`，SAVE21
 
 仅self与特定DAY侦察policy开发验收；完整ActorObservation继续proposed：contacts来源／TTL、共享、其它topic、事件知识、有效岗位及模型隔离开放。全局HP／lifeState、旧eligible重复、旧E预览／名册raw target文本、自然多日和生产另验。下一规划／记忆按实际消费者所需事实合同推进，不以完整观察收口作全部玩法无限前置；更大世界、Studio、多副本与角色连续性目标不变。
 
-## 当前检查点：NPC 自身知识与免费首谈（2026-10-17）
+## 历史检查点：NPC 自身知识与免费首谈（2026-10-17）
 
 源码 `3213db16f5976dc3049f084851bcb3e811a094d5`／HTML `c42056ed08c9cbc0e27c09365828fae5d1c19dc25190e9e19d2e3beffa45bc91`，SAVE21／CONTENT3。真实公开 Gate 绑定同一 live NPC，私有只读捕获本人伤势／需求与实际个人信任，再经 self 知识授权和披露生成固定自述。免费首谈、原支援2体力／15分钟、typed结果和真实中断保留；无新保存域、奖励、LLM或生产部署。见[本轮 QA](../qa/npc-self-observation-v1-20261017.md)。
 
@@ -76,7 +83,7 @@ HTML `23b8c8c27234592673aa927f3909ea49247c372a937787f90355f87531f421b0`，SAVE21
 
 最终证据 HEAD 的精确 CI 仍待核；源码提交存在不等于开发 ref 已更新、CI 已成功或生产已部署。旧 C1 的 CI #290 不移给本片。下一 P0 是 ActorObservation 的实际 actor／perception 授权，再接 NPC 规划、记忆和 LLM 表达；只读 expression consumer 不构成角色知识授权。下方 C1 及更早章节保留原时点和失败，不覆盖本检查点。
 
-## 当前检查点：Scenario初始绑定C1（2026-10-17，优先于下方历史）
+## 历史检查点：Scenario初始绑定C1（2026-10-17，优先于下方历史）
 
 源码`d65924431932d63ccfa6cb3da12f38fd126cd39c`／HTML`a2fcdb647f2632fbf50f3ab0f3ba160f168082c602f6737c5ca4239eede137d2`，SAVE21／CONTENT3；新局seed（含0）/有限初始food实际生效，first writer前不启动世界，失败冻结同draft公开重试。完整旧writer不reseed/scale；原声明与真实旧seed分开。公开observer偏好到实际纯表达consumer通过，不代表角色知识或LLM。见[QA](../qa/scenario-boot-c1-20261017.md)。
 
@@ -84,7 +91,7 @@ pure14／source120，40 unique合同完成（44执行、40pass、4旧迁移假�
 
 完整boot ADR仍open，下一[C2](../research/scenario-boot-c2-implementation-plan-20261017.md)为JSON完整定义编译与候选目录原子提交，不能用C1关闭；之后actor知识。更大世界/多副本/特殊NPC连续性长期目标不变。
 
-## 当前检查点：NPC公开动作与真实中断（2026-10-17，优先于下方历史）
+## 历史检查点：NPC公开动作与真实中断（2026-10-17，优先于下方历史）
 
 源码`80dea63cb835f8e4da3a965156d06d15a8bf4074`／HTML`9edb6d3c3daa7ec63d90594381d811cb077828fd0955fb7095c601ce91b5b87b`，SAVE21／CONTENT3。查看1.25／执行1格共享live同ID准入；首谈／支援／询问typed结果，拒绝无空成功；真实advance内死亡停止后置奖励／命令，保留成本和世界后果，最终负账本自动保存。详见[QA](../qa/npc-public-actions-v1-20261017.md)。
 
@@ -92,7 +99,7 @@ source110／Chrome NPC112与受影响农务35、断粮72、rest93、presence37�
 
 下一P0：真实Scenario初始seed／有限food配置绑定与旧档不重算，C1[技术计划](../research/scenario-boot-c1-implementation-plan-20261017.md)仍proposed；JSON storylet编译／原子注册另C2，不能整体宣称Scenario完成。之后actor知识投影。继任双岗、采集目标回执、非整数clock、零粮词值、大步模拟差异及自然三日另open；长期更大世界／多副本与特殊NPC连续性不变。
 
-## 当前检查点：live农务与自然短路线（2026-10-17，优先于下方历史）
+## 历史检查点：live农务与自然短路线（2026-10-17，优先于下方历史）
 
 源码 `b1abc2eed9376959412fa9c8ff9a6c6816e969c7`／HTML `19cb05c4341ab1353e1ac5362b685a4af3a88fc826e349504b9d57a42639eb6f`，SAVE21／CONTENT3。农务UI／执行共享live唯一田块与连续1.25范围；无目标显式拒绝，公开入口携同一ID，新建建筑立即稳定ID；实际农务父命令及成功事件均player-1。保持原种子／体力／产出／20分钟，旧空历史不补造。见[本轮QA](../qa/crop-target-v1-20261017.md)。
 
@@ -102,7 +109,7 @@ fresh06真实全新开局七项混合路线通过15/15、60.581s、7主要动作
 
 
 
-## 当前检查点：断粮选择v2与自然反例（2026-10-17，优先于下方历史）
+## 历史检查点：断粮选择v2与自然反例（2026-10-17，优先于下方历史）
 
 开发HTML `297327ec6d0ccedcddac0bea6b1cee1d63681f7020f0cbbccf97bdb87e0e3c54`，源码 `549521e1dd56be8edefaf01792fdb5e17c9dd648`，SAVE21／CONTENT3。选择定义升2：保留备用只落历史，不再额外+2崩溃；有限取粮仍整局一次，显示实际库存／基础日需／下一午夜。已知旧v1待办纯draft适配、实际boot一次迁移；旧已结算成本与history不退款、不补奖，未知版本拒绝。详见[本轮QA](../qa/shortage-choice-v2-20261017.md)。
 
@@ -113,7 +120,7 @@ fresh06真实全新开局七项混合路线通过15/15、60.581s、7主要动作
 新增L1为断粮v2 ADR、四策略实验和农务／采集回执问题；Skill／工作流吸收定义适配与同起点点击税教训。用户原文已与归档同SHA核对；无全局记忆变更。
 
 
-## 当前检查点：营地等候（2026-10-17，优先于下方历史）
+## 历史检查点：营地等候（2026-10-17，优先于下方历史）
 
 当前开发HTML为 `32f911f69a6a962ae69a0325afcffd1c5d6d923c0efe1fb0ca8787c1959d9fae`，源码来源 `25d315ae92754bb0c6af4714b539fb81b9dcfcc0`，SAVE21／CONTENT3。庇护所旁公开30／60分钟营地等候，每200ms执行真实advance(1)，保持NPC、敌人、需求、工作、午夜结算；带唯一时钟、危险／实际伤害／新事项／主动行动中断、可见可点击取消、每5分钟及终态checkpoint。刷新回idle，只保留实际已保存前缀。既有每小时3点被动体力已按真实时间节拍修复小步丢失；旧整备奖励独立。
 

@@ -1,12 +1,17 @@
 # 未关闭风险
+## 当前优先级：公开攻击与中继损毁（2026-10-18）
 
-## 当前优先级覆盖：本人交付记忆后（2026-10-18）
+中继说明与本场route在54ef完成列明source15／当前Chrome范围，见[QA](../qa/relay-public-feedback-v1-20261018.md)。公开完整中继仍未online／reload。看图续段给出context1.25与真实攻击1.15不一致的具体定位，当前未按F，不能冒称已空成功；下一先共享live target与typed拒绝，再跑实际合法攻击及后半链。
+
+2dd受控真实伤害8→2→0后，下一真实advance使station HP0但active回真；直接Continue本身保inactive却能力仍按online。原诊断末尾错误要求BATTLE保存致exit1，不能改绿或宣布整轮回归通过。在线历史与一次奖励保留，当前能力／物理修复需独立合同。完整Memory／Social、Actor、规划、自然三日／真人、Studio、多副本、UI素材及引擎仍开放。
+
+## 历史优先级覆盖：本人交付记忆后（2026-10-18）
 
 [交付记忆首片](../qa/relay-handoff-memory-v1-20261018.md)已在最终2dd完成列明source／Chrome消费者验证，旧缺槽unknown、畸形保存、死亡／继任与窗口淘汰均各有受控证据。它不关闭完整Memory／Social、跨副本连续性、所有角色知识授权或玩家理解；“未记录”是否被误解成“未交付”、前任历史入口期待留给既有pilot。自然完整中继仍未online／reload，真人乐趣和自然三日没有新增结论。
 
 [内部actor来源风险](../problems/PROB-20261018-relay-handoff-actor-attribution.md)现由实际source QA复现：unsupported actor旧业务仍可成功，但不生产player-1胶囊；不能把无记忆说成命令已拒绝。相应LLM能力启用前须单独收口。两种临时显示缓存反例已按实际surface修正，不删除持久历史；全局有效岗位、生命一致性、contacts／共享、Studio、UI素材与引擎目标仍按原问题分开推进。精确发布CI与生产分别核。
 
-## 当前优先级覆盖：中继修复后（2026-10-18）
+## 历史优先级覆盖：中继修复后（2026-10-18）
 
 dccb中继片已完成列明源码43合同、真实Chrome四场197与关联episode12；[QA](../qa/relay-effective-role-v1-20261018.md)分开原失败、方法修正、真实继任及消费者完工。中继绑定与一次完工在该范围有证明，全局有效岗仍open，不能把其它医疗／战斗／福利／计划／长官交付调用者一并关闭。旧已online历史保留，其后人员维护另立合同。
 
@@ -16,7 +21,7 @@ dccb中继片已完成列明源码43合同、真实Chrome四场197与关联episo
 
 4场browser是完整native预启动定位，世界rate1真实运行，保存／重载／新tick已验；不证明从零自然主线、物理到岗、自然三日、食物因果或真人偏好。下一公开完整链需要有限自卫与行动预算，原A死亡／B危险停止不能改绿。精确ref／CI及生产另核，本轮尚未部署；长期记忆／Actor／GameCore／Studio／多副本和UI素材目标不缩减。
 
-## 当前优先级覆盖：恢复／工作候选（2026-10-18）
+## 历史优先级覆盖：恢复／工作候选（2026-10-18）
 
 c21木匠低精力安排已完成[列明源码与本地Chrome范围](../qa/npc-rest-work-v1-20261018.md)：状态／目标／工作credit／SAN一致、严格持久化与原职责抢占；窄屏名册已改单列。精确CI／开发发布另核，不预填绿色。正常E40完整旧业务对照保留；其它职业、全部生产与物理到岗不由本片关闭。
 
@@ -24,7 +29,7 @@ c21木匠低精力安排已完成[列明源码与本地Chrome范围](../qa/npc-r
 
 后续优先核中继基线、缺粮和缺岗的单因素可读因果；按真实反例选择工时／岗位／EventFact消费者。完整ActorObservation、记忆／关系、继任双岗、全局生命一致性、大步模拟、Studio和多副本继续保留，不以这个pilot替代。
 
-## 当前优先级覆盖：当次直接视线后（2026-10-17）
+## 历史优先级覆盖：当次直接视线后（2026-10-17）
 
 HTML23b8c8c2已完成特定DAY近身侦察policy列明验收：source91＋既有42合同、Chrome200＋关联336，详见[QA](../qa/npc-direct-sight-v1-20261017.md)。只限当次live敌人粗类别／距NPC band和个人披露；不声明通用Actor授权或LLM。旧36的dead标记误报、budget unknown被抹掉及会话／context生命周期已修，原失败和方法问题保留。
 
@@ -32,7 +37,7 @@ HTML23b8c8c2已完成特定DAY近身侦察policy列明验收：source91＋既有
 
 新direct浏览器四场paused fixture，只证明实际双入口、as-of重绘、390与N进入BATTLE清除；不证明真实推进全过程、自然多日、平衡或玩家偏好。旧名册三列390拥挤，完整UI与素材仍需打磨。trusted hidden、最终尸潮、Studio、多副本、连续性、引擎和生产各自验收。当前服务CI从PR精确head读取，不迁用历史结果。
 
-## 当前优先级覆盖：self 首谈后（2026-10-17）
+## 历史优先级覆盖：self 首谈后（2026-10-17）
 
 HTML c42056ed 已完成 self 首谈与负信任晋升总分下界的列明开发验收，见[QA](../qa/npc-self-observation-v1-20261017.md)。source104、41个既有源码合同、独立19与Chrome336分层记录；原方法失败和真实负晋升进度反例保留。下界修复不改变负信任或信任对正进度的抑制。
 
@@ -40,7 +45,7 @@ HTML c42056ed 已完成 self 首谈与负信任晋升总分下界的列明开发
 
 本轮只有首谈提示的390宽验收，不代表完整移动端；无新自然多日或玩家体验结果。trusted hidden、最终尸潮、UI素材整体打磨、生产部署仍分别验收。历史C2的浏览器463不转移给c420；exact CI按当前PR核。
 
-## 当前优先级覆盖：C1+C2 列明范围验收后（2026-10-17）
+## 历史优先级覆盖：C1+C2 列明范围验收后（2026-10-17）
 
 源码 a544a6139e19c21f89526e3aafed11162d885552／HTML61ea64b2 的 C2 已完成真实 JSON 编译、私有候选目录／一次安装、contentBinding 和已知 C1 一次内容 adapter，见[QA](../qa/scenario-boot-c2-20261017.md)。最终 40 unique 源码合同有通过结果，123 次执行中的 15 次原失败保留；pure14／C1 source120／C2 source66 与 Chrome102＋关联361 分层记录。C1+C2 声明支持矩阵已 adopted，原“仅保存、未绑定”的问题在该范围关闭；任意图、额外配置轴、Scenario Studio 和多版本内容共存仍未交付。
 
@@ -54,13 +59,13 @@ HTML c42056ed 已完成 self 首谈与负信任晋升总分下界的列明开发
 
 ActorObservation/实际NPC表达、继任双岗、来源回执、fractional clock、零粮词值、大步模拟差异、自然三日/玩家体验、trusted hidden、最终尸潮/移动端和生产均另open。fresh08有后台旧塔击杀，不等于玩家战斗路线或新增防御塔验收。下方旧状态不覆盖本节。
 
-## 当前优先级覆盖：9ed NPC公开动作后（2026-10-17）
+## 历史优先级覆盖：9ed NPC公开动作后（2026-10-17）
 
 NPC距离／同目标／typed空成功和真实耗时死亡后续奖励已在开发80dea63c／9ed列明source110、Chrome112及fresh07短路线验收，见[QA](../qa/npc-public-actions-v1-20261017.md)。不声称所有NPC入口、永久人物功绩账本或生产部署完成。
 
 下一为Scenario实际boot（C1初始seed／有限food，C2 JSON storylet编译及原子注册）和actor知识；完整SAVE21非默认rate的[整数日历矛盾](../problems/PROB-20261017-fractional-clock-calendar.md)仍open。当前动作仅提前拒绝已知无效15×rate，不是全局clock修复。继任双岗、采集目标ID回执、零粮计划词值、大步/小步模拟差异、自然三日、trusted hidden、移动端、最终尸潮与生产部署仍open。下方历史状态不覆盖本节。
 
-## 当前优先级覆盖：19cb农务后（2026-10-17）
+## 历史优先级覆盖：19cb农务后（2026-10-17）
 
 农务live目标／空成功／玩家来源已完成列明source及真实Chrome验收；自然fresh06短路线7/7通过，见[QA](../qa/crop-target-v1-20261017.md)。它没有战斗、收获、三日，跟近Canvas分支未触发。fresh05暴露[NPC查看1.25与执行1.0](../problems/PROB-20261017-npc-context-distance.md)仍open，是下一P0；不因06直接在1内成功关闭。
 
@@ -70,14 +75,14 @@ NPC距离／同目标／typed空成功和真实耗时死亡后续奖励已在开
 
 
 
-## 当前优先级覆盖（2026-10-17）
+## 历史优先级覆盖（2026-10-17）
 
 源码549521e1／HTML297327ec的断粮v2已完成列明source与fixture-browser验证，见[QA](../qa/shortage-choice-v2-20261017.md)。旧确认点击税已移除，不等于全面平衡完成。旧32四次自然短路线均未达到完整coverage；04真实公开播种空成功是下一P0，修复须共享live目标／范围并显式拒绝无效目标，不能只加epsilon。自然三日、真实hidden、移动端、继任双岗位、Scenario真实boot、actor知识授权、完整最终尸潮和生产仍open。
 
 [采集目标回执缺失](../problems/PROB-20261017-collection-target-receipt.md)影响EventFact来源但不是采集未发生。零粮foodSituation=断粮而计划加权检查紧张／短缺的词值问题，以及原大步advance与小步的NPC／敌人差异，未在本轮修复。下方旧规则／计数保留为历史，不覆盖本节。
 
 
-## 当前检查点（2026-10-17）
+## 历史检查点（2026-10-17）
 
 当前源码25d315ae／HTML32f911f6，营地等候的实际合同与已验范围见[QA](../qa/camp-rest-20261017.md)。source74/74、Chrome六场93/93；真实hidden仍unavailable，自然多日／断粮激励／生产部署仍open。下表旧构建计数按各自原范围保留，不给当前构建新增三日或平衡结论。
 
