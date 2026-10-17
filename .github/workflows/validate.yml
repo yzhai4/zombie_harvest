@@ -14,6 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -53,6 +55,11 @@ jobs:
           node --check scripts/check-observer-expression-v1.mjs
           node --check scripts/check-gameplay-vertical-slice.mjs
           node --check scripts/check-iteration-evidence.mjs
+          node --check scripts/check-iteration-evidence-self-test.mjs
+          node --check scripts/lib/source-runtime-fixture.mjs
+          node --check scripts/capture-episode-writer-fixture.mjs
+          node --check scripts/check-content-episode-v1.mjs
+          node --check scripts/browser-content-episode-v1.mjs
       - name: Check deployable entrypoints
         run: |
           test -s dist/index.html
@@ -109,8 +116,12 @@ jobs:
           node scripts/check-observer-expression-v1.mjs
       - name: Execute source gameplay vertical slice
         run: node scripts/check-gameplay-vertical-slice.mjs
+      - name: Execute repeatable episode migration and CAS contracts
+        run: node scripts/check-content-episode-v1.mjs
+      - name: Reject stale or incomplete evidence manifests
+        run: node scripts/check-iteration-evidence-self-test.mjs
       - name: Check iteration evidence freshness
-        run: node scripts/check-iteration-evidence.mjs --manifest docs/qa/iteration-manifest-v1.json --html dist/index.html
+        run: node scripts/check-iteration-evidence.mjs --manifest docs/qa/iteration-manifest-v1.json --html dist/index.html --require-git
       - name: Verify save projections and static smoke
         run: |
           node scripts/replay-harness.mjs --self-test

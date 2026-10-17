@@ -13,6 +13,8 @@ export const GATE_V1_OBJECT_KEYS = Object.freeze({
   landmark_exists: Object.freeze(['type', 'id']),
   camp_trust: Object.freeze(['type', 'min']),
   npc_alive: Object.freeze(['type', 'id']),
+  role_available: Object.freeze(['type', 'role', 'healthyOnly']),
+  food_days: Object.freeze(['type', 'max']),
   flag: Object.freeze(['type', 'id', 'value']),
   day_between: Object.freeze(['type', 'min', 'max'])
 });
@@ -153,6 +155,20 @@ export function evaluateGateV1Object(condition, context = {}) {
     const actual = !!state.contentState?.flags?.[condition.id];
     const expected = condition.value !== false;
     return actual === expected ? { ok: true } : { ok: false, reason: 'event-precondition', failedGate: { type, condition }, details: { actual, expected } };
+  }
+  if (type === 'role_available') {
+    const role = condition.role;
+    if (typeof role !== 'string' || !role || condition.healthyOnly !== undefined && typeof condition.healthyOnly !== 'boolean') return { ok: false, reason: 'event-precondition-invalid', failedGate: { type, condition } };
+    const actual = (state.npcs || []).some(npc => npcIsActive(npc) && !npc.garrisonedOutpostId && (npc.actingRole || npc.id) === role && (condition.healthyOnly !== true || npc.lifeState === 'healthy'));
+    return actual ? { ok: true } : { ok: false, reason: 'event-precondition', failedGate: { type, condition }, details: { role, actual } };
+  }
+  if (type === 'food_days') {
+    const max = condition.max;
+    if (typeof max !== 'number' || !Number.isFinite(max) || max < 0) return { ok: false, reason: 'event-precondition-invalid', failedGate: { type, condition } };
+    const population = Math.max(1, (state.npcs || []).filter(npcIsActive).length);
+    const dailyNeed = Math.max(2, Math.ceil(population * .28));
+    const actual = Number(state.food / dailyNeed);
+    return actual <= max ? { ok: true } : { ok: false, reason: 'event-precondition', failedGate: { type, condition }, details: { actual, max } };
   }
   if (type === 'day_between') {
     const min = Number(condition.min), max = Number(condition.max);

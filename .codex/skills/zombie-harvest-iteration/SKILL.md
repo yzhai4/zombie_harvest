@@ -5,6 +5,8 @@ description: 维护尸潮农场的跨内容、规则、AI、实验和发布迭�
 
 # 尸潮农场整轮迭代
 
+当前 repeatable 内容与 SAVE21 增量适配先读 `docs/scripts/zh-food-shortage-001.md` 和 `docs/decisions/ADR-20261017-repeatable-episode-identity.md`。候选已接按日 episode/五元 CAS/有限藏粮与纯 Observer 核心；Scenario loader 仍 headless minimal，actor 权限/感知投影与自然三日未完成，Sites v81 未发布。具体计数与字节以当前 QA/manifest 为准，不从历史绿色推定当前通过。
+
 先读取 `docs/memory/current-state.md`、`docs/memory/open-risks.md`、`docs/project-memory.md`、`docs/long-term-plan.md` 和 `docs/iteration-workflow.md`，再按任务加载 `剧本/尸潮农场/01–09`、`11–16` 和相关 `docs/scripts`。不要把聊天内容当作规则真相。
 
 ## 选择迭代模式
@@ -92,8 +94,10 @@ AI 或实验变更还必须提供：baseline、变体、seed 集、失败重试�
 
 Observer 只能使用白名单只读投影，不能触碰可变 WorldFacts 或写 GameState；AI-OFF、超时、非法输出、越权和预算拒绝都记录 deterministic fallback。scenarioSnapshot 只保存版本化配置/开关。
 
-每轮更新 IterationEvidenceV1：source commit、HTML SHA-256、CI run/job、测试计数、browser status、naturalGameplayClaim。exact 对账通过才标记 verified；source-VM、静态、fixture 与自然 browser 分开。按报告的 P0→P6 顺序推进，World Model/Director/full society 只有在 exact simulator 有增益时才评估。
+每轮更新 IterationEvidenceV1：source commit、HTML SHA-256、runner/input/artifact、CI run/job、测试计数、browser status、naturalGameplayClaim。exact 对账通过才标记 verified；source-VM、静态、真实 boot fixture、自然 browser 与 Sites 分层。源码变动后重验受影响合同；stale/pending/unavailable 不作通过，旧失败保留。按报告 P0→P6 推进，先验 exact simulator；其已满足目标时不为追热点增加 learned World Model。
 
 ## Repeatable storylet 与回放边界（2026-10-17）
 
-内容链若声明 `repeatable:true`，设计卡必须写 episode key、同日重复行为、跨日重开条件、effectId 作用域、fallback 和 save/reload 规则。测试至少覆盖：正常选择、同 command 重放、同日再次 start、下一日新 instance、岗位/人口 Gate 和旧链 projection golden。`instanceKey` 只允许进入 repeatable 的 active/event 事实；旧链的源回放 hash 变化必须先单列决策再修改 golden。
+内容链若声明 `repeatable:true`，按断粮设计卡/身份 ADR 验创建日 key、五元预期 token、跨日 stale、未处理实例跨午夜、choice/fallback/自治身份回执和按 episode 去重。执行入口不隐式刷新 token；缺字段/未知版本拒绝，拒绝不发奖。用完整旧 writer 验真实 loader 的 SAVE21 加性适配，派生负控另列，非重复旧链 projection/golden 不变。
+
+重复危机不重置有限来源：验藏粮 flag 跨日/刷新、岗位健康/继任与事务回滚，不虚构人口、势力信任、岗位占用或敌人 spawn。Observer 纯核心与深冻结白名单不等于 actor 权限/感知投影已完成。详细合同留在设计卡，Skill 只维护会改变后续决策的规则。

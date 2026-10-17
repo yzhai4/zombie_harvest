@@ -39,6 +39,7 @@ const functionNames = [
   'applyContentEffect', 'applyContentEffects', 'contentConditionMet', 'contentDefinitionUsesGateV1', 'contentGateConditions',
   'contentChainDefinitionGate', 'contentChainChoiceGateRuntime', 'runContentHook',
   'contentChainRuntimeGate', 'startContentChain', 'resolveContentChain',
+  'contentEpisodeIdentity', 'normalizeContentEpisodes', 'contentEpisodeExpectedToken', 'contentEpisodeGate',
   'resolveContentFallback', 'resolveContentAutonomy', 'registerContentPack',
   'dispatchCommand', 'resolveContentChainCommand', 'clampSanity', 'sanityValue', 'npcIsActive', 'applyQuestEvent',
 ];

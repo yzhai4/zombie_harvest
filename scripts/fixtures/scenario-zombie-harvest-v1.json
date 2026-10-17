@@ -63,7 +63,13 @@
             "requires": [
               {
                 "type": "role_available",
-                "role": "quartermaster"
+                "role": "quartermaster",
+                "healthyOnly": true
+              },
+              {
+                "type": "flag",
+                "id": "zh-shortage-cache-retrieved",
+                "value": false
               }
             ],
             "effects": [
@@ -71,6 +77,25 @@
                 "op": "addResource",
                 "key": "food",
                 "value": 2
+              },
+              {
+                "op": "adjustMeter",
+                "key": "resonancePressure",
+                "value": 2
+              },
+              {
+                "op": "unlock",
+                "key": "zh-shortage-cache-retrieved"
+              },
+              {
+                "op": "recordHistory",
+                "key": "zh-food-shortage-001:forage",
+                "payload": {
+                  "route": "emergency-cache",
+                  "sourceId": "zh-shortage-cache-001",
+                  "amount": 2,
+                  "exposure": 2
+                }
               }
             ]
           }
@@ -79,6 +104,13 @@
           "observerCommentary": {
             "authority": "expression_only"
           }
+        },
+        "repeatable": true,
+        "source": {
+          "id": "zh-shortage-cache-001",
+          "food": 2,
+          "retrievalLimit": 1,
+          "flag": "zh-shortage-cache-retrieved"
         }
       }
     ]

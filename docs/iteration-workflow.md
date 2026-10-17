@@ -1,5 +1,9 @@
 # 尸潮农场迭代工作流
 
+## 当前合同入口（2026-10-17）
+
+本轮 repeatable/SAVE21/有限资源规则以[断粮设计卡](scripts/zh-food-shortage-001.md)和[episode 身份 ADR](decisions/ADR-20261017-repeatable-episode-identity.md)为入口，以下通用规则继续适用。源码/fixture-browser 已有候选证据；最终源码变动后须重跑并重新绑定，不能把旧结果搬成新构建验收。Sites v81 未发布，本轮未做自然三日。
+
 这份工作流把内容设计、规则实现和试玩验收串成同一条链。当前源头是线上 Sites 源仓库；每轮开始先记录 Sites 版本号、源提交和 GitHub 镜像差异，任何旧镜像都不能直接覆盖线上状态。
 
 ## 角色与责任
@@ -138,4 +142,8 @@ Evidence manifest 绑定 branch、evidence commit、HTML SHA、SAVE/CONTENT、CI
 
 ## Repeatable episode gate（2026-10-17）
 
-将一次性链与可重复链分开评审。`repeatable:true` 必须定义稳定 `instanceKey`（当前竖切片为 `chainId:day`），并证明同一 episode 的 start/choice/fallback/CommandBus 重放幂等、跨日可创建新 episode、effect 去重和 completed 账本使用 episode key。新增字段只能出现在 repeatable 节点的 active/event projection；旧链必须保持原 save projection、回放 hash 和 golden。完成后再设计统一 EventInstance/SAVE migration，不得把单个 storylet 的 episode 试验写成全局迁移完成。
+将一次性链与 opt-in 可重复链分开评审，按[断粮合同](scripts/zh-food-shortage-001.md)检查创建日 episode key、五元按钮 token、跨日 stale、原实例跨午夜/刷新、choice/fallback/自治的身份透传与按 episode 去重。token 不得由执行入口隐式刷新；拒绝只写拒绝事实，不支付或发奖。SAVE21 身份字段是加性适配，旧链 projection/golden 保持；完整旧 writer 夹具与派生负控分列，不能删新字段伪称生产旧档。
+
+资源内容必须有有限来源、代价和持久耗尽标记：短缺可重开不代表藏粮可重领。六视角账本核对实际增减，不虚构人口、势力信任、岗位占用或敌人 spawn。Observer 的纯核心/深冻结只证明表达边界，actor 权限和感知来源未验收时仍列未完成。
+
+证据遵循 exact source/runner/input/artifact 绑定；static、source-VM、真实 boot fixture、自然 browser 和 Sites 分层列示。源码改变即使旧 browser 已通过也须重验受影响合同；pending、缺 hash、stale 与 unavailable 不作通过，旧失败不重标。详细验收项引用设计卡与 ADR，避免在工作流累积逐次日志。

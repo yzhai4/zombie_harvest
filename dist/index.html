@@ -1932,56 +1932,121 @@
     state.motion = { enabled: CONTINUOUS_MOTION.enabled, accumulator: 0, stepIndex: 0, input: { x: 0, y: 0 } };
     state.quests = [];
     function hashStable(value) { let h = 2166136261; for (const ch of String(value)) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619); } return (h >>> 0).toString(36); }
-    function observerDeepFreeze(value, seen = new Set()) {
-      if (!value || typeof value !== 'object' || seen.has(value)) return value;
-      seen.add(value);
-      Object.getOwnPropertyNames(value).forEach(key => observerDeepFreeze(value[key], seen));
-      return Object.freeze(value);
-    }
-    function observerScalar(value, fallback = null) { return (typeof value === 'string' && value.length <= 160) || typeof value === 'boolean' || (typeof value === 'number' && Number.isFinite(value)) ? value : fallback; }
-    function observerSanitizeSubject(subject = {}) {
-      const raw = subject && typeof subject === 'object' && !Array.isArray(subject) ? subject : {};
-      const inferred = raw.kind || (raw.type === 'npc' || raw.lifeState ? 'npc' : raw.phase || raw.defId ? 'event' : 'item');
-      const kind = ['item', 'npc', 'event'].includes(inferred) ? inferred : 'item';
-      const safe = { kind, id: observerScalar(raw.id || raw.defId, null) };
-      if (kind === 'item') Object.assign(safe, { label: observerScalar(raw.label || raw.name || raw.id, '未知物品'), category: observerScalar(raw.category || raw.type, 'unknown'), quality: observerScalar(raw.quality, null), qualityBand: observerScalar(raw.qualityBand, null) });
-      if (kind === 'npc') Object.assign(safe, { name: observerScalar(raw.name || raw.id, '未知角色'), role: observerScalar(raw.role, null), lifeState: observerScalar(raw.lifeState, 'unknown'), hp: observerScalar(raw.hp, null), maxHp: observerScalar(raw.maxHp, null) });
-      if (kind === 'event') Object.assign(safe, { title: observerScalar(raw.title || raw.id, '未知事件'), phase: observerScalar(raw.phase, 'DAY'), handled: raw.handled === true, threat: observerScalar(raw.threat, null) });
-      return observerDeepFreeze(safe);
-    }
+// OBSERVER_CORE_START
+function observerDeepFreeze(value, seen = new WeakSet()) {
+  if (!value || typeof value !== 'object' || seen.has(value)) return value;
+  seen.add(value);
+  for (const key of Reflect.ownKeys(value)) {
+    const descriptor = Object.getOwnPropertyDescriptor(value, key);
+    if (descriptor && Object.hasOwn(descriptor, 'value')) observerDeepFreeze(descriptor.value, seen);
+  }
+  return Object.freeze(value);
+}
+function observerRecord(value) {
+  return value !== null && typeof value === 'object' && !Array.isArray(value)
+    && Object.prototype.toString.call(value) === '[object Object]';
+}
+function observerText(value, fallback = null) {
+  return typeof value === 'string' && value.trim().length > 0 && value.length <= 160 ? value : fallback;
+}
+function observerNumber(value) { return typeof value === 'number' && Number.isFinite(value) ? value : null; }
+function observerEnum(value, allowed, fallback = 'unknown') {
+  return typeof value === 'string' && allowed.includes(value) ? value : fallback;
+}
+function observerClamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
+function observerBand(value, high, medium) {
+  const number = observerNumber(value);
+  return number === null ? 'unknown' : number >= high ? 'high' : number >= medium ? 'medium' : 'low';
+}
+function observerTruthProjection(subject) {
+  if (!observerRecord(subject)) return observerDeepFreeze({ kind: 'invalid', id: null });
+  // Infer legacy subjects only when kind is absent. Unknown kinds fail closed.
+  const kind = subject.kind === undefined
+    ? (subject.lifeState !== undefined ? 'npc' : subject.phase !== undefined || subject.defId !== undefined ? 'event' : 'item')
+    : subject.kind;
+  if (!['item', 'npc', 'event'].includes(kind)) return observerDeepFreeze({ kind: 'invalid', id: null });
+  const id = observerText(subject.id, observerText(subject.defId));
+  let projection;
+  if (kind === 'npc') {
+    const hp = observerNumber(subject.hp), maxHp = observerNumber(subject.maxHp);
+    projection = { kind, id, name: observerText(subject.name, id || '未知角色'), role: observerText(subject.role),
+      lifeState: observerEnum(subject.lifeState, ['healthy', 'injured', 'critical', 'dead']),
+      hpBand: hp !== null && hp >= 0 && maxHp !== null && maxHp > 0
+        ? String(Math.round(observerClamp(hp / maxHp, 0, 1) * 4)) + '/4' : 'unknown' };
+  } else if (kind === 'event') {
+    projection = { kind, id, title: observerText(subject.title, id || '未知事件'),
+      phase: observerEnum(subject.phase, ['DAY', 'NIGHT', 'ANY'], subject.phase === undefined ? 'DAY' : 'unknown'),
+      handled: typeof subject.handled === 'boolean' ? subject.handled : 'unknown', threatBand: observerBand(subject.threat, 60, 25) };
+  } else {
+    projection = { kind, id, label: observerText(subject.label, observerText(subject.name, id || '未知物品')),
+      category: observerText(subject.category, observerText(subject.type, 'unknown')),
+      qualityBand: subject.qualityBand === undefined
+        ? observerBand(subject.quality, 70, 40) : observerEnum(subject.qualityBand, ['high', 'medium', 'low']) };
+  }
+  return observerDeepFreeze(projection);
+}
+function observerDisclosureScore(subject = {}, context = {}) {
+  const s = observerRecord(subject) ? subject : {}, c = observerRecord(context) ? context : {};
+  const relation = observerRecord(c.relation) ? c.relation : observerRecord(s.relation) ? s.relation : {};
+  const values = observerRecord(c.values) ? c.values : observerRecord(s.values) ? s.values : {};
+  // Invalid/missing policy numbers contribute no adjustment. No coercion is
+  // allowed; this neutral policy default does not create an observed fact.
+  const trustRaw = relation.trustToPlayer === undefined ? relation.trust : relation.trustToPlayer;
+  const alignmentRaw = c.valueAlignment === undefined ? values.alignment : c.valueAlignment;
+  const progressRaw = c.playerProgress === undefined ? s.playerProgress : c.playerProgress;
+  const trust = observerClamp(observerNumber(trustRaw) ?? 0, -100, 100);
+  const alignment = observerClamp(observerNumber(alignmentRaw) ?? 0, -100, 100);
+  const progress = observerClamp((observerNumber(progressRaw) ?? 0) / 100, -1, 1);
+  return observerClamp(.5 + trust / 200 + alignment / 400 + progress * .15, 0, 1);
+}
+function observerAllowedFacts(projection, score) {
+  const facts = { kind: projection.kind, id: projection.id };
+  if (projection.kind === 'item') {
+    Object.assign(facts, { label: projection.label, category: projection.category });
+    if (score >= .35) facts.qualityBand = projection.qualityBand;
+  } else if (projection.kind === 'npc') {
+    Object.assign(facts, { name: projection.name, role: projection.role, lifeState: projection.lifeState });
+    if (score >= .45) facts.hpBand = projection.hpBand;
+  } else if (projection.kind === 'event') {
+    Object.assign(facts, { title: projection.title, phase: projection.phase, handled: projection.handled });
+    if (score >= .55) facts.threatBand = projection.threatBand;
+  }
+  return observerDeepFreeze(facts);
+}
+function observerFactsHash(facts) {
+  const text = JSON.stringify(facts);
+  let hash = 2166136261;
+  // Index UTF-16 code units, including both halves of non-BMP characters.
+  for (let index = 0; index < text.length; index += 1) {
+    hash ^= text.charCodeAt(index);
+    hash = Math.imul(hash, 16777619);
+  }
+  return (hash >>> 0).toString(36);
+}
+function resolveObserverExpression(input = {}) {
+  const i = observerRecord(input) ? input : {}, config = observerRecord(i.config) ? i.config : {};
+  const enabled = config.observerCommentary === true || config.enabled === true;
+  // Top-level relation remains a legacy Node-call alias.
+  const context = observerRecord(i.context) ? i.context : { relation: i.relation };
+  const projection = observerTruthProjection(i.subject), score = observerDisclosureScore(i.subject, context);
+  const invalid = projection.kind === 'invalid', facts = observerAllowedFacts(projection, score);
+  const detail = score >= .7 ? '完整' : score >= .4 ? '有限' : '模糊';
+  let text = invalid ? '可验证事实：未知对象。' : '可验证' + (projection.kind === 'npc' ? '角色' : projection.kind === 'event' ? '事件' : '物品')
+    + '事实（' + detail + '披露）：' + (facts.label || facts.name || facts.title || facts.id || '未知');
+  if (projection.kind === 'npc' && score < .4) text += '；我暂时不愿解释更多。';
+  if (projection.kind === 'event' && facts.threatBand === 'high') text += '；这件事需要优先处理。';
+  if (projection.kind === 'item' && facts.qualityBand === 'high') text += '；它的价值值得谨慎评估。';
+  // projection contains withheld values and must never be returned here.
+  return observerDeepFreeze({ schema: 'ObserverExpressionV1', version: 1,
+    hashVersion: 'fnv1a-utf16-base36-v1', enabled,
+    mode: enabled && !invalid ? 'deterministic-stub' : 'fallback', authority: 'expression_only',
+    fallbackReason: invalid ? 'invalid-subject' : null,
+    disclosureScore: Math.round(score * 1000) / 1000, facts, text,
+    sourceProjectionHash: observerFactsHash(facts) });
+}
+// OBSERVER_CORE_END
     function observerAiConfig() { return normalizeAiConfig(state.scenarioSnapshot?.aiConfig || {}); }
-    function observerDisclosureScore(subject = {}, context = {}) {
-      const relation = context.relation || subject.relation || {}, values = context.values || subject.values || {};
-      const trust = Math.max(-100, Math.min(100, Number(relation.trustToPlayer ?? relation.trust ?? 0)));
-      const alignment = Math.max(-100, Math.min(100, Number(context.valueAlignment ?? values.alignment ?? 0)));
-      const progress = Number(context.playerProgress ?? subject.playerProgress ?? 0);
-      return Math.max(0, Math.min(1, 0.5 + trust / 200 + alignment / 400 + Math.max(-1, Math.min(1, progress / 100)) * 0.15));
-    }
-    function observerTruthProjection(subject = {}) {
-      const safe = observerSanitizeSubject(subject), kind = safe.kind;
-      const projection = kind === 'npc'
-        ? { kind, id: safe.id, name: safe.name, role: safe.role, lifeState: safe.lifeState, hpBand: Number.isFinite(Number(safe.hp)) && Number.isFinite(Number(safe.maxHp)) ? String(Math.round((Number(safe.hp) / Math.max(1, Number(safe.maxHp))) * 4)) + '/4' : 'unknown' }
-        : kind === 'event'
-          ? { kind, id: safe.id, title: safe.title, phase: safe.phase, handled: safe.handled, threatBand: Number.isFinite(Number(safe.threat)) ? (safe.threat >= 60 ? 'high' : safe.threat >= 25 ? 'medium' : 'low') : 'unknown' }
-          : { kind, id: safe.id, label: safe.label, category: safe.category, qualityBand: safe.qualityBand || (Number.isFinite(Number(safe.quality)) ? (safe.quality >= 70 ? 'high' : safe.quality >= 40 ? 'medium' : 'low') : 'unknown') };
-      return observerDeepFreeze(projection);
-    }
-    function observerAllowedFacts(projection, score) {
-      const facts = { kind: projection.kind, id: projection.id };
-      if (projection.kind === 'item') { facts.label = projection.label; facts.category = projection.category; if (score >= .35) facts.qualityBand = projection.qualityBand; }
-      if (projection.kind === 'npc') { facts.name = projection.name; facts.role = projection.role; facts.lifeState = projection.lifeState; if (score >= .45) facts.hpBand = projection.hpBand; }
-      if (projection.kind === 'event') { facts.title = projection.title; facts.phase = projection.phase; facts.handled = projection.handled; if (score >= .55) facts.threatBand = projection.threatBand; }
-      return observerDeepFreeze(facts);
-    }
-    function observerCommentary(subject = {}, context = {}) {
-      const config = observerAiConfig(), projection = observerTruthProjection(subject), score = observerDisclosureScore(subject, context), facts = observerAllowedFacts(projection, score);
-      const detail = score >= .7 ? '完整' : score >= .4 ? '有限' : '模糊';
-      let text = '可验证' + (projection.kind === 'npc' ? '角色' : projection.kind === 'event' ? '事件' : '物品') + '事实（' + detail + '披露）：' + (facts.label || facts.name || facts.title || facts.id || '未知');
-      if (projection.kind === 'npc' && score < .4) text += '；我暂时不愿解释更多。';
-      if (projection.kind === 'event' && facts.threatBand === 'high') text += '；这件事需要优先处理。';
-      if (projection.kind === 'item' && facts.qualityBand === 'high') text += '；它的价值值得谨慎评估。';
-      return observerDeepFreeze({ schema: 'ObserverExpressionV1', enabled: config.observerCommentary, mode: config.observerCommentary ? 'deterministic-stub' : 'fallback', authority: 'expression_only', disclosureScore: Math.round(score * 1000) / 1000, projection, facts, text, sourceProjectionHash: hashStable(JSON.stringify(facts)) });
-    }
+    function observerCommentary(subject = {}, context = {}) { return resolveObserverExpression({ subject, context, config: observerAiConfig() }); }
     function ensureStableIds() {
       const assign = (list, prefix, keyFn) => { const seen = new Set(); (Array.isArray(list) ? list : []).forEach((item, i) => { let id = typeof item.id === 'string' && item.id ? item.id : `${prefix}-${hashStable(keyFn(item, i))}`; if (seen.has(id)) id = `${id}-${i}`; seen.add(id); item.id = id; }); };
       state.player.id = 'player-1'; assign(state.buildings, 'bld', (x) => `${x.type}:${x.x},${x.y}`); assign(state.resources, 'res', (x) => `${x.type}:${x.x},${x.y}`); assign(state.landmarks, 'poi', (x) => `${x.type}:${x.x},${x.y}`); assign(state.npcs, 'npc', (x) => x.id || x.name); assign(state.worldZombies, 'wz', (x) => `${x.kind}:${x.x},${x.y}`); assign(state.zombies, 'threat', (x, i) => `${x.kind || 'enemy'}:${i}`);
@@ -2177,7 +2242,7 @@
     // emits receipts, or applies effects; callers decide how to report a
     // rejection and still run their domain transaction only after it passes.
     const GATE_V1_PHASES = new Set(['DAY', 'NIGHT', 'ANY']);
-    const GATE_V1_OBJECT_KEYS = Object.freeze({ landmark_exists: ['type', 'id'], camp_trust: ['type', 'min'], npc_alive: ['type', 'id'], role_available: ['type', 'role'], flag: ['type', 'id', 'value'], day_between: ['type', 'min', 'max'], food_days: ['type', 'max'] });
+    const GATE_V1_OBJECT_KEYS = Object.freeze({ landmark_exists: ['type', 'id'], camp_trust: ['type', 'min'], npc_alive: ['type', 'id'], role_available: ['type', 'role', 'healthyOnly'], flag: ['type', 'id', 'value'], day_between: ['type', 'min', 'max'], food_days: ['type', 'max'] });
     function gateV1Actor(context = {}) {
       const event = context.event || state.event || {};
       const instance = context.instance || state.eventInstance || {};
@@ -2271,10 +2336,10 @@
       if (type === 'landmark_exists') { if (typeof condition.id !== 'string' || !condition.id) return { ok: false, reason: 'event-precondition-invalid', failedGate: { type, condition } }; return state.landmarks?.some(item => item.type === condition.id && item.found !== false) ? { ok: true } : { ok: false, reason: 'event-precondition', failedGate: { type, condition } }; }
       if (type === 'camp_trust') { const min = Number(condition.min); if (!Number.isFinite(min)) return { ok: false, reason: 'event-precondition-invalid', failedGate: { type, condition } }; return (Number(state.contentState?.meters?.campTrust) || 0) >= min ? { ok: true } : { ok: false, reason: 'event-precondition', failedGate: { type, condition }, details: { actual: Number(state.contentState?.meters?.campTrust) || 0 } }; }
       if (type === 'npc_alive') { const id = condition.id === '$actor' ? gateV1Actor(context)?.id : condition.id; if (typeof id !== 'string' || !id) return { ok: false, reason: 'event-precondition-invalid', failedGate: { type, condition } }; return state.npcs?.some(npc => npc.id === id && npcIsActive(npc)) ? { ok: true } : { ok: false, reason: 'event-precondition', failedGate: { type, condition } }; }
-      if (type === 'role_available') { const role = condition.role; if (typeof role !== 'string' || !role) return { ok: false, reason: 'event-precondition-invalid', failedGate: { type, condition } }; const actual = (state.npcs || []).some(npc => typeof npcFulfillsRole === 'function' && npcFulfillsRole(npc, role)); return actual ? { ok: true } : { ok: false, reason: 'event-precondition', failedGate: { type, condition }, details: { role, actual } }; }
+      if (type === 'role_available') { const role = condition.role; if (typeof role !== 'string' || !role || condition.healthyOnly !== undefined && typeof condition.healthyOnly !== 'boolean') return { ok: false, reason: 'event-precondition-invalid', failedGate: { type, condition } }; const actual = (state.npcs || []).some(npc => typeof npcFulfillsRole === 'function' && npcFulfillsRole(npc, role) && (condition.healthyOnly !== true || npc.lifeState === 'healthy')); return actual ? { ok: true } : { ok: false, reason: 'event-precondition', failedGate: { type, condition }, details: { role, actual } }; }
       if (type === 'flag') { if (typeof condition.id !== 'string' || !condition.id || condition.value !== undefined && typeof condition.value !== 'boolean') return { ok: false, reason: 'event-precondition-invalid', failedGate: { type, condition } }; const actual = !!state.contentState?.flags?.[condition.id]; const expected = condition.value !== false; return actual === expected ? { ok: true } : { ok: false, reason: 'event-precondition', failedGate: { type, condition }, details: { actual, expected } }; }
       if (type === 'day_between') { const min = Number(condition.min), max = Number(condition.max); if (!Number.isFinite(min) || !Number.isFinite(max) || min > max) return { ok: false, reason: 'event-precondition-invalid', failedGate: { type, condition } }; return state.day >= min && state.day <= max ? { ok: true } : { ok: false, reason: 'event-precondition', failedGate: { type, condition }, details: { actual: state.day } }; }
-      if (type === 'food_days') { const max = Number(condition.max); if (!Number.isFinite(max) || max < 0) return { ok: false, reason: 'event-precondition-invalid', failedGate: { type, condition } }; const actual = Number(foodSituation().ratio); return actual <= max ? { ok: true } : { ok: false, reason: 'event-precondition', failedGate: { type, condition }, details: { actual, max } }; }
+      if (type === 'food_days') { const max = condition.max; if (typeof max !== 'number' || !Number.isFinite(max) || max < 0) return { ok: false, reason: 'event-precondition-invalid', failedGate: { type, condition } }; const actual = Number(foodSituation().ratio); return actual <= max ? { ok: true } : { ok: false, reason: 'event-precondition', failedGate: { type, condition }, details: { actual, max } }; }
       return { ok: false, reason: 'event-precondition-invalid', failedGate: { type, condition } };
     }
     function evaluateGateV1(gate = {}, context = {}) {
@@ -2527,7 +2592,7 @@
      const CONTENT_EXTENSIONS = Object.fromEntries(CONTENT_KINDS.map(kind => [kind, Object.create(null)]));
      const CONTENT_EFFECT_OPS = Object.freeze(['addResource', 'adjust_resource', 'adjustMeter', 'adjust_meter', 'modifyRelation', 'unlockTech', 'unlockWeapon', 'unlock', 'scheduleEvent', 'assignJob', 'damageBuilding', 'captureOutpost', 'recordHistory']);
     const CONTENT_SCHEMA_VERSION = 3;
-     function migrateContentState(raw = {}) {
+     function migrateContentState(raw = {}, context = {}) {
        const next = stableClone(raw || {}); const fromVersion = Number(next.contentVersion) || 0;
        if (fromVersion < 1) { next.unlockedTech = Array.isArray(next.unlockedTech) ? next.unlockedTech : []; next.unlockedWeapons = Array.isArray(next.unlockedWeapons) ? next.unlockedWeapons : []; next.unlockedBlueprints = Array.isArray(next.unlockedBlueprints) ? next.unlockedBlueprints : []; next.triggeredEvents = Array.isArray(next.triggeredEvents) ? next.triggeredEvents : []; }
        if (fromVersion < 2) {
@@ -2538,7 +2603,7 @@
          next.autonomyWeights = { defense: 40, harvest: 25, logistics: 20, research: 10, diplomacy: 5, ...(next.autonomyWeights || {}) };
          next.planMeeting = { version: 1, status: 'idle', meetingDay: 0, instanceId: null, source: 'summary', candidates: [], selectedId: null, playerAction: null, committedDay: null, resolvedDay: null, autonomyResult: null, history: [], ...(next.planMeeting || {}) };
        }
-       next.contentVersion = CONTENT_SCHEMA_VERSION; return next;
+       next.contentVersion = CONTENT_SCHEMA_VERSION; return normalizeContentEpisodes(next, context);
      }
      // Outpost assignments are derived from the fixed NPC roster.  The
      // assignment marker lives on the NPC so a guard cannot be counted both
@@ -2688,7 +2753,7 @@
      }
      function ensureContentState() {
       const defaults = { contentVersion: CONTENT_SCHEMA_VERSION, meters: { campCollapse: 0, resonancePressure: 25, campTrust: 0 }, unlockedTech: [], unlockedWeapons: ['rustAxe'], unlockedBlueprints: [], flags: {}, scheduledEvents: [], triggeredEvents: [], activeChains: {}, completedChains: [], appliedEffects: [], outposts: {}, history: [], npcRoster: { promotedNpcIds: [], promotionHistory: [] }, commandPoints: 0, commandPointsMax: 0, commandPointsGrantedDay: 0, autonomyWeights: { defense: 40, harvest: 25, logistics: 20, research: 10, diplomacy: 5 }, planMeeting: { version: 1, status: 'idle', meetingDay: 0, instanceId: null, source: 'summary', candidates: [], selectedId: null, playerAction: null, committedDay: null, resolvedDay: null, autonomyResult: null, history: [] } };
-      state.contentState = migrateContentState({ ...defaults, ...(state.contentState || {}), meters: { ...defaults.meters, ...(state.contentState?.meters || {}) }, flags: { ...defaults.flags, ...(state.contentState?.flags || {}) }, activeChains: { ...defaults.activeChains, ...(state.contentState?.activeChains || {}) }, outposts: { ...defaults.outposts, ...(state.contentState?.outposts || {}) }, npcRoster: { ...defaults.npcRoster, ...(state.contentState?.npcRoster || {}) }, autonomyWeights: { ...defaults.autonomyWeights, ...(state.contentState?.autonomyWeights || {}) }, planMeeting: { ...defaults.planMeeting, ...(state.contentState?.planMeeting || {}) } });
+      state.contentState = migrateContentState({ ...defaults, ...(state.contentState || {}), meters: { ...defaults.meters, ...(state.contentState?.meters || {}) }, flags: { ...defaults.flags, ...(state.contentState?.flags || {}) }, activeChains: { ...defaults.activeChains, ...(state.contentState?.activeChains || {}) }, outposts: { ...defaults.outposts, ...(state.contentState?.outposts || {}) }, npcRoster: { ...defaults.npcRoster, ...(state.contentState?.npcRoster || {}) }, autonomyWeights: { ...defaults.autonomyWeights, ...(state.contentState?.autonomyWeights || {}) }, planMeeting: { ...defaults.planMeeting, ...(state.contentState?.planMeeting || {}) } }, { day: state.day });
        state.contentState.unlockedTech = [...new Set((Array.isArray(state.contentState.unlockedTech) ? state.contentState.unlockedTech : []).filter(Boolean))];
        state.contentState.unlockedWeapons = [...new Set(['rustAxe', ...(Array.isArray(state.contentState.unlockedWeapons) ? state.contentState.unlockedWeapons : [])].filter(Boolean))];
        state.contentState.unlockedBlueprints = [...new Set((Array.isArray(state.contentState.unlockedBlueprints) ? state.contentState.unlockedBlueprints : []).filter(Boolean))];
@@ -2836,7 +2901,7 @@
          recordWorldEvent('outpost.secured', { outpostId, guardNpcIds: guards, population: outpostPopulationLedger() }, { actorId: meta.actorId || 'system' });
          return { ok: true, op, key: outpostId, guardNpcIds: guards, population: outpostPopulationLedger() };
        }
-       if (op === 'recordHistory') { const entry = { id: key || `content-${worldMinute()}`, at: worldMinute(), payload: stableClone(effect.payload || {}), actorId: meta.actorId || 'system' }; state.contentState.history = [...state.contentState.history, entry].slice(-100); recordWorldEvent('content.history', entry, { actorId: entry.actorId }); return { ok: true, op, key: entry.id }; }
+       if (op === 'recordHistory') { const historyKey = key || `content-${worldMinute()}`; const entry = { id: meta.instanceKey ? `${meta.instanceKey}:${historyKey}` : historyKey, at: worldMinute(), payload: stableClone(effect.payload || {}), actorId: meta.actorId || 'system' }; state.contentState.history = [...state.contentState.history, entry].slice(-100); recordWorldEvent('content.history', entry, { actorId: entry.actorId, ...(meta.instanceKey ? { defId: meta.defId, instanceId: meta.instanceId, definitionVersion: meta.definitionVersion } : {}) }); return { ok: true, op, key: entry.id }; }
        return { ok: false, reason: `unhandled-effect:${op}` };
      }
      function applyContentEffects(effects = [], meta = {}) {
@@ -2877,7 +2942,7 @@
        }
        list.filter(effect => (effect?.op || effect?.type) === 'captureOutpost').forEach(effect => runContentHook('onOutpostSecured', { outpostId: effect.key || effect.id, actorId: meta.actorId || 'system' }));
        if (effectId) state.contentState.appliedEffects = [...state.contentState.appliedEffects, effectId].slice(-200);
-       if (meta.record !== false) recordWorldEvent('content.effects.applied', { effects: stableClone(list), results }, { actorId: meta.actorId || 'system', defId: meta.defId || null, effects: list });
+       if (meta.record !== false) recordWorldEvent('content.effects.applied', { effects: stableClone(list), results, ...(meta.instanceKey ? { effectId, instanceKey: meta.instanceKey } : {}) }, { actorId: meta.actorId || 'system', defId: meta.defId || null, effects: list, ...(meta.instanceId ? { instanceId: meta.instanceId, definitionVersion: meta.definitionVersion } : {}) });
        return { ok: true, results };
      }
      function contentConditionMet(condition = {}) {
@@ -2942,7 +3007,7 @@
        const started = [];
        const expired = [];
        const chains = Object.values({ ...EVENT_CHAIN_DEFS, ...CONTENT_EXTENSIONS.eventChain }).sort((a, b) => String(a.chainId || a.id).localeCompare(String(b.chainId || b.id)));
-       if (hook === 'onDayStart') Object.values(state.contentState.activeChains).filter(active => active && active.status === 'active' && typeof active.chainId === 'string').sort((a, b) => a.chainId.localeCompare(b.chainId)).forEach(active => { const definition = contentDefinition('eventChain', active.chainId); const phaseDays = (definition?.phase || []).map(phase => Number(String(phase).match(/^day_(\d+)$/i)?.[1])).filter(Number.isFinite); if (definition && phaseDays.length && !contentPhaseAllows(definition) && state.day > Math.max(...phaseDays)) { const result = resolveContentFallback(active.chainId, 'ifExpired', { actorId: meta.actorId || 'camp-autonomy' }); if (result.ok) expired.push(active.chainId); } });
+       if (hook === 'onDayStart') Object.values(state.contentState.activeChains).filter(active => active && active.status === 'active' && typeof active.chainId === 'string').sort((a, b) => a.chainId.localeCompare(b.chainId)).forEach(active => { const definition = contentDefinition('eventChain', active.chainId); const phaseDays = (definition?.phase || []).map(phase => Number(String(phase).match(/^day_(\d+)$/i)?.[1])).filter(Number.isFinite); if (definition && phaseDays.length && !contentPhaseAllows(definition) && state.day > Math.max(...phaseDays)) { const result = resolveContentFallback(active.chainId, 'ifExpired', { actorId: meta.actorId || 'camp-autonomy', ...contentEpisodeExpectedToken(active) }); if (result.ok) expired.push(active.chainId); } });
        chains.filter(definition => Array.isArray(definition.hooks) && definition.hooks.includes(hook) && contentPhaseAllows(definition)).forEach(definition => {
          const result = startContentChain(definition.chainId || definition.id, { actorId: meta.actorId || 'system' });
          if (result.ok && !result.duplicate) started.push(result.active.chainId);
@@ -2967,6 +3032,51 @@
        if (state.gameOver) return { ok: false, reason: 'game-over' };
        return { ok: true };
      }
+
+     // EventInstance identity for opt-in repeatable content. Legacy chains keep
+     // their original projection and receipts; episode fields are additive.
+     function contentEpisodeIdentity(definition, active) {
+       const episodeDay = Math.floor(Number(active.startedAt) / 1440) + 1;
+       const instanceKey = active.instanceKey || `${active.chainId}:${episodeDay}`;
+       return {
+         episodeSchemaVersion: 1, instanceKey,
+         instanceId: active.instanceId || `content:${instanceKey}`,
+         defId: active.defId || active.chainId,
+         definitionVersion: active.definitionVersion ?? (Number(definition.definitionVersion) || 1)
+       };
+     }
+     function normalizeContentEpisodes(content, context = {}) {
+       Object.entries(content.activeChains || {}).forEach(([id, active]) => {
+         const definition = contentDefinition('eventChain', id);
+         if (definition?.repeatable === true && active && typeof active === 'object') Object.assign(active, contentEpisodeIdentity(definition, active));
+       });
+       // An old one-shot completion has no reliable episode date. Preserve its
+       // original receipt and conservatively block the saved day once, without
+       // inventing a historical outcome or blocking every future day.
+       const legacy = (content.completedChains || []).filter(id => contentDefinition('eventChain', id)?.repeatable === true);
+       legacy.forEach(id => {
+         if (!Number.isSafeInteger(context.day) || context.day < 1 || content.episodeLegacyHolds?.[id] !== undefined) return;
+         content.episodeLegacyHolds = { ...(content.episodeLegacyHolds || {}), [id]: context.day };
+         content.completedChains = [...new Set([...content.completedChains, `${id}:${context.day}`])];
+       });
+       return content;
+     }
+     function contentEpisodeExpectedToken(active = {}) {
+       return { expectedInstanceKey: active.instanceKey ?? null, expectedInstanceId: active.instanceId ?? null,
+         expectedDefId: active.defId ?? null, expectedDefinitionVersion: active.definitionVersion ?? null, expectedNodeId: active.nodeId ?? null };
+     }
+     function contentEpisodeGate(chainId, nodeId, expected = {}) {
+       const definition = contentDefinition('eventChain', chainId);
+       if (!definition?.repeatable) return { ok: true };
+       const active = state.contentState?.activeChains?.[chainId];
+       if (!active || active.status !== 'active') return { ok: false, reason: 'content-instance-missing' };
+       const current = contentEpisodeExpectedToken(active);
+       if (!Number.isSafeInteger(current.expectedDefinitionVersion) || current.expectedDefinitionVersion !== (Number(definition.definitionVersion) || 1)) return { ok: false, reason: 'content-definition-conflict' };
+       for (const key of Object.keys(current)) {
+         if (current[key] === null || expected[key] === undefined || expected[key] !== current[key]) return { ok: false, reason: key === 'expectedNodeId' ? 'content-node-conflict' : 'content-instance-conflict' };
+       }
+       return nodeId === active.nodeId ? { ok: true } : { ok: false, reason: 'content-node-conflict' };
+     }
      function startContentChain(chainId, meta = {}) {
        const gate = contentChainRuntimeGate(); if (!gate.ok) return gate;
        ensureContentState();
@@ -2984,14 +3094,16 @@
        } else if (!(definition.startConditions || []).every(contentConditionMet)) return { ok: false, reason: 'start-condition' };
        const firstNode = definition.nodes?.[0];
        if (!firstNode) return { ok: false, reason: 'chain-node-missing' };
-       const active = { chainId, ...(repeatable ? { instanceKey: episodeKey } : {}), nodeId: firstNode.nodeId, status: 'active', startedAt: worldMinute(), actorId, resolvedNodeIds: [] };
+       const active = { chainId, nodeId: firstNode.nodeId, status: 'active', startedAt: worldMinute(), actorId, resolvedNodeIds: [] };
+       if (repeatable) Object.assign(active, contentEpisodeIdentity(definition, active));
        state.contentState.activeChains[chainId] = active;
        const startedPayload = { chainId, nodeId: firstNode.nodeId }; if (repeatable) startedPayload.instanceKey = episodeKey;
-       recordWorldEvent('content.chain.started', startedPayload, { actorId: meta.actorId || 'player-1', defId: chainId });
+       recordWorldEvent('content.chain.started', startedPayload, { actorId: meta.actorId || 'player-1', defId: chainId, ...(repeatable ? { instanceId: active.instanceId, definitionVersion: active.definitionVersion } : {}) });
        return { ok: true, active };
      }
      function resolveContentChain(chainId, nodeId, choiceId, meta = {}) {
        const gate = contentChainRuntimeGate(); if (!gate.ok) return gate;
+       const identity = contentEpisodeGate(chainId, nodeId, meta); if (!identity.ok) return identity;
        ensureContentState();
        const definition = contentDefinition('eventChain', chainId); const active = state.contentState.activeChains[chainId];
        const episodeKey = active?.instanceKey || chainId;
@@ -3012,7 +3124,7 @@
        const choiceGate = contentChainChoiceGateRuntime(definition, choice, { actorId, event: { id: chainId, defId: chainId, nodeId, choiceId }, instance: { instanceId: `content-${chainId}-${active.startedAt || state.day}`, defId: chainId, definitionVersion: Number(definition.definitionVersion) || 1, status: 'active', actorId } });
        if (!choiceGate.ok) return choiceGate;
        if (state.contentState.appliedEffects.includes(`${episodeKey}:${nodeId}:${choiceId}`)) return { ok: false, reason: 'chain-choice-already-applied' };
-       const result = applyContentEffects(choice.effects || [], { actorId: meta.actorId || 'player-1', defId: chainId, effectId: `${episodeKey}:${nodeId}:${choiceId}` });
+       const result = applyContentEffects(choice.effects || [], { actorId: meta.actorId || 'player-1', defId: chainId, effectId: `${episodeKey}:${nodeId}:${choiceId}`, ...(definition.repeatable ? { instanceKey: episodeKey, instanceId: active.instanceId, definitionVersion: active.definitionVersion } : {}) });
        if (!result.ok) return result;
        if (choice.next) {
          // Effects normalize contentState, so the pre-effect active reference
@@ -3021,17 +3133,23 @@
          current.nodeId = choice.next;
          current.history = [...history, { nodeId, choiceId, at: worldMinute() }].slice(-20);
          current.resolvedNodeIds = definedNodeIds.filter(id => id === nodeId || resolvedNodeIds.includes(id));
-         recordWorldEvent('content.chain.choice', { chainId, nodeId, choiceId, nextNodeId: choice.next, results: result.results }, { actorId: meta.actorId || 'player-1', defId: chainId, effects: choice.effects || [] });
+         recordWorldEvent('content.chain.choice', { chainId, ...(definition.repeatable ? { instanceKey: episodeKey } : {}), nodeId, choiceId, nextNodeId: choice.next, results: result.results }, { actorId: meta.actorId || 'player-1', defId: chainId, effects: choice.effects || [], ...(definition.repeatable ? { instanceId: active.instanceId, definitionVersion: active.definitionVersion } : {}) });
          return { ok: true, chainId, nodeId, choiceId, nextNodeId: choice.next, active: current, results: result.results };
        }
        delete state.contentState.activeChains[chainId];
        state.contentState.completedChains = [...new Set([...state.contentState.completedChains, episodeKey])].slice(-100);
        const resolvedPayload = { chainId, nodeId, choiceId, results: result.results }; if (definition.repeatable) resolvedPayload.instanceKey = episodeKey;
-       recordWorldEvent('content.chain.resolved', resolvedPayload, { actorId: meta.actorId || 'player-1', defId: chainId, effects: choice.effects || [] });
+       recordWorldEvent('content.chain.resolved', resolvedPayload, { actorId: meta.actorId || 'player-1', defId: chainId, effects: choice.effects || [], ...(definition.repeatable ? { instanceId: active.instanceId, definitionVersion: active.definitionVersion } : {}) });
        return { ok: true, chainId, nodeId, choiceId, results: result.results };
      }
      function resolveContentFallback(chainId, reason = 'ifSkipped', meta = {}) {
        const gate = contentChainRuntimeGate(); if (!gate.ok) return gate;
+       // A retry may refer to a settled episode only when the original receipt
+       // proves all five token fields and the same fallback reason. Never
+       // substitute a newly active episode's token for an old UI request.
+       const prior = !state.contentState?.activeChains?.[chainId] && contentDefinition('eventChain', chainId)?.repeatable && state.contentState?.completedChains?.includes(meta.expectedInstanceKey) && state.worldMeta?.events?.find(event => event.type === 'content.chain.fallback' && event.payload?.chainId === chainId && event.payload.reason === reason && event.payload.instanceKey === meta.expectedInstanceKey && event.instanceId === meta.expectedInstanceId && event.defId === meta.expectedDefId && event.definitionVersion === meta.expectedDefinitionVersion && event.payload.nodeId === meta.expectedNodeId);
+       if (prior) return { ok: true, duplicate: true, chainId, episodeKey: meta.expectedInstanceKey, reason };
+       const identity = contentEpisodeGate(chainId, state.contentState?.activeChains?.[chainId]?.nodeId, meta); if (!identity.ok) return identity;
        ensureContentState();
        const definition = contentDefinition('eventChain', chainId); const active = state.contentState.activeChains[chainId];
        if (!definition) return { ok: false, reason: 'chain-missing' };
@@ -3044,41 +3162,45 @@
        const fallbackSpec = definition.fallback?.[reason] || definition.fallback?.ifSkipped || 'ledger_only';
        const fallbackId = typeof fallbackSpec === 'string' ? fallbackSpec : (fallbackSpec?.id || 'ledger_only');
        const fallbackEffects = Array.isArray(fallbackSpec) ? fallbackSpec : (fallbackSpec?.effects || definition.fallbackEffects?.[fallbackId] || []);
-       const effectResult = applyContentEffects(fallbackEffects, { actorId: meta.actorId || 'camp-autonomy', defId: chainId, effectId: `${episodeKey}:fallback:${reason}` });
+       const effectResult = applyContentEffects(fallbackEffects, { actorId: meta.actorId || 'camp-autonomy', defId: chainId, effectId: `${episodeKey}:fallback:${reason}`, ...(definition.repeatable ? { instanceKey: episodeKey, instanceId: active.instanceId, definitionVersion: active.definitionVersion } : {}) });
        if (!effectResult.ok) return effectResult;
        if (active) delete state.contentState.activeChains[chainId];
        state.contentState.completedChains = [...new Set([...state.contentState.completedChains, episodeKey])].slice(-100);
-       const payload = { chainId, reason, fallbackId, active: !!active, results: effectResult.results || [] }; if (definition.repeatable) payload.instanceKey = episodeKey;
-       recordWorldEvent('content.chain.fallback', payload, { actorId: meta.actorId || 'camp-autonomy', defId: chainId, effects: fallbackEffects });
-       state.contentState.history = [...state.contentState.history, { id: `${chainId}:fallback:${reason}`, at: worldMinute(), payload, actorId: meta.actorId || 'camp-autonomy' }].slice(-100);
+       const payload = { chainId, reason, fallbackId, active: !!active, results: effectResult.results || [] }; if (definition.repeatable) { payload.instanceKey = episodeKey; payload.nodeId = active.nodeId; }
+       recordWorldEvent('content.chain.fallback', payload, { actorId: meta.actorId || 'camp-autonomy', defId: chainId, effects: fallbackEffects, ...(definition.repeatable ? { instanceId: active.instanceId, definitionVersion: active.definitionVersion } : {}) });
+       state.contentState.history = [...state.contentState.history, { id: `${episodeKey}:fallback:${reason}`, at: worldMinute(), payload, actorId: meta.actorId || 'camp-autonomy' }].slice(-100);
        return { ok: true, ...payload };
      }
      function resolveContentAutonomy(chainId, meta = {}) {
        const gate = contentChainRuntimeGate(); if (!gate.ok) return gate;
+       const prior = !state.contentState?.activeChains?.[chainId] && contentDefinition('eventChain', chainId)?.repeatable && state.contentState?.completedChains?.includes(meta.expectedInstanceKey) && state.worldMeta?.events?.find(event => event.type === 'content.chain.autonomy' && event.payload?.chainId === chainId && event.payload.instanceKey === meta.expectedInstanceKey && event.instanceId === meta.expectedInstanceId && event.defId === meta.expectedDefId && event.definitionVersion === meta.expectedDefinitionVersion && event.payload.nodeId === meta.expectedNodeId);
+       if (prior) return { ok: true, duplicate: true, chainId, episodeKey: meta.expectedInstanceKey };
+       const identity = contentEpisodeGate(chainId, state.contentState?.activeChains?.[chainId]?.nodeId, meta); if (!identity.ok) return identity;
        ensureContentState();
        const definition = contentDefinition('eventChain', chainId); const autonomy = definition?.autonomy;
        if (!definition || !autonomy) return { ok: false, reason: 'autonomy-missing' };
        if (!contentPhaseAllows(definition)) return { ok: false, reason: 'phase-window' };
-       if (state.contentState.completedChains.includes(chainId)) return { ok: true, duplicate: true, chainId };
-       if (state.contentState.activeChains[chainId]?.status !== 'active') return { ok: false, reason: 'chain-not-started' };
-       const result = applyContentEffects(autonomy.effects || [], { actorId: meta.actorId || 'camp-autonomy', defId: chainId, effectId: `${chainId}:autonomy:${state.day}` });
+       const active = state.contentState.activeChains[chainId], episodeKey = active?.instanceKey || chainId;
+       if (state.contentState.completedChains.includes(episodeKey)) return { ok: true, duplicate: true, chainId };
+       if (active?.status !== 'active') return { ok: false, reason: 'chain-not-started' };
+       const result = applyContentEffects(autonomy.effects || [], { actorId: meta.actorId || 'camp-autonomy', defId: chainId, effectId: `${episodeKey}:autonomy:${state.day}`, ...(definition.repeatable ? { instanceKey: episodeKey, instanceId: active.instanceId, definitionVersion: active.definitionVersion } : {}) });
        if (!result.ok) return result;
        delete state.contentState.activeChains[chainId];
-       state.contentState.completedChains = [...new Set([...state.contentState.completedChains, chainId])].slice(-100);
-       const payload = { chainId, resultId: autonomy.resultId || 'autonomous', results: result.results };
-       recordWorldEvent('content.chain.autonomy', payload, { actorId: meta.actorId || 'camp-autonomy', defId: chainId, effects: autonomy.effects || [] });
-       state.contentState.history = [...state.contentState.history, { id: `${chainId}:autonomy:${state.day}`, at: worldMinute(), payload, actorId: meta.actorId || 'camp-autonomy' }].slice(-100);
+       state.contentState.completedChains = [...new Set([...state.contentState.completedChains, episodeKey])].slice(-100);
+       const payload = { chainId, ...(definition.repeatable ? { instanceKey: episodeKey, nodeId: active.nodeId } : {}), resultId: autonomy.resultId || 'autonomous', results: result.results };
+       recordWorldEvent('content.chain.autonomy', payload, { actorId: meta.actorId || 'camp-autonomy', defId: chainId, effects: autonomy.effects || [], ...(definition.repeatable ? { instanceId: active.instanceId, definitionVersion: active.definitionVersion } : {}) });
+       state.contentState.history = [...state.contentState.history, { id: `${episodeKey}:autonomy:${state.day}`, at: worldMinute(), payload, actorId: meta.actorId || 'camp-autonomy' }].slice(-100);
        return { ok: true, ...payload };
      }
      function registerContentPack(pack = {}) { const results = []; Object.entries(pack).forEach(([kind, definitions]) => { (Array.isArray(definitions) ? definitions : Object.values(definitions || {})).forEach(definition => results.push(registerContent(kind, definition))); }); return { ok: results.every(result => result.ok), results }; }
      const SCENARIO_RUNTIME_STORYLETS = Object.freeze({
        'zh-food-shortage-001': Object.freeze({
-         id: 'zh-food-shortage-001', chainId: 'zh-food-shortage-001', title: '断粮警报', description: '营地库存只够支撑很短时间，必须在天黑前决定配给还是补采。', definitionVersion: 1, category: 'survival', phase: ['day_1', 'day_13'], priority: 82, gateVersion: 1, evaluatePreconditions: true,
+         id: 'zh-food-shortage-001', chainId: 'zh-food-shortage-001', title: '断粮警报', description: '营地库存只够支撑很短时间，需要决定留守承担缺口，还是取回后勤官预存的两份应急藏粮。', definitionVersion: 1, category: 'survival', phase: ['day_1', 'day_13'], priority: 82, gateVersion: 1, evaluatePreconditions: true,
          gate: { version: 1, phase: 'DAY', nightAllowed: false, preconditions: [{ type: 'food_days', max: 1 }] },
          preconditions: [{ type: 'food_days', max: 1 }], startConditions: [{ type: 'food_days', max: 1 }],
-         nodes: [{ nodeId: 'shortage_choice', title: '粮仓见底', text: '后勤账本显示库存只够撑过很短时间。', choices: [
-           { id: 'ration', label: '收紧配给', hint: '营地崩溃压力 +2，保留现有库存。', requires: [], effects: [{ op: 'adjustMeter', key: 'campCollapse', value: 2 }, { op: 'recordHistory', key: 'zh-food-shortage-001:ration', payload: { route: 'ration' } }] },
-           { id: 'forage', label: '让后勤官带队补采', hint: '后勤官在岗时补回 2 份食物。', requires: [{ type: 'role_available', role: 'quartermaster' }], effects: [{ op: 'addResource', key: 'food', value: 2 }, { op: 'recordHistory', key: 'zh-food-shortage-001:forage', payload: { route: 'forage' } }] }
+         nodes: [{ nodeId: 'shortage_choice', title: '粮仓见底', text: '库存仅够短期使用。后勤官在外围预存过两份应急藏粮，每局只可取回一次；取粮会增加暴露。', choices: [
+           { id: 'ration', label: '留守警戒，接受缺口', hint: '食物不变 · 营地崩溃压力 +2 · 不增加外围暴露', requires: [], effects: [{ op: 'adjustMeter', key: 'campCollapse', value: 2 }, { op: 'recordHistory', key: 'zh-food-shortage-001:ration', payload: { route: 'ration' } }] },
+           { id: 'forage', label: '取回后勤应急藏粮', hint: '每局一次 · 食物 +2 · 共振压力 +2 · 需要健康后勤人员在岗', requires: [{ type: 'role_available', role: 'quartermaster', healthyOnly: true }, { type: 'flag', id: 'zh-shortage-cache-retrieved', value: false }], effects: [{ op: 'addResource', key: 'food', value: 2 }, { op: 'adjustMeter', key: 'resonancePressure', value: 2 }, { op: 'unlock', key: 'zh-shortage-cache-retrieved' }, { op: 'recordHistory', key: 'zh-food-shortage-001:forage', payload: { route: 'emergency-cache', sourceId: 'zh-shortage-cache-001', amount: 2, exposure: 2 } }] }
          ] }],
          fallback: { ifMissingNpc: { id: 'shortage_deferred', effects: [{ op: 'adjustMeter', key: 'campCollapse', value: 1 }] }, ifInsufficientPopulation: { id: 'shortage_deferred', effects: [{ op: 'adjustMeter', key: 'campCollapse', value: 2 }] }, ifExpired: 'ledger_only', ifSkipped: 'ledger_only' }, hooks: ['onDayStart'], repeatable: true, optional: true
        })
@@ -3420,6 +3542,21 @@
       if (cs.scheduledEvents.some(item => { if (!savedRecord(item) || typeof item.id !== 'string' || !item.id || scheduledIds.has(item.id) || !Number.isInteger(item.dueDay) || item.dueDay < 1 || !savedRecord(item.payload)) return true; scheduledIds.add(item.id); return false; })) return fail('content-scheduled-events');
       if (cs.history.some(item => !savedRecord(item) || typeof item.id !== 'string' || !item.id || !savedNumbers(item,['at']) || item.at > savedMinute(payload) || !savedRecord(item.payload) || typeof item.actorId !== 'string' || !item.actorId) || Object.values(cs.autonomyWeights).some(value => !Number.isFinite(value) || value < 0)) return fail('content-history-or-weights');
       for (const [id,chain] of Object.entries(cs.activeChains)) if (!savedRecord(chain) || chain.chainId !== id || typeof chain.nodeId !== 'string' || !chain.nodeId || chain.status !== 'active' || !savedNumbers(chain,['startedAt']) || chain.startedAt > savedMinute(payload) || typeof chain.actorId !== 'string' || !chain.actorId || chain.resolvedNodeIds !== undefined && !savedStringIds(chain.resolvedNodeIds) || chain.history !== undefined && (!Array.isArray(chain.history) || chain.history.some(item => !savedRecord(item) || typeof item.nodeId !== 'string' || typeof item.choiceId !== 'string' || !savedNumbers(item,['at']) || item.at > savedMinute(payload)))) return fail('content-active-chain');
+
+      for (const [id, chain] of Object.entries(cs.activeChains)) {
+        const episodeDay = Math.floor(chain.startedAt / 1440) + 1, expectedKey = `${id}:${episodeDay}`;
+        if (chain.instanceKey !== undefined && chain.instanceKey !== expectedKey ||
+            chain.instanceId !== undefined && chain.instanceId !== `content:${expectedKey}` ||
+            chain.defId !== undefined && chain.defId !== id ||
+            chain.definitionVersion !== undefined && (!Number.isSafeInteger(chain.definitionVersion) || chain.definitionVersion < 1) ||
+            chain.episodeSchemaVersion !== undefined && (chain.episodeSchemaVersion !== 1 || ['instanceKey','instanceId','defId','definitionVersion'].some(key => chain[key] === undefined))) return fail('content-episode-identity');
+        const definition = contentDefinition('eventChain', id);
+        // No version adapter exists yet. Reject incompatible active content
+        // before installation instead of creating an episode that cannot close.
+        if (definition?.repeatable && chain.definitionVersion !== undefined && chain.definitionVersion !== (Number(definition.definitionVersion) || 1)) return fail('content-episode-definition-version');
+        if (chain.instanceKey && cs.completedChains.includes(chain.instanceKey)) return fail('content-episode-completed-active');
+      }
+      if (cs.episodeLegacyHolds !== undefined && (!savedRecord(cs.episodeLegacyHolds) || Object.values(cs.episodeLegacyHolds).some(day => !Number.isSafeInteger(day) || day < 1 || day > payload.day))) return fail('content-episode-legacy-hold');
       for (const key of ['commandPoints', 'commandPointsMax', 'commandPointsGrantedDay']) if (cs[key] !== undefined && (!Number.isInteger(cs[key]) || cs[key] < 0)) return fail(`content:${key}`);
       if (payload.version === SAVE_VERSION && ['commandPoints','commandPointsMax','commandPointsGrantedDay','planMeeting','outposts','npcRoster'].some(key => !Object.prototype.hasOwnProperty.call(cs, key))) return fail('current-content-incomplete');
       if (Object.values(cs.meters).some(value => !Number.isFinite(value) || value < 0 || value > 100)) return fail('content-meters');
@@ -3578,7 +3715,7 @@
         return normalizeNpc(input, input);
       });
       const contentDefaults = INITIAL_PROGRESS_STATE.contentState;
-      candidate.contentState = migrateContentState({ ...stableClone(contentDefaults), ...savedContent, meters: { ...contentDefaults.meters, ...savedContent.meters }, planMeeting: { ...stableClone(contentDefaults.planMeeting), ...(savedContent.planMeeting || {}) } });
+      candidate.contentState = migrateContentState({ ...stableClone(contentDefaults), ...savedContent, meters: { ...contentDefaults.meters, ...savedContent.meters }, planMeeting: { ...stableClone(contentDefaults.planMeeting), ...(savedContent.planMeeting || {}) } }, { day: saved.day });
       candidate.worldMeta = { ...saved.worldMeta, activeCommandId: null, feedback: [], projections: { ...(saved.worldMeta.projections || {}), threatZombies: [] }, clock: { ...saved.worldMeta.clock } };
       candidate.settings = { ...(saved.settings || {}), continuousWorld: P0_FEATURES.continuousWorld };
       candidate.scenarioSnapshot = normalizeScenarioSnapshot(saved.scenarioSnapshot || DEFAULT_SCENARIO_SNAPSHOT);
@@ -3589,7 +3726,8 @@
       if (['REPORT_PENDING','LOSS_REPORT'].includes(recovery.classification)) { candidate.night = true; if (recovery.identity?.ok) candidate.nightBattle.instanceId = recovery.identity.instanceId; }
       else { candidate.night = false; candidate.nightBattle = null; }
       const updates = prepareSavedRegistry(candidate);
-      const reasons = [...(recovery.migrationReasons || []), ...(sourceVersion < SAVE_VERSION ? ['save-schema-adapter'] : []), ...(selected.sourceCategory !== 'primary' ? ['selected-safe-checkpoint'] : []), ...(initialClockCorrection ? ['save18-initial-clock-sentinel'] : [])];
+      const episodeChanged = JSON.stringify(savedContent.activeChains || {}) !== JSON.stringify(candidate.contentState.activeChains || {}) || JSON.stringify(savedContent.episodeLegacyHolds || {}) !== JSON.stringify(candidate.contentState.episodeLegacyHolds || {});
+      const reasons = [...(recovery.migrationReasons || []), ...(episodeChanged ? ['content-episode-identity-v1'] : []), ...(sourceVersion < SAVE_VERSION ? ['save-schema-adapter'] : []), ...(selected.sourceCategory !== 'primary' ? ['selected-safe-checkpoint'] : []), ...(initialClockCorrection ? ['save18-initial-clock-sentinel'] : [])];
       const migration = reasons.length ? { migration: REPORT_RECOVERY_MIGRATION, migrationVersion: 1, reason: [...new Set(reasons)].join(','), sourceCategory: selected.sourceCategory, originalChecksum: original?.ok ? original.originalChecksum : null, originalDate: original?.ok ? original.originalDate : null, selectedChecksum: selected.originalChecksum, selectedDate: selected.originalDate, rollback: selected !== original, instanceId: recovery.identity?.ok ? recovery.identity.instanceId : null, fromSaveVersion: sourceVersion, fromContentVersion: saved.contentState?.contentVersion || 0, adapter: sourceVersion === 18 && !Object.prototype.hasOwnProperty.call(saved,'contentState') ? 'save18-pre-content-to-save21' : sourceVersion < SAVE_VERSION ? `save${sourceVersion}-content-to-save21` : null, addedDomains: newDomains, ...(initialClockCorrection ? { worldClockCorrection: initialClockCorrection } : {}) } : null;
       return { state: candidate, registryUpdates: updates, recovery, migration, selected };
     }
@@ -5252,10 +5390,12 @@
     }
     function resolveContentChainCommand(chainId, nodeId, choiceId, options = {}) {
       const gate = contentChainRuntimeGate(); if (!gate.ok) return gate;
-      return dispatchCommand({ type: 'content.chain.resolve', commandId: options.commandId, actorId: options.actorId || 'player-1', payload: { chainId, nodeId, choiceId } }, () => {
-        const result = resolveContentChain(chainId, nodeId, choiceId, { actorId: options.actorId || 'player-1' });
+      const repeatable = contentDefinition('eventChain', chainId)?.repeatable === true;
+      const expected = repeatable ? Object.fromEntries(Object.keys(contentEpisodeExpectedToken()).map(key => [key, options[key] ?? null])) : {};
+      return dispatchCommand({ type: 'content.chain.resolve', commandId: options.commandId, actorId: options.actorId || 'player-1', payload: { chainId, nodeId, choiceId, ...expected } }, () => {
+        const result = resolveContentChain(chainId, nodeId, choiceId, { actorId: options.actorId || 'player-1', ...expected });
         return result.ok ? { result } : result;
-      }, { eventType: 'content.chain.command', defId: chainId, validate: contentChainRuntimeGate });
+      }, { eventType: 'content.chain.command', defId: chainId, ...(repeatable ? { instanceId: expected.expectedInstanceId, definitionVersion: expected.expectedDefinitionVersion } : {}), validate: () => { const session = contentChainRuntimeGate(); return session.ok ? contentEpisodeGate(chainId, nodeId, expected) : session; } });
     }
     function contentChainOutcomeText(result) {
       const resources = { wood: '木材', stone: '石材', food: '食物', seeds: '种子', medicine: '药品', parts: '零件' };
@@ -5283,9 +5423,19 @@
       button.dataset.eventDefId = daily ? instance.defId || event.defId || event.id || '' : '';
       button.dataset.eventDefinitionVersion = daily ? String(instance.definitionVersion || event.definitionVersion || EVENT_DEFINITION_VERSION) : '';
       button.dataset.eventId = daily ? event.id || '' : '';
+      button.dataset.eventInstanceKey = '';
+      if (source.startsWith('chain:')) {
+        const active = state.contentState?.activeChains?.[source.slice(6)];
+        if (active?.episodeSchemaVersion === 1) {
+          button.dataset.eventInstanceId = active.instanceId; button.dataset.eventInstanceKey = active.instanceKey;
+          button.dataset.eventDefId = active.defId; button.dataset.eventDefinitionVersion = String(active.definitionVersion);
+        }
+      }
     }
     function eventChoiceExpectedToken(displayed = {}) {
-      if (!displayed || displayed.eventSource !== 'daily') return {};
+      if (!displayed) return {};
+      if (typeof displayed.eventSource === 'string' && displayed.eventSource.startsWith('chain:')) return { expectedInstanceId: displayed.eventInstanceId || null, expectedInstanceKey: displayed.eventInstanceKey || null, expectedDefId: displayed.eventDefId || null, expectedDefinitionVersion: displayed.eventDefinitionVersion ? Number(displayed.eventDefinitionVersion) : null, expectedNodeId: displayed.eventNodeId || null };
+      if (displayed.eventSource !== 'daily') return {};
       const token = {};
       if (displayed.eventInstanceId) token.expectedInstanceId = displayed.eventInstanceId;
       if (displayed.eventDefId) token.expectedDefId = displayed.eventDefId;
@@ -5304,7 +5454,7 @@
         if (displayed && (displayed.eventSource !== `chain:${chain.active.chainId}` || displayed.eventNodeId !== chain.active.nodeId || displayed.eventChoiceId !== choice.id)) { renderEvent(); return; }
         const gate = contentChainChoiceGate(choice);
         if (!gate.ok) { toast(gate.label); return; }
-        const result = resolveContentChainCommand(chain.active.chainId, chain.active.nodeId, choice.id);
+        const result = resolveContentChainCommand(chain.active.chainId, chain.active.nodeId, choice.id, eventChoiceExpectedToken(displayed));
         const resolved = result?.result || result;
         if (result?.ok && resolved?.ok !== false) {
           const title = chain.definition.title || chain.definition.name || '营地支线';
@@ -7893,7 +8043,7 @@
     $('openSettingsBtn').addEventListener('click', () => toggleStartSettings(true));
     $('closeSettingsBtn').addEventListener('click', () => toggleStartSettings(false));
     $('settingsReduceMotion').addEventListener('change', (event) => { const settings = readSettings(); settings.reduceMotion = event.target.checked; saveSettings(settings); applySettings(); });
-    $('settingsCompactHud').addEventListener('change', (event) => { const settings = readSettings(); settings.compactHud = event.target.checked; saveSettings(settings); if (state.scenarioSnapshot) state.scenarioSnapshot.aiConfig.observerCommentary = event.target.checked; if (gameStarted) requestCheckpoint('ai.observer-commentary'); applySettings(); });
+    $('settingsCompactHud').addEventListener('change', (event) => { const settings = readSettings(); settings.compactHud = event.target.checked; saveSettings(settings); applySettings(); });
     $('settingsObserverCommentary').addEventListener('change', (event) => { const settings = readSettings(); settings.observerCommentary = event.target.checked; saveSettings(settings); if (state.scenarioSnapshot) state.scenarioSnapshot.aiConfig.observerCommentary = event.target.checked; if (gameStarted) requestCheckpoint('ai.observer-commentary'); applySettings(); });
     $('eventChoiceA').addEventListener('click', event => handleEventChoice('a', { ...event.currentTarget.dataset }));
     $('eventChoiceB').addEventListener('click', event => handleEventChoice('b', { ...event.currentTarget.dataset }));

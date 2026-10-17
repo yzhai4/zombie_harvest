@@ -27,6 +27,15 @@ const functionStart = inline[0].indexOf('    function normalizeEventGate');
 const functionEnd = inline[0].indexOf('    function normalizeEventEffect', functionStart);
 assert.ok(functionStart >= 0 && functionEnd > functionStart, 'inline GateV1 function boundary required');
 const inlineGateFunctions = inline[0].slice(functionStart, functionEnd);
+function sourceFunction(name) {
+  const start = inline[0].indexOf('    function ' + name + '(');
+  assert.ok(start >= 0);
+  const firstEnd = inline[0].indexOf('\n', start);
+  if (inline[0].slice(start, firstEnd).trim().endsWith('}')) return inline[0].slice(start, firstEnd);
+  const end = inline[0].indexOf('\n    }', firstEnd);
+  assert.ok(end > firstEnd);
+  return inline[0].slice(start, end + 6);
+}
 const fixture = JSON.parse(readFileSync(path.join(root, 'scripts', 'fixtures', 'event-gate-v1.json'), 'utf8'));
 const clone = value => JSON.parse(JSON.stringify(value));
 const plain = value => JSON.parse(JSON.stringify(value));
@@ -42,6 +51,8 @@ function evaluateInline(gate, state, inputContext = {}) {
     function clampSanity(value, fallback = 72) { return Math.max(0, Math.min(100, Number.isFinite(Number(value)) ? Number(value) : fallback)); }
     function sanityValue(target = 'player') { return target === 'player' ? clampSanity(state.sanity) : clampSanity(target?.sanity); }
     function npcIsActive(npc) { return npc && npc.lifeState !== 'dead'; }
+    ${sourceFunction('npcFulfillsRole')}
+    ${sourceFunction('foodSituation')}
     const SessionController = { mode: ${JSON.stringify(mode)} };
     ${inlineGateFunctions}
     globalThis.parityResult = evaluateGateV1(${JSON.stringify(gate)}, ${JSON.stringify(context)});

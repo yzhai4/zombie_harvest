@@ -32,7 +32,7 @@ function sourceFunction(name) {
 }
 const functions = [
   'stableClone', 'worldMinute', 'eventDefinition', 'recordWorldEvent', 'applyQuestEvent',
-  'migrateContentState', 'normalizeOutpostAssignments', 'ensureContentState',
+  'migrateContentState', 'normalizeContentEpisodes', 'contentEpisodeIdentity', 'normalizeOutpostAssignments', 'ensureContentState',
   'contentRegistryBase', 'contentDefinition', 'applyContentEffect', 'applyContentEffects',
   'planMeetingState', 'campTrustValue', 'commandPointCap', 'refreshCommandPoints',
   'executePlanMeeting', 'runPlanMeetingDayStart', 'npcIsActive', 'npcHasRole',

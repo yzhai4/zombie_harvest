@@ -1,5 +1,20 @@
 # 未关闭风险
 
+## 当前检查点（2026-10-17）
+
+| 未关闭项 | 当前边界与下一闸门 |
+| --- | --- |
+| 证据维护 | 最终候选 episode29/observer21/Gate parity20/vertical5、30条本地 exit0 与 Chrome fixture12/12 已重跑；严格检查器76方法负控，commit/HTML/runner/原始报告绑定见 manifest。后续源码变更须重新生成证据，pending不能通过。 |
+| 自然多日与平衡 | 本轮未做自然三日 browser；旧 strict-fresh 失败保持失败。源码推进和 boot fixture 不替代自然路线、人口/粮食守恒和日历证据。 |
+| repeatable 身份与兼容 | 按[断粮合同](../scripts/zh-food-shortage-001.md)验证五元 token 不刷新、跨日 stale、完整旧 writer、fallback/自治回执、未知版本拒绝与事务回滚；仅 opt-in 增量 SAVE21，不是全局 EventInstance 迁移完毕。 |
+| 内容来源 | 有限藏粮 flag 必须跨日/刷新保留，整局最多 +2 食物；留守不伪造配给缓解、势力奖励、人口或敌人 spawn。 |
+| Scenario 与 Observer | Scenario loader 仍 headless minimal；Observer 已有纯核心/深冻结白名单，但 actor 权限、感知来源投影、持久记忆与 LLM 未完成。 |
+| 生产发布 | Sites v81 未接入本轮；发布仍需最终构建证据、真实旧档与部署后 smoke，不能用开发 green 覆盖生产源线。 |
+
+以下风险表和主题记录保留原历史时点；其中旧版本、计数和“下一步”不覆盖本节。长期研究仍遵循[调研 P0–P6](../qa/deep-research-baseline-20261017.md)，不因表达 stub 提前进入 World Model 或引擎迁移。
+
+## 历史风险与验收记录
+
 | 风险 | 影响 | 可能性 | 下一步检查 | 记录 |
 | --- | --- | --- | --- | --- |
 | SAVE/Content schema 与 validator、夹具漂移 | 高 | 高 | 统一 21/3 或回滚工作树变更 | `PROB-20261012-save-version-drift` |
