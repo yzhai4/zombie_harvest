@@ -22,30 +22,37 @@ assert.equal(existsSync(out), false, 'new output required; never overwrite or re
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const source = readFileSync(opts['--html']), sourceHash = sha(source); assert.equal(sourceHash, opts['--expect-html-sha256']);
 const runner = readFileSync(fileURLToPath(import.meta.url)), sprites = readFileSync(path.join(root, 'dist/actor-sprites.js'));
+const protocol = readFileSync(path.join(root, 'docs/qa/natural-play-protocol-20261017.md'));
 writeFileSync(path.join(out, 'source.html'), source); writeFileSync(path.join(out, 'runner-executed.mjs'), runner); writeFileSync(path.join(out, 'actor-sprites-executed.js'), sprites);
+writeFileSync(path.join(out, 'protocol-executed.md'), protocol);
 const key = 'zombie-harvest-progress-v12', startedAt = Date.now(), deadline = startedAt + budgetSeconds * 1000;
 const budgets = { wallSeconds: budgetSeconds, meaningfulActions: 10, meals: 2, daytimeAttacks: 4,
   stopPlayerHp: 60, minimumLaborEnergy: 15, retainFood: 3, maximumSingleIdleSeconds: 120, maximumTotalIdleSeconds: 360,
   training: 0, purposelessRest: 0, maximumGoalDrivenRestMinutes: 30, maximumGoalDrivenRestInstances: 1,
-  navigationSecondsPerGoal: 30, maximumNavigationDetours: 3, encounterWarningPercent: 80 };
+  navigationSecondsPerGoal: 30, maximumNavigationDetours: 3, encounterWarningPercent: 80, npcApproachRetryLimit: 2, npcCanvasObservationMaxMs: 250 };
 const report = { schema: 'NaturalMixedBrowserShortV1', runner: 'browser-natural-mixed-v1', runnerSha256: sha(runner),
-  sourceHtmlSha256: sourceHash, expectedHtmlSha256: opts['--expect-html-sha256'], actorSpritesSha256: sha(sprites),
+  sourceHtmlSha256: sourceHash, expectedHtmlSha256: opts['--expect-html-sha256'], actorSpritesSha256: sha(sprites), protocolSha256: sha(protocol),
   mode: 'fresh-zero-save-injection-budgeted-short-natural-mixed-route', parameters: opts, budgets,
   policy: { freshBrowserContext: true, initialStorageMustBeEmpty: true, publicStart: true, saveInjection: false,
     initScriptInjection: false, hiddenGameActions: false, hiddenStateMutation: false, resume: false,
     goalKnowledge: 'public HUD/context controls and non-fogged rendered map objects/public art and tag metadata only; no hidden rewards',
     privilegedSafetySource: 'read-only complete actual writer worldZombies and kind/speedFactor/position; conservative veto only; not actor-authorized observation',
     actorProjectionComplete: false, doesNotAssumeNpcOrTowerRescue: true, automaticThreeDayContinuation: false },
-  checks: [], errors: [], documents: [], snapshots: [], actions: [], safety: [], navigation: [], blockedGoals: [],
+  checks: [], errors: [], documents: [], snapshots: [], actions: [], safety: [], navigation: [], blockedGoals: [], checkpointSync: [],
+  UIObservationInstrumentation: { mode: 'bounded one-public-target pass-through Canvas fillText observation',
+    authorization: 'current publicly named NPC only; original fillText executes unchanged, observer restores within 250ms; no forced render',
+    zeroIoWrappingClaim: false, initScript: false, maximumObservations: 2, maximumObservationMs: 250,
+    maximumApproachRetries: 2, approachHoldMs: 100, otherActorsCollected: false, hiddenNpcStateRead: false,
+    knownUiExecutionRadiusMismatchFixed: false, observations: [], restorationProofs: [], publicAttempts: [], approaches: [] },
   coverage: { eventChoice: false, resourceCollection: false, npcInteraction: false, exploration: false, planting: false,
     usefulConstruction: false, goalDrivenRestAttempted: false, goalDrivenRest: false, encounter: false, harvest: false, threeDays: false },
-  timers: { readingMs: 0, saveVerificationMs: 0, publicRestMs: 0, navigationMs: 0, idleMs: 0 },
+  timers: { readingMs: 0, saveVerificationMs: 0, checkpointSynchronizationMs: 0, publicRestMs: 0, navigationMs: 0, idleMs: 0 },
   naturalThreeDaysStatus: 'NOT_COVERED', status: 'RUNNING', terminal: null };
 class RouteStop extends Error { constructor(status, message) { super(message); this.status = status; } }
 const check = (name, ok, detail) => { report.checks.push({ name, ok: !!ok, ...(detail === undefined ? {} : { detail }) }); assert.ok(ok, name); };
 function writeReport() { writeFileSync(path.join(out, 'report.json'), JSON.stringify(report, null, 2) + '\n'); }
 const clock = p => (p.day - 1) * 1440 + p.hour * 60 + p.minute;
-let browser, context, page, snapshotSeq = 0, actionSeq = 0, lastSave = null, finishing = false;
+let browser, context, page, snapshotSeq = 0, actionSeq = 0, lastSave = null, finishing = false, canvasOriginalHandle = null, npcFollowStartedAt = null;
 const server = createServer((req, res) => {
   const route = new URL(req.url, 'http://localhost').pathname;
   if (route === '/' || route === '/index.html') { res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' }); res.end(source); }
@@ -64,10 +71,14 @@ async function ui() {
       player: pos ? { x: Number(pos[1]) - 1, y: Number(pos[2]) - 1 } : null,
       alert: text('alertPill'), contextTitle: text('contextTitle'), context: text('contextActions'), rest: text('campRestStatus'),
       inModal: document.getElementById('infoModal')?.getAttribute('aria-hidden') === 'false',
-      tiles: [...document.querySelectorAll('#world .tile:not(.fogged)')].map(t => ({ x: Number(t.dataset.x), y: Number(t.dataset.y),
-        text: t.innerText, tag: t.querySelector('.tag')?.textContent || '', water: t.classList.contains('water'),
-        building: t.classList.contains('building-footprint'), buildingType: t.querySelector('[data-building-type]')?.getAttribute('data-building-type') || null,
-        area: t.classList.contains('camp-area'), className: t.className })) };
+      tiles: [...document.querySelectorAll('#world .tile:not(.fogged)')].map(t => {
+        const r = t.getBoundingClientRect(), x = r.x + r.width / 2, y = r.y + r.height / 2;
+        const hit = x >= 0 && x < innerWidth && y >= 0 && y < innerHeight ? document.elementFromPoint(x, y) : null;
+        return { x: Number(t.dataset.x), y: Number(t.dataset.y), text: t.innerText, tag: t.querySelector('.tag')?.textContent || '',
+          water: t.classList.contains('water'), building: t.classList.contains('building-footprint'),
+          buildingType: t.querySelector('[data-building-type]')?.getAttribute('data-building-type') || null,
+          area: t.classList.contains('camp-area'), className: t.className, centerPubliclyClickable: !!hit && (hit === t || t.contains(hit)) };
+      }) };
   });
 }
 async function rawSave() { return page.evaluate(k => localStorage.getItem(k), key); }
@@ -85,6 +96,25 @@ async function snapshot(label, screenshot = false) {
   writeFileSync(path.join(out, entry.publicUiFile), JSON.stringify(publicUi, null, 2));
   if (screenshot) { entry.screenshot = file.replace('-save.json', '.png'); await page.screenshot({ path: path.join(out, entry.screenshot), timeout: Math.min(10000, remaining()) }); }
   report.snapshots.push(entry); lastSave = p; writeReport(); return p;
+}
+async function synchronizeWriter(label, fixedPublicSample = null) {
+  // Movement is ephemeral. An earlier action's complete writer may still have
+  // the previous location. Capture one stopped public sample, then wait for a
+  // normal writer to reach that fixed watermark, rather than chasing the live
+  // clock or forcing a hidden checkpoint. The displayed position has 0.1-cell
+  // precision; its maximum two-axis rounding error is below 0.08 cells.
+  const sampledAtMs = fixedPublicSample?.sampledAtMs ?? Date.now() - startedAt, watermark = fixedPublicSample?.publicUi || await ui();
+  const target = { minute: clock(watermark), player: watermark.player, hp: watermark.hp,
+    energy: watermark.energy, food: watermark.food, wood: watermark.wood, stone: watermark.stone };
+  const current = await save(), at = Date.now();
+  const matches = (p, v) => (p.day - 1) * 1440 + p.hour * 60 + p.minute >= v.minute &&
+    Math.hypot(p.player.x - v.player.x, p.player.y - v.player.y) <= .08;
+  const baseline = matches(current, target) ? current : await waitSaved(matches, target, 18000, 'checkpointSynchronizationMs');
+  report.checkpointSync.push({ label, sampledAtMs, publicWatermark: target, positionTolerance: .08,
+    waitMs: Date.now() - at, actualWriterMinute: clock(baseline), actualWriterPlayer: baseline.player,
+    actualWriterResources: { hp: baseline.hp, energy: baseline.energy, food: baseline.food, wood: baseline.wood, stone: baseline.stone },
+    purpose: 'normal writer synchronization; verification time, not action elapsed or purposeless rest' });
+  writeReport(); return baseline;
 }
 async function closePanels() { if (await page.locator('#infoModal').getAttribute('aria-hidden') === 'false') await page.locator('#infoModalClose').click(); await page.keyboard.press('Escape'); }
 async function survival(label) {
@@ -160,16 +190,19 @@ async function visibleGoal(tag, optional = false) {
   if (choices[0]) report.actions.push({ type: 'goal-observed', tag, chosenVisibleTile: choices[0], publicPosition: view.player });
   return choices[0] || null;
 }
-async function action(type, motivation, minutes, click, verify) {
+async function action(type, motivation, minutes, click, verify, options = {}) {
   if (actionSeq >= budgets.meaningfulActions) throw new RouteStop('INCOMPLETE_BUDGET', 'meaningful action count budget reached');
-  await allowLabor(type, minutes); const before = await snapshot(`${actionSeq}-${type}-before`), beforeUi = await ui(), start = Date.now();
+  await allowLabor(type, minutes); await synchronizeWriter(type, options.fixedPublicSample); await allowLabor(type, minutes);
+  const before = await snapshot(`${actionSeq}-${type}-before`), beforeUi = await ui(), start = Date.now();
   await click();
   const after = await waitSaved((p, v) => p.worldMeta.eventSeq > v.seq && p.worldMeta.events.some(e => e.seq > v.seq && e.type === v.type), { seq: before.worldMeta.eventSeq, type });
   const events = after.worldMeta.events.filter(e => e.seq > before.worldMeta.eventSeq), commands = after.worldMeta.replay.commands.filter(c => events.some(e => e.commandId === c.commandId || e.causationId === c.commandId));
   const record = { index: actionSeq++, type, motivation, estimatedActionMinutes: minutes, wallMs: Date.now() - start,
     before: { minute: clock(before), hp: before.hp, energy: before.energy, food: before.food }, after: { minute: clock(after), hp: after.hp, energy: after.energy, food: after.food },
     beforePublic: beforeUi, events, commands, result: verify(before, after, events, commands) };
-  report.actions.push(record); check(`${type}: actual command/receipt and measured intended change`, record.result === true);
+  report.actions.push(record);
+  if (record.result !== true) { report.checks.push({ name: `${type}: actual command/receipt and measured intended change`, ok: false }); throw new RouteStop('RULE_OR_UI_FAILURE', `${type}: public action lacked its measured payment/target/time result`); }
+  check(`${type}: actual command/receipt and measured intended change`, true);
   await snapshot(`${record.index}-${type}-after`, true); await survival(type); return { before, after, events, commands };
 }
 async function publicGather(goal, motivation) {
@@ -186,20 +219,146 @@ async function publicGather(goal, motivation) {
       commands.some(c => c.type === 'resource.collect' && c.commandId === e.commandId));
   });
 }
+async function restoreCanvasObserver(stage) {
+  if (!canvasOriginalHandle) return;
+  const proof = await page.evaluate(original => {
+    const proto = CanvasRenderingContext2D.prototype, alreadyRestored = proto.fillText === original;
+    if (!alreadyRestored) proto.fillText = original;
+    return { alreadyRestored, restoredOriginalIdentity: proto.fillText === original };
+  }, canvasOriginalHandle);
+  report.UIObservationInstrumentation.restorationProofs.push({ stage, ...proof });
+  if (!proof.restoredOriginalIdentity) throw new RouteStop('INCOMPLETE_COVERAGE', 'owned Canvas observer did not restore its original IO method');
+  await canvasOriginalHandle.dispose(); canvasOriginalHandle = null;
+}
+async function observePublicNpc(name, npcId) {
+  const instrumentation = report.UIObservationInstrumentation;
+  if (instrumentation.observations.length >= instrumentation.maximumObservations) throw new RouteStop('INCOMPLETE_COVERAGE', 'bounded public NPC observation budget exhausted');
+  if (!canvasOriginalHandle) canvasOriginalHandle = await page.evaluateHandle(() => CanvasRenderingContext2D.prototype.fillText);
+  const rpcAt = Date.now();
+  const observed = await page.evaluate(async ({ name, npcId, original }) => {
+    const proto = CanvasRenderingContext2D.prototype, at = performance.now();
+    const publicName = () => document.getElementById('contextTitle')?.textContent.split(' · ')[0]?.trim();
+    const publicId = () => document.querySelector('[data-context-action="npcOrder"]')?.dataset.npcId;
+    let timer, wrapper, capture = null, observationError = null, targetOriginalCalls = 0;
+    const restored = () => { if (proto.fillText === wrapper) proto.fillText = original; };
+    const nameBefore = publicName(), idBefore = publicId();
+    try {
+      if (nameBefore !== name || idBefore !== npcId || proto.fillText !== original) throw new Error('public target or original IO identity changed before observation');
+      await new Promise(resolve => {
+        wrapper = function (...args) {
+          // Every native call executes exactly once, with its original this,
+          // argument list, return value and exceptions. No renderer is called.
+          const value = Reflect.apply(original, this, args);
+          if (capture || args[0] !== name || !this.canvas?.matches('#world .actor-canvas')) return value;
+          targetOriginalCalls++;
+          try {
+            const canvas = this.canvas, world = document.getElementById('world'), rect = canvas.getBoundingClientRect();
+            const tile = [...world.querySelectorAll('.tile:not(.fogged)')].find(t => { const r = t.getBoundingClientRect(); return r.width > 0 && r.height > 0; });
+            const tileRect = tile?.getBoundingClientRect(), markerRect = world.querySelector('.player-marker')?.getBoundingClientRect();
+            if (!tileRect || !markerRect || !rect.width || !rect.height || !canvas.width || !canvas.height) throw new Error('public map geometry unavailable');
+            const m = this.getTransform(), metrics = this.measureText(name), x = Number(args[1]), y = Number(args[2]);
+            const css = (u, v) => ({ x: rect.left + (m.a*u+m.c*v+m.e)*rect.width/canvas.width,
+              y: rect.top + (m.b*u+m.d*v+m.f)*rect.height/canvas.height });
+            const label = css(x, y), offset = Math.max(7, Math.min(tileRect.width, tileRect.height)*.28)+9;
+            const actor = css(x, y-offset), player = { x: markerRect.x+markerRect.width/2, y: markerRect.y+markerRect.height/2 };
+            const corners = [css(x-metrics.actualBoundingBoxLeft,y-metrics.actualBoundingBoxAscent), css(x+metrics.actualBoundingBoxRight,y+metrics.actualBoundingBoxDescent)];
+            const bounds = { left: Math.min(...corners.map(p=>p.x)), right: Math.max(...corners.map(p=>p.x)),
+              top: Math.min(...corners.map(p=>p.y)), bottom: Math.max(...corners.map(p=>p.y)) };
+            const labelHit = document.elementFromPoint(label.x,label.y), actorHit = document.elementFromPoint(actor.x,actor.y);
+            const actorTile = actorHit?.closest('.tile');
+            const inMap = node => !!node && (node === world || world.contains(node));
+            const visibleAncestor = node => { for (let e=node;e;e=e.parentElement) { const s=getComputedStyle(e); if(s.display==='none'||s.visibility==='hidden'||Number(s.opacity)===0||e.hidden)return false; } return true; };
+            const fullyVisible = visibleAncestor(canvas) && bounds.left >= Math.max(0,rect.left) && bounds.right <= Math.min(innerWidth,rect.right) &&
+              bounds.top >= Math.max(0,rect.top) && bounds.bottom <= Math.min(innerHeight,rect.bottom) && inMap(labelHit) && inMap(actorHit) &&
+              !!actorTile && !actorTile.classList.contains('fogged') && publicName() === name && publicId() === npcId;
+            capture = { targetName: name, publicNpcId: npcId, canvasSelector: '#world .actor-canvas', originalTargetCalls: targetOriginalCalls,
+              sourceDrawPoint: { x,y }, transform: { a:m.a,b:m.b,c:m.c,d:m.d,e:m.e,f:m.f },
+              canvas: { width:canvas.width,height:canvas.height,rect:{left:rect.left,top:rect.top,width:rect.width,height:rect.height} },
+              viewport: { width:innerWidth,height:innerHeight,devicePixelRatio },
+              publicTileGeometry: { width:tileRect.width,height:tileRect.height,sampleX:Number(tile.dataset.x),sampleY:Number(tile.dataset.y) },
+              labelCss:label,labelBoundsCss:bounds,labelToActorOffsetSourcePx:offset,actorCenterCss:actor,playerCenterCss:player,
+              actorPublicTile:{ x:Number(actorTile?.dataset.x),y:Number(actorTile?.dataset.y),fogged:actorTile?.classList.contains('fogged') },
+              contextNameAfterDraw:publicName(),contextNpcIdAfterDraw:publicId(),fullyVisible,
+              directionCells:{ x:(actor.x-player.x)/tileRect.width,y:(actor.y-player.y)/tileRect.height } };
+          } catch (error) { observationError = error.message; }
+          finally { restored(); resolve(); }
+          return value;
+        };
+        proto.fillText = wrapper;
+        timer = setTimeout(resolve, 200);
+      });
+    } catch (error) { observationError = error.message; }
+    finally { clearTimeout(timer); restored(); }
+    return { capture, observationError, durationMs: performance.now()-at, restoredOriginalIdentity: proto.fillText === original,
+      originalInvocation: 'Reflect.apply(original, same this, complete original argument list)', forcedRender:false, collectedOtherActorNames:false };
+  }, { name, npcId, original: canvasOriginalHandle });
+  observed.rpcWallMs = Date.now()-rpcAt;
+  const index = instrumentation.observations.length, screenshot = `npc-public-observation-${index}.png`;
+  const pixels = await page.screenshot({ path: path.join(out,screenshot), timeout: Math.min(5000,remaining()) });
+  observed.screenshot = screenshot; observed.screenshotSha256 = sha(pixels);
+  instrumentation.observations.push(observed);
+  writeFileSync(path.join(out,`npc-public-observation-${index}.json`),JSON.stringify(observed,null,2)+'\n'); writeReport();
+  if (!observed.restoredOriginalIdentity || observed.durationMs > instrumentation.maximumObservationMs || !observed.capture?.fullyVisible || observed.observationError)
+    throw new RouteStop('INCOMPLETE_COVERAGE','named NPC observation unavailable, occluded or over budget; no writer-coordinate fallback');
+  return observed.capture;
+}
+async function followPublicNpc(name, npcId, dialogue) {
+  const i = report.UIObservationInstrumentation;
+  if (i.approaches.length >= i.maximumApproachRetries) return false;
+  npcFollowStartedAt ??= Date.now();
+  if (Date.now()-npcFollowStartedAt >= budgets.navigationSecondsPerGoal*1000) return false;
+  const at=Date.now(), risk=await safety('bounded-public-NPC-follow',1);
+  if (risk.veto) throw new RouteStop('STOPPED_SAFETY_BUDGET','public NPC follow vetoed; no hidden position used to choose a direction');
+  const observation=await observePublicNpc(name,npcId), d=observation.directionCells;
+  if (![d.x,d.y].every(Number.isFinite) || Math.hypot(d.x,d.y) < .05) return false;
+  const key=Math.abs(d.x)>Math.abs(d.y)?(d.x>0?'d':'a'):(d.y>0?'s':'w'), before=await ui();
+  await page.keyboard.down(key); try { await page.waitForTimeout(i.approachHoldMs); } finally { await page.keyboard.up(key); }
+  await page.waitForTimeout(35); const after=await ui();
+  i.approaches.push({ targetName:name,publicNpcId:npcId,publicRejection:dialogue,
+    motivation:'公开提示已明确还差距离，沿刚实际可见的同NPC方向贴近一次；不追踪存档私有坐标',
+    key,heldMs:i.approachHoldMs,from:before.player,to:after.player,observationIndex:i.observations.length-1,wallMs:Date.now()-at });
+  report.timers.navigationMs+=Date.now()-at; writeReport(); return true;
+}
 async function attemptNearbyNpc(motivation) {
   if (report.coverage.npcInteraction) return true;
   const npc = page.locator('[data-context-action="npc"]');
   if (!(await npc.isVisible()) || !(await npc.isEnabled())) { report.blockedGoals.push({ goal: 'NPC', reason: 'no actually available local NPC request at this public location', motivation }); return false; }
   report.npcContactPublic = await page.locator('#contextPanel').innerText();
-  const before = await save(); await npc.click();
-  await waitSaved((p,v) => p.worldMeta.eventSeq > v.seq && p.worldMeta.events.some(e => e.type === 'npc.interacted' && e.seq > v.seq), { seq: before.worldMeta.eventSeq });
-  const dialogue = await page.locator('#toast').innerText();
-  report.actions.push({ type: 'npc-dialogue-read', motivation, publicDialogue: dialogue, countedAsSuccessfulSupport: false });
-  if (!dialogue.includes('再次按 E')) { report.blockedGoals.push({ goal: 'NPC support confirmation', reason: dialogue }); return false; }
-  await action('npc.interacted', '阅读当前真正近邻角色状态后第二次公开确认请求支援；只将实际support/bond/memory变化计作成功。', 15, () => page.locator('[data-context-action="npc"]').click(), (b,a,events,commands) => {
-    const changed = a.npcs.find(n => n.supportRequested && !b.npcs.find(old => old.id === n.id).supportRequested && n.bond > b.npcs.find(old => old.id === n.id).bond);
-    return !!changed && events.some(e => e.type === 'npc.interacted') && commands.some(c => c.type === 'npc.interact' && c.payload.npcId === changed.id) && changed.memory.helpedByPlayer > b.npcs.find(old => old.id === changed.id).memory.helpedByPlayer;
-  }); report.coverage.npcInteraction = true; return true;
+  const name=(await page.locator('#contextTitle').innerText()).split(' · ')[0].trim();
+  const npcId=await page.locator('[data-context-action="npcOrder"]').first().getAttribute('data-npc-id');
+  if (!name || !npcId) throw new RouteStop('INCOMPLETE_COVERAGE','public NPC identity is not actually disclosed');
+  let fixedPublicSample;
+  for (let attempt=0;attempt<=report.UIObservationInstrumentation.maximumApproachRetries;attempt++) {
+    if (!(await npc.isVisible()) || !(await npc.isEnabled()) || (await page.locator('#contextTitle').innerText()).split(' · ')[0].trim()!==name ||
+      await page.locator('[data-context-action="npcOrder"]').first().getAttribute('data-npc-id')!==npcId)
+      throw new RouteStop('INCOMPLETE_COVERAGE','same publicly observed NPC target no longer available; no private-target pursuit');
+    fixedPublicSample={ sampledAtMs:Date.now()-startedAt,publicUi:await ui() };
+    const before=await save(); await npc.click();
+    const after=await waitSaved((p,v)=>p.worldMeta.events.some(e=>e.type==='npc.interacted'&&e.seq>v.seq),{seq:before.worldMeta.eventSeq});
+    const receipt=after.worldMeta.events.find(e=>e.type==='npc.interacted'&&e.seq>before.worldMeta.eventSeq), command=after.worldMeta.replay.commands.find(c=>c.commandId===receipt.commandId);
+    const dialogue=await page.locator('#toast').innerText();
+    const read={ type:'npc-dialogue-read',motivation,targetName:name,publicNpcId:npcId,publicDialogue:dialogue,receipt,command,countedAsSuccessfulSupport:false };
+    report.actions.push(read); report.UIObservationInstrumentation.publicAttempts.push(read);
+    if (command?.payload.npcId!==npcId) throw new RouteStop('INCOMPLETE_COVERAGE','public NPC target changed during click');
+    if (dialogue.includes('再次按 E')) break;
+    const gap=dialogue.match(/^靠近(.+)（还差 ([\d.eE+-]+) 格）$/);
+    if (!gap || gap[1]!==name || !Number.isFinite(Number(gap[2])) || Number(gap[2])<=0 || !await followPublicNpc(name,npcId,dialogue)) {
+      report.blockedGoals.push({goal:'NPC support confirmation',reason:dialogue,boundedApproaches:report.UIObservationInstrumentation.approaches.length});return false;
+    }
+  }
+  await action('npc.interacted', '阅读当前真正近邻角色状态后第二次公开确认请求支援；只将实际support/bond/memory变化计作成功。', 15, async () => {
+    const title=await page.locator('#contextTitle').innerText(), currentId=await page.locator('[data-context-action="npcOrder"]').first().getAttribute('data-npc-id');
+    report.UIObservationInstrumentation.confirmationPublic={targetName:name,publicNpcId:npcId,currentTitle:title,currentPublicNpcId:currentId,publicUi:await ui()};
+    if(title.split(' · ')[0].trim()!==name||currentId!==npcId||!await npc.isVisible()||!await npc.isEnabled())
+      throw new RouteStop('INCOMPLETE_COVERAGE','same public NPC confirmation target changed; no substituted support');
+    await npc.click();
+  }, (b,a,events,commands) => {
+    const changed = a.npcs.find(n => n.id===npcId && n.supportRequested && !b.npcs.find(old => old.id === n.id).supportRequested && n.bond > b.npcs.find(old => old.id === n.id).bond);
+    const parent=commands.find(c=>c.type==='npc.interact'&&c.payload.npcId===npcId&&c.actorId==='player-1');
+    return !!changed && !!parent && events.some(e => e.type === 'npc.interacted'&&e.commandId===parent.commandId&&e.actorId==='player-1') &&
+      commands.some(c=>c.type==='world.advance'&&c.payload.minutes===15&&events.some(e=>e.type==='time.advanced'&&e.commandId===c.commandId&&e.causationId===parent.commandId&&e.payload.minutes===15)) &&
+      changed.memory.helpedByPlayer > b.npcs.find(old => old.id === changed.id).memory.helpedByPlayer;
+  },{fixedPublicSample}); report.coverage.npcInteraction = true; return true;
 }
 async function exploreSouthernBoundary() {
   // Choose a direction from the public fog frontier, not an unseen garden's
@@ -278,10 +437,17 @@ try {
     if (await crop.isVisible() && await crop.isEnabled()) {
       await action('crop.changed', '在原有未播种菜田投入一枚真实种子；不以未成熟点击消磨时间。', 20, () => crop.click(), (b,a,events,commands) => {
         const old = b.buildings.find(x => x.x === garden.x && x.y === garden.y), plot = a.buildings.find(x => x.id === old.id);
-        return !old.planted && plot.planted && !plot.ready && a.seeds === b.seeds - 1 && events.some(e => e.type === 'crop.changed') && commands.some(c => c.type === 'crop.change');
+        const receipt = events.find(e => e.type === 'crop.changed' && e.payload.buildingId === old.id), proof = receipt?.payload;
+        const parent = commands.find(c => c.type === 'crop.change' && c.commandId === receipt?.commandId && c.payload.buildingId === old.id);
+        const child = commands.find(c => c.type === 'world.advance' && c.commandId === proof?.advance?.commandId && c.payload.minutes === 20);
+        return !old.planted && plot.planted && !plot.ready && a.seeds === b.seeds - 1 && !!parent && !!child && receipt.actorId === 'player-1' && parent.actorId === 'player-1' &&
+          proof.proofVersion === 1 && proof.operation === 'plant' && proof.payment.cost.energy === 4 && proof.payment.cost.seeds === 1 &&
+          proof.payment.before.energy - proof.payment.after.energy === 4 && proof.clock.requestedMinutes === 20 && proof.clock.elapsedMinutes === 20 &&
+          events.some(e => e.type === 'time.advanced' && e.commandId === child.commandId && e.causationId === parent.commandId && e.payload.minutes === 20);
       }); report.coverage.planting = true;
     }
   }
+  if (!report.coverage.planting) throw new RouteStop('INCOMPLETE_COVERAGE', 'required original-plot planting was not actually available or successful; no construction attempted merely to consume time');
   if (garden) {
     await navigate(garden, '给已播种且未来需回来收获的菜田建立一处有用途的近场防护。');
     const view = await ui();
@@ -291,12 +457,21 @@ try {
       const tower = page.locator('[data-build="tower"]');
       if (await tower.isVisible()) {
         await tower.click(); const candidateUi = await ui();
-        const sites = candidateUi.tiles.filter(t => t.className.includes('build-target') && Math.hypot(t.x-garden.x,t.y-garden.y) <= 3 &&
-          Math.hypot(t.x-candidateUi.player.x,t.y-candidateUi.player.y) >= 1.0 && Math.hypot(t.x-candidateUi.player.x,t.y-candidateUi.player.y) <= 1.6);
+        const sites = candidateUi.tiles.filter(t => t.className.includes('build-target') && t.centerPubliclyClickable && Math.hypot(t.x-garden.x,t.y-garden.y) <= 3 &&
+          Math.hypot(t.x-candidateUi.player.x,t.y-candidateUi.player.y) >= 1.0 && Math.hypot(t.x-candidateUi.player.x,t.y-candidateUi.player.y) <= 1.25);
         sites.sort((a,b) => Math.hypot(a.x-garden.x,a.y-garden.y)-Math.hypot(b.x-garden.x,b.y-garden.y));
         if (sites[0]) {
           const site = sites[0]; report.constructionPublicSite = site;
-          await action('building.constructed', '在公开标记为可建造的近邻空地建一座塔，覆盖原菜田与回访收获通路。', 45, () => page.locator(`#world .tile[data-x="${site.x}"][data-y="${site.y}"]`).click(), (b,a,events,commands) => a.buildings.some(x => x.type === 'tower' && x.x === site.x && x.y === site.y && x.id && !b.buildings.some(old => old.id === x.id)) && a.wood === b.wood - 12 && a.stone === b.stone - 5 && events.some(e => e.type === 'building.constructed') && commands.some(c => c.type === 'building.construct'));
+          await action('building.constructed', '在公开标记为可建造的近邻空地建一座塔，覆盖原菜田与回访收获通路。', 45, async () => {
+            const liveSite = (await ui()).tiles.find(t => t.x === site.x && t.y === site.y);
+            if (!liveSite?.className.includes('build-target') || !liveSite.centerPubliclyClickable) throw new RouteStop('INCOMPLETE_COVERAGE', 'observed construction site ceased to be publicly legal/clickable before payment; no retry or substitute building');
+            await page.locator(`#world .tile[data-x="${site.x}"][data-y="${site.y}"]`).click();
+          }, (b,a,events,commands) => {
+            const parent = commands.find(c => c.type === 'building.construct' && c.payload.buildingType === 'tower' && c.payload.x === site.x && c.payload.y === site.y);
+            return !!parent && a.buildings.some(x => x.type === 'tower' && x.x === site.x && x.y === site.y && x.id && !b.buildings.some(old => old.id === x.id)) &&
+              a.wood === b.wood - 12 && a.stone === b.stone - 5 && events.some(e => e.type === 'building.constructed' && e.commandId === parent.commandId) &&
+              commands.some(c => c.type === 'world.advance' && c.payload.minutes === 45 && events.some(e => e.type === 'time.advanced' && e.commandId === c.commandId && e.causationId === parent.commandId && e.payload.minutes === 45));
+          });
           report.coverage.usefulConstruction = true;
         } else report.blockedGoals.push({ goal: 'farm protection tower', reason: 'no actually visible legal adjacent useful construction site' });
       }
@@ -307,6 +482,7 @@ try {
   report.coverage.encounter = false; report.encounterDecision = { choice: 'not-triggered', reason: 'short route does not force a morning encounter for coverage', calendar: [finalView.day, finalView.hour, finalView.minute], visibleAlert: finalView.alert };
   report.coverage.harvest = false; report.coverage.threeDays = false;
   await closePanels(); const beforeReload = await snapshot('before-public-reload', true);
+  await restoreCanvasObserver('before-public-reload');
   const response2 = await page.reload({ waitUntil: 'domcontentloaded' }), hash2 = sha(await response2.body()); report.documents.push({ kind: 'public-reload', sha256: hash2 }); check('reload main exact same build', hash2 === sourceHash);
   await page.locator('#continueSaveBtn').click();
   await waitSaved((p,v) => p.worldMeta.events.some(e => e.type === 'time.advanced' && e.seq > v.seq), { seq: beforeReload.worldMeta.eventSeq }, 20000);
@@ -326,6 +502,7 @@ try {
   finishing = true; report.routeElapsedBeforeCleanupMs = Date.now() - startedAt;
   if (page && !page.isClosed()) {
     try {
+      await restoreCanvasObserver('terminal-cleanup-before-public-checkpoint');
       report.terminalPublicUi = await ui();
       await page.screenshot({ path: path.join(out, 'terminal-before-cleanup.png'), timeout: 5000 });
       // Public reload triggers the actual pagehide writer checkpoint. Park at
@@ -343,7 +520,9 @@ try {
   report.elapsedWallMs = Date.now() - startedAt; report.passed = report.checks.filter(c=>c.ok).length; report.count = report.checks.length;
   report.shortRouteCoverage = { required: ['eventChoice','resourceCollection','npcInteraction','exploration','planting','usefulConstruction','goalDrivenRest'],
     missing: ['eventChoice','resourceCollection','npcInteraction','exploration','planting','usefulConstruction','goalDrivenRest'].filter(k => !report.coverage[k]) };
-  report.cleanup = { browserClosed: true, contextClosed: true, httpServerClosed: !server.listening };
+  report.cleanup = { browserClosed: true, contextClosed: true, httpServerClosed: !server.listening,
+    UIObserversRestored: report.UIObservationInstrumentation.observations.every(o=>o.restoredOriginalIdentity) &&
+      report.UIObservationInstrumentation.restorationProofs.every(p=>p.restoredOriginalIdentity) && canvasOriginalHandle === null };
   report.ok = report.status === 'SHORT_MIXED_OBSERVED' && report.errors.length === 0 && report.passed === report.count;
   writeReport(); console.log(JSON.stringify({ out, status: report.status, ok: report.ok, passed: report.passed, count: report.count, terminal: report.terminal, coverage: report.coverage, terminalReason: report.terminalReason, errors: report.errors, elapsedWallMs: report.elapsedWallMs, runnerSha256: report.runnerSha256, sourceHtmlSha256: sourceHash }, null, 2));
 }

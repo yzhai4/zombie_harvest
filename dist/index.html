@@ -5957,9 +5957,9 @@ function resolveObserverExpression(input = {}) {
       let title = '附近互动';
       let hint = '靠近目标后按 E 交互；按 F 或空格攻击。';
       let actionIndex = 0;
-      const add = (label, sub, action, cls = '', disabled = false) => {
+      const add = (label, sub, action, cls = '', disabled = false, cropTargetId = null) => {
         const index = actionIndex++;
-        actions.push(`<button class="context-action ${cls}" data-context-action="${action}" data-context-index="${index}" ${disabled ? 'disabled' : ''}><kbd class="action-index">${index + 1}</kbd>${label}<small>${sub}</small></button>`);
+        actions.push(`<button class="context-action ${cls}" data-context-action="${action}" data-context-index="${index}" ${cropTargetId !== null ? `data-building-id="${eventUiText(cropTargetId)}" data-crop-target="true"` : ''} ${disabled ? 'disabled' : ''}><kbd class="action-index">${index + 1}</kbd>${label}<small>${sub}</small></button>`);
       };
       if (zombies.length) {
         icon = '🧟'; title = '僵尸就在身边'; hint = `相邻 ${zombies.length} 只，立刻处理可以减少受伤风险。`;
@@ -5991,19 +5991,26 @@ function resolveObserverExpression(input = {}) {
         add(`🧺 采集${units[r.type] || '资源'}`, '消耗 8 行动体力 · 前往附近资源', 'gather', 'primary', state.energy < 8);
       }
       if (buildings.length) {
-        const farm = buildings.find(b => b.type === 'garden' || b.type === 'greenhouse');
+        const farmTarget = resolveCropTarget();
+        const farm = farmTarget.ok ? farmTarget.garden : null;
         const evolvable = buildings.find(b => b.type !== 'shelter');
         const shelter = buildings.find(b => b.type === 'shelter');
         state.selectedBuilding = farm || evolvable || shelter;
         if (farm) {
           icon = farm.type === 'greenhouse' ? '🌿' : '🌱'; title = buildInfo[farm.type].name; hint = farm.ready ? '作物已经成熟，靠近后收获食物。' : farm.planted ? `作物生长 ${farm.growth}/2，随着时间继续成长。` : '还有种子时可以在这里播种。';
-          add(farm.ready ? '🌽 收获作物' : farm.planted ? '🌱 生长中' : '🌱 播种', farm.ready ? '消耗 6 行动体力 · 食物 +3' : farm.planted ? `当前生长 ${farm.growth}/2 · 每天自动成长` : '消耗 4 行动体力 · 消耗 1 种子', 'crop', 'primary', state.energy < (farm.ready ? 6 : 4) || (farm.planted && !farm.ready));
+          const farmGate = cropActionGate(farm);
+          const farmSub = farm.ready ? `消耗 6 行动体力 · 食物 +3${farm.type === 'greenhouse' ? ' · 药草 +1' : ''}` : farm.planted ? `当前生长 ${farm.growth}/2 · 每天自动成长` : state.seeds < 1 ? '没有种子 · 需要 1 种子和 4 行动体力' : '消耗 4 行动体力 · 消耗 1 种子';
+          add(farm.ready ? '🌽 收获作物' : farm.planted ? '🌱 生长中' : '🌱 播种', farmSub, 'crop', 'primary', !farmGate.ok, farm.id);
         } else if (evolvable) {
           icon = buildInfo[evolvable.type].icon; title = `${buildInfo[evolvable.type].name} · 可管理`; hint = '建筑靠近时才显示维护和进化操作，离开后自动收起。';
         } else if (shelter) {
           icon = '🏚️'; title = '临时营地'; hint = '这里保存营地的升级路线和当前武器配置。';
         }
-        if (evolvable) add('⚙️ 使用建筑', buildingInteractionDescription(evolvable), 'building', 'primary');
+        if (evolvable) {
+          const isFarm = ['garden', 'greenhouse'].includes(evolvable.type);
+          const farmGate = isFarm ? cropActionGate(evolvable) : null;
+          add('⚙️ 使用建筑', isFarm && farmGate.reason === 'crop-seeds' ? '没有种子 · 需要 1 种子和 4 行动体力' : buildingInteractionDescription(evolvable), 'building', 'primary', isFarm && !farmGate.ok, isFarm ? evolvable.id : null);
+        }
         if (evolvable && ['wall','tower','garden','lamp'].includes(evolvable.type)) add('🧬 查看建筑进化', '需要蓝图、材料和对应 NPC 羁绊', 'evolve');
         if (shelter) add('⚙️ 查看武器进化', '选择一条改变战斗方式的路线', 'weapon');
         const repairable = buildings.find(b => (b.type === 'wall' || b.type === 'spikeWall') && (b.hp || 0) < (b.type === 'spikeWall' ? 4 : 3));
@@ -6804,6 +6811,7 @@ function resolveObserverExpression(input = {}) {
       return { message: `${buildInfo[type]?.name || '建筑'}状态已查看。` };
     }
     function interactBuilding(building, options = {}) {
+      if (building && ['garden', 'greenhouse'].includes(building.type)) return plantOrHarvest(building, options);
       const result = actionCommand('building.interact','building.interacted',{buildingId: building?.id || null, buildingType: building?.type || null},()=>interactBuildingReducer(building),options);
       if (result?.ok && result.result?.ui === 'weapon') toggleWeaponPanel(true);
       if (result?.ok && result.result?.ui === 'inventory') toggleInventory(true);
@@ -6963,24 +6971,81 @@ function resolveObserverExpression(input = {}) {
       toast(`补给完成：体力 +${energyGain}，生命 +${hpGain}`); render();
     }
     function eatFood(options = {}) { return actionCommand('player.eat','player.ate',{},()=>eatFoodReducer(),options); }
+    function resolveCropTarget(preferred = null) {
+      const list = state.buildings;
+      let garden;
+      if (preferred === null) garden = list.find(item => item && ['garden', 'greenhouse'].includes(item.type) && contextDistance(item) <= CONTEXT_INTERACTION_RADIUS);
+      else if (typeof preferred === 'string' && preferred) garden = list.find(item => item.id === preferred);
+      else if (preferred && typeof preferred === 'object' && list.includes(preferred)) garden = preferred;
+      else return { ok: false, reason: 'crop-target-unknown' };
+      if (!garden) return { ok: false, reason: preferred === null ? 'crop-target-missing' : 'crop-target-unknown' };
+      if (typeof garden.id !== 'string' || !garden.id || list.filter(item => item.id === garden.id).length !== 1) return { ok: false, reason: 'crop-target-identity' };
+      if (!['garden', 'greenhouse'].includes(garden.type)) return { ok: false, reason: 'crop-target-type' };
+      if (garden.active === false || garden.hp !== undefined && (!Number.isFinite(garden.hp) || garden.hp <= 0)) return { ok: false, reason: 'crop-target-inactive' };
+      if (![garden.x, garden.y, state.player.x, state.player.y].every(Number.isFinite) || !(contextDistance(garden) <= CONTEXT_INTERACTION_RADIUS)) return { ok: false, reason: 'crop-too-far' };
+      return { ok: true, garden, buildingId: garden.id };
+    }
+    function cropActionGate(preferred = null) {
+      if (state.gameOver) return { ok: false, reason: 'game-over' };
+      if (!SessionController.isDay() || state.night) return { ok: false, reason: 'day-only' };
+      const clock = state.worldMeta.clock, now = worldMinute(), amount = 20 * clock.rate;
+      if (clock.paused) return { ok: false, reason: 'clock-paused' };
+      // The existing writer accepts integer calendar fields and finite clocks.
+      if (typeof clock.paused !== 'boolean' || !Number.isFinite(clock.rate) || clock.rate < .25 || clock.rate > 4 || !Number.isSafeInteger(amount) || !Number.isSafeInteger(now) || now < 0 || !Number.isSafeInteger(now + amount) || !Number.isInteger(state.day) || state.day < 1 || !Number.isInteger(state.hour) || state.hour < 0 || state.hour > 23 || !Number.isInteger(state.minute) || state.minute < 0 || state.minute > 59 || !Number.isFinite(clock.scheduleMinutes) || !Number.isFinite(clock.phaseMinutes) || !Number.isFinite(clock.scheduleMinutes + amount)) return { ok: false, reason: 'crop-clock-invalid' };
+      const target = resolveCropTarget(preferred);
+      if (!target.ok) return target;
+      const { garden } = target;
+      if (typeof garden.planted !== 'boolean' || typeof garden.ready !== 'boolean' || !Number.isFinite(garden.growth) || garden.growth < 0 || garden.ready && !garden.planted) return { ok: false, reason: 'crop-state-invalid' };
+      if (garden.planted && !garden.ready) return { ok: false, reason: 'crop-growing' };
+      const operation = garden.ready ? 'harvest' : 'plant';
+      const cost = { energy: garden.ready ? 6 : 4, seeds: garden.ready ? 0 : 1 };
+      if (!Number.isFinite(state.seeds) || state.seeds < cost.seeds) return { ok: false, reason: 'crop-seeds' };
+      if (!Number.isFinite(state.energy) || state.energy < cost.energy) return { ok: false, reason: 'crop-energy' };
+      if (!['wood', 'stone', 'food', 'parts', 'medicine'].every(key => Number.isFinite(state[key]))) return { ok: false, reason: 'crop-resources-invalid' };
+      return { ...target, operation, cost };
+    }
     function plantOrHarvestReducer(preferred = null) {
-      if (!guardNightAction()) return nightActionResult();
-      setPlayerAction('work', 760);
-      if (state.gameOver) return;
-      const spots = [[state.player.x,state.player.y],[state.player.x+1,state.player.y],[state.player.x-1,state.player.y],[state.player.x,state.player.y+1],[state.player.x,state.player.y-1]];
-      const garden = preferred || spots.map(([x,y]) => getBuilding(x,y)).find(b => b && (b.type === 'garden' || b.type === 'greenhouse'));
-      if (!garden) { toast('靠近菜畦后才能播种或收获'); return; }
-      if (garden.ready) {
-        if (!spendEnergy(6)) return;
-        garden.ready = false; garden.planted = false; garden.growth = 0; state.food += 3;
-        const herbBonus = garden.type === 'greenhouse' ? 1 : 0; state.medicine += herbBonus; advance(20);
-        log(`你收获了${garden.type === 'greenhouse' ? '药草温室' : '菜畦'}，获得 3 份食物${herbBonus ? '和 1 份药草' : ''}。`); toast(`收获完成 +3 食物${herbBonus ? ' · +1 药草' : ''}`); render(); return;
+      const gate = cropActionGate(preferred);
+      if (!gate.ok) {
+        const messages = { 'crop-growing': '作物还在生长，每天会长大一格', 'crop-seeds': '没有种子了', 'crop-energy': '行动体力不足', 'crop-too-far': '靠近菜畦后才能播种或收获' };
+        toast(messages[gate.reason] || '当前无法对这块田进行农务');
+        return gate;
       }
-      if (garden.planted) { toast(`作物还在生长（${garden.growth}/2），每天会长大一格`); return; }
-      if (state.seeds <= 0) { toast('没有种子了'); return; }
-      if (!spendEnergy(4)) return;
-      state.seeds -= 1; garden.planted = true; garden.growth = 0; advance(20);
-      log('你在菜畦里播下一颗种子，记得活到两天后。'); toast('播种完成'); render();
+      // Parent dispatch has already reserved its ID; one real advance is needed.
+      const advanceBudget = CommandBus.nextAutomaticId(state.worldMeta);
+      if (!advanceBudget.ok) return { ok: false, reason: advanceBudget.reason };
+      const { garden, buildingId, operation, cost } = gate, buildingType = garden.type;
+      const resources = () => Object.fromEntries(['wood', 'stone', 'food', 'parts', 'medicine', 'seeds', 'energy'].map(key => [key, state[key]]));
+      const calendar = () => ({ day: state.day, hour: state.hour, minute: state.minute, world: worldMinute() });
+      const crop = () => ({ planted: garden.planted, ready: garden.ready, growth: garden.growth });
+      const before = resources(), clockBefore = calendar(), targetBefore = crop();
+      setPlayerAction('work', 760);
+      spendEnergy(cost.energy); state.seeds -= cost.seeds;
+      const afterPayment = resources();
+      const yieldAmount = { food: operation === 'harvest' ? 3 : 0, medicine: operation === 'harvest' && buildingType === 'greenhouse' ? 1 : 0 };
+      garden.ready = false; garden.planted = operation === 'plant'; garden.growth = 0;
+      state.food += yieldAmount.food; state.medicine += yieldAmount.medicine;
+      const afterAction = resources(), targetAfterAction = crop(), advanceStartSeq = state.worldMeta.eventSeq;
+      const advancement = advance(20);
+      const after = resources(), clockAfter = calendar();
+      const advanceEvents = state.worldMeta.events.filter(event => event.seq > advanceStartSeq && event.seq <= advancement.event.seq);
+      const proof = {
+        proofVersion: 1, buildingId, buildingType, operation,
+        target: { id: buildingId, type: buildingType, before: targetBefore, afterAction: targetAfterAction, presentAtCompletion: state.buildings.includes(garden), atCompletion: state.buildings.includes(garden) ? crop() : null },
+        payment: { cost, before: { energy: before.energy, seeds: before.seeds }, after: { energy: afterPayment.energy, seeds: afterPayment.seeds } },
+        yield: yieldAmount, resources: { before, afterPayment, afterAction, after },
+        delta: Object.fromEntries(Object.keys(before).map(key => [key, after[key] - before[key]])),
+        clock: { before: clockBefore, after: clockAfter, requestedMinutes: 20, elapsedMinutes: clockAfter.world - clockBefore.world },
+        advance: { commandId: advancement.commandId, eventId: advancement.event.eventId, causationId: advancement.event.causationId, minutes: advancement.event.payload.minutes, tick: stableClone(advancement.event.tick) },
+        advanceEffects: {
+          resourceDelta: Object.fromEntries(Object.keys(before).map(key => [key, after[key] - afterAction[key]])),
+          events: advanceEvents.map(event => ({ eventId: event.eventId, type: event.type, actorId: event.actorId, commandId: event.commandId, causationId: event.causationId })),
+          npcMeals: advanceEvents.filter(event => event.type === 'npc.need.fulfilled' && event.payload.need === 'hunger').map(event => ({ eventId: event.eventId, npcId: event.payload.npcId, food: event.payload.food }))
+        }
+      };
+      if (operation === 'harvest') { log(`你收获了${buildingType === 'greenhouse' ? '药草温室' : '菜畦'}，获得 3 份食物${yieldAmount.medicine ? '和 1 份药草' : ''}。`); toast(`收获完成 +3 食物${yieldAmount.medicine ? ' · +1 药草' : ''}`); }
+      else { log('你在菜畦里播下一颗种子，记得活到两天后。'); toast('播种完成'); }
+      render(); return { ok: true, ...proof };
     }
     function repairBuildingReducer(preferred = null) {
       if (!guardNightAction()) return nightActionResult();
@@ -7047,7 +7112,14 @@ function resolveObserverExpression(input = {}) {
         return { result, payload: result };
       }, { eventType: 'building.repaired' });
     }
-    function plantOrHarvest(preferred = null, options = {}) { return actionCommand('crop.change','crop.changed',{buildingId:preferred?.id || null},()=>plantOrHarvestReducer(preferred),options); }
+    function plantOrHarvest(preferred = null, options = {}) {
+      const target = resolveCropTarget(preferred);
+      const buildingId = target.ok ? target.buildingId : typeof preferred === 'string' ? preferred : preferred?.id || null;
+      return dispatchCommand({ type: 'crop.change', actorId: 'player-1', commandId: options.commandId, payload: { buildingId } }, () => {
+        const result = plantOrHarvestReducer(preferred);
+        return result.ok ? { result, payload: result } : result;
+      }, { eventType: 'crop.changed' });
+    }
     function setNpcOrderReducer(id, orderId) {
       if (!guardNightAction()) return nightActionResult();
       if (state.gameOver) return;
@@ -7139,7 +7211,10 @@ function resolveObserverExpression(input = {}) {
       if (state.wood < info.wood || state.stone < info.stone) { toast('资源不够，先去采集'); return; }
       state.wood -= info.wood; state.stone -= info.stone;
       const towerDefaults = state.selectedBuild === 'flameTower' ? { hp: 12, maxHp: 12, active: true } : state.selectedBuild === 'tower' ? { hp: 10, maxHp: 10, active: true } : {};
-      state.buildings.push({x,y,type:state.selectedBuild, w: fp.w, h: fp.h, hp: state.selectedBuild === 'wall' ? 3 : (info.footprint ? (state.selectedBuild === 'bunker' ? 12 : 10) : undefined), ...towerDefaults, ...(state.selectedBuild === 'garden' ? {planted:false,growth:0,ready:false} : {})});
+      const buildingIdBase = `bld-${hashStable(`${state.selectedBuild}:${x},${y}`)}`;
+      let buildingId = buildingIdBase, buildingIdSuffix = 1;
+      while (state.buildings.some(item => item.id === buildingId)) buildingId = `${buildingIdBase}-${buildingIdSuffix++}`;
+      state.buildings.push({id:buildingId,x,y,type:state.selectedBuild, w: fp.w, h: fp.h, hp: state.selectedBuild === 'wall' ? 3 : (info.footprint ? (state.selectedBuild === 'bunker' ? 12 : 10) : undefined), ...towerDefaults, ...(state.selectedBuild === 'garden' ? {planted:false,growth:0,ready:false} : {})});
       log(`你建好了${info.name}，营地防线更稳了。`);
       toast(`${info.name}已建成`); state.selectedBuild = null; state.buildMode = false; $('buildDrawer').classList.remove('open');
       advance(45); render();
@@ -8378,10 +8453,11 @@ function resolveObserverExpression(input = {}) {
       else if (action === 'promoteHero') { const result = promoteNpcHero(button.dataset.npcId); if (result.ok) { hideContext(); render(); requestCheckpoint('npc-promotion'); } else toast(result.reason === 'command-points-empty' ? '指挥点不足，暂不能完成晋升' : '该 NPC 尚未满足晋升条件'); }
       else if (action === 'captureOutpost' && nearbyOutpost) captureOutpost(button.dataset.outpostId || nearbyOutpost.type);
       else if (action === 'gather') gather();
-      else if (action === 'crop') plantOrHarvest();
+      else if (action === 'crop') plantOrHarvest(button.dataset.buildingId || '');
       else if (action === 'repair') repairBuilding();
       else if (action === 'landmark' && nearbyLandmark) discoverLandmark(nearbyLandmark);
       else if (action === 'area') { const nearbyArea = nearbyContextItem(CAMP_AREAS); if (nearbyArea) interactCampArea(nearbyArea); }
+      else if (action === 'building' && button.dataset.cropTarget === 'true') plantOrHarvest(button.dataset.buildingId || '');
       else if (action === 'building' && nearbyBuilding) interactBuilding(nearbyBuilding);
       else if (action === 'evolve' && nearbyBuilding) { state.selectedBuilding = nearbyBuilding; toggleEvolution(); }
       else if (action === 'weapon' && nearbyShelter) { state.selectedBuilding = nearbyShelter; toggleWeaponPanel(); }
@@ -8395,7 +8471,7 @@ function resolveObserverExpression(input = {}) {
     $('gatherBtn').addEventListener('click', gather);
     $('buildBtn').addEventListener('click', toggleBuild);
     $('attackBtn').addEventListener('click', attackNearestThreat);
-    $('cropBtn').addEventListener('click', plantOrHarvest);
+    $('cropBtn').addEventListener('click', () => plantOrHarvest());
     $('eatBtn').addEventListener('click', eatFood);
     $('eatBtnAction').addEventListener('click', eatFood);
     $('endDayBtn').addEventListener('click', startThreatEncounter);

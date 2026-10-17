@@ -255,7 +255,8 @@ def accounted_food(events, before):
     # effect/history events: a blacklist cannot prove a +3 crop yield.
     nonfood = {"time.advanced","sanity.changed","sanity.thresholdCrossed","npc.work.completed","npc.work.blocked",
         "npc.event.triggered","npc.event.cancelled","npc.promotion.eligible","frontier.zombieSpawned","threat.forecastChanged",
-        "relay.projectBlocked","relay.constructionStarted","relay.materialsGathered","relay.materialsCommitted","relay.stationOnline"}
+        "relay.projectBlocked","relay.constructionStarted","relay.materialsGathered","relay.materialsCommitted","relay.stationOnline",
+        "combat.damage.applied","combat.entity.defeated"}
     def food_field(value):
         if isinstance(value, dict):return any("food" in str(k).lower() or food_field(v) for k,v in value.items())
         if isinstance(value, list):return any(food_field(v) for v in value)
@@ -294,9 +295,10 @@ def clock_window_evidence(before, after, events):
 def public_crop_evidence(before, after, garden_id):
     """Check actual pre/post artifacts, not a crop reducer or invented receipt.
 
-    The current public context handler supplies buildingId=null and the real
-    crop.changed receipt has no delta. Positive yield therefore needs the same
-    garden transition, accounted food and the exact nested advance/replay join.
+    Legacy empty receipts require the original null-target command and all
+    same-garden/food/time evidence. New target proof v1 additionally requires
+    exact identity, harvest operation, gross payment and the real child join.
+    Neither receipt shape substitutes for the actual saved artifact changes.
     """
     window = continuous_events(after, before)
     events = window or []
@@ -318,6 +320,58 @@ def public_crop_evidence(before, after, garden_id):
     food = accounted_food([e for e in events if e["type"] != "crop.changed"], before)
     stable_day = before["day"] == after["day"] and all(before["world"].get(k) == after["world"].get(k)
         for k in ("lastRationDay", "lastDailyUpkeepDay"))
+    payload = event.get("payload") if event else None
+    legacy = payload == {} and len(commands) == 1 and commands[0].get("payload") == {"buildingId": None}
+    proof_v1 = isinstance(payload, dict) and type(payload.get("proofVersion")) is int and payload["proofVersion"] == 1
+    proof_checks = {}
+    if proof_v1:
+        obj = lambda value: value if isinstance(value, dict) else {}
+        number = lambda value: type(value) in (int, float) and float("-inf") < value < float("inf")
+        target, payment, resources, proof_clock, proof_advance = (obj(payload.get(k)) for k in ("target", "payment", "resources", "clock", "advance"))
+        paid_before, paid_after, cost = (obj(payment.get(k)) for k in ("before", "after", "cost"))
+        resource_before, resource_paid, resource_action, resource_after = (obj(resources.get(k)) for k in ("before", "afterPayment", "afterAction", "after"))
+        resource_keys = ("wood", "stone", "food", "parts", "medicine", "seeds", "energy")
+        valid_resources = all(set(value) == set(resource_keys) and all(number(value[k]) for k in resource_keys)
+            for value in (resource_before, resource_paid, resource_action, resource_after))
+        crop_fields = ("planted", "ready", "growth")
+        def crop_state(value):
+            return isinstance(value, dict) and set(value) == set(crop_fields) and type(value.get("planted")) is bool \
+                and type(value.get("ready")) is bool and number(value.get("growth"))
+        clock_before, clock_after = (obj(proof_clock.get(k)) for k in ("before", "after"))
+        def calendar(value):
+            return set(value) == {"day", "hour", "minute", "world"} and all(type(value[k]) is int for k in value) \
+                and value["day"] >= 1 and 0 <= value["hour"] < 24 and 0 <= value["minute"] < 60 and minute(value) == value["world"]
+        proof_checks = {
+            "v1 exact live garden identity and harvest operation": payload.get("ok") is True and payload.get("buildingId") == garden_id
+                and payload.get("buildingType") == "garden" and payload.get("operation") == "harvest"
+                and target.get("id") == garden_id and target.get("type") == "garden" and target.get("presentAtCompletion") is True,
+            "v1 target transitions match the same actual garden": all(crop_state(target.get(k)) for k in ("before", "afterAction", "atCompletion"))
+                and target.get("before") == {k: old.get(k) for k in crop_fields}
+                and target.get("afterAction") == {"planted": False, "ready": False, "growth": 0}
+                and target.get("atCompletion") == {k: actual.get(k) for k in crop_fields},
+            "v1 gross six energy and zero seeds payment": set(cost) == {"energy", "seeds"}
+                and all(type(cost[k]) is int for k in cost) and cost == {"energy": 6, "seeds": 0}
+                and set(paid_before) == set(paid_after) == {"energy", "seeds"}
+                and all(number(value[k]) for value in (paid_before, paid_after) for k in ("energy", "seeds"))
+                and paid_before.get("energy", 0) >= 6 and paid_before.get("energy", 0) - paid_after.get("energy", 0) == 6
+                and paid_before.get("seeds") == paid_after.get("seeds") == before["seeds"] == after["seeds"],
+            "v1 full resources separate payment and crop yield": valid_resources
+                and all(resource_before[k] == paid_before.get(k) and resource_paid[k] == paid_after.get(k) for k in ("energy", "seeds"))
+                and all(resource_paid[k] == resource_before[k] - (6 if k == "energy" else 0) for k in resource_keys)
+                and all(resource_action[k] == resource_paid[k] + (3 if k == "food" else 0) for k in resource_keys)
+                and isinstance(payload.get("yield"), dict) and all(type(payload["yield"].get(k)) is int for k in ("food", "medicine"))
+                and payload.get("yield") == {"food": 3, "medicine": 0},
+            "v1 child proof exactly joins actual advance event": bool(advance and command_id) and bool(advance.get("eventId"))
+                and proof_advance == {"commandId": advance.get("commandId"), "eventId": advance.get("eventId"),
+                    "causationId": command_id, "minutes": 20, "tick": advance.get("tick")},
+            "v1 twenty minute clock is within actual observed window": calendar(clock_before) and calendar(clock_after)
+                and proof_clock.get("requestedMinutes") == 20 and proof_clock.get("elapsedMinutes") == 20
+                and clock_after.get("world", 0) - clock_before.get("world", 0) == 20
+                and minute(before) <= clock_before.get("world", -1) < clock_after.get("world", -1) <= minute(after)
+                and bool(advance) and clock_after.get("world") == advance.get("tick", {}).get("world"),
+            "v1 parent command has the exact target id": len(commands) == 1 and commands[0].get("payload") == {"buildingId": garden_id},
+        }
+    receipt_contract = "legacy-empty" if legacy else "target-proof-v1" if proof_v1 else "unsupported"
     checks = {
         "complete actual harvest event window": window is not None and bool(window),
         "harvest preserves the same unique source NPC identities": len(before_ids)==len(set(before_ids))
@@ -329,9 +383,10 @@ def public_crop_evidence(before, after, garden_id):
         "harvesting the mature garden does not spend seeds": after["seeds"]==before["seeds"],
         "one new crop receipt joins one exact public crop command": bool(command_id) and len(crops) == 1 and len(commands) == 1
             and event.get("actorId") == "player-1"
-            and commands[0]["type"] == "crop.change" and commands[0].get("payload") == {"buildingId": None}
+            and commands[0]["type"] == "crop.change" and (legacy or proof_v1 and all(proof_checks.values()))
             and commands[0].get("actorId") == "player-1" and len(new_crop_commands) == 1 and new_crop_commands[0] == commands[0]
             and after["worldMeta"]["seenCommands"].count(command_id) == 1,
+        "harvest receipt has an exact supported evidence contract": legacy or proof_v1 and all(proof_checks.values()),
         "harvest advances twenty minutes by its own causal replay": bool(advance and event) and len(advance_commands) == 1
             and advance.get("payload", {}).get("minutes") == 20 and advance_commands[0]["type"] == "world.advance"
             and advance_commands[0].get("payload") == {"minutes": 20} and advance["seq"] < event["seq"]
@@ -344,7 +399,8 @@ def public_crop_evidence(before, after, garden_id):
             "beforeMinute": minute(before), "afterMinute": minute(after), "beforeEventSeq": before["worldMeta"]["eventSeq"],
             "afterEventSeq": after["worldMeta"]["eventSeq"], "foodBefore": before["food"], "foodAfter": after["food"],
             "foodAccounting": food, "receipts": crops, "commands": commands, "causalAdvance": advances,
-            "causalAdvanceCommands": advance_commands, "clockEvidence":clock}
+            "causalAdvanceCommands": advance_commands, "clockEvidence":clock,
+            "receiptContract":receipt_contract,"targetProofChecks":proof_checks}
 
 
 def public_crop_reload_evidence(before, after, garden_id):
@@ -389,23 +445,100 @@ def crop_method_controls():
         bad=copy.deepcopy(controls);bad[key][field]=False
         assert not all(day_control_evidence(bad).values())
         checks.append("day-controls-reject-"+key+"-"+field)
-    before={"day":3,"hour":1,"minute":0,"food":5,"seeds":2,"npcs":[{"id":"developer-only-npc"}],
+    before={"day":3,"hour":1,"minute":0,"food":5,"seeds":2,"energy":40,"wood":12,"stone":10,"parts":2,"medicine":1,"npcs":[{"id":"developer-only-npc"}],
         "buildings":[{"id":"developer-only-garden","x":7,"y":14,"type":"garden","ready":True,"planted":True,"growth":2}],
         "world":{"lastRationDay":3,"lastDailyUpkeepDay":3},
         "worldMeta":{"eventSeq":10,"events":[],"seenCommands":[],"replay":{"commands":[]}}}
-    after=copy.deepcopy(before);after["minute"]=20;after["food"]=8
+    after=copy.deepcopy(before);after["minute"]=20;after["food"]=8;after["energy"]=35
     after["buildings"][0].update(ready=False,planted=False,growth=0)
     after["worldMeta"].update(eventSeq=12,seenCommands=["developer-crop","developer-advance"],events=[
-        {"seq":11,"type":"time.advanced","commandId":"developer-advance","causationId":"developer-crop","tick":{"world":2960},"payload":{"minutes":20}},
-        {"seq":12,"type":"crop.changed","actorId":"player-1","commandId":"developer-crop","tick":{"world":2960},"payload":{}}])
+        {"eventId":"developer-advance-event","seq":11,"type":"time.advanced","commandId":"developer-advance","causationId":"developer-crop","tick":{"world":2960},"payload":{"minutes":20}},
+        {"eventId":"developer-crop-event","seq":12,"type":"crop.changed","actorId":"player-1","commandId":"developer-crop","tick":{"world":2960},"payload":{}}])
     after["worldMeta"]["replay"]["commands"]=[{"commandId":"developer-crop","type":"crop.change","actorId":"player-1","payload":{"buildingId":None}},
         {"commandId":"developer-advance","type":"world.advance","payload":{"minutes":20}}]
     garden="developer-only-garden"
     assert public_crop_evidence(before,after,garden)["ok"]
     checks.append("accept-empty-real-shaped-crop-payload-with-positive-artifact-evidence")
+    # Pure comparison controls for the new writer shape. These values are
+    # synthetic witnesses, not captures, source-VM runs or browser gameplay.
+    proof_after=copy.deepcopy(after)
+    proof_after["worldMeta"]["replay"]["commands"][0]["payload"]={"buildingId":garden}
+    resource_keys=("wood","stone","food","parts","medicine","seeds","energy")
+    resources_before={k:before[k] for k in resource_keys}
+    resources_paid=copy.deepcopy(resources_before);resources_paid["energy"]-=6
+    resources_action=copy.deepcopy(resources_paid);resources_action["food"]+=3
+    resources_after={k:proof_after[k] for k in resource_keys}
+    proof={"ok":True,"proofVersion":1,"buildingId":garden,"buildingType":"garden","operation":"harvest",
+        "target":{"id":garden,"type":"garden","before":{"planted":True,"ready":True,"growth":2},
+            "afterAction":{"planted":False,"ready":False,"growth":0},"atCompletion":{"planted":False,"ready":False,"growth":0},"presentAtCompletion":True},
+        "payment":{"cost":{"energy":6,"seeds":0},"before":{"energy":40,"seeds":2},"after":{"energy":34,"seeds":2}},
+        "yield":{"food":3,"medicine":0},"resources":{"before":resources_before,"afterPayment":resources_paid,"afterAction":resources_action,"after":resources_after},
+        "clock":{"before":{"day":3,"hour":1,"minute":0,"world":2940},"after":{"day":3,"hour":1,"minute":20,"world":2960},"requestedMinutes":20,"elapsedMinutes":20},
+        "advance":{"commandId":"developer-advance","eventId":"developer-advance-event","causationId":"developer-crop","minutes":20,"tick":{"world":2960}}}
+    proof_after["worldMeta"]["events"][-1]["payload"]=proof
+    evidence=public_crop_evidence(before,proof_after,garden)
+    assert evidence["ok"] and evidence["receiptContract"]=="target-proof-v1" and all(evidence["targetProofChecks"].values())
+    checks.append("accept-synthetic-v1-harvest-proof-with-gross-six-energy-and-real-shaped-artifact-joins")
+    for label in ("wrong-building-id","wrong-parent-target","null-parent-target","wrong-operation","wrong-building-type","wrong-target-id",
+                  "wrong-target-before","wrong-target-after","missing-target","wrong-child-command","wrong-child-event","wrong-child-causation",
+                  "wrong-child-tick","wrong-child-minutes","wrong-payment-energy","wrong-payment-cost","seed-payment","wrong-resource-payment",
+                  "wrong-resource-yield","wrong-clock","wrong-yield","no-actual-food-yield","command-rejected","unsupported-version","missing-proof",
+                  "wrong-event-actor","wrong-command-actor"):
+        bad=copy.deepcopy(proof_after);p=bad["worldMeta"]["events"][-1]["payload"]
+        if label=="wrong-building-id":p["buildingId"]="unrelated-garden"
+        elif label=="wrong-parent-target":bad["worldMeta"]["replay"]["commands"][0]["payload"]["buildingId"]="unrelated-garden"
+        elif label=="null-parent-target":bad["worldMeta"]["replay"]["commands"][0]["payload"]["buildingId"]=None
+        elif label=="wrong-operation":p["operation"]="plant"
+        elif label=="wrong-building-type":p["buildingType"]="greenhouse"
+        elif label=="wrong-target-id":p["target"]["id"]="unrelated-garden"
+        elif label=="wrong-target-before":p["target"]["before"]["ready"]=False
+        elif label=="wrong-target-after":p["target"]["afterAction"]["planted"]=True
+        elif label=="missing-target":p["target"]["presentAtCompletion"]=False
+        elif label=="wrong-child-command":p["advance"]["commandId"]="unrelated-advance"
+        elif label=="wrong-child-event":p["advance"]["eventId"]="unrelated-event"
+        elif label=="wrong-child-causation":p["advance"]["causationId"]="unrelated-parent"
+        elif label=="wrong-child-tick":p["advance"]["tick"]["world"]+=1
+        elif label=="wrong-child-minutes":p["advance"]["minutes"]=1
+        elif label=="wrong-payment-energy":p["payment"]["after"]["energy"]+=1
+        elif label=="wrong-payment-cost":p["payment"]["cost"]["energy"]=4
+        elif label=="seed-payment":p["payment"]["after"]["seeds"]-=1
+        elif label=="wrong-resource-payment":p["resources"]["afterPayment"]["energy"]+=1
+        elif label=="wrong-resource-yield":p["resources"]["afterAction"]["food"]+=1
+        elif label=="wrong-clock":p["clock"]["after"]["world"]+=1
+        elif label=="wrong-yield":p["yield"]["food"]=30
+        elif label=="no-actual-food-yield":bad["food"]=before["food"]
+        elif label=="wrong-event-actor":bad["worldMeta"]["events"][-1]["actorId"]="system"
+        elif label=="wrong-command-actor":bad["worldMeta"]["replay"]["commands"][0]["actorId"]="system"
+        elif label=="command-rejected":
+            bad["worldMeta"]["eventSeq"]+=1
+            bad["worldMeta"]["events"].append({"seq":13,"type":"command.rejected","commandId":"developer-crop","payload":{"reason":"developer-only-rejection"}})
+        elif label=="unsupported-version":p["proofVersion"]=2
+        elif label=="missing-proof":bad["worldMeta"]["events"][-1]["payload"]={}
+        assert not public_crop_evidence(before,bad,garden)["ok"],"v1 crop evidence accepted "+label
+        checks.append("reject-synthetic-v1-"+label)
+    proof_meal=copy.deepcopy(proof_after);proof_meal["food"]-=1;proof_meal["worldMeta"]["eventSeq"]=13
+    proof_meal["worldMeta"]["events"].append({"seq":13,"type":"npc.need.fulfilled","actorId":"developer-only-npc","payload":{"npcId":"developer-only-npc","need":"hunger","food":1}})
+    assert public_crop_evidence(before,proof_meal,garden)["ok"]
+    checks.append("accept-synthetic-v1-harvest-with-recorded-subsequent-NPC-meal")
+    for contract,source in (("legacy",after),("v1",proof_after)):
+        neutral=copy.deepcopy(source);neutral["worldMeta"]["eventSeq"]=14
+        neutral["worldMeta"]["events"].extend([
+            {"seq":13,"type":"combat.damage.applied","actorId":"developer-only-tower","payload":{"sourceId":"developer-only-tower","targetId":"developer-only-enemy","amount":10}},
+            {"seq":14,"type":"combat.entity.defeated","actorId":"developer-only-tower","payload":{"entityId":"developer-only-enemy","entityKind":"event-enemy"}}])
+        assert public_crop_evidence(before,neutral,garden)["ok"]
+        checks.append("accept-synthetic-"+contract+"-harvest-with-known-neutral-combat")
+        for label,event_type,data in (
+            ("damage-nested-food","combat.damage.applied",{"details":{"food":0}}),
+            ("defeat-nested-food","combat.entity.defeated",{"rewards":[{"food":2}]}),
+            ("defeat-food-delta","combat.entity.defeated",{"foodDelta":0}),
+            ("unknown-combat-loot","combat.loot.granted",{"parts":1})):
+            bad=copy.deepcopy(source);bad["worldMeta"]["eventSeq"]=13
+            bad["worldMeta"]["events"].append({"seq":13,"type":event_type,"payload":data})
+            assert not public_crop_evidence(before,bad,garden)["ok"],"crop food evidence accepted "+label
+            checks.append("reject-synthetic-"+contract+"-"+label)
     for label in ("noop-garden","wrong-garden","food-no-yield","seed-spent","changed-roster","duplicate-crop","wrong-replay-type","duplicate-replay",
                   "invented-buildingId","wrong-causation","wrong-duration","missing-window","wrong-clock-total","missing-seen-command",
-                  "unknown-food-action","landmark-food","content-food","future-food","nonfood-type-food-payload","bad-NPC-meal"):
+                  "unknown-food-action","landmark-food","content-food","future-food","nonfood-type-food-payload","bad-NPC-meal","wrong-event-actor"):
         bad=copy.deepcopy(after)
         if label=="noop-garden":bad["buildings"]=copy.deepcopy(before["buildings"])
         elif label=="wrong-garden":bad["buildings"][0]["id"]="unrelated-garden"
@@ -422,6 +555,7 @@ def crop_method_controls():
         elif label=="missing-window":bad["worldMeta"]["events"].pop(0)
         elif label=="wrong-clock-total":bad["minute"]=22
         elif label=="missing-seen-command":bad["worldMeta"]["seenCommands"].remove("developer-crop")
+        elif label=="wrong-event-actor":bad["worldMeta"]["events"][-1]["actorId"]="system"
         else:
             bad["worldMeta"]["eventSeq"]+=1
             variants={"unknown-food-action":("player.ate",{}),"landmark-food":("landmark.discovered",{"landmarkType":"waterMill"}),

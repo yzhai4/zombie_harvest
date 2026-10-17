@@ -69,6 +69,8 @@ jobs:
           node --check scripts/check-shortage-choice-v2.mjs
           node --check scripts/browser-natural-mixed-v1.mjs
           node --check scripts/browser-shortage-choice-v2.mjs
+          node --check scripts/check-crop-target-v1.mjs
+          node --check scripts/browser-crop-target-v1.mjs
       - name: Check deployable entrypoints
         run: |
           test -s dist/index.html
@@ -135,6 +137,10 @@ jobs:
         run: node scripts/check-content-episode-v1.mjs
       - name: Execute shortage choice v2 and historical writer migration contracts
         run: node scripts/check-shortage-choice-v2.mjs --html dist/index.html --baseline-report docs/experiments/runs/food-shortage-strategies-32f911-20261017/report.json --out "$RUNNER_TEMP/shortage-choice-v2.json"
+      - name: Execute live crop targets, public actions and newly built plot contracts
+        run: node scripts/check-crop-target-v1.mjs --html dist/index.html --out "$RUNNER_TEMP/crop-target-v1.json"
+      - name: Execute legacy and current crop proof method controls
+        run: python -c "import sys; sys.path.insert(0, 'scripts'); from report_recovery_full import crop_method_controls; result = crop_method_controls(); print('synthetic crop proof method checks:', len(result['controls']))"
       - name: Reject stale or incomplete evidence manifests
         run: node scripts/check-iteration-evidence-self-test.mjs
       - name: Check iteration evidence freshness
