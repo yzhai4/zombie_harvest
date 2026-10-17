@@ -6,9 +6,11 @@
 
 43个唯一源码合同各有通过终态（44次执行含一份原rest夹具失败；仅该方法改合法三岗重跑），新增runtime10／10，同方法c21为8／10、岗位修复中间版为9／10。真实Chrome四场197／197、episode12／12，共209个内部检查、10次main响应全同dccb；没有运行中写state或资源补偿，正常保存后才reload，各场新tick已核。root目视桌面及390宽缺岗／补岗／配置错误与关联episode；不称完整移动端或真人理解验收。
 
-当前开发ref仍为上轮85c5；本轮源码对象已创建但最终证据commit、ref和精确CI仍待完成。manifest与Git终态由PR #4实际核，不能预填绿色；生产未部署。这里的briefed来自原真实命令writer，死亡／继任与配置变体为明确source-VM／TEST-ONLY定位；消费者分钟不等于自然世界推进。下方旧pilot的死亡与预算停止保持原事实。
+开发发布已完成：2026-10-18重新从GitHub实查ref为`9b38754950775bc6e30a435b1ac15cc5c64a74a5`，精确[CI297](https://github.com/yzhai4/zombie_harvest/actions/runs/39059412475)为completed／success，head一致。源码及选中证据已在PR #4，不表示生产部署或公开全链已通过。这里的briefed来自原真实命令writer，死亡／继任与配置变体为明确source-VM／TEST-ONLY定位；消费者分钟不等于自然世界推进。下方旧pilot的死亡与预算停止保持原事实。
 
-下一推进同构建的公开主线后果与单因素路线，从实际阻碍选择有限补给／防卫／等候；EventFact／记忆围绕真实承诺与后果接线。全项目岗位互斥、长官交付与指挥所空缺、完整观察／规划／关系、自然三日／玩家体验、Studio、更大世界／多副本、UI素材及引擎迁移继续开放。
+同构建[公开中继pilot](../qa/public-relay-mainline-20261018.md)现已执行：A01方法导航停止保留；修正可达前沿后A02／B02都真实回收并交付，HP86，筹料阶段。两臂等候入口存在但disabled，原“未找到庇护所”方法解释另作更正，均exit1、未online或reload，不能称全链／食物因果通过。下一按[禁用原因反馈](../problems/PROB-20261018-camp-rest-disabled-feedback.md)补可读性，保持安全Gate；并按[本人交付记忆计划](../research/eventfact-handoff-plan-20261018.md)接真实来源消费者，不等全部实验完成。两项仍待运行时实现。
+
+全项目岗位互斥、长官交付与指挥所空缺、完整观察／规划／关系、自然三日／玩家体验、Studio、更大世界／多副本、UI素材及引擎迁移继续开放。原文已再核同59069字节／SHA940efac9，不增加外部实证；新文档与试玩Skill改动的开发发布另记，不预填新head CI。
 
 ## 当前检查点：调研原文与中继工程pilot（2026-10-18）
 

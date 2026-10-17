@@ -1,0 +1,352 @@
+{
+  "schema": "PublicNavigationMethod02OfflineV1",
+  "scope": {
+    "methodOnly": true,
+    "gameExecution": false,
+    "browser": false,
+    "naturalGameplay": false,
+    "hiddenNativeOrLiveRead": false,
+    "inputs": "Original A01 initial/final public viewport JSON only. Fractional arrival controls below are explicit synthetic method inputs over those same observed tiles; no synthetic map or GameState is installed."
+  },
+  "inputs": [
+    {
+      "path": "browser-A-01/001-initial-map-ui.json",
+      "sha256": "bd324f56e8ee5b11c51035a0d02bb419ae7e2f508b7b748b22af8d0d7051f46a",
+      "bytes": 35647
+    },
+    {
+      "path": "browser-A-01/002-final-ui.json",
+      "sha256": "9cb8e56a868489797624ac6258a7ad73f62647d2a27f734d4adcbbb0721d377c",
+      "bytes": 48570
+    },
+    {
+      "path": "run-public-relay.mjs",
+      "sha256": "175c5429ec7773ead3cd852f6c7ef4077fa21433b55123487ed60c4852887f3f",
+      "bytes": 19936
+    },
+    {
+      "path": "pilot-session.mjs",
+      "sha256": "3cee685d306d00d8cc561ef55b138fd378362f7aff0a36e5e452ba2edb576b4e",
+      "bytes": 24584
+    },
+    {
+      "path": "run-public-relay-v2.mjs",
+      "sha256": "daa8cf6e9e606a791be7a6062814ffbe0456b05ebcbdbf51c5f9c7f9a386ed7c",
+      "bytes": 21347
+    },
+    {
+      "path": "public-navigation-v2.mjs",
+      "sha256": "f8e0267d0f4667e836ecdc4235b407e24cbabe22730cae4f25bad4861e5939ea",
+      "bytes": 7149
+    },
+    {
+      "path": "check-public-navigation-v2.mjs",
+      "sha256": "fd7e68e1acab9f085ebd3262b0063e962be7767189595d89ed2e38b012f3405d",
+      "bytes": 7373
+    }
+  ],
+  "checks": [
+    {
+      "name": "Original initial public view yields a reachable frontier",
+      "ok": true,
+      "detail": {
+        "kind": "frontier",
+        "goal": {
+          "x": 12,
+          "y": 11,
+          "observedAt": 1792264268031,
+          "source": "observed reachable tile with an unknown four-neighbor"
+        },
+        "reachableNodes": 52,
+        "unknownDirections": [
+          "east",
+          "south",
+          "north"
+        ],
+        "deferred": [],
+        "exhaustedCount": 0
+      }
+    },
+    {
+      "name": "Actual A01 public union reproduces old east-first disconnected choice",
+      "ok": true,
+      "detail": {
+        "goal": {
+          "x": 26,
+          "y": 11,
+          "tag": "远端中继台"
+        },
+        "source": "original public UI union, not full intermediate known replay"
+      }
+    },
+    {
+      "name": "Final public component excludes the observed far bank",
+      "ok": true,
+      "detail": {
+        "reachableNodes": 114,
+        "maxX": 20
+      }
+    },
+    {
+      "name": "Final method selects a connected frontier and retains inaccessible marker",
+      "ok": true,
+      "detail": {
+        "kind": "frontier",
+        "goal": {
+          "x": 20,
+          "y": 11,
+          "observedAt": 1792264280719,
+          "source": "observed reachable tile with an unknown four-neighbor"
+        },
+        "reachableNodes": 114,
+        "unknownDirections": [
+          "south"
+        ],
+        "deferred": [
+          {
+            "x": 26,
+            "y": 11,
+            "tag": "远端中继台",
+            "observedAt": 1792264280719,
+            "reason": "no connection in observed component; retained"
+          }
+        ],
+        "exhaustedCount": 0
+      }
+    },
+    {
+      "name": "A reachable frontier can face south/north/west without an unknown east neighbor",
+      "ok": true,
+      "detail": {
+        "tile": {
+          "x": 19,
+          "y": 11
+        },
+        "unknownDirections": [
+          "south"
+        ]
+      }
+    },
+    {
+      "name": "Frontier is approached within0.2 rather than stopping one tile away",
+      "ok": true,
+      "detail": {
+        "syntheticPublicPosition": {
+          "x": 19.2,
+          "y": 11
+        },
+        "goal": {
+          "x": 20,
+          "y": 11,
+          "observedAt": 1792264280719,
+          "source": "observed reachable tile with an unknown four-neighbor"
+        },
+        "step": {
+          "key": "ArrowRight",
+          "holdMs": 150,
+          "waypoint": {
+            "x": 20,
+            "y": 11
+          },
+          "goal": {
+            "x": 20,
+            "y": 11
+          },
+          "arrival": 0.2
+        }
+      }
+    },
+    {
+      "name": "No-new-observation arrival retires that frontier and chooses another",
+      "ok": true,
+      "detail": {
+        "syntheticArrival": {
+          "x": 20,
+          "y": 11
+        },
+        "next": {
+          "kind": "frontier",
+          "goal": {
+            "x": 20,
+            "y": 5,
+            "observedAt": 1792264280719,
+            "source": "observed reachable tile with an unknown four-neighbor"
+          },
+          "reachableNodes": 114,
+          "unknownDirections": [
+            "north"
+          ],
+          "deferred": [
+            {
+              "x": 26,
+              "y": 11,
+              "tag": "远端中继台",
+              "observedAt": 1792264280719,
+              "reason": "no connection in observed component; retained"
+            }
+          ],
+          "exhaustedCount": 1
+        }
+      }
+    },
+    {
+      "name": "Latched waypoint survives rounding boundary without opposing reversal",
+      "ok": true,
+      "detail": {
+        "syntheticFractionalControls": [
+          {
+            "x": 17.1,
+            "y": 10.7
+          },
+          {
+            "x": 17.4,
+            "y": 10.7
+          },
+          {
+            "x": 17.5,
+            "y": 10.7
+          }
+        ],
+        "steps": [
+          {
+            "key": "ArrowRight",
+            "holdMs": 150,
+            "waypoint": {
+              "x": 18,
+              "y": 11
+            },
+            "goal": {
+              "x": 20,
+              "y": 11
+            },
+            "arrival": 0.2
+          },
+          {
+            "key": "ArrowRight",
+            "holdMs": 150,
+            "waypoint": {
+              "x": 18,
+              "y": 11
+            },
+            "goal": {
+              "x": 20,
+              "y": 11
+            },
+            "arrival": 0.2
+          },
+          {
+            "key": "ArrowRight",
+            "holdMs": 150,
+            "waypoint": {
+              "x": 18,
+              "y": 11
+            },
+            "goal": {
+              "x": 20,
+              "y": 11
+            },
+            "arrival": 0.2
+          }
+        ]
+      }
+    },
+    {
+      "name": "A new observed exploration view keeps its existing frontier until close arrival",
+      "ok": true,
+      "detail": {
+        "goal": {
+          "x": 12,
+          "y": 11,
+          "observedAt": 1792264268031,
+          "source": "observed reachable tile with an unknown four-neighbor"
+        }
+      }
+    },
+    {
+      "name": "Public return candidates are tagged probes, not certified shelters",
+      "ok": true,
+      "detail": {
+        "goal": {
+          "x": 10,
+          "y": 10,
+          "tag": "建筑",
+          "water": false,
+          "building": true,
+          "classes": [
+            "tile",
+            "terrain-forest",
+            "building-footprint",
+            "is-building-anchor"
+          ],
+          "clickable": true,
+          "visible": true,
+          "observedAt": 1792264280719,
+          "lastObservedAt": 1792264280719,
+          "source": "public viewport tile",
+          "returnKind": "generic-public-building"
+        },
+        "usableRestObserved": null
+      }
+    },
+    {
+      "name": "No-affordance return probes remain finite without hidden locations",
+      "ok": true,
+      "detail": {
+        "tried": [
+          {
+            "x": 10,
+            "y": 10,
+            "tag": "建筑",
+            "kind": "generic-public-building"
+          },
+          {
+            "x": 11,
+            "y": 11,
+            "tag": "initial publicly observed player position",
+            "kind": "initial-public-position"
+          }
+        ],
+        "state": {
+          "exhaustedFrontiers": [],
+          "returnProbes": 2,
+          "waypoint": null,
+          "initialPublicPosition": {
+            "x": 11,
+            "y": 11,
+            "observedAt": 1792264268031
+          },
+          "observedRestPosition": null
+        }
+      }
+    },
+    {
+      "name": "Original driver and executed session helper remain byte-for-byte",
+      "ok": true,
+      "detail": {
+        "driver": "175c5429ec7773ead3cd852f6c7ef4077fa21433b55123487ed60c4852887f3f",
+        "helper": "3cee685d306d00d8cc561ef55b138fd378362f7aff0a36e5e452ba2edb576b4e"
+      }
+    }
+  ],
+  "observations": {
+    "legacyGoal": {
+      "x": 26,
+      "y": 11
+    },
+    "fixedGoal": {
+      "x": 20,
+      "y": 11,
+      "observedAt": 1792264280719,
+      "source": "observed reachable tile with an unknown four-neighbor"
+    }
+  },
+  "unverified": [
+    "Actual key timing/displacement/collision",
+    "Future exploration reveals a river connection or mainline target",
+    "Actual generic-building rest context and public return",
+    "End-to-end A02, source regressions, natural/human results"
+  ],
+  "count": 12,
+  "passed": 12,
+  "ok": true
+}

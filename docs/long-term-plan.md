@@ -4,7 +4,7 @@
 
 本人需求规划已由[木匠恢复／工作切片](qa/npc-rest-work-v1-20261018.md)接到实际routine、移动、劳动资格、SAN、保存和公开说明；列明源码／本地Chrome通过，开发ref／CI终态以PR服务核。它是唯一有效木匠的规则pilot，不是全职业P2或物理到岗系统。原敌情导致的中断与近完成定位分开，估算成本不当收益。
 
-下一以同seed中继基线／缺粮／缺岗分别核有意义时间、NPC行为解释和玩家介入，原问题优先；再按真正需要的消费者补EventFact与Memory/Social，并做小真人pilot。硬Gate／软policy、AI OFF与确定性模拟器始终保留。P5多主体sandbox、Studio、UI／素材、大地图／多副本、持久特殊NPC、引擎适配和P6研究目标不变；完整观察所有topic不是所有具体玩法无限等待的前置。
+同seed[公开A02／B02](qa/public-relay-mainline-20261018.md)已真实回收与交付，工程后半段未完成；优先补[等候禁用的可见理由](problems/PROB-20261018-camp-rest-disabled-feedback.md)，按[本人交付记忆计划](research/eventfact-handoff-plan-20261018.md)接实际EventFact消费者，再开展小真人pilot。严格缺岗C与全部观察topic不作为这些具体切片的无限前置。硬Gate／软policy、AI OFF与确定性模拟器始终保留；P5多主体sandbox、Studio、UI／素材、大地图／多副本、持久特殊NPC、引擎适配和P6研究目标不变。计划／合同尚非运行时实现或玩家收益。
 
 ## 当前P0检查点：当次侦察（2026-10-17）
 
