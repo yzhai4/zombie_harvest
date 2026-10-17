@@ -1,5 +1,13 @@
 # 当前状态
 
+## 当前检查点：木匠低精力恢复与工作一致性（2026-10-18）
+
+源码`6dbee8cc06c45bec47ff114f41f27686123a8248`／HTML`c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571`，SAVE21／CONTENT3。唯一有效健康本地木匠已消费24入36出的持续恢复安排：本人需求、行为、home尝试目标、例行工作credit及SAN同段一致，正式职责让权；合法刷新保同ID，旧writer一次精确null adapter。无资源／人口／LLM；不承诺到home安全或已到工位。见[QA](../qa/npc-rest-work-v1-20261018.md)与[ADR](../decisions/ADR-20261018-npc-rest-work-v1.md)。
+
+c21新source17／13条必需及受影响旧合同均通过；6个影响回归保持其dc265／3218实际来源。Chrome3218业务125／4main与c21布局41＋关联episode12／3main分列，errors0，不合称c21业务178；业务inline同字节，报告不移绿。root目视修正390旧三列为单列，新安排与视线说明可读，桌面仍原两列。精确开发ref／CI终态从PR服务核对，本段不预填；生产未部署。
+
+原162分钟源码路线因警觉取消，公开72分钟等候因追击中断；均未达到36，近完成fixture不代替全程成本。完整规划／记忆、EventFact、contacts、继任双岗、自然三日、玩家体验、Studio、更大世界／多副本及引擎迁移继续开放。下一先做同seed中继基线、缺粮、缺岗的单因素因果路线，按实际阻碍决定下一切片；不以assert计数代替体验。
+
 ## 当前检查点：NPC当次直接视线报告（2026-10-17）
 
 HTML `23b8c8c27234592673aa927f3909ea49247c372a937787f90355f87531f421b0`，SAVE21／CONTENT3；源码提交见[本轮QA](../qa/npc-direct-sight-v1-20261017.md)。真实近身view Gate→同live NPC→实际profile／canPerceive／LOS→粗类别／距NPC band→个人trust披露→context与同ID名册as-of行已接线。无新命令、奖励、时间推进、contacts续期、地图发现、保存域或LLM；生产未部署。

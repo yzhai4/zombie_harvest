@@ -1,0 +1,28 @@
+{
+  "schema": "ExplicitRedactedEvidenceCompanionV1",
+  "native": false,
+  "originalSha256": "cbb468ce66bcb74599bda84072d99e5f537d06075982a085e80c5b696e4b4948",
+  "originalBytes": 5039,
+  "rawOriginalRetainedPrivately": true,
+  "omissions": [
+    "Absolute local filesystem paths replaced. Exact original is deliberately not published and cannot be recovered from this companion."
+  ],
+  "contentFormat": "json-value",
+  "content": {
+    "runner": "source-npc-rest-work-v1",
+    "ok": false,
+    "count": 9,
+    "passed": 7,
+    "sourceHtmlSha256": "ce055b19e4e79d632a12760cbae7ed853258fb68a3f62e25d7108ab9b740fec9",
+    "failures": [
+      {
+        "name": "normal40 preserves the original complete native outcome apart from explicit new null fields",
+        "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n... Skipped lines\n\n  {\n    areaFlags: {},\n    buildings: [\n      {\n        id: 'bld-4ep952',\n...\n      commandSeq: 1,\n+     eventSeq: 5,\n-     eventSeq: 4,\n      events: [\n        {\n          actorId: 'camp-autonomy',\n          causationId: null,\n          commandId: null,\n...\n        {\n+         actorId: 'system',\n+         causationId: null,\n+         commandId: null,\n+         eventId: 'evt-000003',\n+         payload: {\n+           adapter: null,\n+           addedDomains: [\n+             'npc.routineIntent'\n+           ],\n+           fromContentVersion: 3,\n+           fromSaveVersion: 21,\n+           instanceId: null,\n+           migration: 'resolved-report-recovery-001',\n+           migrationVersion: 1,\n+           npcRoutineIntentAdapters: [\n+             {\n+               adapter: 'npc-routine-intent-v1',\n+               defaultValue: null,\n+               npcIds: [\n+                 'carpenter',\n+                 'doctor',\n+                 'radio',\n+                 'commander',\n+                 'sergeant',\n+                 'guardJi',\n+                 'guardChen',\n+                 'guardJiang',\n+                 'quartermaster',\n+                 'cook'\n+               ]\n+             }\n+           ],\n+           originalChecksum: 'a0959234',\n+           originalDate: {\n+             day: 1,\n+             hour: 9,\n+             minute: 0\n+           },\n+           reason: 'npc-routine-intent-v1',\n+           rollback: false,\n+           selectedChecksum: 'a0959234',\n+           selectedDate: {\n+             day: 1,\n+             hour: 9,\n+             minute: 0\n+           },\n+           sourceCategory: 'primary'\n+         },\n+         seq: 3,\n+         tick: {\n+           phase: 0,\n+           schedule: 180,\n+           world: 540\n+         },\n+         type: 'save.migrated'\n+       },\n+       {\n          actorId: 'carpenter',\n          causationId: 'cmd-000001',\n          commandId: null,\n+         eventId: 'evt-000004',\n-         eventId: 'evt-000003',\n          payload: {\n            destination: 'workshop',\n            npcId: 'carpenter',\n            relayProjectId: null,\n            role: 'carpenter',\n...\n          },\n+         seq: 4,\n-         seq: 3,\n          tick: {\n            phase: 0,\n            schedule: 181,\n            world: 541\n          },\n...\n          commandId: 'cmd-000001',\n+         eventId: 'evt-000005',\n-         eventId: 'evt-000004',\n          payload: {\n            day: 1,\n            hour: 9,\n            minute: 1,\n            minutes: 1\n          },\n+         seq: 5,\n-         seq: 4,\n          tick: {\n            phase: 0,\n            schedule: 181,\n            world: 541\n          },\n...\n      lastCheckpointReason: 'session-start',\n+     lastEventId: 'evt-000005',\n-     lastEventId: 'evt-000004',\n      projections: {\n        threatZombies: []\n      },\n      replay: {\n        commands: [\n\n    at <PRIVATE-ABSOLUTE-PATH>\n    at test (<PRIVATE-ABSOLUTE-PATH>\n    at <PRIVATE-ABSOLUTE-PATH>"
+      },
+      {
+        "name": "actual active intent survives native save and public continue without a new start or work credit",
+        "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n... Skipped lines\n\n  {\n    areaFlags: {},\n    buildings: [\n      {\n        id: 'bld-4ep952',\n...\n    motion: {\n+     accumulator: 0,\n-     accumulator: 2.0816681711721685e-16,\n      enabled: true,\n      input: {\n        x: 0,\n        y: 0\n      },\n\n    at <PRIVATE-ABSOLUTE-PATH>\n    at test (<PRIVATE-ABSOLUTE-PATH>\n    at <PRIVATE-ABSOLUTE-PATH>"
+      }
+    ]
+  }
+}

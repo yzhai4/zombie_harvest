@@ -1,0 +1,109 @@
+{
+  "schema": "ExplicitRedactedEvidenceCompanionV1",
+  "native": false,
+  "originalSha256": "748eedc3092f0d5e5e7e5c687dbb1446c56d722893ae4db9d7f2c8f99aebef68",
+  "originalBytes": 5239,
+  "rawOriginalRetainedPrivately": true,
+  "omissions": [
+    "Absolute local filesystem paths replaced. Exact original is deliberately not published and cannot be recovered from this companion."
+  ],
+  "contentFormat": "json-value",
+  "content": {
+    "sourceHtmlSha256": "d252771d729154ad087bf9e20260167ecf985ec50e7f0c1b6912ea335420bd79",
+    "sourceUnchanged": true,
+    "terminal": true,
+    "cases": [
+      {
+        "case": "recovery",
+        "command": [
+          "node",
+          "scripts/check-report-recovery.mjs",
+          "--html",
+          "<PRIVATE-ABSOLUTE-PATH>"
+        ],
+        "exitCode": 0,
+        "runnerSha256": "554c400c174ad1b069c4dfcc839c12b3b45ea79c5aa7669e093a440ffa4845d3",
+        "stdoutSha256": "2c117b516201197b282e3bd2246d0d99722863da4acfae15147ba6f6baa11cf7",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "case": "episode",
+        "command": [
+          "node",
+          "scripts/check-content-episode-v1.mjs"
+        ],
+        "exitCode": 0,
+        "runnerSha256": "ff7718a3ac2e7f485bd3b0cf014b4323269c693f094d18004bb8c1f3613f1797",
+        "stdoutSha256": "60c76e3cf6ecdfdf9695847eb457c3ac30cbb1040816bac45e137baa63aa7ff8",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "case": "shortage",
+        "command": [
+          "node",
+          "scripts/check-shortage-choice-v2.mjs",
+          "--html",
+          "<PRIVATE-ABSOLUTE-PATH>",
+          "--baseline-report",
+          "<PRIVATE-ABSOLUTE-PATH>",
+          "--out",
+          "<PRIVATE-ABSOLUTE-PATH>"
+        ],
+        "exitCode": 1,
+        "runnerSha256": "a2e20298ce8ae56ef05add82401bd68f11353cf782b1c6c2386fa76f20152047",
+        "stdoutSha256": "b67cb4d8c154ab1799dd2fd71c582b998a2e6683865b1d152ff62e8c3e843291",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "case": "public",
+        "command": [
+          "node",
+          "scripts/check-npc-public-eligibility-v1.mjs",
+          "--html",
+          "<PRIVATE-ABSOLUTE-PATH>",
+          "--out",
+          "<PRIVATE-ABSOLUTE-PATH>"
+        ],
+        "exitCode": 0,
+        "runnerSha256": "1d5603b47c403ce940c4e5b7afe185739b87206a9db5879eaad4e3f4ac7fe0e0",
+        "stdoutSha256": "da3b866a3facb96bd644491c040c3996bb0ec0a85ef8469b235754d68b5dd58f",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "case": "self",
+        "command": [
+          "node",
+          "scripts/check-npc-self-observation-v1.mjs",
+          "--html",
+          "<PRIVATE-ABSOLUTE-PATH>",
+          "--io-adapter",
+          "<PRIVATE-ABSOLUTE-PATH>",
+          "--out",
+          "<PRIVATE-ABSOLUTE-PATH>"
+        ],
+        "exitCode": 0,
+        "runnerSha256": "83087ce3e0e8ce6953c8cb94fb3c19b63c7aba4c6772a23553758edc56545391",
+        "stdoutSha256": "0b697ee3dd68a076b767ad981f869e4fef44768e32de9240db600c6e78eb5258",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "case": "direct",
+        "command": [
+          "node",
+          "scripts/check-npc-direct-sight-v1.mjs",
+          "--html",
+          "<PRIVATE-ABSOLUTE-PATH>",
+          "--io-adapter",
+          "<PRIVATE-ABSOLUTE-PATH>",
+          "--out",
+          "<PRIVATE-ABSOLUTE-PATH>"
+        ],
+        "exitCode": 0,
+        "runnerSha256": "31071e612ecdffe444739475b7edb20926e1a21f8b1f8da813078decdb6d3430",
+        "stdoutSha256": "3a702751406f6534f058009bc2231775d472b6fe64616bd8287a6b612054ec60",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "finishedAt": "2026-10-17T15:25:03.896873+00:00"
+  }
+}
