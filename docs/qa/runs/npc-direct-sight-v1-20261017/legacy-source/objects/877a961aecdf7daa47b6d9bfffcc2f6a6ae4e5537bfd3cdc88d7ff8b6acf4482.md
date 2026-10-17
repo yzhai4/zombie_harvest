@@ -1,0 +1,97 @@
+# 尸潮农场开发交接包
+
+**交接版本：** `zfarm-world-1.0`　**目标：** v80–v85　**交接对象：** 开发、QA、发布
+
+## 当前实现基线
+
+已完成：昼夜循环、广播中继 `relay-chain-001` 样板、SAN、事件契约/账本、统一内容注册表、扩展效果 reducer、事务回滚、`contentVersion`/`CONTENT_SCHEMA_VERSION`、`SAVE_VERSION=21` 保存迁移、回放夹具和 `11_扩展接口与内容规范.md` 到 `16_扩展内容验收表.md`；v81 已接入 `campCollapse` 的配给/夜战账本、计划会候选/投票/玩家命令/自治执行、commandPoints、计划会 UI 和回放投影；v82 已接入 NPC 属性、英雄晋升和岗位替代；v83 前置切片已接入据点守军人口账本、跨据点占用 Gate、每日 upkeep 和死亡释放。
+
+已注册入口：`WEAPON_DEFS`、`EVENT_CHAIN_DEFS`、`NPC_STORY_DEFS`、`TECH_NODE_DEFS`、`BUILDING_DEFS`、`FACTION_DEFS`、`OUTPOST_DEFS`、`NPC_ROLE_DEFS`。运行时入口位于 `dist/index.html` 的注册表、`applyContentEffects`、`migrateContentState`、`startContentChain/resolveContentChain` 和存档读写逻辑。
+
+## 当前设计缺口
+
+整体剧情和自治已经冻结为本交接包附带的 01–09 文档，但运行时还未完整接线：14 天最终尸潮、`resonancePressure` 完整内容链、十名 NPC 完整主动技能、据点势力奖励、科技建筑支线、动态 UI 和实体预算仍属于 v83–v85 任务。已发现据点的最小 contextActions 捕获入口和 active content chain 事件面板已经接线；旧 UI 卡片存在硬编码，不能绕过注册表添加内容；计划会、NPC 和据点状态继续通过专用 reducer 接线。
+
+## 核心契约
+
+- **最终尸潮：** day 14 基准，day12–16 窗口；营地核心耐久有效、活跃 NPC≥3 且 `campCollapse<90` 才能存在。
+- **结局：** 0–39 稳定、40–69 重创、70–89 空壳、≥90/核心毁坏/人口<3 崩溃。
+- **变量：** `campCollapse` 与 `resonancePressure` 范围 0–100，所有变化写账本。
+- **命令：** trust 0/20/40/60/80 解锁 commandPoints 0/2/2/3/4；每日刷新不累积；英雄未达条件不可调度。
+- **计划会：** 夜间总结后由存活英雄投票并生成候选，指挥官加权；次日 DAY 开始刷新点数，玩家最多改一个计划，结果随后执行并可回放。
+- **人口：** roster 固定十人；死亡、失踪、重伤、拒绝合作会移除岗位/投票权并进入替代分支，不能剧情造人。
+
+## 内容 ID 清单
+
+主线：`omen-blacksoil-001`、`relay-chain-001`、`camp-charter-001`、`horde-convergence-001`。  
+支线：`watchpost-003`、`watermill-002`、`hospital-004`、`checkpoint-005`、`missing-family-006`、`blacksoil-choice-007`、`graveyard-008`、`weapon-pulse-009`、`settlement-gate-010`。  
+势力：`camp`、`redline`、`riverfolk`、`blackSoil`。  
+敌人：`swarm`、`runner`、`armored`、`screamer`、`resonance-carrier`、`mycelial-aggregate`。
+
+## 开发顺序
+
+- **v80：** 状态边界、ID、contentVersion、人口守恒和映射。
+- **v81：** `campCollapse`、计划会、英雄投票、commandPoints、夜间队列。
+- **v82：** NPC 属性、十名剧情卡、晋升、死亡/缺席/岗位替代。
+- **v83：** 科技、建筑、据点、守军和 8–10 条支线。
+- **v84：** day12–16 尸潮、多结局、二周目直达。
+- **v85：** 动态 UI、资源挂载、性能和发布验收。
+
+## 权责边界
+
+设计部门负责世界观、时间线、事件图、NPC/势力动机、数值目标、分支结果、内容版本、剧本卡和六视角账本；不直接修改运行时状态或按钮回调。开发部门负责注册表、GameState、reducer、命令总线、UI、资源适配、存档迁移、回放、性能和平台兼容；不得自行发明未评审剧情分支、NPC 结局或数值奖励。双方共同维护 schema、稳定 ID、迁移、幂等和验收；无法落地时退回剧本卡/schema 议题，不添加隐藏变量。
+
+## 验收命令与场景
+
+在仓库根目录运行：
+
+```text
+node scripts/validate-content.mjs
+node scripts/check-night-guard.mjs
+node scripts/smoke-three-days.mjs
+node scripts/replay-harness.mjs --self-test
+node --check scripts/replay-harness.mjs
+```
+
+验收必须覆盖陌生人起始权限、信任解锁、英雄越权拒绝、固定种子计划会、NPC 死亡/失踪/重伤/人口不足、科技建筑据点不造人、支线过期、夜间拒绝白天命令、存档不重复奖励、day12–16 四类结局、二周目直达和新内容仅注册即可加载。记录回放哈希、旧档迁移、近景实体峰值、夜战波次和帧时间。
+
+## 回滚与风险
+
+每个版本只提交一个主题并保留可恢复提交；schema 迁移失败恢复上一份兼容代码与备份存档/内容包，不能只降 `SAVE_VERSION`；当前效果批次可回滚，内容包注册的全量事务回滚仍待 v80。已知风险是 UI 卡片仍有硬编码、远景自治尚未全部接线、旧第 5 天危机逻辑需要在 v84 替换；若 v81–v84 未完成，不得宣称整体设计已运行。
+
+## 设计预留与当前已接线范围
+
+主线与支线 ID 清单是设计预留。当前运行时内容链只实际接入 `watermill-002` 样板及现有 relay 的旧 `EVENT_DEFS`/任务事实；`omen-blacksoil-001`、`camp-charter-001`、`horde-convergence-001` 和其余支线要在 v81–v84 逐条注册后才可运行。已接线、设计冻结、待开发三种状态必须在提交说明中分开，不能把 ID 清单当成已实现功能。
+
+注册链事件面板已有事项选择器、全部选项、真实结果回执、按钮实例绑定和缺包/坏项过滤。链入口在 reducer 层检查夜间、终局、窗口与条件类型，失败由 CommandBus 记录拒绝。optional resolvedNodeIds 保存完整节点结算事实，兼容旧实例由 history / appliedEffects 复原，SAVE21/CONTENT3 无新增必填；展示历史仍保留20条。
+
+该切片43项真实源码检查/hash `c5d6c772`、9保存投影夹具/hash `4aec7a31`、24浏览器显式夹具与22基础新局检查分别提供证据。水车flag尚未变成供水/科技消费者；缺包启动清单、自然多日 smoke 与全量自治仍待补齐，不能把接口或夹具验收称为完整游戏。
+
+人口计数采用四个字段：`livingRoster`（未死亡且未失踪/离营）、`workEligible`（可执行岗位）、`campLocal`（当前留在农场核心区）、`garrisoned`（驻守据点）。据点守军属于 livingRoster，不凭空增加人口；若 livingRoster 低于 3，先禁止新的派驻/占领，再进入营地崩溃判定。
+
+保存回滚要求恢复上一份兼容代码和备份存档/内容包，不能只把 SAVE_VERSION 数字降回去；当前实现具有效果事务回滚，内容包注册的全量事务回滚仍是 v80 任务。
+
+## 交接基线说明
+
+zfarm-world-1.0 是本轮文档基线名，不是已发布 Git tag。现场版本对账确认：当前公开 Sites 为 v81，源提交 `f3488457286836bf986dc90b5e0c3f6f425813c9`，对应部署 `appgdep_6acaec9bc34081918f91a616b8f56dd4` 状态为 `succeeded`。`f348845` 是当前生产源，不应一概称为已被替代的旧源；它与本地开发运行时基线是两条独立记录。
+
+本地/测试服务器的开发 HTML SHA256 为 `8a4abf285651e5ee78905da2b819648aa1ef862e580e8b4710e8c71079604ba0`，已保存到独立GitHub草稿 PR #4 的 `f72503d939b79d943c35273f1e463fb7dde7af59`，其CI #60成功；未写入Sites生产源。该 hash 是文件校验值，不是 Sites 源提交。不得用该草稿或旧 GitHub 镜像直接覆盖公开 v81。
+
+源同步补记：先前凭据请求遇 HTTP429 / Cloudflare 访问挑战，保留为失败记录；第二次请求已成功，`publish_on_push_accepted=false`。官方 Sites helper 已只读拉取并打开独立兄弟目录 `IMSAVER-sites-v81-source-20261014`，HEAD 精确为 `f3488457286836bf986dc90b5e0c3f6f425813c9`，`git status --porcelain` 为空，线上源 HTML SHA256 为 `11f25c4e68f7360a11b8c84a638b0f8a8270202af3bcf58b3047d278b4952400`。本次源码同步可用，但只执行了拉取/打开，没有提供 archivePath，也没有 package、commit、push、Sites save/deploy；未修改线上源、未发布开发草稿。最终浏览器验收与本轮 CI 完成状态仍需分别核验。访问及版本证据见 `docs/qa/sites-public-access-20261014.md`。
+
+三日公开行动的原profile已恢复完成：attempt9当前runner439/439，独立完整原保存Gate90/90，最终第4天06:36、十人存活、食物6；固定日界2/3/4、三场可选遭遇、真实收获与最终刷新都有账本。原失败保持，早期10份source未知和历史day2显式reload缺口仍待新构建从头补齐，不称单构建连续或平衡通过。证据见 `docs/qa/calendar-public-actions-20261014.md` 与 `docs/qa/three-days-recovered-20261014.md`。报告恢复/失守重开独立baseline已实际失败，正常DAY对照通过，下一候选按恢复ADR与B1–B16推进；尚未部署该候选。
+
+## 参考资料与实现状态边界
+
+机制参考证据见 `docs/design-reference-evidence.md`。其中外部作品只支持节奏、自治、关系和表现分层的设计取舍；本项目的 14 天、崩溃阈值、命令点、实体预算和威胁公式均需按本仓库回放与性能验收校准。`captureOutpost` 的守军人口占用、重复派驻 Gate、每日 upkeep、死亡释放和最小捕获入口已接线；势力奖励、`damageBuilding` 的完整生命周期钩子、主线/支线全量注册和动态 UI 仍是 v83–v85 待开发，不应当作当前运行时已完成。
+
+## 内容包启动要求
+
+注册清单是启动配置，不在存档内。加载存档前重新挂载并校验内容包版本；缺包只走安全降级并记录 `content.pack.missing`，不执行缺失链或发放奖励。v80 需补启动注册清单校验，避免“存档存在 ID 但运行时无定义”。
+
+## 时间线决策记录
+
+本交接采用 14 天主窗口、day12–16 正常结算窗，作为本轮统一基准。任何改为其他时长的提案都必须回到设计部门，更新 02、03、09、验收夹具和 contentVersion 后才能实现。
+
+
+

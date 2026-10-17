@@ -1,5 +1,13 @@
 # 未关闭风险
 
+## 当前优先级覆盖：当次直接视线后（2026-10-17）
+
+HTML23b8c8c2已完成特定DAY近身侦察policy列明验收：source91＋既有42合同、Chrome200＋关联336，详见[QA](../qa/npc-direct-sight-v1-20261017.md)。只限当次live敌人粗类别／距NPC band和个人披露；不声明通用Actor授权或LLM。旧36的dead标记误报、budget unknown被抹掉及会话／context生命周期已修，原失败和方法问题保留。
+
+完整contacts来源／TTL、共享知识、其它对象与事件、有效岗位／继任、模型隔离仍开放；全局NPC HP／lifeState矛盾、旧eligible重复事件、旧E预览／名册targetId／lastReport、fractional clock和大步模拟另有问题记录。next规划按实际所需知识合同实施，不等待全部topic收口，也不越权读全局。
+
+新direct浏览器四场paused fixture，只证明实际双入口、as-of重绘、390与N进入BATTLE清除；不证明真实推进全过程、自然多日、平衡或玩家偏好。旧名册三列390拥挤，完整UI与素材仍需打磨。trusted hidden、最终尸潮、Studio、多副本、连续性、引擎和生产各自验收。当前服务CI从PR精确head读取，不迁用历史结果。
+
 ## 当前优先级覆盖：self 首谈后（2026-10-17）
 
 HTML c42056ed 已完成 self 首谈与负信任晋升总分下界的列明开发验收，见[QA](../qa/npc-self-observation-v1-20261017.md)。source104、41个既有源码合同、独立19与Chrome336分层记录；原方法失败和真实负晋升进度反例保留。下界修复不改变负信任或信任对正进度的抑制。

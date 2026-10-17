@@ -1,0 +1,14 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import {spawnSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
+import {fileURLToPath,pathToFileURL} from 'node:url';
+const area=path.dirname(fileURLToPath(import.meta.url)),out=path.join(area,'full-source'),root=path.join(out,'frozen-repo'),results=[];
+const sha=b=>createHash('sha256').update(b).digest('hex'),trace=path.join(out,'process-events.jsonl');
+const log=row=>fs.appendFileSync(path.join(out,'suite-process-events.jsonl'),JSON.stringify({...row,at:new Date().toISOString()})+'\n');
+const env={...process.env,ZH_PYTHON:'C:/Program Files (x86)/Microsoft Visual Studio/Shared/Python39_64/python.exe',PYTHONDONTWRITEBYTECODE:'1',ZH_SOURCE_PROCESS_TRACE:trace};
+const runs=[['existing30',['--import',pathToFileURL(path.join(area,'trace-source-spawns.mjs')).href,'run-checks.mjs']],['additional10',['--import',pathToFileURL(path.join(area,'trace-source-spawns.mjs')).href,'run-additional-checks.mjs']],['c2',['scripts/check-scenario-boot-c2.mjs','--html','dist/index.html','--core-module','scripts/lib/scenario-package-v1.mjs','--repo-root','.', '--out','review-output/final-extra/c2']],['self',['scripts/check-npc-self-observation-v1.mjs','--html','dist/index.html','--io-adapter','scripts/check-report-recovery.mjs','--repo-root','.', '--out','review-output/final-extra/self.json']]];
+fs.mkdirSync(path.join(root,'review-output/final-extra'),{recursive:true});
+for(const [name,args] of runs){log({event:'process-start',name,args});const start=Date.now();const run=spawnSync(process.execPath,args,{cwd:root,env,encoding:'utf8',timeout:600000,maxBuffer:32*1024*1024});fs.writeFileSync(path.join(out,name+'.stdout.log'),run.stdout||'');fs.writeFileSync(path.join(out,name+'.stderr.log'),run.stderr||'');const row={name,exitCode:run.status,signal:run.signal,error:run.error?.message||null,elapsedMs:Date.now()-start,stdoutSha256:sha(run.stdout||''),stderrSha256:sha(run.stderr||'')};results.push(row);log({event:'process-terminal',...row});fs.writeFileSync(path.join(out,'process-summary.json'),JSON.stringify({sourceHtmlSha256:sha(fs.readFileSync(path.join(root,'dist/index.html'))),results},null,2)+'\n');console.log(JSON.stringify(row));if(run.stdout)process.stdout.write(run.stdout);if(run.stderr)process.stderr.write(run.stderr);}
+const index=JSON.parse(fs.readFileSync(path.join(out,'frozen-input-index.json'),'utf8')),changed=index.files.filter(r=>sha(fs.readFileSync(path.join(root,r.path)))!==r.sha256);
+const final={schema:'IndependentSourceClosureTerminalV1',terminal:true,sourceHtmlSha256:index.sourceHtmlSha256,directSightCoreSha256:index.directSightCoreSha256,results,frozenInputChanges:changed,ok:results.every(r=>r.exitCode===0)&&changed.length===0};fs.writeFileSync(path.join(out,'terminal.json'),JSON.stringify(final,null,2)+'\n');process.exitCode=final.ok?0:1;

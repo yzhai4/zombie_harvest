@@ -1,12 +1,22 @@
 # 当前状态
 
+## 当前检查点：NPC当次直接视线报告（2026-10-17）
+
+HTML `23b8c8c27234592673aa927f3909ea49247c372a937787f90355f87531f421b0`，SAVE21／CONTENT3；源码提交见[本轮QA](../qa/npc-direct-sight-v1-20261017.md)。真实近身view Gate→同live NPC→实际profile／canPerceive／LOS→粗类别／距NPC band→个人trust披露→context与同ID名册as-of行已接线。无新命令、奖励、时间推进、contacts续期、地图发现、保存域或LLM；生产未部署。
+
+43个不同源码合同通过（旧42＋new direct一个），新91／C1 120／C2 66／self104是各自子检查，不能再加为合同数。实际Chrome direct200＋self212＋NPC112＋episode12＝536／errors0，57个记录主文档均同23b8；四套均实际terminal并清理。root目视桌面／context390／roster390／低信任390四张，旧名册三列仍拥挤；不称完整移动端、自然多日或玩家体验通过。所有新浏览器场景为明确TEST-ONLY预启动完整native档，phase只验公开N进入BATTLE，不称日历夜间。
+
+原36同冻结91方法为86／91，dead标记、预算unknown与三种生命周期检查失败；已修。首轮两项DOM／SAN背景方法问题、producer跨VM方法错与已启动重复验证均保留，不增加unique。证据用同字节SHA复用与portable map，不再打大ZIP。精确开发head／CI从[PR #4](https://github.com/yzhai4/zombie_harvest/pull/4)实际服务终态取得，旧green不继承。
+
+仅self与特定DAY侦察policy开发验收；完整ActorObservation继续proposed：contacts来源／TTL、共享、其它topic、事件知识、有效岗位及模型隔离开放。全局HP／lifeState、旧eligible重复、旧E预览／名册raw target文本、自然多日和生产另验。下一规划／记忆按实际消费者所需事实合同推进，不以完整观察收口作全部玩法无限前置；更大世界、Studio、多副本与角色连续性目标不变。
+
 ## 当前检查点：NPC 自身知识与免费首谈（2026-10-17）
 
 源码 `3213db16f5976dc3049f084851bcb3e811a094d5`／HTML `c42056ed08c9cbc0e27c09365828fae5d1c19dc25190e9e19d2e3beffa45bc91`，SAVE21／CONTENT3。真实公开 Gate 绑定同一 live NPC，私有只读捕获本人伤势／需求与实际个人信任，再经 self 知识授权和披露生成固定自述。免费首谈、原支援2体力／15分钟、typed结果和真实中断保留；无新保存域、奖励、LLM或生产部署。见[本轮 QA](../qa/npc-self-observation-v1-20261017.md)。
 
 最终42个不同源码合同均通过，含新增source104、C1 source120、C2 source66；独立架构19另列。实际Chrome self四场212＋原NPC112＋episode12，共336检查／errors0，45个记录主文档响应均同c420。root目视需求桌面／390宽和低信任三张；完整12秒到期未实测，无新自然路线。原四次Chrome失败保留：前三次为启动／模板名称／过渡采样的方法问题，第四次发现负信任使旧晋升进度变负并写出非法保存，已按总分0下界修复并验证。source104同方法d251负控101／104，不能把3项失败说成3个独立游戏缺陷。
 
-仅[self ADR](../decisions/ADR-20261017-npc-self-observation-v1.md)adopted；完整ActorObservation的direct-sight、contacts来源／TTL、共享知识、有效岗位与模型边界继续open。lifeState／HP矛盾只在self降级unknown，[全局一致性](../problems/PROB-20261017-npc-life-state-hp-consistency.md)未修；既有eligible重复事件另open。下一P0继续真实感知与知识授权，再接NPC规划、EventFact／记忆及LLM表达。更大世界／多副本与特殊角色连续性目标不变。
+仅[self ADR](../decisions/ADR-20261017-npc-self-observation-v1.md)adopted；完整ActorObservation的direct-sight、contacts来源／TTL、共享知识、有效岗位与模型边界继续open。lifeState／HP矛盾只在self降级unknown，[全局一致性](../problems/PROB-20261017-npc-life-state-hp-consistency.md)未修；既有eligible重复事件另open。下一P0接当前公开消费者所需的直接视线；NPC规划、EventFact／记忆及表达按各自所需事实合同推进，其余观察topic保持开放，不作为全部玩法实验的全量前置。更大世界／多副本与特殊角色连续性目标不变。
 
 证据HEAD与exact CI以[PR #4](https://github.com/yzhai4/zombie_harvest/pull/4)终态对账，不继承旧green；生产未部署。下方C2及更早记录保留各自构建身份。
 

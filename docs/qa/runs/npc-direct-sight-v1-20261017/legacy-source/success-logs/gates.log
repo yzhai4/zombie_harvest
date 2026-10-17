@@ -1,0 +1,37 @@
+{
+  "runner": "event-gate-v1-contract",
+  "ok": true,
+  "count": 7,
+  "passed": 7,
+  "checks": [
+    {
+      "name": "schema declares the immutable GateV1 envelope",
+      "ok": true
+    },
+    {
+      "name": "fixtures cover positive and negative paths",
+      "ok": true
+    },
+    {
+      "name": "normalization preserves inline migration defaults without mutation",
+      "ok": true
+    },
+    {
+      "name": "actor substitution and NPC path semantics match inline behavior",
+      "ok": true
+    },
+    {
+      "name": "phase arrays, aliases, and battle mode obey the explicit night rule",
+      "ok": true
+    },
+    {
+      "name": "malformed strings and objects fail closed before any effect layer",
+      "ok": true
+    },
+    {
+      "name": "malformed state containers fail closed without throwing",
+      "ok": true
+    }
+  ]
+}
+

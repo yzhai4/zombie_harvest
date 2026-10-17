@@ -1,0 +1,71 @@
+:root {
+  --ink: #ecf5df;
+  --muted: #93a99a;
+  --panel: rgba(11, 38, 35, .9);
+  --panel-2: #153e39;
+  --mint: #b9e48c;
+  --orange: #f09c56;
+  --cyan: #6cd6c0;
+  --line: rgba(183, 228, 177, .16);
+  --shadow: 0 14px 38px rgba(0, 0, 0, .32);
+}
+
+* { box-sizing: border-box; }
+html, body { min-height: 100%; margin: 0; }
+body {
+  background: #071513;
+  color: var(--ink);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  overscroll-behavior: none;
+}
+button { font: inherit; color: inherit; border: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.app-shell { width: min(100%, 560px); min-height: 100svh; margin: auto; padding: 22px 16px calc(28px + env(safe-area-inset-bottom)); background: radial-gradient(circle at 80% 0%, #153b33 0, #071513 46%); }
+.hud { margin-bottom: 14px; }
+.brand-row { display: flex; align-items: flex-start; justify-content: space-between; }
+.eyebrow { margin: 0 0 3px; color: var(--mint); letter-spacing: .13em; font-size: 11px; font-weight: 800; text-transform: uppercase; }
+h1 { margin: 0; font-family: Georgia, serif; font-size: 31px; letter-spacing: .02em; line-height: 1; }
+.icon-button { display: grid; width: 38px; height: 38px; place-items: center; border: 1px solid var(--line); border-radius: 13px; background: rgba(36, 76, 65, .6); color: var(--mint); font-weight: 900; }
+.status-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 16px; }
+.status-card { display: grid; grid-template-columns: auto 1fr; gap: 2px 7px; padding: 9px 10px; border: 1px solid var(--line); border-radius: 12px; background: rgba(15, 44, 39, .68); box-shadow: 0 4px 14px rgba(0,0,0,.12); font-size: 10px; color: var(--muted); }
+.status-card strong { justify-self: end; color: var(--ink); font-size: 11px; }
+.status-card i { grid-column: 1/-1; display: block; height: 4px; border-radius: 6px; background: #264b42; overflow: hidden; }
+.status-card i b { display: block; width: 82%; height: 100%; border-radius: inherit; background: var(--mint); transition: width .25s; }
+.status-card:nth-child(2) i b { background: var(--orange); width: 64%; }
+.status-card.compact { display: flex; align-items: center; justify-content: space-between; }
+.game-card { position: relative; overflow: hidden; border: 1px solid rgba(196, 237, 177, .21); border-radius: 18px; background: #182f25; box-shadow: var(--shadow); }
+.map-header { position: absolute; z-index: 2; top: 11px; right: 11px; left: 11px; display: flex; justify-content: space-between; align-items: center; pointer-events: none; }
+.location-pill, .objective { padding: 6px 9px; border: 1px solid rgba(229, 255, 189, .17); border-radius: 7px; background: rgba(8, 23, 20, .66); backdrop-filter: blur(4px); font-size: 10px; font-weight: 700; }
+.location-pill { color: var(--mint); }
+.objective { color: #d3dfca; }
+.canvas-wrap { position: relative; aspect-ratio: 3 / 4; min-height: 390px; }
+canvas { display: block; width: 100%; height: 100%; image-rendering: pixelated; }
+.toast { position: absolute; left: 50%; bottom: 13px; width: max-content; max-width: calc(100% - 26px); padding: 8px 11px; border: 1px solid rgba(230, 255, 200, .18); border-radius: 8px; background: rgba(6, 20, 18, .8); color: #d4e6ce; transform: translateX(-50%); font-size: 11px; opacity: 0; transition: opacity .2s, transform .2s; pointer-events: none; }
+.toast.show { opacity: 1; transform: translate(-50%, -5px); }
+.quick-strip { display: flex; align-items: center; gap: 8px; margin: 12px 0; }
+.quick-strip > div { display: grid; grid-template-columns: 17px auto; gap: 0 5px; align-items: center; min-width: 62px; padding: 8px 9px; border: 1px solid var(--line); border-radius: 10px; background: rgba(13, 44, 39, .7); }
+.quick-strip span { grid-row: span 2; font-size: 15px; }
+.quick-strip strong { font-size: 12px; }
+.quick-strip small { color: var(--muted); font-size: 9px; }
+.bag-button { display: flex; align-items: center; gap: 6px; min-height: 40px; margin-left: auto; padding: 0 11px; border-radius: 10px; background: #214d43; color: var(--mint); font-size: 11px; font-weight: 800; }
+.bag-button em, .bottom-nav em { display: inline-grid; width: 16px; height: 16px; place-items: center; border-radius: 50%; background: var(--orange); color: #28190e; font-size: 9px; font-style: normal; }
+.action-panel { display: flex; gap: 14px; align-items: center; padding: 12px 0 15px; }
+.d-pad { position: relative; display: grid; grid-template-columns: repeat(3, 32px); grid-template-rows: repeat(3, 32px); flex: 0 0 96px; }
+.d-pad button { width: 32px; height: 32px; border: 1px solid rgba(196, 237, 177, .15); background: #153d37; color: #b7d8b5; font-size: 12px; }
+.d-pad button:first-child { grid-column: 2; border-radius: 9px 9px 3px 3px; }
+.d-pad button:nth-child(2) { grid-column: 1; grid-row: 2; border-radius: 9px 3px 3px 9px; }
+.d-pad button:nth-child(3) { grid-column: 2; grid-row: 3; border-radius: 3px 3px 9px 9px; }
+.d-pad button:nth-child(4) { grid-column: 3; grid-row: 2; border-radius: 3px 9px 9px 3px; }
+.d-pad button:active, .action:active, .bottom-nav button:active, .icon-button:active { transform: scale(.95); }
+.action-buttons { display: grid; grid-template-columns: repeat(3, 1fr); flex: 1; gap: 7px; }
+.action { display: grid; min-height: 62px; place-items: center; padding: 8px 4px; border: 1px solid rgba(227, 246, 205, .14); border-radius: 11px; background: #21463e; font-size: 11px; font-weight: 800; transition: transform .12s; }
+.action span { color: var(--mint); font-size: 20px; line-height: 1; }
+.action small { color: #a5bca7; font-size: 8px; font-weight: 500; }
+.action.attack { background: #673b30; border-color: #a95845; }
+.action.attack span { color: #ffb06f; }
+.action.build { background: #325341; }
+.bottom-nav { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin-top: 1px; padding: 7px 4px 4px; border-top: 1px solid var(--line); }
+.bottom-nav button { position: relative; display: grid; gap: 3px; place-items: center; padding: 4px 2px; background: transparent; color: #6d9184; font-size: 10px; }
+.bottom-nav button span { font-size: 17px; }
+.bottom-nav button.active { color: var(--mint); }
+.bottom-nav button em { position: absolute; top: -2px; right: calc(50% - 20px); width: 14px; height: 14px; }
+@media (min-width: 480px) { .app-shell { padding-top: 30px; } .canvas-wrap { min-height: 510px; } }

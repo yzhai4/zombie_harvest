@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#081b1a" />
+    <title>余烬农场 · 生存经营建设</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="hud" aria-label="游戏状态">
+        <div class="brand-row">
+          <div>
+            <p class="eyebrow">第 07 天 · 17:40</p>
+            <h1>余烬农场</h1>
+          </div>
+          <button class="icon-button" id="pauseButton" aria-label="暂停">Ⅱ</button>
+        </div>
+        <div class="status-grid">
+          <div class="status-card"><span>❤ 生命</span><strong id="healthText">82/100</strong><i><b id="healthBar"></b></i></div>
+          <div class="status-card"><span>⚡ 体力</span><strong id="staminaText">64/100</strong><i><b id="staminaBar"></b></i></div>
+          <div class="status-card compact"><span>☼ 天气</span><strong>微风</strong></div>
+          <div class="status-card compact"><span>☾ 尸潮</span><strong id="waveText">02:18</strong></div>
+        </div>
+      </section>
+
+      <section class="game-card" aria-label="农场地图">
+        <div class="map-header"><span class="location-pill">⌂ 南门营地</span><span class="objective">修复北侧围栏 · 0/3</span></div>
+        <div class="canvas-wrap">
+          <canvas id="gameCanvas" width="420" height="560" aria-label="余烬农场俯视地图"></canvas>
+          <div class="toast" id="toast" role="status">收集木材，撑过今晚。</div>
+        </div>
+      </section>
+
+      <section class="quick-strip" aria-label="资源">
+        <div><span>🪵</span><strong id="woodText">36</strong><small>木材</small></div>
+        <div><span>🪨</span><strong id="stoneText">18</strong><small>石块</small></div>
+        <div><span>🌽</span><strong id="foodText">12</strong><small>食物</small></div>
+        <button class="bag-button" id="bagButton">▣ 背包 <em>3</em></button>
+      </section>
+
+      <section class="action-panel" aria-label="操作">
+        <div class="d-pad" aria-label="移动">
+          <button data-move="up" aria-label="上移">▲</button>
+          <button data-move="left" aria-label="左移">◀</button>
+          <button data-move="down" aria-label="下移">▼</button>
+          <button data-move="right" aria-label="右移">▶</button>
+        </div>
+        <div class="action-buttons">
+          <button class="action attack" id="attackButton"><span>✦</span>挥砍<small>消耗 8 体力</small></button>
+          <button class="action gather" id="gatherButton"><span>⌁</span>采集<small>靠近资源点</small></button>
+          <button class="action build" id="buildButton"><span>⬟</span>建造<small>木材 × 6</small></button>
+        </div>
+      </section>
+
+      <nav class="bottom-nav" aria-label="功能菜单">
+        <button class="active"><span>⌂</span>营地</button>
+        <button id="mapButton"><span>✣</span>探索</button>
+        <button id="craftButton"><span>⚒</span>制作</button>
+        <button id="questButton"><span>✦</span>任务<em>2</em></button>
+      </nav>
+    </main>
+    <script src="./game.js"></script>
+  </body>
+</html>

@@ -1,0 +1,162 @@
+{
+  "schema": "NpcDirectSightIndependentFinalPublicationAuditV1",
+  "status": "no-blocking-findings-in-reviewed-provenance-scope",
+  "scope": {
+    "publicationProvenanceOnly": true,
+    "gameExecuted": false,
+    "sourceTestsExecuted": false,
+    "browserExecuted": false,
+    "newVmValidationExecuted": false,
+    "productAcceptanceOrCiApproval": false,
+    "productionDeploymentVerified": false,
+    "remoteBranchUpdateVerified": false
+  },
+  "manifest": {
+    "path": "docs/qa/iteration-manifest-v1.json",
+    "sha256": "19b15de318227295c032223dd33464f43181cceb068f421c1c5b34094dfeb4e4",
+    "declaredArtifacts": 965,
+    "artifactSha256Verified": 965,
+    "resultRows": 23
+  },
+  "source": {
+    "repository": "yzhai4/zombie_harvest",
+    "commit": "4e6847c2e022f28690df40297bdfd640b49ed444",
+    "tree": "2425eb1e887c8bf2d561c28085d8965b84f8b8fc",
+    "htmlSha256": "23b8c8c27234592673aa927f3909ea49247c372a937787f90355f87531f421b0",
+    "scriptsDistDependenciesVerified": 146,
+    "commitTreeVerification": "independent live GitHub immutable Git commit and recursive tree responses; local Git blob SHA-1 per dependency matches tree",
+    "offRefSourceCommitIsNotProofOfRefOrCi": true
+  },
+  "counts": {
+    "manifestResultRows": 23,
+    "existingContracts": 42,
+    "newDirectSightContract": 1,
+    "uniqueContracts": 43,
+    "directAssertions": 91,
+    "associatedSelfCaptureNotAdditionalUnique": true,
+    "redundantPositiveNotAdditionalUnique": true
+  },
+  "transports": {
+    "directTransport": {
+      "logicalPositions": 210,
+      "nativeAndCompanionArtifactRefs": 191,
+      "originalFailureReportsIntentionallyOmitted": 5,
+      "exactNativeBrowserInputs": 8,
+      "exactManifestRelativeRestoration": true
+    },
+    "legacyTransport": {
+      "objects": 870,
+      "nativeArtifactRows": 500,
+      "explicitNonNativeRedactions": 9,
+      "uniqueSourceContracts": 42,
+      "latestAllExitZero": true
+    },
+    "browserTransport": {
+      "logicalPositions": 261,
+      "nativeArtifactRefs": 137,
+      "suiteChecks": [
+        200,
+        212,
+        112,
+        12
+      ],
+      "recordedMainBodies": [
+        12,
+        13,
+        30,
+        2
+      ],
+      "totalChecks": 536,
+      "totalRecordedBodies": 57,
+      "allErrorsEmpty": true,
+      "allTerminalExitZero": true,
+      "cleanup": "three native per-resource flag sets; episode original awaited-finally plus exit0 (separate flags unavailable)"
+    }
+  },
+  "browser": {
+    "logicalPositions": 261,
+    "nativeArtifactRefs": 137,
+    "suiteChecks": [
+      200,
+      212,
+      112,
+      12
+    ],
+    "recordedMainBodies": [
+      12,
+      13,
+      30,
+      2
+    ],
+    "totalChecks": 536,
+    "totalRecordedBodies": 57,
+    "allErrorsEmpty": true,
+    "allTerminalExitZero": true,
+    "cleanup": "three native per-resource flag sets; episode original awaited-finally plus exit0 (separate flags unavailable)"
+  },
+  "qa": {
+    "path": "docs/qa/npc-direct-sight-v1-20261017.md",
+    "sha256": "19582588e64602d705dc3e6d9e3748b8f0fd08ee4438681a5d865921cfce9fba",
+    "sourceScopeNarrow": true,
+    "fixtureNotNatural": true,
+    "noFullActorClaim": true,
+    "noProductionClaim": true,
+    "noNewOtherBrowserSuitesClaim": true,
+    "phaseProbeIsEncounterNotCalendarNight": true,
+    "rootScreenshotReviewNotIndependentlyRepeated": true
+  },
+  "failureRoles": {
+    "historical36First": "82/85: one actual dead-flag counterexample and two declared method mistakes",
+    "historical36Corrected": "84/85: same dead-flag actual counterexample",
+    "producerFirst": "90/91: cross-VM prototype comparison method failure",
+    "sameMethodC420": "5/91: capability absent baseline negative",
+    "sameMethod36": "86/91: five assertion failures for dead flag, neutral budget row, freeze, restart, target lifecycle; not five independent roots/runs",
+    "primary23": "91/91 exact original report",
+    "redundant23": "91/91 explicitly non-additive repeat",
+    "associatedSelf104": "unchanged method recapture, not extra unique contract",
+    "rawPrivateFailureReports": "externally preserved; public explicit non-native companions bind original SHA"
+  },
+  "privacy": {
+    "privateFilesystemPathHits": 0,
+    "genericNonPersonalExecutableInstallationPathFiles": 2,
+    "genericPathsAreNotRedactedNativeBytesOrPrivateProfilePaths": true
+  },
+  "nonBlockingNotes": [
+    {
+      "id": "generic-tool-installation-paths",
+      "scope": "Two legacy exact execution-method/log transports retain a generic non-personal interpreter installation location; no username, temporary working directory, profile or credential path found. Not a product/provenance defect."
+    },
+    {
+      "id": "exact-ci-and-ref-remain-separate",
+      "scope": "This audit binds the immutable source commit/tree only. Evidence-head ref update, exact CI terminal and production publication are outside this receipt."
+    }
+  ],
+  "blockingFindings": [],
+  "supportingArtifacts": [
+    {
+      "path": "manifest-artifact-index.json",
+      "sha256": "540da28c29519456ab7475f16265ee6133fb36eb61b05d5ae36f8e5f55d552fe",
+      "bytes": 352262
+    },
+    {
+      "path": "source-dependency-index.json",
+      "sha256": "365603ce36015bfe225f079b9073215f8cb4d05a70c2f6a7f3b22565bf7b92fd",
+      "bytes": 48068
+    },
+    {
+      "path": "transport-and-count-audit.json",
+      "sha256": "0fe197f83bf3bef7cfede33c6ef37b9490868177ffb09fe6b1869ad9ee5ea357",
+      "bytes": 9864
+    },
+    {
+      "path": "source-commit-service-response.json",
+      "sha256": "201f17bc689d3ffc61ebf33e3793a1bed741cee1d2ae7dc3b5afa92c7dc45c41",
+      "bytes": 1163
+    },
+    {
+      "path": "source-tree-service-response.json",
+      "sha256": "52b469d3592da4a02977f7cc2f4f4cfad108558871560610ee81d16187c68d38",
+      "bytes": 1213961
+    }
+  ]
+}
