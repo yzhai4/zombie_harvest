@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
+import vm from 'node:vm';
 import { createHash } from 'node:crypto';
 import { sourceRuntimeFactory, startRuntime, root, saveKey, plain } from './lib/source-runtime-fixture.mjs';
 
@@ -154,6 +155,87 @@ for (const mode of ['REPORT', 'LOSS', 'RECOVERY']) test(mode + ' blocks day comb
   const r = load(); sensed(r); r.api.session.mode = mode;
   const before = staticFacts(r); r.api.runDayCombat(30); assert.deepEqual(staticFacts(r), before);
 });
+// Derived offline scene: discover an existing landmark and invoke the real
+// capture effect. Never invent an outpost, NPC, enemy, or reverse marker.
+function capturedGuard(r) {
+  const s = r.api.state, g = actor(r), guard = s.npcs.find(n => n.id === 'guardJi');
+  const landmark = s.landmarks.find(item => item.type === 'waterMill');
+  assert.ok(landmark); assert.ok(guard); landmark.found = true;
+  const result = r.api.contentEffects([{ op: 'captureOutpost', key: 'waterMill', guardNpcIds: [guard.id] }], { actorId: 'player-1' });
+  assert.equal(result.ok, true); assert.equal(guard.garrisonedOutpostId, 'waterMill');
+  assert.deepEqual(plain(s.contentState.outposts.waterMill.guardNpcIds), [guard.id]);
+  guard.x = g.x; guard.y = g.y; guard.motionTarget = plain(g.motionTarget);
+  guard.behaviorState = 'work'; guard.perception.clock = 0;
+  return guard;
+}
+const sourceEval = (r, code) => vm.runInContext(code, r.context);
+function incomingScene(r, guard) {
+  const s = r.api.state, z = enemy(r); s.worldZombies = [z]; s.buildings = [];
+  s.player.x = 2; s.player.y = 2;
+  s.npcs.filter(n => n !== guard).forEach(n => { n.x = 0; n.y = 0; });
+  guard.x = z.x + .5; guard.y = z.y;
+  z.goal = { x: guard.x, y: guard.y }; z.aiState = 'pursue';
+  z.perception = { clock: 0, targetId: null, targetAt: 0 };
+  assert.equal(r.api.canPerceive(z, guard), true);
+  return z;
+}
+test('real outpost capture keeps one canonical roster and marks the existing guard away', () => {
+  const r = load(), guard = capturedGuard(r);
+  const population = sourceEval(r, 'outpostPopulationLedger()');
+  assert.equal(population.livingRoster, 10); assert.equal(population.campLocal, 9); assert.equal(population.garrisoned, 1);
+  assert.equal(sourceEval(r, "npcHasRole(state.npcs.find(n => n.id === 'guardJi'), 'guardJi')"), false);
+  assert.equal(guard.supportRequested, false); assert.equal(guard.order, null);
+});
+test('assigned outpost guard cannot gain camp attack capability through either role or support and checks are read only', () => {
+  const r = load(), guard = capturedGuard(r);
+  for (const support of [false, true]) {
+    guard.behaviorState = 'alert'; guard.supportRequested = support; guard.order = support ? 'guard' : null;
+    const before = plain(r.api.state);
+    assert.equal(r.api.dayNpcCanAttack(guard), false); assert.equal(r.api.dayNpcTarget(guard), null);
+    assert.deepEqual(plain(r.api.state), before);
+  }
+});
+test('assigned outpost guard does not receive local perception updates or deal camp damage', () => {
+  const r = load(), guard = capturedGuard(r), before = plain(guard.perception), seq = r.api.state.worldMeta.eventSeq;
+  r.api.updateNpcPerception(guard, 6); assert.deepEqual(plain(guard.perception), before);
+  r.api.runDayCombat(12);
+  assert.equal(damage(r).some(e => e.seq > seq && e.payload.sourceId === guard.id), false);
+});
+test('assigned outpost guard is excluded from incoming enemy target perception and damage', () => {
+  const r = load(), guard = capturedGuard(r), z = incomingScene(r, guard), hp = guard.hp;
+  assert.equal(sourceEval(r, "dayEnemyTarget(state.worldZombies[0])"), null);
+  sourceEval(r, 'updateEnemyPerception(state.worldZombies[0], 6)'); assert.notEqual(z.perception.targetId, guard.id);
+  const seq = r.api.state.worldMeta.eventSeq; r.api.runDayCombat(12);
+  assert.equal(guard.hp, hp); assert.equal(damage(r).some(e => e.seq > seq && e.payload.targetId === guard.id), false);
+});
+test('real local radio threat sharing reaches local peers but not the assigned outpost guard', () => {
+  const r = load(), guard = capturedGuard(r), before = plain(guard.perception), radio = r.api.state.npcs.find(n => n.id === 'radio');
+  radio.x = guard.x; radio.y = guard.y; assert.ok(r.api.perceptionProfile(radio).share > 0);
+  r.api.updateNpcPerception(radio, 6); assert.equal(radio.perception.targetId, 'wz-4');
+  assert.equal(actor(r).perception.contacts['wz-4'].sourceId, radio.id);
+  assert.deepEqual(plain(guard.perception), before);
+});
+test('dead assigned guard still rejects camp targeting without changing state', () => {
+  const r = load(), guard = capturedGuard(r); guard.hp = 0; guard.lifeState = 'dead'; guard.behaviorState = 'dead';
+  const before = plain(r.api.state);
+  assert.equal(r.api.dayNpcCanAttack(guard), false); assert.equal(r.api.dayNpcTarget(guard), null);
+  r.api.updateNpcPerception(guard, 6); assert.deepEqual(plain(r.api.state), before);
+});
+test('real outpost release restores local guard perception eligibility and outgoing damage', () => {
+  const r = load(), guard = capturedGuard(r), z = enemy(r), beforeHp = z.hp;
+  assert.equal(sourceEval(r, "releaseNpcFromOutpost(state.npcs.find(n => n.id === 'guardJi'), 'TEST-ONLY release regression')"), true);
+  assert.equal(guard.garrisonedOutpostId, undefined); assert.deepEqual(plain(r.api.state.contentState.outposts.waterMill.guardNpcIds), []);
+  assert.equal(r.api.state.contentState.outposts.waterMill.status, 'vacant');
+  r.api.updateNpcPerception(guard, 6); assert.equal(guard.perception.targetId, z.id);
+  assert.equal(r.api.dayNpcCanAttack(guard), true); r.api.runDayCombat(12); assert.ok(z.hp < beforeHp);
+});
+test('real outpost release restores incoming enemy perception and damage eligibility', () => {
+  const r = load(), guard = capturedGuard(r), z = incomingScene(r, guard);
+  assert.equal(sourceEval(r, "releaseNpcFromOutpost(state.npcs.find(n => n.id === 'guardJi'), 'TEST-ONLY release incoming')"), true);
+  assert.equal(sourceEval(r, 'dayEnemyTarget(state.worldZombies[0])')?.id, guard.id);
+  sourceEval(r, 'updateEnemyPerception(state.worldZombies[0], 6)'); assert.equal(z.perception.targetId, guard.id);
+  const hp = guard.hp; r.api.runDayCombat(12); assert.ok(guard.hp < hp);
+});
 test('actual writer loader roundtrip retains both contacts without changing saved resources', () => {
   const r = load(); sensed(r); const contact = plain(actor(r).perception), hp = r.api.state.hp;
   assert.equal(r.api.save(), true); const saved = r.storage.get(saveKey);
@@ -173,7 +255,7 @@ console.log(JSON.stringify({ runner: 'source-npc-threat-attention', ok: passed =
   originalReportSha256: meta.source.reportSha256, fixtureCapture: 'automation browser writer from failed run; not production',
   browserStarted: false, naturalGameplay: false, scope: 'actual complete inline loader/perception/combat/writer; Map IO and queued timers, explicit offline negative scenes',
   limitations: ['Direct perception then combat proves this attention defect; complete advance may change view direction/positions before combat, so this does not guarantee rescue during repeated training.',
-    'No source damage/range/cadence/health/role gate change; original FAILED browser result is unchanged.'],
-  offlineNegativeScenes: ['remove/move existing world threats; dead existing enemy/guard; turn existing guard; move existing wall; place existing quartermaster at guard viewpoint; night uses existing threat reference; frozen session modes'],
+    'Candidate camp combat membership excludes assigned outpost guards; damage/range/cadence/FOV unchanged, critical-health policy unchanged. Broader routine/motion/render membership is not covered. Original FAILED browser result is unchanged.'],
+  offlineNegativeScenes: ['remove/move existing world threats; dead existing enemy/guard; turn existing guard; move existing wall; place existing quartermaster at guard viewpoint; night uses existing threat reference; frozen session modes; discover existing waterMill then actual captureOutpost/release for existing guardJi; declared coordinate isolation for incoming/outgoing combat'],
   observations, checks }, null, 2));
 if (passed !== checks.length) process.exitCode = 1;

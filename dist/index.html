@@ -3850,6 +3850,7 @@ function resolveObserverExpression(input = {}) {
     function getWorldZombies() { return [...(state.worldZombies || []), ...(state.night ? state.zombies : [])]; }
     function getZombie(x, y) { return getWorldZombies().find(z => z.x === x && z.y === y && z.hp > 0); }
     function npcIsActive(npc) { return npc && npc.lifeState !== 'dead'; }
+    function npcIsCampLocal(npc) { return npcIsActive(npc) && !npc.garrisonedOutpostId; }
     function npcHasRole(npc, roleId) { return npcIsActive(npc) && !npc.garrisonedOutpostId && (npc.id === roleId || npc.actingRole === roleId); }
     function getNpc(x, y) { return state.npcs.find(n => npcIsActive(n) && n.x === x && n.y === y); }
     function npcLifeLabel(npc) {
@@ -4273,13 +4274,14 @@ function resolveObserverExpression(input = {}) {
     function sharePerception(npc, contact) {
       const profile = perceptionProfile(npc);
       if (!profile.share || !contact) return;
-      state.npcs.filter(other => npcIsActive(other) && other.id !== npc.id && distanceBetween(npc, other) <= profile.share).forEach(other => {
+      state.npcs.filter(other => npcIsCampLocal(other) && other.id !== npc.id && distanceBetween(npc, other) <= profile.share).forEach(other => {
         other.perception = other.perception || { clock: 0, targetId: null, targetAt: 0, contacts: {}, sharedUntil: 0 };
         other.perception.contacts[contact.id] = { x: contact.x, y: contact.y, sourceId: npc.id, at: worldMinute(), expiresAt: worldMinute() + profile.memory };
         other.perception.sharedUntil = worldMinute() + profile.memory;
       });
     }
     function updateNpcPerception(npc, minutes = 0) {
+      if (!npcIsCampLocal(npc)) return;
       npc.perception = npc.perception || { clock: 0, targetId: null, targetAt: 0, contacts: {}, sharedUntil: 0 };
       npc.perception.clock += minutes;
       if (npc.perception.clock < 6) return;
@@ -4324,7 +4326,7 @@ function resolveObserverExpression(input = {}) {
     function dayCombatId(entity, fallback = 'entity') { return entity?.id || `${fallback}:${entity?.type || 'unknown'}:${entity?.x ?? 0},${entity?.y ?? 0}`; }
     function dayCombatEnemyTargets() { return (state.worldZombies || []).filter(zombie => zombie.hp > 0 && zombie.dead !== true); }
     function dayNpcCanAttack(npc) {
-      if (!npcIsActive(npc)) return false;
+      if (!npcIsCampLocal(npc)) return false;
       const role = npc.actingRole || npc.id;
       const order = getNpcOrderInfo(npc)?.id;
       const guardRole = ['guardJi', 'guardChen', 'guardJiang', 'sergeant', 'commander'].includes(role);
@@ -4340,7 +4342,7 @@ function resolveObserverExpression(input = {}) {
       return dayCombatEnemyTargets().filter(enemy => distanceBetween(tower, enemy) <= profile.range && hasLineOfSight(tower, enemy)).sort((a, b) => distanceBetween(tower, a) - distanceBetween(tower, b) || String(a.id).localeCompare(String(b.id)))[0] || null;
     }
     function dayEnemyTarget(zombie) {
-      const candidates = [state.player, ...state.npcs.filter(npcIsActive), ...dayEnemyDefenseTargets()].filter(target => target && target.active !== false && (target.hp === undefined || target.hp > 0));
+      const candidates = [state.player, ...state.npcs.filter(npcIsCampLocal), ...dayEnemyDefenseTargets()].filter(target => target && target.active !== false && (target.hp === undefined || target.hp > 0));
       const locked = candidates.find(target => target.id === zombie.perception?.targetId);
       const profile = perceptionProfile(zombie);
       const visible = candidates.filter(target => canPerceive(zombie, target, profile)).sort((a, b) => {
@@ -4442,7 +4444,7 @@ function resolveObserverExpression(input = {}) {
       if (zombie.perception.clock < 6) return;
       zombie.perception.clock = 0;
       const profile = perceptionProfile(zombie);
-      const candidates = [state.player, ...state.npcs.filter(npcIsActive), ...dayEnemyDefenseTargets()].filter(item => item && (item.hp === undefined || item.hp > 0) && item.active !== false);
+      const candidates = [state.player, ...state.npcs.filter(npcIsCampLocal), ...dayEnemyDefenseTargets()].filter(item => item && (item.hp === undefined || item.hp > 0) && item.active !== false);
       const target = candidates.filter(item => canPerceive(zombie, item, profile)).sort((a, b) => distanceBetween(zombie, a) - distanceBetween(zombie, b))[0];
       if (target) { zombie.perception.targetId = target.id; zombie.perception.targetAt = worldMinute(); zombie.goal = { x: target.x, y: target.y }; zombie.aiState = 'pursue'; }
       else if (zombie.perception.targetAt && worldMinute() - zombie.perception.targetAt > profile.memory) { zombie.perception.targetId = null; zombie.aiState = 'wander'; }
