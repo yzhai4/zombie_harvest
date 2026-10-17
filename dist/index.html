@@ -4285,7 +4285,13 @@ function resolveObserverExpression(input = {}) {
       if (npc.perception.clock < 6) return;
       npc.perception.clock = 0;
       Object.keys(npc.perception.contacts || {}).forEach(id => { if ((npc.perception.contacts[id].expiresAt || 0) <= worldMinute()) delete npc.perception.contacts[id]; });
-      const target = perceptionTargetsForNpc(npc).filter(item => item.hp === undefined || item.hp > 0).filter(item => canPerceive(npc, item)).sort((a, b) => distanceBetween(npc, a) - distanceBetween(npc, b))[0];
+      const visible = perceptionTargetsForNpc(npc).filter(item => item.hp === undefined || item.hp > 0).filter(item => canPerceive(npc, item)).sort((a, b) => distanceBetween(npc, a) - distanceBetween(npc, b));
+      // A nearby friendly must not hide an already visible threat from alerting.
+      // Keep the friendly contact as well; range, cone, LOS and attack eligibility
+      // remain the responsibility of their existing perception/combat gates.
+      const target = visible.find(item => item.kind) || visible[0];
+      const friendly = visible.find(item => !item.kind);
+      if (friendly && friendly !== target) npc.perception.contacts[friendly.id] = { x: friendly.x, y: friendly.y, sourceId: npc.id, at: worldMinute(), expiresAt: worldMinute() + perceptionProfile(npc).memory };
       if (target) {
         npc.perception.targetId = target.id; npc.perception.targetAt = worldMinute();
         npc.perception.contacts[target.id] = { x: target.x, y: target.y, sourceId: npc.id, at: worldMinute(), expiresAt: worldMinute() + perceptionProfile(npc).memory };

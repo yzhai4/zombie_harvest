@@ -30,6 +30,8 @@ export function sourceRuntimeFactory(htmlPath = path.join(root, 'dist/index.html
     handleChoice: handleEventChoice, renderEvent, eventContentChainViews,
     selectChain(id) { eventPanelSelection = 'chain:' + id; eventPanelReceipt = null; },
     observerCommentary, observerTruthProjection, worldSnapshot: WorldFacts.snapshot,
+    updateNpcPerception, perceptionTargetsForNpc, perceptionProfile, canPerceive,
+    dayNpcCanAttack, dayNpcTarget, runDayCombat, updateNpcRoutine, advance,
     registry: EVENT_DEFS, hash: checksum,
   `);
   return new Function('inline', 'htmlPath', 'vm', 'assert', body + '\nreturn runtime;')(inline, htmlPath, vm, assert);

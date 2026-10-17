@@ -60,6 +60,7 @@ jobs:
           node --check scripts/capture-episode-writer-fixture.mjs
           node --check scripts/check-content-episode-v1.mjs
           node --check scripts/browser-content-episode-v1.mjs
+          node --check scripts/check-npc-threat-attention.mjs
       - name: Check deployable entrypoints
         run: |
           test -s dist/index.html
@@ -98,6 +99,8 @@ jobs:
         run: |
           node scripts/check-daytime-combat.mjs
           node scripts/check-combat-intent-v1.mjs
+          node scripts/check-npc-threat-attention.mjs
+          python scripts/check-three-day-safety.py
       - name: Execute canonical EventGateV1 shadow contract
         run: node scripts/check-event-gate-v1.mjs
       - name: Compare inline and shadow EventGateV1 parity
@@ -129,4 +132,5 @@ jobs:
       - name: Check browser runner syntax
         run: |
           python -m py_compile scripts/server-playtest.py scripts/server-content-chain.py scripts/server-three-days.py
+          python -m py_compile scripts/check-three-day-safety.py
           python -m py_compile scripts/server-report-recovery.py scripts/report_recovery_fixtures.py scripts/report_recovery_full.py

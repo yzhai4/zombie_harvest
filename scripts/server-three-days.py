@@ -80,6 +80,81 @@ def clock_minutes(payload: dict) -> int:
     return (int(payload["day"]) - 1) * 1440 + int(payload["hour"]) * 60 + int(payload["minute"])
 
 
+def daytime_defense_budget(enemy: dict) -> dict:
+    """Budget the registered rust axe against one known daytime enemy.
+
+    Every nonlethal attack can incur both attackReducer's direct retaliation
+    and one runDayCombat bite during its ten-minute advance (cadence twelve).
+    Keep the existing twelve-HP reserve; unknown profiles fail closed.
+    """
+    profiles = {"normal": (.065, 6, 8), "runner": (.12, 8, 7), "brute": (.04, 14, 14)}
+    kind = enemy.get("kind")
+    if kind not in profiles:
+        raise ValueError("unsupported saved enemy kind for public defense")
+    hp = float(enemy["hp"])
+    if not math.isfinite(hp) or hp <= 0:
+        raise ValueError("invalid saved enemy health for public defense")
+    speed, world_bite, retaliation = profiles[kind]
+    hit_count = math.ceil(hp / 50)
+    damage = max(0, hit_count - 1) * (world_bite + retaliation)
+    return {"kind": kind, "speed": speed, "hitCount": hit_count, "worldBite": world_bite,
+            "directRetaliation": retaliation, "damageBudget": damage, "hpBudget": 12 + damage}
+
+
+def daytime_action_dangers(payload: dict, minutes: int = 30) -> list[dict]:
+    """Conservative movement envelope, not merely the current bite radius.
+
+    This is a public-action regression policy, not a game-rule change. Reading
+    the saved adjacent world is already allowed by this runner's IO contract.
+    """
+    player = payload["player"]
+    threats = []
+    for enemy in payload.get("worldZombies", []):
+        if enemy.get("hp", 0) <= 0:
+            continue
+        speed = daytime_defense_budget(enemy)["speed"]
+        factor = float(enemy.get("speedFactor", 1))
+        if not math.isfinite(factor) or factor <= 0:
+            raise ValueError("invalid saved enemy speed factor for public-action safety")
+        distance = math.hypot(enemy["x"] - player["x"], enemy["y"] - player["y"])
+        radius = max(6.0, 1.25 + speed * max(1, factor) * minutes + 1.0)
+        if distance <= radius:
+            threats.append({"id": enemy["id"], "kind": enemy.get("kind", "normal"), "x": enemy["x"], "y": enemy["y"],
+                            "hp": enemy["hp"], "distance": distance, "dangerRadius": radius})
+    return sorted(threats, key=lambda item: (item["distance"], item["id"]))
+
+
+def safety_meal_evidence(before: dict, after: dict) -> dict | None:
+    """Require a new real meal command and actual restored HP/energy.
+
+    The legacy player.ate receipt is empty. Do not invent gross reward fields
+    for it; report the measured interval and retain possible NPC meal costs.
+    """
+    if before["day"] != after["day"] or before["food"] < 1:
+        return None
+    events = complete_event_window(before, after)
+    if events is None:
+        return None
+    meals = [event for event in events if event["type"] == "player.ate"]
+    if len(meals) != 1:
+        return None
+    receipt = meals[0]
+    commands = [command for command in after["worldMeta"]["replay"]["commands"]
+                if command.get("commandId") == receipt.get("commandId") and command.get("type") == "player.eat"
+                and command.get("actorId") == "player-1"]
+    npc_food = sum(event.get("payload", {}).get("food", 0) for event in events
+                   if event["type"] == "npc.need.fulfilled" and event.get("payload", {}).get("need") == "hunger")
+    if receipt.get("actorId") != "player-1" or len(commands) != 1 or after["food"] != before["food"] - 1 - npc_food:
+        return None
+    if not (after["hp"] > before["hp"] or after["energy"] > before["energy"]):
+        return None
+    return {"eventId": receipt["eventId"], "commandId": receipt["commandId"],
+            "hpBefore": before["hp"], "hpAfter": after["hp"], "energyBefore": before["energy"],
+            "energyAfter": after["energy"], "foodBefore": before["food"], "foodAfter": after["food"],
+            "npcFoodInWindow": npc_food, "minuteBefore": clock_minutes(before), "minuteAfter": clock_minutes(after),
+            "scope": "observed saved interval; legacy empty receipt is not a gross reward proof"}
+
+
 def dom_minutes(day: str, clock: str) -> int:
     day_match = re.search(r"第\s*(\d+)\s*天", day)
     time_match = re.search(r"(\d{1,2}):(\d{2})", clock)
@@ -324,6 +399,9 @@ class Runner:
         self.artifacts.mkdir(parents=True, exist_ok=True, mode=0o700)
         self.result = {
             "runner": "server-three-days", "mode": MODE, "url": args.url,
+            "runnerSha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+            "naturalGameplayClaim": False,
+            "evaluationScope": "training-led public-action calendar regression; no natural-play or balance claim",
             "profile": str(args.profile.resolve()), "startedAtUnix": time.time(),
             "limits": {"actionSeconds": ACTION_SECONDS, "encounterSeconds": ENCOUNTER_SECONDS, "globalSeconds": args.timeout,
                        "heartbeatSeconds": HEARTBEAT_SECONDS, "parentPollingSeconds": 30},
@@ -390,8 +468,9 @@ class Runner:
         self.check(stage + " initial roster IDs preserved", ids == self.result["rosterIds"], ids)
         active = sum(npc.get("lifeState") != "dead" for npc in payload["npcs"])
         collapse = payload["contentState"]["meters"]["campCollapse"]
-        self.check(stage + " camp existence invariants", active >= 3 and payload["hp"] > 0 and collapse < 90,
-                   {"activeNpcCount": active, "campHp": payload["hp"], "campCollapse": collapse})
+        self.check(stage + " player survives", payload["hp"] > 0, {"playerHp": payload["hp"]})
+        self.check(stage + " camp existence invariants", active >= 3 and collapse < 90,
+                   {"activeNpcCount": active, "campCollapse": collapse})
 
     def observe_document_response(self, response) -> None:
         if not self.args.strict_fresh:
@@ -633,6 +712,8 @@ class Runner:
                 finally:
                     self.retain_settle_poll(poll)
                 self.page.wait_for_timeout(100)
+            if time.monotonic() >= self.deadline:
+                raise TimeoutError(f"{self.args.timeout}-second global browser run budget exhausted while waiting for primary save")
             raise TimeoutError("primary save did not catch up to the DOM after checkpoint debounce")
         except Exception as error:
             try:
@@ -797,13 +878,79 @@ class Runner:
                                          predicate=lambda value: navigation_attack_evidence(pending, value) is not None)
         self.record_navigation_attack(pending, after_observed)
 
+    def record_safety_meal(self, before: dict, observed: dict) -> None:
+        evidence = safety_meal_evidence(before, observed["envelope"]["payload"])
+        self.check("public safety meal has one real command and measured supply effect", evidence is not None, evidence)
+        if not any(action.get("eventId") == evidence["eventId"] for action in self.result["actions"]):
+            self.result["actions"].append({"type": "player-safety-meal", **evidence})
+        self.result.pop("pendingSafetyMeal", None)
+        self.persist("public-safety-meal-verified", observed)
+
+    def secure_training_area(self) -> dict:
+        """Bounded public defense before a 30-minute action; never grant HP.
+
+        This supplements the regression route; it does not turn repeated
+        training into a natural-play or balance experiment.
+        """
+        moved = False
+        meals = 0
+        for _ in range(MAX_NAVIGATION_ATTACKS + 3):
+            self.guard()
+            observed = self.settle_save(self.calendar())
+            payload = observed["envelope"]["payload"]
+            self.survival(payload, "before training safety")
+            dangers = daytime_action_dangers(payload)
+            if not dangers:
+                if moved:
+                    self.barracks()
+                    moved = False
+                    continue
+                return observed
+            self.stage = "public-training-safety"
+            target = dangers[0]
+            self.result.setdefault("safetyPolicy", {"version": 1, "mode": "bounded-public-defense",
+                "minimumDangerRadius": 6, "maxMealsPerCheck": 2, "maxNavigationAttacksPerSegment": MAX_NAVIGATION_ATTACKS})
+            # The route never upgrades its initial rust axe: two normal hits,
+            # including both the existing direct retaliation and world bites.
+            self.check("safety route retains its registered rust axe", payload["weapon"]["id"] == "rustAxe")
+            defense_budget = daytime_defense_budget(target)
+            hp_budget = defense_budget["hpBudget"]
+            if (payload["hp"] <= hp_budget or payload["energy"] < 10) and meals < 2 and payload["food"] > 0:
+                before = observed["envelope"]["payload"]
+                self.result["pendingSafetyMeal"] = {"beforePayload": before}
+                self.persist("public-safety-meal-before", observed)
+                self.close_panels()
+                meal = self.page.locator("#eatBtn")
+                self.check("public safety meal button is available", meal.is_visible() and meal.is_enabled())
+                meal.click(timeout=self.timeout())
+                after = self.settle_save(clock_minutes(before), before["worldMeta"]["eventSeq"] + 1,
+                    predicate=lambda value: safety_meal_evidence(before, value) is not None)
+                self.record_safety_meal(before, after)
+                meals += 1
+                continue
+            self.check("public defense has conservative health and energy budget", payload["hp"] > hp_budget
+                       and payload["energy"] >= 5, {"playerHp": payload["hp"], "hpBudget": hp_budget, "energy": payload["energy"],
+                                                   "target": target, "defenseBudget": defense_budget})
+            if target["distance"] > 1.15:
+                # Public movement only; re-read the moving target before a hit.
+                self.navigate(target["x"], target["y"], tolerance=.85)
+                moved = True
+                continue
+            segment = self.navigation_segment(9.2, 11.8)
+            self.clear_navigation_threat(9.2, 11.8, segment)
+            moved = True
+        raise AssertionError("bounded public training safety policy exhausted; no long action attempted")
+
     def area_action(self, label: str, expected_minutes: int = 30) -> None:
         self.close_panels()
         button = self.page.locator('#contextActions [data-context-action="area"]').filter(has_text=label)
         zone = "barracks" if label == "兵营" else "residence"
         button.wait_for(state="visible", timeout=self.timeout())
         self.check(f"public {label} affordance", button.count() == 1, self.position())
-        before_observed = self.settle_save(self.calendar())
+        # The safety procedure already obtained a current, validated snapshot.
+        # Use that same before-state for the action's unchanged causal proof;
+        # a second preflight otherwise waits for the next periodic save tick.
+        before_observed = self.secure_training_area() if zone == "barracks" else self.settle_save(self.calendar())
         before_save = before_observed["envelope"]["payload"]
         before, before_seq = clock_minutes(before_save), before_save["worldMeta"]["eventSeq"]
         if zone == "barracks":
@@ -1084,7 +1231,7 @@ class Runner:
         self.result["pendingEncounter"]["threatId"] = payload["nightBattle"]["instanceId"]
         self.survival(payload, f"day {day} summary")
         self.check(f"day {day} resolved threat save", bool(payload.get("nightBattle", {}).get("resolved")))
-        self.check(f"day {day} camp survives before closing report", payload["hp"] > 0, payload["hp"])
+        self.check(f"day {day} player survives before closing report", payload["hp"] > 0, {"playerHp": payload["hp"]})
         summary_clock = self.calendar()
         summary_events = [event for event in payload["worldMeta"]["events"] if event["type"] == "threat.resolved"]
         self.check(f"day {day} actual threat.resolved ledger", bool(summary_events), summary_events[-1:] if summary_events else [])
@@ -1366,6 +1513,10 @@ class Runner:
     def reconcile_pending(self, observed: dict) -> None:
         """Recover only from the actual profile save, never reapply saved data."""
         payload = observed["envelope"]["payload"]
+        pending_meal = self.result.get("pendingSafetyMeal")
+        if pending_meal:
+            # Never re-click an uncertain instantaneous resource action.
+            self.record_safety_meal(pending_meal["beforePayload"], observed)
         self.reconcile_training(observed)
         pending_attack = self.result.get("pendingNavigationAttack")
         if pending_attack:
@@ -1644,7 +1795,8 @@ class Runner:
         except Exception as error:
             self.result["errors"].append(f"{type(error).__name__}:{error}")
             self.result["ok"] = False
-            self.persist("failed-" + self.stage)
+            self.result["failureEvidence"] = "last validated saved snapshot; not a post-close recapture"
+            self.persist("failed-" + self.stage, self.last_save)
         finally:
             self.stop_heartbeat.set()
             self.result["elapsedSeconds"] = round(time.monotonic() - self.started, 3)
