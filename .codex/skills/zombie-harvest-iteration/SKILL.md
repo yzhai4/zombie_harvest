@@ -5,11 +5,15 @@ description: 维护尸潮农场的跨内容、规则、AI、实验和发布迭�
 
 # 尸潮农场整轮迭代
 
-当前 repeatable 内容与 SAVE21 增量适配先读 `docs/scripts/zh-food-shortage-001.md` 和 `docs/decisions/ADR-20261017-repeatable-episode-identity.md`。候选已接按日 episode/五元 CAS/有限藏粮与纯 Observer 核心；Scenario loader 仍 headless minimal，actor 权限/感知投影与自然三日未完成，Sites v81 未发布。具体计数与字节以当前 QA/manifest 为准，不从历史绿色推定当前通过。
+当前优先级先读 `docs/research/research-adoption-plan-20261017.md`，构建与完成状态只从 `docs/memory/current-state.md` 和 QA/manifest 取得。涉及 repeatable/SAVE21 增量适配时读 `docs/scripts/zh-food-shortage-001.md` 与 episode身份ADR；涉及驻守时读 outpost-presence-v1 ADR。不要在Skill中累积每轮计数、构建hash或把历史绿色推定为当前通过。
 
 先读取 `docs/memory/current-state.md`、`docs/memory/open-risks.md`、`docs/project-memory.md`、`docs/long-term-plan.md` 和 `docs/iteration-workflow.md`，再按任务加载 `剧本/尸潮农场/01–09`、`11–16` 和相关 `docs/scripts`。不要把聊天内容当作规则真相。
 
 ## 选择迭代模式
+
+调研建议先对应一个玩家价值假设、当前真实调用路径和可验收切片。P0–P6是能力依赖，v82–v90是交付包；当前十人/地图/试验持久NPC数不构成最终产品上限。报告和历史对话只作输入：示例配置、论文统计、样本与效果阈值未核验前不转为规则或成果。先单因素基线/缺粮/缺岗，后复合；策略、配置、时间输入和版本固定后再比较。真人体验与自动状态指标分别报告。
+
+每轮指定剧本设计师审核六视角，再实现最小闭环。新反例、知识泄露、体验矛盾或预算失败产生可复用决策时才改Skill，并把详细合同放设计卡/ADR/QA。不为已覆盖的低风险变化新增复述实现的测试，也不在普通迭代重复全文献审计。
 
 - **内容模式**：新增或修改主线、支线、NPC、势力、科技、建筑和武器；同时遵守 `zombie-harvest-content`。
 - **运行时模式**：修改 GameState、CommandBus、reducer、事件账本、保存、回放或 UI；先写状态/迁移/幂等契约。
@@ -102,7 +106,7 @@ AI 或实验变更还必须提供：baseline、变体、seed 集、失败重试�
 
 ## 场景包与调研输入闸门（2026-10-17）
 
-涉及竖切片或观察者时，先读 `docs/qa/deep-research-baseline-20261017.md` 与 `docs/qa/iteration-manifest-v1.json`。外部调研是设计输入，不是运行时证据。维护 scenarioVersion/seed/worldConfig/gameVersion/aiConfig/storylet fallback，运行 `check-scenario-package-v1` 与 `check-observer-expression-v1`；resolver 当前是 headless fixture，只有真实 boot loader 调用和旧档迁移证据齐全后才写 runtime loader。
+涉及竖切片或观察者时，先读 `docs/qa/deep-research-baseline-20261017.md` 与 `docs/qa/iteration-manifest-v1.json`。外部调研是设计输入，不是运行时证据。维护 scenarioVersion/seed/worldConfig/gameVersion/aiConfig/storylet fallback，运行 `check-scenario-package-v1` 与 `check-observer-expression-v1`；resolver 当前是 headless fixture。先实现真实boot与旧档迁移，实际调用和验证证据齐全后才声明runtime loader生效。
 
 Scenario schema/版本化 snapshot 能保存，不等于 boot 已消费配置；须沿真实新开/继续入口验证实际世界效果和旧 writer 保留边界后，才称 loader 生效。
 

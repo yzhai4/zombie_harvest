@@ -1,14 +1,16 @@
 # 尸潮农场开发路线
 
+当前优先级由[调研落地计划](research/research-adoption-plan-20261017.md)统一：P0–P6是能力依赖，v82–v90是交付包；下方历史“P1可重复竖切片”属于旧命名，不能当成报告P1 Scenario已完成。当前地图/人口只限定首副本验证，后续规模和跨副本连续世界目标保留。
+
 ## 当前出口与下一闸门（2026-10-17）
 
-当前开发HTML为`71657c62`：在attention修复上以npcIsCampLocal排除据点驻守者的营地双向作战/新感知/共享，真实派驻/释放源码夹具29/29，原51f控制24/29失败。全30条命令exit0、静态55/55、方法28/28、旧goldens未变；真实新Chrome episode12/12零errors、两HTTP同71657且已目视截图。routine/motion/render/getNpc/福利的离营语义仍open，critical政策未改；见[问题](problems/PROB-20261017-npc-outpost-camp-presence.md)。新源码407a2db8的head/来源字节CI按当前PR单独核验；历史51f的CI283不能给71657继承green。Sites v81未发布。
+当前开发HTML为`efe03977`、来源`68028d07`：完整presence consumer、世界需求/共享配给、派后本地人口、assignJob、延期实例与计划提交前纯校验已落地。本地30条命令全exit0，presence41/41（旧71657负控14/41）、attention29、方法76/安全28、static55与旧goldens保持；真实Chrome驻守37/37、episode12/12，零errors，主文档4+2次同字节，root目视5+2图。驻守browser包含公开捕获、名册8本地/2驻守/10存活、Canvas/E/刷新和独立午夜配给3+upkeep1；仍不是自然三日或平衡。当前PR来源CI另核，Sites未发布；见[QA](qa/outpost-presence-20261017.md)。
 
-旧A第1天13:01玩家HP0、B在900.578秒预算耗尽exit1，均保留FAILED；原campHp为玩家HP误标，不推定新存档根因。C已在旧冻结source38c7e9d6 / HTML51f / runnerbc16789f终态exit0：1642.125秒、1488/1488、93次训练，到day4 06:35/evt2740，玩家100HP/food6/10healthy/collapse0。原strict Gate270/270，2方法负控另列；终态251保存/29截图/0unmapped导出后自包含同Gate270/270。见[公开摘要](qa/runs/daytime-attention-20261017/completed-calendar-summary.json)。这不是当前71657的三日、自然玩法或平衡证据。
+旧A第1天13:01玩家HP0、B在900.578秒预算耗尽exit1，均保留FAILED；原campHp为玩家HP误标，不推定新存档根因。C已在旧冻结source38c7e9d6 / HTML51f / runnerbc16789f终态exit0：1642.125秒、1488/1488、93次训练，到day4 06:35/evt2740，玩家100HP/food6/10healthy/collapse0。原strict Gate270/270，2方法负控另列；终态251保存/29截图/0unmapped导出后自包含同Gate270/270。见[公开摘要](qa/runs/daytime-attention-20261017/completed-calendar-summary.json)。这不是当前efe039的三日、自然玩法或平衡证据。
 
 v2合并preflight、真实反击预算和unknown-kind拒绝，方法28/28不代替终态browser。训练会改SAN/士气，日历回归不能冒充自然玩法或平衡。[自然混合协议](qa/natural-play-protocol-20261017.md)已核N只开遭遇不跳日，无公开睡眠/倍速；协议及休整出口是proposed，尚未执行或接线。自然三日仍open。
 
-下一P0先收齐实际离营边界，验证有意义自然玩法/节奏和断粮激励，再依次Scenario真实boot → actor projection → 内容扩展。[Scenario ADR](decisions/ADR-20261017-scenario-boot-contract.md)/[问题](problems/PROB-20261017-scenario-stored-not-bound.md)与[ActorObservation ADR](decisions/ADR-20261017-actor-observation-v1.md)/[问题](problems/PROB-20261017-observer-trusted-input-boundary.md)均为proposed/未接线；需分别证明seed/config真正消费、旧writer不重算，以及角色知识权限。保持[调研P0–P6](qa/deep-research-baseline-20261017.md)顺序与exact simulator优先，不以metadata、表达白名单或某个browser回归替代这些门槛，当前不增加引擎迁移任务。
+下一P0保持presence已验合同，先验证有意义自然玩法/节奏和断粮激励，再依次Scenario真实boot → actor projection → 内容扩展。[Scenario ADR](decisions/ADR-20261017-scenario-boot-contract.md)/[问题](problems/PROB-20261017-scenario-stored-not-bound.md)与[ActorObservation ADR](decisions/ADR-20261017-actor-observation-v1.md)/[问题](problems/PROB-20261017-observer-trusted-input-boundary.md)均为proposed/未接线；需分别证明seed/config真正消费、旧writer不重算，以及角色知识权限。保持[调研P0–P6](qa/deep-research-baseline-20261017.md)顺序与exact simulator优先，不以metadata、表达白名单或某个browser回归替代这些门槛，当前不增加引擎迁移任务。
 
 下方阶段编号和逐次 checkpoint 是保留的长期路线与历史记录；旧“一次性断粮”“只有存活门”“尚无 episode/browser”描述已被本节限定范围内的新进展取代，不能反向改写旧失败。
 

@@ -4,11 +4,12 @@
 
 | 未关闭项 | 当前边界与下一闸门 |
 | --- | --- |
-| 据点离营边界 | 新71657的npcIsCampLocal已覆盖营地双向作战/新感知/共享，真实派驻/释放夹具29/29，原51f控制24/29失败。更广routine/motion/render/getNpc/福利仍active，整体open；critical政策未改。见[问题](../problems/PROB-20261017-npc-outpost-camp-presence.md)。 |
+| 据点离营边界 | 当前efe039已按ADR完成列明consumer收口：source41/41、旧71657负控14/41，真实Chrome37/37含公开派驻/Canvas/名册/E/刷新和独立午夜。世界人口/需求/共享口粮/upkeep保留；没有真实远端生产、旅行/召回或配送。见[QA](../qa/outpost-presence-20261017.md)。 |
+| 继任有效岗位 | [真实死亡→继任反例](../problems/PROB-20261017-effective-role-exclusivity.md)确认npcHasRole可同时承认旧/新岗，而npcFulfillsRole排他；本轮未修，不声称全部职责已互斥。 |
 | 白天警觉与玩家自保 | attention优先可见敌人不保证长动作获救。[旧失败](../problems/PROB-20261017-daytime-attention-and-route-safety.md)为第1天13:01玩家HP0，旧campHp误标，不能称营地建筑被毁；原FAILED保留。 |
-| 日历回归的构建边界 | C（source38c7e9d6 / 冻结51f / runnerbc16789f）已exit0，1642.125秒、1488/1488、93次训练到day4 06:35/evt2740，玩家100HP/food6/10healthy/collapse0；只证明该旧构建，当前71657三日仍未验。见[摘要](../qa/runs/daytime-attention-20261017/completed-calendar-summary.json)。 |
+| 日历回归的构建边界 | C（source38c7e9d6 / 冻结51f / runnerbc16789f）已exit0，1642.125秒、1488/1488、93次训练到day4 06:35/evt2740，玩家100HP/food6/10healthy/collapse0；只证明该旧构建，当前efe039三日仍未验。见[摘要](../qa/runs/daytime-attention-20261017/completed-calendar-summary.json)。 |
 | 历史失败与方法证据 | A玩家死亡、B预算耗尽仍FAILED；B最后d2 11:41/evt1280，不能推定新存档根因。C原strict Gate270/270，2方法负控另列；251保存/29截图/0unmapped的终态导出包自包含重绑后仍270/270。runner方法28/28与实际日历证据分别报告，不迁给其他字节。 |
-| 证据维护与CI | 71657本地30条命令exit0、静态55/55、旧goldens未变，真实新Chrome episode12/12零errors且两HTTP同SHA；未关闭三日/整体离营。来源对象407a2db8的head/来源字节CI需按当前PR单独核验；历史51f的CI283只证明51f。 |
+| 证据维护与CI | efe039本地30条命令全exit0、static55、原goldens不变；presence37与episode12均真实Chrome同字节。来源68028d07、本地manifest20/20但Git unavailable；当前PR必须另验Git祖先和源码依赖字节，不从旧构建继承CI。 |
 | 自然玩法与平衡 | [自然协议](../qa/natural-play-protocol-20261017.md)为proposed未执行：N只开遭遇不跳日，无公开睡眠/倍速。重复训练会改SAN/士气；有意义玩法/节奏、断粮激励和自然三日仍open，不能由strict-fresh、全true前缀或fixture推导通过。 |
 | repeatable 身份与兼容 | 按[断粮合同](../scripts/zh-food-shortage-001.md)验证五元 token 不刷新、跨日 stale、完整旧 writer、fallback/自治回执、未知版本拒绝与事务回滚；仅 opt-in 增量 SAVE21，不是全局 EventInstance 迁移完毕。 |
 | 内容来源 | 有限藏粮 flag 必须跨日/刷新保留，整局最多 +2 食物；留守不伪造配给缓解、势力奖励、人口或敌人 spawn。 |
@@ -17,7 +18,7 @@
 | Actor知识授权 | [ADR](../decisions/ADR-20261017-actor-observation-v1.md)/[问题](../problems/PROB-20261017-observer-trusted-input-boundary.md)为proposed/未接线；深冻结白名单与NPC敌人优先不证明actor/perception来源权限、持久记忆或LLM已完成。 |
 | 生产发布 | Sites v81 未接入本轮；发布仍需最终构建证据、真实旧档与部署后 smoke，不能用开发 green 覆盖生产源线。 |
 
-推进顺序：P0实际离营边界与有意义自然玩法/节奏、断粮激励 → Scenario真实boot → actor projection → 内容。以下风险表和主题记录保留原历史时点；旧版本、计数和“下一步”不覆盖本节。长期仍遵循[调研 P0–P6](../qa/deep-research-baseline-20261017.md)，不提前进入 World Model 或引擎迁移。
+推进顺序：P0有意义自然玩法/节奏、断粮激励（保持已验的presence合同） → Scenario真实boot → actor projection → 内容。以下风险表和主题记录保留原历史时点；旧版本、计数和“下一步”不覆盖本节。长期仍遵循[调研 P0–P6](../qa/deep-research-baseline-20261017.md)，不提前进入 World Model 或引擎迁移。
 
 ## 历史风险与验收记录
 

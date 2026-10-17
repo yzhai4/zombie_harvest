@@ -2,6 +2,8 @@
 
 来源：用户提供的 `deep-research-report.md` 原文；SHA-256：940EFAC9A98227DB2B4512771E474C8366B629D50D72D8E912923D83E2CF06EE；日期：2026-10-17。
 
+原文已按原字节归档为[报告](../research/deep-research-report-20261016.md)，全文对照与当前路线见[落地计划](../research/research-adoption-plan-20261017.md)。P0–P6是证据依赖顺序；未来扩大地图/交互、多副本及特殊NPC连续性仍是长期目标，当前Demo规模不作产品上限。报告内旧会话引用、论文数字和未提供的关联CSV/XLSX不算已核验外部证据。
+
 - P0：先保证 fun、seed/config、snapshot、telemetry 与 AI 总开关。
 - P1：版本化 Scenario Schema/Event Graph/Validator，拒绝缺引用、不可达/无 fallback、循环、不可满足门槛和越权 authority。
 - P2–P4：先做规则/NPC planning，再做 EventFact memory/relationship，最后做白名单 observer/disclosure；Observer 只解释物品、NPC、事件并 deterministic fallback。

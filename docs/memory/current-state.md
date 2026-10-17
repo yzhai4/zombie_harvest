@@ -2,9 +2,11 @@
 
 ## 当前检查点（2026-10-17，优先于下方历史）
 
-当前开发 HTML 为 `71657c62e7adfcd9b6f6d7e4a8aa89a8fe0976ea6603c63b8f706e79ef68bfd8`，SAVE21 / CONTENT3。在既有 attention 敌人优先修复上新增 `npcIsCampLocal`，使据点派驻者退出营地双向作战、新感知与共享；真实 captureOutpost/release 派生源码夹具29/29，原 `51faa0c7` 同检查24/29、exit1。仍保留原视野/射程/伤害与固定人口，不把派驻视为死亡。更广 routine/motion/render/getNpc 占位与群体福利仍沿 active 名单，整体离营语义 open；critical 政策未改。见[据点营地存在问题](../problems/PROB-20261017-npc-outpost-camp-presence.md)。
+当前开发HTML为 `efe039775346f4ee34269495810d9d9e778603d2bfac26996ff5e0b884cd7f0b`，来源 `68028d0763c3a5d02ed8db9638823f33069efd18`，SAVE21/CONTENT3。完整据点在场合同已接入：驻守者退出营地移动/显示/交互/工作/福利/现场事件与昼夜支援，保留世界人口、需求、共享配给和维护；派后本地人口Gate、assignJob互斥、合法返营、活人事件延期、旧档动态定义恢复及提交前纯候选校验均有实际证据。独立继任双岗位与critical政策未被此次修复。见[本轮QA](../qa/outpost-presence-20261017.md)。
 
-新构建本地全套30条命令 exit0、静态55/55、runner方法28/28，旧goldens未变；根代理已在真实新Chrome验证episode夹具12/12、零errors，两次HTTP均为71657并目视截图。这不包含自然三日或整体离营验收。[断粮合同](../scripts/zh-food-shortage-001.md)与纯表达Observer保持。本轮来源对象 `407a2db8ca21c106fb60ab1c6e188fc653db2ffd`，分支head及来源字节CI以当前PR单独核验；旧51f的CI #283不能作为71657证据。
+本地原30条命令全exit0，presence41/41（冻结71657控制14/41、exit1）、attention29/29、方法76/76与安全28/28；原goldens保持。真实Chrome155驻守37/37、episode12/12，零errors；前者公开捕获/名册/实际Canvas/E/刷新及独立午夜训练夹具food30→26、配给3+维护1不重付，四HTTP同efe039；后者两HTTP同字节。root分别目视5+2张截图。派生boot与午夜训练不是自然多日或平衡；当前构建自然三日仍open，生产未部署。本地manifest20/20但Git来源unavailable，当前PR CI须精确核验新来源与head，不继承旧green。
+
+报告原文已全文归档并核同SHA，长期目标与近期切片统一见[调研落地计划](../research/research-adoption-plan-20261017.md)。更大世界、Scenario Studio和跨副本连续性保留；P0–P6是证据依赖，不把当前十人/小地图当产品上限。
 
 旧公开行动日历路线A在第1天 13:01 玩家 HP=0，95 项中94项通过，整轮 FAILED 保留。旧 runner 的 `campHp` 实际读取玩家 `payload.hp`，不得解释成营地建筑 HP 归零；原因与修复边界见[白天注意力/路线安全问题](../problems/PROB-20261017-daytime-attention-and-route-safety.md)。训练会提高 SAN/士气，该路线不是自然玩法或平衡测试。
 

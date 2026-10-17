@@ -4,6 +4,8 @@
 **目标窗口：** day 1–16，day 14 为最终尸潮基准  
 **适用范围：** Web/Canvas 规则验证平台；不在本计划中迁移引擎或引入多人持久化。
 
+此范围仅限定当前尸潮副本交付；长期产品目标与当前优先级见[调研落地计划](research/research-adoption-plan-20261017.md)。v82–v85不等于P0–P6能力阶段：近期先完成presence与自然因果切片、真实Scenario boot及actor知识边界，再继续扩大内容。更大世界、多副本、跨副本特殊角色与引擎适配仍保留在长期路线。
+
 ## 当前基线与缺口
 
 仓库已经具备昼夜循环、广播中继样板链、SAN、事件契约、事件账本、回放、内容注册表、事务效果和保存迁移。`WEAPON_DEFS`、`EVENT_CHAIN_DEFS`、`NPC_STORY_DEFS`、`TECH_NODE_DEFS`、`BUILDING_DEFS`、`FACTION_DEFS`、`OUTPOST_DEFS`、`NPC_ROLE_DEFS` 与 11–16 模板是基础设施。
