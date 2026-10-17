@@ -450,6 +450,8 @@
     }
     .toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom)); transform: translate(-50%, 18px); opacity: 0; pointer-events: none; z-index: 20; max-width: min(88vw, 400px); padding: 10px 14px; background: #e9efcf; color: #16231b; border-radius: 999px; font-size: 12px; font-weight: 800; box-shadow: 0 10px 30px rgba(0,0,0,.3); transition: .25s ease; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .toast.show { opacity: 1; transform: translate(-50%, 0); }
+    .npc-routine-report, .survivor-card .npc-routine-report { grid-column: 1 / -1; display: block; margin: 6px 0; padding: 8px; border-radius: 8px; background: rgba(91,150,130,.14); color: #bce5d2; font-size: 12px; line-height: 1.55; white-space: normal; overflow-wrap: anywhere; }
+    @media (max-width: 640px) { .survivor-list { grid-template-columns: 1fr; } }
     .npc-sight-report { grid-column: 1 / -1; width: 100%; box-sizing: border-box; margin-top: 8px; padding: 9px 11px; border: 1px solid #75bcc566; border-radius: 9px; background: #142c31; color: #d7f1eb; font-size: 12px; line-height: 1.65; text-align: left; white-space: pre-line; overflow-wrap: anywhere; }
     .npc-sight-report[hidden], .context-panel.hud-collapsed .npc-sight-report { display: none !important; }
     .toast.npc-self-dialogue { width: max-content; max-width: min(90vw, 520px); box-sizing: border-box; white-space: normal; overflow: visible; text-overflow: clip; overflow-wrap: anywhere; line-height: 1.6; text-align: left; border-radius: 14px; }
@@ -1829,6 +1831,75 @@
       outskirts: { name: '外围拓荒带', short: '外围', color: 'east' }
     });
 
+// NPC_REST_WORK_CORE_START
+const NPC_REST_WORK_POLICY_V1 = Object.freeze({
+  enterEnergy: 24,
+  releaseEnergy: 36,
+  policyVersion: 'carpenter-rest-work-v1'
+});
+function npcRestWorkCoreKeys(value, keys) {
+  if (value === null || typeof value !== 'object' || Array.isArray(value)) return false;
+  const ownKeys = Reflect.ownKeys(value);
+  return ownKeys.length === keys.length && keys.every(key => {
+    const descriptor = Object.getOwnPropertyDescriptor(value, key);
+    return descriptor !== undefined && Object.hasOwn(descriptor, 'value') && descriptor.enumerable;
+  });
+}
+function npcRestWorkCoreActor(value) {
+  return typeof value === 'string' && value.trim().length > 0;
+}
+function npcRestWorkCoreMinute(value) {
+  return typeof value === 'number' && Number.isFinite(value) && value >= 0;
+}
+function validateNpcRoutineIntentV1(value, actorId, worldMinute) {
+  try {
+    if (!npcRestWorkCoreActor(actorId) || !npcRestWorkCoreMinute(worldMinute)) return false;
+    if (value === null) return true;
+    return npcRestWorkCoreKeys(value, ['version', 'policyVersion', 'intentId', 'actorId', 'roleId', 'startedAt'])
+      && value.version === 1 && value.policyVersion === NPC_REST_WORK_POLICY_V1.policyVersion
+      && typeof value.intentId === 'string' && value.intentId.trim().length > 0 && value.intentId.length <= 512
+      && value.actorId === actorId && value.roleId === 'carpenter'
+      && npcRestWorkCoreMinute(value.startedAt) && value.startedAt <= worldMinute;
+  } catch {
+    return false;
+  }
+}
+function npcRestWorkCoreHasIntent(input) {
+  try {
+    if (input === null || typeof input !== 'object') return false;
+    const descriptor = Object.getOwnPropertyDescriptor(input, 'intent');
+    return descriptor !== undefined && Object.hasOwn(descriptor, 'value')
+      && descriptor.value !== null && descriptor.value !== undefined;
+  } catch {
+    return false;
+  }
+}
+function decideNpcRestWorkV1(input) {
+  const hasIntent = npcRestWorkCoreHasIntent(input);
+  try {
+    if (!npcRestWorkCoreKeys(input, ['energy', 'eligible', 'ownerReason', 'intent', 'actorId', 'worldMinute'])
+      || typeof input.energy !== 'number' || !Number.isFinite(input.energy) || input.energy < 0 || input.energy > 100
+      || typeof input.eligible !== 'boolean' || !(input.ownerReason === null || typeof input.ownerReason === 'string')
+      || !validateNpcRoutineIntentV1(input.intent, input.actorId, input.worldMinute)) {
+      return { action: hasIntent ? 'cancel' : 'unhandled', reason: 'invalid-input' };
+    }
+    if (!input.eligible || input.ownerReason) {
+      return { action: hasIntent ? 'cancel' : 'unhandled', reason: input.ownerReason || 'ineligible' };
+    }
+    if (hasIntent) {
+      return input.energy >= NPC_REST_WORK_POLICY_V1.releaseEnergy
+        ? { action: 'finish', reason: 'energy-recovered' }
+        : { action: 'continue', reason: 'recovery-in-progress' };
+    }
+    return input.energy < NPC_REST_WORK_POLICY_V1.enterEnergy
+      ? { action: 'start', reason: 'low-energy' }
+      : { action: 'unhandled', reason: 'energy-not-low' };
+  } catch {
+    return { action: hasIntent ? 'cancel' : 'unhandled', reason: 'invalid-input' };
+  }
+}
+// NPC_REST_WORK_CORE_END
+
     function createNpcState(id, overrides = {}) {
       const template = NPC_TEMPLATES[id];
       if (!template) throw new Error('Unknown NPC template: ' + id);
@@ -1843,7 +1914,7 @@
         needs: { ...NPC_NEED_DEFAULTS }, sanity: 72, sanityClock: 0, sanityLastReason: '营地仍然安全', scheduleState: 'work', lastReport: '', actingRole: null, actingFor: null,
         eventChain: { step: 0, cooldown: 0, active: null, resolved: [] },
         perception: { clock: 0, targetId: null, targetAt: 0, contacts: {}, sharedUntil: 0 },
-        supportRequested: false, order: null, bond: 0, combatHp: 100, combatStatus: 'ready', simMoveClock: 0, needClock: 0, workClock: 0, workPulseSeq: 0, workHistory: [],
+        supportRequested: false, order: null, bond: 0, combatHp: 100, combatStatus: 'ready', simMoveClock: 0, needClock: 0, workClock: 0, workPulseSeq: 0, workHistory: [], routineIntent: null,
         escapePressure: 0, ...overrides
       };
     }
@@ -2430,13 +2501,13 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       delta *= ticks;
       if (delta) adjustSanity('player', delta, tier ? '外围压力与持续暴露' : '营地安全感与休整', { drift: true });
     }
-    function updateNpcSanity(npc, minutes = 0) {
+    function updateNpcSanity(npc, minutes = 0, recoveringThisSpan = false) {
       if (!npc || !npcIsActive(npc)) return;
       npc.sanityClock = Math.max(0, Number(npc.sanityClock) || 0) + Math.max(0, Number(minutes) || 0);
       if (npc.sanityClock < 30) return;
       const ticks = Math.floor(npc.sanityClock / 30); npc.sanityClock %= 30;
       const needs = npc.needs || NPC_NEED_DEFAULTS;
-      const resting = npc.scheduleState === '休整' || npc.behaviorState === 'rest' || needs.energy < 24;
+      const resting = recoveringThisSpan || npcRoutineRestActive(npc) || npc.scheduleState === '休整' || npc.behaviorState === 'rest' || needs.energy < 24;
       let delta = resting ? 1 : -1;
       if (state.night && npcIsCampLocal(npc)) delta -= 1;
       if (needs.stress >= 70 || needs.safety >= 70) delta -= 1;
@@ -3026,6 +3097,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
          if (!outpost.guardNpcIds.length) outpost.status = 'vacant';
          outpost.vacancyReason = reason;
        }
+       cancelNpcRoutineIntent(npc, 'outpost-released');
        delete npc.garrisonedOutpostId;
        npc.supportRequested = false; npc.order = null; npc.currentOrder = null; npc.motionTarget = null;
        if (returnPosition) { npc.x = returnPosition.x; npc.y = returnPosition.y; npc.prevX = npc.x; npc.prevY = npc.y; npc.behaviorState = 'idle'; npc.scheduleState = '回到营地 · 待命'; npc.lastReport = '已解除驻守，等待新的营地指令'; }
@@ -3277,7 +3349,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
          const guardObjects = guards.map(npcId => state.npcs?.find(npc => npc.id === npcId));
          if (guardObjects.some(npc => !outpostGuardEligible(npc, outpostId))) return { ok: false, reason: 'outpost-guard-busy' };
          if (state.npcs.filter(npcIsCampLocal).length - guardObjects.filter(npcIsCampLocal).length < 1) return { ok: false, reason: 'outpost-minimum-camp-population' };
-         guardObjects.forEach(npc => { npc.garrisonedOutpostId = outpostId; npc.scheduleState = '据点驻守'; npc.supportRequested = false; npc.order = null; npc.currentOrder = null; npc.motionTarget = null; npc.perception = { ...(npc.perception || {}), targetId: null, targetAt: 0 }; if (state.selectedNpc === npc.id) state.selectedNpc = null; if (state.npcTalkOpen === npc.id) state.npcTalkOpen = null; if (state.interactionFocus?.kind === 'npc' && String(state.interactionFocus.key || '').startsWith(`npc:${npc.id}:`)) state.interactionFocus = null; deferNpcCampEvent(npc); npc.lastReport = `驻守${outpost.name || outpostId}`; });
+         guardObjects.forEach(npc => { cancelNpcRoutineIntent(npc, 'outpost-garrisoned'); npc.garrisonedOutpostId = outpostId; npc.scheduleState = '据点驻守'; npc.supportRequested = false; npc.order = null; npc.currentOrder = null; npc.motionTarget = null; npc.perception = { ...(npc.perception || {}), targetId: null, targetAt: 0 }; if (state.selectedNpc === npc.id) state.selectedNpc = null; if (state.npcTalkOpen === npc.id) state.npcTalkOpen = null; if (state.interactionFocus?.kind === 'npc' && String(state.interactionFocus.key || '').startsWith(`npc:${npc.id}:`)) state.interactionFocus = null; deferNpcCampEvent(npc); npc.lastReport = `驻守${outpost.name || outpostId}`; });
          state.contentState.outposts[outpostId] = { status: 'secured', guardNpcIds: guards, guardSlots: Number(outpost.guardSlots || 0), securedAt: worldMinute(), lastUpkeepDay: 0, lastUpkeepResult: null, vacancyReason: null };
          refreshPlanMeetingPresence('outpost-garrisoned');
          recordWorldEvent('outpost.secured', { outpostId, guardNpcIds: guards, population: outpostPopulationLedger() }, { actorId: meta.actorId || 'system' });
@@ -3716,7 +3788,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
         id: npc.id, x: npc.x, y: npc.y, maxHp: npc.maxHp, hp: npc.hp, lifeState: npc.lifeState,
         wounds: npc.wounds, morale: npc.morale, behaviorState: npc.behaviorState, currentOrder: npc.currentOrder,
         fallbackPoint: npc.fallbackPoint, homeZone: npc.homeZone, workZone: npc.workZone, inventory: npc.inventory, appearance: npc.appearance, equipment: npc.equipment, personality: npc.personality, relations: npc.relations,
-        memory: npc.memory, attributes: npc.attributes, hero: npc.hero, bond: npc.bond, supportRequested: npc.supportRequested, order: npc.order || null, simMoveClock: npc.simMoveClock || 0, needClock: npc.needClock || 0, workClock: npc.workClock || 0, workPulseSeq: npc.workPulseSeq || 0, workHistory: Array.isArray(npc.workHistory) ? npc.workHistory.slice(-8) : [], motionTarget: npc.motionTarget ? { x: npc.motionTarget.x, y: npc.motionTarget.y } : null
+        memory: npc.memory, attributes: npc.attributes, hero: npc.hero, bond: npc.bond, supportRequested: npc.supportRequested, order: npc.order || null, simMoveClock: npc.simMoveClock || 0, needClock: npc.needClock || 0, workClock: npc.workClock || 0, routineIntent: npc.routineIntent === undefined ? null : npc.routineIntent, workPulseSeq: npc.workPulseSeq || 0, workHistory: Array.isArray(npc.workHistory) ? npc.workHistory.slice(-8) : [], motionTarget: npc.motionTarget ? { x: npc.motionTarget.x, y: npc.motionTarget.y } : null
         , needs: npc.needs, sanity: npc.sanity, sanityClock: npc.sanityClock || 0, sanityLastReason: npc.sanityLastReason || '', scheduleState: npc.scheduleState, lastReport: npc.lastReport, actingRole: npc.actingRole || null, actingFor: npc.actingFor || null, garrisonedOutpostId: npc.garrisonedOutpostId || null, eventChain: npc.eventChain || { step: 0, cooldown: 0, active: null, resolved: [] }, perception: npc.perception || { clock: 0, targetId: null, targetAt: 0, contacts: {}, sharedUntil: 0 }
       };
     }
@@ -3756,6 +3828,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       merged.eventChain.cooldown = Math.max(0, Number(merged.eventChain.cooldown) || 0);
       merged.needClock = Math.max(0, Number(merged.needClock) || 0);
       merged.workClock = Math.max(0, Number(merged.workClock) || 0);
+      merged.routineIntent = Object.prototype.hasOwnProperty.call(saved, 'routineIntent') ? stableClone(saved.routineIntent) : null;
       merged.workPulseSeq = Math.max(0, Number(merged.workPulseSeq) || 0);
       merged.workHistory = Array.isArray(merged.workHistory) ? merged.workHistory.slice(-8) : [];
       merged.perception = { clock: 0, targetId: null, targetAt: 0, contacts: {}, sharedUntil: 0, ...(merged.perception || {}) };
@@ -3892,6 +3965,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       const expectedIds = Object.keys(NPC_TEMPLATES), npcIds = payload.npcs.map(npc => npc.id);
       if (npcIds.length !== expectedIds.length || new Set(npcIds).size !== npcIds.length || npcIds.some(id => !expectedIds.includes(id))) return fail('roster-incomplete');
       for (const npc of payload.npcs) {
+        if (Object.prototype.hasOwnProperty.call(npc, 'routineIntent') && !validateNpcRoutineIntentV1(npc.routineIntent, npc.id, savedMinute(payload))) return fail('npc-routine-intent');
         if (!Number.isFinite(npc.hp) || !Number.isFinite(npc.maxHp) || npc.hp < 0 || npc.maxHp <= 0 || npc.maxHp > 200 || npc.hp > npc.maxHp || !inBounds(npc.x, npc.y) || !Number.isFinite(npc.x) || !Number.isFinite(npc.y)) return fail('npc-core');
         if (!['healthy', 'injured', 'critical', 'dead'].includes(npc.lifeState) || (npc.hp <= 0) !== (npc.lifeState === 'dead')) return fail('npc-life');
         if (!savedNumbers(npc,['morale','sanity'],0,100) || !savedNumbers(npc,['bond'],0,3) || !savedNumbers(npc,['sanityClock','simMoveClock','needClock','workClock']) || !Number.isInteger(npc.workPulseSeq) || npc.workPulseSeq < 0 || typeof npc.supportRequested !== 'boolean') return fail('npc-persistent-numbers');
@@ -4222,6 +4296,8 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       const contentDefinitionAdapters = shortageAdapter ? [shortageAdapter] : [];
       const newDomains = sourceVersion < SAVE_VERSION ? ['attributes','hero','garrisonedOutpostId'].filter(key => saved.npcs.some(npc => !Object.prototype.hasOwnProperty.call(npc,key))).map(key => `npc.${key}`) : [];
       if (sourceVersion === 18) newDomains.push('contentState');
+      const routineIntentMissing = saved.npcs.filter(npc => !Object.prototype.hasOwnProperty.call(npc, 'routineIntent')).map(npc => npc.id);
+      if (routineIntentMissing.length) newDomains.push('npc.routineIntent');
       Object.assign(candidate, saved);
       candidate.version = SAVE_VERSION;
       const initialClockCorrection = source18InitialClockSentinel(saved) ? { before: 0, after: savedMinute(saved), calendarUnchanged: true, writer: 'SAVE18-initial-sentinel' } : null;
@@ -4251,8 +4327,8 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       else { candidate.night = false; candidate.nightBattle = null; }
       const updates = prepareSavedRegistry(candidate);
       const episodeChanged = JSON.stringify(savedContent.activeChains || {}) !== JSON.stringify(candidate.contentState.activeChains || {}) || JSON.stringify(savedContent.episodeLegacyHolds || {}) !== JSON.stringify(candidate.contentState.episodeLegacyHolds || {});
-      const reasons = [...(recovery.migrationReasons || []), ...(savedScenario.adapter ? ['scenario-legacy-unbound-v1'] : []), ...(savedScenario.contentAdapter ? ['scenario-content-binding-v1'] : []), ...(episodeChanged ? ['content-episode-identity-v1'] : []), ...(contentDefinitionAdapters.length ? ['shortage-choice-definition-v2'] : []), ...(sourceVersion < SAVE_VERSION ? ['save-schema-adapter'] : []), ...(selected.sourceCategory !== 'primary' ? ['selected-safe-checkpoint'] : []), ...(initialClockCorrection ? ['save18-initial-clock-sentinel'] : [])];
-      const migration = reasons.length ? { migration: REPORT_RECOVERY_MIGRATION, migrationVersion: 1, reason: [...new Set(reasons)].join(','), sourceCategory: selected.sourceCategory, originalChecksum: original?.ok ? original.originalChecksum : null, originalDate: original?.ok ? original.originalDate : null, selectedChecksum: selected.originalChecksum, selectedDate: selected.originalDate, rollback: selected !== original, instanceId: recovery.identity?.ok ? recovery.identity.instanceId : null, fromSaveVersion: sourceVersion, fromContentVersion: saved.contentState?.contentVersion || 0, adapter: sourceVersion === 18 && !Object.prototype.hasOwnProperty.call(saved,'contentState') ? 'save18-pre-content-to-save21' : sourceVersion < SAVE_VERSION ? `save${sourceVersion}-content-to-save21` : null, addedDomains: newDomains, ...(contentDefinitionAdapters.length ? { contentDefinitionAdapters } : {}), ...(savedScenario.adapter ? { scenarioBindingAdapters: [savedScenario.adapter] } : {}), ...(savedScenario.contentAdapter ? { scenarioContentAdapters: [savedScenario.contentAdapter] } : {}), ...(initialClockCorrection ? { worldClockCorrection: initialClockCorrection } : {}) } : null;
+      const reasons = [...(recovery.migrationReasons || []), ...(routineIntentMissing.length ? ['npc-routine-intent-v1'] : []), ...(savedScenario.adapter ? ['scenario-legacy-unbound-v1'] : []), ...(savedScenario.contentAdapter ? ['scenario-content-binding-v1'] : []), ...(episodeChanged ? ['content-episode-identity-v1'] : []), ...(contentDefinitionAdapters.length ? ['shortage-choice-definition-v2'] : []), ...(sourceVersion < SAVE_VERSION ? ['save-schema-adapter'] : []), ...(selected.sourceCategory !== 'primary' ? ['selected-safe-checkpoint'] : []), ...(initialClockCorrection ? ['save18-initial-clock-sentinel'] : [])];
+      const migration = reasons.length ? { migration: REPORT_RECOVERY_MIGRATION, migrationVersion: 1, reason: [...new Set(reasons)].join(','), sourceCategory: selected.sourceCategory, originalChecksum: original?.ok ? original.originalChecksum : null, originalDate: original?.ok ? original.originalDate : null, selectedChecksum: selected.originalChecksum, selectedDate: selected.originalDate, rollback: selected !== original, instanceId: recovery.identity?.ok ? recovery.identity.instanceId : null, fromSaveVersion: sourceVersion, fromContentVersion: saved.contentState?.contentVersion || 0, adapter: sourceVersion === 18 && !Object.prototype.hasOwnProperty.call(saved,'contentState') ? 'save18-pre-content-to-save21' : sourceVersion < SAVE_VERSION ? `save${sourceVersion}-content-to-save21` : null, addedDomains: newDomains, ...(routineIntentMissing.length ? { npcRoutineIntentAdapters: [{ adapter: 'npc-routine-intent-v1', npcIds: routineIntentMissing, defaultValue: null }] } : {}), ...(contentDefinitionAdapters.length ? { contentDefinitionAdapters } : {}), ...(savedScenario.adapter ? { scenarioBindingAdapters: [savedScenario.adapter] } : {}), ...(savedScenario.contentAdapter ? { scenarioContentAdapters: [savedScenario.contentAdapter] } : {}), ...(initialClockCorrection ? { worldClockCorrection: initialClockCorrection } : {}) } : null;
       const finalCheck = validateProgressPayload({ ...candidate, npcs: candidate.npcs.map(serializeNpc) }, scenarioContent); if (!finalCheck.ok) throw new Error('prepared-candidate:' + finalCheck.reason);
       return { state: candidate, registryUpdates: updates, scenarioContent, recovery, migration, selected };
     }
@@ -4271,7 +4347,9 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       canSave() { return gameStarted && !this.exiting && !['RECOVERY','SAVING','EXITING'].includes(this.mode); },
       freeze(mode) {
         clearNpcSightReportUi();
-        cancelCampRest('session-freeze', { resume: false }); this.mode = mode; stopWorldSimulation(); clearInterval(battleTimer); battleTimer = null; stopHeldMovement(); stopInteractionRepeat(); state.motion.input = { x: 0, y: 0 };
+        cancelCampRest('session-freeze', { resume: false });
+        if (['BATTLE','REPORT','LOSS'].includes(mode)) state.npcs.forEach(npc => cancelNpcRoutineIntent(npc, 'phase-changed'));
+        this.mode = mode; stopWorldSimulation(); clearInterval(battleTimer); battleTimer = null; stopHeldMovement(); stopInteractionRepeat(); state.motion.input = { x: 0, y: 0 };
         if (pointerId !== null) { try { if ($('joystick').hasPointerCapture?.(pointerId)) $('joystick').releasePointerCapture(pointerId); } catch (error) {} pointerId = null; }
       },
       restart(options = {}) {
@@ -4386,6 +4464,86 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
     function getZombie(x, y) { return getWorldZombies().find(z => z.x === x && z.y === y && z.hp > 0); }
     function npcIsActive(npc) { return npc && npc.lifeState !== 'dead'; }
     function npcIsCampLocal(npc) { return npcIsActive(npc) && !npc.garrisonedOutpostId; }
+    // One bounded deterministic pilot, applied by the existing routine executor.
+    // Capture is authoritative; the pure decision cannot grant world permissions.
+    function npcRestWorkContext(npc) {
+      const now = worldMinute();
+      const sameActor = !!npc && state.npcs.filter(item => item.id === npc.id).length === 1 && state.npcs.includes(npc);
+      const holders = state.npcs.filter(item => npcFulfillsRole(item, 'carpenter'));
+      const home = CAMP_AREAS.find(item => item.zone === npc?.homeZone);
+      const validNeeds = !!npc?.needs && ['energy','hunger','fatigue','stress','social','safety'].every(key => Number.isFinite(npc.needs[key]) && npc.needs[key] >= 0 && npc.needs[key] <= 100);
+      const eligible = sameActor && npcIsCampLocal(npc) && npc.lifeState === 'healthy'
+        && Number.isFinite(npc.maxHp) && npc.maxHp > 0 && npc.maxHp <= 200 && npc.hp === npc.maxHp
+        && inBounds(npc.x, npc.y) && !!home && inBounds(home.x, home.y) && validNeeds
+        && holders.length === 1 && holders[0] === npc;
+      let ownerReason = null;
+      if (state.night || state.gameOver || !SessionController.isDay()) ownerReason = 'phase-changed';
+      else if (npc?.supportRequested || npc?.currentOrder) ownerReason = 'support-requested';
+      else if (npc?.combatStatus !== 'ready' || ['alert','guard-alert','patrol','cover','combat','flee'].includes(npc?.behaviorState)) ownerReason = 'alert-or-combat';
+      else if (['briefed','staging','building'].includes(state.relayProject?.status) && (state.relayProject.assignedNpcIds || []).some(roleId => state.npcs.find(item => npcIsCampLocal(item) && (item.id === roleId || npcHasRole(item, roleId))) === npc)) ownerReason = 'relay-duty';
+      else if (validNeeds && (npc.needs.fatigue > 88 || npc.needs.hunger >= 72 || npc.needs.social >= 72 || npc.needs.safety >= 72)) ownerReason = 'urgent-need';
+      return { actorId: npc?.id, energy: npc?.needs?.energy, eligible, ownerReason,
+        intent: npc?.routineIntent === undefined ? null : npc.routineIntent, worldMinute: now };
+    }
+    function npcRoutineRestActive(npc) {
+      if (!npc?.routineIntent) return false;
+      const input = npcRestWorkContext(npc);
+      return input.eligible && !input.ownerReason && validateNpcRoutineIntentV1(input.intent, npc.id, input.worldMinute);
+    }
+    function npcRestWorkTransition(npc, type, intent, reason) {
+      recordWorldEvent(`npc.routine.${type}`, { npcId: npc.id, intentId: intent.intentId,
+        policyVersion: intent.policyVersion, roleId: intent.roleId, startedAt: intent.startedAt,
+        reason, energy: npc.needs?.energy }, { actorId: npc.id, causationId: state.worldMeta.activeCommandId || null });
+    }
+    function cancelNpcRoutineIntent(npc, reason, clearTarget = true) {
+      const intent = npc?.routineIntent;
+      if (!intent) return false;
+      npc.routineIntent = null;
+      if (npc.behaviorState === 'rest') npc.behaviorState = 'idle';
+      // Only retire our own target, before the new owner writes its destination.
+      const home = CAMP_AREAS.find(item => item.zone === npc.homeZone);
+      if (clearTarget && home && npc.motionTarget?.x === home.x && npc.motionTarget?.y === home.y) npc.motionTarget = null;
+      if (npc.scheduleState === '休整 · 精力恢复') npc.scheduleState = '恢复安排已让位于当前职责或需求';
+      npcRestWorkTransition(npc, 'cancelled', intent, reason);
+      return true;
+    }
+    function yieldNpcRoutineToRelay() {
+      relayActiveParticipants().forEach(npc => cancelNpcRoutineIntent(npc, 'relay-duty'));
+    }
+    function applyNpcRestWorkDecision(npc, decision) {
+      if (decision.action === 'start') {
+        const parent = state.worldMeta.activeCommandId;
+        if (typeof parent !== 'string' || !parent) return false;
+        const intentId = JSON.stringify(['rest', parent, npc.id, worldMinute()]);
+        if (intentId.length > 512) return false;
+        npc.routineIntent = { version: 1, policyVersion: 'carpenter-rest-work-v1', intentId,
+          actorId: npc.id, roleId: 'carpenter', startedAt: worldMinute() };
+        npc.workClock = 0;
+        npcRestWorkTransition(npc, 'started', npc.routineIntent, decision.reason);
+      } else if (decision.action === 'finish' && npc.routineIntent) {
+        const intent = npc.routineIntent; npc.routineIntent = null;
+        npc.lastReport = '恢复目标已达到，已交回原例行安排（不表示已到工位）';
+        npcRestWorkTransition(npc, 'finished', intent, decision.reason);
+      } else if (decision.action === 'cancel') cancelNpcRoutineIntent(npc, decision.reason);
+      return npc.routineIntent !== null && npc.routineIntent !== undefined;
+    }
+    function setNpcRoutineDestination(npc, schedule) {
+      const zone = ['回到居住区','休整','用餐'].includes(schedule) ? npc.homeZone : npc.workZone;
+      const area = CAMP_AREAS.find(item => item.zone === zone);
+      npc.motionTarget = area && distanceBetween(area, npc) > .08 ? { x: area.x, y: area.y } : null;
+    }
+    function presentNpcRoutineRest(npc) {
+      npc.scheduleState = '休整 · 精力恢复'; npc.behaviorState = 'rest';
+      const home = CAMP_AREAS.find(item => item.zone === npc.homeZone);
+      npc.motionTarget = home && distanceBetween(home, npc) > .08 ? { x: home.x, y: home.y } : null;
+    }
+    function npcRoutineRestText(npc) {
+      if (!npcRoutineRestActive(npc)) return '';
+      const home = CAMP_AREAS.find(item => item.zone === npc.homeZone);
+      const place = CAMP_ZONES[npc.homeZone]?.name || '常驻区域';
+      const location = distanceBetween(home, npc) <= .08 ? `已在${place}区域休整` : `尝试前往${place}区域，尚未到达；途中暂停劳动缓恢复`;
+      return `当前安排：精力不足，暂停例行检查。${location}。精力 ${Math.round(npc.needs.energy * 10) / 10}/36；达到36后按原日程安排。可按原条件请求支援接管。`;
+    }
     function npcHasRole(npc, roleId) { return npcIsActive(npc) && !npc.garrisonedOutpostId && (npc.id === roleId || npc.actingRole === roleId); }
     function getNpc(x, y) { return state.npcs.find(n => npcIsCampLocal(n) && n.x === x && n.y === y); }
     function npcLifeLabel(npc) {
@@ -4396,6 +4554,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
     }
     function syncNpcLifeState(npc) {
       if (!npc) return;
+      if (npc.hp !== npc.maxHp) cancelNpcRoutineIntent(npc, npc.hp <= 0 ? 'dead' : 'injured');
       if (npc.hp <= 0) { npc.hp = 0; npc.lifeState = 'dead'; npc.combatStatus = 'dead'; npc.behaviorState = 'dead'; npc.supportRequested = false; npc.order = null; return; }
       npc.lifeState = npc.hp < 30 ? 'critical' : npc.hp < npc.maxHp ? 'injured' : 'healthy';
     }
@@ -5007,7 +5166,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       else if (zombie.perception.targetAt && worldMinute() - zombie.perception.targetAt > profile.memory) { zombie.perception.targetId = null; zombie.aiState = 'wander'; }
     }
     function campWorkPulse(npc) {
-      if (!npc || !npcIsCampLocal(npc) || state.night || npc.supportRequested || npc.combatStatus !== 'ready') return;
+      if (!npc || !npcIsCampLocal(npc) || state.night || npc.supportRequested || npc.combatStatus !== 'ready' || npc.routineIntent) return;
       npc.workPulseSeq = Math.max(0, Number(npc.workPulseSeq) || 0) + 1;
       const workId = `work.${npc.id}.${npc.workPulseSeq}`;
       const needs = npc.needs || NPC_NEED_DEFAULTS;
@@ -5037,20 +5196,28 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       npc.workHistory = [...(npc.workHistory || []), { id: workId, at: worldMinute(), role, status: 'completed', task, destination }].slice(-8);
       appendFeedbackEvent('npc.work.completed', { workId, npcId: npc.id, role, task, destination, relayProjectId: relayRole ? state.relayProject.id : null }, { actorId: npc.id });
     }
-    function updateCampWorkPulses(minutes = 0) {
+    function updateCampWorkPulses(minutes = 0, recoveryConsumed = new Set()) {
       if (state.night) return;
       state.npcs.filter(npcIsCampLocal).forEach(npc => {
+        if (npc.routineIntent || recoveryConsumed.has(npc.id)) return;
         npc.workClock = Math.max(0, Number(npc.workClock) || 0) + Math.max(0, Number(minutes) || 0);
         let pulses = 0;
         while (npc.workClock >= 60 && pulses < 4) { npc.workClock -= 60; campWorkPulse(npc); pulses += 1; }
       });
     }
     function updateNpcRoutine(minutes = 0) {
+      if (!Number.isFinite(minutes) || minutes <= 0) return;
       const hour = state.hour + state.minute / 60;
+      const recoveryConsumed = new Set();
+      state.npcs.filter(npc => !npcIsActive(npc)).forEach(npc => cancelNpcRoutineIntent(npc, 'inactive'));
       state.npcs.filter(npcIsActive).forEach(npc => {
         npc.needs = { ...NPC_NEED_DEFAULTS, ...(npc.needs || {}) };
         const schedule = hour < 8 ? '休整' : hour < 12 ? '岗位工作' : hour < 14 ? '用餐' : hour < 18 ? '岗位工作' : '回到居住区';
-        const resting = schedule === '休整' || schedule === '回到居住区' || npc.needs.energy < 24;
+        const wasRecovering = !!npc.routineIntent;
+        const beginDecision = minutes > 0 ? decideNpcRestWorkV1(npcRestWorkContext(npc)) : { action: 'unhandled' };
+        const recovering = minutes > 0 && applyNpcRestWorkDecision(npc, beginDecision);
+        if (wasRecovering || recovering) recoveryConsumed.add(npc.id);
+        const resting = recovering || schedule === '休整' || schedule === '回到居住区' || npc.needs.energy < 24;
         const eating = schedule === '用餐';
         npc.needs.hunger = clampNpcNeed(npc.needs.hunger + minutes * .018);
         npc.needs.fatigue = clampNpcNeed(npc.needs.fatigue + minutes * (resting ? -.028 : hour >= 22 || hour < 6 ? .004 : .012));
@@ -5073,6 +5240,11 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
           updateNpcSanity(npc, minutes);
           return;
         }
+        // Recheck after original ration/needs changes; never count this span twice.
+        const endDecision = minutes > 0 && npc.routineIntent ? decideNpcRestWorkV1(npcRestWorkContext(npc)) : { action: 'unhandled' };
+        const stillRecovering = minutes > 0 && applyNpcRestWorkDecision(npc, endDecision);
+        if (stillRecovering) presentNpcRoutineRest(npc);
+        else {
         if (npc.combatStatus === 'ready') npc.scheduleState = schedule;
         if (resting && npc.needs.energy < 36) npc.scheduleState = '休整 · 精力恢复';
         else if (npc.needs.hunger >= 72) npc.scheduleState = '寻找配给';
@@ -5092,11 +5264,16 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
         else if (npc.needs.social > 78) npc.behaviorState = 'seek-social';
         else if (npc.needs.safety > 78) npc.behaviorState = 'check-defense';
         else if (npc.behaviorState === 'rest' || npc.behaviorState === 'seek-food' || npc.behaviorState === 'seek-social' || npc.behaviorState === 'check-defense') npc.behaviorState = 'work';
+        if (endDecision.action === 'finish') setNpcRoutineDestination(npc, schedule);
+        }
+        const priorMotionTarget = npc.motionTarget;
         updateNpcPerception(npc, minutes);
-        updateNpcSanity(npc, minutes);
+        const afterPerception = npcRestWorkContext(npc);
+        if (npc.routineIntent && (!afterPerception.eligible || afterPerception.ownerReason)) cancelNpcRoutineIntent(npc, afterPerception.ownerReason || 'ineligible', npc.motionTarget === priorMotionTarget);
+        updateNpcSanity(npc, minutes, recovering);
         if (npcPressure(npc) >= 52) triggerNpcEvent(npc);
       });
-      updateCampWorkPulses(minutes);
+      updateCampWorkPulses(minutes, recoveryConsumed);
     }
 
     function worldZombieCanStep(zombie, x, y) {
@@ -6418,6 +6595,8 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       if (npcs.length) {
         const npc = npcs[0]; icon = npc.icon; title = `${npc.name} · ${npc.role}`; hint = npc.desc;
         const currentOrder = getNpcOrderInfo(npc);
+        const routineText = npcRoutineRestText(npc);
+        if (routineText) actions.push(`<p class="npc-routine-report" data-npc-routine="${eventUiText(npc.id)}">${eventUiText(routineText)}</p>`);
         const viewGate = npcPublicActionGate(npc, { action: 'view' });
         const supportGate = npcPublicActionGate(npc, { action: 'support' });
         add(`🔎 查看${npc.name}状态`, '查看范围 1.25 格 · 不请求支援、不支付体力', 'npcView', '', !viewGate.ok, null, npc.id);
@@ -6584,7 +6763,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
         const garrisonedLabel = n.garrisonedOutpostId ? ` · 驻守${OUTPOST_DEFS[n.garrisonedOutpostId]?.name || n.garrisonedOutpostId}` : '';
         const detail = dead ? '该角色不会自动恢复；后续需要继任者接替岗位。' : n.desc + ' · 常驻' + zoneName + ' · ' + npcSkillSummary(n) + (actingLabel ? ' · ' + actingLabel : '') + garrisonedLabel + (n.lastReport ? ' · ' + n.lastReport : '');
         const condition = dead ? '功能失效' : npcStateSummary(n) + ` · SAN ${Math.round(sanityValue(n))} · ${sanityLabel(n.sanity)}` + (actingLabel ? ' · ' + actingLabel : '') + garrisonedLabel + ` · ${npcHeroLabel(n)} · 羁绊 ` + n.bond + '/3';
-        return '<button class="survivor-card ' + (near ? 'near' : '') + ' ' + (n.supportRequested ? 'supported' : '') + ' ' + (dead ? 'dead' : '') + ' ' + (n.lifeState === 'injured' ? 'injured' : '') + ' ' + (n.lifeState === 'critical' ? 'critical' : '') + '" data-npc="' + n.id + '" ' + disabled + '><div class="survivor-icon">' + actorSprite('npc', n.id, n.facing || 'down', n.lifeState === 'healthy' ? 'idle' : 'hurt', actorFrame(), npcActorVisual(n)) + '</div><b>' + n.name + ' · ' + n.role + '</b><span>' + detail + '</span><em>' + status + ' · ' + condition + '</em><div class="npc-sight-report" data-npc-sight-surface="roster" data-npc-sight-npc="' + n.id + '" hidden></div></button>';
+        return '<button class="survivor-card ' + (near ? 'near' : '') + ' ' + (n.supportRequested ? 'supported' : '') + ' ' + (dead ? 'dead' : '') + ' ' + (n.lifeState === 'injured' ? 'injured' : '') + ' ' + (n.lifeState === 'critical' ? 'critical' : '') + '" data-npc="' + n.id + '" ' + disabled + '><div class="survivor-icon">' + actorSprite('npc', n.id, n.facing || 'down', n.lifeState === 'healthy' ? 'idle' : 'hurt', actorFrame(), npcActorVisual(n)) + '</div><b>' + n.name + ' · ' + n.role + '</b><span>' + detail + '</span><em>' + status + ' · ' + condition + '</em>' + (npcRoutineRestText(n) ? '<span class="npc-routine-report" data-npc-routine="' + eventUiText(n.id) + '">' + eventUiText(npcRoutineRestText(n)) + '</span>' : '') + '<div class="npc-sight-report" data-npc-sight-surface="roster" data-npc-sight-npc="' + n.id + '" hidden></div></button>';
       }).join('');
       document.querySelectorAll('[data-npc]').forEach(card => card.addEventListener('click', () => viewNpc(card.dataset.npc)));
       syncNpcSightReportUi();
@@ -6813,7 +6992,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
         else state.buildings.push({ id: instance.buildingId, x: 12, y: 0, type: 'relayStation', w: 2, h: 2, hp: 8, active: false, relayEnabled: false, projectStatus: 'staging', occupiedBy: instance.instanceId });
         state.worldMeta.relayConstructionSeq = nextSequence;
         const participantByRole = new Map(before.participants.map(item => [item.id, item.npcId]));
-        before.participants.forEach(item => { const npc = state.npcs.find(candidate => candidate.id === participantByRole.get(item.id)); if (npc) { npc.scheduleState = '中继筹料'; npc.behaviorState = 'work'; npc.lastReport = '正在为广播中继站筹料'; npc.workSegmentId = `relay-staging-${command.commandId}`; npc.workMinutes = 0; } });
+        before.participants.forEach(item => { const npc = state.npcs.find(candidate => candidate.id === participantByRole.get(item.id)); if (npc) { cancelNpcRoutineIntent(npc, 'relay-duty'); npc.scheduleState = '中继筹料'; npc.behaviorState = 'work'; npc.lastReport = '正在为广播中继站筹料'; npc.workSegmentId = `relay-staging-${command.commandId}`; npc.workMinutes = 0; } });
         return { ok: true, duplicate: false, schema: RELAY_TX_RUNTIME_SCHEMA, version: RELAY_TX_RUNTIME_VERSION, transactionId: `relay-tx-${command.commandId}`, commandId: command.commandId, statusBefore: 'briefed', statusAfter: 'staging', tokenBefore: token, tokenAfter: relayConstructionRuntimeToken({ ...instance, status: 'staging', latestEventId: event.eventId }), eventIds: [event.eventId], causationId: command.causationId || state.worldMeta.activeCommandId || null, snapshot: relayConstructionRuntimeSnapshot(), receipt: { schema: RELAY_TX_RUNTIME_SCHEMA, version: RELAY_TX_RUNTIME_VERSION, transactionId: `relay-tx-${command.commandId}`, commandId: command.commandId, duplicate: false, statusBefore: 'briefed', statusAfter: 'staging', tokenBefore: token, tokenAfter: relayConstructionRuntimeToken({ ...instance, status: 'staging', latestEventId: event.eventId }), eventIds: [event.eventId], participantIds: [...instance.assignedNpcIds], virtualOccupancy: !building || building.virtual === true } };
       } catch (error) {
         state.relayProject = previous.project; state.worldMeta.events = previous.events; state.worldMeta.eventSeq = previous.eventSeq; state.worldMeta.lastEventId = previous.lastEventId; state.quests = previous.quests; state.worldMeta.relayConstructionSeq = previous.sequence;
@@ -6839,6 +7018,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       if (distanceBetween(commander, state.player) > 1.25) return { ok: false, reason: 'commander-too-far' };
       state.specialItems.relayCore = 0;
       project.status = 'briefed';
+      yieldNpcRoutineToRelay();
       project.handoffAt = worldMinute();
       project.coreItemId = project.coreItemId || 'item-relayCore-001';
       commander.lastReport = '已接收 relayCore，广播员、木匠和后勤官开始筹备中继站';
@@ -6914,7 +7094,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       project.lastBlockedReason = null;
       if (project.status === 'briefed') {
         project.status = 'staging';
-        participants.forEach(npc => { npc.scheduleState = '中继筹料'; npc.behaviorState = 'work'; npc.lastReport = '正在为广播中继站筹料'; });
+        participants.forEach(npc => { cancelNpcRoutineIntent(npc, 'relay-duty'); npc.scheduleState = '中继筹料'; npc.behaviorState = 'work'; npc.lastReport = '正在为广播中继站筹料'; });
         recordWorldEvent('relay.constructionStarted', { projectId: project.id, assignedNpcIds: project.assignedNpcIds, materialNeed: stableClone(project.materialNeed) }, relayEventMeta('stage'));
         log('广播员、木匠和后勤官开始为广播中继站筹料。');
       }
@@ -6935,14 +7115,14 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       if (relayMaterialsReady() && project.status === 'staging') {
         project.status = 'building'; project.materialClock = 0; project.workMinutes = 0;
         const station = ensureRelayStationBuilding(); station.projectStatus = 'building';
-        participants.forEach(npc => { npc.scheduleState = '中继施工'; npc.behaviorState = 'work'; npc.lastReport = '正在施工广播中继站'; });
+        participants.forEach(npc => { cancelNpcRoutineIntent(npc, 'relay-duty'); npc.scheduleState = '中继施工'; npc.behaviorState = 'work'; npc.lastReport = '正在施工广播中继站'; });
         recordWorldEvent('relay.materialsCommitted', { projectId: project.id, materialProgress: stableClone(project.materialProgress), buildingId: station.id }, relayEventMeta('stage'));
         log('中继站材料齐备，广播员、木匠和后勤官开始施工。');
       }
       if (project.status === 'building') {
         project.workMinutes += Math.max(0, Number(minutes) || 0);
         const station = ensureRelayStationBuilding(); station.projectStatus = 'building';
-        participants.forEach(npc => { npc.scheduleState = '中继施工'; npc.behaviorState = 'work'; npc.lastReport = `施工中 · ${Math.min(100, Math.round(project.workMinutes / project.targetMinutes * 100))}%`; });
+        participants.forEach(npc => { cancelNpcRoutineIntent(npc, 'relay-duty'); npc.scheduleState = '中继施工'; npc.behaviorState = 'work'; npc.lastReport = `施工中 · ${Math.min(100, Math.round(project.workMinutes / project.targetMinutes * 100))}%`; });
         if (project.workMinutes >= project.targetMinutes) {
           project.status = 'online'; project.completedAt = worldMinute(); station.active = true; station.projectStatus = 'online';
           participants.forEach(npc => { npc.scheduleState = '广播中继站值守'; npc.behaviorState = 'work'; npc.lastReport = '广播中继站已启用，正在共享尸群坐标'; });
@@ -7792,7 +7972,8 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       // Read only the already-public local status. The generic summary/render
       // helpers can normalize social facts or evaluate promotion; do not invoke
       // them from this zero-business-effect view.
-      toast(`${npc.name}：${npcLifeLabel(npc)} · ${npc.scheduleState || npc.role} · ${npc.supportRequested ? '已请求支援' : '尚未请求支援'}；请求或命令需靠近到 1 格内`);
+      const routineText = npcRoutineRestText(npc);
+      toast(`${npc.name}：${npcLifeLabel(npc)} · ${npc.scheduleState || npc.role} · ${npc.supportRequested ? '已请求支援' : '尚未请求支援'}；请求或命令需靠近到 1 格内${routineText ? '。' + routineText : ''}`);
       return { ok: true, npcId: npc.id, operation: 'view' };
     }
     function npcPublicActionSnapshot(npc) {
@@ -7850,6 +8031,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       let energyAfterPayment = state.energy, advancement = null, beforeAdvance = null, afterAdvance = null;
       if (!npc.supportRequested) {
         spendEnergy(2); energyAfterPayment = state.energy;
+        cancelNpcRoutineIntent(npc, 'support-requested');
         npc.supportRequested = true; npc.bond = Math.min(3, npc.bond + 1); rememberNpc(npc, `接受了「${order.name}」命令`, 3); npc.memory.helpedByPlayer = (npc.memory.helpedByPlayer || 0) + 1;
         beforeAdvance = npcPublicActionSnapshot(npc);
         advancement = advance(15);
@@ -7858,6 +8040,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
         if (!completion.ok) return interruptNpcPublicAction(npc, operation, before, beforeAdvance, afterAdvance, energyBefore, energyAfterPayment, clockBefore, advancement, order.id, completion);
         log(`${npc.name}接受了当前的任务，羁绊提升至 ${npc.bond}/3。`);
       }
+      cancelNpcRoutineIntent(npc, 'support-requested');
       npc.order = order.id;
       npc.lastReport = `已接受${order.name}，当前信任 ${npc.relations?.trustToPlayer || 0}`;
       recordWorldEvent('npc.orderAccepted', { npcId: npc.id, orderId: order.id, attitude: deriveNpcAttitude(npc), visibility: 'local' }, { actorId: npc.id });
@@ -7896,6 +8079,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
         return npcPublicActionProof(npc, operation, before, null, null, energyBefore, state.energy, clockBefore);
       }
       spendEnergy(2); const energyAfterPayment = state.energy;
+      cancelNpcRoutineIntent(npc, 'support-requested');
       npc.supportRequested = true; npc.order = npc.order || defaultNpcOrder[npc.actingRole || npc.id] || 'guard'; npc.bond = Math.min(3, npc.bond + 1);
       const beforeAdvance = npcPublicActionSnapshot(npc), advancement = advance(15), afterAdvance = npcPublicActionSnapshot(npc);
       const completion = npcPublicCompletionGate(npc, id);
@@ -8115,6 +8299,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
     function markNpcDead(npc, battle, autoFeed) {
       const deathX = npc.x, deathY = npc.y; const witnessedInCamp = npcIsCampLocal(npc);
       const formerActingRole = npc.actingRole;
+      cancelNpcRoutineIntent(npc, 'dead');
       npc.hp = 0; npc.combatHp = 0; npc.lifeState = 'dead'; npc.combatStatus = 'dead'; npc.behaviorState = 'dead';
       releaseNpcFromOutpost(npc, 'death');
       npc.supportRequested = false; npc.order = null; npc.currentOrder = null; npc.scheduleState = '阵亡'; npc.lastReport = '战斗阵亡，岗位永久空缺'; npc.actingRole = null; npc.actingFor = null;
@@ -8506,6 +8691,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       // relay progress from advancing in parallel with the same encounter.
       stopWorldSimulation();
       toggleInventory(false);
+      state.npcs.forEach(npc => cancelNpcRoutineIntent(npc, 'phase-changed'));
       SessionController.mode = 'BATTLE';
       clearNpcSightReportUi();
       state.night = true; state.buildMode = false; $('buildDrawer').classList.remove('open'); $('evolveDrawer').classList.remove('open'); $('eventPanel').classList.remove('open'); $('collectionPanel').classList.remove('open'); $('survivorPanel')?.classList.remove('open'); toggleWeaponPanel(false);
@@ -8648,6 +8834,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
         const candidate = candidateIds.map(id => state.npcs.find(n => n.id === id)).find(n => npcIsActive(n) && n.lifeState === 'healthy' && !n.actingRole && !n.garrisonedOutpostId && n.id !== roleId);
         if (!candidate) return;
         if (candidate.id !== roleId) state.roleVacancies[candidate.id] = state.roleVacancies[candidate.id] || { role: candidate.id, openedDay: state.day };
+        cancelNpcRoutineIntent(candidate, 'role-changed');
         candidate.actingRole = roleId; candidate.actingFor = roleId; candidate.bond = Math.max(1, candidate.bond || 0); candidate.scheduleState = '继任培训'; candidate.lastReport = `暂代${NPC_TEMPLATES[roleId]?.role || roleId}`;
         rememberNpc(candidate, `接替${NPC_TEMPLATES[roleId]?.name || roleId}的岗位`, 1);
         log(`${candidate.name}开始暂代${NPC_TEMPLATES[roleId]?.role || roleId}，岗位功能恢复但仍处于继任培训期。`);

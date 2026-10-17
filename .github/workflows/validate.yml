@@ -163,6 +163,11 @@ jobs:
         run: node scripts/check-npc-self-observation-v1.mjs --html dist/index.html --io-adapter scripts/check-report-recovery.mjs --out "$RUNNER_TEMP/npc-self-observation-v1.json"
       - name: Execute actual NPC direct sight, disclosure and public report contracts
         run: node scripts/check-npc-direct-sight-v1.mjs --html dist/index.html --io-adapter scripts/check-report-recovery.mjs --out "$RUNNER_TEMP/npc-direct-sight-v1.json"
+      - name: Execute persistent NPC recovery through actual routine and native saves
+        run: |
+          REST_WORK_HTML_SHA=$(sha256sum dist/index.html | cut -d' ' -f1)
+          node scripts/check-npc-rest-work-v1.mjs --html dist/index.html --expect-html-sha256 "$REST_WORK_HTML_SHA" --io-adapter scripts/check-report-recovery.mjs --repro-root scripts/fixtures/npc-rest-work-v1/repro --out "$RUNNER_TEMP/npc-rest-work-v1.json"
+          node --check scripts/browser-npc-rest-work-v1.mjs
       - name: Execute legacy and current crop proof method controls
         run: python -c "import sys; sys.path.insert(0, 'scripts'); from report_recovery_full import crop_method_controls; result = crop_method_controls(); print('synthetic crop proof method checks:', len(result['controls']))"
       - name: Reject stale or incomplete evidence manifests

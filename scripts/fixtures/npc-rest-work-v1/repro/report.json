@@ -1,0 +1,1886 @@
+{
+  "schema": "NpcRoutinePlanningGapReproV1",
+  "sourceHtmlSha256": "23b8c8c27234592673aa927f3909ea49247c372a937787f90355f87531f421b0",
+  "helperSha256": "e9872eeba85d49019d1bd806f3dd18357a5abc8f2f92922922f6a5324ec220dc",
+  "ioAdapterSha256": "554c400c174ad1b069c4dfcc839c12b3b45ea79c5aa7669e093a440ffa4845d3",
+  "memoSha256": "5221a1ba92967dfa3a1bd2f9ee93b775f3753de3d93a7d386e9c20c07cc8b499",
+  "runnerSha256": "286036ae3b905fa1a7458dbcbd15933a8948e90a211a9bcb3b7266b7d1f5d41e",
+  "status": "COMPLETED_OBSERVATION",
+  "naturalGameplay": false,
+  "balanceClaim": false,
+  "newProductGateMocked": false,
+  "receiptFabricated": false,
+  "method": {
+    "actual": "Complete frozen inline through existing sourceRuntimeFactory and real loader/start/writer/validator/CommandBus world.advance(1), routine, perception, motion, work and combat.",
+    "controlled": "Existing DOM/storage/queued scheduler adapter; Canvas bootstrap and later renderWorld/Hud/Context are suppressed by the existing adapter. Timers are not executed automatically. Only QA read-only exports are appended; no runtime function is wrapped or replaced by this experiment.",
+    "fixture": "TEST-ONLY boot scenes derived from one actual current fresh writer. Day1 09:00 calendar/totalMinutes/scheduleMinutes and carpenter workClock/simMoveClock are explicit setup. Pair differs only needs.energy. No NPC/enemy/resource/building removal, addition, re-ID, relocation or combat changes.",
+    "scope": "Two main one-minute comparisons. If the due work pulse overwrites the low-energy rest label, one prespecified low-energy no-pulse input changes only workClock59 to58 to observe the non-pulse label/movement. No long recovery, candidate implementation, natural route or balance test."
+  },
+  "scenes": [
+    {
+      "id": "low-due-pulse",
+      "advance": {
+        "commandId": "cmd-000001",
+        "timeEventId": "evt-000004",
+        "minutes": 1,
+        "beforeMinute": 540,
+        "afterMinute": 541
+      },
+      "actorBefore": {
+        "id": "carpenter",
+        "role": "木匠",
+        "effectiveRole": "carpenter",
+        "fulfillsCarpenter": true,
+        "hasCarpenter": true,
+        "local": true,
+        "canAttack": false,
+        "homeZone": "workshop",
+        "workZone": "eastGate",
+        "home": {
+          "x": 7,
+          "y": 9,
+          "zone": "workshop",
+          "icon": "⚒️",
+          "flow": "service"
+        },
+        "work": {
+          "x": 18,
+          "y": 9,
+          "zone": "eastGate",
+          "icon": "🚪",
+          "flow": "defense"
+        },
+        "allAreas": [
+          {
+            "x": 11,
+            "y": 7,
+            "zone": "command",
+            "icon": "🧭",
+            "flow": "command"
+          },
+          {
+            "x": 13,
+            "y": 9,
+            "zone": "infirmary",
+            "icon": "⚕️",
+            "flow": "service"
+          },
+          {
+            "x": 7,
+            "y": 9,
+            "zone": "workshop",
+            "icon": "⚒️",
+            "flow": "service"
+          },
+          {
+            "x": 16,
+            "y": 9,
+            "zone": "warehouse",
+            "icon": "📦",
+            "flow": "logistics"
+          },
+          {
+            "x": 9,
+            "y": 12,
+            "zone": "barracks",
+            "icon": "🛏️",
+            "flow": "defense"
+          },
+          {
+            "x": 13,
+            "y": 12,
+            "zone": "residence",
+            "icon": "🔥",
+            "flow": "residence"
+          },
+          {
+            "x": 11,
+            "y": 10,
+            "zone": "core",
+            "icon": "✦",
+            "flow": "command"
+          },
+          {
+            "x": 18,
+            "y": 9,
+            "zone": "eastGate",
+            "icon": "🚪",
+            "flow": "defense"
+          },
+          {
+            "x": 10,
+            "y": 4,
+            "zone": "northGate",
+            "icon": "🛡️",
+            "flow": "defense"
+          },
+          {
+            "x": 5,
+            "y": 14,
+            "zone": "serviceGate",
+            "icon": "🚧",
+            "flow": "logistics"
+          },
+          {
+            "x": 24,
+            "y": 8,
+            "zone": "eastOutpost",
+            "icon": "🛡️",
+            "flow": "defense"
+          },
+          {
+            "x": 7,
+            "y": 16,
+            "zone": "farmland",
+            "icon": "🌾",
+            "flow": "production"
+          },
+          {
+            "x": 14,
+            "y": 17,
+            "zone": "riverBank",
+            "icon": "🌊",
+            "flow": "production"
+          }
+        ],
+        "sourcePlayerId": "player-1"
+      },
+      "needsBefore": {
+        "hunger": 18,
+        "fatigue": 12,
+        "stress": 8,
+        "energy": 23.5,
+        "social": 28,
+        "safety": 18
+      },
+      "needsAfter": {
+        "hunger": 18.018,
+        "fatigue": 11.972,
+        "stress": 7.994,
+        "energy": 23.545,
+        "social": 27.994,
+        "safety": 17.992
+      },
+      "before": {
+        "x": 1,
+        "y": 2,
+        "motionTarget": null,
+        "scheduleState": "work",
+        "behaviorState": "work",
+        "workClock": 59,
+        "simMoveClock": 15,
+        "workPulseSeq": 0
+      },
+      "after": {
+        "x": 1.0488093530092004,
+        "y": 2.0569442451774016,
+        "motionTarget": {
+          "x": 7,
+          "y": 9
+        },
+        "scheduleState": "岗位工作 · 检查工坊与墙体库存",
+        "behaviorState": "work",
+        "workClock": 0,
+        "simMoveClock": 0,
+        "workPulseSeq": 1
+      },
+      "actualDisplacement": 0.07500000000000512,
+      "workEvents": [
+        {
+          "eventId": "evt-000003",
+          "seq": 3,
+          "type": "npc.work.completed",
+          "actorId": "carpenter",
+          "commandId": null,
+          "causationId": "cmd-000001",
+          "tick": {
+            "world": 541,
+            "phase": 0,
+            "schedule": 181
+          },
+          "payload": {
+            "workId": "work.carpenter.1",
+            "npcId": "carpenter",
+            "role": "carpenter",
+            "task": "检查工坊与墙体库存",
+            "destination": "workshop",
+            "relayProjectId": null
+          }
+        }
+      ],
+      "workHistoryBefore": [],
+      "workHistoryAfter": [
+        {
+          "id": "work.carpenter.1",
+          "at": 541,
+          "role": "carpenter",
+          "status": "completed",
+          "task": "检查工坊与墙体库存",
+          "destination": "workshop"
+        }
+      ],
+      "combatEvents": [],
+      "resources": {
+        "food": {
+          "before": 8,
+          "after": 8
+        },
+        "wood": {
+          "before": 24,
+          "after": 24
+        },
+        "stone": {
+          "before": 12,
+          "after": 12
+        },
+        "seeds": {
+          "before": 3,
+          "after": 3
+        },
+        "parts": {
+          "before": 4,
+          "after": 4
+        },
+        "medicine": {
+          "before": 0,
+          "after": 0
+        },
+        "energy": {
+          "before": 78,
+          "after": 78
+        },
+        "hp": {
+          "before": 100,
+          "after": 100
+        },
+        "morale": {
+          "before": 72,
+          "after": 72
+        },
+        "sanity": {
+          "before": 72,
+          "after": 72
+        }
+      },
+      "npcPopulation": {
+        "before": 10,
+        "after": 10
+      },
+      "liveEnemies": {
+        "before": [
+          {
+            "id": "wz-1",
+            "hp": 100,
+            "kind": "normal"
+          },
+          {
+            "id": "wz-2",
+            "hp": 100,
+            "kind": "runner"
+          },
+          {
+            "id": "wz-3",
+            "hp": 150,
+            "kind": "brute"
+          },
+          {
+            "id": "wz-4",
+            "hp": 100,
+            "kind": "normal"
+          }
+        ],
+        "after": [
+          {
+            "id": "wz-1",
+            "hp": 100,
+            "kind": "normal"
+          },
+          {
+            "id": "wz-2",
+            "hp": 100,
+            "kind": "runner"
+          },
+          {
+            "id": "wz-3",
+            "hp": 150,
+            "kind": "brute"
+          },
+          {
+            "id": "wz-4",
+            "hp": 100,
+            "kind": "normal"
+          }
+        ]
+      },
+      "fullStateChangedPaths": [
+        "/minute",
+        "/sanityClock",
+        "/hordeForecast/confidence",
+        "/hordeForecast/updatedAt",
+        "/npcEvents/0",
+        "/world/totalMinutes",
+        "/world/frontierClock",
+        "/world/dayCombatIntentSeq",
+        "/buildings/6/maxHp",
+        "/buildings/6/combatClock",
+        "/npcs/0/x",
+        "/npcs/0/y",
+        "/npcs/0/needs/hunger",
+        "/npcs/0/needs/fatigue",
+        "/npcs/0/needs/stress",
+        "/npcs/0/needs/energy",
+        "/npcs/0/needs/social",
+        "/npcs/0/needs/safety",
+        "/npcs/0/sanityClock",
+        "/npcs/0/scheduleState",
+        "/npcs/0/lastReport",
+        "/npcs/0/eventChain/active",
+        "/npcs/0/perception/clock",
+        "/npcs/0/simMoveClock",
+        "/npcs/0/needClock",
+        "/npcs/0/workClock",
+        "/npcs/0/workPulseSeq",
+        "/npcs/0/workHistory/0",
+        "/npcs/0/motionTarget",
+        "/npcs/0/prevX",
+        "/npcs/0/prevY",
+        "/npcs/0/facing",
+        "/npcs/1/needs/hunger",
+        "/npcs/1/needs/fatigue",
+        "/npcs/1/needs/stress",
+        "/npcs/1/needs/energy",
+        "/npcs/1/needs/social",
+        "/npcs/1/needs/safety",
+        "/npcs/1/sanityClock",
+        "/npcs/1/scheduleState",
+        "/npcs/1/perception/clock",
+        "/npcs/1/simMoveClock",
+        "/npcs/1/needClock",
+        "/npcs/1/workClock",
+        "/npcs/2/needs/hunger",
+        "/npcs/2/needs/fatigue",
+        "/npcs/2/needs/stress",
+        "/npcs/2/needs/energy",
+        "/npcs/2/needs/social",
+        "/npcs/2/needs/safety",
+        "/npcs/2/sanityClock",
+        "/npcs/2/scheduleState",
+        "/npcs/2/perception/clock",
+        "/npcs/2/simMoveClock",
+        "/npcs/2/needClock",
+        "/npcs/2/workClock",
+        "/npcs/3/needs/hunger",
+        "/npcs/3/needs/fatigue",
+        "/npcs/3/needs/stress",
+        "/npcs/3/needs/energy",
+        "/npcs/3/needs/social",
+        "/npcs/3/needs/safety",
+        "/npcs/3/sanityClock",
+        "/npcs/3/scheduleState",
+        "/npcs/3/perception/clock",
+        "/npcs/3/simMoveClock",
+        "/npcs/3/needClock",
+        "/npcs/3/workClock",
+        "/npcs/4/needs/hunger",
+        "/npcs/4/needs/fatigue",
+        "/npcs/4/needs/stress",
+        "/npcs/4/needs/energy",
+        "/npcs/4/needs/social",
+        "/npcs/4/needs/safety",
+        "/npcs/4/sanityClock",
+        "/npcs/4/scheduleState",
+        "/npcs/4/perception/clock",
+        "/npcs/4/simMoveClock",
+        "/npcs/4/needClock",
+        "/npcs/4/workClock",
+        "/npcs/5/needs/hunger",
+        "/npcs/5/needs/fatigue",
+        "/npcs/5/needs/stress",
+        "/npcs/5/needs/energy",
+        "/npcs/5/needs/social",
+        "/npcs/5/needs/safety",
+        "/npcs/5/sanityClock",
+        "/npcs/5/scheduleState",
+        "/npcs/5/perception/clock",
+        "/npcs/5/simMoveClock",
+        "/npcs/5/needClock",
+        "/npcs/5/workClock",
+        "/npcs/6/needs/hunger",
+        "/npcs/6/needs/fatigue",
+        "/npcs/6/needs/stress",
+        "/npcs/6/needs/energy",
+        "/npcs/6/needs/social",
+        "/npcs/6/needs/safety",
+        "/npcs/6/sanityClock",
+        "/npcs/6/scheduleState",
+        "/npcs/6/perception/clock",
+        "/npcs/6/simMoveClock",
+        "/npcs/6/needClock",
+        "/npcs/6/workClock",
+        "/npcs/7/needs/hunger",
+        "/npcs/7/needs/fatigue",
+        "/npcs/7/needs/stress",
+        "/npcs/7/needs/energy",
+        "/npcs/7/needs/social",
+        "/npcs/7/needs/safety",
+        "/npcs/7/sanityClock",
+        "/npcs/7/scheduleState",
+        "/npcs/7/perception/clock",
+        "/npcs/7/simMoveClock",
+        "/npcs/7/needClock",
+        "/npcs/7/workClock",
+        "/npcs/8/needs/hunger",
+        "/npcs/8/needs/fatigue",
+        "/npcs/8/needs/stress",
+        "/npcs/8/needs/energy",
+        "/npcs/8/needs/social",
+        "/npcs/8/needs/safety",
+        "/npcs/8/sanityClock",
+        "/npcs/8/scheduleState",
+        "/npcs/8/perception/clock",
+        "/npcs/8/simMoveClock",
+        "/npcs/8/needClock",
+        "/npcs/8/workClock",
+        "/npcs/9/needs/hunger",
+        "/npcs/9/needs/fatigue",
+        "/npcs/9/needs/stress",
+        "/npcs/9/needs/energy",
+        "/npcs/9/needs/social",
+        "/npcs/9/needs/safety",
+        "/npcs/9/sanityClock",
+        "/npcs/9/scheduleState",
+        "/npcs/9/perception/clock",
+        "/npcs/9/simMoveClock",
+        "/npcs/9/needClock",
+        "/npcs/9/workClock",
+        "/worldZombies/0/x",
+        "/worldZombies/0/y",
+        "/worldZombies/0/think",
+        "/worldZombies/0/perception/clock",
+        "/worldZombies/0/prevX",
+        "/worldZombies/0/prevY",
+        "/worldZombies/0/facing",
+        "/worldZombies/0/attackClock",
+        "/worldZombies/1/x",
+        "/worldZombies/1/y",
+        "/worldZombies/1/think",
+        "/worldZombies/1/perception/clock",
+        "/worldZombies/1/prevX",
+        "/worldZombies/1/prevY",
+        "/worldZombies/1/facing",
+        "/worldZombies/1/attackClock",
+        "/worldZombies/2/x",
+        "/worldZombies/2/y",
+        "/worldZombies/2/think",
+        "/worldZombies/2/perception/clock",
+        "/worldZombies/2/prevX",
+        "/worldZombies/2/prevY",
+        "/worldZombies/2/facing",
+        "/worldZombies/2/attackClock",
+        "/worldZombies/3/x",
+        "/worldZombies/3/y",
+        "/worldZombies/3/think",
+        "/worldZombies/3/perception/clock",
+        "/worldZombies/3/prevX",
+        "/worldZombies/3/prevY",
+        "/worldZombies/3/facing",
+        "/worldZombies/3/attackClock",
+        "/logs/0/text",
+        "/logs/0/kind",
+        "/logs/0/eventId",
+        "/logs/0/worldMinute",
+        "/logs/1/text",
+        "/logs/2",
+        "/worldMeta/eventSeq",
+        "/worldMeta/commandSeq",
+        "/worldMeta/events/2",
+        "/worldMeta/events/3",
+        "/worldMeta/seenCommands/0",
+        "/worldMeta/replay/commands/0",
+        "/worldMeta/feedback/0",
+        "/worldMeta/feedback/1",
+        "/worldMeta/clock/scheduleMinutes",
+        "/worldMeta/lastEventId",
+        "/motion/accumulator",
+        "/motion/stepIndex"
+      ],
+      "topLevelKeys": [
+        "day",
+        "hour",
+        "minute",
+        "energy",
+        "sanity",
+        "sanityClock",
+        "sanityLastReason",
+        "staminaExhaustedDay",
+        "staminaExhaustedAt",
+        "hp",
+        "wood",
+        "stone",
+        "food",
+        "seeds",
+        "parts",
+        "medicine",
+        "morale",
+        "nightBattle",
+        "gameOver",
+        "selectedNpc",
+        "selectedBuilding",
+        "collection",
+        "specialItems",
+        "scenarioSnapshot",
+        "relayProject",
+        "hordeForecast",
+        "campaign",
+        "campStanding",
+        "event",
+        "eventThreat",
+        "eventShield",
+        "npcEvents",
+        "weapon",
+        "player",
+        "playerVisual",
+        "facing",
+        "combatTargetId",
+        "hoverTarget",
+        "interactionFocus",
+        "npcTalkOpen",
+        "interactionRepeatTimer",
+        "moveTweenFrame",
+        "visitedRegions",
+        "areaFlags",
+        "roleVacancies",
+        "tempCoordination",
+        "noiseEvents",
+        "inventoryOpen",
+        "selected",
+        "buildMode",
+        "selectedBuild",
+        "night",
+        "zombieKills",
+        "mapRevision",
+        "effects",
+        "effectSeq",
+        "world",
+        "contentState",
+        "buildings",
+        "resources",
+        "landmarks",
+        "npcs",
+        "zombies",
+        "worldZombies",
+        "logs",
+        "settings",
+        "staminaRules",
+        "worldMeta",
+        "motion",
+        "quests",
+        "eventInstance",
+        "version"
+      ]
+    },
+    {
+      "id": "normal-due-pulse",
+      "advance": {
+        "commandId": "cmd-000001",
+        "timeEventId": "evt-000004",
+        "minutes": 1,
+        "beforeMinute": 540,
+        "afterMinute": 541
+      },
+      "actorBefore": {
+        "id": "carpenter",
+        "role": "木匠",
+        "effectiveRole": "carpenter",
+        "fulfillsCarpenter": true,
+        "hasCarpenter": true,
+        "local": true,
+        "canAttack": false,
+        "homeZone": "workshop",
+        "workZone": "eastGate",
+        "home": {
+          "x": 7,
+          "y": 9,
+          "zone": "workshop",
+          "icon": "⚒️",
+          "flow": "service"
+        },
+        "work": {
+          "x": 18,
+          "y": 9,
+          "zone": "eastGate",
+          "icon": "🚪",
+          "flow": "defense"
+        },
+        "allAreas": [
+          {
+            "x": 11,
+            "y": 7,
+            "zone": "command",
+            "icon": "🧭",
+            "flow": "command"
+          },
+          {
+            "x": 13,
+            "y": 9,
+            "zone": "infirmary",
+            "icon": "⚕️",
+            "flow": "service"
+          },
+          {
+            "x": 7,
+            "y": 9,
+            "zone": "workshop",
+            "icon": "⚒️",
+            "flow": "service"
+          },
+          {
+            "x": 16,
+            "y": 9,
+            "zone": "warehouse",
+            "icon": "📦",
+            "flow": "logistics"
+          },
+          {
+            "x": 9,
+            "y": 12,
+            "zone": "barracks",
+            "icon": "🛏️",
+            "flow": "defense"
+          },
+          {
+            "x": 13,
+            "y": 12,
+            "zone": "residence",
+            "icon": "🔥",
+            "flow": "residence"
+          },
+          {
+            "x": 11,
+            "y": 10,
+            "zone": "core",
+            "icon": "✦",
+            "flow": "command"
+          },
+          {
+            "x": 18,
+            "y": 9,
+            "zone": "eastGate",
+            "icon": "🚪",
+            "flow": "defense"
+          },
+          {
+            "x": 10,
+            "y": 4,
+            "zone": "northGate",
+            "icon": "🛡️",
+            "flow": "defense"
+          },
+          {
+            "x": 5,
+            "y": 14,
+            "zone": "serviceGate",
+            "icon": "🚧",
+            "flow": "logistics"
+          },
+          {
+            "x": 24,
+            "y": 8,
+            "zone": "eastOutpost",
+            "icon": "🛡️",
+            "flow": "defense"
+          },
+          {
+            "x": 7,
+            "y": 16,
+            "zone": "farmland",
+            "icon": "🌾",
+            "flow": "production"
+          },
+          {
+            "x": 14,
+            "y": 17,
+            "zone": "riverBank",
+            "icon": "🌊",
+            "flow": "production"
+          }
+        ],
+        "sourcePlayerId": "player-1"
+      },
+      "needsBefore": {
+        "hunger": 18,
+        "fatigue": 12,
+        "stress": 8,
+        "energy": 40,
+        "social": 28,
+        "safety": 18
+      },
+      "needsAfter": {
+        "hunger": 18.018,
+        "fatigue": 12.012,
+        "stress": 7.994,
+        "energy": 39.978,
+        "social": 28.004,
+        "safety": 17.992
+      },
+      "before": {
+        "x": 1,
+        "y": 2,
+        "motionTarget": null,
+        "scheduleState": "work",
+        "behaviorState": "work",
+        "workClock": 59,
+        "simMoveClock": 15,
+        "workPulseSeq": 0
+      },
+      "after": {
+        "x": 1.0488093530092004,
+        "y": 2.0569442451774016,
+        "motionTarget": {
+          "x": 7,
+          "y": 9
+        },
+        "scheduleState": "岗位工作 · 检查工坊与墙体库存",
+        "behaviorState": "work",
+        "workClock": 0,
+        "simMoveClock": 0,
+        "workPulseSeq": 1
+      },
+      "actualDisplacement": 0.07500000000000512,
+      "workEvents": [
+        {
+          "eventId": "evt-000003",
+          "seq": 3,
+          "type": "npc.work.completed",
+          "actorId": "carpenter",
+          "commandId": null,
+          "causationId": "cmd-000001",
+          "tick": {
+            "world": 541,
+            "phase": 0,
+            "schedule": 181
+          },
+          "payload": {
+            "workId": "work.carpenter.1",
+            "npcId": "carpenter",
+            "role": "carpenter",
+            "task": "检查工坊与墙体库存",
+            "destination": "workshop",
+            "relayProjectId": null
+          }
+        }
+      ],
+      "workHistoryBefore": [],
+      "workHistoryAfter": [
+        {
+          "id": "work.carpenter.1",
+          "at": 541,
+          "role": "carpenter",
+          "status": "completed",
+          "task": "检查工坊与墙体库存",
+          "destination": "workshop"
+        }
+      ],
+      "combatEvents": [],
+      "resources": {
+        "food": {
+          "before": 8,
+          "after": 8
+        },
+        "wood": {
+          "before": 24,
+          "after": 24
+        },
+        "stone": {
+          "before": 12,
+          "after": 12
+        },
+        "seeds": {
+          "before": 3,
+          "after": 3
+        },
+        "parts": {
+          "before": 4,
+          "after": 4
+        },
+        "medicine": {
+          "before": 0,
+          "after": 0
+        },
+        "energy": {
+          "before": 78,
+          "after": 78
+        },
+        "hp": {
+          "before": 100,
+          "after": 100
+        },
+        "morale": {
+          "before": 72,
+          "after": 72
+        },
+        "sanity": {
+          "before": 72,
+          "after": 72
+        }
+      },
+      "npcPopulation": {
+        "before": 10,
+        "after": 10
+      },
+      "liveEnemies": {
+        "before": [
+          {
+            "id": "wz-1",
+            "hp": 100,
+            "kind": "normal"
+          },
+          {
+            "id": "wz-2",
+            "hp": 100,
+            "kind": "runner"
+          },
+          {
+            "id": "wz-3",
+            "hp": 150,
+            "kind": "brute"
+          },
+          {
+            "id": "wz-4",
+            "hp": 100,
+            "kind": "normal"
+          }
+        ],
+        "after": [
+          {
+            "id": "wz-1",
+            "hp": 100,
+            "kind": "normal"
+          },
+          {
+            "id": "wz-2",
+            "hp": 100,
+            "kind": "runner"
+          },
+          {
+            "id": "wz-3",
+            "hp": 150,
+            "kind": "brute"
+          },
+          {
+            "id": "wz-4",
+            "hp": 100,
+            "kind": "normal"
+          }
+        ]
+      },
+      "fullStateChangedPaths": [
+        "/minute",
+        "/sanityClock",
+        "/hordeForecast/confidence",
+        "/hordeForecast/updatedAt",
+        "/npcEvents/0",
+        "/world/totalMinutes",
+        "/world/frontierClock",
+        "/world/dayCombatIntentSeq",
+        "/buildings/6/maxHp",
+        "/buildings/6/combatClock",
+        "/npcs/0/x",
+        "/npcs/0/y",
+        "/npcs/0/needs/hunger",
+        "/npcs/0/needs/fatigue",
+        "/npcs/0/needs/stress",
+        "/npcs/0/needs/energy",
+        "/npcs/0/needs/social",
+        "/npcs/0/needs/safety",
+        "/npcs/0/sanityClock",
+        "/npcs/0/scheduleState",
+        "/npcs/0/lastReport",
+        "/npcs/0/eventChain/active",
+        "/npcs/0/perception/clock",
+        "/npcs/0/simMoveClock",
+        "/npcs/0/needClock",
+        "/npcs/0/workClock",
+        "/npcs/0/workPulseSeq",
+        "/npcs/0/workHistory/0",
+        "/npcs/0/motionTarget",
+        "/npcs/0/prevX",
+        "/npcs/0/prevY",
+        "/npcs/0/facing",
+        "/npcs/1/needs/hunger",
+        "/npcs/1/needs/fatigue",
+        "/npcs/1/needs/stress",
+        "/npcs/1/needs/energy",
+        "/npcs/1/needs/social",
+        "/npcs/1/needs/safety",
+        "/npcs/1/sanityClock",
+        "/npcs/1/scheduleState",
+        "/npcs/1/perception/clock",
+        "/npcs/1/simMoveClock",
+        "/npcs/1/needClock",
+        "/npcs/1/workClock",
+        "/npcs/2/needs/hunger",
+        "/npcs/2/needs/fatigue",
+        "/npcs/2/needs/stress",
+        "/npcs/2/needs/energy",
+        "/npcs/2/needs/social",
+        "/npcs/2/needs/safety",
+        "/npcs/2/sanityClock",
+        "/npcs/2/scheduleState",
+        "/npcs/2/perception/clock",
+        "/npcs/2/simMoveClock",
+        "/npcs/2/needClock",
+        "/npcs/2/workClock",
+        "/npcs/3/needs/hunger",
+        "/npcs/3/needs/fatigue",
+        "/npcs/3/needs/stress",
+        "/npcs/3/needs/energy",
+        "/npcs/3/needs/social",
+        "/npcs/3/needs/safety",
+        "/npcs/3/sanityClock",
+        "/npcs/3/scheduleState",
+        "/npcs/3/perception/clock",
+        "/npcs/3/simMoveClock",
+        "/npcs/3/needClock",
+        "/npcs/3/workClock",
+        "/npcs/4/needs/hunger",
+        "/npcs/4/needs/fatigue",
+        "/npcs/4/needs/stress",
+        "/npcs/4/needs/energy",
+        "/npcs/4/needs/social",
+        "/npcs/4/needs/safety",
+        "/npcs/4/sanityClock",
+        "/npcs/4/scheduleState",
+        "/npcs/4/perception/clock",
+        "/npcs/4/simMoveClock",
+        "/npcs/4/needClock",
+        "/npcs/4/workClock",
+        "/npcs/5/needs/hunger",
+        "/npcs/5/needs/fatigue",
+        "/npcs/5/needs/stress",
+        "/npcs/5/needs/energy",
+        "/npcs/5/needs/social",
+        "/npcs/5/needs/safety",
+        "/npcs/5/sanityClock",
+        "/npcs/5/scheduleState",
+        "/npcs/5/perception/clock",
+        "/npcs/5/simMoveClock",
+        "/npcs/5/needClock",
+        "/npcs/5/workClock",
+        "/npcs/6/needs/hunger",
+        "/npcs/6/needs/fatigue",
+        "/npcs/6/needs/stress",
+        "/npcs/6/needs/energy",
+        "/npcs/6/needs/social",
+        "/npcs/6/needs/safety",
+        "/npcs/6/sanityClock",
+        "/npcs/6/scheduleState",
+        "/npcs/6/perception/clock",
+        "/npcs/6/simMoveClock",
+        "/npcs/6/needClock",
+        "/npcs/6/workClock",
+        "/npcs/7/needs/hunger",
+        "/npcs/7/needs/fatigue",
+        "/npcs/7/needs/stress",
+        "/npcs/7/needs/energy",
+        "/npcs/7/needs/social",
+        "/npcs/7/needs/safety",
+        "/npcs/7/sanityClock",
+        "/npcs/7/scheduleState",
+        "/npcs/7/perception/clock",
+        "/npcs/7/simMoveClock",
+        "/npcs/7/needClock",
+        "/npcs/7/workClock",
+        "/npcs/8/needs/hunger",
+        "/npcs/8/needs/fatigue",
+        "/npcs/8/needs/stress",
+        "/npcs/8/needs/energy",
+        "/npcs/8/needs/social",
+        "/npcs/8/needs/safety",
+        "/npcs/8/sanityClock",
+        "/npcs/8/scheduleState",
+        "/npcs/8/perception/clock",
+        "/npcs/8/simMoveClock",
+        "/npcs/8/needClock",
+        "/npcs/8/workClock",
+        "/npcs/9/needs/hunger",
+        "/npcs/9/needs/fatigue",
+        "/npcs/9/needs/stress",
+        "/npcs/9/needs/energy",
+        "/npcs/9/needs/social",
+        "/npcs/9/needs/safety",
+        "/npcs/9/sanityClock",
+        "/npcs/9/scheduleState",
+        "/npcs/9/perception/clock",
+        "/npcs/9/simMoveClock",
+        "/npcs/9/needClock",
+        "/npcs/9/workClock",
+        "/worldZombies/0/x",
+        "/worldZombies/0/y",
+        "/worldZombies/0/think",
+        "/worldZombies/0/perception/clock",
+        "/worldZombies/0/prevX",
+        "/worldZombies/0/prevY",
+        "/worldZombies/0/facing",
+        "/worldZombies/0/attackClock",
+        "/worldZombies/1/x",
+        "/worldZombies/1/y",
+        "/worldZombies/1/think",
+        "/worldZombies/1/perception/clock",
+        "/worldZombies/1/prevX",
+        "/worldZombies/1/prevY",
+        "/worldZombies/1/facing",
+        "/worldZombies/1/attackClock",
+        "/worldZombies/2/x",
+        "/worldZombies/2/y",
+        "/worldZombies/2/think",
+        "/worldZombies/2/perception/clock",
+        "/worldZombies/2/prevX",
+        "/worldZombies/2/prevY",
+        "/worldZombies/2/facing",
+        "/worldZombies/2/attackClock",
+        "/worldZombies/3/x",
+        "/worldZombies/3/y",
+        "/worldZombies/3/think",
+        "/worldZombies/3/perception/clock",
+        "/worldZombies/3/prevX",
+        "/worldZombies/3/prevY",
+        "/worldZombies/3/facing",
+        "/worldZombies/3/attackClock",
+        "/logs/0/text",
+        "/logs/0/kind",
+        "/logs/0/eventId",
+        "/logs/0/worldMinute",
+        "/logs/1/text",
+        "/logs/2",
+        "/worldMeta/eventSeq",
+        "/worldMeta/commandSeq",
+        "/worldMeta/events/2",
+        "/worldMeta/events/3",
+        "/worldMeta/seenCommands/0",
+        "/worldMeta/replay/commands/0",
+        "/worldMeta/feedback/0",
+        "/worldMeta/feedback/1",
+        "/worldMeta/clock/scheduleMinutes",
+        "/worldMeta/lastEventId",
+        "/motion/accumulator",
+        "/motion/stepIndex"
+      ],
+      "topLevelKeys": [
+        "day",
+        "hour",
+        "minute",
+        "energy",
+        "sanity",
+        "sanityClock",
+        "sanityLastReason",
+        "staminaExhaustedDay",
+        "staminaExhaustedAt",
+        "hp",
+        "wood",
+        "stone",
+        "food",
+        "seeds",
+        "parts",
+        "medicine",
+        "morale",
+        "nightBattle",
+        "gameOver",
+        "selectedNpc",
+        "selectedBuilding",
+        "collection",
+        "specialItems",
+        "scenarioSnapshot",
+        "relayProject",
+        "hordeForecast",
+        "campaign",
+        "campStanding",
+        "event",
+        "eventThreat",
+        "eventShield",
+        "npcEvents",
+        "weapon",
+        "player",
+        "playerVisual",
+        "facing",
+        "combatTargetId",
+        "hoverTarget",
+        "interactionFocus",
+        "npcTalkOpen",
+        "interactionRepeatTimer",
+        "moveTweenFrame",
+        "visitedRegions",
+        "areaFlags",
+        "roleVacancies",
+        "tempCoordination",
+        "noiseEvents",
+        "inventoryOpen",
+        "selected",
+        "buildMode",
+        "selectedBuild",
+        "night",
+        "zombieKills",
+        "mapRevision",
+        "effects",
+        "effectSeq",
+        "world",
+        "contentState",
+        "buildings",
+        "resources",
+        "landmarks",
+        "npcs",
+        "zombies",
+        "worldZombies",
+        "logs",
+        "settings",
+        "staminaRules",
+        "worldMeta",
+        "motion",
+        "quests",
+        "eventInstance",
+        "version"
+      ]
+    },
+    {
+      "id": "low-not-yet-due",
+      "advance": {
+        "commandId": "cmd-000001",
+        "timeEventId": "evt-000003",
+        "minutes": 1,
+        "beforeMinute": 540,
+        "afterMinute": 541
+      },
+      "actorBefore": {
+        "id": "carpenter",
+        "role": "木匠",
+        "effectiveRole": "carpenter",
+        "fulfillsCarpenter": true,
+        "hasCarpenter": true,
+        "local": true,
+        "canAttack": false,
+        "homeZone": "workshop",
+        "workZone": "eastGate",
+        "home": {
+          "x": 7,
+          "y": 9,
+          "zone": "workshop",
+          "icon": "⚒️",
+          "flow": "service"
+        },
+        "work": {
+          "x": 18,
+          "y": 9,
+          "zone": "eastGate",
+          "icon": "🚪",
+          "flow": "defense"
+        },
+        "allAreas": [
+          {
+            "x": 11,
+            "y": 7,
+            "zone": "command",
+            "icon": "🧭",
+            "flow": "command"
+          },
+          {
+            "x": 13,
+            "y": 9,
+            "zone": "infirmary",
+            "icon": "⚕️",
+            "flow": "service"
+          },
+          {
+            "x": 7,
+            "y": 9,
+            "zone": "workshop",
+            "icon": "⚒️",
+            "flow": "service"
+          },
+          {
+            "x": 16,
+            "y": 9,
+            "zone": "warehouse",
+            "icon": "📦",
+            "flow": "logistics"
+          },
+          {
+            "x": 9,
+            "y": 12,
+            "zone": "barracks",
+            "icon": "🛏️",
+            "flow": "defense"
+          },
+          {
+            "x": 13,
+            "y": 12,
+            "zone": "residence",
+            "icon": "🔥",
+            "flow": "residence"
+          },
+          {
+            "x": 11,
+            "y": 10,
+            "zone": "core",
+            "icon": "✦",
+            "flow": "command"
+          },
+          {
+            "x": 18,
+            "y": 9,
+            "zone": "eastGate",
+            "icon": "🚪",
+            "flow": "defense"
+          },
+          {
+            "x": 10,
+            "y": 4,
+            "zone": "northGate",
+            "icon": "🛡️",
+            "flow": "defense"
+          },
+          {
+            "x": 5,
+            "y": 14,
+            "zone": "serviceGate",
+            "icon": "🚧",
+            "flow": "logistics"
+          },
+          {
+            "x": 24,
+            "y": 8,
+            "zone": "eastOutpost",
+            "icon": "🛡️",
+            "flow": "defense"
+          },
+          {
+            "x": 7,
+            "y": 16,
+            "zone": "farmland",
+            "icon": "🌾",
+            "flow": "production"
+          },
+          {
+            "x": 14,
+            "y": 17,
+            "zone": "riverBank",
+            "icon": "🌊",
+            "flow": "production"
+          }
+        ],
+        "sourcePlayerId": "player-1"
+      },
+      "needsBefore": {
+        "hunger": 18,
+        "fatigue": 12,
+        "stress": 8,
+        "energy": 23.5,
+        "social": 28,
+        "safety": 18
+      },
+      "needsAfter": {
+        "hunger": 18.018,
+        "fatigue": 11.972,
+        "stress": 7.994,
+        "energy": 23.545,
+        "social": 27.994,
+        "safety": 17.992
+      },
+      "before": {
+        "x": 1,
+        "y": 2,
+        "motionTarget": null,
+        "scheduleState": "work",
+        "behaviorState": "work",
+        "workClock": 58,
+        "simMoveClock": 15,
+        "workPulseSeq": 0
+      },
+      "after": {
+        "x": 1.0693508573856039,
+        "y": 2.028556235394075,
+        "motionTarget": {
+          "x": 18,
+          "y": 9
+        },
+        "scheduleState": "休整 · 精力恢复",
+        "behaviorState": "work",
+        "workClock": 59,
+        "simMoveClock": 0,
+        "workPulseSeq": 0
+      },
+      "actualDisplacement": 0.07500000000000122,
+      "workEvents": [],
+      "workHistoryBefore": [],
+      "workHistoryAfter": [],
+      "combatEvents": [],
+      "resources": {
+        "food": {
+          "before": 8,
+          "after": 8
+        },
+        "wood": {
+          "before": 24,
+          "after": 24
+        },
+        "stone": {
+          "before": 12,
+          "after": 12
+        },
+        "seeds": {
+          "before": 3,
+          "after": 3
+        },
+        "parts": {
+          "before": 4,
+          "after": 4
+        },
+        "medicine": {
+          "before": 0,
+          "after": 0
+        },
+        "energy": {
+          "before": 78,
+          "after": 78
+        },
+        "hp": {
+          "before": 100,
+          "after": 100
+        },
+        "morale": {
+          "before": 72,
+          "after": 72
+        },
+        "sanity": {
+          "before": 72,
+          "after": 72
+        }
+      },
+      "npcPopulation": {
+        "before": 10,
+        "after": 10
+      },
+      "liveEnemies": {
+        "before": [
+          {
+            "id": "wz-1",
+            "hp": 100,
+            "kind": "normal"
+          },
+          {
+            "id": "wz-2",
+            "hp": 100,
+            "kind": "runner"
+          },
+          {
+            "id": "wz-3",
+            "hp": 150,
+            "kind": "brute"
+          },
+          {
+            "id": "wz-4",
+            "hp": 100,
+            "kind": "normal"
+          }
+        ],
+        "after": [
+          {
+            "id": "wz-1",
+            "hp": 100,
+            "kind": "normal"
+          },
+          {
+            "id": "wz-2",
+            "hp": 100,
+            "kind": "runner"
+          },
+          {
+            "id": "wz-3",
+            "hp": 150,
+            "kind": "brute"
+          },
+          {
+            "id": "wz-4",
+            "hp": 100,
+            "kind": "normal"
+          }
+        ]
+      },
+      "fullStateChangedPaths": [
+        "/minute",
+        "/sanityClock",
+        "/hordeForecast/confidence",
+        "/hordeForecast/updatedAt",
+        "/npcEvents/0",
+        "/world/totalMinutes",
+        "/world/frontierClock",
+        "/world/dayCombatIntentSeq",
+        "/buildings/6/maxHp",
+        "/buildings/6/combatClock",
+        "/npcs/0/x",
+        "/npcs/0/y",
+        "/npcs/0/needs/hunger",
+        "/npcs/0/needs/fatigue",
+        "/npcs/0/needs/stress",
+        "/npcs/0/needs/energy",
+        "/npcs/0/needs/social",
+        "/npcs/0/needs/safety",
+        "/npcs/0/sanityClock",
+        "/npcs/0/scheduleState",
+        "/npcs/0/eventChain/active",
+        "/npcs/0/perception/clock",
+        "/npcs/0/simMoveClock",
+        "/npcs/0/needClock",
+        "/npcs/0/workClock",
+        "/npcs/0/motionTarget",
+        "/npcs/0/prevX",
+        "/npcs/0/prevY",
+        "/npcs/0/facing",
+        "/npcs/1/needs/hunger",
+        "/npcs/1/needs/fatigue",
+        "/npcs/1/needs/stress",
+        "/npcs/1/needs/energy",
+        "/npcs/1/needs/social",
+        "/npcs/1/needs/safety",
+        "/npcs/1/sanityClock",
+        "/npcs/1/scheduleState",
+        "/npcs/1/perception/clock",
+        "/npcs/1/simMoveClock",
+        "/npcs/1/needClock",
+        "/npcs/1/workClock",
+        "/npcs/2/needs/hunger",
+        "/npcs/2/needs/fatigue",
+        "/npcs/2/needs/stress",
+        "/npcs/2/needs/energy",
+        "/npcs/2/needs/social",
+        "/npcs/2/needs/safety",
+        "/npcs/2/sanityClock",
+        "/npcs/2/scheduleState",
+        "/npcs/2/perception/clock",
+        "/npcs/2/simMoveClock",
+        "/npcs/2/needClock",
+        "/npcs/2/workClock",
+        "/npcs/3/needs/hunger",
+        "/npcs/3/needs/fatigue",
+        "/npcs/3/needs/stress",
+        "/npcs/3/needs/energy",
+        "/npcs/3/needs/social",
+        "/npcs/3/needs/safety",
+        "/npcs/3/sanityClock",
+        "/npcs/3/scheduleState",
+        "/npcs/3/perception/clock",
+        "/npcs/3/simMoveClock",
+        "/npcs/3/needClock",
+        "/npcs/3/workClock",
+        "/npcs/4/needs/hunger",
+        "/npcs/4/needs/fatigue",
+        "/npcs/4/needs/stress",
+        "/npcs/4/needs/energy",
+        "/npcs/4/needs/social",
+        "/npcs/4/needs/safety",
+        "/npcs/4/sanityClock",
+        "/npcs/4/scheduleState",
+        "/npcs/4/perception/clock",
+        "/npcs/4/simMoveClock",
+        "/npcs/4/needClock",
+        "/npcs/4/workClock",
+        "/npcs/5/needs/hunger",
+        "/npcs/5/needs/fatigue",
+        "/npcs/5/needs/stress",
+        "/npcs/5/needs/energy",
+        "/npcs/5/needs/social",
+        "/npcs/5/needs/safety",
+        "/npcs/5/sanityClock",
+        "/npcs/5/scheduleState",
+        "/npcs/5/perception/clock",
+        "/npcs/5/simMoveClock",
+        "/npcs/5/needClock",
+        "/npcs/5/workClock",
+        "/npcs/6/needs/hunger",
+        "/npcs/6/needs/fatigue",
+        "/npcs/6/needs/stress",
+        "/npcs/6/needs/energy",
+        "/npcs/6/needs/social",
+        "/npcs/6/needs/safety",
+        "/npcs/6/sanityClock",
+        "/npcs/6/scheduleState",
+        "/npcs/6/perception/clock",
+        "/npcs/6/simMoveClock",
+        "/npcs/6/needClock",
+        "/npcs/6/workClock",
+        "/npcs/7/needs/hunger",
+        "/npcs/7/needs/fatigue",
+        "/npcs/7/needs/stress",
+        "/npcs/7/needs/energy",
+        "/npcs/7/needs/social",
+        "/npcs/7/needs/safety",
+        "/npcs/7/sanityClock",
+        "/npcs/7/scheduleState",
+        "/npcs/7/perception/clock",
+        "/npcs/7/simMoveClock",
+        "/npcs/7/needClock",
+        "/npcs/7/workClock",
+        "/npcs/8/needs/hunger",
+        "/npcs/8/needs/fatigue",
+        "/npcs/8/needs/stress",
+        "/npcs/8/needs/energy",
+        "/npcs/8/needs/social",
+        "/npcs/8/needs/safety",
+        "/npcs/8/sanityClock",
+        "/npcs/8/scheduleState",
+        "/npcs/8/perception/clock",
+        "/npcs/8/simMoveClock",
+        "/npcs/8/needClock",
+        "/npcs/8/workClock",
+        "/npcs/9/needs/hunger",
+        "/npcs/9/needs/fatigue",
+        "/npcs/9/needs/stress",
+        "/npcs/9/needs/energy",
+        "/npcs/9/needs/social",
+        "/npcs/9/needs/safety",
+        "/npcs/9/sanityClock",
+        "/npcs/9/scheduleState",
+        "/npcs/9/perception/clock",
+        "/npcs/9/simMoveClock",
+        "/npcs/9/needClock",
+        "/npcs/9/workClock",
+        "/worldZombies/0/x",
+        "/worldZombies/0/y",
+        "/worldZombies/0/think",
+        "/worldZombies/0/perception/clock",
+        "/worldZombies/0/prevX",
+        "/worldZombies/0/prevY",
+        "/worldZombies/0/facing",
+        "/worldZombies/0/attackClock",
+        "/worldZombies/1/x",
+        "/worldZombies/1/y",
+        "/worldZombies/1/think",
+        "/worldZombies/1/perception/clock",
+        "/worldZombies/1/prevX",
+        "/worldZombies/1/prevY",
+        "/worldZombies/1/facing",
+        "/worldZombies/1/attackClock",
+        "/worldZombies/2/x",
+        "/worldZombies/2/y",
+        "/worldZombies/2/think",
+        "/worldZombies/2/perception/clock",
+        "/worldZombies/2/prevX",
+        "/worldZombies/2/prevY",
+        "/worldZombies/2/facing",
+        "/worldZombies/2/attackClock",
+        "/worldZombies/3/x",
+        "/worldZombies/3/y",
+        "/worldZombies/3/think",
+        "/worldZombies/3/perception/clock",
+        "/worldZombies/3/prevX",
+        "/worldZombies/3/prevY",
+        "/worldZombies/3/facing",
+        "/worldZombies/3/attackClock",
+        "/logs/0/text",
+        "/logs/0/kind",
+        "/logs/0/eventId",
+        "/logs/0/worldMinute",
+        "/logs/1/text",
+        "/logs/2",
+        "/worldMeta/eventSeq",
+        "/worldMeta/commandSeq",
+        "/worldMeta/events/2",
+        "/worldMeta/seenCommands/0",
+        "/worldMeta/replay/commands/0",
+        "/worldMeta/feedback/0",
+        "/worldMeta/clock/scheduleMinutes",
+        "/worldMeta/lastEventId",
+        "/motion/accumulator",
+        "/motion/stepIndex"
+      ],
+      "topLevelKeys": [
+        "day",
+        "hour",
+        "minute",
+        "energy",
+        "sanity",
+        "sanityClock",
+        "sanityLastReason",
+        "staminaExhaustedDay",
+        "staminaExhaustedAt",
+        "hp",
+        "wood",
+        "stone",
+        "food",
+        "seeds",
+        "parts",
+        "medicine",
+        "morale",
+        "nightBattle",
+        "gameOver",
+        "selectedNpc",
+        "selectedBuilding",
+        "collection",
+        "specialItems",
+        "scenarioSnapshot",
+        "relayProject",
+        "hordeForecast",
+        "campaign",
+        "campStanding",
+        "event",
+        "eventThreat",
+        "eventShield",
+        "npcEvents",
+        "weapon",
+        "player",
+        "playerVisual",
+        "facing",
+        "combatTargetId",
+        "hoverTarget",
+        "interactionFocus",
+        "npcTalkOpen",
+        "interactionRepeatTimer",
+        "moveTweenFrame",
+        "visitedRegions",
+        "areaFlags",
+        "roleVacancies",
+        "tempCoordination",
+        "noiseEvents",
+        "inventoryOpen",
+        "selected",
+        "buildMode",
+        "selectedBuild",
+        "night",
+        "zombieKills",
+        "mapRevision",
+        "effects",
+        "effectSeq",
+        "world",
+        "contentState",
+        "buildings",
+        "resources",
+        "landmarks",
+        "npcs",
+        "zombies",
+        "worldZombies",
+        "logs",
+        "settings",
+        "staminaRules",
+        "worldMeta",
+        "motion",
+        "quests",
+        "eventInstance",
+        "version"
+      ]
+    }
+  ],
+  "nativeValidations": [
+    {
+      "label": "actual-original-fresh-writer",
+      "sha256": "a288f8b02c6c0635e2b98ced4ff25f042f43bd7ac17d3617739fadab09a5283c",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "low-due-pulse-prepared",
+      "sha256": "6a74a12b9ce2ff269342adc52e509ff139b2201137760f338b12bf4653b2a3cf",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "normal-due-pulse-prepared",
+      "sha256": "3efe46db8fd013b39ee4b6cc97b0b3eb31f30e09beb2f826a1fd7283534ca786",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "low-due-pulse-actual-after",
+      "sha256": "5d71f1ec9091b83c1d8e65a11664afc3ae5fafd90552d8d3657359137b6141b7",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "normal-due-pulse-actual-after",
+      "sha256": "1b1f759d3e137842311736958744c8880f291e3b28b87ff4dfe03b1012ff54b1",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "low-not-yet-due-prepared",
+      "sha256": "53af765389266905225ada5ea8c7c01059a3e09f805a77477335908b48afc4d8",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "low-not-yet-due-actual-after",
+      "sha256": "665943ba2b1729e123431db329257512fd8bd83460d8fa61a6ef80ebeeaddcf8",
+      "ok": true,
+      "reason": null
+    }
+  ],
+  "errors": [],
+  "mainPairInputDifferences": [
+    "/npcs/0/needs/energy"
+  ],
+  "noPulseInputDifferences": [
+    "/npcs/0/workClock"
+  ],
+  "originalWriterSha256": "a288f8b02c6c0635e2b98ced4ff25f042f43bd7ac17d3617739fadab09a5283c",
+  "sourceInputsUnchanged": true,
+  "artifacts": [
+    {
+      "path": "source.html",
+      "bytes": 884850,
+      "sha256": "23b8c8c27234592673aa927f3909ea49247c372a937787f90355f87531f421b0"
+    },
+    {
+      "path": "dependencies/source-runtime-fixture.mjs",
+      "bytes": 2959,
+      "sha256": "e9872eeba85d49019d1bd806f3dd18357a5abc8f2f92922922f6a5324ec220dc"
+    },
+    {
+      "path": "dependencies/check-report-recovery.mjs",
+      "bytes": 49798,
+      "sha256": "554c400c174ad1b069c4dfcc839c12b3b45ea79c5aa7669e093a440ffa4845d3"
+    },
+    {
+      "path": "input-memo.md",
+      "bytes": 12628,
+      "sha256": "5221a1ba92967dfa3a1bd2f9ee93b775f3753de3d93a7d386e9c20c07cc8b499"
+    },
+    {
+      "path": "runner-executed.mjs",
+      "bytes": 11637,
+      "sha256": "286036ae3b905fa1a7458dbcbd15933a8948e90a211a9bcb3b7266b7d1f5d41e"
+    },
+    {
+      "path": "qa-exports.js",
+      "bytes": 664,
+      "sha256": "fcbf892cda316fe5525fa733887c30357e6df29fa83f6d5d8561616e9a4b6506"
+    },
+    {
+      "path": "inputs/original-fresh-native.json",
+      "bytes": 63024,
+      "sha256": "a288f8b02c6c0635e2b98ced4ff25f042f43bd7ac17d3617739fadab09a5283c"
+    },
+    {
+      "path": "inputs/low-due-pulse-native.json",
+      "bytes": 63107,
+      "sha256": "6a74a12b9ce2ff269342adc52e509ff139b2201137760f338b12bf4653b2a3cf"
+    },
+    {
+      "path": "inputs/normal-due-pulse-native.json",
+      "bytes": 63103,
+      "sha256": "3efe46db8fd013b39ee4b6cc97b0b3eb31f30e09beb2f826a1fd7283534ca786"
+    },
+    {
+      "path": "low-due-pulse/before-full-state.json",
+      "bytes": 54447,
+      "sha256": "c2da3528c80082e822c66f1175d7a49ad6937beca70e1b47d9ee789611dc3b92"
+    },
+    {
+      "path": "low-due-pulse/before-qualified-actor.json",
+      "bytes": 2003,
+      "sha256": "ea6947972baac2a744ec2643f62a84467f90c5760174903c39cfb7828a3bf0fa"
+    },
+    {
+      "path": "low-due-pulse/advance-result.json",
+      "bytes": 505,
+      "sha256": "c8db4e5f0ebd92c59dafa21e9fd75d4c4918dcfb99068a71f4a028130b345bb5"
+    },
+    {
+      "path": "low-due-pulse/after-full-state.json",
+      "bytes": 58411,
+      "sha256": "0f18fca30dc8bbf3afcce9a640fc1aee13bf632508a4c22b4deca70b7d235f25"
+    },
+    {
+      "path": "low-due-pulse/fresh-events.json",
+      "bytes": 812,
+      "sha256": "e2f3c62cd9f55d7f81e695db34ec48f8e49f0b6ed47e0c38dc0289913d168c14"
+    },
+    {
+      "path": "low-due-pulse/new-commands.json",
+      "bytes": 141,
+      "sha256": "00d199891770d4da0b764391d720e44b0a47a52621b525a9eb0846b12ea83249"
+    },
+    {
+      "path": "low-due-pulse/after-native.json",
+      "bytes": 68024,
+      "sha256": "5d71f1ec9091b83c1d8e65a11664afc3ae5fafd90552d8d3657359137b6141b7"
+    },
+    {
+      "path": "normal-due-pulse/before-full-state.json",
+      "bytes": 54445,
+      "sha256": "d532beeb1a85f6febe74eacba66c483d732fe87c19c5b46b7f8cb0f9d1a87f22"
+    },
+    {
+      "path": "normal-due-pulse/before-qualified-actor.json",
+      "bytes": 2003,
+      "sha256": "ea6947972baac2a744ec2643f62a84467f90c5760174903c39cfb7828a3bf0fa"
+    },
+    {
+      "path": "normal-due-pulse/advance-result.json",
+      "bytes": 505,
+      "sha256": "c8db4e5f0ebd92c59dafa21e9fd75d4c4918dcfb99068a71f4a028130b345bb5"
+    },
+    {
+      "path": "normal-due-pulse/after-full-state.json",
+      "bytes": 58411,
+      "sha256": "50d71cb30cb285dc394af24715706b0a86484e94f4c1c33fe34436bc2a61c912"
+    },
+    {
+      "path": "normal-due-pulse/fresh-events.json",
+      "bytes": 812,
+      "sha256": "e2f3c62cd9f55d7f81e695db34ec48f8e49f0b6ed47e0c38dc0289913d168c14"
+    },
+    {
+      "path": "normal-due-pulse/new-commands.json",
+      "bytes": 141,
+      "sha256": "00d199891770d4da0b764391d720e44b0a47a52621b525a9eb0846b12ea83249"
+    },
+    {
+      "path": "normal-due-pulse/after-native.json",
+      "bytes": 68024,
+      "sha256": "1b1f759d3e137842311736958744c8880f291e3b28b87ff4dfe03b1012ff54b1"
+    },
+    {
+      "path": "inputs/low-not-yet-due-native.json",
+      "bytes": 63107,
+      "sha256": "53af765389266905225ada5ea8c7c01059a3e09f805a77477335908b48afc4d8"
+    },
+    {
+      "path": "low-not-yet-due/before-full-state.json",
+      "bytes": 54447,
+      "sha256": "10507ae5fc6461fbf341503bbb12e6fcbb90df6d32db0c8fce639ee6790eb0d6"
+    },
+    {
+      "path": "low-not-yet-due/before-qualified-actor.json",
+      "bytes": 2003,
+      "sha256": "ea6947972baac2a744ec2643f62a84467f90c5760174903c39cfb7828a3bf0fa"
+    },
+    {
+      "path": "low-not-yet-due/advance-result.json",
+      "bytes": 505,
+      "sha256": "75524fae974694e3cf3bb848ba27e5498482124d8904ee8d39c9dd6c3137b33c"
+    },
+    {
+      "path": "low-not-yet-due/after-full-state.json",
+      "bytes": 57470,
+      "sha256": "1eb98b0e5f46b1b756cee65085982910e3a9cc6949213090a47eecf6883dac64"
+    },
+    {
+      "path": "low-not-yet-due/fresh-events.json",
+      "bytes": 340,
+      "sha256": "b8ff30b334e1a5e6cf31d1bc4812700086187bf4af3d687f47fe8a59f3b3e596"
+    },
+    {
+      "path": "low-not-yet-due/new-commands.json",
+      "bytes": 141,
+      "sha256": "00d199891770d4da0b764391d720e44b0a47a52621b525a9eb0846b12ea83249"
+    },
+    {
+      "path": "low-not-yet-due/after-native.json",
+      "bytes": 66945,
+      "sha256": "665943ba2b1729e123431db329257512fd8bd83460d8fa61a6ef80ebeeaddcf8"
+    },
+    {
+      "path": "process-events.json",
+      "bytes": 895,
+      "sha256": "9a04827dd11a14eed852a6b7deb31579fb3ecf8eafc79af066e0742515846191"
+    }
+  ]
+}

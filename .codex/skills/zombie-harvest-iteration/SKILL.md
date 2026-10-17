@@ -52,6 +52,8 @@ LLM 不得直接改全局状态、生成人口/资源、跳过事件节点、读
 
 ## 必跑验证
 
+NPC持续安排／规划按[执行一致性](references/npc-routine-execution.md)核生理、移动、劳动credit、SAN、任务抢占和writer；具体阈值只在对应policy／ADR维护。完成步先清状态再结算的consumer仍须读同一本段事实，不能把文字或最后写入者当执行权限。
+
 时间推进／休整先读 `docs/decisions/ADR-20261017-camp-rest-v1.md`。按同一真实起止区间比较大步、小步、午夜和保存刷新，检查取整是否吞掉原有再生；这只证明该结算维度，不能推广为整段战斗等价。时钟所有权同时挡住排队的旧callback；中断核每步真实伤害收据，不能只比开始时的净HP。公开进度和取消还须验真实CSS可见性，DOM存在或hidden=false不等于玩家可用。
 
 涉及 NPC 参与资格时，区分存在/存活、营地本地、健康可工作和有效岗位；驻守者仍计人口，但不能跨地点重复行动。双向伤害、新感知/共享、routine、motion、render 与福利分别核 consumer；修了作战入口不能宣布整体离营完成。critical 是否可战按明确规则判断，不能从 dead Gate 推定已有健康 Gate。参见 `docs/problems/PROB-20261017-npc-outpost-camp-presence.md`。
