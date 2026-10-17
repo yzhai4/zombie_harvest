@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
-import { createScenarioSnapshot, resolveScenarioConfig, validateScenarioPackage } from './lib/scenario-package-v1.mjs';
+import { createScenarioSnapshot, resolveScenarioConfig, validateScenarioPackage, compileScenarioEvents } from './lib/scenario-package-v1.mjs';
 
 // Pure package and shared-core checks. Actual fresh/continue boot, RNG consumers,
 // resource effects and writer recovery are checked separately by the source VM.
@@ -28,9 +28,11 @@ test('actual boot package bytes parse to the checked fixture JSON', () => {
 test('snapshot includes required scenario schema tag and versioned initial binding', () => {
   const s = createScenarioSnapshot(pkg);
   assert.equal(s.schemaVersion, 1); assert.equal(s.binding.status, 'bound'); assert.equal(s.binding.version, 1);
-  assert.deepEqual(s.binding.appliedKeys, ['seed', 'world.foodMultiplier']);
-  assert.ok(s.binding.baselineOnlyKeys.includes('events')); assert.deepEqual(s.binding.deferredKeys, ['continuity']);
+  assert.deepEqual(s.binding.appliedKeys, ['seed', 'world.foodMultiplier', 'events']);
+  assert.equal(s.binding.baselineOnlyKeys.includes('events'), false); assert.deepEqual(s.binding.deferredKeys, ['continuity']);
   assert.deepEqual(s.binding.initialAiConfig, s.aiConfig);
+  const c = compileScenarioEvents(pkg);
+  assert.deepEqual(s.contentBinding, {version:1,status:'bound',compilerVersion:c.compilerVersion,catalogDigest:c.catalogDigest,rulesDigest:c.rulesDigest,registry:c.registry});
 });
 test('zero and max uint32 are represented without default substitution', () => {
   for (const seed of [0, 4294967295]) assert.equal(resolveScenarioConfig(pkg, { seed }).seed, seed);
@@ -58,12 +60,24 @@ test('unsupported generated capabilities reject and observer remains expression 
   const s = createScenarioSnapshot(pkg, { aiConfig: { observerCommentary: true } });
   assert.deepEqual(s.aiConfig, { generativeDialogue: false, observerCommentary: true, generatedWorldEvents: false, learnedWorldModel: false, policyVersion: 'observer-expression-v1' });
 });
-test('C1 does not accept edited JSON event effects as if compiled', () => {
-  const changed = clone(pkg); changed.events.storylets[0].choices[1].effects[0].value = 3;
-  const result = validateScenarioPackage(changed); assert.equal(result.ok, false); assert.ok(result.issues.includes('unsupported-event-catalog'));
+test('C2 compiles coherent JSON changes and rejects a reward without matching source budget', () => {
+  const changed = clone(pkg), story = changed.events.storylets[0];
+  story.nodes[0].choices[1].effects[0].value = 3;
+  assert.equal(validateScenarioPackage(changed).ok, false);
+  story.definitionVersion = 3; story.source.food = 1;
+  story.nodes[0].text = '后勤官登记有一份应急藏粮，整局只可动用一次。';
+  story.nodes[0].choices[1].hint = '整局一次 · 食物 +1 · 共振仪表 +2 · 需要健康后勤人员在岗';
+  story.nodes[0].choices[1].effects[0].value = 1;
+  story.nodes[0].choices[1].effects[3].payload.amount = 1;
+  assert.equal(validateScenarioPackage(changed).ok, true);
+  const c = compileScenarioEvents(changed);
+  assert.equal(c.definitions[0].definitionVersion, 3);
+  assert.equal(c.definitions[0].nodes[0].choices[1].effects[0].value, 1);
+  assert.notEqual(c.catalogDigest, compileScenarioEvents(pkg).catalogDigest);
+  assert.notEqual(c.rulesDigest, compileScenarioEvents(pkg).rulesDigest);
 });
 test('unsupported storylet definition versions stay rejected', () => {
-  for (const version of [0, -1, '2', 3, Number.MAX_SAFE_INTEGER + 1]) { const changed = clone(pkg); changed.events.storylets[0].definitionVersion = version; assert.equal(validateScenarioPackage(changed).ok, false); }
+  for (const version of [0, 1, -1, '2', Number.MAX_SAFE_INTEGER + 1]) { const changed = clone(pkg); changed.events.storylets[0].definitionVersion = version; assert.equal(validateScenarioPackage(changed).ok, false); }
 });
 test('semantic digest ignores object insertion order and declares its algorithm', () => {
   const a = createScenarioSnapshot(pkg, { seed: 0, worldConfig: { foodMultiplier: .5 } });

@@ -51,7 +51,11 @@ jobs:
           node --check scripts/check-relay-construction-runtime.mjs
           node --check scripts/lib/scenario-package-v1.mjs
           node --check scripts/check-scenario-package-v1.mjs
+          node --check scripts/build-scenario-package.mjs
           node --check scripts/check-scenario-boot-c1.mjs
+          node --check scripts/check-scenario-boot-c2.mjs
+          node --check scripts/browser-scenario-boot-c1.mjs
+          node --check scripts/browser-scenario-boot-c2.mjs
           node --check scripts/lib/observer-expression-v1.mjs
           node --check scripts/check-observer-expression-v1.mjs
           node --check scripts/check-gameplay-vertical-slice.mjs
@@ -132,10 +136,13 @@ jobs:
         run: node scripts/check-relay-construction-runtime.mjs
       - name: Execute Scenario package and observer contracts
         run: |
+          node scripts/build-scenario-package.mjs --check
           node scripts/check-scenario-package-v1.mjs
           node scripts/check-observer-expression-v1.mjs
       - name: Execute actual Scenario C1 boot, first writer and legacy continuation
         run: node scripts/check-scenario-boot-c1.mjs --html dist/index.html --core-module scripts/lib/scenario-package-v1.mjs --input-manifest scripts/fixtures/scenario-boot-c1/frozen-input-manifest.json --out "$RUNNER_TEMP/scenario-boot-c1"
+      - name: Execute Scenario C2 compilation, atomic catalog and content binding
+        run: node scripts/check-scenario-boot-c2.mjs --html dist/index.html --core-module scripts/lib/scenario-package-v1.mjs --repo-root . --out "$RUNNER_TEMP/scenario-boot-c2"
       - name: Execute source gameplay vertical slice
         run: node scripts/check-gameplay-vertical-slice.mjs
       - name: Execute repeatable episode migration and CAS contracts

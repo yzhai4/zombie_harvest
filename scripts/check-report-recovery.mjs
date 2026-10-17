@@ -68,16 +68,23 @@ function runtime(entries = []) {
   const bootstrap = inline[0].replace(/    applySettings\(\);\s*    refreshStartScreen\(\);\s*    render\(\);\s*$/, '    applySettings();\n    refreshStartScreen();');
   assert.notEqual(bootstrap, inline[0], 'bootstrap render marker required');
   vm.runInContext(bootstrap + `
+    // QA calls made before public start use the same explicitly prepared lookup
+    // as the real loader. Installed calls use the committed directory instead.
+    const qaLookupContext = () => BootRecovery.installed ? null : BootRecovery.scenarioContent;
     globalThis.qa = {
       get state() { return state; }, get boot() { return BootRecovery; }, get started() { return gameStarted; },
-      session: SessionController, start: startFromSave, restore: restoreSelectedBackup, classify: classifySavedRecovery,
-      validate: validateStoredProgress, validatePayload: validateProgressPayload, select: selectProgressSave, prepare: prepareSavedPayload, install: installSavedPayload,
+      session: SessionController, start: startFromSave, restore: restoreSelectedBackup,
+      classify(payload) { return classifySavedRecovery(payload, qaLookupContext()); },
+      validate(input) { return validateStoredProgress(input, qaLookupContext()); },
+      validatePayload(payload) { return validateProgressPayload(payload, qaLookupContext()); },
+      select(candidates, policy = {}) { return selectProgressSave(candidates, policy, qaLookupContext()); },
+      prepare(selected, recovery, original = selected) { return prepareSavedPayload(selected, recovery, original, BootRecovery.scenarioContent || BootRecovery.draft?.scenarioContent); }, install: installSavedPayload,
       project: projectResolvedReport, renderReport: renderResolvedReport, hud: renderHud, identity: savedReportIdentity,
       close: continueMorning, command: actionCommand, dispatch: dispatchCommand, gather, commit: commitPlanMeeting, generatePlan: generatePlanMeeting, buildToggle: toggleBuild, checkpoint: requestCheckpoint, save: saveProgress, threatStart: startThreatEncounter, settleThreat: resolveNight, contentHook: runContentHook, contentEffects: applyContentEffects,
       worldStart: startWorldSimulation, battleStart: startBattleLoop, heldStart: startHeldMovement, repeatStart: startInteractionRepeat,
       scheduleWorld: scheduleWorldRender, scheduleContinuous: scheduleContinuousEntityPositions,
       registry: EVENT_DEFS, hash: checksum,
-      writeInitial() { gameStarted = true; SessionController.mode = 'DAY'; state.world.totalMinutes = worldMinute(); if (!saveProgress()) throw new Error('source initial writer failed'); return JSON.parse(localStorage.getItem(SAVE_KEY)).payload; },
+      writeInitial() { const result = startFromSave(); if (!result.ok) throw new Error('source initial start failed:' + result.reason); if (!saveProgress()) throw new Error('source initial writer failed'); return JSON.parse(localStorage.getItem(SAVE_KEY)).payload; },
       instrumentRendering() { renderWorld = renderHud = renderContext = () => {}; },
       armLifecycle() { gameStarted = true; SessionController.mode = 'DAY'; requestCheckpoint('TEST-ONLY queued race'); startWorldSimulation(); heldDirections.set('w', 1); startHeldMovement(); scheduleWorldRender(); scheduleContinuousEntityPositions(); resizeTimer = setTimeout(() => render(), 120); pointerId = 7; $('joystick').setPointerCapture(7); activeHudDrag = { pointerId: 8, handle: $('qa-handle'), panel: $('qa-panel') }; activeHudDrag.handle.setPointerCapture(8); state.motion.input = { x: 1, y: 1 }; },
       injectPreparationFailure() { prepareSavedRegistry = () => { throw new Error('TEST-ONLY late registry preparation failure'); }; },

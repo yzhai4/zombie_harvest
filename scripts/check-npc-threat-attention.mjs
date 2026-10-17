@@ -14,11 +14,13 @@ function hasOnlyExpectedScenarioLegacyMigration(runtime, envelope) {
   const date = { day: p.day, hour: p.hour, minute: p.minute }, seq = p.worldMeta.eventSeq + 1;
   const expected = { eventId: `evt-${String(seq).padStart(6,'0')}`, seq, type: 'save.migrated', actorId: 'system', commandId: null, causationId: null,
     tick: { world: (p.day-1)*1440+p.hour*60+p.minute, phase: p.worldMeta.clock.phaseMinutes, schedule: p.worldMeta.clock.scheduleMinutes },
-    payload: { migration: 'resolved-report-recovery-001', migrationVersion: 1, reason: 'scenario-legacy-unbound-v1', sourceCategory: 'primary',
+    payload: { migration: 'resolved-report-recovery-001', migrationVersion: 1, reason: 'scenario-legacy-unbound-v1,scenario-content-binding-v1', sourceCategory: 'primary',
       originalChecksum: envelope.checksum, originalDate: date, selectedChecksum: envelope.checksum, selectedDate: date, rollback: false, instanceId: null,
       fromSaveVersion: 21, fromContentVersion: 3, adapter: null, addedDomains: [], scenarioBindingAdapters: [{ adapter: 'scenario-legacy-unbound-v1',
         sourceSeed: p.worldMeta.seed, hadDeclaredSnapshot: Object.hasOwn(p,'scenarioSnapshot'), seedSource: 'saved-world-meta', declaredSeed: p.scenarioSnapshot?.seed ?? null,
-        liveSeed: p.worldMeta.seed, aiDowngraded: false, effectiveAuthority: 'expression_only' }] } };
+        liveSeed: p.worldMeta.seed, aiDowngraded: false, effectiveAuthority: 'expression_only' }],
+      scenarioContentAdapters: [{adapter:'scenario-content-binding-v1',oldPackageDigest:null,oldBindingStatus:'missing',
+        compilerVersion:'scenario-event-chain-v1',catalogDigest:'fnv1a-utf16-canonical-hex-v1:33e5b74b',rulesDigest:'fnv1a-utf16-canonical-hex-v1:b19c6fb5'}] } };
   const added = s.worldMeta.events.filter(event => event.seq > p.worldMeta.eventSeq), stored = runtime.storage.get(saveKey);
   if (!stored || !runtime.api.validate({raw:stored,sourceCategory:'primary'}).ok) return false;
   const written = JSON.parse(stored).payload;
@@ -31,7 +33,11 @@ function hasOnlyExpectedScenarioLegacyMigration(runtime, envelope) {
     && eq(s.resources,p.resources) && eq(s.npcs.map(n=>({id:n.id,hp:n.hp,lifeState:n.lifeState})),p.npcs.map(n=>({id:n.id,hp:n.hp,lifeState:n.lifeState})))
     && eq(s.contentState.planMeeting,p.contentState.planMeeting) && s.contentState.commandPoints === p.contentState.commandPoints
     && eq(s.scenarioSnapshot.binding,{version:1,status:'legacy-unbound',sourceSeed:p.worldMeta.seed,declaredSnapshot:p.scenarioSnapshot??null})
-    && s.scenarioSnapshot.seed === p.worldMeta.seed;
+    && s.scenarioSnapshot.seed === p.worldMeta.seed
+    && eq(s.scenarioSnapshot.contentBinding,{version:1,status:'bound',compilerVersion:'scenario-event-chain-v1',
+      catalogDigest:'fnv1a-utf16-canonical-hex-v1:33e5b74b',rulesDigest:'fnv1a-utf16-canonical-hex-v1:b19c6fb5',
+      registry:[{kind:'eventDef',id:'relay-chain-001'},{kind:'eventChain',id:'zh-food-shortage-001'}]})
+    && eq(written.scenarioSnapshot.contentBinding,s.scenarioSnapshot.contentBinding);
 }
 
 const args = process.argv.slice(2);

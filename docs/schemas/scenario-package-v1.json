@@ -2,7 +2,9 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "zombie-harvest://schemas/scenario-package-v1.json",
   "title": "ScenarioPackageV1",
+  "$comment": "Cross-reference closure, source/flag uniqueness, one protected reward path and receipt/budget equality are additionally enforced by compileScenarioEvents. This schema alone is not permission to execute effects.",
   "type": "object",
+  "additionalProperties": false,
   "required": [
     "schemaVersion",
     "scenario",
@@ -14,22 +16,948 @@
     "continuity"
   ],
   "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "scenario": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "version",
+        "contentVersion"
+      ],
+      "properties": {
+        "id": {
+          "const": "zombie-farm"
+        },
+        "version": {
+          "const": 1
+        },
+        "contentVersion": {
+          "const": 3
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000,
+          "pattern": "\\S"
+        },
+        "campaign": {
+          "type": "string"
+        }
+      }
+    },
+    "world": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ordinaryNpcCount",
+        "foodMultiplier",
+        "medicineMultiplier",
+        "materialMultiplier",
+        "initialEnemyMultiplier",
+        "waveGrowthMultiplier",
+        "eventFrequency"
+      ],
+      "properties": {
+        "ordinaryNpcCount": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "foodMultiplier": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "medicineMultiplier": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "materialMultiplier": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "initialEnemyMultiplier": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "waveGrowthMultiplier": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "eventFrequency": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        }
+      }
+    },
+    "difficulty": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "presets",
+        "playerCustomizable"
+      ],
+      "properties": {
+        "presets": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "standard"
+          ],
+          "properties": {
+            "standard": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [],
+              "properties": {
+                "ordinaryNpcCount": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 100
+                },
+                "foodMultiplier": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 100
+                },
+                "medicineMultiplier": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 100
+                },
+                "materialMultiplier": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 100
+                },
+                "initialEnemyMultiplier": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 100
+                },
+                "waveGrowthMultiplier": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 100
+                },
+                "eventFrequency": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 100
+                }
+              }
+            },
+            "hard": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [],
+              "properties": {
+                "ordinaryNpcCount": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 100
+                },
+                "foodMultiplier": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 100
+                },
+                "medicineMultiplier": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 100
+                },
+                "materialMultiplier": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 100
+                },
+                "initialEnemyMultiplier": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 100
+                },
+                "waveGrowthMultiplier": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 100
+                },
+                "eventFrequency": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 100
+                }
+              }
+            }
+          }
+        },
+        "playerCustomizable": {
+          "const": [
+            "world.foodMultiplier"
+          ]
+        }
+      }
+    },
     "events": {
       "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "registry",
+        "storylets"
+      ],
       "properties": {
+        "registry": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/typedRef"
+          },
+          "minItems": 2,
+          "maxItems": 33,
+          "uniqueItems": true
+        },
         "storylets": {
           "type": "array",
           "items": {
-            "type": "object",
-            "properties": {
-              "definitionVersion": {
-                "type": "integer",
-                "minimum": 1
+            "$ref": "#/$defs/storylet"
+          },
+          "minItems": 1,
+          "maxItems": 32
+        }
+      }
+    },
+    "ai": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "generativeFeaturesDefault",
+        "policies"
+      ],
+      "properties": {
+        "generativeFeaturesDefault": {
+          "const": false
+        },
+        "policies": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "observer"
+          ],
+          "properties": {
+            "observer": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "authority"
+              ],
+              "properties": {
+                "authority": {
+                  "const": "expression_only"
+                }
               }
             }
           }
         }
       }
+    },
+    "continuity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "importContracts",
+        "exportContracts"
+      ],
+      "properties": {
+        "importContracts": {
+          "const": []
+        },
+        "exportContracts": {
+          "const": [
+            "observer_core_v1"
+          ]
+        }
+      }
+    }
+  },
+  "$defs": {
+    "condition": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "max"
+          ],
+          "properties": {
+            "type": {
+              "const": "food_days"
+            },
+            "max": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "role",
+            "healthyOnly"
+          ],
+          "properties": {
+            "type": {
+              "const": "role_available"
+            },
+            "role": {
+              "const": "quartermaster"
+            },
+            "healthyOnly": {
+              "const": true
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "id",
+            "value"
+          ],
+          "properties": {
+            "type": {
+              "const": "flag"
+            },
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 120,
+              "pattern": "^[a-z][a-z0-9]*(?:[-_][a-z0-9]+)*$",
+              "not": {
+                "enum": [
+                  "constructor",
+                  "prototype",
+                  "__proto__"
+                ]
+              }
+            },
+            "value": {
+              "const": false
+            }
+          }
+        }
+      ]
+    },
+    "historyPayload": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "route"
+          ],
+          "properties": {
+            "route": {
+              "const": "ration"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "route",
+            "sourceId",
+            "amount",
+            "resonancePressure"
+          ],
+          "properties": {
+            "route": {
+              "const": "emergency-cache"
+            },
+            "sourceId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 120,
+              "pattern": "^[a-z][a-z0-9]*(?:[-_][a-z0-9]+)*$",
+              "not": {
+                "enum": [
+                  "constructor",
+                  "prototype",
+                  "__proto__"
+                ]
+              }
+            },
+            "amount": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            "resonancePressure": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            }
+          }
+        }
+      ]
+    },
+    "effect": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "op",
+            "key",
+            "value"
+          ],
+          "properties": {
+            "op": {
+              "const": "addResource"
+            },
+            "key": {
+              "const": "food"
+            },
+            "value": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "op",
+            "key",
+            "value"
+          ],
+          "properties": {
+            "op": {
+              "const": "adjustMeter"
+            },
+            "key": {
+              "enum": [
+                "resonancePressure",
+                "campCollapse"
+              ]
+            },
+            "value": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "op",
+            "key"
+          ],
+          "properties": {
+            "op": {
+              "const": "unlock"
+            },
+            "key": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 120,
+              "pattern": "^[a-z][a-z0-9]*(?:[-_][a-z0-9]+)*$",
+              "not": {
+                "enum": [
+                  "constructor",
+                  "prototype",
+                  "__proto__"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "op",
+            "key",
+            "payload"
+          ],
+          "properties": {
+            "op": {
+              "const": "recordHistory"
+            },
+            "key": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160
+            },
+            "payload": {
+              "$ref": "#/$defs/historyPayload"
+            }
+          }
+        }
+      ]
+    },
+    "choice": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "label",
+        "hint",
+        "requires",
+        "effects"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120,
+          "pattern": "^[a-z][a-z0-9]*(?:[-_][a-z0-9]+)*$",
+          "not": {
+            "enum": [
+              "constructor",
+              "prototype",
+              "__proto__"
+            ]
+          }
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000,
+          "pattern": "\\S"
+        },
+        "hint": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000,
+          "pattern": "\\S"
+        },
+        "requires": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/condition"
+          },
+          "minItems": 0,
+          "maxItems": 2
+        },
+        "effects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/effect"
+          },
+          "minItems": 1,
+          "maxItems": 4
+        }
+      }
+    },
+    "fallbackAction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "effects"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120,
+          "pattern": "^[a-z][a-z0-9]*(?:[-_][a-z0-9]+)*$",
+          "not": {
+            "enum": [
+              "constructor",
+              "prototype",
+              "__proto__"
+            ]
+          }
+        },
+        "effects": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "op",
+              "key",
+              "value"
+            ],
+            "properties": {
+              "op": {
+                "const": "adjustMeter"
+              },
+              "key": {
+                "const": "campCollapse"
+              },
+              "value": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100
+              }
+            }
+          },
+          "minItems": 1,
+          "maxItems": 1
+        }
+      }
+    },
+    "storylet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "chainId",
+        "title",
+        "description",
+        "definitionVersion",
+        "category",
+        "phase",
+        "priority",
+        "gateVersion",
+        "evaluatePreconditions",
+        "gate",
+        "preconditions",
+        "startConditions",
+        "nodes",
+        "fallback",
+        "hooks",
+        "repeatable",
+        "optional",
+        "source",
+        "expression"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120,
+          "pattern": "^[a-z][a-z0-9]*(?:[-_][a-z0-9]+)*$",
+          "not": {
+            "enum": [
+              "constructor",
+              "prototype",
+              "__proto__"
+            ]
+          }
+        },
+        "chainId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120,
+          "pattern": "^[a-z][a-z0-9]*(?:[-_][a-z0-9]+)*$",
+          "not": {
+            "enum": [
+              "constructor",
+              "prototype",
+              "__proto__"
+            ]
+          }
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000,
+          "pattern": "\\S"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000,
+          "pattern": "\\S"
+        },
+        "definitionVersion": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 9007199254740991
+        },
+        "category": {
+          "const": "survival"
+        },
+        "phase": {
+          "const": [
+            "day_1",
+            "day_13"
+          ]
+        },
+        "priority": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "gateVersion": {
+          "const": 1
+        },
+        "evaluatePreconditions": {
+          "const": true
+        },
+        "gate": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "version",
+            "phase",
+            "nightAllowed",
+            "preconditions"
+          ],
+          "properties": {
+            "version": {
+              "const": 1
+            },
+            "phase": {
+              "const": "DAY"
+            },
+            "nightAllowed": {
+              "const": false
+            },
+            "preconditions": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/condition"
+              },
+              "minItems": 1,
+              "maxItems": 1
+            }
+          }
+        },
+        "preconditions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/condition"
+          },
+          "minItems": 1,
+          "maxItems": 1
+        },
+        "startConditions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/condition"
+          },
+          "minItems": 1,
+          "maxItems": 1
+        },
+        "nodes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "nodeId",
+              "title",
+              "text",
+              "choices"
+            ],
+            "properties": {
+              "nodeId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 120,
+                "pattern": "^[a-z][a-z0-9]*(?:[-_][a-z0-9]+)*$",
+                "not": {
+                  "enum": [
+                    "constructor",
+                    "prototype",
+                    "__proto__"
+                  ]
+                }
+              },
+              "title": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4000,
+                "pattern": "\\S"
+              },
+              "text": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4000,
+                "pattern": "\\S"
+              },
+              "choices": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/choice"
+                },
+                "minItems": 2,
+                "maxItems": 2
+              }
+            }
+          },
+          "minItems": 1,
+          "maxItems": 1
+        },
+        "fallback": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "ifMissingNpc",
+            "ifInsufficientPopulation",
+            "ifExpired",
+            "ifSkipped"
+          ],
+          "properties": {
+            "ifMissingNpc": {
+              "$ref": "#/$defs/fallbackAction"
+            },
+            "ifInsufficientPopulation": {
+              "$ref": "#/$defs/fallbackAction"
+            },
+            "ifExpired": {
+              "const": "ledger_only"
+            },
+            "ifSkipped": {
+              "const": "ledger_only"
+            }
+          }
+        },
+        "hooks": {
+          "const": [
+            "onDayStart"
+          ]
+        },
+        "repeatable": {
+          "const": true
+        },
+        "optional": {
+          "const": true
+        },
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "food",
+            "retrievalLimit",
+            "flag"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 120,
+              "pattern": "^[a-z][a-z0-9]*(?:[-_][a-z0-9]+)*$",
+              "not": {
+                "enum": [
+                  "constructor",
+                  "prototype",
+                  "__proto__"
+                ]
+              }
+            },
+            "food": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            "retrievalLimit": {
+              "const": 1
+            },
+            "flag": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 120,
+              "pattern": "^[a-z][a-z0-9]*(?:[-_][a-z0-9]+)*$",
+              "not": {
+                "enum": [
+                  "constructor",
+                  "prototype",
+                  "__proto__"
+                ]
+              }
+            }
+          }
+        },
+        "expression": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "observerCommentary"
+          ],
+          "properties": {
+            "observerCommentary": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "authority"
+              ],
+              "properties": {
+                "authority": {
+                  "const": "expression_only"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "typedRef": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "id"
+          ],
+          "properties": {
+            "kind": {
+              "const": "eventDef"
+            },
+            "id": {
+              "const": "relay-chain-001"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "id"
+          ],
+          "properties": {
+            "kind": {
+              "const": "eventChain"
+            },
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 120,
+              "pattern": "^[a-z][a-z0-9]*(?:[-_][a-z0-9]+)*$",
+              "not": {
+                "enum": [
+                  "constructor",
+                  "prototype",
+                  "__proto__"
+                ]
+              }
+            }
+          }
+        }
+      ]
     }
   }
 }

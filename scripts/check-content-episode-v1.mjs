@@ -88,11 +88,13 @@ test('legacy one-shot completion holds saved day only without rewriting history'
   assert.deepEqual(plain(draft.state.worldMeta.events), saved.worldMeta.events);
   assert.equal(draft.state.contentState.episodeLegacyHolds[id], 1);
   assert.ok(draft.state.contentState.completedChains.includes(id + ':1'));
-  r.api.install(draft); r.api.writeInitial();
-  assert.equal(r.api.contentRegistry.startChain(id).ok, false);
-  calendar(r, 2);
-  assert.equal(r.api.contentRegistry.startChain(id).ok, true);
-  assert.ok(r.api.eventContentChainViews().some(view => view.active.instanceKey === id + ':2'));
+  // Boot the same complete derived input through its real public loader/start.
+  // Manual install followed by a second fresh start is not a supported boot.
+  const booted = startRuntime(factory, [[saveKey, envelope(factory, saved)]]);
+  assert.equal(booted.api.contentRegistry.startChain(id).ok, false);
+  calendar(booted, 2);
+  assert.equal(booted.api.contentRegistry.startChain(id).ok, true);
+  assert.ok(booted.api.eventContentChainViews().some(view => view.active.instanceKey === id + ':2'));
 });
 test('legacy completed history cannot hide a new episode in the actual event menu after reload', () => {
   const saved = plain(fixture.payload);
