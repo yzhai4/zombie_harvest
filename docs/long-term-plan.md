@@ -1,7 +1,7 @@
 # 尸潮农场长期计划与双主线成果
 ## 当前优先级（2026-10-18）
 
-[DAY攻击入口与真实结算](qa/player-day-attack-v1-20261018.md)完成列明开发验证：共享live目标、支付前重核、typed拒绝、同目标gross proof及可恢复时钟保护。下一闭合中继受损后的当前能力与付费修复，随后继续“有限工程→实际预警／下一场后果→保存恢复”的公开主线。旧全链仍未online／reload，受控Chrome一次F不替代自然三日和既有真人理解pilot。
+[DAY攻击入口与真实结算](qa/player-day-attack-v1-20261018.md)完成列明开发验证：共享live目标、支付前重核、typed拒绝、同目标gross proof及本次DAY攻击推进可保存性预检。下一先修原自动回调已复现的全局小数时钟与正常writer保护（仍未实现），再闭合中继受损后的当前能力与付费修复，随后继续“有限工程→实际预警／下一场后果→保存恢复”的公开主线。报告原件再次核为与归档同字节，见[对账](research/report-source-reconciliation-20261018.md)，不重复计为新证据。旧全链仍未online／reload，受控Chrome一次F不替代自然三日和既有真人理解pilot。
 
 长期P0–P6、Scenario Studio、完整规则规划／Memory／Social／角色连续性、更大世界和多副本、UI素材、GameCore／引擎适配继续保留；当前Demo、短路线、fixture与工程预算不是产品上限。
 

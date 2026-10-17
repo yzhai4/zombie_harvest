@@ -7,7 +7,9 @@
 
 这次受控F的gross73→68、立即100→50，推进NPC另伤38→12；玩家86→72包括子推进敌伤6与原反咬8。正常writer先于reload，再核真实新tick不重打；不是自然完整主线或安全保证。旧公开中继仍只到实际交付和2木／2零件筹料，尚未online／完工后reload。
 
-下一先修[中继损毁的当前能力](../problems/PROB-20261018-relay-station-operational-state.md)与付费修复，再继续公开有限工程后果／既有真人pilot。完整Actor、规则Planning、Memory／Social、Studio、大世界／多副本、UI素材、GameCore／引擎及P0–P6不缩减；硬Gate／软policy与AI OFF持续保留。
+[精确CI302](https://github.com/yzhai4/zombie_harvest/actions/runs/39077720260)已实际核为be549ea7／completed／success；本次原文复核不改变HTML或manifest，不声称新的运行时验收。原报告与归档逐字节一致，见[对账](../research/report-source-reconciliation-20261018.md)。
+
+当前下一先处理[全局小数时钟与存档](../problems/PROB-20261017-fractional-clock-calendar.md)：3545的原1200ms回调在rate0.5下实际产生小数日历，正常writer返回true但validator拒绝，Continue进入RECOVERY；方案与checker／Chrome方法仍为准备，修复未实现。随后修[中继损毁的当前能力](../problems/PROB-20261018-relay-station-operational-state.md)与付费修复，再继续公开有限工程后果／既有真人pilot。完整Actor、规则Planning、Memory／Social、Studio、大世界／多副本、UI素材、GameCore／引擎及P0–P6不缩减；硬Gate／软policy与AI OFF持续保留。
 
 ## 历史检查点：本人核心交付记忆（2026-10-18，优先于下方历史）
 

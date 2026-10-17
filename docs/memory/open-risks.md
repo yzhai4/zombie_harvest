@@ -1,5 +1,9 @@
 # 未关闭风险
-## 当前优先级：中继损毁与完整公开后果（2026-10-18）
+## 当前优先级：全局小数时钟存档，其后中继损毁（2026-10-18）
+
+[小数时钟](../problems/PROB-20261017-fractional-clock-calendar.md)在3545原自动回调已实际复现：合法rate0.5使日历360→360.5，正常save返回true但同字节validator以calendar拒绝，第二次Continue进入RECOVERY／no-valid-primary。诊断exit0只表示反例被观察，不是修复通过，也不证明默认rate1或全部生产档损坏。优先实现完整候选写前校验及持久余量合同；当前未改运行时，新checker／Chrome方法仅准备，旧CI302不能关闭该风险。
+
+报告原件与归档同SHA，未提供的CSV／XLSX／图片和未解析文献仍未核；见[对账](../research/report-source-reconciliation-20261018.md)。本次不增加研究结果或玩家收益。
 
 [白天攻击资格与同ID提交](../problems/PROB-20261018-player-attack-context-range.md)已在3545完成列明源码／Chrome开发验证，旧54ef真实空成功及b548倍率坏保存保留。它不关闭全局击杀归因、Actor权限、任意时钟／坏档修复，受控F也不等于自然中继全链或玩家收益。精确CI与生产分别核。
 
