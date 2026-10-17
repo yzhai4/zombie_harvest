@@ -8,6 +8,8 @@
 
 ## 当前基线与缺口
 
+2026-10-17开发增量：据点在场consumer已收口，庇护所新增30／60分钟营地等候，每200ms执行真实advance(1)，危险／新事项／主动行动／阶段变化中断，刷新保持实际前缀并回idle。原被动3体力／hour按世界时间节拍修复分片损失；SAVE21／CONTENT3不变。见[QA](qa/camp-rest-20261017.md)。下一轮仍需自然混合路线与断粮策略激励，再接真实Scenario boot；源码／夹具成功不证明自然三日、乐趣或生产部署。
+
 仓库已经具备昼夜循环、广播中继样板链、SAN、事件契约、事件账本、回放、内容注册表、事务效果和保存迁移。`WEAPON_DEFS`、`EVENT_CHAIN_DEFS`、`NPC_STORY_DEFS`、`TECH_NODE_DEFS`、`BUILDING_DEFS`、`FACTION_DEFS`、`OUTPOST_DEFS`、`NPC_ROLE_DEFS` 与 11–16 模板是基础设施。
 
 v81 已接入 `campCollapse` 的配给/夜战账本、commandPoints 权限刷新、计划会候选/英雄投票/玩家提交/自治执行、计划会 UI、存档迁移与回放投影。v82 已接入 NPC 属性、英雄晋升和岗位继任的 SAVE21/CONTENT3 契约；v83 前置切片已接入固定人口据点守军、跨据点占用 Gate、死亡释放、每日 upkeep、回放投影、已发现据点的最小捕获入口和 active content chain 事件面板。仍需开发：14 天时钟与最终尸潮结算、`resonancePressure` 完整内容链、势力奖励、科技建筑和支线注册、动态 UI 卡片、近景/远景实体预算验收。当前 UI 仍有硬编码卡片，不能把扩展接口误认为完整自治系统。

@@ -1,6 +1,16 @@
 # 当前状态
 
-## 当前检查点（2026-10-17，优先于下方历史）
+## 当前检查点：营地等候（2026-10-17，优先于下方历史）
+
+当前开发HTML为 `32f911f69a6a962ae69a0325afcffd1c5d6d923c0efe1fb0ca8787c1959d9fae`，源码来源 `25d315ae92754bb0c6af4714b539fb81b9dcfcc0`，SAVE21／CONTENT3。庇护所旁公开30／60分钟营地等候，每200ms执行真实advance(1)，保持NPC、敌人、需求、工作、午夜结算；带唯一时钟、危险／实际伤害／新事项／主动行动中断、可见可点击取消、每5分钟及终态checkpoint。刷新回idle，只保留实际已保存前缀。既有每小时3点被动体力已按真实时间节拍修复小步丢失；旧整备奖励独立。
+
+本地原30条命令与6条补充命令全exit0，rest74/74、presence41、attention29、方法76、安全28、static55，原三个goldens保持。真实Chrome155休整六场已验、93/93，另一次hidden尝试unavailable；9次主文档同32f。驻守37/37、episode12/12分别重跑到本构建，零errors、4+2次主文档同字节。root目视本轮休整6图；详见[QA](../qa/camp-rest-20261017.md)。派生boot夹具并非自然多日或平衡。真实hidden未产生trusted事件，不记通过；原布局/遮挡/过短保存取样失败保留。
+
+按[调研落地计划](../research/research-adoption-plan-20261017.md)下一P0是目标驱动自然混合路线和断粮三策略激励，再接真实Scenario boot／旧档保留、actor知识投影。继任双岗位独立open。当前开发分支的精确CI与Git来源以PR #4当前head实际Actions及manifest为准，本地archive的Git verification unavailable不算通过。生产未部署，本轮没有重新探测Sites；旧生产v81仅为上次已核信息。
+
+新增L1决策是camp-rest ADR和体力分片问题记录，Skill／工作流已吸收时钟所有权、分片结算、真实伤害与实际CSS可点击教训；未修改全局记忆。
+
+## 上一检查点：据点在场（保留原构建证据）
 
 当前开发HTML为 `efe039775346f4ee34269495810d9d9e778603d2bfac26996ff5e0b884cd7f0b`，来源 `68028d0763c3a5d02ed8db9638823f33069efd18`，SAVE21/CONTENT3。完整据点在场合同已接入：驻守者退出营地移动/显示/交互/工作/福利/现场事件与昼夜支援，保留世界人口、需求、共享配给和维护；派后本地人口Gate、assignJob互斥、合法返营、活人事件延期、旧档动态定义恢复及提交前纯候选校验均有实际证据。独立继任双岗位与critical政策未被此次修复。见[本轮QA](../qa/outpost-presence-20261017.md)。
 

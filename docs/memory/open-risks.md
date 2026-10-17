@@ -2,6 +2,8 @@
 
 ## 当前检查点（2026-10-17）
 
+当前源码25d315ae／HTML32f911f6，营地等候的实际合同与已验范围见[QA](../qa/camp-rest-20261017.md)。source74/74、Chrome六场93/93；真实hidden仍unavailable，自然多日／断粮激励／生产部署仍open。下表旧构建计数按各自原范围保留，不给当前构建新增三日或平衡结论。
+
 | 未关闭项 | 当前边界与下一闸门 |
 | --- | --- |
 | 据点离营边界 | 当前efe039已按ADR完成列明consumer收口：source41/41、旧71657负控14/41，真实Chrome37/37含公开派驻/Canvas/名册/E/刷新和独立午夜。世界人口/需求/共享口粮/upkeep保留；没有真实远端生产、旅行/召回或配送。见[QA](../qa/outpost-presence-20261017.md)。 |
@@ -10,7 +12,9 @@
 | 日历回归的构建边界 | C（source38c7e9d6 / 冻结51f / runnerbc16789f）已exit0，1642.125秒、1488/1488、93次训练到day4 06:35/evt2740，玩家100HP/food6/10healthy/collapse0；只证明该旧构建，当前efe039三日仍未验。见[摘要](../qa/runs/daytime-attention-20261017/completed-calendar-summary.json)。 |
 | 历史失败与方法证据 | A玩家死亡、B预算耗尽仍FAILED；B最后d2 11:41/evt1280，不能推定新存档根因。C原strict Gate270/270，2方法负控另列；251保存/29截图/0unmapped的终态导出包自包含重绑后仍270/270。runner方法28/28与实际日历证据分别报告，不迁给其他字节。 |
 | 证据维护与CI | efe039本地30条命令全exit0、static55、原goldens不变；presence37与episode12均真实Chrome同字节。来源68028d07、本地manifest20/20但Git unavailable；当前PR必须另验Git祖先和源码依赖字节，不从旧构建继承CI。 |
-| 自然玩法与平衡 | [自然协议](../qa/natural-play-protocol-20261017.md)为proposed未执行：N只开遭遇不跳日，无公开睡眠/倍速。重复训练会改SAN/士气；有意义玩法/节奏、断粮激励和自然三日仍open，不能由strict-fresh、全true前缀或fixture推导通过。 |
+| 自然玩法与平衡 | N只开遭遇不跳日；公开30／60分钟等候已按合同验证，但[自然混合协议](../qa/natural-play-protocol-20261017.md)尚未执行。重复训练或休整不能自行证明节奏；有意义玩法、断粮激励和自然三日仍open。 |
+| 体力与时钟 | 被动再生分片已在开发修复，无历史追补；任意fraction rate可产生strict calendar不接受的分钟仍独立open，当前无公开rate UI，休整只接rate1。极端ID耗尽仍释放owner／保存真实前缀，可能没有stop receipt，不能伪造成完成。 |
+| 后台与移动端 | source IO已验hidden/pagehide／旧callback／不追补；Chrome未产生可信hidden事件，因此真实后台未验。当前browser1440×1000，移动端实际触控／布局亦未验，不由desktop成功推导。 |
 | repeatable 身份与兼容 | 按[断粮合同](../scripts/zh-food-shortage-001.md)验证五元 token 不刷新、跨日 stale、完整旧 writer、fallback/自治回执、未知版本拒绝与事务回滚；仅 opt-in 增量 SAVE21，不是全局 EventInstance 迁移完毕。 |
 | 内容来源 | 有限藏粮 flag 必须跨日/刷新保留，整局最多 +2 食物；留守不伪造配给缓解、势力奖励、人口或敌人 spawn。 |
 | 选择激励 | 留守额外 +2 崩溃压力，但延后处理不产生该节点的额外结算；原有配给/需求/战斗后果照常。当前 UI 没有显性跳过，只有过期自动降级。需对照立即选择、保留待办、先补粮，不能把状态正确当成平衡完成。 |

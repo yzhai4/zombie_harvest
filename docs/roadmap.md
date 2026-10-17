@@ -4,6 +4,10 @@
 
 ## 当前出口与下一闸门（2026-10-17）
 
+最新开发HTML32f911f6／源码25d315ae已实现真实营地等候与被动恢复分片修复：source74/74、原30+补充6条命令exit0，真实Chrome六场93/93；hidden尝试unavailable，原失败保留。驻守37和episode12已在同新构建重跑。下一P0是自然混合路线及断粮选择激励，随后真实Scenario boot与actor知识边界；生产尚未部署。见[QA](qa/camp-rest-20261017.md)。
+
+下列efe039／51f段落是上一切片与历史日历证据，不能据其旧“无休整／proposed”描述否定当前已接线入口，也不能继承其三日结论。
+
 当前开发HTML为`efe03977`、来源`68028d07`：完整presence consumer、世界需求/共享配给、派后本地人口、assignJob、延期实例与计划提交前纯校验已落地。本地30条命令全exit0，presence41/41（旧71657负控14/41）、attention29、方法76/安全28、static55与旧goldens保持；真实Chrome驻守37/37、episode12/12，零errors，主文档4+2次同字节，root目视5+2图。驻守browser包含公开捕获、名册8本地/2驻守/10存活、Canvas/E/刷新和独立午夜配给3+upkeep1；仍不是自然三日或平衡。当前PR来源CI另核，Sites未发布；见[QA](qa/outpost-presence-20261017.md)。
 
 旧A第1天13:01玩家HP0、B在900.578秒预算耗尽exit1，均保留FAILED；原campHp为玩家HP误标，不推定新存档根因。C已在旧冻结source38c7e9d6 / HTML51f / runnerbc16789f终态exit0：1642.125秒、1488/1488、93次训练，到day4 06:35/evt2740，玩家100HP/food6/10healthy/collapse0。原strict Gate270/270，2方法负控另列；终态251保存/29截图/0unmapped导出后自包含同Gate270/270。见[公开摘要](qa/runs/daytime-attention-20261017/completed-calendar-summary.json)。这不是当前efe039的三日、自然玩法或平衡证据。

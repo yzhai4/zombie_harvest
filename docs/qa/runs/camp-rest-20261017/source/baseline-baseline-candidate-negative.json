@@ -1,0 +1,500 @@
+{
+  "runner": "source-camp-rest-v1",
+  "mode": "candidate",
+  "sourceHtmlSha256": "efe039775346f4ee34269495810d9d9e778603d2bfac26996ff5e0b884cd7f0b",
+  "checkerSha256": "773c81abf2009ec58be790b2bf630ca40cc55176e0bb95cb9d30435a9fe9581b",
+  "ioAdapterSha256": "ee5bb659c0439044e1ec07a4aecf931293457c2478f35d0850fe90770b4367cf",
+  "originalWriter": {
+    "path": "scripts/fixtures/npc-threat-attention-v1/browser-writer-day1-1110-save21.json",
+    "sha256": "5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4",
+    "sourceHtmlSha256": "cc900da9cdf865b101c37080eb7417148a8a388796ba808153c905ef8ad8494a",
+    "naturalGameplayClaim": false
+  },
+  "derivation": {
+    "testOnly": true,
+    "baseScenesBeforeBoot": true,
+    "fields": [
+      "calendar/world watermarks",
+      "player coordinate/HP/energy/SAN",
+      "food",
+      "enemy list or declared enemy position/clock",
+      "handled event",
+      "NPC needs/clocks/cooldown/positions",
+      "garden growth and campTrust for midnight scene",
+      "authored landmark found flag for genuine garrison setup"
+    ],
+    "afterBootNegativeInputs": [
+      "session phase/generation",
+      "document visibility",
+      "clock pause/rate",
+      "enemy movement after actual perception",
+      "new enemy during rest",
+      "unknown enemy kind",
+      "command budget exhaustion",
+      "legacy nearby coordinates for genuine garrison guard"
+    ],
+    "actualSourceDiagnosticStimuli": [
+      "applyDayCombatDamage for local NPC/building/death interruptions",
+      "applyDayPlayerDamage for player interruption",
+      "applyContentEffects for healing and genuine garrison assignment"
+    ],
+    "receiptsFabricated": false,
+    "fixedRosterPreserved": true
+  },
+  "io": "controlled DOM collections, storage, Date/performance and timer/RAF scheduling; final bootstrap Canvas render skipped; actual tested context renderer captured before unrelated render suppression",
+  "browserStarted": false,
+  "naturalGameplay": false,
+  "count": 74,
+  "ok": false,
+  "failures": [
+    "actual passive recovery is invariant under sixty one-minute partitions",
+    "candidate exposes the real request/cancel/Gate/controller functions",
+    "unknown duration refuses without payment: undefined",
+    "unknown duration refuses without payment: null",
+    "unknown duration refuses without payment: 0",
+    "unknown duration refuses without payment: -1",
+    "unknown duration refuses without payment: 1",
+    "unknown duration refuses without payment: 29",
+    "unknown duration refuses without payment: 31",
+    "unknown duration refuses without payment: 120",
+    "unknown duration refuses without payment: NaN",
+    "unknown duration refuses without payment: Infinity",
+    "unknown duration refuses without payment: 30",
+    "unknown duration refuses without payment: [object Object]",
+    "actual phase Gate refuses START",
+    "actual phase Gate refuses BATTLE",
+    "actual phase Gate refuses REPORT",
+    "actual phase Gate refuses LOSS",
+    "actual phase Gate refuses RECOVERY",
+    "actual phase Gate refuses SAVING",
+    "actual phase Gate refuses EXITING",
+    "actual phase Gate refuses UNKNOWN",
+    "remote location refuses without resource/time payment",
+    "missing shelter refuses without resource/time payment",
+    "paused clock refuses without resource/time payment",
+    "non-unit clock rate refuses without resource/time payment",
+    "hidden document refuses without resource/time payment",
+    "zero player HP refuses without resource/time payment",
+    "terminal game refuses without resource/time payment",
+    "food zero and energy zero retain agency rather than inventing a rest lock",
+    "calendar evening is still a legal DAY phase",
+    "one controller step equals the actual one-minute simulation with NPC and enemy evolution",
+    "normal thirty-minute completion matches thirty real steps with no shelter reward",
+    "sixty-minute completion applies the existing three-per-hour recovery",
+    "passive recovery follows saved phase across reload without retroactive recovery or cap overflow",
+    "existing optional pending event retains its identity and does not ban waiting",
+    "nearby actual living enemy refuses before a paid minute",
+    "actual recent enemy perception blocks a far pursuer without exposing its coordinates",
+    "unknown enemy kind fails closed rather than assuming a safe camp",
+    "actual shelter context radius accepts 1.25 and rejects 1.251",
+    "enemy entering the danger boundary interrupts without deleting it or advancing another minute",
+    "real day damage to the player is retained and stops any next rest minute",
+    "real day damage to a local NPC remains visible and interrupts the controller",
+    "real local building damage is not repaired or hidden by a rest interruption",
+    "a real NPC death reduces the same roster and stops rest without resurrection",
+    "healing followed by real damage is detected relative to the last confirmed step",
+    "an NPC walking into the local radius is subsequently protected by the damage interruption",
+    "actual local damage Gate cannot injure a garrisoned guard even at legacy nearby coordinates",
+    "unsafe enemy speed fails closed: 0",
+    "unsafe enemy speed fails closed: -1",
+    "unsafe enemy speed fails closed: 100",
+    "unsafe enemy speed fails closed: NaN",
+    "unsafe enemy speed fails closed: Infinity",
+    "unsafe enemy speed fails closed: 1",
+    "cancel preserves exact partial progress and stale scheduled callback is inert",
+    "saved partial facts reload idle without replay, automatic restart or fabricated completion",
+    "natural timer and a cancelled native callback cannot compete with rest ownership",
+    "hidden page stops partial rest and visible return never consumes its remaining rest budget",
+    "pagehide stops and saves the applied watermark before public reload",
+    "actual freeze REPORT fences scheduled rest callbacks",
+    "actual freeze LOSS fences scheduled rest callbacks",
+    "actual freeze RECOVERY fences scheduled rest callbacks",
+    "session generation change invalidates an already queued rest callback",
+    "actual public restart deletes saves and rest callbacks cannot recreate the exited session",
+    "public encounter request cancels rest before entering the actual BATTLE clock",
+    "exhausted automatic command budget refuses before an active instance or nested advance",
+    "repeated request command is idempotent and cannot create a second timer or extend target",
+    "real step CAS rejects wrong instance and stale progress without consuming time",
+    "step and actual advance receipts have unique IDs, one-minute payloads and exact parent causes",
+    "a real midnight step settles ration, plan, command points and the same crop once",
+    "midnight shortage remains real and a new shortage episode interrupts without granting food",
+    "actual context renderer publishes the public entry and actual click handler starts and cancels"
+  ],
+  "checks": [
+    {
+      "name": "exact old complete writer loads without changing fixed roster or stored resources",
+      "ok": true
+    },
+    {
+      "name": "public encounter entry remains an encounter and cannot be called a calendar day",
+      "ok": true
+    },
+    {
+      "name": "actual passive recovery is invariant under sixty one-minute partitions",
+      "ok": false,
+      "error": "AssertionError: Expected values to be strictly equal:\n\n40 !== 43\n"
+    },
+    {
+      "name": "candidate exposes the real request/cancel/Gate/controller functions",
+      "ok": false,
+      "error": "AssertionError: Expected values to be strictly equal:\n\nfalse !== true\n"
+    },
+    {
+      "name": "unknown duration refuses without payment: undefined",
+      "ok": false,
+      "error": "TypeError: r.rest.gate is not a function"
+    },
+    {
+      "name": "unknown duration refuses without payment: null",
+      "ok": false,
+      "error": "TypeError: r.rest.gate is not a function"
+    },
+    {
+      "name": "unknown duration refuses without payment: 0",
+      "ok": false,
+      "error": "TypeError: r.rest.gate is not a function"
+    },
+    {
+      "name": "unknown duration refuses without payment: -1",
+      "ok": false,
+      "error": "TypeError: r.rest.gate is not a function"
+    },
+    {
+      "name": "unknown duration refuses without payment: 1",
+      "ok": false,
+      "error": "TypeError: r.rest.gate is not a function"
+    },
+    {
+      "name": "unknown duration refuses without payment: 29",
+      "ok": false,
+      "error": "TypeError: r.rest.gate is not a function"
+    },
+    {
+      "name": "unknown duration refuses without payment: 31",
+      "ok": false,
+      "error": "TypeError: r.rest.gate is not a function"
+    },
+    {
+      "name": "unknown duration refuses without payment: 120",
+      "ok": false,
+      "error": "TypeError: r.rest.gate is not a function"
+    },
+    {
+      "name": "unknown duration refuses without payment: NaN",
+      "ok": false,
+      "error": "TypeError: r.rest.gate is not a function"
+    },
+    {
+      "name": "unknown duration refuses without payment: Infinity",
+      "ok": false,
+      "error": "TypeError: r.rest.gate is not a function"
+    },
+    {
+      "name": "unknown duration refuses without payment: 30",
+      "ok": false,
+      "error": "TypeError: r.rest.gate is not a function"
+    },
+    {
+      "name": "unknown duration refuses without payment: [object Object]",
+      "ok": false,
+      "error": "TypeError: r.rest.gate is not a function"
+    },
+    {
+      "name": "actual phase Gate refuses START",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "actual phase Gate refuses BATTLE",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "actual phase Gate refuses REPORT",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "actual phase Gate refuses LOSS",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "actual phase Gate refuses RECOVERY",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "actual phase Gate refuses SAVING",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "actual phase Gate refuses EXITING",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "actual phase Gate refuses UNKNOWN",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "remote location refuses without resource/time payment",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "missing shelter refuses without resource/time payment",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "paused clock refuses without resource/time payment",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "non-unit clock rate refuses without resource/time payment",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "hidden document refuses without resource/time payment",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "zero player HP refuses without resource/time payment",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "terminal game refuses without resource/time payment",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "food zero and energy zero retain agency rather than inventing a rest lock",
+      "ok": false,
+      "error": "TypeError: r.rest.gate is not a function"
+    },
+    {
+      "name": "calendar evening is still a legal DAY phase",
+      "ok": false,
+      "error": "TypeError: r.rest.gate is not a function"
+    },
+    {
+      "name": "one controller step equals the actual one-minute simulation with NPC and enemy evolution",
+      "ok": false,
+      "error": "TypeError: rest.rest.request is not a function"
+    },
+    {
+      "name": "normal thirty-minute completion matches thirty real steps with no shelter reward",
+      "ok": false,
+      "error": "TypeError: rest.rest.request is not a function"
+    },
+    {
+      "name": "sixty-minute completion applies the existing three-per-hour recovery",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "passive recovery follows saved phase across reload without retroactive recovery or cap overflow",
+      "ok": false,
+      "error": "AssertionError: Expected values to be strictly equal:\n\n40 !== 41\n"
+    },
+    {
+      "name": "existing optional pending event retains its identity and does not ban waiting",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "nearby actual living enemy refuses before a paid minute",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "actual recent enemy perception blocks a far pursuer without exposing its coordinates",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "unknown enemy kind fails closed rather than assuming a safe camp",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "actual shelter context radius accepts 1.25 and rejects 1.251",
+      "ok": false,
+      "error": "TypeError: boundary.rest.request is not a function"
+    },
+    {
+      "name": "enemy entering the danger boundary interrupts without deleting it or advancing another minute",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "real day damage to the player is retained and stops any next rest minute",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "real day damage to a local NPC remains visible and interrupts the controller",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "real local building damage is not repaired or hidden by a rest interruption",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "a real NPC death reduces the same roster and stops rest without resurrection",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "healing followed by real damage is detected relative to the last confirmed step",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "an NPC walking into the local radius is subsequently protected by the damage interruption",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "actual local damage Gate cannot injure a garrisoned guard even at legacy nearby coordinates",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "unsafe enemy speed fails closed: 0",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "unsafe enemy speed fails closed: -1",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "unsafe enemy speed fails closed: 100",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "unsafe enemy speed fails closed: NaN",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "unsafe enemy speed fails closed: Infinity",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "unsafe enemy speed fails closed: 1",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "cancel preserves exact partial progress and stale scheduled callback is inert",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "saved partial facts reload idle without replay, automatic restart or fabricated completion",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "natural timer and a cancelled native callback cannot compete with rest ownership",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "hidden page stops partial rest and visible return never consumes its remaining rest budget",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "pagehide stops and saves the applied watermark before public reload",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "actual freeze REPORT fences scheduled rest callbacks",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "actual freeze LOSS fences scheduled rest callbacks",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "actual freeze RECOVERY fences scheduled rest callbacks",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "session generation change invalidates an already queued rest callback",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "actual public restart deletes saves and rest callbacks cannot recreate the exited session",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "public encounter request cancels rest before entering the actual BATTLE clock",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "exhausted automatic command budget refuses before an active instance or nested advance",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "repeated request command is idempotent and cannot create a second timer or extend target",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "real step CAS rejects wrong instance and stale progress without consuming time",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "step and actual advance receipts have unique IDs, one-minute payloads and exact parent causes",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "a real midnight step settles ration, plan, command points and the same crop once",
+      "ok": false,
+      "error": "TypeError: rest.rest.request is not a function"
+    },
+    {
+      "name": "midnight shortage remains real and a new shortage episode interrupts without granting food",
+      "ok": false,
+      "error": "TypeError: r.rest.request is not a function"
+    },
+    {
+      "name": "actual context renderer publishes the public entry and actual click handler starts and cancels",
+      "ok": false,
+      "error": "AssertionError: The input did not match the regular expression /data-context-action=\"campRest30\"/. Input:\n\n'<button class=\"context-action primary\" data-context-action=\"npc\" data-context-index=\"0\" ><kbd class=\"action-index\">1</kbd>🤝 请求贺川支援<small>先选命令或消耗 2 行动体力 · 羁绊 0/3</small></button><button class=\"context-action \" data-context-action=\"npcOrder\" data-context-index=\"1\" data-npc-id=\"sergeant\" data-order=\"guard\" ><kbd class=\"action-index\">2</kbd>🎯 守墙<small>在指定防线待命，增加防线余量。</small></button><button class=\"context-action \" data-context-action=\"npcOrder\" data-context-index=\"2\" data-npc-id=\"sergeant\" data-order=\"patrol\" ><kbd class=\"action-index\">3</kbd>🎯 巡逻<small>在接触前拦截尸群，但更容易暴露在危险中。</small></button><button class=\"context-action \" data-context-action=\"npcOrder\" data-context-index=\"3\" data-npc-id=\"sergeant\" data-order=\"cover\" ><kbd class=\"action-index\">4</kbd>🎯 支援玩家<small>跟随玩家行动，降低其遭遇危险时的压力。</small></button><button class=\"context-action \" data-context-action=\"weapon\" data-context-index=\"4\" ><kbd class=\"action-index\">5</kbd>⚙️ 查看武器进化<small>选择一条改变战斗方式的路线</small></button>'\n"
+    }
+  ],
+  "observations": {
+    "passiveRecovery": {
+      "one": 3,
+      "split": 0
+    }
+  },
+  "artifacts": []
+}
