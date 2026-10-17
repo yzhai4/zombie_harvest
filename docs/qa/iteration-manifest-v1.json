@@ -1,14 +1,15 @@
 {
   "schema": "IterationEvidenceV1",
   "version": 1,
-  "status": "pending",
-  "scope": "p2.1-gameplay-vertical-slice",
+  "status": "verified",
+  "scope": "repeatable-episode-save21-observer-core-fixture",
   "source": {
     "repository": "yzhai4/zombie_harvest",
     "branch": "codex/v82-npc-succession",
-    "commit": "9411847fc7bea874ffdd1bb2b723641cc495771f",
-    "htmlSha256": "65825523f4c8a79a425fc3a8ce55dcbc9fae1296e49c3a3f5e898c52169f8070",
-    "evidenceKind": "source-vm"
+    "commit": "b34620243173a8efd39bf0b7905e131965e0bca8",
+    "htmlSha256": "fff09e894dd051c290e60e59a6dac8d58130610bfff7f6caf4cfa8b30d002b22",
+    "reportInputSha256": "940efac9a98227db2b4512771e474c8366b629d50d72d8e912923d83e2cf06ee",
+    "evidenceKind": "source-vm + pure core + static + fixture-browser"
   },
   "compatibility": {
     "sitesVersion": "v81",
@@ -17,60 +18,244 @@
     "contentVersion": 3
   },
   "runtime": {
-    "naturalGameplayClaim": false
+    "naturalGameplayClaim": false,
+    "productionDeployed": false
   },
   "browser": {
-    "status": "unavailable",
-    "reason": "Python Playwright unavailable in CI; no natural multi-day browser claim"
+    "status": "fixture-browser",
+    "naturalGameplayClaim": false,
+    "passed": 12,
+    "count": 12,
+    "artifact": {
+      "path": "docs/qa/runs/episode-observer-20261017/browser-report.json",
+      "sha256": "7caac233cce4a9777f8a37ecbc2967db7a4b5399020947a46e7408036de68ced"
+    }
   },
   "tests": {
     "required": [
-      "scenario-package-v1",
-      "observer-expression-v1",
-      "source-gameplay-vertical-slice-v1"
+      "content-chain",
+      "event-gate-parity",
+      "observer-expression",
+      "gameplay-vertical-slice",
+      "content-episode",
+      "replay-self-test",
+      "static-three-day-smoke"
     ],
     "results": [
       {
-        "name": "scenario-package-v1",
+        "name": "content-chain",
         "status": "passed",
-        "passed": 3,
-        "count": 3
+        "passed": 54,
+        "count": 54,
+        "unit": "check",
+        "artifact": {
+          "path": "docs/qa/runs/episode-observer-20261017/content-chain.txt",
+          "sha256": "c591e91ab8335d824a930c18d3256f3af839994d470f7ded03f54a2743cb9006"
+        }
       },
       {
-        "name": "observer-expression-v1",
+        "name": "event-gate-parity",
         "status": "passed",
-        "passed": 3,
-        "count": 3
+        "passed": 20,
+        "count": 20,
+        "unit": "check",
+        "artifact": {
+          "path": "docs/qa/runs/episode-observer-20261017/event-gate-parity.json",
+          "sha256": "df6b4ebddbbb51415ed6a5479da3b0a3aa31a71195a654ca93d5c2f785334fa2"
+        }
       },
       {
-        "name": "source-gameplay-vertical-slice-v1",
+        "name": "observer-expression",
+        "status": "passed",
+        "passed": 21,
+        "count": 21,
+        "unit": "check",
+        "artifact": {
+          "path": "docs/qa/runs/episode-observer-20261017/observer-expression.json",
+          "sha256": "d4d62fd99365b357f8d07006c6bc4456877ff455f2c822dd3448080ae38a913d"
+        }
+      },
+      {
+        "name": "gameplay-vertical-slice",
         "status": "passed",
         "passed": 5,
-        "count": 5
+        "count": 5,
+        "unit": "check",
+        "artifact": {
+          "path": "docs/qa/runs/episode-observer-20261017/gameplay-vertical-slice.json",
+          "sha256": "afcc36ee7b26dda7c5f9c0b03ccf1b9b7d2d00448b0a267d87f1477b386363aa"
+        }
       },
       {
-        "name": "relay-construction-runtime-v1",
+        "name": "content-episode",
         "status": "passed",
-        "passed": 8,
-        "count": 8
+        "passed": 29,
+        "count": 29,
+        "unit": "check",
+        "artifact": {
+          "path": "docs/qa/runs/episode-observer-20261017/content-episode.json",
+          "sha256": "a681ac5ab1d532068eb71b5a30ca403d37cbf0670290300ad98d6b688cfa692d"
+        }
       },
       {
         "name": "replay-self-test",
         "status": "passed",
         "passed": 18,
-        "hash": "4aec7a31"
+        "count": 18,
+        "unit": "fixture",
+        "artifact": {
+          "path": "docs/qa/runs/episode-observer-20261017/replay-self-test.json",
+          "sha256": "f54a3c327e0f8d7ad099648f86ee633ab2c503c3217a29abba3fd338dbaae62e"
+        }
       },
       {
-        "name": "static-smoke",
+        "name": "static-three-day-smoke",
         "status": "passed",
         "passed": 55,
-        "count": 55
+        "count": 55,
+        "unit": "check",
+        "artifact": {
+          "path": "docs/qa/runs/episode-observer-20261017/static-three-day-smoke.json",
+          "sha256": "7233ae4f8a59e1317e1685f57fe7989180112368239fec4500f97548a5ae378b"
+        }
+      },
+      {
+        "name": "evidence-method-controls",
+        "status": "passed",
+        "passed": 76,
+        "count": 76,
+        "unit": "check",
+        "artifact": {
+          "path": "docs/qa/runs/episode-observer-20261017/evidence-method-controls.json",
+          "sha256": "b73feb92aecc693771fafa319f7b8488c7230fb0c48fb7bc696215482719a4d6"
+        }
       }
     ],
     "ci": {
-      "run": 38937365284,
-      "job": 117096121911
+      "workflow": ".github/workflows/validate.yml",
+      "commitVerification": "required in the current PR Actions run; no prior run inherited"
     }
   },
-  "pendingReason": "observer deep-freeze whitelist changed runtime source; rebind after this commit"
+  "localExecution": {
+    "commands": 30,
+    "allExitZero": true,
+    "artifact": {
+      "path": "docs/qa/runs/episode-observer-20261017/command-exits.json",
+      "sha256": "5a87960db3eea082d930e5381c31c987d55148930ab4749ed1c30ffb1c088489"
+    }
+  },
+  "artifacts": [
+    {
+      "path": ".github/workflows/validate.yml",
+      "sha256": "32dc4cc252205ad0ef89141b441e14389822d2d153e8bb920314bce7f1225b29"
+    },
+    {
+      "path": "dist/actor-sprites.js",
+      "sha256": "257f4b38760813c21c723bbb9f934f1198e742fd1223db48705f34787e0f71b7"
+    },
+    {
+      "path": "dist/index.html",
+      "sha256": "fff09e894dd051c290e60e59a6dac8d58130610bfff7f6caf4cfa8b30d002b22"
+    },
+    {
+      "path": "scripts/browser-content-episode-v1.mjs",
+      "sha256": "b5221e78fb8fbdf93a18b9a320510e0aae00ee5d5ecbde722d70bc79bb7b9abf"
+    },
+    {
+      "path": "scripts/capture-episode-writer-fixture.mjs",
+      "sha256": "65dae2d78cfb626eb7fbaea25cf090772444d80091afd069e4e5268c996fa9ac"
+    },
+    {
+      "path": "scripts/check-content-chain.mjs",
+      "sha256": "e03003e5237db6a8d2a6d97da5647dffe411b6ad457c1e047ca6da07e61a39a2"
+    },
+    {
+      "path": "scripts/check-content-episode-v1.mjs",
+      "sha256": "263a1804d8eeaaf6825bdc44329a800b910d8f8c2c06c8402e7ed1ce45192456"
+    },
+    {
+      "path": "scripts/check-event-gate-parity.mjs",
+      "sha256": "da7602a07f809bcbde568ed118eed3816dc7340d6b64177c7ef15e7b15625bd9"
+    },
+    {
+      "path": "scripts/check-gameplay-vertical-slice.mjs",
+      "sha256": "aa74353255ead6222dc7409339e37be3fc09ed155a4690f163e56dd0cb253c11"
+    },
+    {
+      "path": "scripts/check-iteration-evidence-self-test.mjs",
+      "sha256": "c56ff5a347c38a85bf9be644be64d2230477d996eadb4e5c8736912820d7c880"
+    },
+    {
+      "path": "scripts/check-iteration-evidence.mjs",
+      "sha256": "e8d879d96e198061185b7459e59d87624ea325b0ba5b67b5c2245f6aea6fec89"
+    },
+    {
+      "path": "scripts/check-observer-expression-v1.mjs",
+      "sha256": "73856ea6cafcc134da167d331942ba5faa490258dfa721fd8997910677c1b1f3"
+    },
+    {
+      "path": "scripts/check-plan-day.mjs",
+      "sha256": "3dd47d47d3fe787b5e1a46267aa91ef1ed46e84e811f286f0327cc64b9e13c9e"
+    },
+    {
+      "path": "scripts/check-report-recovery.mjs",
+      "sha256": "ee5bb659c0439044e1ec07a4aecf931293457c2478f35d0850fe90770b4367cf"
+    },
+    {
+      "path": "scripts/check-scenario-package-v1.mjs",
+      "sha256": "e1562baec5d8136df1a47dffd491173c949662fa8f62ef67692ef53a2001b83d"
+    },
+    {
+      "path": "scripts/fixtures/content-episode-v1/save21-pre-identity-active.json",
+      "sha256": "eb3b163e5b55e17f356b3ec95a4f9e5e55147bb78b8250ba0fac6ec3b6a0096d"
+    },
+    {
+      "path": "scripts/fixtures/event-gate-v1.json",
+      "sha256": "90a8e199555eeb85f8c5a5e32c64335849ff654045279b4aa546e2cab0f67040"
+    },
+    {
+      "path": "scripts/fixtures/scenario-zombie-harvest-v1.json",
+      "sha256": "74977b0cb8b0618447085ba6691e23f97eda3ba033074942a1197b582fc9ea29"
+    },
+    {
+      "path": "scripts/lib/event-gate-v1.mjs",
+      "sha256": "7fa51e0a52eb0163caf3be27f86b0bb9ab2d359f5107f7cd483dc738a02459c1"
+    },
+    {
+      "path": "scripts/lib/observer-expression-v1.mjs",
+      "sha256": "fe78c38954227d4a93318badac915032a943a5bd008a061c0682758a61912f27"
+    },
+    {
+      "path": "scripts/lib/scenario-package-v1.mjs",
+      "sha256": "c01c2676b6153b55d365a71a170714aa8c6add2ed06c0f7deaa707d1030876e5"
+    },
+    {
+      "path": "scripts/lib/source-runtime-fixture.mjs",
+      "sha256": "020ca6b480398cfbe846d33959dd4b0572fbe021fa7707e3a54f3e101ce046a4"
+    },
+    {
+      "path": "scripts/replay-harness.mjs",
+      "sha256": "6b4f64ac34994add7b6b6b950b817f24f671388003899e61b635f6cee30f007b"
+    },
+    {
+      "path": "scripts/smoke-three-days.mjs",
+      "sha256": "0a623a20434a43ac004fa64617b4050ccc4ed2646efd0c98bcc4e5e521e5fdb4"
+    },
+    {
+      "path": "docs/qa/runs/episode-observer-20261017/browser-save-after-reload.json",
+      "sha256": "5913547d1bd389e23dcfe1eafa873f2f8bc61ec7228ee2f4fc84227c2199b860"
+    },
+    {
+      "path": "docs/qa/runs/episode-observer-20261017/shortage-before.png",
+      "sha256": "c02d4b6fbfc71e2eaedc7e3d3926bc78c8370fcda8482edd07ea94d1934048bb"
+    },
+    {
+      "path": "docs/qa/runs/episode-observer-20261017/shortage-reloaded.png",
+      "sha256": "d5153ff672fba7a1d26bce5a19bf924236cafda062f3ac80506a6d3dc7eab0a5"
+    },
+    {
+      "path": "docs/qa/runs/episode-observer-20261017/command-exits.json",
+      "sha256": "5a87960db3eea082d930e5381c31c987d55148930ab4749ed1c30ffb1c088489"
+    }
+  ]
 }
