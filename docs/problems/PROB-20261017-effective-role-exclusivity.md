@@ -2,6 +2,10 @@
 
 状态：confirmed / open；本轮presence不修此独立岗位语义。
 
+2026-10-18增量：当前c21以同一完整旧writer执行真实木匠死亡／继任，quartermaster暂代carpenter后，实际`relayActiveParticipants()`返回`[radio,quartermaster,quartermaster]`；两人被计三岗。材料／库存／世界实体保留，项目仍unknown，没有执行筹料／施工，不证明双倍产出或工时。见[中继复盘](../qa/relay-pilot-20261018.md)。
+
+下一产品修复限定中继有效岗绑定、真实筹料／工时准入、已有staging snapshot、恢复安排的中继职责owner与公开crew／停工原因。保持原身份、contentJob、伤员政策、30分钟材料额度、全局工程速率及已提交历史；不全局盲替换`npcHasRole`。旧反例须在真实已briefed／staging档进一步证明缺岗不新增扣料或工程、合法另一人补岗可恢复并经reload不重付，之后才开放C。其它医疗／福利／战斗／计划caller另分类验收。
+
 ## 可重复反例
 
 在候选HTML `9e4e43c881661a64edc352b0a07d627ed68087038202a3aaddf88ba450437ea0`，以完整真实writer夹具 `scripts/fixtures/npc-threat-attention-v1/browser-writer-day1-1110-save21.json`（SHA `5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4`）执行实际loader/start。

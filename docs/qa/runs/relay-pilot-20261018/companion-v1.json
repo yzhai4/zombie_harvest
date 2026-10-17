@@ -1,0 +1,289 @@
+{
+  "schema": "RelayPilotCompanionV1",
+  "scope": "postprocess only; original reports unchanged",
+  "sourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+  "arms": {
+    "A": {
+      "originalReportSha256": "38640b22f697ab26d5a05d39a1a9bad2e209142395e433568c1100d23ca4ad6c",
+      "originalReportBytes": 4343759,
+      "terminal": "GAMEPLAY_LOSS",
+      "elapsedWallMs": 299543,
+      "runnerMajorActions": 1,
+      "actualAcceptedBusinessCommands": [
+        {
+          "actionLabel": "select-public-broadcast",
+          "commandId": "cmd-000348",
+          "type": "landmark.discover",
+          "operatorMarkedMajor": false,
+          "causedAdvances": [
+            {
+              "eventId": "evt-000169",
+              "seq": 169,
+              "type": "time.advanced",
+              "actorId": "system",
+              "commandId": "cmd-000349",
+              "causationId": "cmd-000348",
+              "tick": {
+                "world": 504,
+                "phase": 0,
+                "schedule": 144
+              },
+              "payload": {
+                "minutes": 20,
+                "day": 1,
+                "hour": 8,
+                "minute": 24
+              }
+            }
+          ],
+          "businessEvents": [
+            {
+              "eventId": "evt-000162",
+              "seq": 162,
+              "type": "special.itemRecovered",
+              "actorId": "player-1",
+              "commandId": null,
+              "causationId": "cmd-000348",
+              "tick": {
+                "world": 484,
+                "phase": 0,
+                "schedule": 124
+              },
+              "payload": {
+                "itemId": "relayCore",
+                "itemInstanceId": "item-relayCore-001",
+                "sourcePoiId": "poi-pmsasq",
+                "sourceType": "radioTower"
+              },
+              "defId": "relay-chain-001",
+              "definitionVersion": 1,
+              "instanceId": "camp-relay-001",
+              "effects": [
+                {
+                  "type": "fact",
+                  "key": "relayCore",
+                  "eventType": "special.itemRecovered",
+                  "amount": 0,
+                  "payload": {}
+                }
+              ]
+            },
+            {
+              "eventId": "evt-000170",
+              "seq": 170,
+              "type": "landmark.discovered",
+              "actorId": "player-1",
+              "commandId": "cmd-000348",
+              "causationId": null,
+              "tick": {
+                "world": 504,
+                "phase": 0,
+                "schedule": 144
+              },
+              "payload": {
+                "landmarkId": "poi-pmsasq",
+                "landmarkType": "radioTower",
+                "name": "旧广播塔",
+                "relayCoreRecovered": true
+              }
+            }
+          ]
+        },
+        {
+          "actionLabel": "self-defense-1",
+          "commandId": "cmd-000409",
+          "type": "threat.attack",
+          "operatorMarkedMajor": true,
+          "causedAdvances": [
+            {
+              "eventId": "evt-000262",
+              "seq": 262,
+              "type": "time.advanced",
+              "actorId": "system",
+              "commandId": "cmd-000410",
+              "causationId": "cmd-000409",
+              "tick": {
+                "world": 573,
+                "phase": 0,
+                "schedule": 213
+              },
+              "payload": {
+                "minutes": 10,
+                "day": 1,
+                "hour": 9,
+                "minute": 33
+              }
+            }
+          ],
+          "businessEvents": [
+            {
+              "eventId": "evt-000264",
+              "seq": 264,
+              "type": "threat.attacked",
+              "actorId": "player-1",
+              "commandId": "cmd-000409",
+              "causationId": null,
+              "tick": {
+                "world": 573,
+                "phase": 0,
+                "schedule": 213
+              },
+              "payload": {}
+            }
+          ]
+        }
+      ],
+      "correctedMajorActions": 2,
+      "originalInteractionAttempts": 1,
+      "correctedInteractionAttempts": 2,
+      "finalPublic": {
+        "day": 1,
+        "hour": 10,
+        "minute": 11,
+        "hp": 0,
+        "energy": 82,
+        "food": 8,
+        "player": {
+          "x": 19.4,
+          "y": 3.3
+        }
+      },
+      "lastDurable": {
+        "day": 1,
+        "hour": 10,
+        "minute": 10,
+        "hp": 8,
+        "food": 8,
+        "gameOver": null,
+        "specialItems": {
+          "relayCore": 1
+        },
+        "relayProject": {
+          "id": "camp-relay-001",
+          "status": "core-recovered",
+          "coreItemId": "item-relayCore-001",
+          "handoffAt": null,
+          "materialNeed": {
+            "wood": 10,
+            "parts": 5,
+            "stone": 4
+          },
+          "materialProgress": {
+            "wood": 0,
+            "parts": 0,
+            "stone": 0
+          },
+          "workMinutes": 0,
+          "targetMinutes": 180,
+          "buildingId": "bld-relay-station",
+          "assignedNpcIds": [
+            "radio",
+            "carpenter",
+            "quartermaster"
+          ],
+          "sharedSightBonus": 2,
+          "sharedRangeBonus": 4,
+          "forecastLeadMinutes": 180,
+          "routeId": "eastern-breach",
+          "materialClock": 0
+        }
+      },
+      "lastDurableFilename": "065-final-native.json",
+      "finalPublicFilename": "065-final-ui.json",
+      "mainDocumentCount": 1,
+      "contextClosed": true,
+      "refreshCovered": false
+    },
+    "B": {
+      "originalReportSha256": "e1a7acc0fce8a5178098744139eaa7a4f4ca5063c487d0e97b6088c3774f41b9",
+      "originalReportBytes": 3080366,
+      "terminal": "INTERRUPTED_RISK",
+      "elapsedWallMs": 80483,
+      "runnerMajorActions": 0,
+      "actualAcceptedBusinessCommands": [],
+      "correctedMajorActions": 0,
+      "originalInteractionAttempts": 0,
+      "correctedInteractionAttempts": 0,
+      "finalPublic": {
+        "day": 1,
+        "hour": 7,
+        "minute": 6,
+        "hp": 94,
+        "energy": 81,
+        "food": 0,
+        "player": {
+          "x": 19.5,
+          "y": 3.3
+        }
+      },
+      "lastDurable": {
+        "day": 1,
+        "hour": 7,
+        "minute": 0,
+        "hp": 94,
+        "food": 0,
+        "gameOver": null,
+        "specialItems": {
+          "relayCore": 0
+        },
+        "relayProject": {
+          "id": "camp-relay-001",
+          "status": "unknown",
+          "coreItemId": null,
+          "handoffAt": null,
+          "materialNeed": {
+            "wood": 10,
+            "parts": 5,
+            "stone": 4
+          },
+          "materialProgress": {
+            "wood": 0,
+            "parts": 0,
+            "stone": 0
+          },
+          "workMinutes": 0,
+          "targetMinutes": 180,
+          "buildingId": "bld-relay-station",
+          "assignedNpcIds": [
+            "radio",
+            "carpenter",
+            "quartermaster"
+          ],
+          "sharedSightBonus": 2,
+          "sharedRangeBonus": 4,
+          "forecastLeadMinutes": 180,
+          "routeId": "eastern-breach",
+          "materialClock": 0
+        }
+      },
+      "lastDurableFilename": "042-final-native.json",
+      "finalPublicFilename": "042-final-ui.json",
+      "mainDocumentCount": 1,
+      "contextClosed": true,
+      "refreshCovered": false
+    }
+  },
+  "checkedFileReferences": 243,
+  "comparisonSupportsFoodCausality": false,
+  "runtimeChanged": false,
+  "naturalThreeDays": false,
+  "humanExperienceResults": false,
+  "cleanup": {
+    "schema": "ControlledRelayPilotCleanupV1",
+    "observedAt": 1792258389637,
+    "browserClosed": true,
+    "serverClosed": true,
+    "arms": [
+      {
+        "id": "A",
+        "status": "GAMEPLAY_LOSS",
+        "errors": 0
+      },
+      {
+        "id": "B",
+        "status": "INTERRUPTED_RISK",
+        "errors": 0
+      }
+    ]
+  }
+}

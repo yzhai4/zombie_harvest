@@ -1,0 +1,4049 @@
+{
+  "schema": "RelayPilotAReadOnlyPostmortemV1",
+  "scope": "Read existing browser evidence and frozen source only. No game/browser rerun, state patch or ROOT change.",
+  "sourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+  "reportRef": {
+    "path": "../browser-A-method03/report.json",
+    "sha256": "38640b22f697ab26d5a05d39a1a9bad2e209142395e433568c1100d23ca4ad6c",
+    "bytes": 4343759
+  },
+  "nativeStatus": "GAMEPLAY_LOSS",
+  "recordedPublicTerminal": {
+    "day": 1,
+    "hour": 10,
+    "minute": 11,
+    "hp": 0,
+    "energy": 82,
+    "player": {
+      "x": 19.4,
+      "y": 3.3
+    }
+  },
+  "terminalCheckpointIsStale": {
+    "date": {
+      "day": 1,
+      "hour": 10,
+      "minute": 10
+    },
+    "hp": 8,
+    "gameOver": null,
+    "reason": "Final native is last checkpoint, not live terminal state; UI at10:11 reportsHP0 while checkpoint remains10:10 HP8."
+  },
+  "actions": [
+    {
+      "order": 5,
+      "kind": "key",
+      "key": "ArrowLeft",
+      "label": "explore-west-1",
+      "holdMs": 800,
+      "wallStartedAt": 1792257634587,
+      "wallEndedAt": 1792257635697,
+      "before": {
+        "public": {
+          "day": 1,
+          "hour": 6,
+          "minute": 50,
+          "hp": 100,
+          "energy": 80,
+          "player": {
+            "x": 11,
+            "y": 11
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 6,
+          "minute": 40,
+          "hp": 100,
+          "player": {
+            "x": 11,
+            "y": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 40
+          },
+          "commandSeq": 40,
+          "eventSeq": 45
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/013-before-explore-west-1-native.json",
+            "sha256": "5814c1144a4e5d111d702953e7a69c1d011115137464e13fb9b545d4f9f56578",
+            "bytes": 97207
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/013-before-explore-west-1-ui.json",
+            "sha256": "5797390ebfb9d97a9d9c146881ff21ac3e0a8aa3645bf9cf995ddcf443ae272f",
+            "bytes": 38735
+          }
+        }
+      },
+      "after": {
+        "public": {
+          "day": 1,
+          "hour": 6,
+          "minute": 51,
+          "hp": 100,
+          "energy": 80,
+          "player": {
+            "x": 9.5,
+            "y": 11
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 6,
+          "minute": 50,
+          "hp": 100,
+          "player": {
+            "x": 10.300000000000002,
+            "y": 11,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 50
+          },
+          "commandSeq": 57,
+          "eventSeq": 56
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/014-after-explore-west-1-native.json",
+            "sha256": "0cfeae90d919cc105b69965dbc4d9fc89177fee8805debc031a0194c1fe0f075",
+            "bytes": 104951
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/014-after-explore-west-1-ui.json",
+            "sha256": "f4f13b255efafcf2b413d57c8fd2a0d3da4ca13f9fd07fbbfd33181304801ffc",
+            "bytes": 51088
+          }
+        }
+      },
+      "actualWorldMinuteDelta": 1,
+      "newCommands": [
+        {
+          "commandId": "cmd-000066",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 1
+          }
+        }
+      ],
+      "newEvents": [
+        {
+          "eventId": "evt-000057",
+          "seq": 57,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000066",
+          "causationId": null,
+          "tick": {
+            "world": 411,
+            "phase": 0,
+            "schedule": 51
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 1,
+            "hour": 6,
+            "minute": 51
+          }
+        }
+      ],
+      "methodNoteIsDecisionTextNotCurrentState": "沿已显示且非水面的西侧营地路径探索，寻找任务指定广播塔。"
+    },
+    {
+      "order": 6,
+      "kind": "key",
+      "key": "ArrowLeft",
+      "label": "explore-west-2",
+      "holdMs": 800,
+      "wallStartedAt": 1792257635779,
+      "wallEndedAt": 1792257636882,
+      "before": {
+        "public": {
+          "day": 1,
+          "hour": 6,
+          "minute": 51,
+          "hp": 100,
+          "energy": 80,
+          "player": {
+            "x": 9.5,
+            "y": 11
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 6,
+          "minute": 50,
+          "hp": 100,
+          "player": {
+            "x": 10.300000000000002,
+            "y": 11,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 50
+          },
+          "commandSeq": 57,
+          "eventSeq": 56
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/015-before-explore-west-2-native.json",
+            "sha256": "0cfeae90d919cc105b69965dbc4d9fc89177fee8805debc031a0194c1fe0f075",
+            "bytes": 104951
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/015-before-explore-west-2-ui.json",
+            "sha256": "f4f13b255efafcf2b413d57c8fd2a0d3da4ca13f9fd07fbbfd33181304801ffc",
+            "bytes": 51088
+          }
+        }
+      },
+      "after": {
+        "public": {
+          "day": 1,
+          "hour": 6,
+          "minute": 52,
+          "hp": 100,
+          "energy": 80,
+          "player": {
+            "x": 7.9,
+            "y": 11
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 6,
+          "minute": 50,
+          "hp": 100,
+          "player": {
+            "x": 10.300000000000002,
+            "y": 11,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 50
+          },
+          "commandSeq": 57,
+          "eventSeq": 56
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/016-after-explore-west-2-native.json",
+            "sha256": "0cfeae90d919cc105b69965dbc4d9fc89177fee8805debc031a0194c1fe0f075",
+            "bytes": 104951
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/016-after-explore-west-2-ui.json",
+            "sha256": "9fe3b70dee0e88919f0534b44668ea4ccfd59d9f4030d65dcdfd101d92ba818e",
+            "bytes": 49820
+          }
+        }
+      },
+      "actualWorldMinuteDelta": 1,
+      "newCommands": [
+        {
+          "commandId": "cmd-000083",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 1
+          }
+        }
+      ],
+      "newEvents": [
+        {
+          "eventId": "evt-000058",
+          "seq": 58,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000083",
+          "causationId": null,
+          "tick": {
+            "world": 412,
+            "phase": 0,
+            "schedule": 52
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 1,
+            "hour": 6,
+            "minute": 52
+          }
+        }
+      ],
+      "methodNoteIsDecisionTextNotCurrentState": "继续向公开已知西侧通路移动，避开图上的河道。"
+    },
+    {
+      "order": 7,
+      "kind": "key",
+      "key": "ArrowUp",
+      "label": "explore-north-1",
+      "holdMs": 800,
+      "wallStartedAt": 1792257636955,
+      "wallEndedAt": 1792257638133,
+      "before": {
+        "public": {
+          "day": 1,
+          "hour": 6,
+          "minute": 52,
+          "hp": 100,
+          "energy": 80,
+          "player": {
+            "x": 7.9,
+            "y": 11
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 6,
+          "minute": 50,
+          "hp": 100,
+          "player": {
+            "x": 10.300000000000002,
+            "y": 11,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 50
+          },
+          "commandSeq": 57,
+          "eventSeq": 56
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/017-before-explore-north-1-native.json",
+            "sha256": "0cfeae90d919cc105b69965dbc4d9fc89177fee8805debc031a0194c1fe0f075",
+            "bytes": 104951
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/017-before-explore-north-1-ui.json",
+            "sha256": "9fe3b70dee0e88919f0534b44668ea4ccfd59d9f4030d65dcdfd101d92ba818e",
+            "bytes": 49820
+          }
+        }
+      },
+      "after": {
+        "public": {
+          "day": 1,
+          "hour": 6,
+          "minute": 53,
+          "hp": 100,
+          "energy": 80,
+          "player": {
+            "x": 7.9,
+            "y": 9.5
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 6,
+          "minute": 50,
+          "hp": 100,
+          "player": {
+            "x": 10.300000000000002,
+            "y": 11,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 50
+          },
+          "commandSeq": 57,
+          "eventSeq": 56
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/018-after-explore-north-1-native.json",
+            "sha256": "0cfeae90d919cc105b69965dbc4d9fc89177fee8805debc031a0194c1fe0f075",
+            "bytes": 104951
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/018-after-explore-north-1-ui.json",
+            "sha256": "882c352a45d5efa6aaeecbd5298284d100f444161ddd5f7a09239a3f2414f537",
+            "bytes": 56862
+          }
+        }
+      },
+      "actualWorldMinuteDelta": 1,
+      "newCommands": [
+        {
+          "commandId": "cmd-000099",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 1
+          }
+        }
+      ],
+      "newEvents": [
+        {
+          "eventId": "evt-000059",
+          "seq": 59,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000099",
+          "causationId": null,
+          "tick": {
+            "world": 413,
+            "phase": 0,
+            "schedule": 53
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 1,
+            "hour": 6,
+            "minute": 53
+          }
+        }
+      ],
+      "methodNoteIsDecisionTextNotCurrentState": "向当前公开可见北侧空地探索，不使用隐藏地标坐标。"
+    },
+    {
+      "order": 8,
+      "kind": "key",
+      "key": "ArrowUp",
+      "label": "north-frontier-0",
+      "holdMs": 800,
+      "wallStartedAt": 1792257655560,
+      "wallEndedAt": 1792257656676,
+      "before": {
+        "public": {
+          "day": 1,
+          "hour": 7,
+          "minute": 7,
+          "hp": 100,
+          "energy": 81,
+          "player": {
+            "x": 7.9,
+            "y": 9.5
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 7,
+          "minute": 0,
+          "hp": 100,
+          "player": {
+            "x": 7.900000000000011,
+            "y": 9.500000000000005,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 60
+          },
+          "commandSeq": 106,
+          "eventSeq": 77
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/020-before-north-frontier-0-native.json",
+            "sha256": "8966bd7f315d6670f680d50480c6955cf782dec4c77e7fbac64aa428ece5457c",
+            "bytes": 123601
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/020-before-north-frontier-0-ui.json",
+            "sha256": "48f284c2f0f6d6d101ff45f00cf2e3d6f270bc29aa037695f86cec317c21db73",
+            "bytes": 56861
+          }
+        }
+      },
+      "after": {
+        "public": {
+          "day": 1,
+          "hour": 7,
+          "minute": 8,
+          "hp": 100,
+          "energy": 81,
+          "player": {
+            "x": 7.9,
+            "y": 8
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 7,
+          "minute": 0,
+          "hp": 100,
+          "player": {
+            "x": 7.900000000000011,
+            "y": 9.500000000000005,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 60
+          },
+          "commandSeq": 106,
+          "eventSeq": 77
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/021-after-north-frontier-0-native.json",
+            "sha256": "8966bd7f315d6670f680d50480c6955cf782dec4c77e7fbac64aa428ece5457c",
+            "bytes": 123601
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/021-after-north-frontier-0-ui.json",
+            "sha256": "63b09097527cef5a1b64b8cf422f602b48b3464d3d41fee774ae49f5eda8f529",
+            "bytes": 60545
+          }
+        }
+      },
+      "actualWorldMinuteDelta": 1,
+      "newCommands": [
+        {
+          "commandId": "cmd-000120",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 1
+          }
+        }
+      ],
+      "newEvents": [
+        {
+          "eventId": "evt-000085",
+          "seq": 85,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000120",
+          "causationId": null,
+          "tick": {
+            "world": 428,
+            "phase": 0,
+            "schedule": 68
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 1,
+            "hour": 7,
+            "minute": 8
+          }
+        }
+      ],
+      "methodNoteIsDecisionTextNotCurrentState": "从公开工坊旁向已知北侧空地移动并揭露边缘迷雾，继续寻找广播塔。"
+    },
+    {
+      "order": 9,
+      "kind": "key",
+      "key": "ArrowUp",
+      "label": "north-frontier-1",
+      "holdMs": 800,
+      "wallStartedAt": 1792257656761,
+      "wallEndedAt": 1792257657900,
+      "before": {
+        "public": {
+          "day": 1,
+          "hour": 7,
+          "minute": 8,
+          "hp": 100,
+          "energy": 81,
+          "player": {
+            "x": 7.9,
+            "y": 8
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 7,
+          "minute": 0,
+          "hp": 100,
+          "player": {
+            "x": 7.900000000000011,
+            "y": 9.500000000000005,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 60
+          },
+          "commandSeq": 106,
+          "eventSeq": 77
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/022-before-north-frontier-1-native.json",
+            "sha256": "8966bd7f315d6670f680d50480c6955cf782dec4c77e7fbac64aa428ece5457c",
+            "bytes": 123601
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/022-before-north-frontier-1-ui.json",
+            "sha256": "63b09097527cef5a1b64b8cf422f602b48b3464d3d41fee774ae49f5eda8f529",
+            "bytes": 60545
+          }
+        }
+      },
+      "after": {
+        "public": {
+          "day": 1,
+          "hour": 7,
+          "minute": 9,
+          "hp": 100,
+          "energy": 81,
+          "player": {
+            "x": 7.9,
+            "y": 6.4
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 7,
+          "minute": 0,
+          "hp": 100,
+          "player": {
+            "x": 7.900000000000011,
+            "y": 9.500000000000005,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 60
+          },
+          "commandSeq": 106,
+          "eventSeq": 77
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/023-after-north-frontier-1-native.json",
+            "sha256": "8966bd7f315d6670f680d50480c6955cf782dec4c77e7fbac64aa428ece5457c",
+            "bytes": 123601
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/023-after-north-frontier-1-ui.json",
+            "sha256": "52855248d748226bf6f0aeb48c58f973378e764d9e03f18daf9f7b294cb38601",
+            "bytes": 67326
+          }
+        }
+      },
+      "actualWorldMinuteDelta": 1,
+      "newCommands": [
+        {
+          "commandId": "cmd-000136",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 1
+          }
+        }
+      ],
+      "newEvents": [
+        {
+          "eventId": "evt-000086",
+          "seq": 86,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000136",
+          "causationId": null,
+          "tick": {
+            "world": 429,
+            "phase": 0,
+            "schedule": 69
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 1,
+            "hour": 7,
+            "minute": 9
+          }
+        }
+      ],
+      "methodNoteIsDecisionTextNotCurrentState": "从公开工坊旁向已知北侧空地移动并揭露边缘迷雾，继续寻找广播塔。"
+    },
+    {
+      "order": 10,
+      "kind": "key",
+      "key": "ArrowUp",
+      "label": "north-frontier-2",
+      "holdMs": 800,
+      "wallStartedAt": 1792257657997,
+      "wallEndedAt": 1792257659139,
+      "before": {
+        "public": {
+          "day": 1,
+          "hour": 7,
+          "minute": 9,
+          "hp": 100,
+          "energy": 81,
+          "player": {
+            "x": 7.9,
+            "y": 6.4
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 7,
+          "minute": 0,
+          "hp": 100,
+          "player": {
+            "x": 7.900000000000011,
+            "y": 9.500000000000005,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 60
+          },
+          "commandSeq": 106,
+          "eventSeq": 77
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/024-before-north-frontier-2-native.json",
+            "sha256": "8966bd7f315d6670f680d50480c6955cf782dec4c77e7fbac64aa428ece5457c",
+            "bytes": 123601
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/024-before-north-frontier-2-ui.json",
+            "sha256": "52855248d748226bf6f0aeb48c58f973378e764d9e03f18daf9f7b294cb38601",
+            "bytes": 67326
+          }
+        }
+      },
+      "after": {
+        "public": {
+          "day": 1,
+          "hour": 7,
+          "minute": 10,
+          "hp": 100,
+          "energy": 81,
+          "player": {
+            "x": 7.9,
+            "y": 4.8
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 7,
+          "minute": 10,
+          "hp": 100,
+          "player": {
+            "x": 7.900000000000011,
+            "y": 4.800000000000022,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 70
+          },
+          "commandSeq": 163,
+          "eventSeq": 87
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/025-after-north-frontier-2-native.json",
+            "sha256": "a33364bc4a7374dd2683e284c7dfacc9b2db5f20a161ed53b0ea8ec8587895b0",
+            "bytes": 129425
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/025-after-north-frontier-2-ui.json",
+            "sha256": "0f1cbd35d7bf229051934af4e66acff22c2ad5ea30863f9492d876e7a84b72a6",
+            "bytes": 67000
+          }
+        }
+      },
+      "actualWorldMinuteDelta": 1,
+      "newCommands": [
+        {
+          "commandId": "cmd-000152",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 1
+          }
+        }
+      ],
+      "newEvents": [
+        {
+          "eventId": "evt-000087",
+          "seq": 87,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000152",
+          "causationId": null,
+          "tick": {
+            "world": 430,
+            "phase": 0,
+            "schedule": 70
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 1,
+            "hour": 7,
+            "minute": 10
+          }
+        }
+      ],
+      "methodNoteIsDecisionTextNotCurrentState": "从公开工坊旁向已知北侧空地移动并揭露边缘迷雾，继续寻找广播塔。"
+    },
+    {
+      "order": 11,
+      "kind": "key",
+      "key": "ArrowRight",
+      "label": "north-east-search-0",
+      "holdMs": 800,
+      "wallStartedAt": 1792257692712,
+      "wallEndedAt": 1792257693951,
+      "before": {
+        "public": {
+          "day": 1,
+          "hour": 7,
+          "minute": 38,
+          "hp": 100,
+          "energy": 82,
+          "player": {
+            "x": 7.9,
+            "y": 4.8
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 7,
+          "minute": 30,
+          "hp": 100,
+          "player": {
+            "x": 7.900000000000011,
+            "y": 4.800000000000022,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 90
+          },
+          "commandSeq": 183,
+          "eventSeq": 109
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/027-before-north-east-search-0-native.json",
+            "sha256": "52a83802aac5eb7044e2fa5635f1d87f674faf69d929beefba890e3d98f88312",
+            "bytes": 144347
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/027-before-north-east-search-0-ui.json",
+            "sha256": "5d1d328f6d9cbfd857398e4fbffafd2d4140025efbf6a1b0451f3a864c72a861",
+            "bytes": 67000
+          }
+        }
+      },
+      "after": {
+        "public": {
+          "day": 1,
+          "hour": 7,
+          "minute": 39,
+          "hp": 100,
+          "energy": 82,
+          "player": {
+            "x": 9.5,
+            "y": 4.8
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 7,
+          "minute": 30,
+          "hp": 100,
+          "player": {
+            "x": 7.900000000000011,
+            "y": 4.800000000000022,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 90
+          },
+          "commandSeq": 183,
+          "eventSeq": 109
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/028-after-north-east-search-0-native.json",
+            "sha256": "52a83802aac5eb7044e2fa5635f1d87f674faf69d929beefba890e3d98f88312",
+            "bytes": 144347
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/028-after-north-east-search-0-ui.json",
+            "sha256": "3dd3b3b3b6ee7b729c5e19c21ac9a731d1b837ce9649e77f76baae32a83e016f",
+            "bytes": 67000
+          }
+        }
+      },
+      "actualWorldMinuteDelta": 1,
+      "newCommands": [
+        {
+          "commandId": "cmd-000198",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 1
+          }
+        }
+      ],
+      "newEvents": [
+        {
+          "eventId": "evt-000119",
+          "seq": 119,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000198",
+          "causationId": null,
+          "tick": {
+            "world": 459,
+            "phase": 0,
+            "schedule": 99
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 1,
+            "hour": 7,
+            "minute": 39
+          }
+        }
+      ],
+      "methodNoteIsDecisionTextNotCurrentState": "西北区域未见广播塔；沿公开北侧通路向东探索，遇到公开广播地标或风险立即停止。"
+    },
+    {
+      "order": 12,
+      "kind": "key",
+      "key": "ArrowRight",
+      "label": "north-east-search-1",
+      "holdMs": 800,
+      "wallStartedAt": 1792257694366,
+      "wallEndedAt": 1792257695592,
+      "before": {
+        "public": {
+          "day": 1,
+          "hour": 7,
+          "minute": 40,
+          "hp": 100,
+          "energy": 83,
+          "player": {
+            "x": 9.5,
+            "y": 4.8
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 7,
+          "minute": 30,
+          "hp": 100,
+          "player": {
+            "x": 7.900000000000011,
+            "y": 4.800000000000022,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 90
+          },
+          "commandSeq": 183,
+          "eventSeq": 109
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/029-before-north-east-search-1-native.json",
+            "sha256": "52a83802aac5eb7044e2fa5635f1d87f674faf69d929beefba890e3d98f88312",
+            "bytes": 144347
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/029-before-north-east-search-1-ui.json",
+            "sha256": "b29b0117a1dc74d908d55da617534cffb710c94d0a28469c6ff7ae4dd68e2abb",
+            "bytes": 67369
+          }
+        }
+      },
+      "after": {
+        "public": {
+          "day": 1,
+          "hour": 7,
+          "minute": 40,
+          "hp": 100,
+          "energy": 83,
+          "player": {
+            "x": 11.1,
+            "y": 4.8
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 7,
+          "minute": 40,
+          "hp": 100,
+          "player": {
+            "x": 10.500000000000002,
+            "y": 4.800000000000022,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 100
+          },
+          "commandSeq": 219,
+          "eventSeq": 120
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/030-after-north-east-search-1-native.json",
+            "sha256": "0d8ad59323bacd66c11fb2b156d0ec4b980309ae8eeb5544d604cd8333d7873a",
+            "bytes": 151895
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/030-after-north-east-search-1-ui.json",
+            "sha256": "1ca6a177781f0888c8a9535fdda66a6901298b967de86c49f8d3e4aaf1f25374",
+            "bytes": 62406
+          }
+        }
+      },
+      "actualWorldMinuteDelta": 2,
+      "newCommands": [
+        {
+          "commandId": "cmd-000209",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 1
+          }
+        },
+        {
+          "commandId": "cmd-000226",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 1
+          }
+        }
+      ],
+      "newEvents": [
+        {
+          "eventId": "evt-000120",
+          "seq": 120,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000209",
+          "causationId": null,
+          "tick": {
+            "world": 460,
+            "phase": 0,
+            "schedule": 100
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 1,
+            "hour": 7,
+            "minute": 40
+          }
+        },
+        {
+          "eventId": "evt-000121",
+          "seq": 121,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000226",
+          "causationId": null,
+          "tick": {
+            "world": 461,
+            "phase": 0,
+            "schedule": 101
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 1,
+            "hour": 7,
+            "minute": 41
+          }
+        }
+      ],
+      "methodNoteIsDecisionTextNotCurrentState": "西北区域未见广播塔；沿公开北侧通路向东探索，遇到公开广播地标或风险立即停止。"
+    },
+    {
+      "order": 13,
+      "kind": "key",
+      "key": "ArrowRight",
+      "label": "north-east-search-2",
+      "holdMs": 800,
+      "wallStartedAt": 1792257695983,
+      "wallEndedAt": 1792257697195,
+      "before": {
+        "public": {
+          "day": 1,
+          "hour": 7,
+          "minute": 41,
+          "hp": 100,
+          "energy": 83,
+          "player": {
+            "x": 11.1,
+            "y": 4.8
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 7,
+          "minute": 40,
+          "hp": 100,
+          "player": {
+            "x": 10.500000000000002,
+            "y": 4.800000000000022,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 100
+          },
+          "commandSeq": 219,
+          "eventSeq": 120
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/031-before-north-east-search-2-native.json",
+            "sha256": "0d8ad59323bacd66c11fb2b156d0ec4b980309ae8eeb5544d604cd8333d7873a",
+            "bytes": 151895
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/031-before-north-east-search-2-ui.json",
+            "sha256": "e6882e386c4d47634e367d1050bf173143743336d116808ccd76bd427ff968a1",
+            "bytes": 62408
+          }
+        }
+      },
+      "after": {
+        "public": {
+          "day": 1,
+          "hour": 7,
+          "minute": 42,
+          "hp": 100,
+          "energy": 83,
+          "player": {
+            "x": 12.7,
+            "y": 4.8
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 7,
+          "minute": 40,
+          "hp": 100,
+          "player": {
+            "x": 10.500000000000002,
+            "y": 4.800000000000022,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 100
+          },
+          "commandSeq": 219,
+          "eventSeq": 120
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/032-after-north-east-search-2-native.json",
+            "sha256": "0d8ad59323bacd66c11fb2b156d0ec4b980309ae8eeb5544d604cd8333d7873a",
+            "bytes": 151895
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/032-after-north-east-search-2-ui.json",
+            "sha256": "fe7fd5d66167911152f3a1c125ca3cfb1575c80494d2cdd59be5a5429aaf66af",
+            "bytes": 60103
+          }
+        }
+      },
+      "actualWorldMinuteDelta": 1,
+      "newCommands": [
+        {
+          "commandId": "cmd-000239",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 1
+          }
+        }
+      ],
+      "newEvents": [
+        {
+          "eventId": "evt-000122",
+          "seq": 122,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000239",
+          "causationId": null,
+          "tick": {
+            "world": 462,
+            "phase": 0,
+            "schedule": 102
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 1,
+            "hour": 7,
+            "minute": 42
+          }
+        }
+      ],
+      "methodNoteIsDecisionTextNotCurrentState": "西北区域未见广播塔；沿公开北侧通路向东探索，遇到公开广播地标或风险立即停止。"
+    },
+    {
+      "order": 14,
+      "kind": "key",
+      "key": "ArrowRight",
+      "label": "north-east-search-3",
+      "holdMs": 800,
+      "wallStartedAt": 1792257697633,
+      "wallEndedAt": 1792257698948,
+      "before": {
+        "public": {
+          "day": 1,
+          "hour": 7,
+          "minute": 42,
+          "hp": 100,
+          "energy": 83,
+          "player": {
+            "x": 12.7,
+            "y": 4.8
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 7,
+          "minute": 40,
+          "hp": 100,
+          "player": {
+            "x": 10.500000000000002,
+            "y": 4.800000000000022,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 100
+          },
+          "commandSeq": 219,
+          "eventSeq": 120
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/033-before-north-east-search-3-native.json",
+            "sha256": "0d8ad59323bacd66c11fb2b156d0ec4b980309ae8eeb5544d604cd8333d7873a",
+            "bytes": 151895
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/033-before-north-east-search-3-ui.json",
+            "sha256": "fe7fd5d66167911152f3a1c125ca3cfb1575c80494d2cdd59be5a5429aaf66af",
+            "bytes": 60103
+          }
+        }
+      },
+      "after": {
+        "public": {
+          "day": 1,
+          "hour": 7,
+          "minute": 43,
+          "hp": 100,
+          "energy": 83,
+          "player": {
+            "x": 14.2,
+            "y": 4.8
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 7,
+          "minute": 40,
+          "hp": 100,
+          "player": {
+            "x": 10.500000000000002,
+            "y": 4.800000000000022,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 100
+          },
+          "commandSeq": 219,
+          "eventSeq": 120
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/034-after-north-east-search-3-native.json",
+            "sha256": "0d8ad59323bacd66c11fb2b156d0ec4b980309ae8eeb5544d604cd8333d7873a",
+            "bytes": 151895
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/034-after-north-east-search-3-ui.json",
+            "sha256": "d881681d2115ffb63ab59b58b213f5dcfa1402242e591fa657480dcdb1d9a73c",
+            "bytes": 55790
+          }
+        }
+      },
+      "actualWorldMinuteDelta": 1,
+      "newCommands": [
+        {
+          "commandId": "cmd-000246",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 1
+          }
+        }
+      ],
+      "newEvents": [
+        {
+          "eventId": "evt-000123",
+          "seq": 123,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000246",
+          "causationId": null,
+          "tick": {
+            "world": 463,
+            "phase": 0,
+            "schedule": 103
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 1,
+            "hour": 7,
+            "minute": 43
+          }
+        }
+      ],
+      "methodNoteIsDecisionTextNotCurrentState": "西北区域未见广播塔；沿公开北侧通路向东探索，遇到公开广播地标或风险立即停止。"
+    },
+    {
+      "order": 15,
+      "kind": "key",
+      "key": "ArrowRight",
+      "label": "north-east-search-4",
+      "holdMs": 800,
+      "wallStartedAt": 1792257699343,
+      "wallEndedAt": 1792257700573,
+      "before": {
+        "public": {
+          "day": 1,
+          "hour": 7,
+          "minute": 44,
+          "hp": 100,
+          "energy": 83,
+          "player": {
+            "x": 14.2,
+            "y": 4.8
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 7,
+          "minute": 40,
+          "hp": 100,
+          "player": {
+            "x": 10.500000000000002,
+            "y": 4.800000000000022,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 100
+          },
+          "commandSeq": 219,
+          "eventSeq": 120
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/035-before-north-east-search-4-native.json",
+            "sha256": "0d8ad59323bacd66c11fb2b156d0ec4b980309ae8eeb5544d604cd8333d7873a",
+            "bytes": 151895
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/035-before-north-east-search-4-ui.json",
+            "sha256": "ba5ff9da91a89b1c9be8db84470c0b54d66f310f89ae7b0135186e5b86d27ba4",
+            "bytes": 55790
+          }
+        }
+      },
+      "after": {
+        "public": {
+          "day": 1,
+          "hour": 7,
+          "minute": 45,
+          "hp": 100,
+          "energy": 83,
+          "player": {
+            "x": 15.8,
+            "y": 4.8
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 7,
+          "minute": 40,
+          "hp": 100,
+          "player": {
+            "x": 10.500000000000002,
+            "y": 4.800000000000022,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 100
+          },
+          "commandSeq": 219,
+          "eventSeq": 120
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/036-after-north-east-search-4-native.json",
+            "sha256": "0d8ad59323bacd66c11fb2b156d0ec4b980309ae8eeb5544d604cd8333d7873a",
+            "bytes": 151895
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/036-after-north-east-search-4-ui.json",
+            "sha256": "0a9ff011c6fb7e76c23e23b3869380b8e8e7e7697038e1e7b2611e18aed92a51",
+            "bytes": 53487
+          }
+        }
+      },
+      "actualWorldMinuteDelta": 1,
+      "newCommands": [
+        {
+          "commandId": "cmd-000277",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 1
+          }
+        }
+      ],
+      "newEvents": [
+        {
+          "eventId": "evt-000125",
+          "seq": 125,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000277",
+          "causationId": null,
+          "tick": {
+            "world": 465,
+            "phase": 0,
+            "schedule": 105
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 1,
+            "hour": 7,
+            "minute": 45
+          }
+        }
+      ],
+      "methodNoteIsDecisionTextNotCurrentState": "西北区域未见广播塔；沿公开北侧通路向东探索，遇到公开广播地标或风险立即停止。"
+    },
+    {
+      "order": 16,
+      "kind": "key",
+      "key": "ArrowRight",
+      "label": "north-east-search-5",
+      "holdMs": 800,
+      "wallStartedAt": 1792257700977,
+      "wallEndedAt": 1792257702194,
+      "before": {
+        "public": {
+          "day": 1,
+          "hour": 7,
+          "minute": 45,
+          "hp": 100,
+          "energy": 83,
+          "player": {
+            "x": 15.8,
+            "y": 4.8
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 7,
+          "minute": 40,
+          "hp": 100,
+          "player": {
+            "x": 10.500000000000002,
+            "y": 4.800000000000022,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 100
+          },
+          "commandSeq": 219,
+          "eventSeq": 120
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/037-before-north-east-search-5-native.json",
+            "sha256": "0d8ad59323bacd66c11fb2b156d0ec4b980309ae8eeb5544d604cd8333d7873a",
+            "bytes": 151895
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/037-before-north-east-search-5-ui.json",
+            "sha256": "0a9ff011c6fb7e76c23e23b3869380b8e8e7e7697038e1e7b2611e18aed92a51",
+            "bytes": 53487
+          }
+        }
+      },
+      "after": {
+        "public": {
+          "day": 1,
+          "hour": 7,
+          "minute": 46,
+          "hp": 100,
+          "energy": 83,
+          "player": {
+            "x": 17.4,
+            "y": 4.8
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 7,
+          "minute": 40,
+          "hp": 100,
+          "player": {
+            "x": 10.500000000000002,
+            "y": 4.800000000000022,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 100
+          },
+          "commandSeq": 219,
+          "eventSeq": 120
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/038-after-north-east-search-5-native.json",
+            "sha256": "0d8ad59323bacd66c11fb2b156d0ec4b980309ae8eeb5544d604cd8333d7873a",
+            "bytes": 151895
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/038-after-north-east-search-5-ui.json",
+            "sha256": "175cc329a4ba55664b98190f4201d415d2eaf9f5f15af52a26c0027a1d21a358",
+            "bytes": 48923
+          }
+        }
+      },
+      "actualWorldMinuteDelta": 1,
+      "newCommands": [
+        {
+          "commandId": "cmd-000286",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 1
+          }
+        }
+      ],
+      "newEvents": [
+        {
+          "eventId": "evt-000126",
+          "seq": 126,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000286",
+          "causationId": null,
+          "tick": {
+            "world": 466,
+            "phase": 0,
+            "schedule": 106
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 1,
+            "hour": 7,
+            "minute": 46
+          }
+        }
+      ],
+      "methodNoteIsDecisionTextNotCurrentState": "西北区域未见广播塔；沿公开北侧通路向东探索，遇到公开广播地标或风险立即停止。"
+    },
+    {
+      "order": 17,
+      "kind": "key",
+      "key": "ArrowRight",
+      "label": "north-east-search-6",
+      "holdMs": 800,
+      "wallStartedAt": 1792257702544,
+      "wallEndedAt": 1792257703806,
+      "before": {
+        "public": {
+          "day": 1,
+          "hour": 7,
+          "minute": 46,
+          "hp": 100,
+          "energy": 83,
+          "player": {
+            "x": 17.4,
+            "y": 4.8
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 7,
+          "minute": 40,
+          "hp": 100,
+          "player": {
+            "x": 10.500000000000002,
+            "y": 4.800000000000022,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 100
+          },
+          "commandSeq": 219,
+          "eventSeq": 120
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/039-before-north-east-search-6-native.json",
+            "sha256": "0d8ad59323bacd66c11fb2b156d0ec4b980309ae8eeb5544d604cd8333d7873a",
+            "bytes": 151895
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/039-before-north-east-search-6-ui.json",
+            "sha256": "175cc329a4ba55664b98190f4201d415d2eaf9f5f15af52a26c0027a1d21a358",
+            "bytes": 48923
+          }
+        }
+      },
+      "after": {
+        "public": {
+          "day": 1,
+          "hour": 7,
+          "minute": 47,
+          "hp": 100,
+          "energy": 83,
+          "player": {
+            "x": 18.9,
+            "y": 4.8
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 7,
+          "minute": 40,
+          "hp": 100,
+          "player": {
+            "x": 10.500000000000002,
+            "y": 4.800000000000022,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 100
+          },
+          "commandSeq": 219,
+          "eventSeq": 120
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/040-after-north-east-search-6-native.json",
+            "sha256": "0d8ad59323bacd66c11fb2b156d0ec4b980309ae8eeb5544d604cd8333d7873a",
+            "bytes": 151895
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/040-after-north-east-search-6-ui.json",
+            "sha256": "96119bde66f6c4ccbb3a0ff9d0b9dcb24d0400b26f393dd3e516ef9c1ea14b6f",
+            "bytes": 62139
+          }
+        }
+      },
+      "actualWorldMinuteDelta": 1,
+      "newCommands": [
+        {
+          "commandId": "cmd-000296",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 1
+          }
+        }
+      ],
+      "newEvents": [
+        {
+          "eventId": "evt-000127",
+          "seq": 127,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000296",
+          "causationId": null,
+          "tick": {
+            "world": 467,
+            "phase": 0,
+            "schedule": 107
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 1,
+            "hour": 7,
+            "minute": 47
+          }
+        }
+      ],
+      "methodNoteIsDecisionTextNotCurrentState": "西北区域未见广播塔；沿公开北侧通路向东探索，遇到公开广播地标或风险立即停止。"
+    },
+    {
+      "order": 18,
+      "kind": "key",
+      "key": "ArrowUp",
+      "label": "approach-public-broadcast",
+      "holdMs": 800,
+      "wallStartedAt": 1792257721014,
+      "wallEndedAt": 1792257722473,
+      "before": {
+        "public": {
+          "day": 1,
+          "hour": 8,
+          "minute": 2,
+          "hp": 94,
+          "energy": 84,
+          "player": {
+            "x": 18.9,
+            "y": 4.8
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 8,
+          "minute": 0,
+          "hp": 94,
+          "player": {
+            "x": 18.900000000000023,
+            "y": 4.800000000000022,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 120
+          },
+          "commandSeq": 323,
+          "eventSeq": 157
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/042-before-approach-public-broadcast-native.json",
+            "sha256": "1364c3fcee5e6d2a3a4abd157d5bfec9b5d832bc82c9259b4684038e294cd01e",
+            "bytes": 180433
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/042-before-approach-public-broadcast-ui.json",
+            "sha256": "e6f47ba5f57aa3269de2a032d9727def76acda77f9b9d8948097b295b16c1878",
+            "bytes": 62006
+          }
+        }
+      },
+      "after": {
+        "public": {
+          "day": 1,
+          "hour": 8,
+          "minute": 3,
+          "hp": 94,
+          "energy": 84,
+          "player": {
+            "x": 18.9,
+            "y": 3.3
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 8,
+          "minute": 0,
+          "hp": 94,
+          "player": {
+            "x": 18.900000000000023,
+            "y": 4.800000000000022,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 120
+          },
+          "commandSeq": 323,
+          "eventSeq": 157
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/043-after-approach-public-broadcast-native.json",
+            "sha256": "1364c3fcee5e6d2a3a4abd157d5bfec9b5d832bc82c9259b4684038e294cd01e",
+            "bytes": 180433
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/043-after-approach-public-broadcast-ui.json",
+            "sha256": "be313171c0ab92fcac662a9bd9d83f8c96385278dd1c6814bd2a58253d7e6754",
+            "bytes": 62355
+          }
+        }
+      },
+      "actualWorldMinuteDelta": 1,
+      "newCommands": [
+        {
+          "commandId": "cmd-000340",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 1
+          }
+        }
+      ],
+      "newEvents": [
+        {
+          "eventId": "evt-000160",
+          "seq": 160,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000340",
+          "causationId": null,
+          "tick": {
+            "world": 483,
+            "phase": 0,
+            "schedule": 123
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 1,
+            "hour": 8,
+            "minute": 3
+          }
+        }
+      ],
+      "methodNoteIsDecisionTextNotCurrentState": "公开地图已显露废弃广播塔(20,3)，从当前北侧通路接近其真实交互范围。"
+    },
+    {
+      "order": 19,
+      "kind": "key",
+      "key": "ArrowRight",
+      "label": "approach-public-broadcast-2",
+      "holdMs": 300,
+      "wallStartedAt": 1792257722713,
+      "wallEndedAt": 1792257723736,
+      "before": {
+        "public": {
+          "day": 1,
+          "hour": 8,
+          "minute": 3,
+          "hp": 94,
+          "energy": 84,
+          "player": {
+            "x": 18.9,
+            "y": 3.3
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 8,
+          "minute": 0,
+          "hp": 94,
+          "player": {
+            "x": 18.900000000000023,
+            "y": 4.800000000000022,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 120
+          },
+          "commandSeq": 323,
+          "eventSeq": 157
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/044-before-approach-public-broadcast-2-native.json",
+            "sha256": "1364c3fcee5e6d2a3a4abd157d5bfec9b5d832bc82c9259b4684038e294cd01e",
+            "bytes": 180433
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/044-before-approach-public-broadcast-2-ui.json",
+            "sha256": "be313171c0ab92fcac662a9bd9d83f8c96385278dd1c6814bd2a58253d7e6754",
+            "bytes": 62355
+          }
+        }
+      },
+      "after": {
+        "public": {
+          "day": 1,
+          "hour": 8,
+          "minute": 4,
+          "hp": 94,
+          "energy": 84,
+          "player": {
+            "x": 19.4,
+            "y": 3.3
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 8,
+          "minute": 0,
+          "hp": 94,
+          "player": {
+            "x": 18.900000000000023,
+            "y": 4.800000000000022,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 120
+          },
+          "commandSeq": 323,
+          "eventSeq": 157
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/045-after-approach-public-broadcast-2-native.json",
+            "sha256": "1364c3fcee5e6d2a3a4abd157d5bfec9b5d832bc82c9259b4684038e294cd01e",
+            "bytes": 180433
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/045-after-approach-public-broadcast-2-ui.json",
+            "sha256": "b91efb42c8d539a10c12cd7370526e290d266211f6068c7d5e78bf9b787db3d7",
+            "bytes": 60852
+          }
+        }
+      },
+      "actualWorldMinuteDelta": 1,
+      "newCommands": [
+        {
+          "commandId": "cmd-000344",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 1
+          }
+        }
+      ],
+      "newEvents": [
+        {
+          "eventId": "evt-000161",
+          "seq": 161,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000344",
+          "causationId": null,
+          "tick": {
+            "world": 484,
+            "phase": 0,
+            "schedule": 124
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 1,
+            "hour": 8,
+            "minute": 4
+          }
+        }
+      ],
+      "methodNoteIsDecisionTextNotCurrentState": "在已公开广播塔旁调整站位，接近后再读地标context。"
+    },
+    {
+      "order": 20,
+      "kind": "click",
+      "key": null,
+      "label": "select-public-broadcast",
+      "holdMs": null,
+      "wallStartedAt": 1792257723980,
+      "wallEndedAt": 1792257724900,
+      "before": {
+        "public": {
+          "day": 1,
+          "hour": 8,
+          "minute": 4,
+          "hp": 94,
+          "energy": 84,
+          "player": {
+            "x": 19.4,
+            "y": 3.3
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 8,
+          "minute": 0,
+          "hp": 94,
+          "player": {
+            "x": 18.900000000000023,
+            "y": 4.800000000000022,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 120
+          },
+          "commandSeq": 323,
+          "eventSeq": 157
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/046-before-select-public-broadcast-native.json",
+            "sha256": "1364c3fcee5e6d2a3a4abd157d5bfec9b5d832bc82c9259b4684038e294cd01e",
+            "bytes": 180433
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/046-before-select-public-broadcast-ui.json",
+            "sha256": "b91efb42c8d539a10c12cd7370526e290d266211f6068c7d5e78bf9b787db3d7",
+            "bytes": 60852
+          }
+        }
+      },
+      "after": {
+        "public": {
+          "day": 1,
+          "hour": 8,
+          "minute": 25,
+          "hp": 94,
+          "energy": 82,
+          "player": {
+            "x": 19.4,
+            "y": 3.3
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 8,
+          "minute": 0,
+          "hp": 94,
+          "player": {
+            "x": 18.900000000000023,
+            "y": 4.800000000000022,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 120
+          },
+          "commandSeq": 323,
+          "eventSeq": 157
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/047-after-select-public-broadcast-native.json",
+            "sha256": "1364c3fcee5e6d2a3a4abd157d5bfec9b5d832bc82c9259b4684038e294cd01e",
+            "bytes": 180433
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/047-after-select-public-broadcast-ui.json",
+            "sha256": "a65fdc582fe8c028d5dbdd7a689dad30a7a74e44c0354b3966e809334fcd9015",
+            "bytes": 60572
+          }
+        }
+      },
+      "actualWorldMinuteDelta": 21,
+      "newCommands": [
+        {
+          "commandId": "cmd-000348",
+          "type": "landmark.discover",
+          "actorId": "player-1",
+          "payload": {
+            "landmarkId": "poi-pmsasq"
+          }
+        },
+        {
+          "commandId": "cmd-000349",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 20
+          }
+        },
+        {
+          "commandId": "cmd-000350",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 1
+          }
+        }
+      ],
+      "newEvents": [
+        {
+          "eventId": "evt-000162",
+          "seq": 162,
+          "type": "special.itemRecovered",
+          "actorId": "player-1",
+          "commandId": null,
+          "causationId": "cmd-000348",
+          "tick": {
+            "world": 484,
+            "phase": 0,
+            "schedule": 124
+          },
+          "payload": {
+            "itemId": "relayCore",
+            "itemInstanceId": "item-relayCore-001",
+            "sourcePoiId": "poi-pmsasq",
+            "sourceType": "radioTower"
+          },
+          "defId": "relay-chain-001",
+          "definitionVersion": 1,
+          "instanceId": "camp-relay-001",
+          "effects": [
+            {
+              "type": "fact",
+              "key": "relayCore",
+              "eventType": "special.itemRecovered",
+              "amount": 0,
+              "payload": {}
+            }
+          ]
+        },
+        {
+          "eventId": "evt-000163",
+          "seq": 163,
+          "type": "sanity.changed",
+          "actorId": "player-1",
+          "commandId": null,
+          "causationId": "cmd-000348",
+          "tick": {
+            "world": 484,
+            "phase": 0,
+            "schedule": 124
+          },
+          "payload": {
+            "targetId": "player-1",
+            "before": 72,
+            "after": 69,
+            "delta": -3,
+            "reason": "探索旧广播塔",
+            "state": "uneasy"
+          }
+        },
+        {
+          "eventId": "evt-000164",
+          "seq": 164,
+          "type": "sanity.thresholdCrossed",
+          "actorId": "player-1",
+          "commandId": null,
+          "causationId": "cmd-000348",
+          "tick": {
+            "world": 484,
+            "phase": 0,
+            "schedule": 124
+          },
+          "payload": {
+            "targetId": "player-1",
+            "before": 72,
+            "after": 69,
+            "from": "stable",
+            "to": "uneasy",
+            "reason": "探索旧广播塔"
+          }
+        },
+        {
+          "eventId": "evt-000165",
+          "seq": 165,
+          "type": "player.standingChanged",
+          "actorId": "player-1",
+          "commandId": null,
+          "causationId": "cmd-000348",
+          "tick": {
+            "world": 484,
+            "phase": 0,
+            "schedule": 124
+          },
+          "payload": {
+            "delta": {
+              "prestige": 2,
+              "merit": 4,
+              "contribution": 1,
+              "legitimacy": 1,
+              "domains": {
+                "recon": 3
+              }
+            },
+            "before": {
+              "prestige": 0,
+              "merit": 0,
+              "fear": 0,
+              "legitimacy": 50,
+              "contribution": 0,
+              "domains": {
+                "rescue": 0,
+                "defense": 0,
+                "supply": 0,
+                "recon": 0
+              }
+            },
+            "after": {
+              "prestige": 2,
+              "merit": 4,
+              "fear": 0,
+              "legitimacy": 51,
+              "contribution": 1,
+              "domains": {
+                "rescue": 0,
+                "defense": 0,
+                "supply": 0,
+                "recon": 3
+              }
+            },
+            "visibility": "public",
+            "reason": "探索旧广播塔",
+            "witnesses": []
+          }
+        },
+        {
+          "eventId": "evt-000166",
+          "seq": 166,
+          "type": "camp.trustChanged",
+          "actorId": "player-1",
+          "commandId": null,
+          "causationId": "cmd-000348",
+          "tick": {
+            "world": 484,
+            "phase": 0,
+            "schedule": 124
+          },
+          "payload": {
+            "before": 0,
+            "after": 1.5,
+            "delta": 1.5,
+            "reason": "探索旧广播塔"
+          },
+          "defId": "camp-plan-meeting-001",
+          "definitionVersion": 1,
+          "instanceId": "event-initial",
+          "effects": []
+        },
+        {
+          "eventId": "evt-000167",
+          "seq": 167,
+          "type": "combat.damage.applied",
+          "actorId": "bld-1rhfvwb",
+          "commandId": null,
+          "causationId": "cmd-000349",
+          "tick": {
+            "world": 504,
+            "phase": 0,
+            "schedule": 144
+          },
+          "payload": {
+            "schemaVersion": "CombatIntentV1",
+            "phase": "DAY",
+            "tick": 12,
+            "intentId": "day-125-1",
+            "attackSeq": 1,
+            "profileId": "tower.tower",
+            "sourceId": "bld-1rhfvwb",
+            "targetId": "frontier-1",
+            "sourceKind": "tower",
+            "targetKind": "event-enemy",
+            "amount": 10,
+            "before": 100,
+            "after": 90,
+            "damageType": "physical",
+            "sourceEventId": null
+          }
+        },
+        {
+          "eventId": "evt-000168",
+          "seq": 168,
+          "type": "combat.damage.applied",
+          "actorId": "bld-1rhfvwb",
+          "commandId": null,
+          "causationId": "cmd-000349",
+          "tick": {
+            "world": 504,
+            "phase": 0,
+            "schedule": 144
+          },
+          "payload": {
+            "schemaVersion": "CombatIntentV1",
+            "phase": "DAY",
+            "tick": 13,
+            "intentId": "day-125-2",
+            "attackSeq": 2,
+            "profileId": "tower.tower",
+            "sourceId": "bld-1rhfvwb",
+            "targetId": "frontier-1",
+            "sourceKind": "tower",
+            "targetKind": "event-enemy",
+            "amount": 10,
+            "before": 90,
+            "after": 80,
+            "damageType": "physical",
+            "sourceEventId": null
+          }
+        },
+        {
+          "eventId": "evt-000169",
+          "seq": 169,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000349",
+          "causationId": "cmd-000348",
+          "tick": {
+            "world": 504,
+            "phase": 0,
+            "schedule": 144
+          },
+          "payload": {
+            "minutes": 20,
+            "day": 1,
+            "hour": 8,
+            "minute": 24
+          }
+        },
+        {
+          "eventId": "evt-000170",
+          "seq": 170,
+          "type": "landmark.discovered",
+          "actorId": "player-1",
+          "commandId": "cmd-000348",
+          "causationId": null,
+          "tick": {
+            "world": 504,
+            "phase": 0,
+            "schedule": 144
+          },
+          "payload": {
+            "landmarkId": "poi-pmsasq",
+            "landmarkType": "radioTower",
+            "name": "旧广播塔",
+            "relayCoreRecovered": true
+          }
+        },
+        {
+          "eventId": "evt-000171",
+          "seq": 171,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000350",
+          "causationId": null,
+          "tick": {
+            "world": 505,
+            "phase": 0,
+            "schedule": 145
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 1,
+            "hour": 8,
+            "minute": 25
+          }
+        }
+      ],
+      "methodNoteIsDecisionTextNotCurrentState": "选择当前真实可见广播塔，只读取可执行动作，不直接调用发现函数。"
+    },
+    {
+      "order": 21,
+      "kind": "key",
+      "key": "f",
+      "label": "self-defense-1",
+      "holdMs": null,
+      "wallStartedAt": 1792257794615,
+      "wallEndedAt": 1792257795165,
+      "before": {
+        "public": {
+          "day": 1,
+          "hour": 9,
+          "minute": 23,
+          "hp": 64,
+          "energy": 85,
+          "player": {
+            "x": 19.4,
+            "y": 3.3
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 9,
+          "minute": 20,
+          "hp": 70,
+          "player": {
+            "x": 19.40000000000003,
+            "y": 3.3000000000000242,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 200
+          },
+          "commandSeq": 405,
+          "eventSeq": 252
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/050-before-self-defense-1-native.json",
+            "sha256": "52f721aba9351152f223cd3e021d9d27f737688728672c559f08cc1a5d18574a",
+            "bytes": 249985
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/050-before-self-defense-1-ui.json",
+            "sha256": "be30c80a40ec2b33de5a640b3a5c8e6ddef2865f5589e19cbc6ebba355eeaf79",
+            "bytes": 60798
+          }
+        }
+      },
+      "after": {
+        "public": {
+          "day": 1,
+          "hour": 9,
+          "minute": 33,
+          "hp": 50,
+          "energy": 80,
+          "player": {
+            "x": 19.4,
+            "y": 3.3
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 9,
+          "minute": 20,
+          "hp": 70,
+          "player": {
+            "x": 19.40000000000003,
+            "y": 3.3000000000000242,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 200
+          },
+          "commandSeq": 405,
+          "eventSeq": 252
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/051-after-self-defense-1-native.json",
+            "sha256": "52f721aba9351152f223cd3e021d9d27f737688728672c559f08cc1a5d18574a",
+            "bytes": 249985
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/051-after-self-defense-1-ui.json",
+            "sha256": "4c919ebf02a1f1322dfde7cc7180796dd58b5c79a2bd77d70f28edefdeef3d2b",
+            "bytes": 60798
+          }
+        }
+      },
+      "actualWorldMinuteDelta": 10,
+      "newCommands": [
+        {
+          "commandId": "cmd-000409",
+          "type": "threat.attack",
+          "actorId": "player-1",
+          "payload": {
+            "targetId": null
+          }
+        },
+        {
+          "commandId": "cmd-000410",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 10
+          }
+        }
+      ],
+      "newEvents": [
+        {
+          "eventId": "evt-000258",
+          "seq": 258,
+          "type": "sanity.changed",
+          "actorId": "player-1",
+          "commandId": null,
+          "causationId": "cmd-000410",
+          "tick": {
+            "world": 573,
+            "phase": 0,
+            "schedule": 213
+          },
+          "payload": {
+            "targetId": "player-1",
+            "before": 60,
+            "after": 58,
+            "delta": -2,
+            "reason": "外围压力与持续暴露",
+            "state": "uneasy"
+          }
+        },
+        {
+          "eventId": "evt-000259",
+          "seq": 259,
+          "type": "combat.damage.applied",
+          "actorId": "bld-1rhfvwb",
+          "commandId": null,
+          "causationId": "cmd-000410",
+          "tick": {
+            "world": 573,
+            "phase": 0,
+            "schedule": 213
+          },
+          "payload": {
+            "schemaVersion": "CombatIntentV1",
+            "phase": "DAY",
+            "tick": 23,
+            "intentId": "day-185-1",
+            "attackSeq": 1,
+            "profileId": "tower.tower",
+            "sourceId": "bld-1rhfvwb",
+            "targetId": "frontier-2",
+            "sourceKind": "tower",
+            "targetKind": "event-enemy",
+            "amount": 10,
+            "before": 60,
+            "after": 50,
+            "damageType": "physical",
+            "sourceEventId": null
+          }
+        },
+        {
+          "eventId": "evt-000260",
+          "seq": 260,
+          "type": "combat.damage.applied",
+          "actorId": "frontier-2",
+          "commandId": null,
+          "causationId": "cmd-000410",
+          "tick": {
+            "world": 573,
+            "phase": 0,
+            "schedule": 213
+          },
+          "payload": {
+            "schemaVersion": "CombatIntentV1",
+            "phase": "DAY",
+            "tick": 24,
+            "intentId": "day-185-2",
+            "attackSeq": 2,
+            "profileId": "enemy.normal.day",
+            "sourceId": "frontier-2",
+            "targetId": "player-1",
+            "sourceKind": "event-enemy",
+            "targetKind": "player",
+            "amount": 6,
+            "before": 64,
+            "after": 58,
+            "damageType": "bite",
+            "sourceEventId": null
+          }
+        },
+        {
+          "eventId": "evt-000261",
+          "seq": 261,
+          "type": "sanity.changed",
+          "actorId": "player-1",
+          "commandId": null,
+          "causationId": "cmd-000410",
+          "tick": {
+            "world": 573,
+            "phase": 0,
+            "schedule": 213
+          },
+          "payload": {
+            "targetId": "player-1",
+            "before": 58,
+            "after": 57,
+            "delta": -1,
+            "reason": "白天敌袭造成的战斗冲击",
+            "state": "uneasy"
+          }
+        },
+        {
+          "eventId": "evt-000262",
+          "seq": 262,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000410",
+          "causationId": "cmd-000409",
+          "tick": {
+            "world": 573,
+            "phase": 0,
+            "schedule": 213
+          },
+          "payload": {
+            "minutes": 10,
+            "day": 1,
+            "hour": 9,
+            "minute": 33
+          }
+        },
+        {
+          "eventId": "evt-000263",
+          "seq": 263,
+          "type": "sanity.changed",
+          "actorId": "player-1",
+          "commandId": null,
+          "causationId": "cmd-000409",
+          "tick": {
+            "world": 573,
+            "phase": 0,
+            "schedule": 213
+          },
+          "payload": {
+            "targetId": "player-1",
+            "before": 57,
+            "after": 54,
+            "delta": -3,
+            "reason": "普通僵尸近身反咬",
+            "state": "uneasy"
+          }
+        },
+        {
+          "eventId": "evt-000264",
+          "seq": 264,
+          "type": "threat.attacked",
+          "actorId": "player-1",
+          "commandId": "cmd-000409",
+          "causationId": null,
+          "tick": {
+            "world": 573,
+            "phase": 0,
+            "schedule": 213
+          },
+          "payload": {}
+        }
+      ],
+      "methodNoteIsDecisionTextNotCurrentState": "截图显示贴身敌人，生命已从100降至82；先用公开F攻击一次自卫，不进行20分钟发现劳动。"
+    },
+    {
+      "order": 22,
+      "kind": "key",
+      "key": "ArrowUp",
+      "label": "retreat-22",
+      "holdMs": 800,
+      "wallStartedAt": 1792257827859,
+      "wallEndedAt": 1792257829249,
+      "before": {
+        "public": {
+          "day": 1,
+          "hour": 10,
+          "minute": 1,
+          "hp": 14,
+          "energy": 82,
+          "player": {
+            "x": 19.4,
+            "y": 3.3
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 10,
+          "minute": 0,
+          "hp": 14,
+          "player": {
+            "x": 19.40000000000003,
+            "y": 3.3000000000000242,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 240
+          },
+          "commandSeq": 437,
+          "eventSeq": 317
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/053-before-retreat-22-native.json",
+            "sha256": "e605d8bc06f1bebe08794be708776a3004bd19bdcc0891edbc7c980a8ea3d8ae",
+            "bytes": 289427
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/053-before-retreat-22-ui.json",
+            "sha256": "9f279499f33b86652554349b13c2cb0426fe0fa59b1be5e71349e303e5971f43",
+            "bytes": 60798
+          }
+        }
+      },
+      "after": {
+        "public": {
+          "day": 1,
+          "hour": 10,
+          "minute": 2,
+          "hp": 14,
+          "energy": 82,
+          "player": {
+            "x": 19.4,
+            "y": 3.3
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 10,
+          "minute": 0,
+          "hp": 14,
+          "player": {
+            "x": 19.40000000000003,
+            "y": 3.3000000000000242,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 240
+          },
+          "commandSeq": 437,
+          "eventSeq": 317
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/054-after-retreat-22-native.json",
+            "sha256": "e605d8bc06f1bebe08794be708776a3004bd19bdcc0891edbc7c980a8ea3d8ae",
+            "bytes": 289427
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/054-after-retreat-22-ui.json",
+            "sha256": "194a3d7d324aa5ef24fc5a2ebc185785924393aacda5abccc8c6f2de46062505",
+            "bytes": 60798
+          }
+        }
+      },
+      "actualWorldMinuteDelta": 1,
+      "newCommands": [
+        {
+          "commandId": "cmd-000453",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 1
+          }
+        }
+      ],
+      "newEvents": [
+        {
+          "eventId": "evt-000319",
+          "seq": 319,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000453",
+          "causationId": null,
+          "tick": {
+            "world": 602,
+            "phase": 0,
+            "schedule": 242
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 1,
+            "hour": 10,
+            "minute": 2
+          }
+        }
+      ],
+      "methodNoteIsDecisionTextNotCurrentState": "贴身敌人攻击后HP已50，按公开画面向北再向西撤离，停止广播塔劳动。"
+    },
+    {
+      "order": 23,
+      "kind": "key",
+      "key": "ArrowUp",
+      "label": "retreat-23",
+      "holdMs": 800,
+      "wallStartedAt": 1792257829471,
+      "wallEndedAt": 1792257830777,
+      "before": {
+        "public": {
+          "day": 1,
+          "hour": 10,
+          "minute": 2,
+          "hp": 14,
+          "energy": 82,
+          "player": {
+            "x": 19.4,
+            "y": 3.3
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 10,
+          "minute": 0,
+          "hp": 14,
+          "player": {
+            "x": 19.40000000000003,
+            "y": 3.3000000000000242,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 240
+          },
+          "commandSeq": 437,
+          "eventSeq": 317
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/055-before-retreat-23-native.json",
+            "sha256": "e605d8bc06f1bebe08794be708776a3004bd19bdcc0891edbc7c980a8ea3d8ae",
+            "bytes": 289427
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/055-before-retreat-23-ui.json",
+            "sha256": "194a3d7d324aa5ef24fc5a2ebc185785924393aacda5abccc8c6f2de46062505",
+            "bytes": 60798
+          }
+        }
+      },
+      "after": {
+        "public": {
+          "day": 1,
+          "hour": 10,
+          "minute": 3,
+          "hp": 14,
+          "energy": 82,
+          "player": {
+            "x": 19.4,
+            "y": 3.3
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 10,
+          "minute": 0,
+          "hp": 14,
+          "player": {
+            "x": 19.40000000000003,
+            "y": 3.3000000000000242,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 240
+          },
+          "commandSeq": 437,
+          "eventSeq": 317
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/056-after-retreat-23-native.json",
+            "sha256": "e605d8bc06f1bebe08794be708776a3004bd19bdcc0891edbc7c980a8ea3d8ae",
+            "bytes": 289427
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/056-after-retreat-23-ui.json",
+            "sha256": "fa7a48da298d2a47b8de0354c6265e07880ff1c7f36600d03b52cf62e11b1f9d",
+            "bytes": 60798
+          }
+        }
+      },
+      "actualWorldMinuteDelta": 1,
+      "newCommands": [
+        {
+          "commandId": "cmd-000461",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 1
+          }
+        }
+      ],
+      "newEvents": [
+        {
+          "eventId": "evt-000320",
+          "seq": 320,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000461",
+          "causationId": null,
+          "tick": {
+            "world": 603,
+            "phase": 0,
+            "schedule": 243
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 1,
+            "hour": 10,
+            "minute": 3
+          }
+        }
+      ],
+      "methodNoteIsDecisionTextNotCurrentState": "贴身敌人攻击后HP已50，按公开画面向北再向西撤离，停止广播塔劳动。"
+    },
+    {
+      "order": 24,
+      "kind": "key",
+      "key": "ArrowLeft",
+      "label": "retreat-24",
+      "holdMs": 800,
+      "wallStartedAt": 1792257830917,
+      "wallEndedAt": 1792257832219,
+      "before": {
+        "public": {
+          "day": 1,
+          "hour": 10,
+          "minute": 3,
+          "hp": 14,
+          "energy": 82,
+          "player": {
+            "x": 19.4,
+            "y": 3.3
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 10,
+          "minute": 0,
+          "hp": 14,
+          "player": {
+            "x": 19.40000000000003,
+            "y": 3.3000000000000242,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 240
+          },
+          "commandSeq": 437,
+          "eventSeq": 317
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/057-before-retreat-24-native.json",
+            "sha256": "e605d8bc06f1bebe08794be708776a3004bd19bdcc0891edbc7c980a8ea3d8ae",
+            "bytes": 289427
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/057-before-retreat-24-ui.json",
+            "sha256": "fa7a48da298d2a47b8de0354c6265e07880ff1c7f36600d03b52cf62e11b1f9d",
+            "bytes": 60798
+          }
+        }
+      },
+      "after": {
+        "public": {
+          "day": 1,
+          "hour": 10,
+          "minute": 4,
+          "hp": 14,
+          "energy": 82,
+          "player": {
+            "x": 19.4,
+            "y": 3.3
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 10,
+          "minute": 0,
+          "hp": 14,
+          "player": {
+            "x": 19.40000000000003,
+            "y": 3.3000000000000242,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 240
+          },
+          "commandSeq": 437,
+          "eventSeq": 317
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/058-after-retreat-24-native.json",
+            "sha256": "e605d8bc06f1bebe08794be708776a3004bd19bdcc0891edbc7c980a8ea3d8ae",
+            "bytes": 289427
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/058-after-retreat-24-ui.json",
+            "sha256": "7882a48da871f587c1322de90a635ad28f49ceed71efa99054ebbd2169193f25",
+            "bytes": 60798
+          }
+        }
+      },
+      "actualWorldMinuteDelta": 1,
+      "newCommands": [
+        {
+          "commandId": "cmd-000473",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 1
+          }
+        }
+      ],
+      "newEvents": [
+        {
+          "eventId": "evt-000321",
+          "seq": 321,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000473",
+          "causationId": null,
+          "tick": {
+            "world": 604,
+            "phase": 0,
+            "schedule": 244
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 1,
+            "hour": 10,
+            "minute": 4
+          }
+        }
+      ],
+      "methodNoteIsDecisionTextNotCurrentState": "贴身敌人攻击后HP已50，按公开画面向北再向西撤离，停止广播塔劳动。"
+    },
+    {
+      "order": 25,
+      "kind": "key",
+      "key": "ArrowLeft",
+      "label": "retreat-25",
+      "holdMs": 800,
+      "wallStartedAt": 1792257832391,
+      "wallEndedAt": 1792257833798,
+      "before": {
+        "public": {
+          "day": 1,
+          "hour": 10,
+          "minute": 5,
+          "hp": 8,
+          "energy": 82,
+          "player": {
+            "x": 19.4,
+            "y": 3.3
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 10,
+          "minute": 0,
+          "hp": 14,
+          "player": {
+            "x": 19.40000000000003,
+            "y": 3.3000000000000242,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 240
+          },
+          "commandSeq": 437,
+          "eventSeq": 317
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/059-before-retreat-25-native.json",
+            "sha256": "e605d8bc06f1bebe08794be708776a3004bd19bdcc0891edbc7c980a8ea3d8ae",
+            "bytes": 289427
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/059-before-retreat-25-ui.json",
+            "sha256": "bf53278136e85a8f104238f4ea02090e59e026bae3be84c6ed9172a25323f3b8",
+            "bytes": 60796
+          }
+        }
+      },
+      "after": {
+        "public": {
+          "day": 1,
+          "hour": 10,
+          "minute": 6,
+          "hp": 8,
+          "energy": 82,
+          "player": {
+            "x": 19.4,
+            "y": 3.3
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 10,
+          "minute": 0,
+          "hp": 14,
+          "player": {
+            "x": 19.40000000000003,
+            "y": 3.3000000000000242,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 240
+          },
+          "commandSeq": 437,
+          "eventSeq": 317
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/060-after-retreat-25-native.json",
+            "sha256": "e605d8bc06f1bebe08794be708776a3004bd19bdcc0891edbc7c980a8ea3d8ae",
+            "bytes": 289427
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/060-after-retreat-25-ui.json",
+            "sha256": "095370b9246ad9f7a36bc84ab792320d5a01986b59ac2ee9478d1dd5224fda78",
+            "bytes": 60796
+          }
+        }
+      },
+      "actualWorldMinuteDelta": 2,
+      "newCommands": [
+        {
+          "commandId": "cmd-000489",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 1
+          }
+        },
+        {
+          "commandId": "cmd-000506",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 1
+          }
+        }
+      ],
+      "newEvents": [
+        {
+          "eventId": "evt-000322",
+          "seq": 322,
+          "type": "combat.damage.applied",
+          "actorId": "frontier-2",
+          "commandId": null,
+          "causationId": "cmd-000489",
+          "tick": {
+            "world": 605,
+            "phase": 0,
+            "schedule": 245
+          },
+          "payload": {
+            "schemaVersion": "CombatIntentV1",
+            "phase": "DAY",
+            "tick": 34,
+            "intentId": "day-217-1",
+            "attackSeq": 1,
+            "profileId": "enemy.normal.day",
+            "sourceId": "frontier-2",
+            "targetId": "player-1",
+            "sourceKind": "event-enemy",
+            "targetKind": "player",
+            "amount": 6,
+            "before": 14,
+            "after": 8,
+            "damageType": "bite",
+            "sourceEventId": null
+          }
+        },
+        {
+          "eventId": "evt-000323",
+          "seq": 323,
+          "type": "sanity.changed",
+          "actorId": "player-1",
+          "commandId": null,
+          "causationId": "cmd-000489",
+          "tick": {
+            "world": 605,
+            "phase": 0,
+            "schedule": 245
+          },
+          "payload": {
+            "targetId": "player-1",
+            "before": 45,
+            "after": 44,
+            "delta": -1,
+            "reason": "白天敌袭造成的战斗冲击",
+            "state": "shaken"
+          }
+        },
+        {
+          "eventId": "evt-000324",
+          "seq": 324,
+          "type": "sanity.thresholdCrossed",
+          "actorId": "player-1",
+          "commandId": null,
+          "causationId": "cmd-000489",
+          "tick": {
+            "world": 605,
+            "phase": 0,
+            "schedule": 245
+          },
+          "payload": {
+            "targetId": "player-1",
+            "before": 45,
+            "after": 44,
+            "from": "uneasy",
+            "to": "shaken",
+            "reason": "白天敌袭造成的战斗冲击"
+          }
+        },
+        {
+          "eventId": "evt-000325",
+          "seq": 325,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000489",
+          "causationId": null,
+          "tick": {
+            "world": 605,
+            "phase": 0,
+            "schedule": 245
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 1,
+            "hour": 10,
+            "minute": 5
+          }
+        },
+        {
+          "eventId": "evt-000326",
+          "seq": 326,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000506",
+          "causationId": null,
+          "tick": {
+            "world": 606,
+            "phase": 0,
+            "schedule": 246
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 1,
+            "hour": 10,
+            "minute": 6
+          }
+        }
+      ],
+      "methodNoteIsDecisionTextNotCurrentState": "贴身敌人攻击后HP已50，按公开画面向北再向西撤离，停止广播塔劳动。"
+    },
+    {
+      "order": 26,
+      "kind": "key",
+      "key": "ArrowLeft",
+      "label": "retreat-26",
+      "holdMs": 800,
+      "wallStartedAt": 1792257834024,
+      "wallEndedAt": 1792257835407,
+      "before": {
+        "public": {
+          "day": 1,
+          "hour": 10,
+          "minute": 6,
+          "hp": 8,
+          "energy": 82,
+          "player": {
+            "x": 19.4,
+            "y": 3.3
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 10,
+          "minute": 0,
+          "hp": 14,
+          "player": {
+            "x": 19.40000000000003,
+            "y": 3.3000000000000242,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 240
+          },
+          "commandSeq": 437,
+          "eventSeq": 317
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/061-before-retreat-26-native.json",
+            "sha256": "e605d8bc06f1bebe08794be708776a3004bd19bdcc0891edbc7c980a8ea3d8ae",
+            "bytes": 289427
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/061-before-retreat-26-ui.json",
+            "sha256": "095370b9246ad9f7a36bc84ab792320d5a01986b59ac2ee9478d1dd5224fda78",
+            "bytes": 60796
+          }
+        }
+      },
+      "after": {
+        "public": {
+          "day": 1,
+          "hour": 10,
+          "minute": 7,
+          "hp": 8,
+          "energy": 82,
+          "player": {
+            "x": 19.4,
+            "y": 3.3
+          },
+          "overlayVisible": false,
+          "selects": []
+        },
+        "modalEvidence": {
+          "infoCloseVisible": false,
+          "inventoryCloseVisible": false,
+          "note": "modal field is innerText from a persistent DOM subtree, not an open/closed flag; do not infer visibility from nonempty text"
+        },
+        "focus": "not recorded",
+        "liveSessionMode": "not recorded",
+        "checkpoint": {
+          "day": 1,
+          "hour": 10,
+          "minute": 0,
+          "hp": 14,
+          "player": {
+            "x": 19.40000000000003,
+            "y": 3.3000000000000242,
+            "prevX": 10.9,
+            "prevY": 11
+          },
+          "night": false,
+          "gameOver": null,
+          "clock": {
+            "paused": false,
+            "rate": 1,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 240
+          },
+          "commandSeq": 437,
+          "eventSeq": 317
+        },
+        "references": {
+          "native": {
+            "path": "../browser-A-method03/062-after-retreat-26-native.json",
+            "sha256": "e605d8bc06f1bebe08794be708776a3004bd19bdcc0891edbc7c980a8ea3d8ae",
+            "bytes": 289427
+          },
+          "publicUi": {
+            "path": "../browser-A-method03/062-after-retreat-26-ui.json",
+            "sha256": "b33731d6a954d97643f63c2ac37597c37cc9ea31056ae2bce8f5529791e35818",
+            "bytes": 60796
+          }
+        }
+      },
+      "actualWorldMinuteDelta": 1,
+      "newCommands": [
+        {
+          "commandId": "cmd-000516",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 1
+          }
+        }
+      ],
+      "newEvents": [
+        {
+          "eventId": "evt-000327",
+          "seq": 327,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000516",
+          "causationId": null,
+          "tick": {
+            "world": 607,
+            "phase": 0,
+            "schedule": 247
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 1,
+            "hour": 10,
+            "minute": 7
+          }
+        }
+      ],
+      "methodNoteIsDecisionTextNotCurrentState": "贴身敌人攻击后HP已50，按公开画面向北再向西撤离，停止广播塔劳动。"
+    }
+  ],
+  "collisionGeometry": {
+    "kind": "read-only arithmetic from recorded checkpoint coordinates and literal original collision constants; not game execution",
+    "checkpointRef": {
+      "path": "../browser-A-method03/053-before-retreat-22-native.json",
+      "sha256": "e605d8bc06f1bebe08794be708776a3004bd19bdcc0891edbc7c980a8ea3d8ae",
+      "bytes": 289427
+    },
+    "laterSameEnemyCoordinatesRef": {
+      "path": "../browser-A-method03/065-final-native.json",
+      "sha256": "99e834f5ec3e3ef336ca0d4b9233e4c6e69ac897dfa6bfaa7f3e166d98b31ceb",
+      "bytes": 291117
+    },
+    "player": {
+      "x": 19.40000000000003,
+      "y": 3.3000000000000242
+    },
+    "enemy": {
+      "id": "frontier-1",
+      "x": 19.119989730767216,
+      "y": 3.178970196048035,
+      "kind": "normal",
+      "hp": 30
+    },
+    "playerRadius": 0.15,
+    "zombieRadius": 0.17,
+    "overlapTolerance": 0.015,
+    "rejectionThreshold": 0.305,
+    "inputDistance": 0.1,
+    "directions": [
+      {
+        "direction": "north",
+        "candidate": {
+          "x": 19.40000000000003,
+          "y": 3.200000000000024
+        },
+        "distanceToRecordedFrontier1": 0.2807988666823504,
+        "blockedByThisEnemyUnderOriginalRule": true,
+        "safeRouteClaim": false
+      },
+      {
+        "direction": "west",
+        "candidate": {
+          "x": 19.30000000000003,
+          "y": 3.3000000000000242
+        },
+        "distanceToRecordedFrontier1": 0.21691452342783962,
+        "blockedByThisEnemyUnderOriginalRule": true,
+        "safeRouteClaim": false
+      },
+      {
+        "direction": "east",
+        "candidate": {
+          "x": 19.500000000000032,
+          "y": 3.3000000000000242
+        },
+        "distanceToRecordedFrontier1": 0.3988182771226191,
+        "blockedByThisEnemyUnderOriginalRule": false,
+        "safeRouteClaim": false
+      },
+      {
+        "direction": "south",
+        "candidate": {
+          "x": 19.40000000000003,
+          "y": 3.4000000000000243
+        },
+        "distanceToRecordedFrontier1": 0.35673509094408984,
+        "blockedByThisEnemyUnderOriginalRule": false,
+        "safeRouteClaim": false
+      }
+    ]
+  },
+  "findings": [
+    "F was processed: actual threat.attack parent and nested advance10, UI64HP at09:23 to50HP09:33.",
+    "First retreat begins only10:01 HP14, about32.7 seconds after F returns; unpaused world time and real damage continue during sampling/thinking.",
+    "Five retreat keys happen before recorded loss, with positive publicHP, no start overlay and no visible modal-close/select controls. Focus and exact live modal/session flags were not captured, so no absolute focus claim.",
+    "Original collision rule rejects recorded north/west one-step candidates against frontier1. Matching nearby enemy coordinates at10:00 and10:10 support physical obstruction, rather than requiring a focus bug explanation.",
+    "Movement dispatch is ephemeral; absent persisted movement commands is not evidence keydown was ignored. Command watermark gaps are consistent with those ephemeral attempts.",
+    "Clicking the nearby broadcast landmark actually ran discovery+advance20 despite being labelled select/read; no minutes property meant the runner safety precheck did not run before that paid operation.",
+    "No product input bug is established from this evidence. No movement replay result or unrecorded focus fact is invented."
+  ],
+  "bDecision": "Do not treat the same timed key sequence as safe for B. Canonical input acceptance establishes loading only. B needs current public risk/HP and paid-action time checks, little idle analysis while unpaused, and actual displacement feedback. Collision no-move should stop/replan from public scene instead of repeating north/west. East/south arithmetic clears this one recorded enemy only; it is not a validated safe route or permission to start B blindly.",
+  "protocolCountCorrection": {
+    "originalReportedMajorActions": 1,
+    "correctedPaidMajorActions": 2,
+    "originalReportedInteractionAttempts": 1,
+    "correctedInteractionAttempts": 2,
+    "basis": [
+      "landmark.discover cmd-000348 with childadvance20 and relayCore receipt evt-000162/evt-000170",
+      "threat.attack cmd-000409 with childadvance10"
+    ],
+    "rawReportModified": false,
+    "relayTerminal": "core-recovered;relayCore1;nohandoff",
+    "contextBeforeDiscover": "The real context already listed broadcast exploration as second action; first wood gather option did not eliminate the broadcast entry."
+  },
+  "originalDeclaredSnapshotRefsVerified": 144
+}

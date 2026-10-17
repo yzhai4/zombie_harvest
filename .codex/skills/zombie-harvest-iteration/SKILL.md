@@ -62,6 +62,8 @@ NPC公开动作按[NPC合同](../../../docs/decisions/ADR-20261017-npc-public-ac
 
 自然路线先按 `docs/qa/natural-play-protocol-20261017.md` 追踪公开入口的真实命令与时间效果。遭遇开始/报告关闭不等于跨日；有意义行动耗尽可报告节奏未完成，不用重复增益或空等补成“自然三日”。公开休整若实施，必须有小步模拟、危险中断、午夜后果、timer ownership、幂等与旧档证据。
 
+实际键鼠pilot按[行动与采样](references/public-pilot-accounting.md)用父业务命令校对计数：地图“选择”可能已经付费。未暂停阅读／取证仍有世界成本，批量导航逐步核HP和位移；实时UI与耐久writer分水位，方法错误用独立companion更正并保留原报告，不据一次死亡预设产品bug或因素因果。
+
 ```text
 node scripts/validate-content.mjs
 node scripts/check-night-guard.mjs
