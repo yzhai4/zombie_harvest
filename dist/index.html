@@ -1591,7 +1591,7 @@
     // 需求驱动的晨间异动：让 NPC 的饥饿、伤势和压力真正改变当天的决策，
     // 同时复用旧事件面板，避免另起一套 UI 或破坏旧存档。
     function refreshDynamicNpcEvent() {
-      const living = state.npcs.filter(npcIsActive);
+      const living = state.npcs.filter(npcIsCampLocal);
       if (!living.length) return null;
       const hungry = living.filter(n => (n.needs?.hunger || 0) >= 68).sort((a, b) => (b.needs.hunger || 0) - (a.needs.hunger || 0));
       const injured = living.filter(n => n.lifeState !== 'healthy').sort((a, b) => a.hp - b.hp);
@@ -2103,11 +2103,11 @@ function resolveObserverExpression(input = {}) {
       const needs = npc.needs || NPC_NEED_DEFAULTS;
       const resting = npc.scheduleState === '休整' || npc.behaviorState === 'rest' || needs.energy < 24;
       let delta = resting ? 1 : -1;
-      if (state.night) delta -= 1;
+      if (state.night && npcIsCampLocal(npc)) delta -= 1;
       if (needs.stress >= 70 || needs.safety >= 70) delta -= 1;
       if (needs.social >= 72) delta -= 1;
-      if (state.morale >= 72 && npc.supportRequested) delta += 1;
-      if (npc.bond >= 2 && npc.supportRequested) delta += 1;
+      if (state.morale >= 72 && npc.supportRequested && npcIsCampLocal(npc)) delta += 1;
+      if (npc.bond >= 2 && npc.supportRequested && npcIsCampLocal(npc)) delta += 1;
       adjustSanity(npc, delta * ticks, resting ? '休整与岗位安全' : '岗位压力持续积累', { drift: true });
     }
     function ensureSocialFacts() {
@@ -2195,6 +2195,7 @@ function resolveObserverExpression(input = {}) {
     function promoteNpcHero(npcId) {
       if (state.night) return { ok: false, reason: 'night-lock' };
       const npc = state.npcs.find(item => item.id === npcId);
+      if (npc && !npcIsCampLocal(npc)) return { ok: false, reason: 'npc-not-in-camp' };
       const status = evaluateNpcPromotion(npc, 'player-request');
       if (!status.ok || !status.eligible || npc.hero.status === 'promoted') return { ok: false, reason: status.reason || 'promotion-not-ready' };
       if (Number(state.contentState?.commandPoints || 0) < 1) return { ok: false, reason: 'command-points-empty' };
@@ -2504,7 +2505,7 @@ function resolveObserverExpression(input = {}) {
        return cap;
      }
      function planNpcVoteWeight(npc) {
-       if (!npc || !npcIsActive(npc)) return 0;
+       if (!npc || !npcIsCampLocal(npc)) return 0;
        const story = NPC_STORY_DEFS[npc.id]; const heroVoter = story?.tier === 'hero' || ['commander', 'sergeant', 'radio', 'doctor'].includes(npc.id) || npc.promotedTier === 'hero';
        if (!heroVoter) return 0;
        let weight = npc.id === 'commander' ? 3 : npc.id === 'sergeant' ? 2 : 1;
@@ -2525,10 +2526,11 @@ function resolveObserverExpression(input = {}) {
        if (npc?.relations?.trustToCommander < 25 && npc.id !== 'commander') score -= 1;
        return score;
      }
-     function generatePlanMeeting(options = {}) {
-       ensureContentState(); const plan = planMeetingState();
-       if (plan.status !== 'idle' && Number(plan.meetingDay) === Number(state.day)) return { ok: true, duplicate: true, plan };
-       if (!options.force && Number(state.day) > 13) return { ok: false, reason: 'plan-window-closed' };
+     function planMeetingElectorateChanged(plan) {
+       const electorate = state.npcs.filter(npc => planNpcVoteWeight(npc) > 0).sort((a,b) => String(a.id).localeCompare(String(b.id))).map(npc => ({ npcId: npc.id, weight: planNpcVoteWeight(npc) }));
+       return !(plan.candidates || []).every(candidate => JSON.stringify((candidate.ballots || []).map(ballot => ({ npcId: ballot.npcId, weight: ballot.weight }))) === JSON.stringify(electorate));
+     }
+     function calculatePlanMeetingCandidates() {
        const activeVoters = (state.npcs || []).filter(npc => planNpcVoteWeight(npc) > 0).sort((a, b) => String(a.id).localeCompare(String(b.id)));
        const defs = Object.values(PLAN_DEFS).map(def => ({ ...def, effects: stableClone(def.effects) }));
        const ranked = defs.map(def => {
@@ -2536,23 +2538,35 @@ function resolveObserverExpression(input = {}) {
          return { ...def, votes: ballots.reduce((sum, ballot) => sum + (ballot.score >= 30 ? ballot.weight : 0), 0), voteWeight: ballots.reduce((sum, ballot) => sum + ballot.weight, 0), ballots };
        }).sort((a, b) => (b.votes - a.votes) || (b.basePriority - a.basePriority) || a.id.localeCompare(b.id));
        const candidates = ranked.slice(0, 3).map((candidate, index) => ({ id: candidate.id, title: candidate.title, category: candidate.category, proposerId: candidate.proposerId, cost: candidate.cost, expected: candidate.expected, risk: candidate.risk, affectedRoles: candidate.affectedRoles, votes: Number(candidate.votes), voteWeight: Number(candidate.voteWeight), ballots: candidate.ballots, rank: index + 1, validDay: state.day, effects: candidate.effects }));
+       return candidates;
+     }
+     function publishPlanMeetingCandidates(candidates, options = {}) {
+       const plan = planMeetingState();
        const selected = candidates[0];
        plan.status = 'candidate'; plan.version = 1; plan.meetingDay = state.day; plan.instanceId = `camp-plan-meeting-001:d${state.day}`; plan.source = options.source || 'summary'; plan.candidates = candidates; plan.selectedId = selected?.id || null; plan.playerAction = null; plan.committedDay = null; plan.resolvedDay = null; plan.autonomyResult = null;
-       const payload = { instanceId: plan.instanceId, meetingDay: plan.meetingDay, source: plan.source, campTrust: campTrustValue(), commandPoints: state.contentState.commandPoints, meters: stableClone(state.contentState.meters), candidates: stableClone(candidates), selectedId: plan.selectedId };
+       const payload = { instanceId: plan.instanceId, meetingDay: plan.meetingDay, source: plan.source, ...(options.refreshPresence ? { presenceReason: options.reason || 'presence-changed' } : {}), campTrust: campTrustValue(), commandPoints: state.contentState.commandPoints, meters: stableClone(state.contentState.meters), candidates: stableClone(candidates), selectedId: plan.selectedId };
        recordWorldEvent('plan.meeting.candidates', payload, { actorId: 'camp-autonomy', defId: 'camp-plan-meeting-001', instanceId: plan.instanceId });
        return { ok: true, plan };
+     }
+     function generatePlanMeeting(options = {}) {
+       ensureContentState(); const plan = planMeetingState();
+       if (plan.status !== 'idle' && Number(plan.meetingDay) === Number(state.day) && !(options.refreshPresence === true && plan.status === 'candidate')) return { ok: true, duplicate: true, plan };
+       if (!options.force && Number(state.day) > 13) return { ok: false, reason: 'plan-window-closed' };
+       return publishPlanMeetingCandidates(calculatePlanMeetingCandidates(), options);
      }
      function commitPlanMeeting(action = 'support', planId = null) {
        if (!SessionController.acceptsInput() || state.gameOver) return { ok: false, reason: 'session-frozen' };
        return dispatchCommand({ type: 'plan.meeting.commit', actorId: 'player-1', payload: { action, planId } }, () => {
-         ensureContentState(); const plan = planMeetingState(); const target = planId || plan.selectedId;
+         ensureContentState(); let plan = planMeetingState(); const target = planId || plan.selectedId;
          if (state.night) return { ok: false, reason: 'night-lock' };
          if (plan.status !== 'candidate' || Number(plan.meetingDay) !== Number(state.day)) return { ok: false, reason: 'plan-not-open' };
          if (Number(state.contentState.meters.campTrust) < 60) return { ok: false, reason: 'camp-trust-low' };
          if (Number(state.contentState.commandPoints) < 1) return { ok: false, reason: 'command-points-empty' };
          if (!['support', 'deny', 'modify'].includes(action)) return { ok: false, reason: 'plan-action-invalid' };
-         const candidate = plan.candidates.find(item => item.id === target);
-         if (!candidate) return { ok: false, reason: 'plan-choice-missing' };
+         if (!plan.candidates.some(item => item.id === target)) return { ok: false, reason: 'plan-choice-missing' };
+         const preview = planMeetingElectorateChanged(plan) ? calculatePlanMeetingCandidates() : null;
+         if (!(preview || plan.candidates).some(item => item.id === target)) return { ok: false, reason: 'plan-choice-missing' };
+         if (preview) { publishPlanMeetingCandidates(preview, { source: plan.source, refreshPresence: true, reason: 'plan-commit-presence-check' }); plan = planMeetingState(); }
          const before = Number(state.contentState.commandPoints); state.contentState.commandPoints = Math.max(0, before - 1);
          plan.status = 'committed'; plan.playerAction = action; plan.selectedId = action === 'deny' ? (plan.candidates[1]?.id || plan.candidates[0]?.id || null) : target; plan.committedDay = state.day;
          const payload = { instanceId: plan.instanceId, meetingDay: plan.meetingDay, action, selectedId: plan.selectedId, pointsBefore: before, pointsAfter: state.contentState.commandPoints, candidates: stableClone(plan.candidates) };
@@ -2569,7 +2583,8 @@ function resolveObserverExpression(input = {}) {
        const before = { meters: stableClone(state.contentState.meters), food: state.food, seeds: state.seeds, medicine: state.medicine };
        const effectId = `plan:${plan.meetingDay}:${candidate.id}`;
        const prior = (state.worldMeta?.events || []).find(event => ['plan.meeting.resolved', 'plan.meeting.fallback'].includes(event.type) && (plan.instanceId && event.payload?.instanceId === plan.instanceId || Number(event.payload?.meetingDay) === Number(plan.meetingDay) && event.payload?.selectedId === candidate.id));
-       const result = prior ? (prior.type === 'plan.meeting.fallback' ? { ok: false, reason: prior.payload?.reason || 'effect-rejected', recovered: true } : { ok: true, duplicate: true, results: prior.payload?.results || [] }) : applyContentEffects(candidate.effects || [], { effectId, actorId: plan.playerAction ? 'player-1' : 'camp-autonomy', defId: 'camp-plan-meeting-001', record: false });
+       const awayRoles = (candidate.affectedRoles || PLAN_DEFS[candidate.id]?.affectedRoles || []).filter(role => state.npcs.some(npc => npcIsActive(npc) && npc.garrisonedOutpostId && (npc.actingRole || npc.id) === role) && !state.npcs.some(npc => npcHasRole(npc, role)));
+       const result = prior ? (prior.type === 'plan.meeting.fallback' ? { ok: false, reason: prior.payload?.reason || 'effect-rejected', recovered: true } : { ok: true, duplicate: true, results: prior.payload?.results || [] }) : awayRoles.length ? { ok: false, reason: 'plan-role-not-in-camp', roles: awayRoles } : applyContentEffects(candidate.effects || [], { effectId, actorId: plan.playerAction ? 'player-1' : 'camp-autonomy', defId: 'camp-plan-meeting-001', record: false });
        const after = { meters: stableClone(state.contentState.meters), food: state.food, seeds: state.seeds, medicine: state.medicine };
        // Effects normalize or roll back contentState. Settle the authoritative
        // meeting, rather than the pre-effect reference retained above.
@@ -2582,6 +2597,12 @@ function resolveObserverExpression(input = {}) {
        const payload = { instanceId: current.instanceId, meetingDay: current.meetingDay, resolvedDay, route: current.playerAction || 'autonomy', selectedId: candidate.id, effectId, before, after, candidates: stableClone(current.candidates), results: stableClone(result.results || []) };
        if (!prior) recordWorldEvent('plan.meeting.resolved', payload, { actorId: current.playerAction ? 'player-1' : 'camp-autonomy', defId: 'camp-plan-meeting-001', instanceId: current.instanceId, effects: candidate.effects || [] });
        return { ok: true, payload };
+     }
+     function refreshPlanMeetingPresence(reason) {
+       const plan = planMeetingState();
+       if (plan.status !== 'candidate' || Number(plan.meetingDay) !== Number(state.day)) return false;
+       if (!planMeetingElectorateChanged(plan)) return false;
+       return generatePlanMeeting({ source: plan.source, force: true, refreshPresence: true, reason });
      }
      function preparePlanMeetingAtSummary() { if (!state.night || !state.nightBattle?.resolved) return { ok: false, reason: 'summary-not-ready' }; return generatePlanMeeting({ source: 'summary' }); }
      function runPlanMeetingDayStart() { const executed = executePlanMeeting({ source: 'day-start' }); refreshCommandPoints('day-start'); return executed; }
@@ -2637,6 +2658,7 @@ function resolveObserverExpression(input = {}) {
            const npc = state.npcs.find(item => item.id === npcId);
            if (!npc || !npcIsActive(npc)) return;
            guards.push(npcId); assigned.add(npcId); npc.garrisonedOutpostId = outpostId;
+           npc.supportRequested = false; npc.order = null; npc.currentOrder = null; npc.motionTarget = null;
          });
          raw.guardNpcIds = guards;
          raw.status = ['secured', 'strained', 'vacant'].includes(raw.status) ? raw.status : 'secured';
@@ -2646,9 +2668,22 @@ function resolveObserverExpression(input = {}) {
        });
        return records;
      }
+     function npcCampReturnPosition(npc) {
+       const legal = point => Number.isFinite(point.x) && Number.isFinite(point.y) && canOccupyContinuous(npc, point.x, point.y)
+         && !(state.buildings || []).some(building => buildingContains(building, point.x, point.y))
+         && !(state.npcs || []).some(other => other.id !== npc.id && npcIsCampLocal(other) && distanceBetween(point, other) < .65);
+       if (frontierTier(frontierRegionKeyAt(npc.x, npc.y)) === 0 && legal(npc)) return { x: npc.x, y: npc.y };
+       const home = CAMP_AREAS.find(area => area.zone === npc.homeZone) || FRONTIER_CAMP_ANCHOR;
+       const cells = [];
+       for (let y = 0; y < MAP.rows; y++) for (let x = 0; x < MAP.cols; x++) if (frontierTier(frontierRegionKeyAt(x, y)) === 0 && legal({x, y})) cells.push({x, y});
+       cells.sort((a, b) => distanceBetween(a, home) - distanceBetween(b, home) || a.y - b.y || a.x - b.x);
+       return cells[0] || null;
+     }
      function releaseNpcFromOutpost(npc, reason = 'released') {
        const outpostId = npc?.garrisonedOutpostId;
        if (!outpostId) return false;
+       const returnPosition = npcIsActive(npc) ? npcCampReturnPosition(npc) : null;
+       if (npcIsActive(npc) && !returnPosition) return false;
        const outpost = state.contentState?.outposts?.[outpostId];
        if (outpost) {
          outpost.guardNpcIds = (Array.isArray(outpost.guardNpcIds) ? outpost.guardNpcIds : []).filter(id => id !== npc.id);
@@ -2656,6 +2691,10 @@ function resolveObserverExpression(input = {}) {
          outpost.vacancyReason = reason;
        }
        delete npc.garrisonedOutpostId;
+       npc.supportRequested = false; npc.order = null; npc.currentOrder = null; npc.motionTarget = null;
+       if (returnPosition) { npc.x = returnPosition.x; npc.y = returnPosition.y; npc.prevX = npc.x; npc.prevY = npc.y; npc.behaviorState = 'idle'; npc.scheduleState = '回到营地 · 待命'; npc.lastReport = '已解除驻守，等待新的营地指令'; }
+       refreshPlanMeetingPresence('outpost-released');
+       if (!state.event || state.event.handled) activateQueuedNpcEvent();
        recordWorldEvent('outpost.guardReleased', { outpostId, npcId: npc.id, reason, population: outpostPopulationLedger() }, { actorId: 'system' });
        return true;
      }
@@ -2698,10 +2737,11 @@ function resolveObserverExpression(input = {}) {
         const existing = state.contentState.outposts?.[outpostId];
         if (existing?.status === 'secured') return { ok: false, reason: 'outpost-already-secured', label: '据点已被营地控制' };
         if ((state.npcs || []).filter(npcIsActive).length < 3) return { ok: false, reason: 'outpost-minimum-population', label: '活跃幸存者少于 3 人，不能分出守军' };
-        const guards = Array.isArray(options.guardNpcIds) ? options.guardNpcIds.map(id => state.npcs.find(npc => npc.id === id)).filter(Boolean) : selectOutpostGuards(outpostId);
+        const guards = Array.isArray(options.guardNpcIds) ? [...new Set(options.guardNpcIds)].map(id => state.npcs.find(npc => npc.id === id)).filter(Boolean) : selectOutpostGuards(outpostId);
         const slots = Math.max(0, Number(def.guardSlots) || 0);
         if (!guards.length || (slots > 0 && guards.length > slots)) return { ok: false, reason: 'outpost-guard-slots', label: `需要从可用幸存者中安排 ${slots} 名守军`, def, landmark, guards, slots };
         if (guards.some(npc => !outpostGuardEligible(npc, outpostId))) return { ok: false, reason: 'outpost-guard-busy', label: '候选守军正在核心岗位或其他据点值守', def, landmark, guards, slots };
+        if (state.npcs.filter(npcIsCampLocal).length - guards.filter(npcIsCampLocal).length < 1) return { ok: false, reason: 'outpost-minimum-camp-population', label: '营地至少需要保留 1 名幸存者', def, landmark, guards, slots };
         if (state.energy < 6) return { ok: false, reason: 'energy', label: '行动体力不足（需要 6）', def, landmark, guards, slots };
         return { ok: true, def, landmark, guards: guards.slice(0, slots || guards.length), slots };
       }
@@ -2882,7 +2922,7 @@ function resolveObserverExpression(input = {}) {
        if (op === 'unlockWeapon' || (op === 'unlock' && contentDefinition('weapon', key))) { const weaponId = key; if (!contentDefinition('weapon', weaponId)) return { ok: false, reason: `weapon-missing:${weaponId}` }; state.contentState.unlockedWeapons = [...new Set([...state.contentState.unlockedWeapons, weaponId])]; return { ok: true, op: 'unlockWeapon', key: weaponId }; }
        if (op === 'unlock') { state.contentState.flags[key] = true; return { ok: true, op, key }; }
        if (op === 'scheduleEvent') { const item = { id: effect.eventId || key, dueDay: Number(effect.dueDay) || state.day, payload: stableClone(effect.payload || {}) }; state.contentState.scheduledEvents = [...state.contentState.scheduledEvents.filter(event => event.id !== item.id), item].slice(-50); state.contentState.triggeredEvents = state.contentState.triggeredEvents.filter(eventId => eventId !== item.id); return { ok: true, op, key: item.id }; }
-       if (op === 'assignJob') { const npc = state.npcs?.find(item => item.id === (effect.npcId || effect.targetId)); if (!npc || !npcIsActive(npc)) return { ok: false, reason: 'npc-missing-or-inactive' }; if (!contentDefinition('npcRole', key)) return { ok: false, reason: `role-missing:${key}` }; const incumbent = state.npcs?.find(item => item.id !== npc.id && npcIsActive(item) && item.contentJob === key); if (incumbent && effect.allowShared !== true) return { ok: false, reason: `role-occupied:${key}` }; npc.contentJob = key; return { ok: true, op, npcId: npc.id, job: key }; }
+       if (op === 'assignJob') { const npc = state.npcs?.find(item => item.id === (effect.npcId || effect.targetId)); if (!npc || !npcIsActive(npc)) return { ok: false, reason: 'npc-missing-or-inactive' }; if (!npcIsCampLocal(npc)) return { ok: false, reason: 'npc-not-in-camp' }; if (!contentDefinition('npcRole', key)) return { ok: false, reason: `role-missing:${key}` }; const incumbent = state.npcs?.find(item => item.id !== npc.id && npcIsActive(item) && item.contentJob === key); if (incumbent && effect.allowShared !== true) return { ok: false, reason: `role-occupied:${key}` }; npc.contentJob = key; return { ok: true, op, npcId: npc.id, job: key }; }
        if (op === 'damageBuilding') { const building = state.buildings?.find(item => item.id === (effect.buildingId || effect.targetId)); if (!building) return { ok: false, reason: 'building-missing' }; building.hp = Math.max(0, Number(building.hp || 0) - Math.max(0, value)); return { ok: true, op, buildingId: building.id }; }
        if (op === 'captureOutpost') {
          const outpostId = key; const outpost = contentDefinition('outpost', outpostId);
@@ -2896,8 +2936,10 @@ function resolveObserverExpression(input = {}) {
          if (livingRoster < 3) return { ok: false, reason: 'outpost-minimum-population' };
          const guardObjects = guards.map(npcId => state.npcs?.find(npc => npc.id === npcId));
          if (guardObjects.some(npc => !outpostGuardEligible(npc, outpostId))) return { ok: false, reason: 'outpost-guard-busy' };
-         guardObjects.forEach(npc => { npc.garrisonedOutpostId = outpostId; npc.scheduleState = '据点驻守'; npc.supportRequested = false; npc.order = null; npc.currentOrder = null; npc.lastReport = `驻守${outpost.name || outpostId}`; });
+         if (state.npcs.filter(npcIsCampLocal).length - guardObjects.filter(npcIsCampLocal).length < 1) return { ok: false, reason: 'outpost-minimum-camp-population' };
+         guardObjects.forEach(npc => { npc.garrisonedOutpostId = outpostId; npc.scheduleState = '据点驻守'; npc.supportRequested = false; npc.order = null; npc.currentOrder = null; npc.motionTarget = null; npc.perception = { ...(npc.perception || {}), targetId: null, targetAt: 0 }; if (state.selectedNpc === npc.id) state.selectedNpc = null; if (state.npcTalkOpen === npc.id) state.npcTalkOpen = null; if (state.interactionFocus?.kind === 'npc' && String(state.interactionFocus.key || '').startsWith(`npc:${npc.id}:`)) state.interactionFocus = null; deferNpcCampEvent(npc); npc.lastReport = `驻守${outpost.name || outpostId}`; });
          state.contentState.outposts[outpostId] = { status: 'secured', guardNpcIds: guards, guardSlots: Number(outpost.guardSlots || 0), securedAt: worldMinute(), lastUpkeepDay: 0, lastUpkeepResult: null, vacancyReason: null };
+         refreshPlanMeetingPresence('outpost-garrisoned');
          recordWorldEvent('outpost.secured', { outpostId, guardNpcIds: guards, population: outpostPopulationLedger() }, { actorId: meta.actorId || 'system' });
          return { ok: true, op, key: outpostId, guardNpcIds: guards, population: outpostPopulationLedger() };
        }
@@ -2914,6 +2956,7 @@ function resolveObserverExpression(input = {}) {
        const rollback = {
          contentState: stableClone(state.contentState),
          npcs: stableClone(state.npcs || []),
+         presenceUi: { event: stableClone(state.event), eventInstance: stableClone(state.eventInstance), npcEvents: stableClone(state.npcEvents || []), selectedNpc: state.selectedNpc, npcTalkOpen: state.npcTalkOpen, interactionFocus: stableClone(state.interactionFocus), logs: stableClone(state.logs || []) },
          buildings: stableClone(state.buildings || []),
          resources: stableClone(state.resources || []),
          specialItems: stableClone(state.specialItems || {}),
@@ -2930,6 +2973,7 @@ function resolveObserverExpression(input = {}) {
        if (failed) {
          state.contentState = rollback.contentState;
          state.npcs = rollback.npcs;
+         Object.assign(state, rollback.presenceUi);
          state.buildings = rollback.buildings;
          state.resources = rollback.resources;
          state.specialItems = rollback.specialItems;
@@ -3684,14 +3728,16 @@ function resolveObserverExpression(input = {}) {
       return { ...recovery, selected, safeCandidates, candidates, diagnostics: candidates.filter(item => !item.ok).map(item => `${item.sourceCategory}:${item.reason}`) };
     }
     function prepareSavedRegistry(candidate) {
-      const updates = {}; const event = candidate.event;
-      if (!event) return updates;
+      const updates = {};
+      const pending = (candidate.npcEvents || []).filter(item => ['queued', 'active'].includes(item.status) && item.event).map(item => item.event);
+      for (const event of [candidate.event, ...pending].filter(Boolean)) {
       const defId = event.defId || event.id;
       if (typeof defId !== 'string' || !defId || ![event.id, defId].some(id => eventPool.some(item => item.id === id) || DYNAMIC_EVENT_IDS.has(id) || /^npc\./.test(id)) && !savedRecord(event.npcEvent)) throw new Error('saved-event-definition');
       if (event.npcEvent && !candidate.npcs.some(npc => npc.id === event.npcEvent.npcId)) throw new Error('saved-event-actor');
-      if (!EVENT_DEFS[defId]) {
+      if (!EVENT_DEFS[defId] && !updates[defId]) {
         const choices = ['a','b'].map(id => normalizeEventChoice({ id, label: event[id] || id, hint: event[`${id}Hint`] || '', commandType: 'event.resolve', effects: [{ type: 'reducer', key: event.npcEvent?.chainId || event.id, eventType: 'npc.event.resolved' }] }, id));
         updates[defId] = Object.freeze({ id: defId, defId, definitionVersion: EVENT_DEFINITION_VERSION, title: event.title || defId, icon: event.icon || '📣', text: event.text || '', phase: 'DAY', actors: event.npcEvent ? [event.npcEvent.npcId] : ['player-1'], preconditions: [], gate: normalizeEventGate({ phase: 'DAY', nightAllowed: false }), choices, effects: normalizeEventEffects(Object.fromEntries(choices.map(choice => [choice.id, choice.effects]))), observability: {}, timeout: null, nightAllowed: false });
+      }
       }
       return updates;
     }
@@ -3852,7 +3898,7 @@ function resolveObserverExpression(input = {}) {
     function npcIsActive(npc) { return npc && npc.lifeState !== 'dead'; }
     function npcIsCampLocal(npc) { return npcIsActive(npc) && !npc.garrisonedOutpostId; }
     function npcHasRole(npc, roleId) { return npcIsActive(npc) && !npc.garrisonedOutpostId && (npc.id === roleId || npc.actingRole === roleId); }
-    function getNpc(x, y) { return state.npcs.find(n => npcIsActive(n) && n.x === x && n.y === y); }
+    function getNpc(x, y) { return state.npcs.find(n => npcIsCampLocal(n) && n.x === x && n.y === y); }
     function npcLifeLabel(npc) {
       if (!npcIsActive(npc)) return '已死亡 · 岗位空缺';
       if (npc.lifeState === 'critical') return '重伤 · HP ' + npc.hp + '/' + npc.maxHp;
@@ -3931,7 +3977,7 @@ function resolveObserverExpression(input = {}) {
     function nearestEntityAt(list, x, y, radius = 0.8, predicate = () => true) {
       return (list || []).filter(predicate).map(item => ({ item, distance: distanceBetween(item, {x, y}) })).filter(hit => hit.distance <= radius).sort((a, b) => a.distance - b.distance || String(a.item.id || '').localeCompare(String(b.item.id || '')))[0]?.item || null;
     }
-    function getNpcNear(x, y, radius = 0.85) { return nearestEntityAt(state.npcs, x, y, radius, npcIsActive); }
+    function getNpcNear(x, y, radius = 0.85) { return nearestEntityAt(state.npcs, x, y, radius, npcIsCampLocal); }
     function getZombieNear(x, y, radius = 0.85) { return nearestEntityAt(getWorldZombies(), x, y, radius, z => z.hp > 0); }
     function getResourceNear(x, y, radius = 0.85) { return nearestEntityAt(state.resources, x, y, radius, r => r.amount > 0); }
     function getLandmarkNear(x, y, radius = 0.85) { return nearestEntityAt(state.landmarks, x, y, radius, l => !l.found); }
@@ -4020,14 +4066,14 @@ function resolveObserverExpression(input = {}) {
       if (!npc) return 1;
       const trust = (npc.relations?.trustToPlayer || 0) / 100;
       const personality = orderId === 'patrol' ? npc.personality.riskTolerance : orderId === 'guard' ? npc.personality.duty : npc.personality.compassion;
-      const alliesPresent = (npc.relations?.allies || []).filter(id => state.npcs.some(other => other.id === id && npcIsActive(other))).length;
-      const rivalsPresent = (npc.relations?.rivals || []).filter(id => state.npcs.some(other => other.id === id && npcIsActive(other))).length;
+      const alliesPresent = (npc.relations?.allies || []).filter(id => state.npcs.some(other => other.id === id && npcIsCampLocal(other))).length;
+      const rivalsPresent = (npc.relations?.rivals || []).filter(id => state.npcs.some(other => other.id === id && npcIsCampLocal(other))).length;
       return Math.max(.62, Math.min(1.2, (1 + trust * .08 + (personality - 50) / 500 + alliesPresent * .035 - rivalsPresent * .045) * npcRoleEfficiency(npc)));
     }
     function continuousMotionStep(stepMinutes) {
       const step = Math.max(0, Number(stepMinutes) || 0);
       if (!step) return;
-      state.npcs.filter(npcIsActive).forEach(npc => {
+      state.npcs.filter(npcIsCampLocal).forEach(npc => {
         // A critical handoff needs a deterministic meeting point. During the
         // relayCore "待交付" step, the commander keeps the command post open
         // instead of walking away on a routine schedule; other NPCs remain
@@ -4083,12 +4129,26 @@ function resolveObserverExpression(input = {}) {
       const needs = npc.needs || NPC_NEED_DEFAULTS;
       return Math.max(needs.hunger, needs.fatigue, needs.stress, needs.social, needs.safety, 100 - needs.energy, 100 - sanityValue(npc));
     }
+    function deferNpcCampEvent(npc, reason = 'outpost-garrisoned') {
+      if (!npc || npcIsCampLocal(npc) || !state.event?.npcEvent || state.event.handled || state.event.npcEvent.npcId !== npc.id) return false;
+      const event = state.event;
+      const instanceId = state.eventInstance?.instanceId || event.id;
+      let entry = (state.npcEvents || []).find(item => item.id === event.id);
+      if (!entry) { entry = { id: event.id, npcId: npc.id, step: event.npcEvent.step, openedAt: worldMinute() }; state.npcEvents = [...(state.npcEvents || []), entry].slice(-20); }
+      entry.status = 'queued'; entry.event = stableClone(event); entry.instance = state.eventInstance ? stableClone(state.eventInstance) : entry.instance || null;
+      npc.eventChain = { step: 0, cooldown: 0, active: null, resolved: [], ...(npc.eventChain || {}) };
+      npc.eventChain.active = { ...(npc.eventChain.active || {}), id: event.id, step: event.npcEvent.step, status: 'queued' };
+      state.event = null; state.eventInstance = null;
+      recordWorldEvent('npc.event.deferred', { eventId: event.id, npcId: npc.id, reason }, { actorId: 'camp-autonomy', instanceId, defId: event.defId || null });
+      activateQueuedNpcEvent();
+      return true;
+    }
     function triggerNpcEvent(npc) {
-      if (!npc || !npcIsActive(npc)) return false;
+      if (!npc || !npcIsCampLocal(npc)) return false;
       const chain = NPC_EVENT_CHAINS[npc.id] || [];
       npc.eventChain = { step: 0, cooldown: 0, active: null, resolved: [], ...(npc.eventChain || {}) };
       if (!chain.length || npc.eventChain.cooldown > 0 || npcPressure(npc) < 52) return false;
-      if ((state.npcEvents || []).filter(item => item.status === 'queued' || item.status === 'active').length >= 3) return false;
+      if ((state.npcEvents || []).filter(item => (item.status === 'queued' || item.status === 'active') && npcIsCampLocal(state.npcs.find(actor => actor.id === item.npcId))).length >= 3) return false;
       if (npc.eventChain.step >= chain.length) npc.eventChain.step = 0;
       const step = npc.eventChain.step;
       const def = chain[step];
@@ -4116,6 +4176,7 @@ function resolveObserverExpression(input = {}) {
       // the night battle before the current event is resolved). Skip every
       // cancelled entry until a live NPC is found so one death cannot wedge
       // the global event slot and starve unrelated queued events.
+      if (state.event && !state.event.handled) return false;
       const queued = (state.npcEvents || []).filter(item => item.status === 'queued');
       for (const next of queued) {
         if (!next?.event) { next.status = 'cancelled'; next.cancelReason = 'event-missing'; continue; }
@@ -4125,8 +4186,9 @@ function resolveObserverExpression(input = {}) {
           recordWorldEvent('npc.event.cancelled', { eventId: next.id, npcId: next.npcId, reason: next.cancelReason }, { actorId: 'camp-autonomy', instanceId: next.id });
           continue;
         }
+        if (!npcIsCampLocal(npc)) continue;
         state.event = { ...next.event, handled: false };
-        state.eventInstance = createEventInstance(state.event.defId || `npc.${next.event.npcEvent?.chainId || 'event'}`, { defId: state.event.defId, instanceId: next.id, payload: stableClone(state.event), actorId: npc.id });
+        state.eventInstance = next.instance ? stableClone(next.instance) : createEventInstance(state.event.defId || `npc.${next.event.npcEvent?.chainId || 'event'}`, { defId: state.event.defId, instanceId: next.id, payload: stableClone(state.event), actorId: npc.id });
         next.status = 'active';
         npc.eventChain = npc.eventChain || { step: 0, cooldown: 0, active: null, resolved: [] };
         npc.eventChain.active = { id: next.id, step: next.step, openedAt: next.openedAt, status: 'active' };
@@ -4139,6 +4201,7 @@ function resolveObserverExpression(input = {}) {
       const meta = event?.npcEvent;
       const npc = meta ? state.npcs.find(item => item.id === meta.npcId) : null;
       if (!npc || !meta) return '';
+      if (npc.garrisonedOutpostId) { deferNpcCampEvent(npc, 'outpost-garrisoned'); toast('该现场事项已暂存，等待驻守者回营'); return null; }
       // The NPC may have become inactive while this event was waiting behind
       // a night encounter. Do not apply needs, relation or resource effects
       // to a dead/absent actor; resolve the slot as a visible degradation so
@@ -4149,7 +4212,7 @@ function resolveObserverExpression(input = {}) {
         recordWorldEvent('npc.event.cancelled', { eventId: event.id, npcId: npc.id, choice, reason: 'npc-inactive' }, { actorId: 'camp-autonomy', instanceId: event.id, defId: event.defId || null });
         return `${npc.name}已经不在营地，原事件降级为记录，未执行额外效果。`;
       }
-      const living = state.npcs.filter(npcIsActive);
+      const living = state.npcs.filter(npcIsCampLocal);
       const adjustAll = delta => living.forEach(item => adjustNpcNeeds(item, delta));
       let result = '';
       if (meta.chainId === 'sanity') {
@@ -4179,17 +4242,17 @@ function resolveObserverExpression(input = {}) {
         else { adjustNpcNeeds(npc, { fatigue: 8, social: 8 }); result = `${npc.name}回到耳机前，频道保持稳定但他更疲惫了。`; }
       } else if (meta.chainId === 'command-trust') {
         if (meta.step === 0 && choice === 'a') { adjustAll({ stress: -8, social: -4 }); state.morale = Math.min(100, state.morale + 2); advance(15); result = `${npc.name}主持了一次短会，分歧没有消失，但换防重新排好了。`; }
-        else if (meta.step === 0) { adjustNpcNeeds(npc, { stress: -4 }); const sergeant = state.npcs.find(item => item.id === 'sergeant' && npcIsActive(item)); if (sergeant) adjustNpcNeeds(sergeant, { stress: 8 }); result = `${npc.name}直接拍板，营地恢复了行动节奏，但士官的压力上升。`; }
+        else if (meta.step === 0) { adjustNpcNeeds(npc, { stress: -4 }); const sergeant = state.npcs.find(item => item.id === 'sergeant' && npcIsCampLocal(item)); if (sergeant) adjustNpcNeeds(sergeant, { stress: 8 }); result = `${npc.name}直接拍板，营地恢复了行动节奏，但士官的压力上升。`; }
         else if (choice === 'a') { adjustAll({ safety: -5 }); result = '后勤人员暂时转去支援防线，营地的安全感提高，但仓库节奏变慢。'; }
         else { adjustNpcNeeds(npc, { stress: 5 }); npc.relations.trustToPlayer = Math.min(100, (npc.relations.trustToPlayer || 0) + 1); result = '你保持原岗位安排，物流没有被打乱。'; }
       } else if (meta.chainId === 'guard-training') {
         if (meta.step === 0 && choice === 'a') { adjustAll({ stress: -4, safety: -3 }); advance(20); result = `${npc.name}完成了换防训练，守卫动作更利落了。`; }
         else if (meta.step === 0) { adjustNpcNeeds(npc, { stress: 10 }); result = `${npc.name}收起训练器材，决定先把时间留给防线。`; }
-        else if (choice === 'a') { adjustNpcNeeds(npc, { social: -10, stress: -6 }); const rival = state.npcs.find(item => item.id === 'guardJiang' && npcIsActive(item)); if (rival) adjustNpcNeeds(rival, { social: -10, stress: -4 }); result = '两名守卫被安排共同巡逻，争执慢慢变成了默契。'; }
-        else { const rival = state.npcs.find(item => item.id === 'guardJiang' && npcIsActive(item)); if (rival) adjustNpcNeeds(rival, { stress: 8 }); result = '强硬的训练方案通过了，短期效率上升，但蒋锋的压力更高。'; }
+        else if (choice === 'a') { adjustNpcNeeds(npc, { social: -10, stress: -6 }); const rival = state.npcs.find(item => item.id === 'guardJiang' && npcIsCampLocal(item)); if (rival) adjustNpcNeeds(rival, { social: -10, stress: -4 }); result = '两名守卫被安排共同巡逻，争执慢慢变成了默契。'; }
+        else { const rival = state.npcs.find(item => item.id === 'guardJiang' && npcIsCampLocal(item)); if (rival) adjustNpcNeeds(rival, { stress: 8 }); result = '强硬的训练方案通过了，短期效率上升，但蒋锋的压力更高。'; }
       } else if (meta.chainId === 'gate-watch') {
         if (npc.id === 'guardJi' && choice === 'a') { if (state.parts < 1) { toast('零件不足，无法调配守夜灯'); return null; } state.parts -= 1; adjustNpcNeeds(npc, { safety: -12, stress: -4 }); result = '北门亮起一盏守夜灯，纪宁不再独自盯着黑暗。'; }
-        else if (npc.id === 'guardChen' && choice === 'a') { adjustNpcNeeds(npc, { fatigue: -16, stress: -5 }); const guard = state.npcs.find(item => ['guardJi','guardJiang'].includes(item.id) && npcIsActive(item)); if (guard) adjustNpcNeeds(guard, { fatigue: 6 }); result = '陈野完成换岗，另一名守卫接过了门口。'; }
+        else if (npc.id === 'guardChen' && choice === 'a') { adjustNpcNeeds(npc, { fatigue: -16, stress: -5 }); const guard = state.npcs.find(item => ['guardJi','guardJiang'].includes(item.id) && npcIsCampLocal(item)); if (guard) adjustNpcNeeds(guard, { fatigue: 6 }); result = '陈野完成换岗，另一名守卫接过了门口。'; }
         else if (npc.id === 'guardJiang' && choice === 'b') { state.parts += 1; adjustNpcNeeds(npc, { stress: -6, safety: 8 }); state.eventThreat = Math.min(2, state.eventThreat + 1); result = '蒋锋带回一个零件，但东门短暂暴露，下一轮威胁更近了一步。'; }
         else { adjustNpcNeeds(npc, { stress: 14, safety: npc.id === 'guardJiang' ? 4 : 8 }); result = `${npc.name}接受了你的安排，继续留在岗位上。`; }
       } else if (meta.chainId === 'ration-ledger') {
@@ -4377,6 +4440,9 @@ function resolveObserverExpression(input = {}) {
     }
     function applyDayCombatDamage(source, target, amount, meta = {}) {
       if (!source || !target || !Number.isFinite(Number(amount)) || amount <= 0 || target.active === false || target.hp !== undefined && Number(target.hp) <= 0) return { ok: false, reason: 'target-dead' };
+      const sourceNpc = state.npcs.find(npc => npc === source || npc.id === source.id);
+      const targetNpc = state.npcs.find(npc => npc === target || npc.id === target.id);
+      if (sourceNpc && !npcIsCampLocal(sourceNpc) || targetNpc && !npcIsCampLocal(targetNpc)) return { ok: false, reason: 'npc-not-in-camp' };
       const before = Number(target.hp);
       const damage = Math.max(0, Math.round(Number(amount)));
       const after = Math.max(0, before - damage);
@@ -4413,6 +4479,8 @@ function resolveObserverExpression(input = {}) {
     }
     function applyDayPlayerDamage(source, amount, meta = {}) {
       if (!source || !Number.isFinite(Number(amount)) || amount <= 0 || state.hp <= 0) return { ok: false, reason: 'target-dead' };
+      const sourceNpc = state.npcs.find(npc => npc === source || npc.id === source?.id);
+      if (sourceNpc && !npcIsCampLocal(sourceNpc)) return { ok: false, reason: 'npc-not-in-camp' };
       state.world = state.world || {};
       state.world.dayCombatSeq = (Number(state.world.dayCombatSeq) || 0) + 1;
       const damage = Math.max(0, Math.round(Number(amount))), before = state.hp;
@@ -4450,7 +4518,7 @@ function resolveObserverExpression(input = {}) {
       else if (zombie.perception.targetAt && worldMinute() - zombie.perception.targetAt > profile.memory) { zombie.perception.targetId = null; zombie.aiState = 'wander'; }
     }
     function campWorkPulse(npc) {
-      if (!npc || !npcIsActive(npc) || state.night || npc.supportRequested || npc.combatStatus !== 'ready') return;
+      if (!npc || !npcIsCampLocal(npc) || state.night || npc.supportRequested || npc.combatStatus !== 'ready') return;
       npc.workPulseSeq = Math.max(0, Number(npc.workPulseSeq) || 0) + 1;
       const workId = `work.${npc.id}.${npc.workPulseSeq}`;
       const needs = npc.needs || NPC_NEED_DEFAULTS;
@@ -4482,7 +4550,7 @@ function resolveObserverExpression(input = {}) {
     }
     function updateCampWorkPulses(minutes = 0) {
       if (state.night) return;
-      state.npcs.filter(npcIsActive).forEach(npc => {
+      state.npcs.filter(npcIsCampLocal).forEach(npc => {
         npc.workClock = Math.max(0, Number(npc.workClock) || 0) + Math.max(0, Number(minutes) || 0);
         let pulses = 0;
         while (npc.workClock >= 60 && pulses < 4) { npc.workClock -= 60; campWorkPulse(npc); pulses += 1; }
@@ -4498,16 +4566,24 @@ function resolveObserverExpression(input = {}) {
         npc.needs.hunger = clampNpcNeed(npc.needs.hunger + minutes * .018);
         npc.needs.fatigue = clampNpcNeed(npc.needs.fatigue + minutes * (resting ? -.028 : hour >= 22 || hour < 6 ? .004 : .012));
         npc.needs.energy = clampNpcNeed(npc.needs.energy + minutes * (resting ? .045 : -.022));
-        npc.needs.stress = clampNpcNeed(npc.needs.stress + (state.morale < 35 ? minutes * .02 : -minutes * .006) + (state.night ? minutes * .012 : 0));
+        npc.needs.stress = clampNpcNeed(npc.needs.stress + (state.morale < 35 ? minutes * .02 : -minutes * .006) + (state.night && npcIsCampLocal(npc) ? minutes * .012 : 0));
         npc.needs.social = clampNpcNeed(npc.needs.social + minutes * (eating ? -.035 : resting ? -.006 : .004));
-        npc.needs.safety = clampNpcNeed(npc.needs.safety + minutes * (state.night ? .018 : -.008) + (state.eventThreat > 0 ? minutes * .004 : 0));
+        npc.needs.safety = clampNpcNeed(npc.needs.safety + minutes * (state.night && npcIsCampLocal(npc) ? .018 : -.008) + (npcIsCampLocal(npc) && state.eventThreat > 0 ? minutes * .004 : 0));
         npc.needClock = (Number(npc.needClock) || 0) + minutes;
         if (npc.needClock >= 60 && npc.needs.hunger >= 58 && state.food > 0 && !state.night) {
-          state.food -= 1; npc.needs.hunger = clampNpcNeed(npc.needs.hunger - 30); npc.needs.energy = clampNpcNeed(npc.needs.energy + 12); npc.needs.stress = clampNpcNeed(npc.needs.stress - 5); npc.lastReport = '自己取用了一份配给'; recordWorldEvent('npc.need.fulfilled', { npcId: npc.id, need: 'hunger', food: 1 }, { actorId: npc.id });
+          state.food -= 1; npc.needs.hunger = clampNpcNeed(npc.needs.hunger - 30); npc.needs.energy = clampNpcNeed(npc.needs.energy + 12); npc.needs.stress = clampNpcNeed(npc.needs.stress - 5); npc.lastReport = npc.garrisonedOutpostId ? '驻守配给（共享库存）' : '自己取用了一份配给'; recordWorldEvent('npc.need.fulfilled', { npcId: npc.id, need: 'hunger', food: 1, ...(npc.garrisonedOutpostId ? { presence: 'outpost', outpostId: npc.garrisonedOutpostId } : {}) }, { actorId: npc.id });
         }
         npc.needClock = npc.needClock % 60;
         npc.eventChain = npc.eventChain || { step: 0, cooldown: 0, active: null, resolved: [] };
         npc.eventChain.cooldown = Math.max(0, (Number(npc.eventChain.cooldown) || 0) - minutes);
+        if (!npcIsCampLocal(npc)) {
+          npc.motionTarget = null;
+          npc.scheduleState = npc.needs.hunger >= 72 ? '据点驻守 · 等待驻守配给' : resting ? '据点休整' : '据点驻守';
+          npc.behaviorState = resting ? 'rest' : 'guard';
+          deferNpcCampEvent(npc, 'outpost-garrisoned');
+          updateNpcSanity(npc, minutes);
+          return;
+        }
         if (npc.combatStatus === 'ready') npc.scheduleState = schedule;
         if (resting && npc.needs.energy < 36) npc.scheduleState = '休整 · 精力恢复';
         else if (npc.needs.hunger >= 72) npc.scheduleState = '寻找配给';
@@ -4660,7 +4736,7 @@ function resolveObserverExpression(input = {}) {
         if (!inBounds(x, y) || terrainAt(x, y) === 'water' || (state.player.x === x && state.player.y === y)) return true;
         if (state.buildings.some(b => b !== ignore && buildingContains(b, x, y))) return true;
         if (state.resources.some(r => r.amount > 0 && r.x === x && r.y === y)) return true;
-        if (state.npcs.some(n => npcIsActive(n) && n.x === x && n.y === y)) return true;
+        if (state.npcs.some(n => npcIsCampLocal(n) && n.x === x && n.y === y)) return true;
         if (state.landmarks.some(l => l.x === x && l.y === y)) return true;
         if (CAMP_AREAS.some(area => area.x === x && area.y === y)) return true;
         return !!getZombie(x, y);
@@ -4746,7 +4822,7 @@ function resolveObserverExpression(input = {}) {
       return ({ core: 0, east: 1, south: 1, outskirts: 2, ruins: 3 }[key] ?? 1);
     }
     function activeCampSupportCount() {
-      return state.npcs.filter(npc => npcIsActive(npc) && npc.supportRequested).length;
+      return state.npcs.filter(npc => npcIsCampLocal(npc) && npc.supportRequested).length;
     }
     function frontierPressureAt(x = state.player.x, y = state.player.y) {
       ensureFrontierState();
@@ -4767,7 +4843,7 @@ function resolveObserverExpression(input = {}) {
       const tier = frontierTier(frontierRegionKeyAt());
       if (!tier || amount <= 0) return 0;
       const relayFactor = relayOnline() ? 0.5 : 1;
-      const supportRelief = state.npcs.some(npc => npcIsActive(npc) && npc.supportRequested && ['patrol', 'guard'].includes(getNpcOrderInfo(npc).id)) ? 0.75 : 1;
+      const supportRelief = state.npcs.some(npc => npcIsCampLocal(npc) && npc.supportRequested && ['patrol', 'guard'].includes(getNpcOrderInfo(npc).id)) ? 0.75 : 1;
       const delta = Math.max(0, Math.round(Number(amount) * relayFactor * supportRelief));
       state.world.frontierExposure = Math.min(100, state.world.frontierExposure + delta);
       if (delta && reason && state.world.frontierExposure >= 35) log(`外围行动让前线压力升至 ${Math.round(state.world.frontierExposure)}（${reason}）。`, 'warn');
@@ -4795,7 +4871,7 @@ function resolveObserverExpression(input = {}) {
         return;
       }
       const relayFactor = relayOnline() ? 0.5 : 1;
-      const patrolCount = state.npcs.filter(npc => npcIsActive(npc) && npc.supportRequested && ['patrol', 'guard'].includes(getNpcOrderInfo(npc).id)).length;
+      const patrolCount = state.npcs.filter(npc => npcIsCampLocal(npc) && npc.supportRequested && ['patrol', 'guard'].includes(getNpcOrderInfo(npc).id)).length;
       const supportFactor = Math.max(0.55, 1 - patrolCount * 0.12);
       const sanityFactor = sanityValue('player') < 30 ? 1.12 : 1;
       state.world.frontierClock += amount * tier * relayFactor * supportFactor * sanityFactor;
@@ -4858,18 +4934,18 @@ function resolveObserverExpression(input = {}) {
       let ready = 0;
       state.buildings.filter(b => (b.type === 'garden' || b.type === 'greenhouse') && b.planted && !b.ready).forEach(g => { g.growth += 1; if (g.growth >= 2) { g.ready = true; ready += 1; } });
       const jobs = [];
-      state.npcs.filter(npcIsActive).forEach(n => {
+      state.npcs.filter(npcIsCampLocal).forEach(n => {
         if (n.bond >= 1 && npcHasRole(n, 'carpenter')) { const gain = n.actingRole ? 1 : 2; state.wood += gain; n.lastReport = `完成一轮修整 ${gain} 木材`; jobs.push(`${n.name}修整了 ${gain} 木材`); }
         if (n.bond >= 1 && npcHasRole(n, 'doctor')) { if (!n.actingRole) state.medicine += 1; n.lastReport = n.actingRole ? '继任培训中，暂不额外产出药草' : '整理了 1 药草'; jobs.push(n.actingRole ? `${n.name}正在培训医务岗位` : `${n.name}整理了 1 药草`); }
         if (n.bond >= 1 && npcHasRole(n, 'radio')) { state.morale = Math.min(100, state.morale + 2); n.lastReport = '带来一条安全路线'; jobs.push(`${n.name}带来一条安全路线`); }
         if (n.bond >= 1 && npcHasRole(n, 'quartermaster')) {
-          const active = state.npcs.filter(npcIsActive);
+          const active = state.npcs.filter(npcIsCampLocal);
           active.forEach(item => { item.needs = item.needs || { hunger: 18, fatigue: 12, stress: 8 }; item.needs.hunger = Math.max(0, item.needs.hunger - 5); });
           n.lastReport = '重新盘点了补给优先级'; jobs.push('周岚重新盘点了补给优先级');
         }
         if (n.bond >= 1 && npcHasRole(n, 'cook')) {
           state.morale = Math.min(100, state.morale + 2);
-          state.npcs.filter(npcIsActive).forEach(item => { item.needs = item.needs || { hunger: 18, fatigue: 12, stress: 8 }; item.needs.stress = Math.max(0, item.needs.stress - 3); });
+          state.npcs.filter(npcIsCampLocal).forEach(item => { item.needs = item.needs || { hunger: 18, fatigue: 12, stress: 8 }; item.needs.stress = Math.max(0, item.needs.stress - 3); });
           n.lastReport = '把火堆和农务安排妥当'; jobs.push('唐婶把火堆和农务安排妥当');
         }
         if (n.bond >= 1 && npcHasRole(n, 'commander')) { state.morale = Math.min(100, state.morale + 3); n.lastReport = '完成防线调度'; jobs.push(`${n.name}完成防线调度`); }
@@ -5095,7 +5171,7 @@ function resolveObserverExpression(input = {}) {
         ? (attackAvailable ? '🪓 补刀<small>尸潮目标</small>' : '🪓 补刀<small>暂无可攻击目标</small>')
         : (liveZombies ? '🪓 攻击<small>相邻僵尸</small>' : '🪓 攻击<small>附近暂无尸群</small>');
       const walls = state.buildings.filter(b => b.type === 'wall' || b.type === 'spikeWall').length;
-      const supports = state.npcs.filter(n => n.supportRequested && npcIsActive(n)).length;
+      const supports = state.npcs.filter(n => n.supportRequested && npcIsCampLocal(n)).length;
       const missionDone = walls >= 3 && supports >= 1;
       // The alert is a bounded player-facing percentage. Before dawn the
       // clock is still below the daytime window, but danger must not become
@@ -5213,7 +5289,7 @@ function resolveObserverExpression(input = {}) {
         if (hp !== null) { const barW = radius * 2.2; ctx.fillStyle = 'rgba(0,0,0,.55)'; ctx.fillRect(px - barW / 2, py - radius - 5, barW, 3); ctx.fillStyle = '#ed6b5c'; ctx.fillRect(px - barW / 2, py - radius - 5, barW * Math.max(0, Math.min(1, hp)), 3); }
         if (distanceBetween(actor, state.player) <= 3) { ctx.font = '8px sans-serif'; ctx.fillStyle = '#fff'; ctx.fillText(label, px, py + radius + 9); }
       };
-      state.npcs.filter(npcIsActive).forEach(npc => { const v = npcVisual(npc); const action = npc.lifeState === 'healthy' ? 'idle' : 'hurt'; draw(npc, v.short || '民', v.accent || '#b7d96f', npc.name, actorSprite('npc', npc.id, npc.facing || 'down', action, actorFrame(), npcActorVisual(npc)), `npc:${npc.id}:${npc.facing}:${action}:${npc.appearance?.equipment?.weapon || ''}`); });
+      state.npcs.filter(npcIsCampLocal).forEach(npc => { const v = npcVisual(npc); const action = npc.lifeState === 'healthy' ? 'idle' : 'hurt'; draw(npc, v.short || '民', v.accent || '#b7d96f', npc.name, actorSprite('npc', npc.id, npc.facing || 'down', action, actorFrame(), npcActorVisual(npc)), `npc:${npc.id}:${npc.facing}:${action}:${npc.appearance?.equipment?.weapon || ''}`); });
       getWorldZombies().filter(z => z.hp > 0).forEach(z => { const v = zombieVisual(z); const action = z.aiState === 'attack' ? 'attack' : 'walk'; draw(z, v.short || '尸', v.accent || '#ed6b5c', z.kind, actorSprite('zombie', z.kind, z.facing || 'down', action, actorFrame()), `zombie:${z.kind}:${z.facing}:${action}`, z.hp / Math.max(1, z.maxHp)); });
     }
     function renderContinuousEntityLayer(world, viewport, previousLayer = null) {
@@ -5252,7 +5328,7 @@ function resolveObserverExpression(input = {}) {
         el.onclick = click ? event => { event.preventDefault(); event.stopPropagation(); click(actor); } : null;
         layer.appendChild(el);
       };
-      state.npcs.filter(npcIsActive).forEach(npc => {
+      state.npcs.filter(npcIsCampLocal).forEach(npc => {
         const visual = npcVisual(npc);
         const npcAction = npc.lifeState === 'critical' || npc.lifeState === 'injured' ? 'hurt' : state.night && npc.combatStatus === 'hurt' ? 'hurt' : npc.behaviorState === 'rest' ? 'rest' : npc.behaviorState === 'work' ? 'work' : npc.supportRequested ? 'guard' : 'idle';
         const normalizedNpcAction = npcAction === 'guard' ? 'idle' : npcAction;
@@ -5606,7 +5682,7 @@ function resolveObserverExpression(input = {}) {
       const here = tileKey(state.player.x, state.player.y);
       if (contextDismissedAt === here) { hideContext(); return; }
       const zombies = nearby(getWorldZombies().filter(z => z.hp > 0));
-      const npcs = nearby(state.npcs.filter(npcIsActive));
+      const npcs = nearby(state.npcs.filter(npcIsCampLocal));
       const resources = nearby(state.resources.filter(r => r.amount > 0));
       const buildings = nearby(state.buildings);
       const landmarks = nearby(state.landmarks.filter(l => !l.found));
@@ -5767,16 +5843,16 @@ function resolveObserverExpression(input = {}) {
     }
     function renderSurvivors() {
       const living = state.npcs.filter(npcIsActive);
-      const nearby = living.filter(n => distanceBetween(n, state.player) <= 1.25);
+      const nearby = living.filter(n => npcIsCampLocal(n) && distanceBetween(n, state.player) <= 1.25);
       const injured = living.filter(n => n.lifeState !== 'healthy').length;
       const dead = state.npcs.length - living.length;
       $('npcRosterSummary').textContent = living.length + '/' + state.npcs.length + (injured ? ' · 伤' + injured : '') + (dead ? ' · 亡' + dead : '');
-      $('npcHint').textContent = '在营地：' + living.length + '/' + state.npcs.length + ' · ' + (nearby.length ? '附近：' + nearby.map(n => n.name).join('、') : '靠近地图中的人物后请求支援');
+      $('npcHint').textContent = '在营地：' + living.filter(npcIsCampLocal).length + ' · 驻守：' + living.filter(n => !!n.garrisonedOutpostId).length + ' · 存活：' + living.length + '/' + state.npcs.length + ' · ' + (nearby.length ? '附近：' + nearby.map(n => n.name).join('、') : '靠近地图中的人物后请求支援');
       $('survivorList').innerHTML = state.npcs.map(n => {
         const near = nearby.some(item => item.id === n.id);
         const dead = !npcIsActive(n);
-        const status = dead ? '已死亡 · 岗位空缺' : n.supportRequested ? '已请求 · ' + getNpcOrderInfo(n).name : near ? '可立即请求并下达命令' : '靠近后交互';
-        const disabled = dead ? 'disabled' : '';
+        const status = dead ? '已死亡 · 岗位空缺' : n.garrisonedOutpostId ? '据点驻守 · 营地现场行动不可用' : n.supportRequested ? '已请求 · ' + getNpcOrderInfo(n).name : near ? '可立即请求并下达命令' : '靠近后交互';
+        const disabled = dead || !npcIsCampLocal(n) ? 'disabled' : '';
         const zoneName = CAMP_ZONES[n.homeZone]?.name || '营地';
         const actingLabel = n.actingRole ? `暂代${NPC_TEMPLATES[n.actingRole]?.role || n.actingRole}` : '';
         const garrisonedLabel = n.garrisonedOutpostId ? ` · 驻守${OUTPOST_DEFS[n.garrisonedOutpostId]?.name || n.garrisonedOutpostId}` : '';
@@ -5853,7 +5929,7 @@ function resolveObserverExpression(input = {}) {
         instance: { instanceId: project.id || 'camp-relay-001', defId: 'relay-chain-001', definitionVersion: Number(def?.definitionVersion) || EVENT_DEFINITION_VERSION, status: 'active', actorId }
       });
     }
-    function relayActiveParticipants() { ensureRelayFacts(); return state.relayProject.assignedNpcIds.map(id => state.npcs.find(npc => npcIsActive(npc) && (npc.id === id || npcHasRole(npc, id)))).filter(npcIsActive); }
+    function relayActiveParticipants() { ensureRelayFacts(); return state.relayProject.assignedNpcIds.map(id => state.npcs.find(npc => npcIsCampLocal(npc) && (npc.id === id || npcHasRole(npc, id)))).filter(npcIsCampLocal); }
     function relayStationBuilding() { return state.buildings.find(building => building.id === state.relayProject?.buildingId || building.type === 'relayStation') || null; }
     function ensureRelayStationBuilding() {
       ensureRelayFacts();
@@ -5912,7 +5988,7 @@ function resolveObserverExpression(input = {}) {
       return { ok: false, reason, ...(Object.keys(details).length ? { details: relayConstructionRuntimeClone(details) } : {}), ...(snapshot === undefined ? {} : { snapshot: relayConstructionRuntimeClone(snapshot) }) };
     }
     function relayConstructionRuntimeParticipants(project) {
-      return (project.assignedNpcIds || []).map(roleId => state.npcs.find(npc => npcIsActive(npc) && npcHasRole(npc, roleId)) || null);
+      return (project.assignedNpcIds || []).map(roleId => state.npcs.find(npc => npcIsCampLocal(npc) && npcHasRole(npc, roleId)) || null);
     }
     function relayConstructionRuntimeSnapshot() {
       ensureRelayFacts();
@@ -6201,7 +6277,7 @@ function resolveObserverExpression(input = {}) {
         result = resolveNpcEvent(event, choice);
         if (result === null) return;
       } else if (event.id === 'ration') {
-        const living = state.npcs.filter(npcIsActive);
+        const living = state.npcs.filter(npcIsCampLocal);
         if (choice === 'a') {
           if (state.food < 1) { toast('食物不足，无法分餐'); return; }
           state.food -= 1;
@@ -6214,7 +6290,7 @@ function resolveObserverExpression(input = {}) {
           result = '你把库存锁进仓库。下一轮威胁前的物资更充足，但每个人都带着压力回到岗位，士气 -3。';
         }
       } else if (event.id === 'triage') {
-        const patient = state.npcs.filter(npcIsActive).filter(n => n.lifeState !== 'healthy').sort((a, b) => a.hp - b.hp)[0];
+        const patient = state.npcs.filter(npcIsCampLocal).filter(n => n.lifeState !== 'healthy').sort((a, b) => a.hp - b.hp)[0];
         if (choice === 'a') {
           if (state.medicine < 1) { toast('药草不足，先去采集或探索地标'); return; }
           if (!patient) { toast('当前没有需要急救的伤员'); return; }
@@ -6228,7 +6304,7 @@ function resolveObserverExpression(input = {}) {
           result = '你让伤员先睡一会儿，把药草留给更危险的时刻。士气 -1，伤员疲劳 -18。';
         }
       } else if (event.id === 'tension') {
-        const living = state.npcs.filter(npcIsActive);
+        const living = state.npcs.filter(npcIsCampLocal);
         if (choice === 'a') {
           living.forEach(n => { n.needs = n.needs || {hunger:18,fatigue:12,stress:8}; n.needs.stress = Math.max(0, n.needs.stress - 20); rememberNpc(n, '参加换防短会', 1); });
           state.morale = Math.min(100, state.morale + 4); advance(15);
@@ -6340,7 +6416,7 @@ function resolveObserverExpression(input = {}) {
       return null;
     }
     function interactionCandidates() {
-      const points = [...state.npcs.filter(npcIsActive), ...state.resources.filter(r => r.amount > 0), ...state.buildings, ...state.landmarks.filter(l => !l.found || (l.found === true && !!outpostDefinitionFor(l))), ...CAMP_AREAS];
+      const points = [...state.npcs.filter(npcIsCampLocal), ...state.resources.filter(r => r.amount > 0), ...state.buildings, ...state.landmarks.filter(l => !l.found || (l.found === true && !!outpostDefinitionFor(l))), ...CAMP_AREAS];
       const seen = new Set();
       return points.map(point => interactionTargetAt(point.x, point.y)).filter(Boolean).filter(target => {
         const key = `${target.kind}:${target.item?.id || target.item?.type || ''}:${target.item?.x},${target.item?.y}`;
@@ -6373,7 +6449,7 @@ function resolveObserverExpression(input = {}) {
         advance(15); render(); return;
       }
       if (zone === 'infirmary') {
-        const patient = state.npcs.filter(npcIsActive).sort((a, b) => a.hp - b.hp)[0];
+        const patient = state.npcs.filter(npcIsCampLocal).sort((a, b) => a.hp - b.hp)[0];
         if (patient && patient.lifeState !== 'healthy' && state.medicine > 0) {
           state.medicine -= 1; const heal = 22; patient.hp = Math.min(patient.maxHp, patient.hp + heal); patient.wounds = patient.wounds.map(w => ({...w, healed: patient.hp >= 70 ? true : w.healed})); syncNpcLifeState(patient); rememberNpc(patient, '在医务室接受治疗', 2); pushFx('heal', `+${heal} ${patient.name}`, patient.x, patient.y, 'heal'); advance(20); log(`医务室为${patient.name}处理了伤势，生命值 +${heal}。`); toast('治疗完成'); render(); return;
         }
@@ -6384,9 +6460,9 @@ function resolveObserverExpression(input = {}) {
       if (zone === 'warehouse') { coolFrontierExposure(10, '仓库盘点'); toggleInventory(true); toast(`仓库库存：木材 ${state.wood} · 食物 ${state.food} · 药草 ${state.medicine} · 前线压力 -10`); return; }
       if (zone === 'residence') {
         if (state.food <= 0) { toast('居住区缺少食物，无法组织晚餐'); return { ok: false, reason: 'food-empty' }; }
-        state.food -= 1; state.morale = Math.min(100, state.morale + 5); adjustSanity('player', 6, '参加营地集体晚餐'); state.npcs.filter(npcIsActive).forEach(n => { n.needs = n.needs || {hunger:18,fatigue:12,stress:8}; n.needs.hunger = Math.max(0, n.needs.hunger - 28); n.needs.stress = Math.max(0, n.needs.stress - 8); adjustSanity(n, 6, '参加营地集体晚餐'); rememberNpc(n, '参加营地晚餐', 1); }); coolFrontierExposure(12, '营地集体晚餐'); advance(30); log('居住区组织了一次集体晚餐，大家的饥饿和紧张都缓解了。'); toast('集体晚餐：士气 +5 · 前线压力 -12 · 全员心智稳定 +6'); render(); return;
+        state.food -= 1; state.morale = Math.min(100, state.morale + 5); adjustSanity('player', 6, '参加营地集体晚餐'); state.npcs.filter(npcIsCampLocal).forEach(n => { n.needs = n.needs || {hunger:18,fatigue:12,stress:8}; n.needs.hunger = Math.max(0, n.needs.hunger - 28); n.needs.stress = Math.max(0, n.needs.stress - 8); adjustSanity(n, 6, '参加营地集体晚餐'); rememberNpc(n, '参加营地晚餐', 1); }); coolFrontierExposure(12, '营地集体晚餐'); advance(30); log('居住区组织了一次集体晚餐，大家的饥饿和紧张都缓解了。'); toast('集体晚餐：士气 +5 · 前线压力 -12 · 全员心智稳定 +6'); render(); return;
       }
-      if (zone === 'barracks') { const guards = state.npcs.filter(n => npcIsActive(n) && ['guardJi','guardChen','guardJiang','sergeant','commander'].includes(n.id)); if (!guards.length) { toast('兵营目前没有可训练的守卫'); return { ok: false, reason: 'guards-missing' }; } guards.forEach(n => { n.morale = Math.min(100, n.morale + 6); n.needs.stress = Math.max(0, (n.needs?.stress || 0) - 5); adjustSanity(n, 4, '兵营换防训练'); rememberNpc(n, '在兵营完成换防训练', 1); }); adjustSanity('player', 2, '兵营换防训练'); state.morale = Math.min(100, state.morale + 2); advance(30); log('兵营完成了换防训练，守门人员士气和心智稳定度提高。'); toast('换防训练完成'); render(); return; }
+      if (zone === 'barracks') { const guards = state.npcs.filter(n => npcIsCampLocal(n) && ['guardJi','guardChen','guardJiang','sergeant','commander'].includes(n.id)); if (!guards.length) { toast('兵营目前没有可训练的守卫'); return { ok: false, reason: 'guards-missing' }; } guards.forEach(n => { n.morale = Math.min(100, n.morale + 6); n.needs.stress = Math.max(0, (n.needs?.stress || 0) - 5); adjustSanity(n, 4, '兵营换防训练'); rememberNpc(n, '在兵营完成换防训练', 1); }); adjustSanity('player', 2, '兵营换防训练'); state.morale = Math.min(100, state.morale + 2); advance(30); log('兵营完成了换防训练，守门人员士气和心智稳定度提高。'); toast('换防训练完成'); render(); return; }
       if (zone === 'farmland') { state.selectedBuilding = state.buildings.find(b => b.type === 'garden' || b.type === 'greenhouse'); toast('农田：靠近菜畦后按 E 播种或收获'); renderContext(); return; }
       if (['eastOutpost','riverBank'].includes(zone)) {
         const flag = `${zone}-day-${state.day}`;
@@ -6441,7 +6517,7 @@ function resolveObserverExpression(input = {}) {
       }
       if (type === 'bunker') {
         state.tempCoordination = true; state.morale = Math.min(100, state.morale + 1); adjustSanity('player', 3, '掩体指挥简报');
-        state.npcs.filter(npcIsActive).forEach(npc => { npc.perception = npc.perception || {}; npc.perception.sharedUntil = Math.max(npc.perception.sharedUntil || 0, worldMinute() + 120); });
+        state.npcs.filter(npcIsCampLocal).forEach(npc => { npc.perception = npc.perception || {}; npc.perception.sharedUntil = Math.max(npc.perception.sharedUntil || 0, worldMinute() + 120); });
         advance(10); pushFx('command', '📋 指挥简报', building.x, building.y, 'info'); log('你在加固指挥所完成简报，临时协调生效，队员共享警戒信息。'); return { message: '指挥简报完成：临时协调与共享警戒已生效。' };
       }
       if (type === 'depot') {
@@ -6714,6 +6790,7 @@ function resolveObserverExpression(input = {}) {
       if (!guardNightAction()) return nightActionResult();
       if (state.gameOver) return;
       const npc = state.npcs.find(n => n.id === id); if (!npc) return;
+      if (npc.garrisonedOutpostId) { toast(`${npc.name}正在据点驻守，无法执行营地现场行动`); return { ok: false, reason: 'npc-not-in-camp' }; }
       if (!npcIsActive(npc)) { toast(npc.name + '已经死亡，无法接受命令'); return; }
       const order = getNpcOrderInfo(npc, orderId);
       if (order.id !== orderId) { toast('这个幸存者没有这条命令'); return; }
@@ -6742,6 +6819,7 @@ function resolveObserverExpression(input = {}) {
       if (!guardNightAction()) return nightActionResult();
       if (state.gameOver) return;
       const npc = state.npcs.find(n => n.id === id); if (!npc) return;
+      if (npc.garrisonedOutpostId) { toast(`${npc.name}正在据点驻守，无法执行营地现场行动`); return { ok: false, reason: 'npc-not-in-camp' }; }
       if (!npcIsActive(npc)) { toast(npc.name + '已经死亡，岗位暂时空缺'); return; }
       state.selectedNpc = id;
       const distance = distanceBetween(npc, state.player);
@@ -6875,6 +6953,12 @@ function resolveObserverExpression(input = {}) {
       const b = state.nightBattle;
       state.zombies = b ? b.enemies.filter(e => !e.dead && !e.reached).map(e => { const hitUntil = e.hit ? Date.now() + 260 : 0; e.hit = false; return { id: e.id, ...battleEnemyPosition(e), hp: e.hp, maxHp: e.maxHp, kind: e.kind, phase: e.phase, behavior: e.behavior, hitUntil }; }) : []; state.worldMeta.projections = state.worldMeta.projections || {}; state.worldMeta.projections.threatZombies = state.zombies.map(z => ({...z}));
     }
+    function localNightSupportCount(battle, orderId) {
+      return (battle?.supportIds || []).filter(id => {
+        const npc = state.npcs.find(item => item.id === id);
+        return npcIsCampLocal(npc) && npc.supportRequested && (battle.supportOrders?.[id] || getNpcOrderInfo(npc).id) === orderId;
+      }).length;
+    }
     function supportNpcForRole(battle, roleId) {
       if (!battle) return null;
       return battle.supportIds.map(id => state.npcs.find(n => n.id === id)).find(n => npcHasRole(n, roleId)) || null;
@@ -6945,7 +7029,7 @@ function resolveObserverExpression(input = {}) {
       return '执行中';
     }
     function markNpcDead(npc, battle, autoFeed) {
-      const deathX = npc.x, deathY = npc.y;
+      const deathX = npc.x, deathY = npc.y; const witnessedInCamp = npcIsCampLocal(npc);
       const formerActingRole = npc.actingRole;
       npc.hp = 0; npc.combatHp = 0; npc.lifeState = 'dead'; npc.combatStatus = 'dead'; npc.behaviorState = 'dead';
       releaseNpcFromOutpost(npc, 'death');
@@ -6954,14 +7038,14 @@ function resolveObserverExpression(input = {}) {
       state.roleVacancies = state.roleVacancies || {}; state.roleVacancies[npc.id] = { role: npc.id, openedDay: state.day }; if (formerActingRole) state.roleVacancies[formerActingRole] = { role: formerActingRole, openedDay: state.day };
       battle.npcDeaths = (battle.npcDeaths || 0) + 1;
       state.morale = Math.max(0, state.morale - 12);
-      adjustSanity('player', -10, `目睹${npc.name}阵亡`);
-      state.npcs.filter(other => other.id !== npc.id && npcIsActive(other)).forEach(other => { other.memory = other.memory || {}; other.memory.witnessedDeaths = (other.memory.witnessedDeaths || 0) + 1; other.needs = other.needs || {hunger:18,fatigue:12,stress:8}; other.needs.stress = Math.min(100, other.needs.stress + 12); const relationShock = (other.relations?.allies || []).includes(npc.id) ? 8 : (other.relations?.rivals || []).includes(npc.id) ? 2 : 0; other.needs.stress = Math.min(100, other.needs.stress + relationShock); adjustSanity(other, (other.relations?.allies || []).includes(npc.id) ? -14 : -8, `目睹${npc.name}阵亡`); rememberNpc(other, `目睹${npc.name}阵亡`, (other.relations?.allies || []).includes(npc.id) ? -2 : -1); });
+      if (witnessedInCamp) adjustSanity('player', -10, `目睹${npc.name}阵亡`);
+      state.npcs.filter(other => witnessedInCamp && other.id !== npc.id && npcIsCampLocal(other)).forEach(other => { other.memory = other.memory || {}; other.memory.witnessedDeaths = (other.memory.witnessedDeaths || 0) + 1; other.needs = other.needs || {hunger:18,fatigue:12,stress:8}; other.needs.stress = Math.min(100, other.needs.stress + 12); const relationShock = (other.relations?.allies || []).includes(npc.id) ? 8 : (other.relations?.rivals || []).includes(npc.id) ? 2 : 0; other.needs.stress = Math.min(100, other.needs.stress + relationShock); adjustSanity(other, (other.relations?.allies || []).includes(npc.id) ? -14 : -8, `目睹${npc.name}阵亡`); rememberNpc(other, `目睹${npc.name}阵亡`, (other.relations?.allies || []).includes(npc.id) ? -2 : -1); });
       autoFeed.push(npc.name + ' 阵亡，岗位永久空缺');
-      pushFx('death', '💀 ' + npc.name, deathX, deathY, 'death');
+      if (witnessedInCamp) pushFx('death', '💀 ' + npc.name, deathX, deathY, 'death');
       log(npc.name + ' 在实时战况阵亡。岗位功能消失，营地士气 -12。', 'danger');
     }
     function updateNpcPressure(npc, battle) {
-      if (!npcIsActive(npc) || npc.combatStatus === 'fled' || npc.combatStatus === 'fleeing') return;
+      if (!npcIsCampLocal(npc) || npc.combatStatus === 'fled' || npc.combatStatus === 'fleeing') return;
       const threats = battle.enemies.filter(e => !e.dead && !e.reached).reduce((sum, e) => {
         const p = battleEnemyPosition(e);
         const distance = distanceBetween(p, npc);
@@ -6983,6 +7067,7 @@ function resolveObserverExpression(input = {}) {
       }
     }
     function applyNpcCombatDamage(npc, damage, battle, autoFeed, source = '僵尸') {
+      if (!npcIsCampLocal(npc)) return;
       if (!npcIsActive(npc)) return;
       const hitX = npc.x, hitY = npc.y, beforeLife = npc.lifeState;
       npc.combatHp = Math.max(0, (Number.isFinite(npc.combatHp) ? npc.combatHp : npc.hp) - damage);
@@ -6999,6 +7084,7 @@ function resolveObserverExpression(input = {}) {
       updateNpcPressure(npc, battle);
     }
     function stepNpcRoutineToward(npc, target) {
+      if (!npcIsCampLocal(npc)) return;
       if (!npc || !target) return false;
       const dx = target.x - npc.x, dy = target.y - npc.y;
       const options = [];
@@ -7022,6 +7108,7 @@ function resolveObserverExpression(input = {}) {
     }
 
     function stepNpcToward(npc, target) {
+      if (!npcIsCampLocal(npc)) return;
       const options = [];
       const dx = target.x - npc.x, dy = target.y - npc.y;
       if (Math.abs(dx) >= Math.abs(dy) && dx) options.push([Math.sign(dx), 0]);
@@ -7035,7 +7122,7 @@ function resolveObserverExpression(input = {}) {
       }
     }
     function runNpcCombat(b, autoFeed) {
-      const activeNpcs = state.npcs.filter(n => n.supportRequested && npcIsActive(n) && n.combatStatus !== 'fled');
+      const activeNpcs = state.npcs.filter(n => n.supportRequested && npcIsCampLocal(n) && n.combatStatus !== 'fled');
       activeNpcs.forEach(npc => {
         npc.combatHp = Number.isFinite(npc.combatHp) ? npc.combatHp : npc.hp;
         npc.morale = Math.max(0, Math.min(100, npc.morale + Math.round((state.morale - npc.morale) * 0.08)));
@@ -7061,7 +7148,7 @@ function resolveObserverExpression(input = {}) {
         }
       });
       if (b.tick % 2 === 0) {
-        state.npcs.filter(n => n.supportRequested && npcIsActive(n) && n.combatStatus !== 'fled' && n.combatStatus !== 'fleeing').forEach(npc => {
+        state.npcs.filter(n => n.supportRequested && npcIsCampLocal(n) && n.combatStatus !== 'fled' && n.combatStatus !== 'fleeing').forEach(npc => {
           const contact = b.enemies.filter(e => !e.dead && !e.reached).map(enemy => ({ enemy, position: battleEnemyPosition(enemy) })).sort((a, c) => distanceBetween(a.position, npc) - distanceBetween(c.position, npc))[0];
           if (!contact) return;
           const distance = distanceBetween(contact.position, npc);
@@ -7219,10 +7306,11 @@ function resolveObserverExpression(input = {}) {
           autoFeed.push(`${tower.name} 击破`);
         }
       });
-      if (b.patrolCount && b.tick % 2 === 0) {
+      const localPatrolCount = localNightSupportCount(b, 'patrol');
+      if (localPatrolCount && b.tick % 2 === 0) {
         const patrolTarget = b.enemies.filter(e => !e.dead && !e.reached).sort((a, c) => c.progress - a.progress)[0];
         if (patrolTarget) {
-          const patrolDamage = 18 + b.patrolCount * 8;
+          const patrolDamage = 18 + localPatrolCount * 8;
           const targetPos = battleEnemyPosition(patrolTarget);
           patrolTarget.hp -= patrolDamage; patrolTarget.lastDamage = patrolDamage; patrolTarget.hit = true; b.autoShots += 1;
           pushFx('damage', `-${patrolDamage}`, targetPos.x, targetPos.y, 'hit');
@@ -7336,7 +7424,7 @@ function resolveObserverExpression(input = {}) {
       SessionController.mode = 'BATTLE';
       state.night = true; state.buildMode = false; $('buildDrawer').classList.remove('open'); $('evolveDrawer').classList.remove('open'); $('eventPanel').classList.remove('open'); $('collectionPanel').classList.remove('open'); $('survivorPanel')?.classList.remove('open'); toggleWeaponPanel(false);
       document.body.classList.add('threat-map-active'); $('nightOverlay').classList.remove('show', 'summary-mode'); $('continueBtn').disabled = true; $('continueBtn').style.opacity = '.6'; $('nightAttackBtn').disabled = false; $('nightAttackBtn').style.opacity = '1';
-      const activeSupports = state.npcs.filter(n => n.supportRequested && npcIsActive(n));
+      const activeSupports = state.npcs.filter(n => n.supportRequested && npcIsCampLocal(n));
       adjustSanity('player', -2, '尸潮开始接近');
       activeSupports.forEach(n => adjustSanity(n, -1, '进入尸潮防守岗位'));
       activeSupports.forEach(n => { n.dayX = n.x; n.dayY = n.y; n.combatHp = n.hp; n.combatStatus = 'active'; n.scheduleState = '防守中'; const order = getNpcOrderInfo(n).id; n.behaviorState = order === 'patrol' ? 'patrol' : order === 'cover' ? 'cover' : 'guard'; n.currentOrder = order; });
@@ -7404,7 +7492,7 @@ function resolveObserverExpression(input = {}) {
       if (radioRoleOrder === 'cover') damage = Math.max(0, damage - Math.round(3 * radioEfficiency));
       if (carpenterRoleOrder === 'cover') damage = Math.max(0, damage - Math.round(2 * carpenterEfficiency));
       state.npcs.forEach(npc => {
-        if (!b.supportIds.includes(npc.id) || !npcIsActive(npc)) return;
+        if (!b.supportIds.includes(npc.id) || !npcIsCampLocal(npc)) return;
         if (Number.isFinite(npc.combatHp)) { npc.hp = Math.max(0, Math.min(npc.maxHp, npc.combatHp)); syncNpcLifeState(npc); }
         npc.needs = npc.needs || {hunger:18,fatigue:12,stress:8}; npc.needs.fatigue = Math.min(100, npc.needs.fatigue + 24); npc.needs.stress = Math.min(100, npc.needs.stress + (npc.combatStatus === 'fled' ? 6 : 3));
         const orderName = getNpcOrderInfo(npc).name;
@@ -7413,14 +7501,14 @@ function resolveObserverExpression(input = {}) {
       });
       state.zombies = [];
       state.hp = Math.max(0, state.hp - damage);
-      if (damage > 0) { state.morale = Math.max(0, state.morale - 8); adjustSanity('player', -7, '尸潮突破营地防线'); state.npcs.filter(n => b.supportIds.includes(n.id) && npcIsActive(n)).forEach(n => adjustSanity(n, -4, '尸潮突破营地防线')); log(`尸潮有 ${b.breaches} 只突破防线，生命值 -${damage}。之后要补墙。`, 'danger'); }
-      else { state.morale = Math.min(100, state.morale + 6); adjustSanity('player', 3, '成功守住尸潮'); state.npcs.filter(n => b.supportIds.includes(n.id) && npcIsActive(n)).forEach(n => adjustSanity(n, 3, '成功守住尸潮')); log('自动防线顶住了尸潮，大家第一次获得了短暂喘息。'); }
+      if (damage > 0) { state.morale = Math.max(0, state.morale - 8); adjustSanity('player', -7, '尸潮突破营地防线'); state.npcs.filter(n => b.supportIds.includes(n.id) && npcIsCampLocal(n)).forEach(n => adjustSanity(n, -4, '尸潮突破营地防线')); log(`尸潮有 ${b.breaches} 只突破防线，生命值 -${damage}。之后要补墙。`, 'danger'); }
+      else { state.morale = Math.min(100, state.morale + 6); adjustSanity('player', 3, '成功守住尸潮'); state.npcs.filter(n => b.supportIds.includes(n.id) && npcIsCampLocal(n)).forEach(n => adjustSanity(n, 3, '成功守住尸潮')); log('自动防线顶住了尸潮，大家第一次获得了短暂喘息。'); }
       // 配给由世界时钟在跨日时统一结算；遭遇结束只记录当前势力状态，避免重复扣粮。
       const ration = 0;
       const hungerDamage = 0;
       if (doctorActive && state.hp > 0) { const heal = Math.round((doctorOrder === 'cover' ? 14 : 8) * doctorEfficiency); state.hp = Math.min(100, state.hp + heal); log('苏禾在火线后处理伤口，生命值 +' + heal + '。'); }
       const doctor = supportNpcForRole(b, 'doctor') || state.npcs.find(n => npcHasRole(n, 'doctor'));
-      const patient = state.npcs.filter(n => npcIsActive(n) && n.lifeState !== 'healthy' && !npcHasRole(n, 'doctor')).sort((a, c) => a.hp - c.hp)[0];
+      const patient = state.npcs.filter(n => npcIsCampLocal(n) && n.lifeState !== 'healthy' && !npcHasRole(n, 'doctor')).sort((a, c) => a.hp - c.hp)[0];
       if (doctor && patient) {
         const heal = Math.round((doctorOrder === 'cover' ? 20 : 12) * doctorEfficiency);
         patient.hp = Math.min(patient.maxHp, patient.hp + heal);
@@ -7495,7 +7583,8 @@ function resolveObserverExpression(input = {}) {
       const targets = ordered.slice(0, state.weapon.id === 'pulseAxe' ? 2 : 1).map(item => item.enemy);
       if (!targets.length) { toast('先靠近地图中的红色尸群，再按攻击'); return; }
       state.combatTargetId = targets[0].id || null;
-      const coverMultiplier = 1 + (b.coverCount || 0) * 0.15;
+      const localCoverCount = localNightSupportCount(b, 'cover');
+      const coverMultiplier = 1 + localCoverCount * 0.15;
       targets.forEach(target => {
         const hitDamage = Math.round((weapon.nightDamage || weapon.damage) * coverMultiplier);
         target.hp -= hitDamage; target.lastDamage = hitDamage; target.hit = true;
@@ -7503,7 +7592,7 @@ function resolveObserverExpression(input = {}) {
         if (target.hp <= 0) { target.hp = 0; target.dead = true; b.kills += 1; state.zombieKills += 1; if (state.combatTargetId === target.id) { state.combatTargetId = null; clearInteractionFocus(); } pushFx('death', '💥', pos.x, pos.y, 'death'); }
       });
       if (state.weapon.id === 'hookBlade' && state.zombieKills % 2 === 0) { state.parts += 1; b.feed.push('捕兽钩回收 +1 零件'); }
-      b.feed.push(`你用${weapon.name}补刀 ${targets.length} 只${b.coverCount ? ' · NPC掩护生效' : ''}`);
+      b.feed.push(`你用${weapon.name}补刀 ${targets.length} 只${localCoverCount ? ' · NPC掩护生效' : ''}`);
       syncBattleZombies(); renderWorld(); renderNightControls(); renderBattleLane(); if (!document.body.classList.contains('threat-map-active')) renderNightWorld(); renderHud(); recordWorldEvent('threat.playerAttack', { threatId: b.instanceId || null, targets: targets.map(t => t.id), weapon: state.weapon.id }); requestCheckpoint('threat-player-attack');
     }
     function startThreatEncounter(options = {}) { if (!SessionController.acceptsInput()) return { ok: false, reason: 'session-frozen' }; if (!guardNightAction(options)) return nightActionResult(); return dispatchCommand({ type: 'threat.start', commandId: options.commandId }, () => { const result = startThreatEncounterReducer(); return { result, payload: { day: state.day, hour: state.hour, enemyCount: state.nightBattle?.enemies?.length || 0 } }; }, { eventType: 'threat.started' }); }
@@ -7534,6 +7623,7 @@ function resolveObserverExpression(input = {}) {
         delete n.dayX; delete n.dayY;
         const recovery = n.lifeState === 'critical' ? 4 : n.lifeState === 'injured' ? 8 : 0;
         if (runDailyUpkeep && recovery) { n.hp = Math.min(n.maxHp, n.hp + recovery); syncNpcLifeState(n); }
+        if (!npcIsCampLocal(n)) { n.supportRequested = false; n.order = null; n.currentOrder = null; n.motionTarget = null; n.scheduleState = '据点驻守'; return; }
         n.combatHp = n.hp; n.combatStatus = 'ready'; n.behaviorState = 'work'; n.escapePressure = 0;
         n.scheduleState = '休整';
         n.supportRequested = false;
@@ -7542,13 +7632,13 @@ function resolveObserverExpression(input = {}) {
         if (runDailyUpkeep && n.bond >= 1 && npcHasRole(n, 'doctor')) { if (!n.actingRole) state.medicine += 1; n.lastReport = n.actingRole ? '继任培训中，暂不额外产出药草' : '整理了 1 药草'; jobs.push(n.actingRole ? `${n.name}正在培训医务岗位` : `${n.name}整理了 1 药草`); }
         if (runDailyUpkeep && n.bond >= 1 && npcHasRole(n, 'radio')) { state.morale = Math.min(100, state.morale + 2); n.lastReport = '带来一条安全路线'; jobs.push(`${n.name}带来一条安全路线`); }
         if (runDailyUpkeep && n.bond >= 1 && npcHasRole(n, 'quartermaster')) {
-          const active = state.npcs.filter(npcIsActive);
+          const active = state.npcs.filter(npcIsCampLocal);
           active.forEach(item => { item.needs = item.needs || { hunger: 18, fatigue: 12, stress: 8 }; item.needs.hunger = Math.max(0, item.needs.hunger - 5); });
           n.lastReport = '重新盘点了补给优先级'; jobs.push('周岚重新盘点了补给优先级');
         }
         if (runDailyUpkeep && n.bond >= 1 && npcHasRole(n, 'cook')) {
           state.morale = Math.min(100, state.morale + 2);
-          state.npcs.filter(npcIsActive).forEach(item => { item.needs = item.needs || { hunger: 18, fatigue: 12, stress: 8 }; item.needs.stress = Math.max(0, item.needs.stress - 3); });
+          state.npcs.filter(npcIsCampLocal).forEach(item => { item.needs = item.needs || { hunger: 18, fatigue: 12, stress: 8 }; item.needs.stress = Math.max(0, item.needs.stress - 3); });
           n.lastReport = '把火堆和农务安排妥当'; jobs.push('唐婶把火堆和农务安排妥当');
         }
         if (runDailyUpkeep && n.bond >= 1 && npcHasRole(n, 'commander')) { state.morale = Math.min(100, state.morale + 3); n.lastReport = '完成防线调度'; jobs.push(`${n.name}完成防线调度`); }
@@ -8010,7 +8100,7 @@ function resolveObserverExpression(input = {}) {
       if (!button || button.disabled) return;
       const action = button.dataset.contextAction;
       if (state.night && action !== 'attack') { guardNightAction(); return; }
-      const nearbyNpc = nearbyContextItem(state.npcs, npcIsActive);
+      const nearbyNpc = nearbyContextItem(state.npcs, npcIsCampLocal);
       const nearbyLandmark = nearbyContextItem(state.landmarks, l => !l.found);
       const nearbyOutpost = nearbyContextItem(state.landmarks, l => l.found === true && !!outpostDefinitionFor(l));
       const nearbyBuilding = nearbyContextItem(state.buildings);

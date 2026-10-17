@@ -41,7 +41,14 @@ const functionNames = [
   'contentChainRuntimeGate', 'startContentChain', 'resolveContentChain',
   'contentEpisodeIdentity', 'normalizeContentEpisodes', 'contentEpisodeExpectedToken', 'contentEpisodeGate',
   'resolveContentFallback', 'resolveContentAutonomy', 'registerContentPack',
-  'dispatchCommand', 'resolveContentChainCommand', 'clampSanity', 'sanityValue', 'npcIsActive', 'applyQuestEvent',
+  'dispatchCommand', 'resolveContentChainCommand', 'clampSanity', 'sanityValue', 'npcIsActive', 'npcIsCampLocal', 'npcHasRole', 'applyQuestEvent',
+  'planMeetingState', 'campTrustValue', 'commandPointCap', 'refreshCommandPoints',
+  'planNpcVoteWeight', 'planCandidateScore', 'foodSituation',
+  'generatePlanMeeting', 'commitPlanMeeting', 'executePlanMeeting',
+  // Older shipped HTML calculated candidates inline. Extract new transaction
+  // helpers only when present, keeping both source versions executable.
+  ...['planMeetingElectorateChanged', 'calculatePlanMeetingCandidates', 'publishPlanMeetingCandidates', 'refreshPlanMeetingPresence']
+    .filter(name => source.includes(`function ${name}(`)),
 ];
 const sandbox = vm.createContext({ console });
 vm.runInContext(`
@@ -54,14 +61,11 @@ vm.runInContext(`
   const EVENT_DEFS = Object.create(null);
   const EVENT_DEFINITION_VERSION = 1;
   const WORLD_SEED = 1;
-  const WEAPON_DEFS = {}, NPC_STORY_DEFS = {}, TECH_NODE_DEFS = {}, BUILDING_DEFS = {};
-  const FACTION_DEFS = {}, OUTPOST_DEFS = {}, NPC_ROLE_DEFS = {}, PLAN_DEFS = {}, QUEST_DEFS = {};
+  const WEAPON_DEFS = {}, TECH_NODE_DEFS = {}, BUILDING_DEFS = {};
+  const FACTION_DEFS = {}, OUTPOST_DEFS = {}, NPC_ROLE_DEFS = {}, QUEST_DEFS = {};
+  ${section('const NPC_STORY_DEFS =', 'const NPC_VISUAL_PROFILES =')}
+  ${section('const PLAN_DEFS =', 'function planMeetingState(')}
   const buildInfo = {};
-  // The plan-meeting namespace is present but is outside this isolated test.
-  function planMeetingState() { throw new Error('unexercised plan-meeting dependency'); }
-  function generatePlanMeeting() { throw new Error('unexercised plan-meeting dependency'); }
-  function commitPlanMeeting() { throw new Error('unexercised plan-meeting dependency'); }
-  function executePlanMeeting() { throw new Error('unexercised plan-meeting dependency'); }
   function requestCheckpoint(reason) { checkpoints.push(reason); }
   ${section('const EVENT_CHAIN_DEFS =', 'const PLAN_DEFS =')}
   ${section('const GATE_V1_PHASES =', 'function normalizeEventEffect(')}
@@ -89,6 +93,8 @@ function initial(overrides = {}) {
     buildings: [], resources: [], landmarks: [{ id: 'watermill-test-landmark', type: 'waterMill', found: true }],
     contentState: { contentVersion: 3, meters: { campCollapse: 10, resonancePressure: 25, campTrust: 30 } },
     specialItems: {}, roleVacancies: {}, quests: [], campStanding: {},
+    // Real nullable event/UI domains are part of the effect rollback boundary.
+    event: null, eventInstance: null, npcEvents: [], selectedNpc: null, npcTalkOpen: null, interactionFocus: null, logs: [],
     worldMeta: { seed: 1, eventSeq: 0, commandSeq: 0, events: [], seenCommands: [], replay: { seed: 1, commands: [] }, feedback: [], clock: { phaseMinutes: 0, scheduleMinutes: 0 } },
     ...overrides,
   };

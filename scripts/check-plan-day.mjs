@@ -35,7 +35,12 @@ const functions = [
   'migrateContentState', 'normalizeContentEpisodes', 'contentEpisodeIdentity', 'normalizeOutpostAssignments', 'ensureContentState',
   'contentRegistryBase', 'contentDefinition', 'applyContentEffect', 'applyContentEffects',
   'planMeetingState', 'campTrustValue', 'commandPointCap', 'refreshCommandPoints',
-  'executePlanMeeting', 'runPlanMeetingDayStart', 'npcIsActive', 'npcHasRole',
+  'planNpcVoteWeight', 'planCandidateScore', 'generatePlanMeeting', 'commitPlanMeeting',
+  // Older shipped HTML calculated candidates inline. Load actual transaction
+  // helpers when they exist rather than replacing their behavior in this VM.
+  ...['planMeetingElectorateChanged', 'calculatePlanMeetingCandidates', 'publishPlanMeetingCandidates', 'refreshPlanMeetingPresence']
+    .filter(name => source.includes(`function ${name}(`)),
+  'executePlanMeeting', 'runPlanMeetingDayStart', 'npcIsActive', 'npcIsCampLocal', 'npcHasRole',
   'foodSituation', 'applyFoodShortageToPeople', 'chargeDailyRation', 'outpostPopulationLedger',
   'applyOutpostUpkeep', 'runWorldDayUpkeep', 'recoverEnergy', 'advanceReducer', 'continueMorningReducer',
   'dispatchCommand', 'isNightRestrictedAction', 'guardNightAction', 'nightActionResult', 'actionCommand',
@@ -53,9 +58,10 @@ vm.runInContext(`
   const WORLD_SEED = 481516234;
   const EVENT_DEFS = Object.create(null), QUEST_DEFS = {};
   const EVENT_DEFINITION_VERSION = 1;
-  const WEAPON_DEFS = {}, NPC_STORY_DEFS = {}, TECH_NODE_DEFS = {}, BUILDING_DEFS = {};
+  const WEAPON_DEFS = {}, TECH_NODE_DEFS = {}, BUILDING_DEFS = {};
   const FACTION_DEFS = {}, OUTPOST_DEFS = {}, NPC_ROLE_DEFS = {}, EVENT_CHAIN_DEFS = {};
-  ${section('const PLAN_DEFS =', 'const PLAN_VOTE_PROFILES =')}
+  ${section('const NPC_STORY_DEFS =', 'const NPC_VISUAL_PROFILES =')}
+  ${section('const PLAN_DEFS =', 'function planMeetingState(')}
   ${section('const CONTENT_KINDS =', 'function migrateContentState(')}
   const calls = { spawn: 0, successors: 0, hooks: 0, simulationStart: 0 };
   const checkpoints = [];
@@ -112,6 +118,8 @@ function initial(overrides = {}) {
     npcs: [{ id: 'carpenter', name: 'QA carpenter', hp: 100, maxHp: 100, lifeState: 'healthy', bond: 1 }],
     buildings: [], resources: [], landmarks: [], specialItems: {}, roleVacancies: {}, quests: [], campStanding: {},
     event: { id: 'qa-pending', handled: false },
+    // Preserve the same event/UI domains that the real effect transaction saves.
+    eventInstance: null, npcEvents: [], selectedNpc: null, npcTalkOpen: null, interactionFocus: null, logs: [],
     world: { lastRationDay: 1, lastDailyUpkeepDay: 1, totalMinutes: 1920 },
     contentState: { contentVersion: 3, meters: { campCollapse: 10, resonancePressure: 25, campTrust: 25 },
       commandPoints: 0, commandPointsMax: 2, commandPointsGrantedDay: 1 },

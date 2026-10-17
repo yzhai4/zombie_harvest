@@ -30,7 +30,7 @@ function sourceFunction(name) {
 const functionNames = [
   'stableClone', 'worldMinute', 'eventDefinition', 'recordWorldEvent', 'applyQuestEvent',
   'dispatchCommand', 'isNightRestrictedAction', 'guardNightAction', 'nightActionResult', 'actionCommand',
-  'distanceBetween', 'contextDistance', 'nearbyContextItem', 'npcIsActive', 'npcHasRole',
+  'distanceBetween', 'contextDistance', 'nearbyContextItem', 'npcIsActive', 'npcIsCampLocal', 'npcHasRole',
   'clampSocial', 'rememberNpc', 'spendEnergy', 'advance', 'interactCampAreaReducer', 'interactCampArea',
 ];
 const sandbox = vm.createContext({ console });

@@ -61,6 +61,8 @@ jobs:
           node --check scripts/check-content-episode-v1.mjs
           node --check scripts/browser-content-episode-v1.mjs
           node --check scripts/check-npc-threat-attention.mjs
+          node --check scripts/check-outpost-presence-v1.mjs
+          node --check scripts/browser-outpost-presence-v1.mjs
       - name: Check deployable entrypoints
         run: |
           test -s dist/index.html
@@ -101,6 +103,8 @@ jobs:
           node scripts/check-combat-intent-v1.mjs
           node scripts/check-npc-threat-attention.mjs
           python scripts/check-three-day-safety.py
+      - name: Execute outpost presence and remote needs contracts
+        run: node scripts/check-outpost-presence-v1.mjs
       - name: Execute canonical EventGateV1 shadow contract
         run: node scripts/check-event-gate-v1.mjs
       - name: Compare inline and shadow EventGateV1 parity
