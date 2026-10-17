@@ -68,7 +68,7 @@ C1+C2 已达到声明支持矩阵的开发出口，见[C2 QA](../qa/scenario-boo
 
 NPC／boot六视角出口：玩家按钮资格／同目标／真实后果一致；NPC在场／岗位／生命不放宽；营地只绑定seed和有限粮食、旧档不重算；势力未接外交轴明确unsupported、承诺须有事实；敌人默认保持原压力、不支持倍率拒绝；全局包校验／编译／安装原子、可回放。更多对象与副本仍是长期目标，当前十人只是验证范围。
 
-C后先完成[ActorObservation合同](../decisions/ADR-20261017-actor-observation-v1.md)的真实接线，作为NPC规划和表达共同前置：可信捕获、角色资格、实际感知、合法历史联系人与披露交集。读投影不改变state/RNG/save，高信任不扩展知识，离营或历史联系人不获得全图实时信息；这一步不等于完整记忆或生成式NPC。
+C后先接[ActorObservation合同](../decisions/ADR-20261017-actor-observation-v1.md)中当前公开消费者所需的直接视线。后续规划、EventFact与表达按各自实际消费者所需的知识／事实合同推进，不等待完整ADR所有topic一次收口；不满足相关授权时拒绝或降级。读投影不改变state/RNG/save，高信任不扩展知识，离营或历史联系人不获得全图实时信息。其余contacts、共享与模型边界继续开放。
 
 | 阶段 | 后续交付 | 继续条件 |
 | --- | --- | --- |
@@ -77,7 +77,7 @@ C后先完成[ActorObservation合同](../decisions/ADR-20261017-actor-observatio
 | P2 NPC规划 | Utility/HTN/GOAP候选与现有规则基线成对比较；输出原因和取消条件 | 行为可靠、不卡死，玩家能干预，预算可接受；算法复杂度不能代替收益 |
 | P3 记忆/关系 | EventFact、承诺、立场；单个特殊角色在两个微型副本导入/导出 | 无来源假记忆被拒、重复不增益、缺引用有降级；连续性预算可配置 |
 | P4 生成表达 | actor-bound knowledge→disclosure→表达；同权限authored fallback | AI OFF完整可玩；越权/超时/无信息输出可回退；有事实、延迟、成本及玩家指标 |
-| P5 精确反事实 | 有限候选、有限深度的exact rollout和规则基线 | 策略收益及耗时有证据；影子预测不污染正式账本 |
+| P5 精确反事实与多主体研究 | 有限候选／深度的exact rollout和规则基线；另设可干预的多主体sandbox，比较分工、通信、共享计划和冲突 | 单体可靠后再扩大；策略收益、玩家控制与计算预算有证据，影子预测不污染正式账本；不预设所有NPC都用LLM |
 | P6 学习模型 | 仅在存在明确成本/迁移缺口后建设shadow benchmark | held-out任务成功、regret、状态误差、不变量、性能优于或补足exact；否则维持exact |
 
 GameCore抽离、UI/素材和性能验证随已冻结的玩法路径推进；更换渲染适配器不得重写事实语义。最终尸潮、多结局、科技与更多副本继续保留在内容路线，但不与本轮状态修复混成同一交付。
@@ -109,10 +109,22 @@ C 的首片[技术计划](scenario-boot-c1-implementation-plan-20261017.md)保�
 
 源码 a544a6139e19c21f89526e3aafed11162d885552／HTML61ea64b2 已完成[C2 QA](../qa/scenario-boot-c2-20261017.md)列明合同。最终 40 unique 源码合同均有通过结果，123 次执行为 108 pass／15 原 fail 保留；其中 pure14、C1 source120、C2 source66 分别记录。实际 Chrome 新 C2 六场102，加 NPC／农务／断粮／rest／presence／episode 六关联361，共463检查；C2 主文档5 canonical＋5独立variant，关联55 canonical。休整六场 verified，trusted hidden unavailable。本片没有新 natural run，最终证据 HEAD 的精确 CI 待核，不据源码提交存在声称远端 ref 更新或生产已部署。
 
-下一 P0 为 ActorObservation 实际 actor／perception 授权；readonly expression 只证明纯读 consumer，不证明角色有权知道输入事实。随后按既有依赖推进 NPC 规划、EventFact／记忆与 LLM 表达。任意图、Studio、更大世界／副本和特殊角色连续性继续开放，不能把本片验收称为整个项目完成。
+下一 P0 为当前消费者所需的 ActorObservation 实际 actor／perception 授权；readonly expression 只证明纯读 consumer，不证明角色有权知道输入事实。NPC规划、EventFact／记忆与表达按各自所需事实合同接线，其它观察topic仍开放，不成为全部玩法实验的串行前置。任意图、Studio、更大世界／副本和特殊角色连续性继续开放，不能把本片验收称为整个项目完成。
 
 ## self 首谈增量（2026-10-17）
 
 源码3213db16／HTMLc42056ed将“谁有权知道、再决定披露”先落实到本人伤势与需求，经实际免费首谈消费，见[QA](../qa/npc-self-observation-v1-20261017.md)。同一NPC、真实个人信任、AI OFF／ON等事实、非法数据unknown、无新奖励或保存域均保持。实际Chrome发现旧负信任晋升公式会写出不可恢复状态，已在总分下界修复；输入validator通过不再作为后续renderer／writer合法性的替代证据，此经验已写入工作流与Skill。
 
 下一入口仍为完整[ActorObservation合同](../decisions/ADR-20261017-actor-observation-v1.md)的实际感知／contacts／共享来源；self子片没有关闭这些出口。原报告是设计输入，未以检查数推导乐趣、自然三日、规划收益或模型效果。P0–P6与长期规模目标保持。
+
+## 原文复核与依赖修正（2026-10-17）
+
+再次核对用户原件与归档为同一59069字节／SHA940efac9开头的报告，没有新增研究证据。按原文P5补明多主体sandbox；完整ActorObservation保持开放，但只要求每个实际消费者依赖的知识／事实已授权，避免全量观察工作变成规划与记忆的无限前置。
+
+原文E1–E8保留为待设计矩阵，样本、量表、效应和阈值未冻结。下一项口头侦察工程验收后，按[玩家pilot草案](../experiments/EXP-20261017-npc-recon-pilot.md)检验信息是否帮助决策、是否被误解为实时安全保证。当前没有真人结果；工程检查数不能替代Agency、Challenge、Attachment或继续游玩意愿。正式效果论证或重要技术投资前仍须核一手研究。
+
+## 当次侦察增量（2026-10-17）
+
+HTML23b8c8c2已由同live NPC实际视线产生粗敌情并经个人披露到context／名册，source91、既有42合同和Chrome200＋关联336均通过，见[QA](../qa/npc-direct-sight-v1-20261017.md)。无新保存域、LLM或生产部署。固定budget只限制此私有查询，不限制未来世界规模；报告不改地图、不承诺接战或安全。旧roster移动端三列仍拥挤，完整UI打磨与真人pilot独立开放。
+
+下一规划切片先核已有routine／工作／需求／岗位的真实consumer与玩家反馈，再选择可解释、可取消、可比较的规则规划行为；不以新增trace API代替实际行为价值，也不要求完整contacts共享一次交付。完整知识、Memory/Social、Studio、跨副本连续性和后置多主体研究目标保持。

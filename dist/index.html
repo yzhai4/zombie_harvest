@@ -450,6 +450,8 @@
     }
     .toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom)); transform: translate(-50%, 18px); opacity: 0; pointer-events: none; z-index: 20; max-width: min(88vw, 400px); padding: 10px 14px; background: #e9efcf; color: #16231b; border-radius: 999px; font-size: 12px; font-weight: 800; box-shadow: 0 10px 30px rgba(0,0,0,.3); transition: .25s ease; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .toast.show { opacity: 1; transform: translate(-50%, 0); }
+    .npc-sight-report { grid-column: 1 / -1; width: 100%; box-sizing: border-box; margin-top: 8px; padding: 9px 11px; border: 1px solid #75bcc566; border-radius: 9px; background: #142c31; color: #d7f1eb; font-size: 12px; line-height: 1.65; text-align: left; white-space: pre-line; overflow-wrap: anywhere; }
+    .npc-sight-report[hidden], .context-panel.hud-collapsed .npc-sight-report { display: none !important; }
     .toast.npc-self-dialogue { width: max-content; max-width: min(90vw, 520px); box-sizing: border-box; white-space: normal; overflow: visible; text-overflow: clip; overflow-wrap: anywhere; line-height: 1.6; text-align: left; border-radius: 14px; }
     .night-overlay { position: fixed; inset: 0; z-index: 30; display: none; align-items: end; justify-content: center; padding: 10px 10px calc(10px + env(safe-area-inset-bottom)); overflow-y: auto; background: rgba(5,8,12,.9); backdrop-filter: blur(5px); }
     .night-overlay.show { display: grid; }
@@ -1103,6 +1105,7 @@
     <section class="context-panel hud-window" id="contextPanel" aria-live="polite">
       <div class="context-head"><div class="context-icon" id="contextIcon">✨</div><div class="context-copy"><b id="contextTitle">附近互动</b><span id="contextHint">走到资源、建筑或幸存者旁边后，这里会出现对应操作。</span></div><button class="context-close" id="contextClose" aria-label="关闭附近互动">×</button></div>
       <div class="context-actions" id="contextActions"></div>
+      <div id="npcSightReport" class="npc-sight-report" data-npc-sight-surface="context" hidden></div>
     </section>
 
     <section class="survivor-panel hud-window" id="survivorPanel">
@@ -2276,6 +2279,107 @@ function resolveNpcSelfDialogueV1(observation, relationTrust, enabled = false) {
     disclosureReason: !valid ? 'not-observable' : !trustValid ? 'relation-unknown' : disclose ? 'allowed' : 'limited-trust' });
 }
 // NPC_SELF_CORE_END
+// NPC_DIRECT_SIGHT_CORE_START
+function npcDirectSightCoreKeys(value, keys) {
+  if (value === null || typeof value !== 'object' || Array.isArray(value)) return false;
+  const ownKeys = Reflect.ownKeys(value);
+  return ownKeys.length === keys.length && keys.every(key => {
+    const descriptor = Object.getOwnPropertyDescriptor(value, key);
+    return descriptor !== undefined && Object.hasOwn(descriptor, 'value') && descriptor.enumerable;
+  });
+}
+function npcDirectSightCoreArray(value, length) {
+  if (!Array.isArray(value) || value.length !== length || Reflect.ownKeys(value).length !== length + 1) return false;
+  for (let index = 0; index < length; index++) {
+    const descriptor = Object.getOwnPropertyDescriptor(value, String(index));
+    if (!descriptor || !Object.hasOwn(descriptor, 'value') || !descriptor.enumerable) return false;
+  }
+  return true;
+}
+function npcDirectSightCoreFinite(value, min, max) {
+  return typeof value === 'number' && Number.isFinite(value) && value >= min && value <= max;
+}
+function npcDirectSightCoreId(value) {
+  return typeof value === 'string' && /^[A-Za-z0-9_-]{1,80}$/.test(value);
+}
+function npcDirectSightCoreRevision(value) {
+  return npcDirectSightCoreKeys(value, ['sessionGeneration', 'worldMinute', 'eventSeq', 'stepIndex', 'phase'])
+    && Number.isSafeInteger(value.sessionGeneration) && value.sessionGeneration >= 0
+    && npcDirectSightCoreFinite(value.worldMinute, 0, Number.MAX_SAFE_INTEGER)
+    && Number.isSafeInteger(value.eventSeq) && value.eventSeq >= 0
+    && Number.isSafeInteger(value.stepIndex) && value.stepIndex >= 0 && value.phase === 'DAY';
+}
+function npcDirectSightCoreSight(value) {
+  return npcDirectSightCoreKeys(value, ['subjectId', 'category', 'distanceBand'])
+    && npcDirectSightCoreId(value.subjectId)
+    && ['normal', 'runner', 'brute'].includes(value.category)
+    && ['near', 'farther'].includes(value.distanceBand);
+}
+function npcDirectSightCoreBase(actorId, revision, sight) {
+  return { schema: 'ActorObservationV1', version: 1, policyVersion: 'npc-view-direct-sight-v1',
+    hashVersion: 'fnv1a-utf16-base36-v1', actor: { id: actorId }, audienceId: 'player-1',
+    sourceRevision: { sessionGeneration: revision.sessionGeneration, worldMinute: revision.worldMinute,
+      eventSeq: revision.eventSeq, stepIndex: revision.stepIndex, phase: revision.phase },
+    knowledge: sight === null ? [] : [{ subjectId: sight.subjectId, status: 'observed',
+      facts: { category: sight.category, distanceBand: sight.distanceBand },
+      provenance: { kind: 'direct-sight', sourceId: actorId, at: revision.worldMinute } }],
+    unknown: sight === null ? [{ reason: 'not-observable' }] : [] };
+}
+function projectNpcDirectSightObservationV1(capture) {
+  if (!npcDirectSightCoreKeys(capture, ['schema', 'version', 'actorId', 'sourceRevision', 'sight', 'relationTrust'])
+    || capture.schema !== 'NpcDirectSightCaptureV1' || capture.version !== 1
+    || !npcDirectSightCoreId(capture.actorId) || !npcDirectSightCoreRevision(capture.sourceRevision)
+    || !(capture.sight === null || npcDirectSightCoreSight(capture.sight))
+    || !(capture.relationTrust === null || npcDirectSightCoreFinite(capture.relationTrust, -100, 100))) return null;
+  const base = npcDirectSightCoreBase(capture.actorId, capture.sourceRevision, capture.sight);
+  return observerDeepFreeze({ ...base, observationHash: observerFactsHash(base) });
+}
+function npcDirectSightCoreObservation(observation) {
+  if (!npcDirectSightCoreKeys(observation, ['schema', 'version', 'policyVersion', 'hashVersion', 'actor', 'audienceId', 'sourceRevision', 'knowledge', 'unknown', 'observationHash'])
+    || observation.schema !== 'ActorObservationV1' || observation.version !== 1
+    || observation.policyVersion !== 'npc-view-direct-sight-v1' || observation.hashVersion !== 'fnv1a-utf16-base36-v1'
+    || observation.audienceId !== 'player-1' || !npcDirectSightCoreKeys(observation.actor, ['id'])
+    || !npcDirectSightCoreId(observation.actor.id) || !npcDirectSightCoreRevision(observation.sourceRevision)
+    || typeof observation.observationHash !== 'string') return null;
+  let sight = null;
+  if (npcDirectSightCoreArray(observation.knowledge, 0)) {
+    if (!npcDirectSightCoreArray(observation.unknown, 1)
+      || !npcDirectSightCoreKeys(observation.unknown[0], ['reason'])
+      || observation.unknown[0].reason !== 'not-observable') return null;
+  } else {
+    if (!npcDirectSightCoreArray(observation.knowledge, 1) || !npcDirectSightCoreArray(observation.unknown, 0)) return null;
+    const knowledge = observation.knowledge[0];
+    if (!npcDirectSightCoreKeys(knowledge, ['subjectId', 'status', 'facts', 'provenance'])
+      || knowledge.status !== 'observed' || !npcDirectSightCoreId(knowledge.subjectId)
+      || !npcDirectSightCoreKeys(knowledge.facts, ['category', 'distanceBand'])
+      || !npcDirectSightCoreKeys(knowledge.provenance, ['kind', 'sourceId', 'at'])
+      || knowledge.provenance.kind !== 'direct-sight' || knowledge.provenance.sourceId !== observation.actor.id
+      || knowledge.provenance.at !== observation.sourceRevision.worldMinute) return null;
+    sight = { subjectId: knowledge.subjectId, category: knowledge.facts.category, distanceBand: knowledge.facts.distanceBand };
+    if (!npcDirectSightCoreSight(sight)) return null;
+  }
+  const base = npcDirectSightCoreBase(observation.actor.id, observation.sourceRevision, sight);
+  return observation.observationHash === observerFactsHash(base) ? base : null;
+}
+function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = false) {
+  const verified = npcDirectSightCoreObservation(observation);
+  const disclose = verified !== null && verified.knowledge.length === 1
+    && npcDirectSightCoreFinite(relationTrust, -100, 100) && relationTrust >= -10;
+  const disclosedFacts = disclose ? [{ category: verified.knowledge[0].facts.category,
+    distanceBand: verified.knowledge[0].facts.distanceBand }] : [];
+  let text = '这次查看没有得到可确认的视线报告。';
+  if (disclose) {
+    const npcDirectSightCoreCategoryText = { normal: '普通僵尸', runner: '快速感染者', brute: '装甲僵尸' };
+    text = '我看见一只' + npcDirectSightCoreCategoryText[disclosedFacts[0].category]
+      + (disclosedFacts[0].distanceBand === 'near' ? '，离我很近。' : '，离我还有一段距离。');
+  }
+  return observerDeepFreeze({ schema: 'NpcDirectSightReportV1', version: 1,
+    authority: 'expression_only', mode: 'authored', observerEnabled: enabled === true,
+    status: disclose ? 'observed' : 'unavailable', text, disclosedFacts,
+    sourceProjectionHash: observerFactsHash(disclosedFacts) });
+}
+// NPC_DIRECT_SIGHT_CORE_END
+    let npcSightReportUi = null;
     function observerAiConfig() { return normalizeAiConfig(state.scenarioSnapshot?.aiConfig || {}); }
     function observerCommentary(subject = {}, context = {}) { return resolveObserverExpression({ subject, context, config: observerAiConfig() }); }
     function ensureStableIds() {
@@ -4166,12 +4270,14 @@ function resolveNpcSelfDialogueV1(observation, relationTrust, enabled = false) {
       isDay() { return gameStarted && !this.exiting && this.mode === 'DAY' && !state.night && !state.gameOver; },
       canSave() { return gameStarted && !this.exiting && !['RECOVERY','SAVING','EXITING'].includes(this.mode); },
       freeze(mode) {
+        clearNpcSightReportUi();
         cancelCampRest('session-freeze', { resume: false }); this.mode = mode; stopWorldSimulation(); clearInterval(battleTimer); battleTimer = null; stopHeldMovement(); stopInteractionRepeat(); state.motion.input = { x: 0, y: 0 };
         if (pointerId !== null) { try { if ($('joystick').hasPointerCapture?.(pointerId)) $('joystick').releasePointerCapture(pointerId); } catch (error) {} pointerId = null; }
       },
       restart(options = {}) {
         if (this.exiting && !this.restartError) return { ok: true, duplicate: true };
         if (!this.exiting) {
+          clearNpcSightReportUi();
           cancelCampRest('restart', { resume: false }); this.exiting = true; this.generation += 1; gameStarted = false; this.mode = 'EXITING';
           clearTimeout(checkpointTimer); checkpointTimer = null; stopWorldSimulation(); clearInterval(battleTimer); battleTimer = null; stopHeldMovement(); stopInteractionRepeat();
           for (const frame of [worldRenderFrame, continuousPositionFrame, state.moveTweenFrame]) if (frame !== null) cancelAnimationFrame(frame);
@@ -5711,6 +5817,7 @@ function resolveNpcSelfDialogueV1(observation, relationTrust, enabled = false) {
       renderPlanMeeting(); renderHud();
     }
     function renderHud() {
+      syncNpcSightReportUi();
       renderCampRestStatus();
       const dayActionsAllowed = SessionController.isDay();
       for (const id of ['gatherBtn','buildBtn','cropBtn','endDayBtn']) { const button = $(id); if (button) button.disabled = !dayActionsAllowed; }
@@ -6220,7 +6327,10 @@ function resolveNpcSelfDialogueV1(observation, relationTrust, enabled = false) {
     }
     function hideContext() {
       const panel = $('contextPanel');
+      const report = $('npcSightReport');
+      const hadReport = panel?.classList.contains('show') && report && !report.hidden;
       if (panel) panel.classList.remove('show');
+      if (hadReport) clearNpcSightReportUi();
     }
     function interactionTargetKey(target, x = target?.item?.x, y = target?.item?.y) {
       if (!target) return null;
@@ -6256,6 +6366,8 @@ function resolveNpcSelfDialogueV1(observation, relationTrust, enabled = false) {
       return `互动：${names[building?.type] || '查看建筑状态'} · 不移动位置；结果会写入日志和世界事件`;
     }
     function renderContext() {
+      const previousSightActor = $('npcSightReport')?.hidden === false ? $('npcSightReport').dataset.npcSightNpc : null;
+      syncNpcSightReportUi();
       const panel = $('contextPanel');
       if (!panel) return;
       if (state.gameOver || state.buildMode) { hideContext(); return; }
@@ -6403,6 +6515,8 @@ function resolveNpcSelfDialogueV1(observation, relationTrust, enabled = false) {
       $('contextHint').textContent = hint;
       $('contextActions').innerHTML = actions.join('');
       panel.classList.add('show');
+      if (previousSightActor && !Array.from($('contextActions').querySelectorAll('[data-context-action="npcView"]')).some(button => button.dataset.npcId === previousSightActor)) clearNpcSightReportUi();
+      syncNpcSightReportUi();
     }
     function triggerContextActionByIndex(index) {
       if (state.night) {
@@ -6470,9 +6584,10 @@ function resolveNpcSelfDialogueV1(observation, relationTrust, enabled = false) {
         const garrisonedLabel = n.garrisonedOutpostId ? ` · 驻守${OUTPOST_DEFS[n.garrisonedOutpostId]?.name || n.garrisonedOutpostId}` : '';
         const detail = dead ? '该角色不会自动恢复；后续需要继任者接替岗位。' : n.desc + ' · 常驻' + zoneName + ' · ' + npcSkillSummary(n) + (actingLabel ? ' · ' + actingLabel : '') + garrisonedLabel + (n.lastReport ? ' · ' + n.lastReport : '');
         const condition = dead ? '功能失效' : npcStateSummary(n) + ` · SAN ${Math.round(sanityValue(n))} · ${sanityLabel(n.sanity)}` + (actingLabel ? ' · ' + actingLabel : '') + garrisonedLabel + ` · ${npcHeroLabel(n)} · 羁绊 ` + n.bond + '/3';
-        return '<button class="survivor-card ' + (near ? 'near' : '') + ' ' + (n.supportRequested ? 'supported' : '') + ' ' + (dead ? 'dead' : '') + ' ' + (n.lifeState === 'injured' ? 'injured' : '') + ' ' + (n.lifeState === 'critical' ? 'critical' : '') + '" data-npc="' + n.id + '" ' + disabled + '><div class="survivor-icon">' + actorSprite('npc', n.id, n.facing || 'down', n.lifeState === 'healthy' ? 'idle' : 'hurt', actorFrame(), npcActorVisual(n)) + '</div><b>' + n.name + ' · ' + n.role + '</b><span>' + detail + '</span><em>' + status + ' · ' + condition + '</em></button>';
+        return '<button class="survivor-card ' + (near ? 'near' : '') + ' ' + (n.supportRequested ? 'supported' : '') + ' ' + (dead ? 'dead' : '') + ' ' + (n.lifeState === 'injured' ? 'injured' : '') + ' ' + (n.lifeState === 'critical' ? 'critical' : '') + '" data-npc="' + n.id + '" ' + disabled + '><div class="survivor-icon">' + actorSprite('npc', n.id, n.facing || 'down', n.lifeState === 'healthy' ? 'idle' : 'hurt', actorFrame(), npcActorVisual(n)) + '</div><b>' + n.name + ' · ' + n.role + '</b><span>' + detail + '</span><em>' + status + ' · ' + condition + '</em><div class="npc-sight-report" data-npc-sight-surface="roster" data-npc-sight-npc="' + n.id + '" hidden></div></button>';
       }).join('');
       document.querySelectorAll('[data-npc]').forEach(card => card.addEventListener('click', () => viewNpc(card.dataset.npc)));
+      syncNpcSightReportUi();
     }
     function render() {
       if (SessionController.exiting) return;
@@ -7544,11 +7659,136 @@ function resolveNpcSelfDialogueV1(observation, relationTrust, enabled = false) {
       const observation = projectNpcSelfObservationV1(captured);
       return observerDeepFreeze({ observation, expression: resolveNpcSelfDialogueV1(observation, captured?.relationTrust, observerAiConfig().observerCommentary) });
     }
+    function npcDirectSightRuntimeRevision() {
+      if (!Number.isSafeInteger(state.day) || state.day < 1 || !Number.isInteger(state.hour) || state.hour < 0 || state.hour > 23
+        || !Number.isFinite(state.minute) || state.minute < 0 || state.minute >= 60) return null;
+      const revision = { sessionGeneration: SessionController.generation, worldMinute: (state.day - 1) * 1440 + state.hour * 60 + state.minute,
+        eventSeq: state.worldMeta?.eventSeq, stepIndex: state.motion?.stepIndex, phase: 'DAY' };
+      return npcDirectSightCoreRevision(revision) ? revision : null;
+    }
+    function npcDirectSightRuntimePresence(npc) {
+      const outposts = state.contentState?.outposts;
+      if (!outposts || typeof outposts !== 'object' || Array.isArray(outposts)) return false;
+      let guards = 0, count = 0;
+      for (const id in outposts) {
+        if (!Object.hasOwn(outposts, id)) continue;
+        if (++count > 16) return false;
+        const outpost = outposts[id];
+        if (!outpost || typeof outpost !== 'object' || !Array.isArray(outpost.guardNpcIds)) return false;
+        guards += outpost.guardNpcIds.length;
+        if (guards > 64 || outpost.guardNpcIds.some(id => typeof id !== 'string') || outpost.guardNpcIds.includes(npc.id)) return false;
+      }
+      return true;
+    }
+    function npcDirectSightRuntimeActor(npc) {
+      if (!Array.isArray(state.npcs) || state.npcs.length !== Object.keys(NPC_TEMPLATES).length
+        || !npc || !state.npcs.includes(npc) || !Object.hasOwn(NPC_TEMPLATES, npc.id)) return false;
+      const gate = npcPublicActionGate(npc, { action: 'view' });
+      return gate.ok && gate.npc === npc && npc.lifeState === npcSelfLifeState(npc)
+        && Number.isFinite(state.hp) && state.hp > 0;
+    }
+    function npcDirectSightRuntimeInputs(npc) {
+      if (!npcDirectSightRuntimePresence(npc) || npc.lifeState === 'critical' || typeof npc.role !== 'string' || !npc.role
+        || typeof npc.supportRequested !== 'boolean' || !npcDirectSightCoreFinite(npc.sanity, 0, 100)
+        || ['fatigue', 'stress', 'energy'].some(key => !npcDirectSightCoreFinite(npc.needs?.[key], 0, 100))) return false;
+      if (npc.actingRole != null && !Object.hasOwn(NPC_TEMPLATES, npc.actingRole)) return false;
+      // Null is the existing authored default order; a non-null unknown value
+      // must not silently fall through getNpcOrderInfo to a stronger profile.
+      if (npc.order != null && (typeof npc.order !== 'string' || !getNpcOrders(npc).some(order => order.id === npc.order))) return false;
+      for (const key of ['motionTarget', 'goal']) {
+        if (npc[key] != null && (typeof npc[key] !== 'object' || !inBounds(npc[key].x, npc[key].y))) return false;
+      }
+      if (state.relayProject?.status === 'online' && ['sharedSightBonus', 'sharedRangeBonus'].some(key =>
+        !Number.isFinite(state.relayProject[key]) || state.relayProject[key] < 0)) return false;
+      if (!Array.isArray(state.worldZombies) || state.worldZombies.length > 64 || !Array.isArray(state.buildings) || state.buildings.length > 128) return false;
+      for (const building of state.buildings) {
+        if (!building || typeof building !== 'object' || typeof building.type !== 'string'
+          || building.type !== 'shelter' && !Object.hasOwn(buildInfo, building.type) || !inBounds(building.x, building.y)) return false;
+        if (['w', 'h'].some(key => building[key] !== undefined && (!Number.isFinite(building[key]) || building[key] <= 0))) return false;
+        const fp = buildingFootprint(building);
+        if (!Number.isFinite(fp.w) || !Number.isFinite(fp.h) || fp.w <= 0 || fp.h <= 0
+          || building.x + fp.w > MAP.cols || building.y + fp.h > MAP.rows) return false;
+      }
+      return true;
+    }
+    function captureFromQualifiedNpcDirectSight(npc) {
+      if (arguments.length !== 1 || !npcDirectSightRuntimeActor(npc)) return null;
+      const revision = npcDirectSightRuntimeRevision();
+      if (!revision) return null;
+      const trust = npcDirectSightCoreFinite(npc.relations?.trustToPlayer, -100, 100) ? npc.relations.trustToPlayer : null;
+      const finish = sight => observerDeepFreeze({ schema: 'NpcDirectSightCaptureV1', version: 1, actorId: npc.id,
+        sourceRevision: revision, sight, relationTrust: trust });
+      if (!npcDirectSightRuntimeInputs(npc)) return finish(null);
+      const profile = perceptionProfile(npc);
+      if (!Number.isFinite(profile.sight) || profile.sight <= 0 || !npcDirectSightCoreFinite(profile.cone, 0, 360)) return finish(null);
+      const counts = new Map();
+      for (const target of state.worldZombies) if (target && typeof target.id === 'string') counts.set(target.id, (counts.get(target.id) || 0) + 1);
+      const candidates = [];
+      let work = 0;
+      for (const target of state.worldZombies) {
+        if (!target || target.dead === true || !npcDirectSightCoreId(target.id) || counts.get(target.id) !== 1 || target.id === state.player.id
+          || Object.hasOwn(NPC_TEMPLATES, target.id) || !['normal', 'runner', 'brute'].includes(target.kind)
+          || !Number.isFinite(target.hp) || !Number.isFinite(target.maxHp) || target.hp <= 0 || target.hp > target.maxHp
+          || !inBounds(target.x, target.y)) continue;
+        const distance = distanceBetween(npc, target);
+        if (distance > profile.sight) continue;
+        work += 2 * Math.max(0, Math.ceil(2 * distance) - 1) * state.buildings.length;
+        if (work > 262144) return finish(null);
+        candidates.push({ target, distance });
+      }
+      let nearest = null;
+      // Original perception/LOS owns visibility; this adapter only validates
+      // inputs and bounds the work before any query. Never refresh contacts.
+      for (const candidate of candidates) {
+        if (!canPerceive(npc, candidate.target, profile)) continue;
+        if (!nearest || candidate.distance < nearest.distance
+          || candidate.distance === nearest.distance && candidate.target.id < nearest.target.id) nearest = candidate;
+      }
+      return finish(nearest ? { subjectId: nearest.target.id, category: nearest.target.kind, distanceBand: nearest.distance <= 2 ? 'near' : 'farther' } : null);
+    }
+    function prepareNpcDirectSightReport(npc) {
+      const captured = arguments.length === 1 ? captureFromQualifiedNpcDirectSight(npc) : null;
+      const observation = projectNpcDirectSightObservationV1(captured);
+      return observerDeepFreeze({ observation, expression: resolveNpcDirectSightReportV1(observation, captured?.relationTrust, observerAiConfig().observerCommentary) });
+    }
+    function clearNpcSightReportUi() {
+      npcSightReportUi = null;
+      document.querySelectorAll('[data-npc-sight-surface]').forEach(node => {
+        node.hidden = true; node.textContent = '';
+        for (const key of ['npcSightGeneration', 'npcSightWorldMinute', 'npcSightStatus']) delete node.dataset[key];
+      });
+    }
+    function syncNpcSightReportUi() {
+      if (!npcSightReportUi) return;
+      const cached = npcSightReportUi, npc = state.npcs?.find(item => item.id === cached.actorId);
+      if (cached.generation !== SessionController.generation || state.selectedNpc !== cached.actorId
+        || !npcPublicActionGate(npc, { action: 'view' }).ok
+        || cached.status === 'observed' && (!npcDirectSightRuntimeActor(npc) || !npcDirectSightRuntimePresence(npc))) { clearNpcSightReportUi(); return; }
+      const minute = cached.sourceRevision.worldMinute;
+      const day = Math.floor(minute / 1440) + 1, hour = Math.floor(minute % 1440 / 60), minutes = Math.floor(minute % 60);
+      const text = `第${day}天 ${String(hour).padStart(2, '0')}:${String(minutes).padStart(2, '0')} · 本次所见\n`
+        + (cached.status === 'observed' ? cached.actorName + '：' : '') + cached.text;
+      document.querySelectorAll('[data-npc-sight-surface]').forEach(node => {
+        const context = node.dataset.npcSightSurface === 'context';
+        const matches = context ? Array.from($('contextActions')?.querySelectorAll('[data-context-action="npcView"]') || []).some(button => button.dataset.npcId === cached.actorId)
+          && $('contextPanel')?.classList.contains('show') : node.dataset.npcSightNpc === cached.actorId;
+        node.hidden = !matches;
+        node.textContent = matches ? text : '';
+        if (matches) { node.dataset.npcSightNpc = cached.actorId; node.dataset.npcSightGeneration = String(cached.generation);
+          node.dataset.npcSightWorldMinute = String(minute); node.dataset.npcSightStatus = cached.status; }
+      });
+    }
     function viewNpc(preferred) {
       const gate = npcPublicActionGate(preferred, { action: 'view' });
       if (!gate.ok) { toast(npcPublicActionLabel(gate)); return gate; }
       const { npc } = gate;
+      clearNpcSightReportUi();
       state.selectedNpc = npc.id;
+      const prepared = prepareNpcDirectSightReport(npc);
+      const revision = prepared.observation?.sourceRevision || npcDirectSightRuntimeRevision();
+      if (revision) npcSightReportUi = observerDeepFreeze({ actorId: npc.id, actorName: npc.name, generation: SessionController.generation,
+        sourceRevision: { ...revision }, status: prepared.expression.status, text: prepared.expression.text });
+      syncNpcSightReportUi();
       // Read only the already-public local status. The generic summary/render
       // helpers can normalize social facts or evaluate promotion; do not invoke
       // them from this zero-business-effect view.
@@ -8267,6 +8507,7 @@ function resolveNpcSelfDialogueV1(observation, relationTrust, enabled = false) {
       stopWorldSimulation();
       toggleInventory(false);
       SessionController.mode = 'BATTLE';
+      clearNpcSightReportUi();
       state.night = true; state.buildMode = false; $('buildDrawer').classList.remove('open'); $('evolveDrawer').classList.remove('open'); $('eventPanel').classList.remove('open'); $('collectionPanel').classList.remove('open'); $('survivorPanel')?.classList.remove('open'); toggleWeaponPanel(false);
       document.body.classList.add('threat-map-active'); $('nightOverlay').classList.remove('show', 'summary-mode'); $('continueBtn').disabled = true; $('continueBtn').style.opacity = '.6'; $('nightAttackBtn').disabled = false; $('nightAttackBtn').style.opacity = '1';
       const activeSupports = state.npcs.filter(n => n.supportRequested && npcIsCampLocal(n));
@@ -8718,6 +8959,7 @@ function resolveNpcSelfDialogueV1(observation, relationTrust, enabled = false) {
     }
     function closeInfoModal() {
       if (SessionController.exiting) return;
+      clearNpcSightReportUi();
       infoModalOpen = false;
       state.inventoryOpen = false;
       $('infoModal')?.classList.remove('open');
@@ -8972,7 +9214,7 @@ function resolveNpcSelfDialogueV1(observation, relationTrust, enabled = false) {
     $('infoModal').addEventListener('click', (event) => { if (event.target === $('infoModal')) closeInfoModal(); });
     $('infoPlanMount')?.addEventListener('click', handlePlanMeetingAction);
     document.querySelectorAll('[data-info-tab]').forEach(button => button.addEventListener('click', () => openInfoModal(button.dataset.infoTab)));
-    $('contextClose').addEventListener('click', () => { contextDismissedAt = tileKey(state.player.x, state.player.y); hideContext(); });
+    $('contextClose').addEventListener('click', () => { contextDismissedAt = tileKey(state.player.x, state.player.y); clearNpcSightReportUi(); hideContext(); });
     $('campRestCancel').addEventListener('click', () => { cancelCampRest(); renderContext(); });
     $('contextActions').addEventListener('click', (event) => {
       const button = event.target.closest('[data-context-action]');

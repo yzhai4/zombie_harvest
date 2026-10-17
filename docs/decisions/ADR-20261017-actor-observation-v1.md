@@ -1,6 +1,6 @@
 # ADR：ActorObservationV1 角色知识投影
 
-**状态：** proposed／完整范围未完成；[self 首谈子片](ADR-20261017-npc-self-observation-v1.md)已开发验收，不覆盖本文件的直接感知、历史联系人、共享来源与通用授权出口。  
+**状态：** proposed／完整范围未完成；[self 首谈](ADR-20261017-npc-self-observation-v1.md)和[特定DAY近身口头侦察](../scripts/npc-direct-sight-observation-v1.md)已在各自列明范围开发验收，不覆盖全部对象感知、历史联系人、共享来源与通用授权出口。  
 **日期：** 2026-10-17。  
 **审计基线：** `dist/index.html` SHA-256 `cc900da9cdf865b101c37080eb7417148a8a388796ba808153c905ef8ad8494a`，SAVE21 / CONTENT3。  
 **关联：** [可信输入边界问题](../problems/PROB-20261017-observer-trusted-input-boundary.md)、[领袖 Harness ADR](ADR-20261014-leader-llm-harness.md)。
@@ -110,3 +110,5 @@ trust、valueAlignment、playerProgress 和 AI 开关都不能提升 knowledge�
 6. 保留现有表达核心、inline parity、content-chain、event-gate、episode、replay 与 static 回归。新观察 Gate 单独冻结 HTML/runner/fixture SHA 后再测公开 UI；源码、夹具浏览器、自然多日游玩分别报告。当前 cc900da9 的自然三日运行不能代替本 Gate 验收，也不因本 ADR 改标结果。
 
 增量：HTML c42056ed 的 `npc-first-talk-self-v1` 已通过真实公开 Gate 绑定同一 live NPC，并捕获本人伤势、需求和实际个人信任，经 self 授权／披露后固定表达；证据见[self QA](../qa/npc-self-observation-v1-20261017.md)。它不是本提案的通用 policy。上列感知、contacts、共享知识、有效岗位及模型边界仍待实现和验收；无新保存域、LLM 或生产部署结论。
+
+增量：HTML23b8c8c2 的 `npc-view-direct-sight-v1` 已沿真实view Gate→同live NPC→当前实际profile／canPerceive／LOS→一名合法活敌的粗类别与距NPC band→个人信任披露→context／名册as-of行接线。source91／Chrome200与列明关联回归见[QA](../qa/npc-direct-sight-v1-20261017.md)。无knowledge时给不归于NPC的统一中性文字；不读联系人补当前事实、不探开地图、不改变行为或保存。特定policy的私有工作预算不是世界生成上限。其它观察topic、contacts来源／TTL与共享、事件可见性、有效岗位、模型隔离继续开放。规划、EventFact与表达按各自消费者所需事实合同推进，不要求本完整ADR一次收口后才开始所有玩法实验。
