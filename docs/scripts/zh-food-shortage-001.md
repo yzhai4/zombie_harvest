@@ -2,7 +2,7 @@
 
 **状态：** 开发候选已接线，未发布 Sites；不是自然三日或平衡验收。  
 **定义：** `definitionVersion=2`，`repeatable=true`，稳定选择 ID 为 `ration` / `forage`；SAVE21 / CONTENT3 增量适配。  
-**实现：** `SCENARIO_RUNTIME_STORYLETS` → ContentRegistry → 公开事件面板 → CommandBus → GateV1 → 统一效果事务。身份合同见 [ADR-20261017-repeatable-episode-identity](../decisions/ADR-20261017-repeatable-episode-identity.md)。
+**实现：** 版本化作者 JSON → `compileScenarioEvents` → 只读候选目录/一次安装 → ContentRegistry → 公开事件面板 → CommandBus → GateV1 → 统一效果事务。手写 `SCENARIO_RUNTIME_STORYLETS` 已移除；默认作者规则仍为 v2，v3 一份藏粮仅为 TEST-ONLY 语义探针。身份合同见 [ADR-20261017-repeatable-episode-identity](../decisions/ADR-20261017-repeatable-episode-identity.md)，内容启动合同见 [ADR-20261017-scenario-content-binding-v1](../decisions/ADR-20261017-scenario-content-binding-v1.md)。
 
 ## 玩家承诺与来源
 
@@ -61,4 +61,4 @@
 | 真实浏览器夹具 | `scripts/browser-content-episode-v1.mjs`：boot 前注入完整旧 writer 保存，经公开按钮继续、选择、真实结算、刷新和继续；核两次 HTTP 文档字节、保存 flag/粮食/共振仪表/原身份及无页面错误。 |
 | 最终候选 | 最后源码变动后重跑关联检查；manifest 精确绑定 commit、HTML SHA、输入/runner/报告工件。旧候选的绿色与截图保留为旧证据，不迁移成新构建通过。 |
 
-本轮已有 source-VM 和真实 Chrome fixture-browser 运行结果；精确计数与字节绑定由 QA 记录和 manifest 管理，不在设计卡固定会过期的 SHA。fixture-browser 不能证明自然多日节奏、平衡或主线全通。Scenario JSON loader 仍是 headless 最小合同；Observer 仅为纯表达核心和深冻结白名单，actor 权限与感知来源投影仍待完成。Sites 生产 v81 未发布本卡。
+本轮已有 source-VM 和真实 Chrome fixture-browser 运行结果；精确计数与字节绑定由 QA 记录和 manifest 管理，不在设计卡固定会过期的 SHA。fixture-browser 不能证明自然多日节奏、平衡或主线全通。Scenario JSON 已经实际启动并驱动本条闭合单节点定义，尚无任意事件图编译或可视编辑器；Observer 仅为纯表达核心和深冻结白名单，actor 权限与感知来源投影仍待完成。Sites 生产 v81 未发布本卡。

@@ -1,5 +1,15 @@
 # 当前状态
 
+## 当前检查点：Scenario C1+C2 列明范围已开发验收（2026-10-17）
+
+源码提交 `a544a6139e19c21f89526e3aafed11162d885552`／HTML `61ea64b27a65cc4a271c214c16126b40a453eae40c8684c106bc8edc89e5f115`，SAVE21／CONTENT3。C1 初始 seed／有限 food 绑定之上，C2 已由完整作者 JSON 编译真实 EventChainDef，经私有只读候选目录准备后一次安装，写入独立 contentBinding；已知 C1 迁入保留原 initial binding 与世界事实，只记一次内容 adapter。见[本轮 QA](../qa/scenario-boot-c2-20261017.md)与[内容绑定 ADR](../decisions/ADR-20261017-scenario-content-binding-v1.md)。候选表可写兼容、有限来源 flag／weapon 名空间保护及场景配置错误提示的初稿问题已修，原失败保留。
+
+最终 40 unique 源码合同均有当前通过结果；123 次执行为 108 pass／15 次原 fail 保留。列明合同含 pure14、C1 source120、C2 source66，不能将这些子计数再加到执行次数。实际 Chrome：C2 六场 102／102，六套受影响回归 NPC112／农务35／断粮72／rest93／presence37／episode12，共 361／361；合计 463 检查、errors0。C2 的 10 次主文档为 5 canonical＋5 独立 TEST-ONLY variant；关联套另 55 次均 canonical61ea。休整是六场 verified，trusted-hidden 尝试 unavailable，不能称七场已验。
+
+[完整 boot ADR](../decisions/ADR-20261017-scenario-boot-contract.md)在声明的 C1+C2 支持矩阵内 adopted：C2 为闭合的一节点、两条终态选择语法（包内最多 32 个独立定义），不是任意事件图或 Scenario Studio。未支持的配置轴、多版本内容共存与更大世界／多副本仍开放。本片没有新 natural run；旧 C1 fresh08 保持原 day1 短路线范围，不迁为本构建自然三日或平衡证据。
+
+最终证据 HEAD 的精确 CI 仍待核；源码提交存在不等于开发 ref 已更新、CI 已成功或生产已部署。旧 C1 的 CI #290 不移给本片。下一 P0 是 ActorObservation 的实际 actor／perception 授权，再接 NPC 规划、记忆和 LLM 表达；只读 expression consumer 不构成角色知识授权。下方 C1 及更早章节保留原时点和失败，不覆盖本检查点。
+
 ## 当前检查点：Scenario初始绑定C1（2026-10-17，优先于下方历史）
 
 源码`d65924431932d63ccfa6cb3da12f38fd126cd39c`／HTML`a2fcdb647f2632fbf50f3ab0f3ba160f168082c602f6737c5ca4239eede137d2`，SAVE21／CONTENT3；新局seed（含0）/有限初始food实际生效，first writer前不启动世界，失败冻结同draft公开重试。完整旧writer不reseed/scale；原声明与真实旧seed分开。公开observer偏好到实际纯表达consumer通过，不代表角色知识或LLM。见[QA](../qa/scenario-boot-c1-20261017.md)。

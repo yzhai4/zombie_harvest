@@ -1,6 +1,6 @@
 # ADR：Scenario JSON 编译、候选目录与内容绑定 v1
 
-日期：2026-10-17。状态：实施决策已采纳，运行时与验收进行中；不代表生产已发布。承接[完整 boot 合同](ADR-20261017-scenario-boot-contract.md)与[C2 实施备忘](../research/scenario-boot-c2-implementation-plan-20261017.md)。C1 源提交 d65924431932d63ccfa6cb3da12f38fd126cd39c、开发 HEAD 982ab863abd8a37c332a01368fc93f7134e3a4bc、HTML a2fcdb647f2632fbf50f3ab0f3ba160f168082c602f6737c5ca4239eede137d2 为本轮冻结对照。
+日期：2026-10-17。状态：adopted／声明支持范围的运行时与开发验收已完成；不代表生产已发布。承接[完整 boot 合同](ADR-20261017-scenario-boot-contract.md)与[C2 实施备忘](../research/scenario-boot-c2-implementation-plan-20261017.md)，实际证据见[C2 QA](../qa/scenario-boot-c2-20261017.md)。C1 源提交 d65924431932d63ccfa6cb3da12f38fd126cd39c、开发 HEAD 982ab863abd8a37c332a01368fc93f7134e3a4bc、HTML a2fcdb647f2632fbf50f3ab0f3ba160f168082c602f6737c5ca4239eede137d2 保留为本轮冻结对照；当前 C2 源码为 a544a6139e19c21f89526e3aafed11162d885552／HTML61ea64b2。
 
 ## 玩家价值与范围
 
@@ -59,5 +59,13 @@ loadProgress 早于公开 start，保存校验、episode 适配和 draft 准备�
 
 批次先合法再非法，分别测重复、未知 Gate/op/ref、预算、flag、无 fallback、循环/next；逐域核已提交表、EVENT_DEFS、其他 kind、state/RNG、存储原字节与 timers，不留第一项或新收据。测已有 base/extension 冲突、正常首存/失败重试、完整旧 writer、C1 bound 迁入/未知拒绝、跨 episode 和 reload 去重。源码 VM、纯核心、真实浏览器与自然路线分别记录，不由 C1 绿色推导本片完成。
 
-最终源码冻结后运行受影响既有合同及 exact HTML/package/runner 的实际浏览器验收；原失败保留。回滚点为冻结 HEAD 982ab863 的源与证据；此决定不授权覆盖生产，开发发布另核精确来源和 CI。当前完成状态只由后续 QA/manifest 和远端提交证明。
+最终源码冻结后已运行受影响既有合同及 exact HTML/package/runner 的实际浏览器验收；原失败保留。回滚点为冻结 HEAD 982ab863 的源与证据；此决定不授权覆盖生产，开发发布另核精确来源和 CI。完成状态以本轮 QA／manifest 的声明范围为准，不能从一个合法包推广到任意内容图。
+
+## 实际验收与保留边界（2026-10-17）
+
+源码 a544a6139e19c21f89526e3aafed11162d885552／HTML61ea64b27a65cc4a271c214c16126b40a453eae40c8684c106bc8edc89e5f115。最终40 unique源码合同均有通过结果，123次执行为108 pass／15次原fail保留；列明 pure14／C1 source120／C2 source66。源码真实公开 start／loader／Choice／writer 覆盖默认作者 v2、独立 TEST-ONLY v3、跨 episode／午夜和已知旧 writer；它们与浏览器证据分层，不能把派生近午夜输入称为自然生成。
+
+实际 Chrome C2 六场102／102：canonical新局与reload、v2／v3各自原生active完整writer后的公开取粮与去重、已知C1一次内容迁入、未知内容身份保主备拒绝、晚项坏包公开开始拒绝。主文档为5 canonical＋5独立variant；另NPC112／农务35／断粮72／rest93／presence37／episode12合计361／361，55次主文档均canonical。全部errors0，原生writer／HTTP／runner／input原件在[C2 QA](../qa/scenario-boot-c2-20261017.md)分别索引。
+
+本片没有新natural run；真实Chrome跨午夜并非新C2六场覆盖，源码与关联休整／驻守夹具按各自范围报告。休整只有六场verified，trusted hidden unavailable。闭合的一节点两终态选择语法、staged registry和known-C1 contentBinding adapter已接受；任意图、Studio、多版本目录和额外配置轴保持未来范围。最终证据HEAD的exact CI仍pending，不声明ref更新或生产部署。下一为actor／perception授权，再接NPC规划／记忆／LLM表达；readonly expression不构成该授权。
 

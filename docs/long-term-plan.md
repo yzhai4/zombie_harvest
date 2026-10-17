@@ -2,7 +2,9 @@
 
 ## 当前P0检查点（2026-10-17）
 
-C1初始seed/有限粮食真实绑定与保存恢复已完成列明开发验收，见[QA](qa/scenario-boot-c1-20261017.md)。当前完整Scenario仍缺C2 JSON编译/原子目录和旧内容身份兼容；[实施备忘](research/scenario-boot-c2-implementation-plan-20261017.md)只是提案。C后才接角色观察权限与受约束表达。自然短路线、三日、玩家实验及生产分别验收；大世界/多个副本和特殊角色连续性目标不变。
+C1+C2 已完成声明支持矩阵的开发验收，源码 a544a6139e19c21f89526e3aafed11162d885552／HTML61ea64b2，见[C2 QA](qa/scenario-boot-c2-20261017.md)。真实初始绑定、闭合 JSON 编译、私有候选目录一次提交、独立内容绑定与已知 C1 兼容已接线；源码 40 unique 合同有通过结果（123 次执行／108 pass／15 原 fail 保留），Chrome102＋关联361 同构建通过。只覆盖已声明配置轴和一节点两终态选择语法，任意图、Scenario Studio、多版本内容及新配置轴仍为后续能力。
+
+下一 P0 是 ActorObservation 的实际 actor／perception 授权，再接 NPC 规划、记忆和 LLM 表达；只读 expression 不是角色知识权限。本片未跑新 natural，休整 hidden 仍 unavailable；自然三日、玩家实验和生产分别验收。最终证据 HEAD 的 exact CI 待核，不声明远端 ref 已更新。大世界／多个副本和特殊角色连续性目标不变。
 
 **计划版本：** 1.1  
 **游戏基线：** `zfarm-world-1.0` / `SAVE_VERSION=21` / `CONTENT_SCHEMA_VERSION=3`  
@@ -10,7 +12,7 @@ C1初始seed/有限粮食真实绑定与保存恢复已完成列明开发验收�
 
 ## 当前优先级与路线解释（2026-10-17）
 
-按[深度调研落地计划](research/research-adoption-plan-20261017.md)推进：先收齐据点在场合同，再验证有意义时间推进/断粮激励，接入最小真实Scenario boot，随后补角色知识投影。每个切片分别以真实调用、旧档、回放和当前构建浏览器验收，尚未完成的功能不由设计文档提升为已实现。
+按[深度调研落地计划](research/research-adoption-plan-20261017.md)推进：据点在场、有意义时间推进／断粮选择及 C1+C2 支持范围已有各自证据，接下来补角色知识投影。自然多日与体验仍是独立出口。每个新切片继续以真实调用、旧档、回放和当前构建浏览器验收，尚未完成的功能不由设计文档提升为已实现。
 
 P0–P6是能力与证据依赖；下方v82–v90是交付包，不能理解为必须等v88才建遥测、等v86才守模块边界，或先上线领袖LLM再验证规则规划/记忆。评测从P0开始，规则NPC、EventFact与关系先于生成表达。当前十人、小地图和试验少量持久角色不是最终规模限制；引擎、平台、多人、模型供应商和最终角色规模仍待验证。learned World Model保留为P6条件性研究，用exact simulator作基线。
 
@@ -29,7 +31,7 @@ EventLedger -> Replay / Debugger / Metrics -> Playtest / Evolution
 必须保持以下不变量：
 
 - 所有跨系统状态变化走命令、reducer 和事件账本；LLM 不直接修改 `GameState`。
-- deterministic模式固定 `seed + worldConfig + scenarioVersion + gameVersion/contentVersion + aiConfig/policyVersion + input/time trace` 后，产生相同真实状态和canonical replay hash；生成文本可不同，但不改变规则事实。现有简化回放只证明其实际固定的输入范围，完整配置boot尚未验收。
+- deterministic模式固定 `seed + worldConfig + scenarioVersion + gameVersion/contentVersion + aiConfig/policyVersion + input/time trace` 后，产生相同真实状态和canonical replay hash；生成文本可不同，但不改变规则事实。C1+C2 boot 已在列明支持矩阵与夹具范围验收；现有回放不证明任意配置、内容图或所有未来路径等价。
 - LLM 只能输出声明过的意图；权限、阶段、资源、知识范围、冷却和实体预算由 Gate 判断。
 - 运行时不生成无来源的剧情节点、人口、资源或能力；自由文本只作为解释或表现层输出。
 - 在线游戏使用低频战略决策，逐 tick 移动、寻路和战斗由确定性执行器或训练好的低延迟策略负责。

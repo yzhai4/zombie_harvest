@@ -1,8 +1,8 @@
 # ADR：ScenarioPackageV1 的真实启动与配置绑定
 
-日期：2026-10-17。**状态：完整提案proposed/open；C1初值绑定已开发验收，C2未接线。** 本文约定下一最小切片，不代表当前运行时已经具备 Scenario loader。对应问题见 [PROB-20261017-scenario-stored-not-bound](../problems/PROB-20261017-scenario-stored-not-bound.md)。生产 Sites v81 不因本提案改变。
+日期：2026-10-17。**状态：adopted／声明支持的 C1+C2 范围已开发验收；未来配置轴与内容能力仍开放。** 对应问题见 [PROB-20261017-scenario-stored-not-bound](../problems/PROB-20261017-scenario-stored-not-bound.md)。此状态不代表整个项目完成或生产已发布。
 
-当前C1见[绑定合同](ADR-20261017-scenario-initial-binding-v1.md)与[QA](../qa/scenario-boot-c1-20261017.md)；下方反例保留为C1前基线，不能覆盖现有初值消费。完整JSON编译、原子目录和内容身份仍未完成。
+当前 C1 见[绑定合同](ADR-20261017-scenario-initial-binding-v1.md)与[QA](../qa/scenario-boot-c1-20261017.md)，C2 见[内容绑定合同](ADR-20261017-scenario-content-binding-v1.md)与[QA](../qa/scenario-boot-c2-20261017.md)。真实 boot 已消费受支持初值与闭合 JSON 内容；下方反例保留为 C1 前基线，不能覆盖已验收范围。任意图、Studio、多版本内容和未列配置轴仍须新合同。
 
 ## C1前事实与反例
 
@@ -16,26 +16,27 @@
 
 已有三个 package 测试只验证 valid/hard/custom 字段结果。源码 VM、旧 writer 浏览器夹具和公开三日日历回归都不能替代上述启动接线。
 
-## 提议的最小完整范围
+## 已采纳的 C1+C2 范围
 
 继续使用确定性 GameState / reducer；不增加编辑器、引擎迁移、LLM、Director 或 learned World Model。按[调研 P0–P6](../qa/deep-research-baseline-20261017.md)先实现可追溯的 seed/config 与一个数据驱动 storylet。
 
 同一纯核心负责 `validate → resolve → compile`，Node 与浏览器运行时保持实现一致。构建时将经过验证的版本化 JSON 包嵌入部署产物并核对来源字节；真实 boot 读取它，不能在测试里调用 resolver 后声称 boot 已执行。第一版只将断粮编译为完整 EventChainDef；中继用带 kind 的外部引用（`eventDef:relay-chain-001`），避免把 EventDef 与 eventChain ID 混为一类。
 
-### 支持矩阵（提议，实施后逐项验收）
+### 支持矩阵（列明范围已开发验收）
 
 | 配置 | 本切片承诺 | 非支持请求 |
 | --- | --- | --- |
 | scenario/schema/content/game 标识 | 仅接受已登记、兼容的精确版本与 ID；生成可通过实际 SAVE21 writer/validator 的 snapshot | 未知或未来版本明确拒绝，不改写成当前版本 |
 | `seed` | uint32，包含 0；新局一次性初始化 `worldMeta.seed`、`rngState` 与 `replay.seed` | 字符串、负数、非整数、溢出或非有限值拒绝 |
-| `world.foodMultiplier` | 提议 0–2；仅在新局对作者基线食物库存和初始 berry 的剩余采集次数各乘一次并向下取整；0 保持耗尽事实 | 不作用于每日配给、作物产出、补生资源、事件藏粮或旧存档；范围外拒绝 |
+| `world.foodMultiplier` | 0–2；仅在新局对作者基线食物库存和初始 berry 的剩余采集次数各乘一次并向下取整；0 保持耗尽事实 | 不作用于每日配给、作物产出、补生资源、事件藏粮或旧存档；范围外拒绝 |
 | `world.ordinaryNpcCount` | 只接受基线值 10；该旧名称表示固定起始 roster 总数，不据此声称十人全为普通 NPC | 其他数量拒绝，不删人、补人或生成缺失岗位 |
 | medicine/material/initialEnemy/waveGrowth/eventFrequency 倍率 | 只接受基线值 1，并标记 baseline-only | 非默认请求返回 `unsupported-config`；未接线的 hard preset 不可偷偷按 standard 运行 |
 | `observerCommentary` | 只控制已实现的纯表达路径；AI-OFF 完整可运行 | 不授予状态写入、actor 权限或额外感知 |
 | dialogue/generatedWorldEvents/learnedWorldModel | 必须为 false | true 或未知 capability/authority 拒绝 |
 | continuity | 描述信息可登记为 deferred；不执行 import 或宣称记忆导出已可用 | 非空运行时 import/未实现导出请求拒绝 |
+| JSON storylet | C2 闭合语法：最多32个独立定义，各一节点、两条终态选择；typed refs、有限来源、Gate／效果白名单按[内容合同](ADR-20261017-scenario-content-binding-v1.md)校验 | 任意图、循环、未知操作／引用／authority、超预算及不匹配内容版本拒绝；Studio 未交付 |
 
-倍率的具体上限与初始食物语义是本提案的产品选择，尚非平衡结论。若决定改用别的首个实际配置轴，先更新本矩阵与负控，不让 `foodMultiplier` 暗含“所有未来粮食都放大”的承诺。
+倍率的具体上限与初始食物语义是本合同的产品选择，尚非平衡结论。若扩展其他配置轴，先更新本矩阵与负控，不让 `foodMultiplier` 暗含“所有未来粮食都放大”的承诺。
 
 snapshot 持久化包 digest、binding 版本、实际 applied keys 与 baseline-only/deferred keys。保存成功只证明配置被记录；验收必须另证实际 consumer。digest 对规范化内容稳定，并与原包文件 SHA 分开记录；不依赖对象键插入顺序推定配置相同。
 
@@ -74,4 +75,10 @@ authority 校验覆盖所有 `ai.policies.*` 与 storylet expression 路径，�
 
 通过源码合同后，冻结 exact HTML/包/runner 字节再做正常新局与旧档浏览器 smoke。fixture-browser、公开行动日历回归、自然体验和平衡分别报告。`server-three-days.py --strict-fresh` 使用兵营训练推进，属于单构建全新公开行动回归；自然时钟间隔证据不把整个训练路线变成自然游玩。即使该 runner 通过，也不满足本 ADR 的 loader 验收。
 
-任一原子性、旧事实保持或未授权能力负控失败，停止扩大配置面与后续 AI 功能，保留失败并修复。本文只有在实现、exact 证据及上述门槛完成后才能改为 adopted；C1部分接线不构成完整ADR采用或生产发布结论。
+任一原子性、旧事实保持或未授权能力负控失败，停止扩大配置面与后续 AI 功能，保留失败并修复。本文现于声明支持的 C1+C2 矩阵内 adopted；后续配置轴与任意图不因本次采用自动获得支持。
+
+## 开发验收记录（2026-10-17）
+
+源码 a544a6139e19c21f89526e3aafed11162d885552／HTML61ea64b27a65cc4a271c214c16126b40a453eae40c8684c106bc8edc89e5f115。最终 40 unique 源码合同有当前通过结果，123 次执行为108 pass／15原fail保留，列明 pure14／C1 source120／C2 source66。实际 C2 Chrome102＋六关联361＝463，主文档分列5 C2 canonical＋5 variant与55关联canonical，见[C2 QA](../qa/scenario-boot-c2-20261017.md)。独立变体只证明各自字节的合法包消费，不移给 canonical 作任意配置证明。
+
+休整六场 verified、trusted hidden unavailable；本片没有新 natural run，不关闭自然三日、体验或平衡。最终证据 HEAD 的 exact CI 仍待核，不声明开发 ref 更新或生产部署。下一入口为真实 ActorObservation／perception 授权；现有只读表达 consumer 不是角色知识权限，再后才接 NPC 规划、记忆和 LLM 表达。

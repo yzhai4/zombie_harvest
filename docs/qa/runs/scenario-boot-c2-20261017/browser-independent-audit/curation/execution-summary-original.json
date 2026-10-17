@@ -1,0 +1,103 @@
+{
+  "schema": "ScenarioC2BrowserExecutionSummaryV1",
+  "status": "SIX_SCENES_TERMINAL_EXIT0",
+  "sourceHtmlSha256": "61ea64b27a65cc4a271c214c16126b40a453eae40c8684c106bc8edc89e5f115",
+  "runnerSha256": "a875110310d3d9abd37250049572cdf1893abe60dbc06cb9b1130a0aa74fc8bb",
+  "originalReportRef": "artifact:report.json",
+  "originalReportSha256": "8c70077e36f9ca302f1cfecc7b170481125dcc6c706fd1df6e147643675261ac",
+  "captureReportSha256": "5384f11e094cc55d482d877884e8e02c2504194eb43526a81d95e6ece9be049e",
+  "sourceRuntimeHelperSha256": "e9872eeba85d49019d1bd806f3dd18357a5abc8f2f92922922f6a5324ec220dc",
+  "ioAdapterSha256": "554c400c174ad1b069c4dfcc839c12b3b45ea79c5aa7669e093a440ffa4845d3",
+  "exitCode": 0,
+  "browserVersion": "155.0.8059.80",
+  "count": 102,
+  "passed": 102,
+  "errors": [],
+  "elapsedWallMs": 20998,
+  "cleanup": {
+    "contextsClosed": true,
+    "browserClosed": true,
+    "httpServerClosed": true
+  },
+  "scopes": {
+    "canonical": "public new start, initial content binding and reload; known C1 migration; explicit invalid inputs",
+    "variants": "food0 v2/v3 independent HTML SHA and native active inputs, public Choice +2/+1 and reload",
+    "calendarCrossDayBrowser": false,
+    "actorKnowledgeProjection": false,
+    "fullConfigurationGui": false,
+    "sourceCapture": "controlled source VM start/hook/native writer; no enemy deletion, repositioning or live GameState patch; not natural active-event discovery",
+    "validator": "separate actual source VM start + readonly native-save validator; not browser gameplay",
+    "IOObservationInstrumentation": "preboot complete save installation; pass-through Storage.setItem/setInterval/clearInterval observation with originals restored"
+  },
+  "naturalGameplay": false,
+  "scenes": [
+    {
+      "id": "canonical-newstart-reload",
+      "kind": "fresh",
+      "verified": true,
+      "htmlSha256": "61ea64b27a65cc4a271c214c16126b40a453eae40c8684c106bc8edc89e5f115",
+      "canonicalBytes": true,
+      "writerCount": 3
+    },
+    {
+      "id": "v2-public-forage",
+      "kind": "choice",
+      "verified": true,
+      "htmlSha256": "9f3a82202980386966579f10f5e1b1950214ea7feddfab0abd0a5f40d15c7e4c",
+      "canonicalBytes": false,
+      "writerCount": 4
+    },
+    {
+      "id": "v3-public-forage",
+      "kind": "choice",
+      "verified": true,
+      "htmlSha256": "9e8aab2a7dad5036f8c60b0f8d7fb0a42cdc7075469ca4456c49783848177a1a",
+      "canonicalBytes": false,
+      "writerCount": 4
+    },
+    {
+      "id": "known-c1-migration",
+      "kind": "c1",
+      "verified": true,
+      "htmlSha256": "61ea64b27a65cc4a271c214c16126b40a453eae40c8684c106bc8edc89e5f115",
+      "canonicalBytes": true,
+      "writerCount": 3
+    },
+    {
+      "id": "unknown-content-digest",
+      "kind": "reject",
+      "verified": true,
+      "htmlSha256": "61ea64b27a65cc4a271c214c16126b40a453eae40c8684c106bc8edc89e5f115",
+      "canonicalBytes": true,
+      "writerCount": 0
+    },
+    {
+      "id": "late-invalid-package",
+      "kind": "reject-package",
+      "verified": true,
+      "htmlSha256": "a10f4b08db31c784aa0bd65b9798ceb1079d8d839c888e4f4455331f1e9ebb54",
+      "canonicalBytes": false,
+      "writerCount": 0
+    }
+  ],
+  "actualMainDocumentCount": 10,
+  "canonicalMainDocumentCount": 5,
+  "variantMainDocumentCount": 5,
+  "allMainBodiesValidatedAgainstOwnScene": true,
+  "originalPreflightFailure": {
+    "runnerSha256": "c294dece174d1555c597d88087f2f4f958efefb48fe3e8bb524e74b0b9145ca9",
+    "exitCode": 1,
+    "browserStarted": false,
+    "reportCreated": false,
+    "reason": "lexical options assertion rejected JSON-formatted equivalent options; corrected only to parse and compare independent exact literal",
+    "originalsRetainedPrivate": true,
+    "stderrSha256": "940287e68400fcb2fc75feafd33a327bdfbd609392d3ac609891259892317034",
+    "adjudicationSha256": "f0e58db8866aa95dab48619cc1e76b50d9724f3eb300823884377e618246c434"
+  },
+  "artifactManifestRef": "artifact:artifact-manifest.json",
+  "artifactManifestSha256": "48dc57051b43a6f833d4381ac54559f8c708984e0bfa3f1f080c0ab61662ecc5",
+  "artifactCount": 72,
+  "privateCliPublished": false,
+  "profileCopied": false,
+  "gameSourceChangedByBrowserRunner": false
+}

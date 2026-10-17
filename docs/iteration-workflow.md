@@ -183,3 +183,5 @@ Evidence manifest 绑定 branch、evidence commit、HTML SHA、SAVE/CONTENT、CI
 内容选择的合理性要同时比较立即选择、关闭/暂不处理和先补粮等公开可达策略；分别写清内部 fallback 与真实 UI 入口。旧一次性完成档迁入 repeatable 后，还要调用真实事件菜单/renderer，证明新 episode 可见，不能仅凭 startChain 成功宣布迁移闭环。
 
 NPC公开动作另按[NPC合同](decisions/ADR-20261017-npc-public-actions-v1.md)评估：查看／首谈／确认支援／询问／命令保持各自语义，提交时重核同一目标。规则拒绝、自主拒绝和已支付后的真实生命周期中断分别记账；实际模拟产生的伤亡不退款或回滚，后置奖励与命令停止。捕获阶段和父子事件来源分别列明；自动checkpoint必须在reload前被实际观察，负结果不能因Bus不保存而丢失。
+
+源码VM原工件重复HTML导致归档过大时，可无损压缩子工件并独立解压逐路径／bytes／SHA验证引用闭合，native主报告保原字节。manifest明确列普通ZIP、index、回读收据及外部原件映射；直接读取native子工件的消费者先按声明根解压。通用Gate不自动解析ZIP，压缩／导出成功不计新的运行时或玩法验收。详见[启动验证参考](../.codex/skills/zombie-harvest-iteration/references/scenario-boot-verification.md)。

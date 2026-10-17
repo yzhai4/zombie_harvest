@@ -1,6 +1,14 @@
 # 未关闭风险
 
-## 当前优先级覆盖：C1初始绑定后（2026-10-17）
+## 当前优先级覆盖：C1+C2 列明范围验收后（2026-10-17）
+
+源码 a544a6139e19c21f89526e3aafed11162d885552／HTML61ea64b2 的 C2 已完成真实 JSON 编译、私有候选目录／一次安装、contentBinding 和已知 C1 一次内容 adapter，见[QA](../qa/scenario-boot-c2-20261017.md)。最终 40 unique 源码合同有通过结果，123 次执行中的 15 次原失败保留；pure14／C1 source120／C2 source66 与 Chrome102＋关联361 分层记录。C1+C2 声明支持矩阵已 adopted，原“仅保存、未绑定”的问题在该范围关闭；任意图、额外配置轴、Scenario Studio 和多版本内容共存仍未交付。
+
+下一 P0 是 ActorObservation 的实际 actor／perception 来源与授权，再接 NPC 规划、记忆和 LLM 表达。现有深冻结只读 expression consumer 只证明表达纯读，不能授权角色读取全图、原始 subject 或宽快照。继任双岗、采集来源回执、fractional clock、零粮词值、大步模拟差异、自然三日／玩家体验、最终尸潮和移动端继续 open。
+
+本片没有新 natural run。休整六场 verified，真实 trusted hidden 仍 unavailable；源码 IO 控制不能代替 browser 后台证据。最终证据 HEAD 的 exact CI 仍 pending，不声称开发 ref 已更新或生产已部署。下方 C1 及更早风险保留为历史时点，不覆盖本节。
+
+## 历史优先级覆盖：C1初始绑定后（2026-10-17）
 
 开发C1实际seed/有限food、公开偏好、首存冻结/重试和旧来源表示已按[QA](../qa/scenario-boot-c1-20261017.md)验收；完整Scenario仍未完成。C2必须解决JSON→完整定义/typed refs/候选目录原子提交及早于start的保存校验依赖，已知C1 binding/digest要显式保留，不能忽略或追溯重算。
 

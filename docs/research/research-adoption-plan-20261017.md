@@ -23,7 +23,7 @@ P0–P6表示证据依赖顺序，不是永久缩小产品，也不等同于旧�
 | --- | --- | --- |
 | 可玩规则与事件 | 已有命令/账本、昼夜战、统一事件样本、repeatable episode、有限资源及旧档夹具；当前自然多日与平衡未验收 | 有意义的公开行动能形成可读的数日因果，失败和代价有反制 |
 | NPC在场与岗位 | 据点在场合同已完成列明consumer、旧writer与公开浏览器验证；继任有效岗位仍有独立反例 | 保留世界人口/远端需求；另修继任双岗位，不把存在/本地/健康/岗位混为一谈 |
-| Scenario | C1已真实消费seed/有限初始food并保留旧事实；JSON剧本编译/C2仍未完成 | 相同配置真实开局一致、合法轴生效、未知轴拒绝、旧writer不重算 |
+| Scenario | C1+C2 声明支持矩阵已开发验收：真实初始绑定、闭合 JSON 编译、私有目录一次提交、内容绑定和已知 C1 adapter；见[C2 QA](../qa/scenario-boot-c2-20261017.md) | 保持旧事实与有限来源；新配置轴、任意图、Studio 与多版本内容另立合同 |
 | 记忆与Observer | 已有部分本地记忆与纯只读表达核心；角色知识授权、EventFact连续性未完成 | 事实出处、谁知道什么、信任披露交集、AI OFF与错误回退 |
 | GameCore/引擎 | 运行时仍以HTML为主，部分独立纯模块及shadow合同存在 | 每次抽取保持实际调用与回放等价；不以模块名称代称独立核心或引擎迁移完成 |
 
@@ -49,9 +49,11 @@ efe039切片已达到上述列明出口，源码68028d07、head f36dd559的CI #2
 
 断粮v2与已知旧档适配已完成。随后19cb修复农务live目标／空成功／玩家来源，新source64、浏览器35以及受影响回归通过；全新fresh06七项自然短路线15/15，终点仅第1天09:23，见[农务与自然QA](../qa/crop-target-v1-20261017.md)。原01–05保持失败／不完整，06未含战斗、成熟收获、夜间或三日。下一切片先修NPC公开动作资格：查看范围仍1.25，实际支援／命令保留原1.0，绑定同NPC并在提交时重核；不可操作时禁用或明确提示，移动失效拒绝且不付代价／功绩。fresh05暴露此矛盾，06恰在1内成功不能代为关闭。随后80dea63c／9ed已完成NPC公开资格与typed结果，source110／Chrome112和fresh07七项短路线16/16；真实15分钟内死亡停止后续奖励并自动保存。见[NPC QA](../qa/npc-public-actions-v1-20261017.md)。下一接C真实boot；自然三日是独立验收，不反复刷短线作为boot前置。
 
-### C：最小真实Scenario boot与成对竖切片
+### C：最小真实Scenario boot与成对竖切片（C1+C2列明范围已开发验收）
 
 按[boot合同](../decisions/ADR-20261017-scenario-boot-contract.md)只接已经实现的轴，先让seed与有限资源配置经真实新开入口消费。未知字段/不支持值在支付或安装前拒绝；失败原子回退；继续旧档保留人口、资源、事件和时钟，不reseed。不要先做完整GUI或把报告中的24/30人口、倍率示例直接应用于当前固定十人规则。
+
+C1+C2 已达到声明支持矩阵的开发出口，见[C2 QA](../qa/scenario-boot-c2-20261017.md)。C2 作者包目前限最多 32 个独立的一节点、两终态选择定义，经真实编译、staged registry 和独立 contentBinding 执行；已知 C1 一次 adapter 不改原 initial binding。此出口不包含任意内容图、Studio 或后续实验的效果结论。
 
 出口后再以同构建、同seed和单因子进行以下实验；缺岗通过明确标识的boot fixture/真实死亡或缺岗机制产生，不声称从零自然发生。全局AI OFF，relay持续回归已有发现→交付→筹料→施工→online→预警路径；开发flag未接通的事务迁移不算正式路径。
 
@@ -97,8 +99,14 @@ GameCore抽离、UI/素材和性能验证随已冻结的玩法路径推进；更
 
 研究引用在用于重要技术投资或正式效果论证前回到一手论文/官方材料，记录方法、条件、局限和本项目可迁移部分；无需每轮重做整份文献综述。新原文、代码反例、体验矛盾或预算失败才触发计划与Skill修订。日志保留在QA/问题/实验目录；计划和Skill只保留改变决策的规则及链接。
 
-C的首片实现建议已形成[只读技术计划](scenario-boot-c1-implementation-plan-20261017.md)，仍proposed：复用纯draft→同步安装→真实保存/启动，仅seed与初始food一次绑定；旧档不reseed/重算。完整JSON storylet编译/原子注册为C2，C1不能整体关闭boot ADR。
+C 的首片[技术计划](scenario-boot-c1-implementation-plan-20261017.md)保留为设计时记录：纯 draft→同步安装→真实保存／启动、seed 与初始 food 一次绑定及旧档不重算已由 C1 实施；后续 C2 完成列明 JSON 编译／目录与内容身份合同。完整 boot ADR 的 adopted 状态仅覆盖这两片的声明支持矩阵。
 
 ## C1开发验收增量
 
-源码d6592443／HTMLa2fcdb64已接真实初值绑定、首存冻结/重试、公开偏好与旧档来源，pure14/source120与七套Chrome495列明检查通过，见[QA](../qa/scenario-boot-c1-20261017.md)。原C1技术计划是设计时记录。下一[C2实施备忘](scenario-boot-c2-implementation-plan-20261017.md)仍proposed，必须先解决早于start的纯候选目录查询、完整JSON编译/一次提交和原C1内容身份兼容，再进入ActorObservation。fresh08仅day1短整合，后台旧塔真实击杀单列，不是自然三日、玩家战斗或平衡结论。
+源码d6592443／HTMLa2fcdb64已接真实初值绑定、首存冻结/重试、公开偏好与旧档来源，pure14/source120与七套Chrome495列明检查通过，见[QA](../qa/scenario-boot-c1-20261017.md)。原 C1 技术计划及当时的 C2 实施备忘保留设计时上下文；后续完成状态见下节。fresh08仅day1短整合，后台旧塔真实击杀单列，不是自然三日、玩家战斗或平衡结论。
+
+## C2开发验收增量与下一入口
+
+源码 a544a6139e19c21f89526e3aafed11162d885552／HTML61ea64b2 已完成[C2 QA](../qa/scenario-boot-c2-20261017.md)列明合同。最终 40 unique 源码合同均有通过结果，123 次执行为 108 pass／15 原 fail 保留；其中 pure14、C1 source120、C2 source66 分别记录。实际 Chrome 新 C2 六场102，加 NPC／农务／断粮／rest／presence／episode 六关联361，共463检查；C2 主文档5 canonical＋5独立variant，关联55 canonical。休整六场 verified，trusted hidden unavailable。本片没有新 natural run，最终证据 HEAD 的精确 CI 待核，不据源码提交存在声称远端 ref 更新或生产已部署。
+
+下一 P0 为 ActorObservation 实际 actor／perception 授权；readonly expression 只证明纯读 consumer，不证明角色有权知道输入事实。随后按既有依赖推进 NPC 规划、EventFact／记忆与 LLM 表达。任意图、Studio、更大世界／副本和特殊角色连续性继续开放，不能把本片验收称为整个项目完成。

@@ -1,6 +1,8 @@
 # 场景包与预期目录同源生成漏检语义漂移
 
-日期：2026-10-17。状态：external C1候选4fc生成工具中confirmed，修正待验；未安装或发布。C2 JSON编译器仍未实现。
+当前开发增量：C2声明支持语法已实现并验收，见[当前QA](../qa/scenario-boot-c2-20261017.md)；独立作者oracle和真实单因子Choice效果取代手写旁路的共同输入盲区。ActorObservation与生产另验。下方为C1时点的原问题、修正要求与失败，不覆盖此增量。
+
+历史日期：2026-10-17。原状态：external C1候选4fc生成工具中confirmed，修正待验；未安装或发布。该时点C2 JSON编译器尚未实现。
 
 固定4fc内部修改包效果会被目录比较拒绝；但原私有生成器同时从package.events生成包和预期目录。执行TEST-ONLY反例：JSON forage粮食效果2→3，再用该生成器重建，实际package validator通过、公开source start成功；真实注册效果仍2，真实Choice结算仅+2。故原负控只证明固定产物内的比较，没有覆盖重建时的共同漂移。这是构建/来源校验问题，不宣称已发布游戏曾产生JSON驱动的+3。
 

@@ -1,0 +1,80 @@
+{
+  "schema": "ScenarioC2QaMethodIndependentReviewV1",
+  "status": "METHOD_CHANGES_SUPPORTED_NO_BUSINESS_ASSERTIONS_REMOVED",
+  "strictLegacyFour": [
+    {
+      "path": "scripts/check-plan-integrity.mjs",
+      "beforeSha256": "27db06e2fade987711cd852c4f7a0b978db12d68bed801fa092390832624f0e2",
+      "afterSha256": "9cbf1587c413ab5b651d81e0e401dd3399e80c8760533384a7c720962de354c8",
+      "exactOtherCodeUnchanged": true,
+      "onlyThreeSpecifiedChanges": true
+    },
+    {
+      "path": "scripts/check-plan-integrity-ui.mjs",
+      "beforeSha256": "a7bd003f1c50f9bfd195f1a735179df3fb05b9fe68835b4df89e3157939657ca",
+      "afterSha256": "6575911565826112523547f09ef0ecfd135647d173645f111f99fd277f526b8d",
+      "exactOtherCodeUnchanged": true,
+      "onlyThreeSpecifiedChanges": true
+    },
+    {
+      "path": "scripts/check-npc-threat-attention.mjs",
+      "beforeSha256": "59e64b659ed4f62a55b8949ab45bd909254f160dcd8a52422b61845607fa5282",
+      "afterSha256": "db3c5b00491e0ddd02c7ae5e3715f47be33e0cf55dfe466abaafbcbefdf7f1b0",
+      "exactOtherCodeUnchanged": true,
+      "onlyThreeSpecifiedChanges": true
+    },
+    {
+      "path": "scripts/check-shortage-choice-v2.mjs",
+      "beforeSha256": "b5e2815e899d6648548f7787762bc9513859be1ede04ca38e5cb827d940490fe",
+      "afterSha256": "a2e20298ce8ae56ef05add82401bd68f11353cf782b1c6c2386fa76f20152047",
+      "exactOtherCodeUnchanged": true,
+      "onlyThreeSpecifiedChanges": true
+    }
+  ],
+  "strictLegacyScope": "Two pinned old checksums only; exact one metadata event, complete old ledger prefix, RNG/replay/command watermarks, resources/population/HP/plan/CP assertions preserved. Adds only exact content adapter and six-field contentBinding, no generic migration filtering.",
+  "canonicalIo": {
+    "manifest": {
+      "path": "canonical-method-manifest-original.json",
+      "sha256": "c1249a9bf35ab79e2a58e71ea88ae92adaa31e3c63ae8ab0b8f13e61f55cd931",
+      "bytes": 5218
+    },
+    "oldSha256": "ee5bb659c0439044e1ec07a4aecf931293457c2478f35d0850fe90770b4367cf",
+    "intermediateSha256": "59c6986bbe8eee037811f409fad48e36fd5e32046e9d01ac6ef041b534ce055d",
+    "currentSha256": "554c400c174ad1b069c4dfcc839c12b3b45ea79c5aa7669e093a440ffa4845d3",
+    "onlyExplicitLookupContextAndRealPublicInitialStart": true,
+    "oldTestsOutsideRuntimeByteIdentical": true,
+    "otherThreeMethodsByteIdentical": true,
+    "actualRetainedRuns": {
+      "sourceHtmlSha256": "46619aa986552dc6bab05007f32d1043b91684a1b6b6fd6fbc3fe722d4aad2bc",
+      "recovery": 177,
+      "command": 28,
+      "repair": 41,
+      "allNativeReportsOk": true,
+      "originalArtifactHashesChecked": true
+    },
+    "historical466ResultsNotTransferredTo61ea": true,
+    "prepareWrapper": {
+      "manifest": {
+        "path": "prepare-wrapper-manifest-original.json",
+        "sha256": "f9399d6995cc808d1e0119768718bf5492a5a82e7cf463ed16d859cb99f877d9",
+        "bytes": 1448
+      },
+      "onlyOneQaForwardingLineChanged": true,
+      "sourceHtmlSha256": "61ea64b27a65cc4a271c214c16126b40a453eae40c8684c106bc8edc89e5f115",
+      "actualRetainedPresence": 41,
+      "actualRetainedRecovery": 177,
+      "allNativeReportsOk": true
+    }
+  },
+  "independentC2Io": {
+    "frozenSha256": "ee5bb659c0439044e1ec07a4aecf931293457c2478f35d0850fe90770b4367cf",
+    "newCanonicalIoUsed": false
+  },
+  "scope": {
+    "readOnlyMethodReview": true,
+    "gameOrTestsRerun": false,
+    "rootFilesModified": false,
+    "strictFourExecutionClaim": false,
+    "finalRoot40Suite": "separately executed by root; no inference from method review"
+  }
+}

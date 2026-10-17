@@ -1,8 +1,8 @@
 # Scenario 配置被保存，但未绑定真实启动
 
-日期：2026-10-17。**状态：confirmed / open。** 范围：ScenarioPackageV1 headless 合同与内联 boot；修复方案仍 [proposed ADR](../decisions/ADR-20261017-scenario-boot-contract.md)，未接线。生产 Sites v81 未改变。
+日期：2026-10-17。**状态：resolved／C1+C2 声明支持范围已开发验收。** 真实启动、受支持初值、闭合 JSON 编译与内容绑定已按[boot ADR](../decisions/ADR-20261017-scenario-boot-contract.md)采用；见[C2 QA](../qa/scenario-boot-c2-20261017.md)。任意配置轴、任意图、Studio 和角色知识授权仍不在该关闭范围，生产未因本记录发布。
 
-## 复现与影响
+## 原始复现与影响（保留修复前事实）
 
 只读源码检查发现，`startFromSave` 从 `INITIAL_PROGRESS_STATE` 或 `prepareSavedPayload` 安装状态，没有调用 package resolver/loader。`SCENARIO_RUNTIME_STORYLETS` 手写定义直接注册；JSON 包尚不能控制真实运行时。`scenarioSnapshot` 能保存 worldConfig，却没有对应的配置 consumer。
 
@@ -28,8 +28,18 @@
 
 ## 关闭条件
 
+以下为原关闭条件；C1+C2 已在声明支持矩阵内完成，实际记录见末节，原始反例与失败不改写。
+
 执行 ADR 的实际 boot、JSON→registry→reducer、seed/config 生效、非法能力拒绝、原子失败、完整旧 writer 与 reload 合同；冻结源码/包/runner 后补浏览器新局和恢复证据。需有 applied 与 baseline-only/deferred 的清单，不能仅展示 snapshot 字段相等。
 
 `check-scenario-package-v1` 当前三个正例、断粮 fixture-browser 或 `server-three-days` 公开训练日历回归都不单独关闭本问题；后者即使 strict-fresh 通过，也不是自然玩法/平衡或 Scenario loader 验收。失败、未完成和旧构建证据分别保留。
 
-开发增量：d6592443／a2fcdb64的C1列明source120／Chrome134与旧writer验收已完成，见[QA](../qa/scenario-boot-c1-20261017.md)。C2 JSON编译/原子注册、ActorObservation与生产仍未完成；保留以上原问题和失败。
+历史开发增量：d6592443／a2fcdb64的C1列明source120／Chrome134与旧writer验收已完成，见[QA](../qa/scenario-boot-c1-20261017.md)。当时C2／ActorObservation／生产尚未完成；该时点保留，C2后续状态见下节。
+
+## C1+C2 关闭记录（2026-10-17）
+
+源码 a544a6139e19c21f89526e3aafed11162d885552／HTML61ea64b27a65cc4a271c214c16126b40a453eae40c8684c106bc8edc89e5f115。C1真实消费新局seed和有限初始food；C2去掉手写内容旁路，将完整JSON编译为真实定义，显式私有lookup准备、一次目录安装、独立contentBinding及已知C1一次adapter保留原binding／seed／RNG／资源／人口／伤亡／驻守／cache／episode事实。未知内容身份拒绝并保原存储，不靠drop链或重开奖励恢复。
+
+最终40 unique源码合同有通过结果，123次执行为108 pass／15原fail保留，列明pure14／C1 source120／C2 source66。实际C2 Chrome102及六关联361，共463检查、errors0；C2主文档5 canonical＋5独立variant，关联55 canonical。公开新局、作者v2／v3实际取粮、旧档一次迁入、未知拒绝及晚项坏包无部分提交的原件见[C2 QA](../qa/scenario-boot-c2-20261017.md)。变体不代canonical任意配置通过。
+
+本片关闭“配置只保存、未消费”的声明范围问题；一节点两终态选择语法以外的事件图、Studio、更多配置轴和多版本内容仍另立工作。没有新natural run，休整六场verified／trusted hidden unavailable；不关闭自然三日、平衡或玩家体验。最终证据HEAD的exact CI待核，不声明远端ref更新或生产部署。下一ActorObservation须核实际actor／perception授权，纯只读expression不替代授权，再后才接NPC规划、记忆与LLM表达。
