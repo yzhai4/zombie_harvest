@@ -1072,7 +1072,7 @@
 
     <section class="relay-panel hud-window" id="relayPanel" aria-live="polite">
       <div class="panel-top">
-        <div><div class="panel-title">📡 广播中继链</div><div class="panel-help" id="relayPanelHint">探索废弃广播塔，建立营地的远程预警。</div></div>
+        <div><div class="panel-title">📡 广播中继链</div><div class="panel-help" id="relayPanelHint">探索废弃广播塔，了解中继筹料、施工与侦察。</div></div>
         <button class="panel-toggle" id="relayPanelClose">收起</button>
       </div>
       <div class="relay-body">
@@ -1080,7 +1080,7 @@
         <div class="relay-progress" aria-label="中继链进度"><i id="relayProgressBar"></i></div>
         <div class="relay-steps" id="relaySteps"></div>
         <div class="relay-meta">
-          <div class="relay-meta-card"><b>尸潮预测</b><span id="relayForecastText">营地观察 · 尚无提前量</span></div>
+          <div class="relay-meta-card"><b>中继情报</b><span id="relayForecastText">营地观察 · 中继未启用</span></div>
           <div class="relay-meta-card"><b>当前任务</b><span id="relayTaskText">先找到废弃广播塔</span></div>
         </div>
         <div class="relay-materials" id="relayMaterials"></div>
@@ -6035,24 +6035,26 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       const progressMap = { unknown: 0, 'core-recovered': 1, briefed: 2, staging: 2, building: 3, online: 5 };
       const completed = progressMap[status] ?? 0;
       const steps = ['发现核心', '交付长官', '筹备筹料', '施工中继站', '共享预警'];
-      $('relayStatusText').innerHTML = `状态：<strong>${assignment.blockedReason ? '暂停 · ' : ''}${statusLabels[status] || status}</strong>`;
+      $('relayStatusText').innerHTML = `状态：<strong>${assignment.blockedReason ? '暂停 · ' : ''}${statusLabels[status] || '未记录'}</strong>`;
       $('relayProgressBar').style.width = `${Math.round(completed / (steps.length) * 100)}%`;
       $('relaySteps').innerHTML = steps.map((label, index) => {
         const cls = index < completed ? 'done' : index === completed && completed < steps.length ? 'current' : '';
         return `<div class="relay-step ${cls}">${index < completed ? '✓ ' : ''}${label}</div>`;
       }).join('');
       const forecast = state.hordeForecast || {};
-      $('relayForecastText').textContent = forecast.source === 'relay-station'
-        ? `中继在线 · ${forecast.confidence || 0}%可信 · 提前 ${forecast.leadMinutes || 0} 分钟`
-        : status === 'building' ? '施工完成前只能依靠营地观察' : '营地观察 · 尚无提前量';
-      const task = assignment.blockedReason === 'invalid-role-configuration' ? '项目岗位配置不完整或重复；需要广播员、木匠、后勤官各一岗。已投入进度保留。'
-        : assignment.blockedReason === 'missing-role' ? `缺少或无法唯一确认${assignment.missingRoles.map(relayRoleLabel).join('、')}；岗位补齐后自动继续，已筹材料与工时保留。`
-        : status === 'unknown' ? '先找到废弃广播塔'
-        : status === 'core-recovered' ? '靠近林岑，交付 relayCore'
-        : status === 'briefed' ? '广播员、木匠和后勤官将自动筹料'
-        : status === 'staging' ? '等待三名岗位成员完成材料筹备'
-        : status === 'building' ? `自动施工 ${Math.min(100, Math.round((Number(project.workMinutes) || 0) / Math.max(1, Number(project.targetMinutes) || 180) * 100))}%`
-        : '中继在线：下一轮尸潮改走可预测路线';
+      $('relayForecastText').textContent = status === 'online' ? '中继侦察已接入营地'
+        : status === 'core-recovered' ? '核心尚未交付；中继未启用。'
+        : status === 'building' ? '施工完成前，当前仍依靠营地观察。' : '营地观察 · 中继未启用';
+      const nextRelayRouteText = forecast.routeId === 'relay-guided-west' ? '下一场将采用中继标定的分散通道'
+        : forecast.routeId === 'eastern-breach' ? '下一场将采用常规接近通道' : '下一场接近通道未记录';
+      const task = assignment.blockedReason === 'invalid-role-configuration' ? '工程暂停：需要广播员、木匠、后勤官各一岗。当前岗位安排无法执行；已投入材料与工时保留。'
+        : assignment.blockedReason === 'missing-role' ? `工程暂停：${assignment.missingRoles.map(relayRoleLabel).join('、')}尚无唯一可用成员。补齐岗位后自动继续；已投入材料与工时保留。`
+        : status === 'unknown' ? '找到废弃广播塔，回收广播核心。'
+        : status === 'core-recovered' ? '靠近可接收的营地长官，交付广播核心。'
+        : status === 'briefed' ? '核心已交付。三名岗位成员将每累计30分钟分批筹料；先用库存，再取有限的现有材料来源。'
+        : status === 'staging' ? '每累计30分钟尝试分批筹料；先用库存，再取有限的树木、废料和石块。材料齐备后自动施工。'
+        : status === 'building' ? `施工累计 ${Number.isFinite(project.workMinutes) ? project.workMinutes : '未记录'}/${Number.isFinite(project.targetMinutes) ? project.targetMinutes : '未记录'} 分钟；筹料另计。世界与危险继续，岗位变化可能暂停工程。`
+        : status === 'online' ? `${nextRelayRouteText}；侦察与共享范围已扩大。仍需准备防线并亲自应对。` : '工程状态未记录。';
       $('relayTaskText').textContent = task;
       const materialNames = { wood: '🪵 木材', parts: '🔩 零件', stone: '🪨 石材' };
       $('relayMaterials').innerHTML = Object.keys(project.materialNeed || { wood: 10, parts: 5, stone: 4 }).map(kind => {
@@ -6065,7 +6067,9 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
         return `${relayRoleLabel(roleId)}：${npc.name}${npc.id !== roleId ? '（暂代）' : ''}${assignment.blockedReason ? ' · 等待补岗' : npc.lastReport ? `（${npc.lastReport}）` : ' · 可承担'}`;
       });
       $('relayCrewText').textContent = `项目成员：${assignment.configurationValid ? crew.join(' · ') : '岗位配置无效，尚未安排'}`;
-      $('relayPanelHint').textContent = status === 'online' ? '广播中继站已经把尸潮路线和共享索敌接入营地。' : '这条链会把一次探索，转成营地全局的防御优势。';
+      $('relayPanelHint').textContent = status === 'online' ? '中继帮助发现威胁、标定下一场接近通道，不会替你守住营地。当前工程状态与过去的交付记录分别保留。'
+        : ['briefed','staging','building'].includes(status) ? '工程会消耗真实材料并占用三名岗位成员。世界、人物需求和危险仍在继续；留意库存、人员与防线。'
+        : '探索、交付、筹料与施工完成后，广播中继站才能投入使用。';
     }
     function planCategoryLabel(category) { return ({ defense: '防御', harvest: '采集', logistics: '后勤', research: '研究', diplomacy: '外交', medical: '医疗' }[category] || category || '综合'); }
     function renderPlanMeeting() {
@@ -6146,7 +6150,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       // a negative number in the basic HUD.
       const clockAlert = Math.max(0, Math.min(100, Math.round(((state.hour - 6) * 100) / 12)));
       const forecast = state.hordeForecast || {};
-      const alertText = forecast.source === 'relay-station' ? `中继预测 ${forecast.confidence || 0}% · 西侧路线 · 提前${forecast.leadMinutes || 0}分` : `尸潮预警 ${clockAlert}%`;
+      const alertText = state.relayProject?.status === 'online' ? forecast.routeId === 'relay-guided-west' ? '中继在线 · 下场采用标定分散通道' : forecast.routeId === 'eastern-breach' ? '中继在线 · 下场采用常规接近通道' : '中继在线 · 下场接近通道未记录' : `尸潮预警 ${clockAlert}%`;
       $('alertPill').textContent = alertText;
       if ($('basicAlertValue')) $('basicAlertValue').textContent = alertText;
       if ($('overviewDay')) $('overviewDay').textContent = `第 ${state.day} 天 · ${formatTime()}`;
@@ -6167,7 +6171,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       $('weatherPill').textContent = `🌗 光照：${lightLabel} · ${formatTime()}${state.night ? ' · 实时战况' : ''}`;
       const relay = state.relayProject || {};
       const relayAssignment = relayRoleBindings(relay);
-      const relayProgress = relayAssignment.blockedReason === 'invalid-role-configuration' ? '暂停 · 岗位配置错误' : relayAssignment.blockedReason === 'missing-role' ? `暂停 · 缺少${relayAssignment.missingRoles.map(relayRoleLabel).join('、')}` : relay.status === 'building' ? `施工 ${Math.min(100, Math.round((Number(relay.workMinutes) || 0) / Math.max(1, Number(relay.targetMinutes) || 180) * 100))}%` : relay.status === 'staging' ? `筹料 ${Object.keys(relay.materialNeed || {}).map(kind => `${Math.min(Number(relay.materialProgress?.[kind]) || 0, Number(relay.materialNeed?.[kind]) || 0)}/${Number(relay.materialNeed?.[kind]) || 0}`).join(' ')}` : ({ unknown: '未发现', 'core-recovered': 'relayCore 待交付', briefed: '已交给长官', online: '已启用' }[relay.status] || '待筹备');
+      const relayProgress = relayAssignment.blockedReason === 'invalid-role-configuration' ? '暂停 · 岗位配置错误' : relayAssignment.blockedReason === 'missing-role' ? `暂停 · 缺少${relayAssignment.missingRoles.map(relayRoleLabel).join('、')}` : relay.status === 'building' ? `施工 ${Number.isFinite(relay.workMinutes) ? relay.workMinutes : '未记录'}/${Number.isFinite(relay.targetMinutes) ? relay.targetMinutes : '未记录'} 分钟` : relay.status === 'staging' ? `筹料 ${Object.keys(relay.materialNeed || {}).map(kind => `${Math.min(Number(relay.materialProgress?.[kind]) || 0, Number(relay.materialNeed?.[kind]) || 0)}/${Number(relay.materialNeed?.[kind]) || 0}`).join(' ')}` : ({ unknown: '未发现', 'core-recovered': 'relayCore 待交付', briefed: '已交给长官', online: '已启用' }[relay.status] || '待筹备');
       const relayHint = `中继：${relayProgress}`;
       $('missionText').textContent = missionDone ? `第 ${state.day} 天：防线和援防都准备好了；食物${food.level}，${relayHint}。` : supports ? `第 ${state.day} 天：已有 ${supports} 名幸存者支援，再补 ${Math.max(0, 3-walls)} 面木墙；食物${food.level}；${relayHint}。` : `第 ${state.day} 天：先靠近一名幸存者请求支援，再补一面木墙；食物${food.level}；${relayHint}。`;
       $('missionBar').style.width = `${Math.min(100, 20 + walls * 20 + supports * 20)}%`;
@@ -8710,7 +8714,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       const live = activeEnemies.length;
       const status = b.resolved ? '尸潮已结算' : live ? `${live} 只僵尸在同一张地图上推进` : '防线正在清空尸群';
       $('nightMapStatus').textContent = status;
-      const routeLabel = b.routeId === 'relay-guided-west' ? '中继西侧入口 → 引导瓶颈 → 营地' : '东侧入口 → 防线瓶颈 → 营地';
+      const routeLabel = b.routeId === 'relay-guided-west' ? '中继标定分散通道 → 营地' : b.routeId === 'eastern-breach' ? '常规接近通道 → 营地' : '接近通道未记录';
       $('battleMapReadout').textContent = b.resolved ? `最终损伤 ${b.finalDamage || 0}；${routeLabel}；地图上的墙体、营地和 NPC 支援均已计入。` : `${routeLabel}；最前尸群推进 ${Math.round(furthest)}%，防线余量 ${Math.max(0, b.barrier)}/${b.barrierMax}。`;
       renderNightControls();
     }
@@ -8958,7 +8962,8 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       });
       const towers = state.buildings.filter(b => (b.type === 'tower' || b.type === 'flameTower') && b.active !== false).map((tower, index) => ({ name: tower.type === 'flameTower' ? '火油塔' : `瞭望塔 ${index + 1}`, damage: tower.type === 'flameTower' ? 56 : 32, cadence: tower.type === 'flameTower' ? 1 : 2 }));
       state.nightBattle = { instanceId: encounterId, count, defense, routeId, forecast: stableClone(forecast), foodLevel: food.level, foodScore: food.score, kills: 0, autoKills: 0, autoShots: 0, breaches: 0, campDamage: 0, finalDamage: 0, wallDamage: 0, hpBefore: state.hp, moraleBefore: state.morale, barrier: barrierMax, barrierMax, supportIds: activeSupports.map(n => n.id), supportOrders, guardCount, patrolCount, coverCount, noiseLevel, doctorInterceptUsed: false, eventShield: state.eventShield, enemies, towers, tick: 0, feed: [], npcEvents: [], npcDeaths: 0, resolved: false };
-      $('nightTitle').textContent = relayGuided ? '中继引导的尸潮接近' : '威胁接近'; $('nightCopy').textContent = activeSupports.length ? `尸群沿${relayGuided ? '中继引导的西侧路线' : '东侧路线'}涌来。当前援防：${activeSupports.map(n => n.name).join('、')}。建筑会自动开火，你负责补刀。` : `僵尸正从${relayGuided ? '中继引导的西侧路线' : '林子里'}涌出来。建筑会自动开火，但防线不会替你处理所有威胁。`; $('nightIcon').textContent = relayGuided ? '📡' : '⚠️';
+      const encounterRouteText = state.nightBattle.routeId === 'relay-guided-west' ? '中继标定的分散通道' : state.nightBattle.routeId === 'eastern-breach' ? '常规接近通道' : '尚未确认的接近通道';
+      $('nightTitle').textContent = state.nightBattle.routeId === 'relay-guided-west' ? '中继标定的尸潮接近' : '威胁接近'; $('nightCopy').textContent = activeSupports.length ? `尸群沿${encounterRouteText}接近。当前援防：${activeSupports.map(n => n.name).join('、')}。建筑会自动开火，你负责补刀。` : `尸群正沿${encounterRouteText}接近。建筑会自动开火，但防线不会替你处理所有威胁。`; $('nightIcon').textContent = state.nightBattle.routeId === 'relay-guided-west' ? '📡' : '⚠️';
       $('supportDetail').textContent = `当前援防：${supportText} · 食物势力状态：${food.level}（日需 ${food.dailyNeed}）`;
       syncBattleZombies(); renderWorld(); renderNightControls(); render(); startBattleLoop();
     }
@@ -9292,10 +9297,11 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       for (const [id, field] of Object.entries({ summaryKills: 'kills', summaryBreaches: 'breaches', summaryWalls: 'walls', summaryNpcDeaths: 'npcDeaths', summaryMorale: 'morale' })) $(id).textContent = value(view[field]);
       $('summaryDamage').textContent = damage;
       const recorded = `击杀 ${value(view.kills)} · 突破 ${value(view.breaches)} · 本轮损失 ${damage} · 自动击杀 ${value(view.autoKills)}`;
-      $('summaryFeed').textContent = [recorded, `当前保存值：生命 ${view.currentHp}、口粮 ${view.currentFood}、士气 ${view.currentMorale}、SAN ${value(view.currentSanity)}`, ...view.feed].join(' · ');
+      const savedRouteText = view.routeId === 'relay-guided-west' ? '本场通道：中继标定分散通道' : view.routeId === 'eastern-breach' ? '本场通道：常规接近通道' : '本场接近通道：未记录';
+      $('summaryFeed').textContent = [recorded, savedRouteText, `当前保存值：生命 ${view.currentHp}、口粮 ${view.currentFood}、士气 ${view.currentMorale}、SAN ${value(view.currentSanity)}`, ...view.feed].join(' · ');
       const milestone = !view.loss && view.date.day >= 5, relayGuided = view.routeId === 'relay-guided-west';
-      $('nightTitle').textContent = view.loss ? '营地失守' : milestone ? relayGuided ? '中继引导改变了危机路线' : '无线电重新亮起' : Number.isFinite(view.damage) ? view.damage > 0 ? '防线被咬开了！' : '平安守住这一轮' : '尸潮已结算 · 历史损失未记录';
-      $('nightCopy').textContent = view.loss ? '火种熄灭了。下一局先观察自动防线的伤害数字，再决定白天建墙还是升级炮塔。重新开始会清除本局，回到新局入口。' : `${milestone ? relayGuided ? '广播中继站提前捕捉到西侧尸群，最终危机被引向可控路线。营地仍在运转，下一步由你的选择决定。' : '第五天的里程碑已经完成，远处传来了回应。世界仍在运转，新的聚落和威胁会继续出现。' : ''}这份报告来自原保存结果；阅读不会再次结算，关闭后继续原世界时间。`;
+      $('nightTitle').textContent = view.loss ? '营地失守' : milestone ? relayGuided ? '中继标定的遭遇已结束' : '无线电重新亮起' : Number.isFinite(view.damage) ? view.damage > 0 ? '防线被咬开了！' : '平安守住这一轮' : '尸潮已结算 · 历史损失未记录';
+      $('nightCopy').textContent = view.loss ? '火种熄灭了。下一局先观察自动防线的伤害数字，再决定白天建墙还是升级炮塔。重新开始会清除本局，回到新局入口。' : `${milestone ? relayGuided ? '广播中继站为本场标定了分散接近通道。营地仍在运转，下一步由你的选择决定。' : '第五天的里程碑已经完成，远处传来了回应。世界仍在运转，新的聚落和威胁会继续出现。' : ''}这份报告来自原保存结果；阅读不会再次结算，关闭后继续原世界时间。`;
       $('nightIcon').textContent = view.loss ? '💀' : milestone ? relayGuided ? '📡' : '📻' : '📋';
       $('continueBtn').disabled = false; $('continueBtn').style.opacity = '1'; $('continueBtn').textContent = view.loss ? '重新开始' : '关闭报告，继续世界';
       $('restartSessionBtn').hidden = false;

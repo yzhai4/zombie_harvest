@@ -21,10 +21,10 @@ assert.ok(!fs.existsSync(reportFile)&&!fs.existsSync(out),'new outputs only');
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex'),plain=value=>JSON.parse(JSON.stringify(value));
 const sourceBytes=fs.readFileSync(options['--html']),source=sourceBytes.toString('utf8'),sourceHash=sha(sourceBytes),runnerBytes=fs.readFileSync(fileURLToPath(import.meta.url)),ioBytes=fs.readFileSync(options['--io-adapter']);
 assert.equal(sourceHash,options['--expect-html-sha256'],'explicit immutable HTML binding');
-assert.equal(sha(ioBytes),'e0b467f2b9ee75b941f72c6338ed5376f4e6d0a8c7a1d1a7c210fa630efc63e7','immutable actual IO factory');
+// The consumed runtime factory is pinned below; unrelated report oracles are not runtime dependencies.
 const inline=[...source.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map(v=>v[1]).filter(v=>v.trim());assert.equal(inline.length,1);new vm.Script(inline[0]);
 const io=ioBytes.toString('utf8'),start=io.indexOf('function runtime(entries = []) {'),end=io.indexOf('\nfunction envelope(payload)',start);assert.ok(start>=0&&end>start);
-let factory=io.slice(start,end);const marker='  const api = context.qa;\n  api.instrumentRendering();';assert.equal(factory.split(marker).length,2);
+let factory=io.slice(start,end);assert.equal(sha(Buffer.from(factory,'utf8')),'5dc89410d5f4a1ce303bbdb03370f6f08c646e38d426a39e7dacd3a3f4e2b89d','immutable actual IO runtime factory');const marker='  const api = context.qa;\n  api.instrumentRendering();';assert.equal(factory.split(marker).length,2);
 factory=factory.replace(marker,`  vm.runInContext(\`qa.restWork={
   advance,updateNpcRoutine,campWorkPulse,integrateContinuousMotion,updateNpcSanity,
   view:viewNpc,interact:interactNpc,order:setNpcOrder,gate:npcPublicActionGate,

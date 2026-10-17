@@ -299,7 +299,7 @@ test('TEST-ONLY declared SAVE20/content2 adapter preserves nonzero spent CP and 
 });
 test('TEST-ONLY forced actual source settlement records its real moraleAfter; pure renderer retains fifth-day relay story',()=>{
   const r=runtime();r.api.start();assert.equal(r.api.threatStart().ok,true);const battle=r.api.state.nightBattle;r.api.settleThreat(battle.count,battle.defense);assert.equal(battle.moraleAfter,r.api.state.morale);assert.equal(intervals(r).length,0);assert.equal(r.node('summaryMorale').textContent,String(r.api.state.morale));
-  const before=clone(r.api.state),view=r.api.project(r.api.state,r.api.identity(r.api.state));r.api.renderReport({...view,date:{day:5,hour:6,minute:0},routeId:'relay-guided-west'});assert.equal(r.node('nightTitle').textContent,'中继引导改变了危机路线');assert.match(r.node('nightCopy').textContent,/最终危机被引向可控路线/);assert.deepEqual(clone(r.api.state),before);
+  const before=clone(r.api.state),view=r.api.project(r.api.state,r.api.identity(r.api.state));r.api.renderReport({...view,date:{day:5,hour:6,minute:0},routeId:'relay-guided-west'});assert.equal(r.node('nightTitle').textContent,'中继标定的遭遇已结束');assert.match(r.node('nightCopy').textContent,/广播中继站为本场标定了分散接近通道/);assert.deepEqual(clone(r.api.state),before);
 });
 const production18Evidence=[];
 const production18Directory=options['--production18-fixtures']||path.join(root,'scripts','fixtures','legacy-save18');
