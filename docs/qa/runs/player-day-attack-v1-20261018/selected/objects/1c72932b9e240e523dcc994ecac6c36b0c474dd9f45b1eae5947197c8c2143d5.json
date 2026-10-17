@@ -1,0 +1,766 @@
+{
+  "runner": "browser-player-day-attack-v1",
+  "runnerSha256": "99afbf1ff31c77f1c947335b0ce0f43294b1c3f116eb08a553784cf02c03d22b",
+  "sourceHtmlSha256": "3545adb19fc8e75256013a50ce9885e051aa4170757a0c33095cc682cfcb7aa1",
+  "inputManifestSha256": "073f07a506d27b618805307a89ea0288bfe43672a52e230b612363c53dc53164",
+  "mode": "TEST-ONLY-full-writer-derived-geometry-public-controls",
+  "naturalGameplay": false,
+  "humanExperience": false,
+  "testStateWritesAfterBoot": false,
+  "hiddenGameActionsAfterBoot": false,
+  "forceClicks": false,
+  "pausedWorldForCapture": false,
+  "privilegedReads": "WorldSnapshot.capture for fixture geometry and proof accounting only; no target navigation",
+  "budget": {
+    "overallMs": 100000,
+    "sceneMs": 30000,
+    "minimumHpExclusive": 35,
+    "maximumObservedHpLoss": 30,
+    "publicAttackAttempts": 1,
+    "movementKeys": 0,
+    "maximumAutomaticSaveWaitMs": 16000
+  },
+  "checks": [
+    {
+      "name": "outer-desktop: actual target remains outside1.15 and within public1.25 on both sides of screenshot",
+      "ok": true,
+      "detail": {
+        "before": {
+          "distance": 1.1899999999999995,
+          "targetId": "wz-4",
+          "targetHp": 100,
+          "player": {
+            "x": 13.299999999999994,
+            "y": 10.000000000000004,
+            "prevX": 11.1,
+            "prevY": 11,
+            "id": "player-1"
+          },
+          "livingIds": [
+            "wz-2",
+            "wz-3",
+            "wz-4",
+            "frontier-3"
+          ],
+          "eventSeq": 207,
+          "worldMinute": 520
+        },
+        "after": {
+          "distance": 1.1899999999999995,
+          "targetId": "wz-4",
+          "targetHp": 100,
+          "player": {
+            "x": 13.299999999999994,
+            "y": 10.000000000000004,
+            "prevX": 11.1,
+            "prevY": 11,
+            "id": "player-1"
+          },
+          "livingIds": [
+            "wz-2",
+            "wz-3",
+            "wz-4",
+            "frontier-3"
+          ],
+          "eventSeq": 207,
+          "worldMinute": 520
+        }
+      }
+    },
+    {
+      "name": "outer-desktop: actual public context attack is present visible and disabled",
+      "ok": true
+    },
+    {
+      "name": "outer-desktop: coarse distance reason is visible without hover",
+      "ok": true,
+      "detail": "1🪓 攻击相邻僵尸\n使用生锈斧 · -5行动体力 再靠近目标后攻击 · 也可按 1-7 选择 再靠近目标后攻击 再靠近目标后攻击"
+    },
+    {
+      "name": "outer-desktop: no attack business was submitted by feedback observation",
+      "ok": true
+    },
+    {
+      "name": "outer-desktop: complete input seeded once only including reload",
+      "ok": true
+    },
+    {
+      "name": "outer-390: actual target remains outside1.15 and within public1.25 on both sides of screenshot",
+      "ok": true,
+      "detail": {
+        "before": {
+          "distance": 1.1899999999999995,
+          "targetId": "wz-4",
+          "targetHp": 100,
+          "player": {
+            "x": 13.299999999999994,
+            "y": 10.000000000000004,
+            "prevX": 11.1,
+            "prevY": 11,
+            "id": "player-1"
+          },
+          "livingIds": [
+            "wz-2",
+            "wz-3",
+            "wz-4",
+            "frontier-3"
+          ],
+          "eventSeq": 207,
+          "worldMinute": 520
+        },
+        "after": {
+          "distance": 1.1899999999999995,
+          "targetId": "wz-4",
+          "targetHp": 100,
+          "player": {
+            "x": 13.299999999999994,
+            "y": 10.000000000000004,
+            "prevX": 11.1,
+            "prevY": 11,
+            "id": "player-1"
+          },
+          "livingIds": [
+            "wz-2",
+            "wz-3",
+            "wz-4",
+            "frontier-3"
+          ],
+          "eventSeq": 207,
+          "worldMinute": 520
+        }
+      }
+    },
+    {
+      "name": "outer-390: actual public context attack is present visible and disabled",
+      "ok": true
+    },
+    {
+      "name": "outer-390: coarse distance reason is visible without hover",
+      "ok": true,
+      "detail": "1🪓 攻击相邻僵尸\n使用生锈斧 · -5行动体力 再靠近目标后攻击 · 也可按 1-7 选择 再靠近目标后攻击 再靠近目标后攻击"
+    },
+    {
+      "name": "outer-390: no attack business was submitted by feedback observation",
+      "ok": true
+    },
+    {
+      "name": "outer-390: complete input seeded once only including reload",
+      "ok": true
+    },
+    {
+      "name": "inner-F-save-reload: actual public context attack is enabled inside1.15",
+      "ok": true,
+      "detail": {
+        "distance": 1,
+        "targetId": "wz-4",
+        "targetHp": 100,
+        "player": {
+          "x": 13.299999999999994,
+          "y": 10.000000000000004,
+          "prevX": 11.1,
+          "prevY": 11,
+          "id": "player-1"
+        },
+        "livingIds": [
+          "wz-2",
+          "wz-3",
+          "wz-4",
+          "frontier-3"
+        ],
+        "eventSeq": 207,
+        "worldMinute": 520
+      }
+    },
+    {
+      "name": "inner-F-save-reload: real F fits public HP/E and conservative other-enemy margin",
+      "ok": true
+    },
+    {
+      "name": "inner-F-save-reload: exactly one real successful F receipt",
+      "ok": true
+    },
+    {
+      "name": "inner-F-save-reload: parent command and receipt bind player and exact fixture target",
+      "ok": true
+    },
+    {
+      "name": "inner-F-save-reload: actual proof records gross5 independent of regeneration",
+      "ok": true
+    },
+    {
+      "name": "inner-F-save-reload: immediate rustAxe50 hit matches same target rather than later NPC damage",
+      "ok": true
+    },
+    {
+      "name": "inner-F-save-reload: actual nested advance10 is uniquely linked to the paid parent",
+      "ok": true
+    },
+    {
+      "name": "inner-F-save-reload: normal writer reload and new timer tick do not repeat the F",
+      "ok": true
+    },
+    {
+      "name": "inner-F-save-reload: complete input seeded once only including reload",
+      "ok": true
+    },
+    {
+      "name": "outer-desktop: actual main response SHA equals frozen HTML",
+      "ok": true
+    },
+    {
+      "name": "outer-390: actual main response SHA equals frozen HTML",
+      "ok": true
+    },
+    {
+      "name": "inner-F-save-reload: actual main response SHA equals frozen HTML",
+      "ok": true
+    },
+    {
+      "name": "inner-F-save-reload: actual main response SHA equals frozen HTML",
+      "ok": true
+    },
+    {
+      "name": "outer-desktop: actual main response count",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "outer-390: actual main response count",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "inner-F-save-reload: actual main response count",
+      "ok": true,
+      "detail": 2
+    }
+  ],
+  "errors": [],
+  "scenes": [
+    {
+      "id": "outer-desktop",
+      "inputSha256": "98730f4d069177b405770b65814b50d1b6dc3c9107298d9860f89ea55eae68a4",
+      "targetId": "wz-4",
+      "status": "VERIFIED",
+      "artifacts": [
+        {
+          "file": "outer-desktop-initial-ui-live.json",
+          "sha256": "a041a67c63faf879d9a860c451fa6d6fa532c5311fb274ca94ae1279fc1540f7",
+          "bytes": 220959
+        },
+        {
+          "file": "outer-desktop-outside-feedback.png",
+          "sha256": "b1ece96baf4cbcc54c2f85d1c52485dc6add5ada53020fa1935f0ab3c3f414b7",
+          "bytes": 563102
+        },
+        {
+          "file": "outer-desktop-outside-feedback-ui-live.json",
+          "sha256": "5dd29c26c9ef219aca9d167fc99ed5b9350f70a7441450ad1444ac3be4c184c5",
+          "bytes": 476236
+        },
+        {
+          "file": "outer-desktop-final-native.json",
+          "sha256": "98730f4d069177b405770b65814b50d1b6dc3c9107298d9860f89ea55eae68a4",
+          "bytes": 234083
+        }
+      ],
+      "observedGeometry": {
+        "before": {
+          "distance": 1.1899999999999995,
+          "targetId": "wz-4",
+          "targetHp": 100,
+          "player": {
+            "x": 13.299999999999994,
+            "y": 10.000000000000004,
+            "prevX": 11.1,
+            "prevY": 11,
+            "id": "player-1"
+          },
+          "livingIds": [
+            "wz-2",
+            "wz-3",
+            "wz-4",
+            "frontier-3"
+          ],
+          "eventSeq": 207,
+          "worldMinute": 520
+        },
+        "after": {
+          "distance": 1.1899999999999995,
+          "targetId": "wz-4",
+          "targetHp": 100,
+          "player": {
+            "x": 13.299999999999994,
+            "y": 10.000000000000004,
+            "prevX": 11.1,
+            "prevY": 11,
+            "id": "player-1"
+          },
+          "livingIds": [
+            "wz-2",
+            "wz-3",
+            "wz-4",
+            "frontier-3"
+          ],
+          "eventSeq": 207,
+          "worldMinute": 520
+        }
+      }
+    },
+    {
+      "id": "outer-390",
+      "inputSha256": "98730f4d069177b405770b65814b50d1b6dc3c9107298d9860f89ea55eae68a4",
+      "targetId": "wz-4",
+      "status": "VERIFIED",
+      "artifacts": [
+        {
+          "file": "outer-390-initial-ui-live.json",
+          "sha256": "bc4c214bf8a3e9db17213638c16a59c398225a68c2a586ae5c445ffa102bfaed",
+          "bytes": 220992
+        },
+        {
+          "file": "outer-390-outside-feedback.png",
+          "sha256": "dbf0358c35261df54477b2324a2b734bd2358868494fa4faa1c6831af39c1721",
+          "bytes": 180800
+        },
+        {
+          "file": "outer-390-outside-feedback-ui-live.json",
+          "sha256": "f423b15288c55dba78ac30c9fc5a317e434b613339775bb172ac361db9271e68",
+          "bytes": 476302
+        },
+        {
+          "file": "outer-390-final-native.json",
+          "sha256": "98730f4d069177b405770b65814b50d1b6dc3c9107298d9860f89ea55eae68a4",
+          "bytes": 234083
+        }
+      ],
+      "observedGeometry": {
+        "before": {
+          "distance": 1.1899999999999995,
+          "targetId": "wz-4",
+          "targetHp": 100,
+          "player": {
+            "x": 13.299999999999994,
+            "y": 10.000000000000004,
+            "prevX": 11.1,
+            "prevY": 11,
+            "id": "player-1"
+          },
+          "livingIds": [
+            "wz-2",
+            "wz-3",
+            "wz-4",
+            "frontier-3"
+          ],
+          "eventSeq": 207,
+          "worldMinute": 520
+        },
+        "after": {
+          "distance": 1.1899999999999995,
+          "targetId": "wz-4",
+          "targetHp": 100,
+          "player": {
+            "x": 13.299999999999994,
+            "y": 10.000000000000004,
+            "prevX": 11.1,
+            "prevY": 11,
+            "id": "player-1"
+          },
+          "livingIds": [
+            "wz-2",
+            "wz-3",
+            "wz-4",
+            "frontier-3"
+          ],
+          "eventSeq": 207,
+          "worldMinute": 520
+        }
+      }
+    },
+    {
+      "id": "inner-F-save-reload",
+      "inputSha256": "9c652ccd6a09218a052af302fcc71560728ab3c6d27366b93e483c7cf5e44b4f",
+      "targetId": "wz-4",
+      "status": "VERIFIED",
+      "artifacts": [
+        {
+          "file": "inner-F-save-reload-initial-ui-live.json",
+          "sha256": "7c746bd083defa7e8ce61394249db8ab49bb127285a4148611a8b4cef497ff24",
+          "bytes": 221135
+        },
+        {
+          "file": "inner-F-save-reload-immediate-after-F-ui-live.json",
+          "sha256": "dae24660b4f3ac61beaa1f4d04917edc2863dedbe9de02f771144e8caffd2092",
+          "bytes": 482594
+        },
+        {
+          "file": "inner-F-save-reload-normal-after-F-native.json",
+          "sha256": "b464332ecb94f04e112cb79daf9cb2b936e4d8f58e01c58e4de2507524340296",
+          "bytes": 244372
+        },
+        {
+          "file": "inner-F-save-reload-after-F-390.png",
+          "sha256": "54c2d742f53a2c09e199f7839b62e3d855e45bf433b379836a01905e2100dd43",
+          "bytes": 182575
+        },
+        {
+          "file": "inner-F-save-reload-after-F-390-ui-live.json",
+          "sha256": "e3e154f1d71dc4ac787e3aea10d844513a13634bf8c2b6abf16599b50b2fa57a",
+          "bytes": 489340
+        },
+        {
+          "file": "inner-F-save-reload-after-F-desktop.png",
+          "sha256": "11efd1fd8d57474d61f5d1b7b54d283bc23e7eb6ce44c2d1fa1a32c75782f28d",
+          "bytes": 562067
+        },
+        {
+          "file": "inner-F-save-reload-after-F-desktop-ui-live.json",
+          "sha256": "51bc6c79ff60aaaa9836347c2d8d1f32c968cac80f8320535ba5ed08d2259dfc",
+          "bytes": 489262
+        },
+        {
+          "file": "inner-F-save-reload-normal-before-reload-native.json",
+          "sha256": "b464332ecb94f04e112cb79daf9cb2b936e4d8f58e01c58e4de2507524340296",
+          "bytes": 244372
+        },
+        {
+          "file": "inner-F-save-reload-reload-boot-ui-live.json",
+          "sha256": "b227fdd29b7867e899d2917b1699910e90486022d04cc8cb6d985a2a39cebc01",
+          "bytes": 226385
+        },
+        {
+          "file": "inner-F-save-reload-normal-after-reload-new-tick-native.json",
+          "sha256": "a6a5d969ee116e27270f55b2bf09a188dbc3e4293ad422de94e07939d9775342",
+          "bytes": 266277
+        },
+        {
+          "file": "inner-F-save-reload-restored-desktop.png",
+          "sha256": "aa41f6705cb5aa9e6941b4092e84062b9e0f5b350942fdda490240efe6cb44d4",
+          "bytes": 560393
+        },
+        {
+          "file": "inner-F-save-reload-restored-desktop-ui-live.json",
+          "sha256": "a9ad41c5082a5381b9c082d30dd53104212b063a5a87e26175aa0ea23cbff220",
+          "bytes": 501746
+        }
+      ],
+      "privilegedPreF": {
+        "geometry": {
+          "distance": 1,
+          "targetId": "wz-4",
+          "targetHp": 100,
+          "player": {
+            "x": 13.299999999999994,
+            "y": 10.000000000000004,
+            "prevX": 11.1,
+            "prevY": 11,
+            "id": "player-1"
+          },
+          "livingIds": [
+            "wz-2",
+            "wz-3",
+            "wz-4",
+            "frontier-3"
+          ],
+          "eventSeq": 207,
+          "worldMinute": 520
+        },
+        "others": [
+          {
+            "id": "wz-2",
+            "known": true,
+            "distance": 9.216671654222077,
+            "envelope": 3.29
+          },
+          {
+            "id": "wz-3",
+            "known": true,
+            "distance": 14.871810952659958,
+            "envelope": 2.33
+          },
+          {
+            "id": "frontier-3",
+            "known": true,
+            "distance": 9.62645875404211,
+            "envelope": 2.6300000000000003
+          }
+        ],
+        "purpose": "conservative veto only; fixture has fixed target, no hidden navigation"
+      },
+      "actualAttack": {
+        "event": {
+          "eventId": "evt-000217",
+          "seq": 217,
+          "type": "threat.attacked",
+          "actorId": "player-1",
+          "commandId": "cmd-000828",
+          "causationId": null,
+          "tick": {
+            "world": 530,
+            "phase": 0,
+            "schedule": 170
+          },
+          "payload": {
+            "proofVersion": 1,
+            "targetId": "wz-4",
+            "weaponId": "rustAxe",
+            "hit": {
+              "damage": 50,
+              "beforeHp": 100,
+              "afterHp": 50
+            },
+            "target": {
+              "id": "wz-4",
+              "before": {
+                "id": "wz-4",
+                "kind": "normal",
+                "hp": 100,
+                "x": 14.299999999999994,
+                "y": 10.000000000000004,
+                "dead": false
+              },
+              "afterHit": {
+                "id": "wz-4",
+                "kind": "normal",
+                "hp": 50,
+                "x": 14.299999999999994,
+                "y": 10.000000000000004,
+                "dead": false
+              },
+              "afterAdvance": {
+                "id": "wz-4",
+                "kind": "normal",
+                "hp": 12,
+                "x": 13.649999999999782,
+                "y": 10.000000000000004,
+                "dead": false
+              },
+              "presentAtCompletion": true
+            },
+            "payment": {
+              "cost": {
+                "energy": 5
+              },
+              "before": {
+                "energy": 73
+              },
+              "after": {
+                "energy": 68
+              }
+            },
+            "clock": {
+              "before": {
+                "day": 1,
+                "hour": 8,
+                "minute": 40,
+                "world": 520
+              },
+              "after": {
+                "day": 1,
+                "hour": 8,
+                "minute": 50,
+                "world": 530
+              },
+              "requestedMinutes": 10,
+              "elapsedMinutes": 10
+            },
+            "advance": {
+              "ok": true,
+              "paused": false,
+              "commandId": "cmd-000829",
+              "eventId": "evt-000215",
+              "causationId": "cmd-000828",
+              "minutes": 10
+            },
+            "outcome": {
+              "killed": false,
+              "retaliationDamage": 8,
+              "salvage": 0
+            }
+          }
+        },
+        "command": {
+          "commandId": "cmd-000828",
+          "type": "threat.attack",
+          "actorId": "player-1",
+          "payload": {
+            "targetId": "wz-4"
+          }
+        },
+        "proof": {
+          "proofVersion": 1,
+          "targetId": "wz-4",
+          "weaponId": "rustAxe",
+          "hit": {
+            "damage": 50,
+            "beforeHp": 100,
+            "afterHp": 50
+          },
+          "target": {
+            "id": "wz-4",
+            "before": {
+              "id": "wz-4",
+              "kind": "normal",
+              "hp": 100,
+              "x": 14.299999999999994,
+              "y": 10.000000000000004,
+              "dead": false
+            },
+            "afterHit": {
+              "id": "wz-4",
+              "kind": "normal",
+              "hp": 50,
+              "x": 14.299999999999994,
+              "y": 10.000000000000004,
+              "dead": false
+            },
+            "afterAdvance": {
+              "id": "wz-4",
+              "kind": "normal",
+              "hp": 12,
+              "x": 13.649999999999782,
+              "y": 10.000000000000004,
+              "dead": false
+            },
+            "presentAtCompletion": true
+          },
+          "payment": {
+            "cost": {
+              "energy": 5
+            },
+            "before": {
+              "energy": 73
+            },
+            "after": {
+              "energy": 68
+            }
+          },
+          "clock": {
+            "before": {
+              "day": 1,
+              "hour": 8,
+              "minute": 40,
+              "world": 520
+            },
+            "after": {
+              "day": 1,
+              "hour": 8,
+              "minute": 50,
+              "world": 530
+            },
+            "requestedMinutes": 10,
+            "elapsedMinutes": 10
+          },
+          "advance": {
+            "ok": true,
+            "paused": false,
+            "commandId": "cmd-000829",
+            "eventId": "evt-000215",
+            "causationId": "cmd-000828",
+            "minutes": 10
+          },
+          "outcome": {
+            "killed": false,
+            "retaliationDamage": 8,
+            "salvage": 0
+          }
+        }
+      },
+      "savedBeforeReload": {
+        "savedAt": 530,
+        "reason": "command:threat.attack",
+        "eventSeq": 217,
+        "worldMinute": 530
+      },
+      "postReloadBootWatermark": {
+        "eventSeq": 219,
+        "worldMinute": 532
+      }
+    }
+  ],
+  "documents": [
+    {
+      "scene": "outer-desktop",
+      "status": 200,
+      "sha256": "3545adb19fc8e75256013a50ce9885e051aa4170757a0c33095cc682cfcb7aa1",
+      "bytes": 926318
+    },
+    {
+      "scene": "outer-390",
+      "status": 200,
+      "sha256": "3545adb19fc8e75256013a50ce9885e051aa4170757a0c33095cc682cfcb7aa1",
+      "bytes": 926318
+    },
+    {
+      "scene": "inner-F-save-reload",
+      "status": 200,
+      "sha256": "3545adb19fc8e75256013a50ce9885e051aa4170757a0c33095cc682cfcb7aa1",
+      "bytes": 926318
+    },
+    {
+      "scene": "inner-F-save-reload",
+      "status": 200,
+      "sha256": "3545adb19fc8e75256013a50ce9885e051aa4170757a0c33095cc682cfcb7aa1",
+      "bytes": 926318
+    }
+  ],
+  "actions": [
+    {
+      "scene": "outer-desktop",
+      "kind": "click",
+      "selector": "#continueSaveBtn",
+      "category": "ui"
+    },
+    {
+      "scene": "outer-desktop",
+      "kind": "scroll-public-context-into-view",
+      "category": "ui"
+    },
+    {
+      "scene": "outer-390",
+      "kind": "click",
+      "selector": "#continueSaveBtn",
+      "category": "ui"
+    },
+    {
+      "scene": "outer-390",
+      "kind": "scroll-public-context-into-view",
+      "category": "ui"
+    },
+    {
+      "scene": "inner-F-save-reload",
+      "kind": "click",
+      "selector": "#continueSaveBtn",
+      "category": "ui"
+    },
+    {
+      "scene": "inner-F-save-reload",
+      "kind": "scroll-public-context-into-view",
+      "category": "ui"
+    },
+    {
+      "scene": "inner-F-save-reload",
+      "kind": "key",
+      "key": "f",
+      "category": "self-defense",
+      "attempt": 1,
+      "submittedAt": 1792277231140
+    },
+    {
+      "scene": "inner-F-save-reload",
+      "kind": "reload-and-Continue",
+      "category": "ui"
+    }
+  ],
+  "cleanup": {
+    "contextsClosed": true,
+    "browserClosed": true,
+    "serverClosed": true
+  },
+  "browserVersion": "155.0.8059.80",
+  "passed": 26,
+  "count": 26,
+  "elapsedMs": 20607,
+  "ok": true,
+  "status": "VERIFIED"
+}

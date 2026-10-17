@@ -1,0 +1,62 @@
+{
+  "schema": "ExplicitPathOnlyPublicCompanionV1",
+  "isOriginalNativeReport": false,
+  "original": {
+    "portableName": "terminal.json",
+    "sha256": "4e9dfbf34e00cd112f1f00b617eae0a3271b6b687c015677cf89f38871b40657",
+    "bytes": 1397
+  },
+  "originalExternalRetained": true,
+  "replacedMetadataFields": [
+    {
+      "field": "$.command[0]",
+      "originalValueSha256": "16e0b943fe5b1ad8ee8e2d55008e5e2377f6f5d70a1134f11dfd25d37e313c41",
+      "originalValueBytes": 88,
+      "replacement": "external-path-sha256:16e0b943fe5b1ad8ee8e2d55008e5e2377f6f5d70a1134f11dfd25d37e313c41"
+    },
+    {
+      "field": "$.cwd",
+      "originalValueSha256": "ffb14d7eca524082d2a91c03debbd3e0e932d267ca8bf0adf4876cb21b483321",
+      "originalValueBytes": 119,
+      "replacement": "external-path-sha256:ffb14d7eca524082d2a91c03debbd3e0e932d267ca8bf0adf4876cb21b483321"
+    }
+  ],
+  "resultFactsUnchanged": true,
+  "report": {
+    "order": 1,
+    "name": "inline-syntax",
+    "command": [
+      "external-path-sha256:16e0b943fe5b1ad8ee8e2d55008e5e2377f6f5d70a1134f11dfd25d37e313c41",
+      "scripts/check-inline-syntax.mjs"
+    ],
+    "cwd": "external-path-sha256:ffb14d7eca524082d2a91c03debbd3e0e932d267ca8bf0adf4876cb21b483321",
+    "status": "TERMINAL",
+    "startedAt": "2026-10-17T22:46:52.478338+00:00",
+    "sourceHtmlSha256": "3545adb19fc8e75256013a50ce9885e051aa4170757a0c33095cc682cfcb7aa1",
+    "runnerRepositoryPath": "scripts/check-inline-syntax.mjs",
+    "runnerSha256": "e209492b8055b8fa8ac0558a2c2d766ecee7ee8ac31526d7e5d4ba42f6acd828",
+    "runnerBytes": 791,
+    "sourceInventory": "../source-inventory.json",
+    "finishedAt": "2026-10-17T22:46:52.620760+00:00",
+    "exitCode": 0,
+    "htmlUnchanged": true,
+    "runnerUnchanged": true,
+    "artifacts": [
+      {
+        "path": "01-inline-syntax/runner-executed.mjs",
+        "bytes": 791,
+        "sha256": "e209492b8055b8fa8ac0558a2c2d766ecee7ee8ac31526d7e5d4ba42f6acd828"
+      },
+      {
+        "path": "01-inline-syntax/stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "01-inline-syntax/stdout.log",
+        "bytes": 43,
+        "sha256": "98b4e89ae2aa70077a55f74b974ff4e53b400577ad028a90b1d1d1f28f456315"
+      }
+    ]
+  }
+}

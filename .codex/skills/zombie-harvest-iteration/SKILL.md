@@ -81,6 +81,8 @@ node scripts/replay-harness.mjs --self-test
 
 成功动作proof分开gross支付、同实体HP/产出、实际时间推进与推进副作用，记录真实nested command/event/causation；旧空payload不追溯补人物功绩。 业务成功event与父command的actor均实际核对；不同容器的默认值不可推定等价，时钟system事件经causation关联业务。保留窗口不是永久NPC成功账本，新个人链消费者仍需独立状态/迁移合同。拒绝必须不发成功receipt、任务功绩或奖励，不能只判断wrapper返回存在。
 
+涉及倍率的付费动作按本次真实时长核可保存性，不能因全局倍率合法就推定该动作产生的日历也合法，或照抄其它动作步长。暂停分支按原语义单验；写入成功须再对同份writer输出做实际validator／loader核对，不能把保存返回true等同于可恢复。
+
 个人经历按[来源与保存合同](../../../docs/decisions/ADR-20261018-relay-handoff-memory-v1.md)区分持久事实、本人资格与临时查看缓存。只清失效显示，不删除历史；context切人后旧显示复活、独立合法名册查看被其它context重绘误清，是两个相反的边界，须由实际renderer和公开入口验证。
 
 浏览器用保存夹具定位后期事件时，注明 fixture 模式，并在下次 boot 的 loader 之前注入：运行中改 localStorage 会被 pagehide checkpoint 覆盖。用 `scripts/server-content-chain.py` 验证事项切换、真实结算与刷新；自然试玩证据另行记录。

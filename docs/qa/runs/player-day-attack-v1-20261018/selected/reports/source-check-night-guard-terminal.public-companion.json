@@ -1,0 +1,62 @@
+{
+  "schema": "ExplicitPathOnlyPublicCompanionV1",
+  "isOriginalNativeReport": false,
+  "original": {
+    "portableName": "terminal.json",
+    "sha256": "759687aecb70614bb2eefad18e8dd8012fe82fa308363f572deef6b3cc24d3dd",
+    "bytes": 1411
+  },
+  "originalExternalRetained": true,
+  "replacedMetadataFields": [
+    {
+      "field": "$.command[0]",
+      "originalValueSha256": "16e0b943fe5b1ad8ee8e2d55008e5e2377f6f5d70a1134f11dfd25d37e313c41",
+      "originalValueBytes": 88,
+      "replacement": "external-path-sha256:16e0b943fe5b1ad8ee8e2d55008e5e2377f6f5d70a1134f11dfd25d37e313c41"
+    },
+    {
+      "field": "$.cwd",
+      "originalValueSha256": "ffb14d7eca524082d2a91c03debbd3e0e932d267ca8bf0adf4876cb21b483321",
+      "originalValueBytes": 119,
+      "replacement": "external-path-sha256:ffb14d7eca524082d2a91c03debbd3e0e932d267ca8bf0adf4876cb21b483321"
+    }
+  ],
+  "resultFactsUnchanged": true,
+  "report": {
+    "order": 3,
+    "name": "check-night-guard",
+    "command": [
+      "external-path-sha256:16e0b943fe5b1ad8ee8e2d55008e5e2377f6f5d70a1134f11dfd25d37e313c41",
+      "scripts/check-night-guard.mjs"
+    ],
+    "cwd": "external-path-sha256:ffb14d7eca524082d2a91c03debbd3e0e932d267ca8bf0adf4876cb21b483321",
+    "status": "TERMINAL",
+    "startedAt": "2026-10-17T22:46:52.477275+00:00",
+    "sourceHtmlSha256": "3545adb19fc8e75256013a50ce9885e051aa4170757a0c33095cc682cfcb7aa1",
+    "runnerRepositoryPath": "scripts/check-night-guard.mjs",
+    "runnerSha256": "627060e9b16337d4a2d2edebc494934a7a857410346d0b00bf7f23516ef5529a",
+    "runnerBytes": 2250,
+    "sourceInventory": "../source-inventory.json",
+    "finishedAt": "2026-10-17T22:46:52.542034+00:00",
+    "exitCode": 0,
+    "htmlUnchanged": true,
+    "runnerUnchanged": true,
+    "artifacts": [
+      {
+        "path": "03-check-night-guard/runner-executed.mjs",
+        "bytes": 2250,
+        "sha256": "627060e9b16337d4a2d2edebc494934a7a857410346d0b00bf7f23516ef5529a"
+      },
+      {
+        "path": "03-check-night-guard/stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "03-check-night-guard/stdout.log",
+        "bytes": 26,
+        "sha256": "531da710f88c511c95622c2e162f46d665aa5b5a56f033b718a21f39fec65732"
+      }
+    ]
+  }
+}

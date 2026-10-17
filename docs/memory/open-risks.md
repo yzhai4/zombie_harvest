@@ -1,9 +1,11 @@
 # 未关闭风险
-## 当前优先级：公开攻击与中继损毁（2026-10-18）
+## 当前优先级：中继损毁与完整公开后果（2026-10-18）
 
-中继说明与本场route在54ef完成列明source15／当前Chrome范围，见[QA](../qa/relay-public-feedback-v1-20261018.md)。公开完整中继仍未online／reload。看图续段给出context1.25与真实攻击1.15不一致的具体定位，当前未按F，不能冒称已空成功；下一先共享live target与typed拒绝，再跑实际合法攻击及后半链。
+[白天攻击资格与同ID提交](../problems/PROB-20261018-player-attack-context-range.md)已在3545完成列明源码／Chrome开发验证，旧54ef真实空成功及b548倍率坏保存保留。它不关闭全局击杀归因、Actor权限、任意时钟／坏档修复，受控F也不等于自然中继全链或玩家收益。精确CI与生产分别核。
 
-2dd受控真实伤害8→2→0后，下一真实advance使station HP0但active回真；直接Continue本身保inactive却能力仍按online。原诊断末尾错误要求BATTLE保存致exit1，不能改绿或宣布整轮回归通过。在线历史与一次奖励保留，当前能力／物理修复需独立合同。完整Memory／Social、Actor、规划、自然三日／真人、Studio、多副本、UI素材及引擎仍开放。
+[中继受损能力](../problems/PROB-20261018-relay-station-operational-state.md)仍是下一实际规则缺口：旧2dd真实伤害8→2→0后，下一advance可能恢复active；直接Continue自身保inactive，能力消费者仍按online历史。原末尾错误BATTLE保存期望致exit1保持。已完成历史、一次奖励和当前可运行能力需分离，修复应付真实代价、影响实际感知／预警／遭遇与正常writer，不能静默补血或撤销历史。
+
+旧公开路线仍停筹料、2木／2零件、未online／完工后reload，不能由本受控攻击夹具提升。完整Memory／Social、Actor、NPC规划、自然三日／真人、Studio、多副本、UI素材与引擎继续开放。
 
 ## 历史优先级覆盖：本人交付记忆后（2026-10-18）
 

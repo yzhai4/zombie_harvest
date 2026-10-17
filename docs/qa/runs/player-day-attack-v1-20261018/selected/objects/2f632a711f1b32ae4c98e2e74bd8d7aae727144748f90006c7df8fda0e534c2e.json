@@ -1,0 +1,132 @@
+{
+  "schema": "PlayerAttackBrowserPreparationV1",
+  "status": "PREPARATION_VERIFIED",
+  "sourceHtmlSha256": "3545adb19fc8e75256013a50ce9885e051aa4170757a0c33095cc682cfcb7aa1",
+  "sourceDependencies": [
+    {
+      "file": "producer-executed.mjs",
+      "sha256": "d7c9f48db40a7771f5cd84074f89e613b8762cf51d6d28e7eb3258edaefff0d3",
+      "bytes": 7322
+    },
+    {
+      "file": "source-runtime-fixture-executed.mjs",
+      "sha256": "e9872eeba85d49019d1bd806f3dd18357a5abc8f2f92922922f6a5324ec220dc",
+      "bytes": 2959
+    },
+    {
+      "file": "io-adapter-executed.mjs",
+      "sha256": "6e0da555742e930b8bf926eeec0db0ee22f17240a4fa305978841f8ba862c0a3",
+      "bytes": 51172
+    }
+  ],
+  "mother": {
+    "file": "source-native-mother.json",
+    "sha256": "1da81877e2a905ff1ad9a78b8cc6b1b54288f8587970ecd222ae320940bedce4",
+    "bytes": 234077,
+    "actualWriter": true,
+    "reason": "world-tick",
+    "day": 1,
+    "hour": 8,
+    "minute": 40,
+    "eventSeq": 207
+  },
+  "mode": "TEST-ONLY-full-original-writer-derived-target-geometry-before-browser-boot",
+  "noBusinessCommandsExecuted": true,
+  "naturalGameplay": false,
+  "humanExperience": false,
+  "browserExecuted": false,
+  "changes": [
+    {
+      "scene": "outer",
+      "path": "$.payload.worldZombies[id=wz-4]",
+      "keys": [
+        "x",
+        "y",
+        "prevX",
+        "prevY"
+      ],
+      "before": {
+        "x": 13.78886074998293,
+        "y": 11.2701877415006,
+        "prevX": 16.9980620744195,
+        "prevY": 18.99903103720975
+      },
+      "after": {
+        "x": 14.489999999999993,
+        "y": 10.000000000000004
+      }
+    },
+    {
+      "scene": "inner",
+      "path": "$.payload.worldZombies[id=wz-4]",
+      "keys": [
+        "x",
+        "y",
+        "prevX",
+        "prevY"
+      ],
+      "before": {
+        "x": 13.78886074998293,
+        "y": 11.2701877415006,
+        "prevX": 16.9980620744195,
+        "prevY": 18.99903103720975
+      },
+      "after": {
+        "x": 14.299999999999994,
+        "y": 10.000000000000004
+      }
+    }
+  ],
+  "scenes": [
+    {
+      "id": "outer",
+      "sourceLoaderOk": true,
+      "sourceWriterOk": true,
+      "secondSourceLoaderOk": true,
+      "npcCount": 10,
+      "enemyIds": [
+        "wz-2",
+        "wz-3",
+        "wz-4",
+        "frontier-3"
+      ],
+      "targetDistance": 1.1899999999999995,
+      "eventSeq": 207,
+      "sourceNative": {
+        "id": "outer",
+        "file": "outer-input-native.json",
+        "sha256": "98730f4d069177b405770b65814b50d1b6dc3c9107298d9860f89ea55eae68a4",
+        "bytes": 234083,
+        "targetId": "wz-4",
+        "declaredDistance": 1.19,
+        "kind": "TEST-ONLY-complete-original-writer-derived-geometry-actual-loader-writer",
+        "motherSha256": "1da81877e2a905ff1ad9a78b8cc6b1b54288f8587970ecd222ae320940bedce4"
+      }
+    },
+    {
+      "id": "inner",
+      "sourceLoaderOk": true,
+      "sourceWriterOk": true,
+      "secondSourceLoaderOk": true,
+      "npcCount": 10,
+      "enemyIds": [
+        "wz-2",
+        "wz-3",
+        "wz-4",
+        "frontier-3"
+      ],
+      "targetDistance": 1,
+      "eventSeq": 207,
+      "sourceNative": {
+        "id": "inner",
+        "file": "inner-input-native.json",
+        "sha256": "9c652ccd6a09218a052af302fcc71560728ab3c6d27366b93e483c7cf5e44b4f",
+        "bytes": 234083,
+        "targetId": "wz-4",
+        "declaredDistance": 1,
+        "kind": "TEST-ONLY-complete-original-writer-derived-geometry-actual-loader-writer",
+        "motherSha256": "1da81877e2a905ff1ad9a78b8cc6b1b54288f8587970ecd222ae320940bedce4"
+      }
+    }
+  ]
+}

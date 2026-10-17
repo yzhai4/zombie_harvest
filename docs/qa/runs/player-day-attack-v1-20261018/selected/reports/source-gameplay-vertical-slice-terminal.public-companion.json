@@ -1,0 +1,62 @@
+{
+  "schema": "ExplicitPathOnlyPublicCompanionV1",
+  "isOriginalNativeReport": false,
+  "original": {
+    "portableName": "terminal.json",
+    "sha256": "835fd7871eec44bbe702326904a5fa036c984e6503a4ba4c999c515ec4fd88d2",
+    "bytes": 1461
+  },
+  "originalExternalRetained": true,
+  "replacedMetadataFields": [
+    {
+      "field": "$.command[0]",
+      "originalValueSha256": "16e0b943fe5b1ad8ee8e2d55008e5e2377f6f5d70a1134f11dfd25d37e313c41",
+      "originalValueBytes": 88,
+      "replacement": "external-path-sha256:16e0b943fe5b1ad8ee8e2d55008e5e2377f6f5d70a1134f11dfd25d37e313c41"
+    },
+    {
+      "field": "$.cwd",
+      "originalValueSha256": "ffb14d7eca524082d2a91c03debbd3e0e932d267ca8bf0adf4876cb21b483321",
+      "originalValueBytes": 119,
+      "replacement": "external-path-sha256:ffb14d7eca524082d2a91c03debbd3e0e932d267ca8bf0adf4876cb21b483321"
+    }
+  ],
+  "resultFactsUnchanged": true,
+  "report": {
+    "order": 11,
+    "name": "gameplay-vertical-slice",
+    "command": [
+      "external-path-sha256:16e0b943fe5b1ad8ee8e2d55008e5e2377f6f5d70a1134f11dfd25d37e313c41",
+      "scripts/check-gameplay-vertical-slice.mjs"
+    ],
+    "cwd": "external-path-sha256:ffb14d7eca524082d2a91c03debbd3e0e932d267ca8bf0adf4876cb21b483321",
+    "status": "TERMINAL",
+    "startedAt": "2026-10-17T22:46:55.092815+00:00",
+    "sourceHtmlSha256": "3545adb19fc8e75256013a50ce9885e051aa4170757a0c33095cc682cfcb7aa1",
+    "runnerRepositoryPath": "scripts/check-gameplay-vertical-slice.mjs",
+    "runnerSha256": "a47a4d3a922c3aa526fca633a0bd7d12f0e8f42f0b0a5d779a2cd6e5101fe3db",
+    "runnerBytes": 5741,
+    "sourceInventory": "../source-inventory.json",
+    "finishedAt": "2026-10-17T22:46:55.921633+00:00",
+    "exitCode": 0,
+    "htmlUnchanged": true,
+    "runnerUnchanged": true,
+    "artifacts": [
+      {
+        "path": "11-gameplay-vertical-slice/runner-executed.mjs",
+        "bytes": 5741,
+        "sha256": "a47a4d3a922c3aa526fca633a0bd7d12f0e8f42f0b0a5d779a2cd6e5101fe3db"
+      },
+      {
+        "path": "11-gameplay-vertical-slice/stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "11-gameplay-vertical-slice/stdout.log",
+        "bytes": 290,
+        "sha256": "dc2cf63f0af7a31b6f6ffc2e1350c64bdb21e4b107e13a5a9c02d5e3a2e0e862"
+      }
+    ]
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "schema": "ExplicitPathOnlyPublicCompanionV1",
+  "isOriginalNativeReport": false,
+  "original": {
+    "portableName": "terminal.json",
+    "sha256": "8ed254ce6596b0b9f9f02ab699d9dd3582662a6461ea2ee9ed76c8cfcaf773e2",
+    "bytes": 1567
+  },
+  "originalExternalRetained": true,
+  "replacedMetadataFields": [
+    {
+      "field": "$.command[0]",
+      "originalValueSha256": "16e0b943fe5b1ad8ee8e2d55008e5e2377f6f5d70a1134f11dfd25d37e313c41",
+      "originalValueBytes": 88,
+      "replacement": "external-path-sha256:16e0b943fe5b1ad8ee8e2d55008e5e2377f6f5d70a1134f11dfd25d37e313c41"
+    },
+    {
+      "field": "$.command[3]",
+      "originalValueSha256": "2b51f7bb974316ac993a2fe4afd3327a2944fa243c21328f8b418758d0cf12a4",
+      "originalValueBytes": 126,
+      "replacement": "external-path-sha256:2b51f7bb974316ac993a2fe4afd3327a2944fa243c21328f8b418758d0cf12a4"
+    },
+    {
+      "field": "$.cwd",
+      "originalValueSha256": "ffb14d7eca524082d2a91c03debbd3e0e932d267ca8bf0adf4876cb21b483321",
+      "originalValueBytes": 119,
+      "replacement": "external-path-sha256:ffb14d7eca524082d2a91c03debbd3e0e932d267ca8bf0adf4876cb21b483321"
+    }
+  ],
+  "resultFactsUnchanged": true,
+  "report": {
+    "order": 5,
+    "name": "save-recovery",
+    "command": [
+      "external-path-sha256:16e0b943fe5b1ad8ee8e2d55008e5e2377f6f5d70a1134f11dfd25d37e313c41",
+      "scripts/check-report-recovery.mjs",
+      "--html",
+      "external-path-sha256:2b51f7bb974316ac993a2fe4afd3327a2944fa243c21328f8b418758d0cf12a4"
+    ],
+    "cwd": "external-path-sha256:ffb14d7eca524082d2a91c03debbd3e0e932d267ca8bf0adf4876cb21b483321",
+    "status": "TERMINAL",
+    "startedAt": "2026-10-17T22:46:52.581433+00:00",
+    "sourceHtmlSha256": "3545adb19fc8e75256013a50ce9885e051aa4170757a0c33095cc682cfcb7aa1",
+    "runnerRepositoryPath": "scripts/check-report-recovery.mjs",
+    "runnerSha256": "6e0da555742e930b8bf926eeec0db0ee22f17240a4fa305978841f8ba862c0a3",
+    "runnerBytes": 51172,
+    "sourceInventory": "../source-inventory.json",
+    "finishedAt": "2026-10-17T22:47:05.739572+00:00",
+    "exitCode": 0,
+    "htmlUnchanged": true,
+    "runnerUnchanged": true,
+    "artifacts": [
+      {
+        "path": "05-save-recovery/runner-executed.mjs",
+        "bytes": 51172,
+        "sha256": "6e0da555742e930b8bf926eeec0db0ee22f17240a4fa305978841f8ba862c0a3"
+      },
+      {
+        "path": "05-save-recovery/stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "05-save-recovery/stdout.log",
+        "bytes": 15242,
+        "sha256": "a56ee8563e66c149cb6093a0f8f30baec3a8c1b0ef389694abb31e984f989884"
+      }
+    ]
+  }
+}

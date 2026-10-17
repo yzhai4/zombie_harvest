@@ -1,0 +1,75 @@
+{
+  "schema": "ExplicitPathOnlyPublicCompanionV1",
+  "isOriginalNativeReport": false,
+  "original": {
+    "portableName": "terminal.json",
+    "sha256": "598462605a24802fb1910f69cb36a25003220c52c8b01d9c686d15cb8b7109c5",
+    "bytes": 1804
+  },
+  "originalExternalRetained": true,
+  "replacedMetadataFields": [
+    {
+      "field": "$.command[0]",
+      "originalValueSha256": "16e0b943fe5b1ad8ee8e2d55008e5e2377f6f5d70a1134f11dfd25d37e313c41",
+      "originalValueBytes": 88,
+      "replacement": "external-path-sha256:16e0b943fe5b1ad8ee8e2d55008e5e2377f6f5d70a1134f11dfd25d37e313c41"
+    },
+    {
+      "field": "$.command[3]",
+      "originalValueSha256": "de7233bdad9e54e00bd7a7040d3211ee6167ba26df8ebef198851408066ff1e0",
+      "originalValueBytes": 150,
+      "replacement": "external-path-sha256:de7233bdad9e54e00bd7a7040d3211ee6167ba26df8ebef198851408066ff1e0"
+    },
+    {
+      "field": "$.cwd",
+      "originalValueSha256": "ffb14d7eca524082d2a91c03debbd3e0e932d267ca8bf0adf4876cb21b483321",
+      "originalValueBytes": 119,
+      "replacement": "external-path-sha256:ffb14d7eca524082d2a91c03debbd3e0e932d267ca8bf0adf4876cb21b483321"
+    }
+  ],
+  "resultFactsUnchanged": true,
+  "report": {
+    "order": 15,
+    "name": "static-three-day-smoke",
+    "command": [
+      "external-path-sha256:16e0b943fe5b1ad8ee8e2d55008e5e2377f6f5d70a1134f11dfd25d37e313c41",
+      "scripts/smoke-three-days.mjs",
+      "--report",
+      "external-path-sha256:de7233bdad9e54e00bd7a7040d3211ee6167ba26df8ebef198851408066ff1e0"
+    ],
+    "cwd": "external-path-sha256:ffb14d7eca524082d2a91c03debbd3e0e932d267ca8bf0adf4876cb21b483321",
+    "status": "TERMINAL",
+    "startedAt": "2026-10-17T22:46:58.049422+00:00",
+    "sourceHtmlSha256": "3545adb19fc8e75256013a50ce9885e051aa4170757a0c33095cc682cfcb7aa1",
+    "runnerRepositoryPath": "scripts/smoke-three-days.mjs",
+    "runnerSha256": "0a623a20434a43ac004fa64617b4050ccc4ed2646efd0c98bcc4e5e521e5fdb4",
+    "runnerBytes": 13807,
+    "sourceInventory": "../source-inventory.json",
+    "finishedAt": "2026-10-17T22:46:58.240383+00:00",
+    "exitCode": 0,
+    "htmlUnchanged": true,
+    "runnerUnchanged": true,
+    "artifacts": [
+      {
+        "path": "15-static-three-day-smoke/native-report.json",
+        "bytes": 5248,
+        "sha256": "b209aafeb5bf773ffc3384185a82cae4ddf7dc9cedde03bc2a3270badf405bae"
+      },
+      {
+        "path": "15-static-three-day-smoke/runner-executed.mjs",
+        "bytes": 13807,
+        "sha256": "0a623a20434a43ac004fa64617b4050ccc4ed2646efd0c98bcc4e5e521e5fdb4"
+      },
+      {
+        "path": "15-static-three-day-smoke/stderr.log",
+        "bytes": 212,
+        "sha256": "9aa80de5d0ee99245c3b8a87e1e2a3522f078e67df2f9f13f74bf399447cd9e1"
+      },
+      {
+        "path": "15-static-three-day-smoke/stdout.log",
+        "bytes": 67,
+        "sha256": "94448e79690ac6545423411245b25804ba13e0581dc84e046389548a24e8136a"
+      }
+    ]
+  }
+}

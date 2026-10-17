@@ -2,13 +2,13 @@
   "schema": "IterationEvidenceV1",
   "version": 1,
   "status": "verified",
-  "scope": "Selected relay public-feedback evidence draft; verified is existing format, not release approval. Builder does not run Gate.",
+  "scope": "Selected DAY-player-attack format candidate; verified is the existing schema label, not release approval. Builder does not run Gate.",
   "source": {
     "repository": "yzhai4/zombie_harvest",
     "branch": "codex/v82-npc-succession",
-    "commit": "8feac8b4eec67964b4336a7570b33dcfdc712724",
-    "tree": "686be510127acf3576d5700ab7ca58dd4efffa8e",
-    "htmlSha256": "54ef55a78d77ac1cd45fe4f234db744e035cffe4fa1111f25201aed4da5bf3e5"
+    "commit": "bbba03a6f521a1e5fb24be0ab9f24ddc20f12937",
+    "tree": "c7b80870683c7cbb752b5679e0f231b1987cdfe2",
+    "htmlSha256": "3545adb19fc8e75256013a50ce9885e051aa4170757a0c33095cc682cfcb7aa1"
   },
   "compatibility": {
     "saveVersion": 21,
@@ -17,9 +17,9 @@
   "runtime": {
     "naturalGameplayClaim": false,
     "productionDeployed": false,
+    "publicRelayMainlineCompleted": false,
     "fullMemoryAccepted": false,
-    "fullActorObservationAccepted": false,
-    "publicRelayMainlineCompleted": false
+    "fullActorObservationAccepted": false
   },
   "tests": {
     "required": [
@@ -38,8 +38,8 @@
         "count": 54,
         "passed": 54,
         "artifact": {
-          "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/content-chain.log",
-          "sha256": "c4f42766fa69b5f93479dbb8326f77c30be5a6b451eee32f1f65e3d376889375"
+          "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/d4b6763e456e83ec946b9fef64892965e0db9a1ad6eea6e7c297fe410b8df7f6.log",
+          "sha256": "d4b6763e456e83ec946b9fef64892965e0db9a1ad6eea6e7c297fe410b8df7f6"
         }
       },
       {
@@ -48,8 +48,8 @@
         "count": 20,
         "passed": 20,
         "artifact": {
-          "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/event-gate-parity.log",
-          "sha256": "cb1100f32759ed674eedc83cb8c9bfe32e14387ced65b49c26e443f1cab21271"
+          "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/44338cba8008c832aaf77519e6b7c8a2395d5fe0bdc2763eb6fb8d1b97574abd.log",
+          "sha256": "44338cba8008c832aaf77519e6b7c8a2395d5fe0bdc2763eb6fb8d1b97574abd"
         }
       },
       {
@@ -78,8 +78,8 @@
         "count": 30,
         "passed": 30,
         "artifact": {
-          "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/content-episode.log",
-          "sha256": "ffb891bafa532e57fb8140a1f1d47ca38fbdcc35a01d8548b7fb87d5d3ebd393"
+          "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/1b5f73acb870026190f3a4438d059f5c8a439835ccbd1875f6987410f2b8a513.log",
+          "sha256": "1b5f73acb870026190f3a4438d059f5c8a439835ccbd1875f6987410f2b8a513"
         }
       },
       {
@@ -98,8 +98,8 @@
         "count": 55,
         "passed": 55,
         "artifact": {
-          "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/static-three-day-smoke.json",
-          "sha256": "563d6dad20579a3d534df7047f227ac078eb50d798d7138f4cc5923f6a859446"
+          "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/b209aafeb5bf773ffc3384185a82cae4ddf7dc9cedde03bc2a3270badf405bae.json",
+          "sha256": "b209aafeb5bf773ffc3384185a82cae4ddf7dc9cedde03bc2a3270badf405bae"
         }
       },
       {
@@ -108,20 +108,28 @@
         "count": 25,
         "passed": 25,
         "artifact": {
-          "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/relay-handoff-memory-v1.json",
-          "sha256": "8f81f0fb828cce94097fb98a9c3bbbcc2928d1071d7a2b8f08b483ed77b58ac2"
+          "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/d118ba01ac843a7621ecbef5021148afb7406d4cc23439bbcc7775055ab1237f.json",
+          "sha256": "d118ba01ac843a7621ecbef5021148afb7406d4cc23439bbcc7775055ab1237f"
+        }
+      },
+      {
+        "name": "player-day-attack-v1",
+        "status": "passed",
+        "count": 5,
+        "passed": 5,
+        "artifact": {
+          "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/ccb79aaa745fefbc56388de513f6909d8d3ef0e7d6b5d7de2938e8826439b6b2.json",
+          "sha256": "ccb79aaa745fefbc56388de513f6909d8d3ef0e7d6b5d7de2938e8826439b6b2"
         }
       }
     ],
     "aggregateCurrentCoverage": {
-      "uniqueContracts": 15,
-      "selectedPassContracts": 15,
-      "sourceContractExecutions": 15,
-      "originalMatrixPassed": 15,
-      "originalMatrixFailed": 0,
+      "existingSourceContracts": 16,
+      "selectedPassContracts": 17,
+      "newAttackContracts": 1,
       "artifact": {
-        "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/source-selected-coverage.json",
-        "sha256": "536aeb283128a1019ee87e864973b768324704a07451f04dd416cc35386d7294"
+        "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/source-selected-coverage.json",
+        "sha256": "bbe0a2970d3ac9f521f7688f3952b3bf8f2bc8ab811f1327fd55b64bce2031c4"
       }
     }
   },
@@ -131,74 +139,87 @@
     "count": 12,
     "passed": 12,
     "artifact": {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/episode-browser.json",
-      "sha256": "07fcb4921bf9b3b79bc30f9d5053e2b8f3bd1e579f55a6740c21e0c9cdf5bbcd"
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/5e5bf13a65d10e2cdfb0cbc0b3cadd339d4cf11d7a89204ca461c9b1db98a471.json",
+      "sha256": "5e5bf13a65d10e2cdfb0cbc0b3cadd339d4cf11d7a89204ca461c9b1db98a471"
     }
   },
   "localExecution": {
-    "sourceUniqueContracts": 15,
-    "originalSourceExecutions": 15,
-    "originalSourcePassed": 15,
-    "originalSourceFailed": 0,
-    "memorySupplementExecutions": 0,
-    "selectedSourcePassContracts": 15,
+    "existingSourceContractExecutions": 16,
+    "existingSourcePassed": 16,
+    "newAttackPassedContracts": 1,
+    "newAttackGroupedChecks": 5,
+    "selectedSourcePassContracts": 17,
+    "currentNativeTestRows": 9,
+    "primaryEpisodeChecks": 12,
+    "supplementaryAttackChromeChecks": 26,
     "freshnessGateExecutedByBuilder": false,
     "selftestExecutedByBuilder": false,
-    "gitCommitVerification": "supplied API proof/local bytes only; no local ancestry, ref or exact CI claim"
+    "gitCommitVerification": "Supplied API proof and local bytes only; no local ancestry/ref/exact CI claim"
   },
   "supplementaryEvidence": {
     "publicationIndex": {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/index.json",
-      "sha256": "232c65f51c95cce608b20cfb6f7d542c760591c61d9f2ad9d734bb0008d2f15b"
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/index.json",
+      "sha256": "2237be6edfc47fdbb4e5e61a8e1727f60aaec5c5d0b7864491b457f5adb78543"
     },
     "sourceCoverage": {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/source-selected-coverage.json",
-      "sha256": "536aeb283128a1019ee87e864973b768324704a07451f04dd416cc35386d7294"
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/source-selected-coverage.json",
+      "sha256": "bbe0a2970d3ac9f521f7688f3952b3bf8f2bc8ab811f1327fd55b64bce2031c4"
     },
     "sourceArtifactProof": {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/source-artifact-proof.json",
-      "sha256": "0acba843f29d1ab9e02d8955e5e4ac0a360c582f54f298a2277fa99d2acafaa0"
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/source-artifact-proof.json",
+      "sha256": "66ba8ee64acd87ca2de81cdc1ed22bc9f16c6e6d4cfd772e61970b684c68848e"
     },
     "selectedTransport": {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/transport-map.json",
-      "sha256": "0bd72fbd33e466c1f0dd9804b17ca885c7d48657a93c3aedb8322c2353a125f8"
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/transport-map.json",
+      "sha256": "adaa28d93fa75c0453dbbdd25423f29c65905958e892166b1811232808629ec5"
     },
     "episodeExecution": {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/episode-execution.json",
-      "sha256": "435ca7099781c174e862ae98aaf3bb81e7ac6f29600521f5eafce44e51d332f9"
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/e95a628fc3428db35eeeb9642f7fa8dbb55ff5630363dafb44e317615a06a228.json",
+      "sha256": "e95a628fc3428db35eeeb9642f7fa8dbb55ff5630363dafb44e317615a06a228"
+    },
+    "attackBrowser": {
+      "artifact": {
+        "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/1c72932b9e240e523dcc994ecac6c36b0c474dd9f45b1eae5947197c8c2143d5.json",
+        "sha256": "1c72932b9e240e523dcc994ecac6c36b0c474dd9f45b1eae5947197c8c2143d5"
+      },
+      "execution": {
+        "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/reports/attack-browser-execution.public-companion.json",
+        "sha256": "7e274081bb21933a9f707fcc731e3563bebaea4ba1d19fff79067080ce939a66"
+      },
+      "count": 26,
+      "passed": 26,
+      "sceneCount": 3,
+      "mainResponses": 4,
+      "publicFAttempts": 1,
+      "naturalGameplayClaim": false,
+      "inputManifest": {
+        "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/073f07a506d27b618805307a89ea0288bfe43672a52e230b612363c53dc53164.json",
+        "sha256": "073f07a506d27b618805307a89ea0288bfe43672a52e230b612363c53dc53164"
+      },
+      "inputProducer": {
+        "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/2f632a711f1b32ae4c98e2e74bd8d7aae727144748f90006c7df8fda0e534c2e.json",
+        "sha256": "2f632a711f1b32ae4c98e2e74bd8d7aae727144748f90006c7df8fda0e534c2e"
+      },
+      "inputProducerExecution": {
+        "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/reports/attack-browser-input-execution.public-companion.json",
+        "sha256": "234e27596048ec411eb571ddeef40ec5498c69dd43bd80db65587713d0a46eb3"
+      }
     },
     "historicalSelection": {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/historical-selection.json",
-      "sha256": "41283ddf552633add120153b37e66607a9953d913daa5337c6ed87185796092a"
-    },
-    "currentShortEncounter": {
-      "artifact": {
-        "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/index.json",
-        "sha256": "502d33c360b1746e268a92b4320601b199836a2c34e0f2b2a4a4efeaf71c74c7"
-      },
-      "htmlSha256": "54ef55a78d77ac1cd45fe4f234db744e035cffe4fa1111f25201aed4da5bf3e5",
-      "inputProducerHtmlSha256": "04a7ff13dc663d679330004867e2e960ab6e6472ddaaf3489d2597fc4cde50c7",
-      "status": "PUBLIC_BATTLE_START_CAPTURED_NOT_SETTLED",
-      "exitCode": 0,
-      "actualPublicBattleStart": true,
-      "encounterSettled": false,
-      "battleDurabilityEstablished": false,
-      "unknownRouteBrowserCaseExecuted": false,
-      "naturalGameplayClaim": false,
-      "humanExperience": false,
-      "notAdditionalPrimaryTestRows": true
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/historical-selection.json",
+      "sha256": "e1305692f1365e226f0ab559176d3dc78c148d73b0ea9d4ab32e2ae5ead20ae8"
     }
   },
   "historicalEvidence": {
-    "previousManifestSha256": "e32c7daf146b5dd8f95056b3ff31251977d5a4b1f04f459fde6c6df02a2ee9b1",
-    "previousSourceCommit": "d1542fd0e299ad7e44d094413c76199d6f3e07d9",
+    "previousManifestSha256": "bcd0e0b3bf5172efe642799647f084c46707681c80b061b95b120af70c3c0428",
+    "previousSourceCommit": "8feac8b4eec67964b4336a7570b33dcfdc712724",
     "previousRowsAreNotCurrent": true,
-    "originalMemoryMethodFailurePreserved": true
+    "originalFailuresPreserved": true
   },
   "artifacts": [
     {
       "path": ".github/workflows/validate.yml",
-      "sha256": "58fbdc62371313805856ed691326fda5b8e4aa0055f59f3ad44d80775085f062"
+      "sha256": "b9fc6d782aff132bd090dbc2b19de807d58165dc32cb378fa87706eac3c515be"
     },
     {
       "path": "dist/actor-sprites.js",
@@ -206,7 +227,7 @@
     },
     {
       "path": "dist/index.html",
-      "sha256": "54ef55a78d77ac1cd45fe4f234db744e035cffe4fa1111f25201aed4da5bf3e5"
+      "sha256": "3545adb19fc8e75256013a50ce9885e051aa4170757a0c33095cc682cfcb7aa1"
     },
     {
       "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/e4fbb6c158e5a85bed24141dbc5b5a115860c47d4f580fa767747ef38d0d3f59.json",
@@ -241,40 +262,444 @@
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/historical-selection.json",
-      "sha256": "41283ddf552633add120153b37e66607a9953d913daa5337c6ed87185796092a"
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/historical-selection.json",
+      "sha256": "e1305692f1365e226f0ab559176d3dc78c148d73b0ea9d4ab32e2ae5ead20ae8"
     },
     {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/index.json",
-      "sha256": "232c65f51c95cce608b20cfb6f7d542c760591c61d9f2ad9d734bb0008d2f15b"
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/index.json",
+      "sha256": "2237be6edfc47fdbb4e5e61a8e1727f60aaec5c5d0b7864491b457f5adb78543"
     },
     {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/05d8b88b3555d85e89d89dcf896d4759e3f95ac6c272ced81690cda0ce43ce90.json",
-      "sha256": "05d8b88b3555d85e89d89dcf896d4759e3f95ac6c272ced81690cda0ce43ce90"
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/04f6918ec9710ef40b9252806454d9b4f811d582fdae0a3edb5eeca5260de522.mjs",
+      "sha256": "04f6918ec9710ef40b9252806454d9b4f811d582fdae0a3edb5eeca5260de522"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/0589936689b8c1efaf8915a641b9b8e3c47c1203e240dbe7152bb17f97a34593.json",
+      "sha256": "0589936689b8c1efaf8915a641b9b8e3c47c1203e240dbe7152bb17f97a34593"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/073f07a506d27b618805307a89ea0288bfe43672a52e230b612363c53dc53164.json",
+      "sha256": "073f07a506d27b618805307a89ea0288bfe43672a52e230b612363c53dc53164"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/09cceb2ee8f25a87692704aeea636d641ba69c8d410e2059a4c99f5f476bb6e1.json",
+      "sha256": "09cceb2ee8f25a87692704aeea636d641ba69c8d410e2059a4c99f5f476bb6e1"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/10fa7f2668cff3d5c07ae0b07838329d37134373a73ebb7873c87a9e2f9d6db6.json",
+      "sha256": "10fa7f2668cff3d5c07ae0b07838329d37134373a73ebb7873c87a9e2f9d6db6"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/143b74555cbfa36c8dd16ae3328e16c35a1fac466be347c90f18ba48a81b47b3.json",
+      "sha256": "143b74555cbfa36c8dd16ae3328e16c35a1fac466be347c90f18ba48a81b47b3"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/1b5f73acb870026190f3a4438d059f5c8a439835ccbd1875f6987410f2b8a513.log",
+      "sha256": "1b5f73acb870026190f3a4438d059f5c8a439835ccbd1875f6987410f2b8a513"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/1c72932b9e240e523dcc994ecac6c36b0c474dd9f45b1eae5947197c8c2143d5.json",
+      "sha256": "1c72932b9e240e523dcc994ecac6c36b0c474dd9f45b1eae5947197c8c2143d5"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/1da81877e2a905ff1ad9a78b8cc6b1b54288f8587970ecd222ae320940bedce4.json",
+      "sha256": "1da81877e2a905ff1ad9a78b8cc6b1b54288f8587970ecd222ae320940bedce4"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/1f49c9d343cb721796a0e07e3a313d6a559f85ef49674aa7db38eb9e924af59e.json",
+      "sha256": "1f49c9d343cb721796a0e07e3a313d6a559f85ef49674aa7db38eb9e924af59e"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/2d1c61e777add379e6180a1e9c128d07ed6013479ae200ddc9f815d497da0570.log",
+      "sha256": "2d1c61e777add379e6180a1e9c128d07ed6013479ae200ddc9f815d497da0570"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/2f632a711f1b32ae4c98e2e74bd8d7aae727144748f90006c7df8fda0e534c2e.json",
+      "sha256": "2f632a711f1b32ae4c98e2e74bd8d7aae727144748f90006c7df8fda0e534c2e"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/35ce8b7ac8c4c8c974ad50f8c34e19626b3fb508a98f9b8faf21ab0971b9e4f4.json",
+      "sha256": "35ce8b7ac8c4c8c974ad50f8c34e19626b3fb508a98f9b8faf21ab0971b9e4f4"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/363113d1827d2dd43bb2ffac037e736298c7a354382fdfc6099843a973f46346.png",
+      "sha256": "363113d1827d2dd43bb2ffac037e736298c7a354382fdfc6099843a973f46346"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/3910d7187e166a85230c8682cc9d2c95e74b076c550ff2b1e8197d17b40d7860.json",
+      "sha256": "3910d7187e166a85230c8682cc9d2c95e74b076c550ff2b1e8197d17b40d7860"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/3d42d4906a5d9714dbdb0b5530f9f9f864db44dac17ef2f3ff35f4d10fb6ec5b.md",
+      "sha256": "3d42d4906a5d9714dbdb0b5530f9f9f864db44dac17ef2f3ff35f4d10fb6ec5b"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/44338cba8008c832aaf77519e6b7c8a2395d5fe0bdc2763eb6fb8d1b97574abd.log",
+      "sha256": "44338cba8008c832aaf77519e6b7c8a2395d5fe0bdc2763eb6fb8d1b97574abd"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/4772acc052b0adccbe112463f6747253fc03dcc85410aaffc73b5af73fc5f469.json",
+      "sha256": "4772acc052b0adccbe112463f6747253fc03dcc85410aaffc73b5af73fc5f469"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/4b1602bb5a76d5440d69cf55f5b28944c469c83d486cbef3b78b6d26d8059a51.json",
+      "sha256": "4b1602bb5a76d5440d69cf55f5b28944c469c83d486cbef3b78b6d26d8059a51"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/4e0c27724ccc38bf42c59393872f0bedffdf7d50da34e8ba43d7045628f039a0.json",
+      "sha256": "4e0c27724ccc38bf42c59393872f0bedffdf7d50da34e8ba43d7045628f039a0"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/4f9bb750922c2faa57af9d3d0f9c065544c0d449b96fa49cc822b8dc50ecbf2d.json",
+      "sha256": "4f9bb750922c2faa57af9d3d0f9c065544c0d449b96fa49cc822b8dc50ecbf2d"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/508ff1e1d8402188347c0ef676fe4706c6f1ae2159ec0eace4c87da0063edbab.mjs",
+      "sha256": "508ff1e1d8402188347c0ef676fe4706c6f1ae2159ec0eace4c87da0063edbab"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/54c2d742f53a2c09e199f7839b62e3d855e45bf433b379836a01905e2100dd43.png",
+      "sha256": "54c2d742f53a2c09e199f7839b62e3d855e45bf433b379836a01905e2100dd43"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/5dd29c26c9ef219aca9d167fc99ed5b9350f70a7441450ad1444ac3be4c184c5.json",
+      "sha256": "5dd29c26c9ef219aca9d167fc99ed5b9350f70a7441450ad1444ac3be4c184c5"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/5e5bf13a65d10e2cdfb0cbc0b3cadd339d4cf11d7a89204ca461c9b1db98a471.json",
+      "sha256": "5e5bf13a65d10e2cdfb0cbc0b3cadd339d4cf11d7a89204ca461c9b1db98a471"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/60e9dd400d5b82ef79a382bded3e50c6c0efc1ba097a679048a51cabb694802a.json",
+      "sha256": "60e9dd400d5b82ef79a382bded3e50c6c0efc1ba097a679048a51cabb694802a"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/67715be1eeae8ecd31aa3a0ff4085ccf1dfd5c64db2eaa446626febf97f87128.json",
+      "sha256": "67715be1eeae8ecd31aa3a0ff4085ccf1dfd5c64db2eaa446626febf97f87128"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/6b7d54f41753ad8b518a3f4d89547c07b12896b902de35ab9d06fc992c99f34b.json",
+      "sha256": "6b7d54f41753ad8b518a3f4d89547c07b12896b902de35ab9d06fc992c99f34b"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/6c27a5dd1dbb219859247f0b7deb46c1983420163b6489c87062ee3ac3fbaabd.json",
+      "sha256": "6c27a5dd1dbb219859247f0b7deb46c1983420163b6489c87062ee3ac3fbaabd"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/731b6f602ed63946c9871769cef264d7b685ca9505dd59331e276e4e835faeb2.json",
+      "sha256": "731b6f602ed63946c9871769cef264d7b685ca9505dd59331e276e4e835faeb2"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/77083db7562781237e457d02d46100d089815788564d823cc2e25ba1fbe70d58.json",
+      "sha256": "77083db7562781237e457d02d46100d089815788564d823cc2e25ba1fbe70d58"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/7a493298a09221bf83083297c47bfe02e59cf47707a890870bc54a25acb6c4c9.log",
+      "sha256": "7a493298a09221bf83083297c47bfe02e59cf47707a890870bc54a25acb6c4c9"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/7c746bd083defa7e8ce61394249db8ab49bb127285a4148611a8b4cef497ff24.json",
+      "sha256": "7c746bd083defa7e8ce61394249db8ab49bb127285a4148611a8b4cef497ff24"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/7dc9fc95ac1c93964977fcf4519bad50b2ae494f40620ed6a89e7242a948517c.json",
+      "sha256": "7dc9fc95ac1c93964977fcf4519bad50b2ae494f40620ed6a89e7242a948517c"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/7e7c84f554936e5cdf3a6b32a155c0c691f468b47a3ac5fe503c864ae22f85ac.json",
+      "sha256": "7e7c84f554936e5cdf3a6b32a155c0c691f468b47a3ac5fe503c864ae22f85ac"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/80ae24fc9f63d083d468d11677ea55abf75f32d406ec5a94ac9db3a3ca7783b5.json",
+      "sha256": "80ae24fc9f63d083d468d11677ea55abf75f32d406ec5a94ac9db3a3ca7783b5"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/87b43082238559ad9c31ecb6342211d61db4bce12256acd3535e71c7da96d3e7.json",
+      "sha256": "87b43082238559ad9c31ecb6342211d61db4bce12256acd3535e71c7da96d3e7"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/91d7220788d2556343735b146f0059708394854dc4efdece116968fb2232b3f1.json",
+      "sha256": "91d7220788d2556343735b146f0059708394854dc4efdece116968fb2232b3f1"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/94c756be8d98d750029275396c7c51e098d75b4189dd5566a8ab51bcf7d72989.md",
+      "sha256": "94c756be8d98d750029275396c7c51e098d75b4189dd5566a8ab51bcf7d72989"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/958b900d34b18e12d8a8e7bf9d5721b54d23a28d71a727a2c7ad1f1e41adbae6.json",
+      "sha256": "958b900d34b18e12d8a8e7bf9d5721b54d23a28d71a727a2c7ad1f1e41adbae6"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/98730f4d069177b405770b65814b50d1b6dc3c9107298d9860f89ea55eae68a4.json",
+      "sha256": "98730f4d069177b405770b65814b50d1b6dc3c9107298d9860f89ea55eae68a4"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/99afbf1ff31c77f1c947335b0ce0f43294b1c3f116eb08a553784cf02c03d22b.mjs",
+      "sha256": "99afbf1ff31c77f1c947335b0ce0f43294b1c3f116eb08a553784cf02c03d22b"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/9acac91929afc0d0c8a2ea2a15765bb60e9b90241e9e3eaff75724ab22bd5384.json",
+      "sha256": "9acac91929afc0d0c8a2ea2a15765bb60e9b90241e9e3eaff75724ab22bd5384"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/9c652ccd6a09218a052af302fcc71560728ab3c6d27366b93e483c7cf5e44b4f.json",
+      "sha256": "9c652ccd6a09218a052af302fcc71560728ab3c6d27366b93e483c7cf5e44b4f"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/9d5ed20722b9f1fe904078a4c819c9014aae538ded918e1d1cafd2cb0ac5e794.json",
+      "sha256": "9d5ed20722b9f1fe904078a4c819c9014aae538ded918e1d1cafd2cb0ac5e794"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/9eca7fcf2ea30cbd043050d6646dccc35e32d0cb51206f32dc88badc9b9c17da.json",
+      "sha256": "9eca7fcf2ea30cbd043050d6646dccc35e32d0cb51206f32dc88badc9b9c17da"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/a56927b62612857409cfceff868fde20450143bfeb34723c5414dbe450fe2af1.json",
+      "sha256": "a56927b62612857409cfceff868fde20450143bfeb34723c5414dbe450fe2af1"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/a56ee8563e66c149cb6093a0f8f30baec3a8c1b0ef389694abb31e984f989884.log",
+      "sha256": "a56ee8563e66c149cb6093a0f8f30baec3a8c1b0ef389694abb31e984f989884"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/a6a5d969ee116e27270f55b2bf09a188dbc3e4293ad422de94e07939d9775342.json",
+      "sha256": "a6a5d969ee116e27270f55b2bf09a188dbc3e4293ad422de94e07939d9775342"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/aa41f6705cb5aa9e6941b4092e84062b9e0f5b350942fdda490240efe6cb44d4.png",
+      "sha256": "aa41f6705cb5aa9e6941b4092e84062b9e0f5b350942fdda490240efe6cb44d4"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/ad9153c55ef7da13391bfe8508d57e78a1ea097b75f0c19273582ea94c1f26a7.json",
+      "sha256": "ad9153c55ef7da13391bfe8508d57e78a1ea097b75f0c19273582ea94c1f26a7"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/b0bfa9f7abe413998ee0cd2bcc3fb914eb1991dd965c43185b89825825a2fb1f.json",
+      "sha256": "b0bfa9f7abe413998ee0cd2bcc3fb914eb1991dd965c43185b89825825a2fb1f"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/b1ece96baf4cbcc54c2f85d1c52485dc6add5ada53020fa1935f0ab3c3f414b7.png",
+      "sha256": "b1ece96baf4cbcc54c2f85d1c52485dc6add5ada53020fa1935f0ab3c3f414b7"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/b209aafeb5bf773ffc3384185a82cae4ddf7dc9cedde03bc2a3270badf405bae.json",
+      "sha256": "b209aafeb5bf773ffc3384185a82cae4ddf7dc9cedde03bc2a3270badf405bae"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/b227fdd29b7867e899d2917b1699910e90486022d04cc8cb6d985a2a39cebc01.json",
+      "sha256": "b227fdd29b7867e899d2917b1699910e90486022d04cc8cb6d985a2a39cebc01"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/b44d6c11e154bd8d931c51147906b6b5d39280f90f2d74a42ec942a361582204.json",
+      "sha256": "b44d6c11e154bd8d931c51147906b6b5d39280f90f2d74a42ec942a361582204"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/b464332ecb94f04e112cb79daf9cb2b936e4d8f58e01c58e4de2507524340296.json",
+      "sha256": "b464332ecb94f04e112cb79daf9cb2b936e4d8f58e01c58e4de2507524340296"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/b8383cff0f40d43e1bc9513681af617d1edaa32ade54d399572f29b345642a07.json",
+      "sha256": "b8383cff0f40d43e1bc9513681af617d1edaa32ade54d399572f29b345642a07"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/bdd1bebeaff93c24dcd15f7bb6173255b1fa3f30b65f33fbc3f1b847b1ba3f4d.json",
+      "sha256": "bdd1bebeaff93c24dcd15f7bb6173255b1fa3f30b65f33fbc3f1b847b1ba3f4d"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/c51df304985540488fc08e29c207c5644aad9d181a2f09820e4ddad48aa09aa1.json",
+      "sha256": "c51df304985540488fc08e29c207c5644aad9d181a2f09820e4ddad48aa09aa1"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/c6cf250ebedf465c91a1e6b4ee462a3708b4e58ca1c9bc0c9bf70a1418e8f429.json",
+      "sha256": "c6cf250ebedf465c91a1e6b4ee462a3708b4e58ca1c9bc0c9bf70a1418e8f429"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/ccb79aaa745fefbc56388de513f6909d8d3ef0e7d6b5d7de2938e8826439b6b2.json",
+      "sha256": "ccb79aaa745fefbc56388de513f6909d8d3ef0e7d6b5d7de2938e8826439b6b2"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/d118ba01ac843a7621ecbef5021148afb7406d4cc23439bbcc7775055ab1237f.json",
+      "sha256": "d118ba01ac843a7621ecbef5021148afb7406d4cc23439bbcc7775055ab1237f"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/d4b6763e456e83ec946b9fef64892965e0db9a1ad6eea6e7c297fe410b8df7f6.log",
+      "sha256": "d4b6763e456e83ec946b9fef64892965e0db9a1ad6eea6e7c297fe410b8df7f6"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/d77343cd8430d7f5f902cde3a2b63bf79c59e6363457f4d74bc0a66022923d74.json",
+      "sha256": "d77343cd8430d7f5f902cde3a2b63bf79c59e6363457f4d74bc0a66022923d74"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/d7c9f48db40a7771f5cd84074f89e613b8762cf51d6d28e7eb3258edaefff0d3.mjs",
+      "sha256": "d7c9f48db40a7771f5cd84074f89e613b8762cf51d6d28e7eb3258edaefff0d3"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/d9e2b2c47b8cf7f5979afe7c521734d53cc3ed1a73d449f808286cd3c5c7dc68.log",
+      "sha256": "d9e2b2c47b8cf7f5979afe7c521734d53cc3ed1a73d449f808286cd3c5c7dc68"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/dae24660b4f3ac61beaa1f4d04917edc2863dedbe9de02f771144e8caffd2092.json",
+      "sha256": "dae24660b4f3ac61beaa1f4d04917edc2863dedbe9de02f771144e8caffd2092"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/dbf0358c35261df54477b2324a2b734bd2358868494fa4faa1c6831af39c1721.png",
+      "sha256": "dbf0358c35261df54477b2324a2b734bd2358868494fa4faa1c6831af39c1721"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/dccb837bbfb4bc123be3a2ffeaceedf80abb556977feff71b34de103ed498c4c.sha256",
+      "sha256": "dccb837bbfb4bc123be3a2ffeaceedf80abb556977feff71b34de103ed498c4c"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/e542696f99202007406d47fd4f2c290d9a45a5a173630cd7cd8774bb1e14c06a.json",
+      "sha256": "e542696f99202007406d47fd4f2c290d9a45a5a173630cd7cd8774bb1e14c06a"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/e95a628fc3428db35eeeb9642f7fa8dbb55ff5630363dafb44e317615a06a228.json",
+      "sha256": "e95a628fc3428db35eeeb9642f7fa8dbb55ff5630363dafb44e317615a06a228"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/ecc10ac8b98f4d754637faf183a2eec59d01e2e27f2efefc57017e7452d9faac.png",
+      "sha256": "ecc10ac8b98f4d754637faf183a2eec59d01e2e27f2efefc57017e7452d9faac"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/ef3d955801b87419a6cac83d7f00432cff9ebb09d85aabd9e1bd1347872a4cbc.json",
+      "sha256": "ef3d955801b87419a6cac83d7f00432cff9ebb09d85aabd9e1bd1347872a4cbc"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/f423b15288c55dba78ac30c9fc5a317e434b613339775bb172ac361db9271e68.json",
+      "sha256": "f423b15288c55dba78ac30c9fc5a317e434b613339775bb172ac361db9271e68"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/f42576ad14ec920c675f57c56d245aa87597ea4fab62cf53713798289233a6bb.json",
+      "sha256": "f42576ad14ec920c675f57c56d245aa87597ea4fab62cf53713798289233a6bb"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/f4809d7a5ffd4d55da23c4de1a61922ea98a44214df6cb68b45b3bbd2e98a28e.json",
+      "sha256": "f4809d7a5ffd4d55da23c4de1a61922ea98a44214df6cb68b45b3bbd2e98a28e"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/reports/attack-browser-execution.public-companion.json",
+      "sha256": "7e274081bb21933a9f707fcc731e3563bebaea4ba1d19fff79067080ce939a66"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/reports/attack-browser-input-execution.public-companion.json",
+      "sha256": "234e27596048ec411eb571ddeef40ec5498c69dd43bd80db65587713d0a46eb3"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/reports/attack-current-launch.public-companion.json",
+      "sha256": "137a3bafc4f171da2c4039eef81aaa54e8e957f03d9aad37c2c366d9b450d4b7"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/reports/command-id-reservation.public-companion.json",
+      "sha256": "8eb62c72fe7ed9de567a79697f8f6574b7c9e87f8abb78fc3afdb7bc63612663"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/reports/current-source-closure.public-companion.json",
+      "sha256": "b068b9d493e0b64dfcd39a9d491b0a7e6f1d7f7d477fc0697da2457b8149d887"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/reports/original-method01-launch.public-companion.json",
+      "sha256": "37d37f4b536062821a3fa13c1a6729623f823ef500bc79ccb6415d6a654310a3"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/reports/original-method01-stderr.public-companion.json",
+      "sha256": "2b4813237f909c0b782c0bcd428c7e0dbacd498eab330ec0bfedd59ef4ce86ca"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/reports/quarter-rate-method.public-companion.json",
+      "sha256": "65bff705e882f29067a6c63d06f5b8f14309962e810fd612876b9aa97301ab3f"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/reports/relay-runtime.public-companion.json",
+      "sha256": "6399d753986ab33fe08c9624f815b1f39110a786f3a4f2be5b6fc39cf06fd843"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/reports/source-check-night-guard-terminal.public-companion.json",
+      "sha256": "6f950bcf14ae2fb6c5611b19cb7df227f6654f009fb5aaeefdf5d1e711e33b8d"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/reports/source-command-id-reservation-terminal.public-companion.json",
+      "sha256": "4060f6d78910a3b44991bf5a12054b8056b329723ac944780aaf5760e4f835cc"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/reports/source-content-chain-terminal.public-companion.json",
+      "sha256": "6509ba6118cf6df690e6426bebe80ecec0bc75083e7b4313a7246c60632ecdf2"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/reports/source-content-episode-terminal.public-companion.json",
+      "sha256": "dd46ef80834af8a9e6eff65c0a69aef587476eb050cb6f709899ca5dcd164f51"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/reports/source-daytime-combat-terminal.public-companion.json",
+      "sha256": "810edbfde49c742d9cd4bea6417a5a72a3c9baa06dc3976382c55ccc94bba473"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/reports/source-event-gate-parity-terminal.public-companion.json",
+      "sha256": "852e74a7dc5268bd2774a901dd04a6ec694176e3c92cc6d149fb9de2771bcdd8"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/reports/source-gameplay-vertical-slice-terminal.public-companion.json",
+      "sha256": "89a82ce9d341448f44f1ca1061e15b6c34209a1d33359c0f3ac10fd4c0030cd5"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/reports/source-inline-syntax-terminal.public-companion.json",
+      "sha256": "2297ef7f7a38a7a1411de6a33388178457c6fbd9d3345925d135f268cb84f399"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/reports/source-npc-rest-work-v1-terminal.public-companion.json",
+      "sha256": "4d4fb1b03df8623ff22ada8bfd737b8637d10591c9a8c2001038ab001e6445ac"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/reports/source-observer-expression-terminal.public-companion.json",
+      "sha256": "7ca97d766492bfa1e513d447aa6c5f2a57efb695a07f41391636a639137134d6"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/reports/source-relay-handoff-memory-v1-terminal.public-companion.json",
+      "sha256": "75fb26b4f75f7d92dfc60ac75119c506d3ce33a09f63697df9f10938481bbff6"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/reports/source-relay-runtime-terminal.public-companion.json",
+      "sha256": "9f4b3cc724c68f14e2fef29cb9c423e1c5edda16ffd59e0e77371da77fc80437"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/reports/source-replay-self-test-terminal.public-companion.json",
+      "sha256": "3830f6df1cfff6577ec5b0cfe309ab3ee8b5761802e3f88cde8ff46d3c0c476d"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/reports/source-save-recovery-terminal.public-companion.json",
+      "sha256": "066f240e2dcf5d7c85b6fecd6d6c07b2f8acb736039942dceb44e15e866946d7"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/reports/source-static-three-day-smoke-terminal.public-companion.json",
+      "sha256": "f0ea89dca525e280564ebea258e8a1c8dc1c18b1a7e37c5903b317193d6750a2"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/reports/source-validate-content-terminal.public-companion.json",
+      "sha256": "e218814f8752a0640c11f470be7ea96ac35b932f71267057db14407beaca9014"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/source-artifact-proof.json",
+      "sha256": "66ba8ee64acd87ca2de81cdc1ed22bc9f16c6e6d4cfd772e61970b684c68848e"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/source-selected-coverage.json",
+      "sha256": "bbe0a2970d3ac9f521f7688f3952b3bf8f2bc8ab811f1327fd55b64bce2031c4"
+    },
+    {
+      "path": "docs/qa/runs/player-day-attack-v1-20261018/selected/transport-map.json",
+      "sha256": "adaa28d93fa75c0453dbbdd25423f29c65905958e892166b1811232808629ec5"
     },
     {
       "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/0701ba4b2673b7136923a04a1deb01f11d34e118d6b13c042905fe9422d8d85a.json",
       "sha256": "0701ba4b2673b7136923a04a1deb01f11d34e118d6b13c042905fe9422d8d85a"
     },
     {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/09bb3f167b5d3aff4a62119f5fa7b20294e0ee7d0bb63cfb63d88504d79d76c8.log",
-      "sha256": "09bb3f167b5d3aff4a62119f5fa7b20294e0ee7d0bb63cfb63d88504d79d76c8"
-    },
-    {
       "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/0c305702f7f72a59de26ca3071c019814e6778ddd862a666225a2213d9202e7c.json",
       "sha256": "0c305702f7f72a59de26ca3071c019814e6778ddd862a666225a2213d9202e7c"
     },
     {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/1440bc84a140e6b4cb0beb325a0c4196f1f68c97540e4db858bf8c18af03fc35.png",
-      "sha256": "1440bc84a140e6b4cb0beb325a0c4196f1f68c97540e4db858bf8c18af03fc35"
-    },
-    {
       "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/1b4874fd015fedc3ed914ad3050ed919de7bfa9281fb07bcc1fc800a6d04a304.json",
       "sha256": "1b4874fd015fedc3ed914ad3050ed919de7bfa9281fb07bcc1fc800a6d04a304"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/1c6cd2aa5a48666b55665174fe56ec4789cbea96adb4299982bc2cacb04b1fa9.log",
-      "sha256": "1c6cd2aa5a48666b55665174fe56ec4789cbea96adb4299982bc2cacb04b1fa9"
     },
     {
       "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/1cd09599e01236be5e691e079e127f8dac8e78259f14f71f4a9bf5a08a2efa5e.json",
@@ -293,10 +718,6 @@
       "sha256": "437a3fe9548b2dcab95c1fdd857fc9e2f9c4ef1f0f559e96d7f263d39ef26424"
     },
     {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/563d6dad20579a3d534df7047f227ac078eb50d798d7138f4cc5923f6a859446.json",
-      "sha256": "563d6dad20579a3d534df7047f227ac078eb50d798d7138f4cc5923f6a859446"
-    },
-    {
       "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/61da86f5b289b2cdea546624f0d4209dd50c5130c26d38dc9ff99d6e7193dcb1.json",
       "sha256": "61da86f5b289b2cdea546624f0d4209dd50c5130c26d38dc9ff99d6e7193dcb1"
     },
@@ -309,20 +730,12 @@
       "sha256": "7284b642e45c87e2ce5c53237ca8de1f5521e84b841ba345613f3fe8bef1f7a8"
     },
     {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/744d28fe2a780f846768fe7cefaf07c37dab0f24195b710267a7ff0787cdbc43.json",
-      "sha256": "744d28fe2a780f846768fe7cefaf07c37dab0f24195b710267a7ff0787cdbc43"
-    },
-    {
       "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/772182deac9c6e9032ca31257ae7d28a4aa97082b13d4c510dea81e9993194f1.json",
       "sha256": "772182deac9c6e9032ca31257ae7d28a4aa97082b13d4c510dea81e9993194f1"
     },
     {
       "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/78444a00126a2028622c03a46f877ed5da4017509026275f740672877cad8776.json",
       "sha256": "78444a00126a2028622c03a46f877ed5da4017509026275f740672877cad8776"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/7a66c3ee29af484dbd575593acc41829b152d500f4a3eca427b9faa3fcfc3202.md",
-      "sha256": "7a66c3ee29af484dbd575593acc41829b152d500f4a3eca427b9faa3fcfc3202"
     },
     {
       "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/80a533c99551569c779e83a275ae96a9a570b49b6a0ec1be7d09cf53482194c7.json",
@@ -333,16 +746,8 @@
       "sha256": "80fe8227fe45a69ea1d032ca070ebc3585dd8f3db477839775613e5c82f3a7d9"
     },
     {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/84b7b1856a4cc03558c22442b484d8e1030607d9d7f728605983c41f5d8e254d.json",
-      "sha256": "84b7b1856a4cc03558c22442b484d8e1030607d9d7f728605983c41f5d8e254d"
-    },
-    {
       "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/8d6e122f7515cde879cdcdb69267cf8ceb9d1ca6e03c0067b403ca181492789f.json",
       "sha256": "8d6e122f7515cde879cdcdb69267cf8ceb9d1ca6e03c0067b403ca181492789f"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/8f81f0fb828cce94097fb98a9c3bbbcc2928d1071d7a2b8f08b483ed77b58ac2.json",
-      "sha256": "8f81f0fb828cce94097fb98a9c3bbbcc2928d1071d7a2b8f08b483ed77b58ac2"
     },
     {
       "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/90a2a73e598e852f840523ba70affe90b5415126236ec0d5e0beae859a8ee7df.json",
@@ -351,18 +756,6 @@
     {
       "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/910a07814bc78678fd7dacefca65d1b012eb126ca7944da54f42e71b6d36c275.json",
       "sha256": "910a07814bc78678fd7dacefca65d1b012eb126ca7944da54f42e71b6d36c275"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/94f136e891475436f241f4224e147664f11392623a320b1714b8522a3d282aa4.sha256",
-      "sha256": "94f136e891475436f241f4224e147664f11392623a320b1714b8522a3d282aa4"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/a2d0db26e08b0c3e73e7556e366b4dbdce4727f86b52599ee72bfc62b927c881.json",
-      "sha256": "a2d0db26e08b0c3e73e7556e366b4dbdce4727f86b52599ee72bfc62b927c881"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/a378bbe46afea95e91943ca6d042ba1b9c411b32257d056fc9cab28b10a1139e.log",
-      "sha256": "a378bbe46afea95e91943ca6d042ba1b9c411b32257d056fc9cab28b10a1139e"
     },
     {
       "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/a3ec48560ec190928073c3c9183aced3341b0ead8b6f18f0e356e660aa7fdd63.json",
@@ -385,14 +778,6 @@
       "sha256": "c37ceaa878ddaaa59f8c2256f1efe270bd399bb0df0c081b72c7b6113470d2fb"
     },
     {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/c4f42766fa69b5f93479dbb8326f77c30be5a6b451eee32f1f65e3d376889375.log",
-      "sha256": "c4f42766fa69b5f93479dbb8326f77c30be5a6b451eee32f1f65e3d376889375"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/cb1100f32759ed674eedc83cb8c9bfe32e14387ced65b49c26e443f1cab21271.log",
-      "sha256": "cb1100f32759ed674eedc83cb8c9bfe32e14387ced65b49c26e443f1cab21271"
-    },
-    {
       "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/d1dc3ecbdcfa5cdb8bb1f0467632d7ed8cc27e06002e8dd3f627b42d0f05531b.json",
       "sha256": "d1dc3ecbdcfa5cdb8bb1f0467632d7ed8cc27e06002e8dd3f627b42d0f05531b"
     },
@@ -401,124 +786,16 @@
       "sha256": "d4aaa8142e61d680d9d83b18a9ed959f52e422b9210461709ab7c666a8f2538e"
     },
     {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/e06c2796e492c19315128a936403e19488cf0df9ff28448136b8a8f559bcb58a.log",
-      "sha256": "e06c2796e492c19315128a936403e19488cf0df9ff28448136b8a8f559bcb58a"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/ebb45f6e9756947c068c7c33c422cbb7fc33116130dc1875046a63f8f13a2d2a.png",
-      "sha256": "ebb45f6e9756947c068c7c33c422cbb7fc33116130dc1875046a63f8f13a2d2a"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/objects/ffb891bafa532e57fb8140a1f1d47ca38fbdcc35a01d8548b7fb87d5d3ebd393.log",
-      "sha256": "ffb891bafa532e57fb8140a1f1d47ca38fbdcc35a01d8548b7fb87d5d3ebd393"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/check-night-guard.log",
-      "sha256": "531da710f88c511c95622c2e162f46d665aa5b5a56f033b718a21f39fec65732"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/content-chain.log",
-      "sha256": "c4f42766fa69b5f93479dbb8326f77c30be5a6b451eee32f1f65e3d376889375"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/content-episode.log",
-      "sha256": "ffb891bafa532e57fb8140a1f1d47ca38fbdcc35a01d8548b7fb87d5d3ebd393"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/current-source-closure.public-companion.json",
-      "sha256": "f049132065c61c62c9dd0cc60c41e2b439a33ae7ecbbb315f35f4c290467413b"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/daytime-combat.log",
-      "sha256": "a378bbe46afea95e91943ca6d042ba1b9c411b32257d056fc9cab28b10a1139e"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/episode-browser.json",
-      "sha256": "07fcb4921bf9b3b79bc30f9d5053e2b8f3bd1e579f55a6740c21e0c9cdf5bbcd"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/episode-execution.json",
-      "sha256": "435ca7099781c174e862ae98aaf3bb81e7ac6f29600521f5eafce44e51d332f9"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/event-gate-parity.log",
-      "sha256": "cb1100f32759ed674eedc83cb8c9bfe32e14387ced65b49c26e443f1cab21271"
-    },
-    {
       "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/gameplay-vertical-slice.log",
       "sha256": "dc2cf63f0af7a31b6f6ffc2e1350c64bdb21e4b107e13a5a9c02d5e3a2e0e862"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/historical-04a-memory-terminal.json",
-      "sha256": "c75d70470a502da23e54d48ca1e2934f13e5e801d885753ef57bdd8dcb73de7b"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/historical-04a-memory25.json",
-      "sha256": "02fe5ea7ee3bba4ba1fbe405c48082785ce2f4080e7113e40360611a43520de9"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/historical-04a-source-closure.public-companion.json",
-      "sha256": "355ba97f1822b197f4973493f570608ad951579548b151105b564e95fed41e6c"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/inline-syntax.log",
-      "sha256": "98b4e89ae2aa70077a55f74b974ff4e53b400577ad028a90b1d1d1f28f456315"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/npc-rest-work-v1.json",
-      "sha256": "05d8b88b3555d85e89d89dcf896d4759e3f95ac6c272ced81690cda0ce43ce90"
     },
     {
       "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/observer-expression.log",
       "sha256": "975dd345dcca51b71dd8acf37eaa4222038525acd3c1e2e959ad6010d3a5eabf"
     },
     {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/relay-handoff-memory-v1.json",
-      "sha256": "8f81f0fb828cce94097fb98a9c3bbbcc2928d1071d7a2b8f08b483ed77b58ac2"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/relay-runtime.public-companion.json",
-      "sha256": "ed3c2c513d0f00758a0ca330dfaa98f618ef8cbee8cd51abd927f78e06e7b08a"
-    },
-    {
       "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/replay-self-test.log",
       "sha256": "0813da21b6068f27a332a072cc73180b1362f2dffb7ed3b99e31a2a8392a8538"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/save-recovery.log",
-      "sha256": "1c6cd2aa5a48666b55665174fe56ec4789cbea96adb4299982bc2cacb04b1fa9"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/selected-memory-execution.public-companion.json",
-      "sha256": "9c86208f88253b89aa55659133f0cbabae4aa737c018f8f9ff6a0aff1052d096"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/source-git-api-proof.json",
-      "sha256": "2abdf894c593928e0cc6736805709b300a3773eefb3ee927c038b631e065d17b"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/static-three-day-smoke.json",
-      "sha256": "563d6dad20579a3d534df7047f227ac078eb50d798d7138f4cc5923f6a859446"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/validate-content.log",
-      "sha256": "fdae2874e53f6d308e58cbec46fd5e2be5c0870e867a4cff494f9abf1d080e93"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/source-artifact-proof.json",
-      "sha256": "0acba843f29d1ab9e02d8955e5e4ac0a360c582f54f298a2277fa99d2acafaa0"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/source-selected-coverage.json",
-      "sha256": "536aeb283128a1019ee87e864973b768324704a07451f04dd416cc35386d7294"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/station-damage-diagnostic-selection.json",
-      "sha256": "43fca1a416296ea897117e619bec6ffd6fd7b2fc1ea6b4480a48d170adc6b8b2"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/transport-map.json",
-      "sha256": "0bd72fbd33e466c1f0dd9804b17ca885c7d48657a93c3aedb8322c2353a125f8"
     },
     {
       "path": "docs/qa/runs/relay-effective-role-v1-20261018/selected/objects/6bcd2714c3eda3b0c614cfca20bf4b653ca2694babce38fc6279b7261c464d19.json",
@@ -781,18 +1058,6 @@
       "sha256": "fd564792aba7d3787bb2124e63dceed0b9ddca6dbcd7415ef975cad9cd7e6367"
     },
     {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/gameplay-vertical-slice.json",
-      "sha256": "dc2cf63f0af7a31b6f6ffc2e1350c64bdb21e4b107e13a5a9c02d5e3a2e0e862"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/observer-expression.json",
-      "sha256": "975dd345dcca51b71dd8acf37eaa4222038525acd3c1e2e959ad6010d3a5eabf"
-    },
-    {
-      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/replay-self-test.json",
-      "sha256": "0813da21b6068f27a332a072cc73180b1362f2dffb7ed3b99e31a2a8392a8538"
-    },
-    {
       "path": "scripts/browser-camp-rest-feedback-v1.mjs",
       "sha256": "98dfd95a54275eb1dab5ce7aca35b85059e3d39b4d0e185fc209b193618f98e8"
     },
@@ -983,6 +1248,10 @@
     {
       "path": "scripts/check-plan-integrity.mjs",
       "sha256": "f689d5f350eb87285e175f933b751b8dbe75db3adb1d356fc978aeb5762f7777"
+    },
+    {
+      "path": "scripts/check-player-day-attack-v1.mjs",
+      "sha256": "915ece88325f982a11297d4251afe3499b938661fa9c6d93bf8b63da5819ca0a"
     },
     {
       "path": "scripts/check-relay-construction-producer.mjs",
@@ -1467,91 +1736,6 @@
     {
       "path": "scripts/verify-three-days-artifacts.mjs",
       "sha256": "4cca9356ceba55e47d9ac6c4ec0d08b62e926d2f7df2d29930f5af62f80b7434"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/actual-online-panel-390-public.json",
-      "bytes": 5631,
-      "sha256": "437ad8f8a259d46619313d3d4f1c05c8cbb7c0b969f35511bc8500add6fe2f3e"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/actual-online-panel-390.png",
-      "bytes": 157421,
-      "sha256": "54a409874ef8be0a2789560c5d0d061192a9198a82bf3744dd4550b356ee3de8"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/actual-online-panel-desktop-public.json",
-      "bytes": 5519,
-      "sha256": "dc140450505a6a476dd4199fc4b717db94ea8b1a729a39440c4b61188a2f2412"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/actual-online-panel-desktop.png",
-      "bytes": 317832,
-      "sha256": "bf026e4a32625ab652deed49f413f74725791dcd7f3d3f5a5a3574bcac398c4e"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/actual-public-battle-desktop.png",
-      "bytes": 697410,
-      "sha256": "7a50ca6883dfa4393538571c8c8ad42ffca119229cc710b91e1bb5efe9f97aef"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/actual-public-battle-public.json",
-      "bytes": 5464,
-      "sha256": "c38814911454bf5b570b696b21ce7b85e8a433dd1f9a81cc052e838bc9bef74d"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/actual-visible-day-hud-public.json",
-      "bytes": 5103,
-      "sha256": "21a796a0aca72da071e3fe62b7defe67245c125a74eb03a10ed46ace2fdcd641"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/before-public-n-public.json",
-      "bytes": 4939,
-      "sha256": "051829c803c1dff51d85a63d0392e19f1038c68c96b8884fd7fb7ed697475a4b"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/execution-terminal.path-companion.json",
-      "bytes": 4574,
-      "sha256": "b36fb6a612c888982f0a2563b2cec97664c3733c4fbb46a6c4c720d4599a36c5"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/inputs/input-manifest.json",
-      "bytes": 8955,
-      "sha256": "d8d7d9d6aa73681e9d8cbab697288f5901728c21494add5427042512f6c1f48a"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/inputs/presentation/old-online-native.json",
-      "bytes": 101558,
-      "sha256": "3e73c7733ea8840ee3338744428d1c2559a66bff3bd8bd5c156a457ddea7149f"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/producer-source-report.path-companion.json",
-      "bytes": 14117,
-      "sha256": "e60b876a67cea4cf60765c2a5732e08dc3e2c2193c49cc22830b4ee8f2e675fa"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/README.md",
-      "bytes": 2053,
-      "sha256": "b5ad3f544b0f710cbd2863e9313da2d7f72b7ae40e1da350591293806b80db29"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/report.json",
-      "bytes": 33946,
-      "sha256": "7cce642c6a47a0afb26bd2441216c76038d368fc7230053053ec627ef63f93a5"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/runner-executed.mjs",
-      "bytes": 11321,
-      "sha256": "ded07c142031103084e1c68c87d9d903a87425904769a8866b9d2498da60a177"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/transport-map.json",
-      "bytes": 19824,
-      "sha256": "cdcbd4b0674c05778e7ff9a9880f23522071b7f0ea5bf51b6d539f41d3c0330c"
-    },
-    {
-      "path": "docs/qa/runs/relay-consequences-v1-20261018/supplemental/short-encounter/index.json",
-      "bytes": 5431,
-      "sha256": "502d33c360b1746e268a92b4320601b199836a2c34e0f2b2a4a4efeaf71c74c7"
     }
   ]
 }

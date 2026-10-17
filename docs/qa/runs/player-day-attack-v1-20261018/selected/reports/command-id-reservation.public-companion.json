@@ -1,0 +1,156 @@
+{
+  "schema": "ExplicitPathOnlyPublicCompanionV1",
+  "isOriginalNativeReport": false,
+  "original": {
+    "portableName": "native-report.json",
+    "sha256": "30b7ee17be33a215041f84f93c08640f8a96aab3ad748697a4df153d1437ee82",
+    "bytes": 4029
+  },
+  "originalExternalRetained": true,
+  "replacedMetadataFields": [
+    {
+      "field": "$.artifacts[0].path",
+      "originalValueSha256": "81ad1bf0a120f85ac42a3496f3e84bd105c1123af4a31957c27768f6ae5f2440",
+      "originalValueBytes": 187,
+      "replacement": "external-path-sha256:81ad1bf0a120f85ac42a3496f3e84bd105c1123af4a31957c27768f6ae5f2440"
+    }
+  ],
+  "resultFactsUnchanged": true,
+  "report": {
+    "runner": "source-command-id-reservation",
+    "mode": "candidate",
+    "sourceHash": "3545adb19fc8e75256013a50ce9885e051aa4170757a0c33095cc682cfcb7aa1",
+    "ioAdapterSha256": "6e0da555742e930b8bf926eeec0db0ee22f17240a4fa305978841f8ba862c0a3",
+    "checkerSha256": "b517fc569ea213029c876422d747c1923cb059a024fc54c3c9c86b1acb34c5c5",
+    "ok": true,
+    "count": 28,
+    "checks": [
+      {
+        "name": "canonical parent invokes actual nested advance with unique receipt/cause",
+        "ok": true
+      },
+      {
+        "name": "actual repair canonical parent keeps real nested advance cost and standing",
+        "ok": true
+      },
+      {
+        "name": "ordinary automatic IDs retain original numbering",
+        "ok": true
+      },
+      {
+        "name": "higher canonical ID reserves water before reducer",
+        "ok": true
+      },
+      {
+        "name": "lower canonical ID never decreases water",
+        "ok": true
+      },
+      {
+        "name": "explicit duplicate is unchanged with no new water/callback/receipt",
+        "ok": true
+      },
+      {
+        "name": "replay-only explicit history is duplicate without reentry or new water",
+        "ok": true
+      },
+      {
+        "name": "automatic skips seen and replay-only occupied IDs",
+        "ok": true
+      },
+      {
+        "name": "automatic excludes active parent even without seen/replay",
+        "ok": true
+      },
+      {
+        "name": "legacy external ID remains compatible qa-external-stable",
+        "ok": true
+      },
+      {
+        "name": "legacy external ID remains compatible cmd-1",
+        "ok": true
+      },
+      {
+        "name": "legacy external ID remains compatible cmd-000000",
+        "ok": true
+      },
+      {
+        "name": "legacy external ID remains compatible cmd-0000000001",
+        "ok": true
+      },
+      {
+        "name": "legacy external ID remains compatible cmd--1",
+        "ok": true
+      },
+      {
+        "name": "legacy external ID remains compatible cmd-1e6",
+        "ok": true
+      },
+      {
+        "name": "unsafe regular decimal ID refuses cmd-9007199254740992",
+        "ok": true
+      },
+      {
+        "name": "unsafe regular decimal ID refuses cmd-999999999999999999999999999999999999999",
+        "ok": true
+      },
+      {
+        "name": "existing unsafe legacy duplicate remains unchanged without reinterpretation",
+        "ok": true
+      },
+      {
+        "name": "MAX-safe automatic succeeds once then exhausts without unsafe increment",
+        "ok": true
+      },
+      {
+        "name": "occupied final safe ID exhausts without changing water",
+        "ok": true
+      },
+      {
+        "name": "bad automatic sequence Gate -1",
+        "ok": true
+      },
+      {
+        "name": "bad automatic sequence Gate 1.5",
+        "ok": true
+      },
+      {
+        "name": "bad automatic sequence Gate 9007199254740992",
+        "ok": true
+      },
+      {
+        "name": "explicit MAX-safe reserves exactly and subsequent automatic Gate is visible",
+        "ok": true
+      },
+      {
+        "name": "precondition rejection reserves canonical water but has no reducer",
+        "ok": true
+      },
+      {
+        "name": "reducer rejection reserves once and duplicate has no second effects",
+        "ok": true
+      },
+      {
+        "name": "ephemeral canonical reserves water without persistent ledger",
+        "ok": true
+      },
+      {
+        "name": "actual writer/loader preserves water/receipt/cause and repeated parent is inert",
+        "ok": true
+      }
+    ],
+    "failures": [],
+    "artifacts": [
+      {
+        "name": "CURRENT21-canonical-parent",
+        "path": "external-path-sha256:81ad1bf0a120f85ac42a3496f3e84bd105c1123af4a31957c27768f6ae5f2440",
+        "sha256": "a56927b62612857409cfceff868fde20450143bfeb34723c5414dbe450fe2af1",
+        "testOnly": true,
+        "naturalGameplay": false,
+        "receiptFabricated": false
+      }
+    ],
+    "scope": "actual complete inline VM / source CommandBus-advance-repair-writer-loader / TEST-ONLY scenes and generic diagnostic reducer / controlled DOM-storage-timers",
+    "browserStarted": false,
+    "naturalGameplay": false
+  }
+}

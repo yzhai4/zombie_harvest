@@ -1,11 +1,13 @@
 # 当前状态
-## 当前检查点：中继公开后果与本场通道（2026-10-18）
+## 当前检查点：白天攻击资格与可恢复结算（2026-10-18）
 
-源码8feac8b4／HTML54ef55a7、919193B，SAVE21／CONTENT3；171 scripts／dist＋1 workflow已与Git源树匹配。现有面板解释有限筹料／工时，移除未接实际调度／几何的提前180分钟与西侧承诺，公开BATTLE HUD只读本场锁定route，历史报告不补写当前功劳。规则、材料、敌人和保存不改。见[QA](../qa/relay-public-feedback-v1-20261018.md)。
+源码对象bbba03a6／HTML3545adb1、926318B，SAVE21／CONTENT3；173项scripts／dist／workflow依赖已逐Git blob匹配。DAY共享真实1.15范围与live身份Gate，按钮绑定敌ID且提交重核，失败typed拒绝；F保原锁定／首项，成功记录gross5、立即命中与实际推进副作用。不可保存的小数分钟在支付前拒绝，合法倍率与原paused0分钟保留；night独立规则不改。见[合同](../decisions/ADR-20261018-player-day-attack-v1.md)与[QA](../qa/player-day-attack-v1-20261018.md)。
 
-最终source-02真实15／15、episode Chrome12／12、唯一当前短N场exit0／errors0／清理完成。04a角色197内部pass但额外方法错误整体exit1、旧source14／15及补充25均保原来源，不迁绿。root目视当前390在线面板与桌面本场HUD；不是自然全链／真人。开发ref／精确CI由最终收据和PR核，生产未部署。
+当前既有16条闭包与新攻击1个合同的5组均实际exit0；不是完整44矩阵重跑。真实Chrome攻击26／26（三受控scene、四main）与episode12／12分别通过，均绑定3545；root目视390外侧禁用原因及desktop实际F后画面。原54ef负控真实复现1.19按钮可用及空成功；b548倍率诊断证实付费后日历保存不合法。两次方法失败、旧构建通过与反例保持原来源。开发精确CI由PR #4最新Checks核，生产未部署。
 
-公开A续段与看图短路线仍未online；v5在公开attack距离约1.19时被真实1.15安全邻接核验挡住，未按F。下一优先[攻击入口一致](../problems/PROB-20261018-player-attack-context-range.md)，再处理[中继受损能力](../problems/PROB-20261018-relay-station-operational-state.md)并继续主线。完整Actor／Planning／Memory／Social、Studio、大世界／多副本、UI素材与GameCore／引擎不缩减。
+这次受控F的gross73→68、立即100→50，推进NPC另伤38→12；玩家86→72包括子推进敌伤6与原反咬8。正常writer先于reload，再核真实新tick不重打；不是自然完整主线或安全保证。旧公开中继仍只到实际交付和2木／2零件筹料，尚未online／完工后reload。
+
+下一先修[中继损毁的当前能力](../problems/PROB-20261018-relay-station-operational-state.md)与付费修复，再继续公开有限工程后果／既有真人pilot。完整Actor、规则Planning、Memory／Social、Studio、大世界／多副本、UI素材、GameCore／引擎及P0–P6不缩减；硬Gate／软policy与AI OFF持续保留。
 
 ## 历史检查点：本人核心交付记忆（2026-10-18，优先于下方历史）
 

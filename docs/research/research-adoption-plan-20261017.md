@@ -1,11 +1,11 @@
 # 深度调研落地计划
-## 当前下一轮（2026-10-18，公开后果说明后）
+## 当前下一轮（2026-10-18，攻击一致后）
 
-原报告仍为设计输入。本人交付记忆首片及本轮[中继说明](../qa/relay-public-feedback-v1-20261018.md)已有列明开发证据；完整公开工程尚未online／reload。看图路线实际暴露攻击context1.25／reducer1.15差异，下一先共享真实目标、提交资格与typed结果；另立中继受损的当前能力／修复合同，保已完成历史与一次收益，再继续主线和既有小真人pilot。
+原报告仍为设计输入。[本人交付记忆](../qa/relay-handoff-memory-v1-20261018.md)、中继真实说明和[DAY攻击一致](../qa/player-day-attack-v1-20261018.md)已有各自列明开发证据。最新3545以真实旧版空成功负控、同ID资格、gross支付／立即命中／真实推进、正常writer／Continue落地P0可靠事实链；没有新模型、完整规划或自然全链收益主张。
 
-源码54ef／source-02 15／15、当前episode12及短N真实呈现分列；旧04a197整体exit1、2dd损毁诊断exit1与原A/B失败不移绿。开发ref／精确CI与生产另核。P0–P6与所有长期目标保持，不把自动驾驶器观察或预算边界当作游戏不可达，也不以工程计数替代玩家理解。
+下一先分离已完成中继历史与受损站点当前能力，定义实际付费修复并接感知／预警／遭遇／writer，再继续公开工程和既有小真人pilot。P0–P6、完整Actor／Planning／Memory／Social、Studio、特殊角色连续性、大世界／多副本、UI素材与GameCore／引擎保持；知识／事实合同按实际consumer推进，不把全部观察topic设为无限前置。exact simulator与受约束意图／表达仍是主线，learned World Model须先证明收益与成本缺口。
 
-状态：active；日期：2026-10-17。这是当前优先级入口；逐轮构建证据仍以[当前状态](../memory/current-state.md)、[风险](../memory/open-risks.md)和[证据 manifest](../qa/iteration-manifest-v1.json)为准。
+新Skill／工作流教训只保本次推进可保存性与writer返回值的实际核对。测试和浏览器分构建分范围，原失败不移绿，工程计数不替代玩家理解；精确CI／部署另核。
 
 ## 历史下一轮（交付记忆刚接通）
 
