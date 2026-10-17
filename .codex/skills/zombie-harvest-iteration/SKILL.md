@@ -59,6 +59,14 @@ node scripts/replay-harness.mjs --self-test
 
 修改计划结算、每日指挥点、日历或附近区域交互时，执行 `scripts/check-plan-day.mjs` 和 `scripts/check-camp-area.mjs`。实际日历三日用 `scripts/server-three-days.py` 的公开行动路线：分别验日历跨日与遭遇次数、固定人口与营地生存、真实收获、每日配给/计划/指挥点及刷新。训练改变 SAN/士气，不能据此评价自然节奏或平衡；低信任零 CP 路线也不能证明非零已花 CP 的防回补。
 
+### 日历回归、行动安全与执行版本
+
+- 重复训练推进三日只称 `calendar regression`，不称 natural gameplay、自然通关或平衡验证；即使所有动作来自公开 UI、没有注入保存，也保留这个范围。
+- 每个会推进时间的公开动作前，用实际可见信息/只读保存检查敌人接近包络：当前距离、敌速、动作分钟、攻击范围和观察滞后余量。必要时以公开导航/攻击/进食先自卫，固定尝试、体力、食物与生命预算并核实际收据；预算不足则停下留证，不注入资源、删敌或放宽伤害规则。LOS、视锥、岗位、朝向和日程都可能阻止 NPC/塔救援，不能把自动保护当作路线前提。
+- 分开记录 playerHP、核心建筑真实耐久、campCollapse 和 NPC 数量/伤亡。不得把玩家 HP 字段命名为 campHP，也不得因玩家死亡推定全体 NPC 或营地核心已经死亡。
+- 启动时绑定并保留实际执行 runner 的原字节/SHA、HTML、输入和参数。运行中工作树可以变化，但旧进程仍归属于启动版本；归档用执行副本，不用当前同名文件替代，不把新 SHA 写成旧运行来源。
+- 确认进程 terminal/exit 状态后才 export 与独立 verify，核报告和工件原字节及执行版本；先有文件、心跳或最后一次通过不等于已终止或已通过。原失败继续保留。
+
 计划权限/同日实例/计划renderer变更还执行`node scripts/check-plan-integrity.mjs`及`check-plan-integrity-ui.mjs`显式输入命令。UI使用真实SessionController阶段Gate，不能仅靠night=false判断白天；旧低信任committed只保留历史承诺与已花CP，不追溯撤销或补奖励。完整旧writer夹具标明TEST-ONLY，与真实生产捕获分开；VM IO遮蔽的renderer与被测实际renderer分别列明，不把JSON事实相等称为对象引用不变。
 
 同分钟动作等具体新 command/event 收据和真实变化写入存档，刷新去重等新正常时钟收据后检查。长测试保存阶段 checkpoint、原失败报告和各构建 hash，约30秒轮询已确认的进程；观察超时不重开。终止后只从同 profile 的真实保存恢复，并用关联 commandId/threatId 防止重复动作；不注入 runner checkpoint。
@@ -92,7 +100,11 @@ AI 或实验变更还必须提供：baseline、变体、seed 集、失败重试�
 
 涉及竖切片或观察者时，先读 `docs/qa/deep-research-baseline-20261017.md` 与 `docs/qa/iteration-manifest-v1.json`。外部调研是设计输入，不是运行时证据。维护 scenarioVersion/seed/worldConfig/gameVersion/aiConfig/storylet fallback，运行 `check-scenario-package-v1` 与 `check-observer-expression-v1`；resolver 当前是 headless fixture，只有真实 boot loader 调用和旧档迁移证据齐全后才写 runtime loader。
 
-Observer 只能使用白名单只读投影，不能触碰可变 WorldFacts 或写 GameState；AI-OFF、超时、非法输出、越权和预算拒绝都记录 deterministic fallback。scenarioSnapshot 只保存版本化配置/开关。
+Scenario schema/版本化 snapshot 能保存，不等于 boot 已消费配置；须沿真实新开/继续入口验证实际世界效果和旧 writer 保留边界后，才称 loader 生效。
+
+Observer 只能使用白名单只读投影，不能触碰可变 WorldFacts 或写 GameState。当前可信调用者提供的 subject/context 与深冻结纯表达 API 不是角色知识授权；低信任只对已授权 knowledge 取披露交集，高信任不能发现隐藏事实。actor/perception Gate 未接线就保持 proposed/未完成，LLM 不得直接读取 GameState、宽快照或任意原始 subject。AI-OFF、超时、非法输出、越权和预算拒绝使用 deterministic fallback。
+
+原用户报告只作设计依据；proposed ADR/剧本卡与字段存在不能证明实现。状态以真实调用路径、writer/loader 和当前构建证据为准，不由报告描述或历史绿色提升。
 
 每轮更新 IterationEvidenceV1：source commit、HTML SHA-256、runner/input/artifact、CI run/job、测试计数、browser status、naturalGameplayClaim。exact 对账通过才标记 verified；source-VM、静态、真实 boot fixture、自然 browser 与 Sites 分层。源码变动后重验受影响合同；stale/pending/unavailable 不作通过，旧失败保留。按报告 P0→P6 推进，先验 exact simulator；其已满足目标时不为追热点增加 learned World Model。
 

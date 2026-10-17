@@ -4,15 +4,19 @@
 
 | 未关闭项 | 当前边界与下一闸门 |
 | --- | --- |
-| 证据维护 | 最终候选 episode30/observer21/Gate parity20/vertical5、30条本地 exit0 与 Chrome fixture12/12 已重跑；严格检查器76方法负控，commit/HTML/runner/原始报告绑定见 manifest。后续源码变更须重新生成证据，pending不能通过。 |
-| 自然多日与平衡 | 本轮未做自然三日 browser；旧 strict-fresh 失败保持失败。源码推进和 boot fixture 不替代自然路线、人口/粮食守恒和日历证据。 |
+| 白天警觉与玩家自保 | 新 HTML `51faa0c7` attention21/21，旧 `cc900da9` 同检查16/21失败；修复只改变可见目标优先级，不保证长动作时获救。[旧失败](../problems/PROB-20261017-daytime-attention-and-route-safety.md)为第1天13:01玩家 HP0，旧字段 campHp 误标，不能称营地建筑被毁。 |
+| 长回归仍未完成 | B（v1 `16cc2b78` / HTML `51faa0c7`）已exit1：900.578秒、543项已执行检查true，预算耗尽时settle报generic timeout，最后已验证第2天11:41/evt1280；95保存/13截图已导出，FAILED保留，不推定新存档根因。C为全新profile、v2 `bc16789f` / 同HTML，2400秒预算，当前第1天仍未完成。 |
+| runner方法与实际运行 | v2合并合格preflight保存避免双重等待，修正normal/runner/brute真实反击预算，unknown kind fail-closed；方法检查28/28替换原13项，但不代替C终态browser。新源码对象未更新分支/CI，不作已推或已验证结论。 |
+| 证据维护 | 新构建本地30条源码检查 exit0、静态55/55、Chrome episode夹具12/12；这些不关闭三日风险。最终原始报告须绑定各自 commit/HTML/runner，pending不作通过，旧95项/94通过的整轮FAILED保留。 |
+| 自然玩法与平衡 | 兵营训练公开行动路线改变SAN/士气，只能作日历回归。自然三日仍open；混合行动可靠性、人口/粮食守恒、短缺选择激励仍待实测，不能由strict-fresh、全true前缀或fixture推导自然平衡通过。 |
 | repeatable 身份与兼容 | 按[断粮合同](../scripts/zh-food-shortage-001.md)验证五元 token 不刷新、跨日 stale、完整旧 writer、fallback/自治回执、未知版本拒绝与事务回滚；仅 opt-in 增量 SAVE21，不是全局 EventInstance 迁移完毕。 |
 | 内容来源 | 有限藏粮 flag 必须跨日/刷新保留，整局最多 +2 食物；留守不伪造配给缓解、势力奖励、人口或敌人 spawn。 |
 | 选择激励 | 留守额外 +2 崩溃压力，但延后处理不产生该节点的额外结算；原有配给/需求/战斗后果照常。当前 UI 没有显性跳过，只有过期自动降级。需对照立即选择、保留待办、先补粮，不能把状态正确当成平衡完成。 |
-| Scenario 与 Observer | Scenario loader 仍 headless minimal；Observer 已有纯核心/深冻结白名单，但 actor 权限、感知来源投影、持久记忆与 LLM 未完成。 |
+| Scenario真实启动 | [ADR](../decisions/ADR-20261017-scenario-boot-contract.md)/[问题](../problems/PROB-20261017-scenario-stored-not-bound.md)为proposed/未接线；当前headless resolver、存储seed/config不等于真实生效，需原子boot、unsupported拒绝、完整旧writer不重算/reseed。 |
+| Actor知识授权 | [ADR](../decisions/ADR-20261017-actor-observation-v1.md)/[问题](../problems/PROB-20261017-observer-trusted-input-boundary.md)为proposed/未接线；深冻结白名单与NPC敌人优先不证明actor/perception来源权限、持久记忆或LLM已完成。 |
 | 生产发布 | Sites v81 未接入本轮；发布仍需最终构建证据、真实旧档与部署后 smoke，不能用开发 green 覆盖生产源线。 |
 
-以下风险表和主题记录保留原历史时点；其中旧版本、计数和“下一步”不覆盖本节。长期研究仍遵循[调研 P0–P6](../qa/deep-research-baseline-20261017.md)，不因表达 stub 提前进入 World Model 或引擎迁移。
+推进顺序：自然玩法可靠性 → Scenario真实boot → actor projection → 内容。以下风险表和主题记录保留原历史时点；旧版本、计数和“下一步”不覆盖本节。长期仍遵循[调研 P0–P6](../qa/deep-research-baseline-20261017.md)，不提前进入 World Model 或引擎迁移。
 
 ## 历史风险与验收记录
 

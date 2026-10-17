@@ -68,6 +68,14 @@
 
 长测试设置 15 秒进程心跳、约 30 秒父进程轮询和整体预算，保存阶段结果与 profile 对应的 runner checkpoint。观察超时只重新轮询同一 handle；确认进程终止后才使用原 profile 恢复。恢复只读取真实保存与具体 command/event 关联，不注入 checkpoint、不重复奖励。保留失败尝试，跨构建恢复分别记录源码 hash；非零 CP、人口降级、据点 upkeep 等夹具证据与公开低信任路线分开。
 
+### 日历回归与实际执行版本
+
+- 用重复训练推进三日只称 `calendar regression`。公开 UI、零保存注入和完整日历证据均不能把它升级为 natural gameplay、自然通关或平衡试玩；训练引起的 SAN/士气等效果照实保留。
+- 会推进时间的公开动作前，按当前可见信息/只读保存计算威胁接近包络，包含敌速、动作时长、攻击范围及观察滞后。先用公开导航、攻击或进食处置危险，记录有限尝试/体力/食物/生命预算与真实动作收据；无法安全继续就停下保存证据，不补资源、删敌或弱化规则。NPC/塔受 LOS、视距、朝向、岗位与日程限制，不保证救援。
+- playerHP、营地核心建筑耐久、campCollapse 与 NPC 人数/伤亡分别核验。玩家 HP 不能另标成 campHP，玩家死亡也不能单独证明营地核心或 NPC 已灭亡。
+- 启动前保留实际执行 runner 的字节/SHA，绑定 HTML、输入、参数与本次进程。运行中开发文件可改动；旧进程的执行来源仍是启动副本，不能按当前同名文件重算 SHA 后归给旧运行。归档包含对应执行版本，不替换或重写原报告。
+- 先确认 terminal/exit，再 export 和独立 verify 原始报告、完整工件及 runner 版本。运行中的报告文件、最后成功快照或心跳都不能代替终止与最终验收；导出成功不改变 FAILED。
+
 复核 Sites 公开权限用后台 access_mode 与真实浏览器入口共同确认；匿名 HTTP/抓取被拦截不能推导站点仍私人。服务器测试与 Sites 生产源线保持版本对账。
 
 对账还须从实际生产源码的writer读取SAVE版本、CONTENT版本及已保存字段。Sites托管版本号不等于规则/schema版本；本项目公开v81源实际为SAVE18、尚无contentState。旧档兼容必须使用该真实writer产生的完整保存，不能把开发SAVE21夹具删字段/改版本称为生产兼容。新增系统仅按明确适配补缺省，原人口、资源、伤亡、日历与账本保留；已耗尽且被writer保存为amount0的资源也是合法旧事实。
@@ -136,7 +144,11 @@ AI 规划器只产生结构化意图，不能写入 `GameState`。游戏主循�
 
 每轮竖切片必须提交版本化 JSON 场景包与 IterationEvidenceV1 manifest。包至少固定 scenarioVersion、seed、gameVersion、worldConfig、aiConfig 和 storylet fallback；validator 检查 stable ID、缺引用、不可达/无 fallback、循环、不可满足门槛、AI authority 与 AI-OFF 回退。当前 resolver 只作 headless fixture，不能把通过写成生产 loader 已接线。
 
+Scenario schema 或 snapshot 成功保存只证明存储合同；沿真实新开/继续 boot 路径看到配置被消费并改变相应世界事实，且旧 writer 事实保留通过后，才称 boot 生效。原用户报告是设计依据，真实实现以当前源码调用路径和运行证据判断；proposed 设计未接线时继续标为 proposed。
+
 Observer 采用“白名单事实投影 → 只读表达 → deterministic fallback”。不得创建资源、人口、事件或修改存档；SAVE21 只保存版本化 snapshot 与开关，不保存凭据或不可回放模型状态。超时、非法输出、越权和预算拒绝必须回到同一规则路径。
+
+可信调用者传入 subject/context 的纯表达 API，即使结果已逐层冻结，也不证明角色有权知道这些信息。先由可信代码产生 actor-bound 的授权 knowledge，再与信任披露策略取交集；高信任不能扩充知识。actor/perception Gate 未接线就列未完成，LLM 不得直接读取 GameState、WorldFacts 宽快照或任意原始 subject；具体 proposed 合同见[角色观察 ADR](decisions/ADR-20261017-actor-observation-v1.md)。
 
 Evidence manifest 绑定 branch、evidence commit、HTML SHA、SAVE/CONTENT、CI run/job 与 browser 状态。只有 exact source/hash/manifest 对账通过才可标记 verified；设计报告、static/source-VM/fixture 不能冒充自然 browser。每轮仍需玩家、NPC、营地、势力、敌人、全局链六视角账本。
 

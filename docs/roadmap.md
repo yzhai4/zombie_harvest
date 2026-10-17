@@ -2,9 +2,13 @@
 
 ## 当前出口与下一闸门（2026-10-17）
 
-本轮开发候选已完成[断粮竖切片](scripts/zh-food-shortage-001.md)的按日 episode、五元身份 CAS、加性 SAVE21 适配和有限应急藏粮取回；Observer 为运行时与 Node 共用的纯表达核心，白名单事实深冻结，评论开关与 HUD 独立。源码 VM 与真实 Chrome boot 夹具已有通过结果，最终计数与源码绑定以 QA/manifest 为准。它不是自然三日或平衡验收，Sites v81 尚未发布。
+当前 `51faa0c7` 开发构建已落地 NPC attention 最小修复：优先真实可见敌人并保留玩家联系人，沿用原感知/战斗 Gate。新测试21/21，旧 `cc900da9` 控制16/21失败；本地全套30条源码检查exit0、静态55/55、Chrome episode夹具12/12。已有[断粮竖切片](scripts/zh-food-shortage-001.md)和纯表达Observer继续保留。Sites v81未发布。
 
-最终构建的旧 writer/fallback/跨日 stale 与浏览器刷新已补；下一轮优先完成同构建自然三日与短缺选择激励验收，同时接 Scenario 真实 boot loader 与 actor/perception 信息权限。持续按[调研 P0–P6](qa/deep-research-baseline-20261017.md)推进可复现玩法、Scenario runtime loader、规则 NPC 规划、记忆与受约束表达；Scenario 当前仍为 headless minimal，actor 权限/感知投影尚未完成。exact simulator 先于 learned World Model，当前不增加引擎迁移任务。
+旧公开行动日历路线第1天13:01玩家HP0，FAILED保留；原runner误以campHp命名玩家HP，不能称营地建筑毁坏。B（v1 `16cc2b78` / HTML `51faa0c7`）已terminal exit1：900.578秒、543项已执行检查均true，但预算耗尽时settle报generic timeout，最后已验证第2天11:41/evt1280；95保存与13截图已导出，不能视为三日完成或新存档根因。C从全新profile以v2 `bc16789f` / 同HTML、2400秒预算启动，当前第1天未完成。
+
+v2合并合格preflight保存以避免双重等待，修正normal/runner/brute真实反击预算并对unknown kind fail-closed；方法28/28不代替终态browser，新源码对象也尚未更新分支/CI。自然三日仍open，训练会改变SAN/士气，日历回归不能冒充自然玩法或平衡。见[注意力与路线安全问题](problems/PROB-20261017-daytime-attention-and-route-safety.md)。
+
+下一顺序固定为：自然玩法可靠性 → Scenario真实boot → actor projection → 内容扩展。[Scenario ADR](decisions/ADR-20261017-scenario-boot-contract.md)/[问题](problems/PROB-20261017-scenario-stored-not-bound.md)与[ActorObservation ADR](decisions/ADR-20261017-actor-observation-v1.md)/[问题](problems/PROB-20261017-observer-trusted-input-boundary.md)均为proposed/未接线；需分别证明seed/config真正消费、旧writer不重算，以及角色知识权限。保持[调研P0–P6](qa/deep-research-baseline-20261017.md)顺序与exact simulator优先，不以metadata、表达白名单或某个browser回归替代这些门槛，当前不增加引擎迁移任务。
 
 下方阶段编号和逐次 checkpoint 是保留的长期路线与历史记录；旧“一次性断粮”“只有存活门”“尚无 episode/browser”描述已被本节限定范围内的新进展取代，不能反向改写旧失败。
 
