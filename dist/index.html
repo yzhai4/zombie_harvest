@@ -4017,6 +4017,10 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
         fromDefinitionVersion: declared ? 1 : null, toDefinitionVersion: 2,
         adapter: declared ? 'shortage-choice-v1-to-v2' : 'legacy-missing-version' };
     }
+    function validWorldClockRemainder(value) {
+      return value === '0' || typeof value === 'string' && value.length > 2 && value.length <= 326 &&
+        value.startsWith('0.') && !/[^0-9]/.test(value.slice(2)) && value[value.length - 1] !== '0';
+    }
     function validateProgressPayload(payload, lookupContext = null) {
       const fail = reason => ({ ok: false, reason });
       if (!savedRecord(payload) || !savedTreeSafe(payload)) return fail('payload-shape');
@@ -4070,6 +4074,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       if (payload.buildings.some(item => item.type !== 'shelter' && !buildInfo[item.type] || item.hp !== undefined && (!Number.isFinite(item.hp) || item.hp < 0)) || payload.resources.some(item => !['tree','rock','berry','scrap','herb'].includes(item.type) || !Number.isFinite(item.amount) || item.amount < 0) || payload.worldZombies.some(item => !Number.isFinite(item.hp) || item.hp <= 0 || !Number.isFinite(item.maxHp) || item.maxHp < item.hp)) return fail('entity-contract');
       const wm = payload.worldMeta;
       if (!savedRecord(wm) || !Number.isInteger(wm.eventSeq) || wm.eventSeq < 0 || !Number.isInteger(wm.commandSeq) || wm.commandSeq < 0 || !Number.isFinite(wm.seed) || !Number.isFinite(wm.rngState) || !savedRecord(wm.clock) || typeof wm.clock.paused !== 'boolean' || !Number.isFinite(wm.clock.rate) || wm.clock.rate < .25 || wm.clock.rate > 4 || !Number.isFinite(wm.clock.phaseMinutes) || !Number.isFinite(wm.clock.scheduleMinutes)) return fail('world-meta');
+      if (Object.prototype.hasOwnProperty.call(wm.clock, 'subMinuteRemainder') && !validWorldClockRemainder(wm.clock.subMinuteRemainder)) return fail('world-clock-remainder');
       if (!Array.isArray(wm.events) || !Array.isArray(wm.seenCommands) || !savedRecord(wm.replay) || !Array.isArray(wm.replay.commands)) return fail('ledger-shape');
       const eventIds = new Set(); let previousSeq = -1;
       for (const event of wm.events) {
@@ -4479,9 +4484,17 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
           visitedRegions: state.visitedRegions, areaFlags: state.areaFlags, roleVacancies: state.roleVacancies, tempCoordination: !!state.tempCoordination,
           settings: state.settings, staminaRules: state.staminaRules, worldMeta: {...state.worldMeta, events: state.worldMeta.events.slice(-300), feedback: []}, quests: state.quests
         };
-        if (!validateRelayHandoffMemoryRoster(payload, true)) return false;
+        if (!validateRelayHandoffMemoryRoster(payload, true) ||
+            Object.prototype.hasOwnProperty.call(payload.worldMeta.clock, 'subMinuteRemainder') && !validWorldClockRemainder(payload.worldMeta.clock.subMinuteRemainder)) {
+          toast('当前进度未能保存，已保留上次有效存档'); return false;
+        }
         const envelope = { ...payload, version: SAVE_VERSION, checksum: checksum(payload), payload, savedAt: worldMinute(), reason: options.reason || state.worldMeta.lastCheckpointReason };
-        const raw = JSON.stringify(envelope), previous = localStorage.getItem(SAVE_KEY);
+        const raw = JSON.stringify(envelope);
+        const candidate = validateStoredProgress({ raw, sourceCategory: 'primary' });
+        if (!candidate.ok || classifySavedRecovery(candidate.payload).classification === 'RECOVERY_REQUIRED') {
+          toast('当前进度未能保存，已保留上次有效存档'); return false;
+        }
+        const previous = localStorage.getItem(SAVE_KEY);
         if (!options.preserveBackup && previous && validateStoredProgress({ raw: previous, sourceCategory: 'primary' }).ok) localStorage.setItem(`${SAVE_KEY}.bak`, previous);
         localStorage.setItem(SAVE_KEY, raw);
         return localStorage.getItem(SAVE_KEY) === raw;
@@ -5738,17 +5751,56 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       runDayCombat(minutes);
       renderHud();
     }
+    // Exact decimal addition starts after the original Number multiplication.
+    // BigInt is private arithmetic; only safe whole minutes and strings persist.
+    function worldClockDecimalParts(value) {
+      const [mantissa, exponent = '0'] = value.split('e');
+      const [integer, fraction = ''] = mantissa.split('.');
+      let coefficient = BigInt(integer + fraction), scale = fraction.length - Number(exponent);
+      if (scale < 0) { coefficient *= 10n ** BigInt(-scale); scale = 0; }
+      return { coefficient, scale };
+    }
+    function planWorldAdvance(minutes) {
+      const fail = reason => ({ ok: false, reason });
+      const clock = state.worldMeta?.clock;
+      if (!clock || typeof clock.paused !== 'boolean' || !Number.isFinite(clock.rate) || clock.rate < .25 || clock.rate > 4 ||
+          !Number.isFinite(clock.scheduleMinutes) || !Number.isFinite(clock.phaseMinutes)) return fail('world-clock-invalid');
+      const hasRemainder = Object.prototype.hasOwnProperty.call(clock, 'subMinuteRemainder');
+      if (hasRemainder && !validWorldClockRemainder(clock.subMinuteRemainder)) return fail('world-clock-remainder');
+      let requested;
+      try { requested = Number(minutes); } catch (error) { return fail('world-clock-input'); }
+      if (!Number.isFinite(requested)) return fail('world-clock-input');
+      const scaledMinutes = Math.max(0, requested || 0) * (clock.rate || 1);
+      if (!Number.isFinite(scaledMinutes)) return fail('world-clock-overflow');
+      const remainderBefore = hasRemainder ? clock.subMinuteRemainder : '0';
+      const scaled = worldClockDecimalParts(scaledMinutes.toString()), pending = worldClockDecimalParts(remainderBefore);
+      const scale = Math.max(scaled.scale, pending.scale), divisor = 10n ** BigInt(scale);
+      const total = scaled.coefficient * 10n ** BigInt(scale - scaled.scale) + pending.coefficient * 10n ** BigInt(scale - pending.scale);
+      const whole = total / divisor, residual = total % divisor;
+      if (whole > BigInt(Number.MAX_SAFE_INTEGER)) return fail('world-clock-overflow');
+      const amount = Number(whole), now = worldMinute();
+      if (!Number.isSafeInteger(state.day) || state.day < 1 || !Number.isInteger(state.hour) || state.hour < 0 || state.hour > 23 ||
+          !Number.isInteger(state.minute) || state.minute < 0 || state.minute > 59 || !Number.isSafeInteger(now) || !Number.isSafeInteger(now + amount) ||
+          !Number.isFinite(clock.scheduleMinutes + scaledMinutes) || !Number.isFinite(clock.phaseMinutes + (state.night ? amount : 0))) return fail('world-clock-overflow');
+      const remainderAfter = residual === 0n ? '0' : '0.' + residual.toString().padStart(scale, '0').replace(/0+$/, '');
+      const metadata = !Number.isInteger(scaledMinutes) || remainderBefore !== '0' ?
+        { clockPolicy: 'whole-minute-v1', scaledMinutes, remainderBefore, remainderAfter } : {};
+      return { ok: true, minutes: amount, scaledMinutes, remainderAfter, writeRemainder: hasRemainder || !Number.isInteger(scaledMinutes), metadata };
+    }
     function advance(minutes, options = {}) {
       if (SessionController.exiting || !SessionController.acceptsInput()) return { ok: false, reason: 'session-frozen' };
       if (CampRestController.ownsClock() && !CampRestController.isInternalStep(options)) cancelCampRest('player-action');
-      if (state.worldMeta.clock.paused) return { ok: true, paused: true };
-      const amount = Math.max(0, Number(minutes) || 0) * (state.worldMeta.clock.rate || 1);
+      if (state.worldMeta.clock?.paused) return { ok: true, paused: true };
+      const plan = planWorldAdvance(minutes);
       const restMeta = CampRestController.isInternalStep(options) ? { restId: options.restId, restStep: options.restStep } : {};
-      return dispatchCommand({ type: 'world.advance', commandId: options.commandId, payload: { minutes: amount, ...restMeta } }, () => {
-        state.worldMeta.clock.scheduleMinutes += amount; if (state.night) state.worldMeta.clock.phaseMinutes += amount;
-        advanceReducer(amount);
-        return { payload: { minutes: amount, day: state.day, hour: state.hour, minute: state.minute, ...restMeta } };
-      }, { eventType: 'time.advanced', checkpoint: false });
+      const payload = plan.ok ? { minutes: plan.minutes, ...plan.metadata, ...restMeta } : { minutes: 0, ...restMeta };
+      return dispatchCommand({ type: 'world.advance', commandId: options.commandId, payload }, () => {
+        state.worldMeta.clock.scheduleMinutes += plan.scaledMinutes;
+        if (state.night) state.worldMeta.clock.phaseMinutes += plan.minutes;
+        if (plan.writeRemainder) state.worldMeta.clock.subMinuteRemainder = plan.remainderAfter;
+        if (plan.minutes > 0) advanceReducer(plan.minutes);
+        return { payload: { minutes: plan.minutes, day: state.day, hour: state.hour, minute: state.minute, ...plan.metadata, ...restMeta } };
+      }, { eventType: 'time.advanced', checkpoint: false, validate: () => plan });
     }
 
     // Ephemeral clock ownership only. The existing writer remains the sole
@@ -5976,9 +6028,11 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       worldTimer = setInterval(() => {
         if (generation !== SessionController.generation || simulationEpoch !== worldSimulationEpoch || !SessionController.isDay() || document.hidden || CampRestController.ownsClock() || state.hp <= 0) return;
         const now = Date.now(), elapsed = Math.max(0, now - worldLastTickAt); worldLastTickAt = now;
-        worldTickCounter += 1; advance(Math.max(1, Math.min(5, Math.floor(elapsed / 1200) || 1)));
+        const remainderBefore = state.worldMeta.clock.subMinuteRemainder ?? '0';
+        worldTickCounter += 1; const advanced = advance(Math.max(1, Math.min(5, Math.floor(elapsed / 1200) || 1)));
         if (!infoModalOpen || worldTickCounter % 2 === 0) scheduleWorldRender({ context: !infoModalOpen });
-        if (worldTickCounter % 10 === 0) requestCheckpoint('world-tick');
+        if (advanced.ok && !advanced.paused && !advanced.duplicate && remainderBefore !== (state.worldMeta.clock.subMinuteRemainder ?? '0')) requestCheckpoint('world-subminute');
+        else if (worldTickCounter % 10 === 0) requestCheckpoint('world-tick');
       }, 1200);
       return true;
     }

@@ -31,7 +31,9 @@ const functionNames = [
   'stableClone', 'worldMinute', 'eventDefinition', 'recordWorldEvent', 'applyQuestEvent',
   'dispatchCommand', 'isNightRestrictedAction', 'guardNightAction', 'nightActionResult', 'actionCommand',
   'distanceBetween', 'contextDistance', 'nearbyContextItem', 'npcIsActive', 'npcIsCampLocal', 'npcHasRole',
-  'clampSocial', 'rememberNpc', 'spendEnergy', 'advance', 'interactCampAreaReducer', 'interactCampArea',
+  'clampSocial', 'rememberNpc', 'spendEnergy',
+  ...(source.includes('function planWorldAdvance(') ? ['validWorldClockRemainder', 'worldClockDecimalParts', 'planWorldAdvance'] : []),
+  'advance', 'interactCampAreaReducer', 'interactCampArea',
 ];
 const sandbox = vm.createContext({ console });
 vm.runInContext(`

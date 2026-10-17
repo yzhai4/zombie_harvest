@@ -39,6 +39,7 @@ jobs:
           node --check scripts/check-leader-command-bridge-runtime.mjs
           node --check scripts/check-daytime-combat.mjs
           node --check scripts/check-player-day-attack-v1.mjs
+          node --check scripts/check-world-clock-persistence-v1.mjs
           node --check scripts/check-combat-intent-v1.mjs
           node --check scripts/lib/combat-intent-v1.mjs
           node --check scripts/lib/event-gate-v1.mjs
@@ -134,6 +135,8 @@ jobs:
         run: node scripts/check-outpost-presence-v1.mjs
       - name: Execute player attack qualification, payment and save contracts
         run: node scripts/check-player-day-attack-v1.mjs --repo-root "$GITHUB_WORKSPACE" --html "$GITHUB_WORKSPACE/dist/index.html" --io-adapter "$GITHUB_WORKSPACE/scripts/check-report-recovery.mjs" --out "$RUNNER_TEMP/player-day-attack-v1.json"
+      - name: Execute whole-minute clock, carry and normal writer contracts
+        run: node scripts/check-world-clock-persistence-v1.mjs --repo-root "$GITHUB_WORKSPACE" --html "$GITHUB_WORKSPACE/dist/index.html" --io-adapter "$GITHUB_WORKSPACE/scripts/check-report-recovery.mjs" --out "$RUNNER_TEMP/world-clock-persistence-v1.json"
       - name: Execute incremental camp rest and passive recovery contracts
         run: node scripts/check-camp-rest-v1.mjs --html dist/index.html --out "$RUNNER_TEMP/camp-rest-v1.json"
       - name: Execute canonical EventGateV1 shadow contract

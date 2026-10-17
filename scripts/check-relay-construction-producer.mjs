@@ -56,7 +56,11 @@ function orderOf(text, needles) {
 
 check('world.advance is the explicit CommandBus producer', () => {
   assert.match(advanceBody, /dispatchCommand\(\{ type: 'world\.advance'/);
-  assert.match(advanceBody, /advanceReducer\(amount\)/);
+  // Static trace only. The actual clock contract separately executes
+  // quantization, zero-whole deferral and saved credit through this producer.
+  if (inline.includes('function planWorldAdvance(')) {
+    assert.match(advanceBody, /if \(plan\.minutes > 0\) advanceReducer\(plan\.minutes\)/);
+  } else assert.match(advanceBody, /advanceReducer\(amount\)/);
 });
 check('advanceReducer calls relay construction between NPC routine and world combat', () => {
   orderOf(reducerBody, [
