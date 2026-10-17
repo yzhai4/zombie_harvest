@@ -180,7 +180,7 @@ AI 规划器只产生结构化意图，不能写入 `GameState`。游戏主循�
 
 ## 场景包、观察者与证据新闸门（2026-10-17）
 
-每轮竖切片必须提交版本化 JSON 场景包与 IterationEvidenceV1 manifest。包至少固定 scenarioVersion、seed、gameVersion、worldConfig、aiConfig 和 storylet fallback；validator 检查 stable ID、缺引用、不可达/无 fallback、循环、不可满足门槛、AI authority 与 AI-OFF 回退。当前 resolver 只作 headless fixture，不能把通过写成生产 loader 已接线。
+每轮竖切片必须提交版本化 JSON 场景包与 IterationEvidenceV1 manifest。包至少固定 scenarioVersion、seed、gameVersion、worldConfig、aiConfig 和 storylet fallback；validator 检查 stable ID、缺引用、不可达/无 fallback、循环、不可满足门槛、AI authority 与 AI-OFF 回退。Scenario真实boot支持范围按C1／C2合同与QA判断；独立headless resolver样本不能证明任意配置或内容图已接线。新增轴仍须有真实入口、消费与旧档迁移证据。
 
 Scenario schema 或 snapshot 成功保存只证明存储合同；沿真实新开/继续 boot 路径看到配置被消费并改变相应世界事实，且旧 writer 事实保留通过后，才称 boot 生效。原用户报告是设计依据，真实实现以当前源码调用路径和运行证据判断；proposed 设计未接线时继续标为 proposed。
 

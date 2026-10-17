@@ -1,0 +1,39 @@
+function sourceRuntimeFactory(htmlPath = path.join(root, 'dist/index.html')) {
+  const html = readFileSync(htmlPath, 'utf8');
+  const inline = [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map(match => match[1]).filter(text => text.trim());
+  assert.equal(inline.length, 1);
+  const harness = readFileSync(path.join(root, 'scripts/check-report-recovery.mjs'), 'utf8');
+  const start = harness.indexOf('function runtime(entries = []) {');
+  const end = harness.indexOf('\nfunction envelope(payload)', start);
+  assert.ok(start >= 0 && end > start, 'source IO adapter extraction markers');
+  let body = harness.slice(start, end);
+  // DOM collection operation only; preserve the actual event renderer and its
+  // source/choice selection logic. The older IO adapter did not need this API.
+  const childMarker = 'appendChild(child) { this.children.push(child); }';
+  assert.equal(body.split(childMarker).length, 2);
+  body = body.replace(childMarker, childMarker + ', replaceChildren(...children) { this.children = [...children]; }');
+  const marker = 'registry: EVENT_DEFS, hash: checksum,';
+  assert.equal(body.split(marker).length, 2);
+  body = body.replace(marker, `
+    contentRegistry: ContentRegistry, contentResolve: resolveContentChainCommand,
+    handoffRelayCore, relayHandoffToken, viewNpc, npcPublicActionGate,
+    actualRenderContext: renderContext, actualRenderSurvivors: renderSurvivors,
+    markNpcDead, assignMorningSuccessors, setWorldRate, serializeNpc,
+    memoryValidate: typeof validateRelayHandoffMemoryV1 === 'function' ? validateRelayHandoffMemoryV1 : null,
+    memoryRoster: typeof validateRelayHandoffMemoryRoster === 'function' ? validateRelayHandoffMemoryRoster : null,
+    memoryProject: typeof projectNpcRelayHandoffMemory === 'function' ? projectNpcRelayHandoffMemory : null,
+    memoryRecord: typeof recordRelayHandoffMemory === 'function' ? recordRelayHandoffMemory : null,
+    memorySync: typeof syncNpcHandoffMemoryUi === 'function' ? syncNpcHandoffMemoryUi : null,
+    memoryClear: typeof clearNpcHandoffMemoryUi === 'function' ? clearNpcHandoffMemoryUi : null,
+    memoryCache() { return typeof npcHandoffMemoryUi === 'undefined' ? null : npcHandoffMemoryUi; },
+  
+    bindChoice: bindEventChoice, expectedToken: eventChoiceExpectedToken,
+    handleChoice: handleEventChoice, renderEvent, eventContentChainViews,
+    selectChain(id) { eventPanelSelection = 'chain:' + id; eventPanelReceipt = null; },
+    observerCommentary, observerTruthProjection, worldSnapshot: WorldFacts.snapshot,
+    updateNpcPerception, perceptionTargetsForNpc, perceptionProfile, canPerceive,
+    dayNpcCanAttack, dayNpcTarget, runDayCombat, updateNpcRoutine, advance,
+    registry: EVENT_DEFS, hash: checksum,
+  `);
+  return new Function('inline', 'htmlPath', 'vm', 'assert', body + '\nreturn runtime;')(inline, htmlPath, vm, assert);
+}

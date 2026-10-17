@@ -1,0 +1,163 @@
+{
+  "schema": "ChromeMemoryRosterResizeReproV1",
+  "status": "COUNTEREXAMPLE_ROW_LOST",
+  "sourceHtmlSha256": "2fe4b25e60849e0f222438047da8137feaddf643312d91995895ac0df3b046d3",
+  "runnerSha256": "919a6fae90ca342e57626744e974dec94759e77ab50945404ecc74d92d803156",
+  "originalInput": {
+    "file": "original-Chrome8b97-native.json",
+    "sha256": "e9d1bf223335acff04d755e760bdd44b0e6a7737305c9ed6cf9203a7daae5a9e"
+  },
+  "input": {
+    "file": "TEST-ONLY-preboot-native.json",
+    "sha256": "e692e5e12cccaace2578055e990da3ba3f011f8c3a8cab68277aaecfb8e76634"
+  },
+  "prebootSourceFactory": {
+    "helperSha256": "e9872eeba85d49019d1bd806f3dd18357a5abc8f2f92922922f6a5324ec220dc",
+    "ioSha256": "554c400c174ad1b069c4dfcc839c12b3b45ea79c5aa7669e093a440ffa4845d3",
+    "usage": "checksum/raw validation only; no business execution"
+  },
+  "changes": [
+    "TEST-ONLY player10.9,5.7; commander10,6; doctor11,6.7; original roster order unchanged",
+    "TEST-ONLY clock.paused=true with original legal rate retained; rate0 unsupported and not used",
+    "Original real capsule/source event, all enemies/resources/HP/IDs retained; no afterboot state writes or hidden API"
+  ],
+  "controls": [
+    {
+      "type": "click",
+      "selector": "#continueSaveBtn"
+    },
+    {
+      "type": "click",
+      "selector": "#openInfoBtn"
+    },
+    {
+      "type": "click",
+      "selector": "[data-info-tab=\"survivors\"]"
+    },
+    {
+      "type": "click",
+      "selector": "[data-npc=\"commander\"]"
+    },
+    {
+      "type": "viewport-resize",
+      "width": 390,
+      "height": 844
+    }
+  ],
+  "checks": [
+    {
+      "name": "actual commander roster row visible recorded after free card view",
+      "ok": true
+    },
+    {
+      "name": "context is still doctor and original commander view qualification is public-enabled",
+      "ok": true
+    },
+    {
+      "name": "context memory for commander is not visible before resize",
+      "ok": true
+    },
+    {
+      "name": "real resize retains public context target doctor and does not close terminal",
+      "ok": true
+    },
+    {
+      "name": "commander card still publicly enabled",
+      "ok": true
+    },
+    {
+      "name": "one and only one commander free-view click",
+      "ok": true
+    },
+    {
+      "name": "preboot actual capsule and original enemy/resource inputs preserved",
+      "ok": true
+    }
+  ],
+  "documents": [
+    {
+      "status": 200,
+      "sha256": "2fe4b25e60849e0f222438047da8137feaddf643312d91995895ac0df3b046d3"
+    }
+  ],
+  "captures": [
+    {
+      "label": "01-roster-A-recorded-context-B",
+      "public": {
+        "row": {
+          "hidden": false,
+          "text": "交付记忆：第1天 06:20，玩家把广播核心交给了我。",
+          "npcId": "commander",
+          "status": "recorded"
+        },
+        "contextMemory": {
+          "hidden": true,
+          "text": ""
+        },
+        "currentContextNpc": "doctor",
+        "contextViewDisabled": false,
+        "commanderCardDisabled": false,
+        "modalOpen": true,
+        "survivorsSelected": "true",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "hp": 94,
+        "rowVisible": true
+      },
+      "png": "01-roster-A-recorded-context-B.png"
+    },
+    {
+      "label": "02-after-real-390-resize",
+      "public": {
+        "row": {
+          "hidden": true,
+          "text": "",
+          "npcId": "commander"
+        },
+        "contextMemory": {
+          "hidden": true,
+          "text": ""
+        },
+        "currentContextNpc": "doctor",
+        "contextViewDisabled": false,
+        "commanderCardDisabled": false,
+        "modalOpen": true,
+        "survivorsSelected": "true",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "hp": 94,
+        "rowVisible": false
+      },
+      "png": "02-after-real-390-resize.png"
+    }
+  ],
+  "errors": [],
+  "cleanup": {
+    "contextClosed": true,
+    "browserClosed": true,
+    "serverClosed": true
+  },
+  "naturalGameplay": false,
+  "businessHandoffExecuted": false,
+  "browserOnlyAfterBoot": true,
+  "expectedComparison": "broad-clear-v2 may lose roster row on real resize; narrow visible-context-capture v3 should retain it; actual outcome not prefilled",
+  "browserVersion": "155.0.8059.80",
+  "durableVerification": {
+    "source": "read-only current normal writer; no forced/pagehide save",
+    "reason": "session-start",
+    "player": {
+      "x": 10.9,
+      "y": 5.7,
+      "prevX": 11.1,
+      "prevY": 11
+    },
+    "commanderDistance": 0.948683298050514,
+    "doctorDistance": 1.004987562112089
+  },
+  "actualRosterRowLostAfterResize": true,
+  "documentBinding": true
+}

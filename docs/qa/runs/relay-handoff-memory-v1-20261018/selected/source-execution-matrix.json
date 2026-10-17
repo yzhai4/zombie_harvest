@@ -1,0 +1,2020 @@
+{
+  "schema": "HandoffMemoryCurrentMatrixSelectionV1",
+  "method": "read-only file/hash/terminal-receipt inspection; no tests/games/Gate run",
+  "sourceHtmlSha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+  "originalMatrixV2": {
+    "closure": {
+      "path": "final-matrix-v2/closure.json",
+      "sha256": "b2c00bf874cc41abfbe50584112238ddc7643e91a84b22e1484401038677e961",
+      "bytes": 274475
+    },
+    "progress": {
+      "path": "final-matrix-v2/matrix-progress.json",
+      "sha256": "d899e2e7cb9f68676d24ed8b79cd061bd5f6e9142b273f6a81a42f8592e1a2cc",
+      "bytes": 259352
+    },
+    "uniqueContracts": 44,
+    "executions": 44,
+    "passed": 43,
+    "failed": 1,
+    "unchangedOriginal": true
+  },
+  "selectedCoverage": {
+    "uniqueContracts": 44,
+    "selectedPassRows": 44,
+    "strategy": "42 original matrix-v2 passes + rest16 supplement + memory25 supplement; keep replaced original memory25 as redundant pass",
+    "notClaimed": "Not an original 44/44 all-green matrix, not 44 independent executions of full2dd inline, not natural gameplay or browser. Original fixture/static/headless scopes remain."
+  },
+  "inspectedV2AndTwoSupplements": {
+    "executions": 46,
+    "passedExecutions": 45,
+    "failedExecutions": 1,
+    "uniqueContracts": 44,
+    "supplementMemoryAddsUnique": false
+  },
+  "rows": [
+    {
+      "name": "inline-syntax",
+      "order": 1,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "original-stdout",
+      "report": {
+        "path": "final-matrix-v2/executions/01-inline-syntax/stdout.log",
+        "sha256": "98b4e89ae2aa70077a55f74b974ff4e53b400577ad028a90b1d1d1f28f456315",
+        "bytes": 43
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/01-inline-syntax/runner-executed.mjs",
+        "sha256": "e209492b8055b8fa8ac0558a2c2d766ecee7ee8ac31526d7e5d4ba42f6acd828",
+        "bytes": 791
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/01-inline-syntax/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": null,
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/check-inline-syntax.mjs",
+        "sha256": "e209492b8055b8fa8ac0558a2c2d766ecee7ee8ac31526d7e5d4ba42f6acd828"
+      },
+      "originalTerminal": {
+        "sha256": "3f2927404bc74490196d4a4625a1618f5936d31bc9dc4bade089242cd0600df9",
+        "bytes": 2006,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true
+    },
+    {
+      "name": "validate-content",
+      "order": 2,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "original-stdout",
+      "report": {
+        "path": "final-matrix-v2/executions/02-validate-content/stdout.log",
+        "sha256": "fdae2874e53f6d308e58cbec46fd5e2be5c0870e867a4cff494f9abf1d080e93",
+        "bytes": 7085
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/02-validate-content/runner-executed.mjs",
+        "sha256": "39a8edff9b24690d8ae5accee97a6c3326c31c2089249e952771c9b7554ebee6",
+        "bytes": 4271
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/02-validate-content/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": {
+        "runner": "validate-content",
+        "ok": true
+      },
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/validate-content.mjs",
+        "sha256": "39a8edff9b24690d8ae5accee97a6c3326c31c2089249e952771c9b7554ebee6"
+      },
+      "originalTerminal": {
+        "sha256": "2ab0a3215573f326e3ba2f78dcf11c08c0fb3f0c30e75098490035d979e68b46",
+        "bytes": 2125,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true
+    },
+    {
+      "name": "check-night-guard",
+      "order": 3,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "original-stdout",
+      "report": {
+        "path": "final-matrix-v2/executions/03-check-night-guard/stdout.log",
+        "sha256": "531da710f88c511c95622c2e162f46d665aa5b5a56f033b718a21f39fec65732",
+        "bytes": 26
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/03-check-night-guard/runner-executed.mjs",
+        "sha256": "627060e9b16337d4a2d2edebc494934a7a857410346d0b00bf7f23516ef5529a",
+        "bytes": 2250
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/03-check-night-guard/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": null,
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/check-night-guard.mjs",
+        "sha256": "627060e9b16337d4a2d2edebc494934a7a857410346d0b00bf7f23516ef5529a"
+      },
+      "originalTerminal": {
+        "sha256": "227ea7b42fd3f537ce0c20270ac6002e372f8c4003142cdeaa1a3e8ec92007c8",
+        "bytes": 2032,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true
+    },
+    {
+      "name": "content-chain",
+      "order": 4,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "original-stdout",
+      "report": {
+        "path": "final-matrix-v2/executions/04-content-chain/stdout.log",
+        "sha256": "24965273b7e7ce53f92c5d5be59ff5e7dae1301a9e3528f46da4ebfabd9ba2b4",
+        "bytes": 4399
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/04-content-chain/runner-executed.mjs",
+        "sha256": "72b8fd5344cd8df727625da0b301be7f884b3434f24680218944002e866ada25",
+        "bytes": 44919
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/04-content-chain/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": null,
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/check-content-chain.mjs",
+        "sha256": "72b8fd5344cd8df727625da0b301be7f884b3434f24680218944002e866ada25"
+      },
+      "originalTerminal": {
+        "sha256": "5edfdd88d3cd60113a825776dbf7605f14bc1b9b7fdd7c6c5daeab5bb93f5839",
+        "bytes": 2014,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true,
+      "nativeOrExplicitCompanion": {
+        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/content-chain.log",
+        "sha256": "24965273b7e7ce53f92c5d5be59ff5e7dae1301a9e3528f46da4ebfabd9ba2b4"
+      },
+      "executionFacts": {
+        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/content-chain-execution-facts.json",
+        "sha256": "9c946566bd6b6c66d011385f758b44191aeb6086d665dab8c5a1c00e851685b1"
+      }
+    },
+    {
+      "name": "plan-day",
+      "order": 5,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "original-stdout",
+      "report": {
+        "path": "final-matrix-v2/executions/05-plan-day/stdout.log",
+        "sha256": "1092d5989243c7f3840c1f67762d63e3443232e6019ae0db33ba958d082d6bb7",
+        "bytes": 2203
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/05-plan-day/runner-executed.mjs",
+        "sha256": "988589f462c87b4506058dc9432ecfabd6684fdbd88cb6895aa0f716ad8b4ef7",
+        "bytes": 27428
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/05-plan-day/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": null,
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/check-plan-day.mjs",
+        "sha256": "988589f462c87b4506058dc9432ecfabd6684fdbd88cb6895aa0f716ad8b4ef7"
+      },
+      "originalTerminal": {
+        "sha256": "3ca9d959f8f208c5c863221f865ec9d0d31e43b151a47b9c886787cc8f56223a",
+        "bytes": 1969,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true
+    },
+    {
+      "name": "camp-area",
+      "order": 6,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "original-stdout",
+      "report": {
+        "path": "final-matrix-v2/executions/06-camp-area/stdout.log",
+        "sha256": "4ac4354b7514d2b23de4c7aafb62b25f93711acc5f308e885b217779a50097f1",
+        "bytes": 1190
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/06-camp-area/runner-executed.mjs",
+        "sha256": "9642a958d2152234937bb670cc15815764ec9906fa8abdb78083996d15ca0c21",
+        "bytes": 12646
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/06-camp-area/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": null,
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/check-camp-area.mjs",
+        "sha256": "9642a958d2152234937bb670cc15815764ec9906fa8abdb78083996d15ca0c21"
+      },
+      "originalTerminal": {
+        "sha256": "ec704ffe397a2491d1df7ab3694877cd0e5aacfe4a0feae30246af4ce5606ade",
+        "bytes": 1978,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true
+    },
+    {
+      "name": "plan-integrity",
+      "order": 7,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "native-json",
+      "report": {
+        "path": "final-matrix-v2/executions/07-plan-integrity/native-report.json",
+        "sha256": "5a7844a91f2328432c0ef9beb388149a3a07af274ec3bde844235b12490d4371",
+        "bytes": 112211
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/07-plan-integrity/runner-executed.mjs",
+        "sha256": "f689d5f350eb87285e175f933b751b8dbe75db3adb1d356fc978aeb5762f7777",
+        "bytes": 24285
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/07-plan-integrity/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": {
+        "runner": "source-plan-integrity",
+        "ok": true,
+        "count": 48,
+        "passed": 48,
+        "failures": [],
+        "sourceHash": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+      },
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/check-plan-integrity.mjs",
+        "sha256": "f689d5f350eb87285e175f933b751b8dbe75db3adb1d356fc978aeb5762f7777"
+      },
+      "originalTerminal": {
+        "sha256": "c056b9d300812e94b33550b98294c3b5300bfc7bda5b3589f0b7a59d911f1388",
+        "bytes": 3371,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true
+    },
+    {
+      "name": "plan-integrity-ui",
+      "order": 8,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "native-json",
+      "report": {
+        "path": "final-matrix-v2/executions/08-plan-integrity-ui/native-report.json",
+        "sha256": "826a14f07eca07dc68caad4556d5be6978e9ad35b75937d94611eda7c3dc9648",
+        "bytes": 65933
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/08-plan-integrity-ui/runner-executed.mjs",
+        "sha256": "9f2778f3b7ca0d289adc76127ad4831c3b98f92551c655e6cf62d46fa4e9860c",
+        "bytes": 19428
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/08-plan-integrity-ui/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": {
+        "runner": "source-plan-integrity-ui-phase",
+        "ok": true,
+        "count": 69,
+        "passed": 69,
+        "failures": [],
+        "sourceHash": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+      },
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/check-plan-integrity-ui.mjs",
+        "sha256": "9f2778f3b7ca0d289adc76127ad4831c3b98f92551c655e6cf62d46fa4e9860c"
+      },
+      "originalTerminal": {
+        "sha256": "f1155496e21a2f29387fd97740dc0e0ad4d4964103b6c04f0a0aa776da3f735c",
+        "bytes": 3414,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true
+    },
+    {
+      "name": "save-recovery",
+      "order": 9,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "original-stdout",
+      "report": {
+        "path": "final-matrix-v2/executions/09-save-recovery/stdout.log",
+        "sha256": "c97665606e716c878c7f401f2ad8ed2acb8538be018d889fb3083164c05a88d3",
+        "bytes": 15242
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/09-save-recovery/runner-executed.mjs",
+        "sha256": "e0b467f2b9ee75b941f72c6338ed5376f4e6d0a8c7a1d1a7c210fa630efc63e7",
+        "bytes": 51157
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/09-save-recovery/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": {
+        "runner": "source-report-recovery",
+        "ok": true,
+        "sourceHash": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+      },
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/check-report-recovery.mjs",
+        "sha256": "e0b467f2b9ee75b941f72c6338ed5376f4e6d0a8c7a1d1a7c210fa630efc63e7"
+      },
+      "originalTerminal": {
+        "sha256": "2a55da5fb1d66d03cca7eb56a48492fbf0d2774c0917d3338eb17e58721727ba",
+        "bytes": 2365,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true
+    },
+    {
+      "name": "command-id-reservation",
+      "order": 10,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "native-json",
+      "report": {
+        "path": "final-matrix-v2/executions/10-command-id-reservation/native-report.json",
+        "sha256": "d0b5214ff39a57f566e29fadbd65822cec158d7a71279ea02911c7e581f53cd4",
+        "bytes": 4039
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/10-command-id-reservation/runner-executed.mjs",
+        "sha256": "b517fc569ea213029c876422d747c1923cb059a024fc54c3c9c86b1acb34c5c5",
+        "bytes": 12379
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/10-command-id-reservation/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": {
+        "runner": "source-command-id-reservation",
+        "ok": true,
+        "count": 28,
+        "failures": [],
+        "mode": "candidate",
+        "sourceHash": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+      },
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/check-command-id-reservation.mjs",
+        "sha256": "b517fc569ea213029c876422d747c1923cb059a024fc54c3c9c86b1acb34c5c5"
+      },
+      "originalTerminal": {
+        "sha256": "a592a83912b949fb5d261fbd81a9995fac59d64dfdc7b1bbe55c79a5d17a7c9f",
+        "bytes": 3475,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true
+    },
+    {
+      "name": "repair-proof",
+      "order": 11,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "native-json",
+      "report": {
+        "path": "final-matrix-v2/executions/11-repair-proof/native-report.json",
+        "sha256": "cbd89efef8298da51234e49588292dbdc28e411a08d07d82454cbbed98364b59",
+        "bytes": 6542
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/11-repair-proof/runner-executed.mjs",
+        "sha256": "c305ef6a389c62adbfe5fbada45fa25a971669557ae27e13cad1e00a7a1f31d8",
+        "bytes": 14839
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/11-repair-proof/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": {
+        "runner": "source-repair-proof",
+        "ok": true,
+        "count": 41,
+        "failures": [],
+        "mode": "candidate",
+        "sourceHash": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+      },
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/check-repair-proof.mjs",
+        "sha256": "c305ef6a389c62adbfe5fbada45fa25a971669557ae27e13cad1e00a7a1f31d8"
+      },
+      "originalTerminal": {
+        "sha256": "0e00c7705efb873fbb3602dab9f542f0d3c5cb97eee942e1b22d6e4a9f09ce59",
+        "bytes": 4461,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true
+    },
+    {
+      "name": "leader-llm-harness",
+      "order": 12,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "original-stdout",
+      "report": {
+        "path": "final-matrix-v2/executions/12-leader-llm-harness/stdout.log",
+        "sha256": "a98a3851435cb11c3a0b7985c82a3ae3a9e9665f3fb3f10786b42a9cf76a055d",
+        "bytes": 870
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/12-leader-llm-harness/runner-executed.mjs",
+        "sha256": "03020a9f99006039a34922347482787da0966702512a66d58d7d9a3edf6840e3",
+        "bytes": 12225
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/12-leader-llm-harness/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": {
+        "runner": "offline-leader-llm-harness-contract",
+        "ok": true,
+        "count": 6,
+        "passed": 6,
+        "failures": []
+      },
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/check-leader-llm-harness.mjs",
+        "sha256": "03020a9f99006039a34922347482787da0966702512a66d58d7d9a3edf6840e3"
+      },
+      "originalTerminal": {
+        "sha256": "258d628c5f8b42844c43f422bf15fc70d4f46a113f03b45961d1d3438c8017f5",
+        "bytes": 2228,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true
+    },
+    {
+      "name": "leader-harness-replay",
+      "order": 13,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "original-stdout",
+      "report": {
+        "path": "final-matrix-v2/executions/13-leader-harness-replay/stdout.log",
+        "sha256": "8d732de854399832f6bc36db13508cad08f6abb549d6089a1641250f86063a10",
+        "bytes": 695
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/13-leader-harness-replay/runner-executed.mjs",
+        "sha256": "e82b43e19da475a1bb4c822446d76a46689acd97c8ac023df898604cabf3d0ab",
+        "bytes": 5672
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/13-leader-harness-replay/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": {
+        "runner": "offline-leader-harness-replay-contract",
+        "ok": true,
+        "count": 5,
+        "passed": 5
+      },
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/check-leader-harness-replay.mjs",
+        "sha256": "e82b43e19da475a1bb4c822446d76a46689acd97c8ac023df898604cabf3d0ab"
+      },
+      "originalTerminal": {
+        "sha256": "77ee72720a718079705100db0fb617c7f39336d21b63ab15c8ecac74bf321b7b",
+        "bytes": 2236,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true
+    },
+    {
+      "name": "headless-leader-adapter",
+      "order": 14,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "original-stdout",
+      "report": {
+        "path": "final-matrix-v2/executions/14-headless-leader-adapter/stdout.log",
+        "sha256": "d01297feaa151f78391b4a90ae9f0136e233059bdbd11fdca8784016979dea76",
+        "bytes": 713
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/14-headless-leader-adapter/runner-executed.mjs",
+        "sha256": "0504dffe46f9c08c2b343364badba2e8cd20726c13a99ff6f0ad8b3638dd26b9",
+        "bytes": 10134
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/14-headless-leader-adapter/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": {
+        "runner": "headless-leader-ledger-adapter-v1",
+        "ok": true,
+        "count": 6,
+        "passed": 6
+      },
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/headless-leader-ledger-adapter.mjs",
+        "sha256": "0504dffe46f9c08c2b343364badba2e8cd20726c13a99ff6f0ad8b3638dd26b9"
+      },
+      "originalTerminal": {
+        "sha256": "58cf1cd516306b0ba0c9525caf192ca67d758d22fc547e3604b20ddc4674a9a3",
+        "bytes": 2253,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true
+    },
+    {
+      "name": "leader-command-bridge",
+      "order": 15,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "original-stdout",
+      "report": {
+        "path": "final-matrix-v2/executions/15-leader-command-bridge/stdout.log",
+        "sha256": "ff7b8c7f822fa58891e953d8171d8521139022857f9d687742ce97a58b6f8de9",
+        "bytes": 638
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/15-leader-command-bridge/runner-executed.mjs",
+        "sha256": "b427629fb798ae71f2cfe2f80378864f328e0e7dc0b63a0fc0e7eb30cbf59b12",
+        "bytes": 2646
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/15-leader-command-bridge/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": {
+        "runner": "leader-command-bridge-contract",
+        "ok": true,
+        "count": 5,
+        "passed": 5
+      },
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/check-leader-command-bridge.mjs",
+        "sha256": "b427629fb798ae71f2cfe2f80378864f328e0e7dc0b63a0fc0e7eb30cbf59b12"
+      },
+      "originalTerminal": {
+        "sha256": "7d2506fc185ab5a0291ad5cfa60ff52845aab2be78f9d193b34c5e549227eaac",
+        "bytes": 2228,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true
+    },
+    {
+      "name": "leader-command-bridge-runtime",
+      "order": 16,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "original-stdout",
+      "report": {
+        "path": "final-matrix-v2/executions/16-leader-command-bridge-runtime/stdout.log",
+        "sha256": "fcde9636c4762f703c759f2bfb64383c79ba402e7e8c804c32f2ff8cb6598677",
+        "bytes": 1028
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/16-leader-command-bridge-runtime/runner-executed.mjs",
+        "sha256": "6bb58f7e13442c131778b69614105208588488a90d71c9af21f5d380724bbdda",
+        "bytes": 4942
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/16-leader-command-bridge-runtime/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": {
+        "runner": "source-leader-command-bridge-runtime",
+        "ok": true,
+        "count": 6,
+        "passed": 6,
+        "sourceHash": "d2217fb85a4924c2187c24260ccd286c2bba7df409e7c7f6a5c4f9c398f5f3b2"
+      },
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/check-leader-command-bridge-runtime.mjs",
+        "sha256": "6bb58f7e13442c131778b69614105208588488a90d71c9af21f5d380724bbdda"
+      },
+      "originalTerminal": {
+        "sha256": "b72b9c4e42de07bbb13bc4e5ac52380c500902a23f4ad2704068628d904aa2ec",
+        "bytes": 2394,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true
+    },
+    {
+      "name": "daytime-combat",
+      "order": 17,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "original-stdout",
+      "report": {
+        "path": "final-matrix-v2/executions/17-daytime-combat/stdout.log",
+        "sha256": "237ff040eb540a0cdb9ed9e138c5513184e7681f47826eb8163ebf6dcf9bfcf4",
+        "bytes": 2903
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/17-daytime-combat/runner-executed.mjs",
+        "sha256": "b4ccfe1ec8d406a862eb5bd847574901130f4c43850156e6d4914d53a7604498",
+        "bytes": 26055
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/17-daytime-combat/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": {
+        "runner": "source-daytime-combat",
+        "ok": true,
+        "count": 26,
+        "passed": 26,
+        "sourceHash": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+      },
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/check-daytime-combat.mjs",
+        "sha256": "b4ccfe1ec8d406a862eb5bd847574901130f4c43850156e6d4914d53a7604498"
+      },
+      "originalTerminal": {
+        "sha256": "e7868e1007e614dc961eebae1584639f934269ba69686215b4a5c9bda0e79587",
+        "bytes": 2248,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true
+    },
+    {
+      "name": "combat-intent",
+      "order": 18,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "original-stdout",
+      "report": {
+        "path": "final-matrix-v2/executions/18-combat-intent/stdout.log",
+        "sha256": "13871f330079a30bf274223b354fa309a0ee7c239aa9fb13c213bb7cc3a00bfc",
+        "bytes": 558
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/18-combat-intent/runner-executed.mjs",
+        "sha256": "77297998abc92578230a08b531330a6108b3e71e3d36254c434e7c0a33997d00",
+        "bytes": 2638
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/18-combat-intent/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": {
+        "runner": "combat-intent-v1-contract",
+        "ok": true,
+        "count": 5,
+        "passed": 5
+      },
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/check-combat-intent-v1.mjs",
+        "sha256": "77297998abc92578230a08b531330a6108b3e71e3d36254c434e7c0a33997d00"
+      },
+      "originalTerminal": {
+        "sha256": "a50a31a363eb0f855d4a1321a43f3840b75f25307b4064ed236891c873fcf2b9",
+        "bytes": 2157,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true
+    },
+    {
+      "name": "npc-threat-attention",
+      "order": 19,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "original-stdout",
+      "report": {
+        "path": "final-matrix-v2/executions/19-npc-threat-attention/stdout.log",
+        "sha256": "358dfc80a28639d4f53e2ff4635717234863116d7c359778f155bfad98ee6555",
+        "bytes": 5289
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/19-npc-threat-attention/runner-executed.mjs",
+        "sha256": "73f181e036ea92729ffd8abc238030db627526e411b8118cd2fa8bcb06734f88",
+        "bytes": 23493
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/19-npc-threat-attention/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": {
+        "runner": "source-npc-threat-attention",
+        "ok": true,
+        "count": 29,
+        "passed": 29,
+        "sourceHtmlSha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+      },
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/check-npc-threat-attention.mjs",
+        "sha256": "73f181e036ea92729ffd8abc238030db627526e411b8118cd2fa8bcb06734f88"
+      },
+      "originalTerminal": {
+        "sha256": "69a1c72a15d31b60ccea25b32c038952aba25dbf01339f801e95b5bcee28afc1",
+        "bytes": 2314,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true
+    },
+    {
+      "name": "three-day-safety",
+      "order": 20,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "original-stdout",
+      "report": {
+        "path": "final-matrix-v2/executions/20-three-day-safety/stdout.log",
+        "sha256": "b68b2f1a3f34499cf2a8119a4603df2634b2b924ff4ef9cb384e650ab3e7ba07",
+        "bytes": 3695
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/20-three-day-safety/runner-executed.py",
+        "sha256": "f67943938956f0eb2f7f901e6c71b5e78f01d37e0993065da1121af21726a4cd",
+        "bytes": 10165
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/20-three-day-safety/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": {
+        "runner": "three-day-safety-method-controls",
+        "ok": true,
+        "count": 28,
+        "passed": 28,
+        "sourceHtmlSha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+      },
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/check-three-day-safety.py",
+        "sha256": "f67943938956f0eb2f7f901e6c71b5e78f01d37e0993065da1121af21726a4cd"
+      },
+      "originalTerminal": {
+        "sha256": "4af63bbd1a1211f3da28210d5c5962589a5582d1c929842aab1f1f2855dc0480",
+        "bytes": 2300,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true
+    },
+    {
+      "name": "outpost-presence",
+      "order": 21,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "original-stdout",
+      "report": {
+        "path": "final-matrix-v2/executions/21-outpost-presence/stdout.log",
+        "sha256": "71c2d8a87d19e7c69674e4408e050d7ee73918ba8738c3f4b8923a4ce91645fe",
+        "bytes": 8146
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/21-outpost-presence/runner-executed.mjs",
+        "sha256": "48b70201e649a11a5bd36d899960d46fe63f0219c69d32657eb4faebabb98998",
+        "bytes": 38153
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/21-outpost-presence/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": {
+        "runner": "source-outpost-presence-v1",
+        "ok": true,
+        "count": 41,
+        "passed": 41,
+        "sourceHtmlSha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+      },
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/check-outpost-presence-v1.mjs",
+        "sha256": "48b70201e649a11a5bd36d899960d46fe63f0219c69d32657eb4faebabb98998"
+      },
+      "originalTerminal": {
+        "sha256": "e11275798a89856a0069b91733890a5dd3dc71f1f706916df157fd60df64e3c2",
+        "bytes": 2438,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true
+    },
+    {
+      "name": "camp-rest",
+      "order": 22,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "native-json",
+      "report": {
+        "path": "final-matrix-v2/executions/22-camp-rest/native-report.json",
+        "sha256": "6db9c7b2deed83d71c6b622f4e26088b565070ca5ff0e5c091b40510d3198ade",
+        "bytes": 13055
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/22-camp-rest/runner-executed.mjs",
+        "sha256": "f83c5158dfc6cd07b34dd4b895922f1d6d5582d16451fe9d9a22f69bcf9e7bab",
+        "bytes": 41854
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/22-camp-rest/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": {
+        "runner": "source-camp-rest-v1",
+        "ok": true,
+        "count": 77,
+        "failures": [],
+        "mode": "candidate",
+        "sourceHtmlSha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+      },
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/check-camp-rest-v1.mjs",
+        "sha256": "f83c5158dfc6cd07b34dd4b895922f1d6d5582d16451fe9d9a22f69bcf9e7bab"
+      },
+      "originalTerminal": {
+        "sha256": "7eb06c6f3587380767cf99d5e9a6ffdfbae3a6fad57a182779ccef9c5007c561",
+        "bytes": 4514,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true
+    },
+    {
+      "name": "event-gate",
+      "order": 23,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "original-stdout",
+      "report": {
+        "path": "final-matrix-v2/executions/23-event-gate/stdout.log",
+        "sha256": "716495796623da07af559d78c38834c22bbffd063cb82dada02ed44e00b7a306",
+        "bytes": 841
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/23-event-gate/runner-executed.mjs",
+        "sha256": "47c863fd1a3f73af3014b3a4d89d2b2c69cacaacce8767a0a57f77aeda1a2341",
+        "bytes": 5266
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/23-event-gate/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": {
+        "runner": "event-gate-v1-contract",
+        "ok": true,
+        "count": 7,
+        "passed": 7
+      },
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/check-event-gate-v1.mjs",
+        "sha256": "47c863fd1a3f73af3014b3a4d89d2b2c69cacaacce8767a0a57f77aeda1a2341"
+      },
+      "originalTerminal": {
+        "sha256": "d70981626995ad06e38ac6ca209d387ef4a6de81d354077dd6a6db46be0cbea8",
+        "bytes": 2127,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true
+    },
+    {
+      "name": "event-gate-parity",
+      "order": 24,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "original-stdout",
+      "report": {
+        "path": "final-matrix-v2/executions/24-event-gate-parity/stdout.log",
+        "sha256": "d94b3d6b88f7247185437662ebb578d7700983ce0c9eadb0bab18dfc4b2de749",
+        "bytes": 2169
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/24-event-gate-parity/runner-executed.mjs",
+        "sha256": "da7602a07f809bcbde568ed118eed3816dc7340d6b64177c7ef15e7b15625bd9",
+        "bytes": 5560
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/24-event-gate-parity/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": {
+        "runner": "event-gate-v1-parity",
+        "ok": true,
+        "count": 20,
+        "passed": 20,
+        "sourceHtmlSha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+      },
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/check-event-gate-parity.mjs",
+        "sha256": "da7602a07f809bcbde568ed118eed3816dc7340d6b64177c7ef15e7b15625bd9"
+      },
+      "originalTerminal": {
+        "sha256": "89380dd869aae7f1cbdfc6898723c53edd77f1306ce6330d16b04df26b27d14e",
+        "bytes": 2278,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true,
+      "nativeOrExplicitCompanion": {
+        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/event-gate-parity.json",
+        "sha256": "d94b3d6b88f7247185437662ebb578d7700983ce0c9eadb0bab18dfc4b2de749"
+      },
+      "executionFacts": {
+        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/event-gate-parity-execution-facts.json",
+        "sha256": "43b851ea05546d75c486367bc42dd19797790892537c9b3597cf3ad9fe5a5697"
+      }
+    },
+    {
+      "name": "relay-construction",
+      "order": 25,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "original-stdout",
+      "report": {
+        "path": "final-matrix-v2/executions/25-relay-construction/stdout.log",
+        "sha256": "029e5dd2a40c2044d41c439c7c3f3bbdb0ccb29e8043f4b7f2018070dec38404",
+        "bytes": 1381
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/25-relay-construction/runner-executed.mjs",
+        "sha256": "3efa2f88290c274e087d4e5dedb55dbf47d632dd3c22061b0235a3a1460410c5",
+        "bytes": 5221
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/25-relay-construction/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": {
+        "runner": "relay-construction-v1-contract",
+        "ok": true,
+        "count": 13,
+        "passed": 13
+      },
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/check-relay-construction-v1.mjs",
+        "sha256": "3efa2f88290c274e087d4e5dedb55dbf47d632dd3c22061b0235a3a1460410c5"
+      },
+      "originalTerminal": {
+        "sha256": "867bc9053715cadc07f1c735406aa775164ed5db42e1b7556ccaa085ed53a483",
+        "bytes": 2211,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true
+    },
+    {
+      "name": "relay-producer",
+      "order": 26,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "original-stdout",
+      "report": {
+        "path": "final-matrix-v2/executions/26-relay-producer/stdout.log",
+        "sha256": "853f9b9c15e528137f61a7a883eb896bc982227bb3053cb88b92fb3789ae8d90",
+        "bytes": 1783
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/26-relay-producer/runner-executed.mjs",
+        "sha256": "10ddbe458f88c864502dfc67f23dc06529606f1046ed0d5bb9988bc7e8881e2f",
+        "bytes": 7848
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/26-relay-producer/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": {
+        "runner": "relay-construction-producer-trace",
+        "ok": true,
+        "count": 9,
+        "passed": 9,
+        "sourceHash": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+      },
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/check-relay-construction-producer.mjs",
+        "sha256": "10ddbe458f88c864502dfc67f23dc06529606f1046ed0d5bb9988bc7e8881e2f"
+      },
+      "originalTerminal": {
+        "sha256": "4156ca280fd85d13d6182fe8f6d0dcdb262397cc25c2f06cabfad747972df63d",
+        "bytes": 2282,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true
+    },
+    {
+      "name": "relay-transaction",
+      "order": 27,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "original-stdout",
+      "report": {
+        "path": "final-matrix-v2/executions/27-relay-transaction/stdout.log",
+        "sha256": "f1c523a7ffe6ba675d2fc57b8a9f10c8d9551c163c97702983de606a11f09c1a",
+        "bytes": 1249
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/27-relay-transaction/runner-executed.mjs",
+        "sha256": "3024a0f0a5d45fe6bee0a480f6fdefb83cd41fed5abcbc4480c8938f15e2be25",
+        "bytes": 5988
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/27-relay-transaction/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": {
+        "runner": "relay-construction-transaction-v1-contract",
+        "ok": true,
+        "count": 11,
+        "passed": 11
+      },
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/check-relay-construction-transaction-v1.mjs",
+        "sha256": "3024a0f0a5d45fe6bee0a480f6fdefb83cd41fed5abcbc4480c8938f15e2be25"
+      },
+      "originalTerminal": {
+        "sha256": "1ce1484a2710301fe18abcc01ff6dbbc7fba15e868a99d755bf492ad8d832dac",
+        "bytes": 2240,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true
+    },
+    {
+      "name": "relay-runtime",
+      "order": 28,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "native-json",
+      "report": {
+        "path": "final-matrix-v2/executions/28-relay-runtime/native-report.json",
+        "sha256": "8955c98ff511edcf85fcb9bb2469379509aee7eccf969bad6211a2b3ad39db68",
+        "bytes": 12435
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/28-relay-runtime/runner-executed.mjs",
+        "sha256": "ec2cdcca561b80647fde3db0251f036a4158ba7a9be91286c4082da7156f4039",
+        "bytes": 29344
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/28-relay-runtime/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": {
+        "runner": "source-relay-construction-runtime",
+        "ok": true,
+        "count": 10,
+        "passed": 10,
+        "sourceHash": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+      },
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/check-relay-construction-runtime.mjs",
+        "sha256": "ec2cdcca561b80647fde3db0251f036a4158ba7a9be91286c4082da7156f4039"
+      },
+      "originalTerminal": {
+        "sha256": "3e79f3c2f94b395bfdff7e96ab830987c2be7259eaffac23fa20b7a702b68f7f",
+        "bytes": 10214,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true
+    },
+    {
+      "name": "scenario-package",
+      "order": 29,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "original-stdout",
+      "report": {
+        "path": "final-matrix-v2/executions/29-scenario-package/stdout.log",
+        "sha256": "3e6794e7326eb8001576db0dbc7fec588267d1205e83976fe375567f477a9df4",
+        "bytes": 1557
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/29-scenario-package/runner-executed.mjs",
+        "sha256": "b866a5377f59e9264962034568fd230c7f38d052bbcda1161ac4de2b4831eda7",
+        "bytes": 7948
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/29-scenario-package/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": {
+        "runner": "scenario-package-v1",
+        "ok": true,
+        "count": 14,
+        "passed": 14,
+        "sourceHtmlSha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+      },
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/check-scenario-package-v1.mjs",
+        "sha256": "b866a5377f59e9264962034568fd230c7f38d052bbcda1161ac4de2b4831eda7"
+      },
+      "originalTerminal": {
+        "sha256": "cbae4a0d38652bd6bf1e8175a5af22267996a0396c0d3b0f21f2a1295a388c48",
+        "bytes": 2274,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true
+    },
+    {
+      "name": "observer-expression",
+      "order": 30,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "original-stdout",
+      "report": {
+        "path": "final-matrix-v2/executions/30-observer-expression/stdout.log",
+        "sha256": "975dd345dcca51b71dd8acf37eaa4222038525acd3c1e2e959ad6010d3a5eabf",
+        "bytes": 2308
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/30-observer-expression/runner-executed.mjs",
+        "sha256": "73856ea6cafcc134da167d331942ba5faa490258dfa721fd8997910677c1b1f3",
+        "bytes": 10485
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/30-observer-expression/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": {
+        "runner": "observer-expression-v1",
+        "ok": true,
+        "count": 21,
+        "passed": 21
+      },
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/check-observer-expression-v1.mjs",
+        "sha256": "73856ea6cafcc134da167d331942ba5faa490258dfa721fd8997910677c1b1f3"
+      },
+      "originalTerminal": {
+        "sha256": "10a89e3914ed303826ca524d1faa4ae3a7400ebd55a1e240f2a1b9c33cccb73a",
+        "bytes": 2214,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true,
+      "nativeOrExplicitCompanion": {
+        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/observer-expression.json",
+        "sha256": "975dd345dcca51b71dd8acf37eaa4222038525acd3c1e2e959ad6010d3a5eabf"
+      },
+      "executionFacts": {
+        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/observer-expression-execution-facts.json",
+        "sha256": "b8946427ad0e6b074c77c2d8adea39a7ad1d673ebd37288ee58f2e73fd336654"
+      }
+    },
+    {
+      "name": "scenario-c1",
+      "order": 31,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "native-json",
+      "report": {
+        "path": "final-matrix-v2/executions/31-scenario-c1/native/report.json",
+        "sha256": "cfb1d65a2afaded8cf855d5f750a2d531d22f08441013c11d0242509e69e32a5",
+        "bytes": 160030
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/31-scenario-c1/runner-executed.mjs",
+        "sha256": "226590b12eb257e5b15edd9f46f3281ef58f8e654f1e0e322b6d36d560ef5ff0",
+        "bytes": 45367
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/31-scenario-c1/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": {
+        "runner": "source-scenario-boot-c1-v1",
+        "ok": true,
+        "count": 120,
+        "passed": 120,
+        "sourceHtmlSha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+      },
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/check-scenario-boot-c1.mjs",
+        "sha256": "226590b12eb257e5b15edd9f46f3281ef58f8e654f1e0e322b6d36d560ef5ff0"
+      },
+      "originalTerminal": {
+        "sha256": "60e69dbe7011d68300dd332b590b95eba6e27a5316673fdf13ca3390d15b39fb",
+        "bytes": 41303,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true
+    },
+    {
+      "name": "scenario-c2",
+      "order": 32,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "native-json",
+      "report": {
+        "path": "final-matrix-v2/executions/32-scenario-c2/native/report.json",
+        "sha256": "02e3bf419f5063627216ca0c5a6ed9dfacd584a1d33a4810abb6498f36574e45",
+        "bytes": 130898
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/32-scenario-c2/runner-executed.mjs",
+        "sha256": "fffb1e65b38f7012b9196cecda206f404491b76a46f2e998168dd90391297bea",
+        "bytes": 42848
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/32-scenario-c2/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": {
+        "runner": "source-scenario-boot-c2-v1",
+        "ok": true,
+        "count": 66,
+        "passed": 66,
+        "sourceHtmlSha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+      },
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/check-scenario-boot-c2.mjs",
+        "sha256": "fffb1e65b38f7012b9196cecda206f404491b76a46f2e998168dd90391297bea"
+      },
+      "originalTerminal": {
+        "sha256": "b36d6477be476128801db1ad0fe8d9b72ed2b36d1ddf0415dfaa61341b467ebe",
+        "bytes": 30816,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true
+    },
+    {
+      "name": "gameplay-vertical-slice",
+      "order": 33,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "original-stdout",
+      "report": {
+        "path": "final-matrix-v2/executions/33-gameplay-vertical-slice/stdout.log",
+        "sha256": "dc2cf63f0af7a31b6f6ffc2e1350c64bdb21e4b107e13a5a9c02d5e3a2e0e862",
+        "bytes": 290
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/33-gameplay-vertical-slice/runner-executed.mjs",
+        "sha256": "a47a4d3a922c3aa526fca633a0bd7d12f0e8f42f0b0a5d779a2cd6e5101fe3db",
+        "bytes": 5741
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/33-gameplay-vertical-slice/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": {
+        "runner": "source-gameplay-vertical-slice-v1",
+        "ok": true,
+        "count": 5,
+        "passed": 5
+      },
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/check-gameplay-vertical-slice.mjs",
+        "sha256": "a47a4d3a922c3aa526fca633a0bd7d12f0e8f42f0b0a5d779a2cd6e5101fe3db"
+      },
+      "originalTerminal": {
+        "sha256": "26b5ec7916b5fa432504e6fb7e9d9f797600ad9e4360b3ccaf768e9f0f124ab9",
+        "bytes": 2249,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true,
+      "nativeOrExplicitCompanion": {
+        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/gameplay-vertical-slice.json",
+        "sha256": "dc2cf63f0af7a31b6f6ffc2e1350c64bdb21e4b107e13a5a9c02d5e3a2e0e862"
+      },
+      "executionFacts": {
+        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/gameplay-vertical-slice-execution-facts.json",
+        "sha256": "d39995d361d2092b57314d3f99af9f448cb631292410b0919a6804cbb11fba4b"
+      }
+    },
+    {
+      "name": "content-episode",
+      "order": 34,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "original-stdout",
+      "report": {
+        "path": "final-matrix-v2/executions/34-content-episode/stdout.log",
+        "sha256": "5a26337fc5baa1308db759a92665025eeeb9c5f71abd7d43e9053774e93ab130",
+        "bytes": 3831
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/34-content-episode/runner-executed.mjs",
+        "sha256": "ff7718a3ac2e7f485bd3b0cf014b4323269c693f094d18004bb8c1f3613f1797",
+        "bytes": 18395
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/34-content-episode/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": {
+        "runner": "source-content-episode-v1",
+        "ok": true,
+        "count": 30,
+        "passed": 30,
+        "sourceHtmlSha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+      },
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/check-content-episode-v1.mjs",
+        "sha256": "ff7718a3ac2e7f485bd3b0cf014b4323269c693f094d18004bb8c1f3613f1797"
+      },
+      "originalTerminal": {
+        "sha256": "8b004932ac5c6e2b9fc5286e22abdccb137aa098b0bf48f8b6710295ea217270",
+        "bytes": 2273,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true,
+      "nativeOrExplicitCompanion": {
+        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/content-episode.json",
+        "sha256": "5a26337fc5baa1308db759a92665025eeeb9c5f71abd7d43e9053774e93ab130"
+      },
+      "executionFacts": {
+        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/content-episode-execution-facts.json",
+        "sha256": "434dffaa07c43eef0fe8e1ce4ed8c331beb35f1b23193319b12c54927facb606"
+      }
+    },
+    {
+      "name": "shortage-choice-v2",
+      "order": 35,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "native-json",
+      "report": {
+        "path": "final-matrix-v2/executions/35-shortage-choice-v2/native-report.json",
+        "sha256": "7144b11a87507d7e1d8594086b29b19bbb35fb05f31c29772c14956545c2c28b",
+        "bytes": 25822
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/35-shortage-choice-v2/runner-executed.mjs",
+        "sha256": "b07aa47005ed1ebcce4445deead106eee6ad48bc4b57baf77e710711449ef708",
+        "bytes": 33199
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/35-shortage-choice-v2/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": {
+        "runner": "source-shortage-choice-v2",
+        "ok": true,
+        "count": 43,
+        "failures": [],
+        "sourceHtmlSha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+      },
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/check-shortage-choice-v2.mjs",
+        "sha256": "b07aa47005ed1ebcce4445deead106eee6ad48bc4b57baf77e710711449ef708"
+      },
+      "originalTerminal": {
+        "sha256": "ed4a629507de641fbeb604a1983d466edc41df4d462ca919cb851e166120aa12",
+        "bytes": 11808,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true
+    },
+    {
+      "name": "crop-target",
+      "order": 36,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "native-json",
+      "report": {
+        "path": "final-matrix-v2/executions/36-crop-target/native-report.json",
+        "sha256": "94f1a9abdd2d061845954ff535224d2d5be4250cdcf788becff9aa385741fc49",
+        "bytes": 33806
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/36-crop-target/runner-executed.mjs",
+        "sha256": "8519b9817647b4193a5d9d1f3ef07fb22e4d0a493af13b868034c2c4dc252445",
+        "bytes": 35681
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/36-crop-target/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": {
+        "runner": "check-crop-target-v1",
+        "ok": true,
+        "count": 64,
+        "passed": 64,
+        "failures": [],
+        "sourceHtmlSha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+      },
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/check-crop-target-v1.mjs",
+        "sha256": "8519b9817647b4193a5d9d1f3ef07fb22e4d0a493af13b868034c2c4dc252445"
+      },
+      "originalTerminal": {
+        "sha256": "b17fb157bce4806e71dae076b928f9a907194c66c99eebc676be6fb3daf7a065",
+        "bytes": 18769,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true
+    },
+    {
+      "name": "npc-public-eligibility-v1",
+      "order": 37,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "native-json",
+      "report": {
+        "path": "final-matrix-v2/executions/37-npc-public-eligibility-v1/native-report.json",
+        "sha256": "638b8fa2b7f885f6a15e7d1f80c2c64371a31144ccca1985d904cec6793ed240",
+        "bytes": 206475
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/37-npc-public-eligibility-v1/runner-executed.mjs",
+        "sha256": "1d5603b47c403ce940c4e5b7afe185739b87206a9db5879eaad4e3f4ac7fe0e0",
+        "bytes": 47685
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/37-npc-public-eligibility-v1/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": {
+        "runner": "source-npc-public-eligibility-v1",
+        "ok": true,
+        "count": 110,
+        "passed": 110,
+        "sourceHtmlSha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+      },
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/check-npc-public-eligibility-v1.mjs",
+        "sha256": "1d5603b47c403ce940c4e5b7afe185739b87206a9db5879eaad4e3f4ac7fe0e0"
+      },
+      "originalTerminal": {
+        "sha256": "849053b8e6ece997bb151b86fcbcb9727094072f6cdc3c088673fe38a439741d",
+        "bytes": 6788,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true
+    },
+    {
+      "name": "npc-self-observation-v1",
+      "order": 38,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "native-json",
+      "report": {
+        "path": "final-matrix-v2/executions/38-npc-self-observation-v1/native-report.json",
+        "sha256": "3eb64340251f02abcefb360a87bb51b2c360e8127365307f3190a3f4e1997be9",
+        "bytes": 137947
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/38-npc-self-observation-v1/runner-executed.mjs",
+        "sha256": "83087ce3e0e8ce6953c8cb94fb3c19b63c7aba4c6772a23553758edc56545391",
+        "bytes": 44694
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/38-npc-self-observation-v1/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": {
+        "runner": "source-npc-self-observation-v1",
+        "ok": true,
+        "count": 104,
+        "passed": 104,
+        "sourceHtmlSha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+      },
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/check-npc-self-observation-v1.mjs",
+        "sha256": "83087ce3e0e8ce6953c8cb94fb3c19b63c7aba4c6772a23553758edc56545391"
+      },
+      "originalTerminal": {
+        "sha256": "c887af7902d5c40059845930eb9bb80792673b35f79f729d3eb7c344bb5961eb",
+        "bytes": 14838,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true
+    },
+    {
+      "name": "npc-direct-sight-v1",
+      "order": 39,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "native-json",
+      "report": {
+        "path": "final-matrix-v2/executions/39-npc-direct-sight-v1/native-report.json",
+        "sha256": "201037334d25ea4f8ad84834662ae4bc6b0037c72daf1444d8e932f04a7c175a",
+        "bytes": 63325
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/39-npc-direct-sight-v1/runner-executed.mjs",
+        "sha256": "31071e612ecdffe444739475b7edb20926e1a21f8b1f8da813078decdb6d3430",
+        "bytes": 49765
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/39-npc-direct-sight-v1/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": {
+        "runner": "source-npc-direct-sight-v1",
+        "ok": true,
+        "count": 91,
+        "passed": 91,
+        "sourceHtmlSha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+      },
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/check-npc-direct-sight-v1.mjs",
+        "sha256": "31071e612ecdffe444739475b7edb20926e1a21f8b1f8da813078decdb6d3430"
+      },
+      "originalTerminal": {
+        "sha256": "fa6094f944ef740a55491adfcb6b59d89994df4ce9b4b5b8b1918ce9fbbfcc34",
+        "bytes": 8858,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true
+    },
+    {
+      "name": "npc-rest-work-v1",
+      "order": 40,
+      "selection": "supplement-current-input-binding",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "native-json",
+      "report": {
+        "path": "supplement-rest-01/business/report.json",
+        "sha256": "89d43ff9404ea174342cd7248cce7f95777d1b2d0d3b7a696e9c1300d82143da",
+        "bytes": 33151
+      },
+      "executionReceipt": {
+        "path": "supplement-rest-01/execution.json",
+        "sha256": "3c4c33694089c9cf68c01853a318d240670dbde6524f2b60b7fa6cea1bc15382",
+        "bytes": 3212
+      },
+      "runner": {
+        "path": "supplement-rest-01/business/report-artifacts/runner-executed.mjs",
+        "sha256": "578f38978f9385ed9e40bc3d3a989cb8fe7bbecbff2ec44beef07255710b7853",
+        "bytes": 28050
+      },
+      "stderr": {
+        "path": "supplement-rest-01/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": {
+        "runner": "source-npc-rest-work-v1",
+        "ok": true,
+        "count": 16,
+        "passed": 16,
+        "sourceHtmlSha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+      },
+      "scopeNote": "Supplement is selected once for the same named contract, not an additional unique contract.",
+      "runnerArtifact": {
+        "path": "scripts/check-npc-rest-work-v1.mjs",
+        "sha256": "578f38978f9385ed9e40bc3d3a989cb8fe7bbecbff2ec44beef07255710b7853"
+      },
+      "originalTerminal": {
+        "sha256": "3c4c33694089c9cf68c01853a318d240670dbde6524f2b60b7fa6cea1bc15382",
+        "bytes": 3212,
+        "portableName": "execution.json"
+      },
+      "originalExternalRetained": true,
+      "nativeOrExplicitCompanion": {
+        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/npc-rest-work-v1.json",
+        "sha256": "89d43ff9404ea174342cd7248cce7f95777d1b2d0d3b7a696e9c1300d82143da"
+      },
+      "executionFacts": {
+        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/npc-rest-work-v1-execution-facts.json",
+        "sha256": "9081aedc54b8beef59290c11e5df4cba74ff650d72ba657f2c5b4dfa010bd43e"
+      }
+    },
+    {
+      "name": "crop-method",
+      "order": 41,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "original-stdout",
+      "report": {
+        "path": "final-matrix-v2/executions/41-crop-method/stdout.log",
+        "sha256": "a8049b071dbaf060a0879959acf19360c3eda789367dfe16eee2bc8fe665c808",
+        "bytes": 40
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/41-crop-method/runner-executed.py",
+        "sha256": "7a6d4f7ac30c4ddb54343cb7208fa8930b6ed4262157c187f14457a2bc77e6d2",
+        "bytes": 126641
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/41-crop-method/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": null,
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/report_recovery_full.py",
+        "sha256": "7a6d4f7ac30c4ddb54343cb7208fa8930b6ed4262157c187f14457a2bc77e6d2"
+      },
+      "originalTerminal": {
+        "sha256": "a4452351a446074bc17d8ff34d366d7cb6c484c53192807cf1b883940e889080",
+        "bytes": 2197,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true
+    },
+    {
+      "name": "replay-self-test",
+      "order": 42,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "original-stdout",
+      "report": {
+        "path": "final-matrix-v2/executions/42-replay-self-test/stdout.log",
+        "sha256": "0813da21b6068f27a332a072cc73180b1362f2dffb7ed3b99e31a2a8392a8538",
+        "bytes": 67
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/42-replay-self-test/runner-executed.mjs",
+        "sha256": "6b4f64ac34994add7b6b6b950b817f24f671388003899e61b635f6cee30f007b",
+        "bytes": 30953
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/42-replay-self-test/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": {
+        "ok": true
+      },
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/replay-harness.mjs",
+        "sha256": "6b4f64ac34994add7b6b6b950b817f24f671388003899e61b635f6cee30f007b"
+      },
+      "originalTerminal": {
+        "sha256": "dbe666f787ab14f6ed1998dc24bb6b86696eda3901aa7d0774c1dfb9f4adf15c",
+        "bytes": 2105,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true,
+      "nativeOrExplicitCompanion": {
+        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/replay-self-test.json",
+        "sha256": "0813da21b6068f27a332a072cc73180b1362f2dffb7ed3b99e31a2a8392a8538"
+      },
+      "executionFacts": {
+        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/replay-self-test-execution-facts.json",
+        "sha256": "0d8b77a935851790b2c790ebeccf9a1634be452c418d6daf8e69a8a554a8a260"
+      }
+    },
+    {
+      "name": "static-three-day-smoke",
+      "order": 43,
+      "selection": "original-matrix-v2-pass",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "native-json",
+      "report": {
+        "path": "final-matrix-v2/executions/43-static-three-day-smoke/native-report.json",
+        "sha256": "cc14c79b507f543a1bd39141d501a95aa681ca63b1bc4b019e53bca0393cf9a5",
+        "bytes": 5248
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/43-static-three-day-smoke/runner-executed.mjs",
+        "sha256": "0a623a20434a43ac004fa64617b4050ccc4ed2646efd0c98bcc4e5e521e5fdb4",
+        "bytes": 13807
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/43-static-three-day-smoke/stderr.log",
+        "sha256": "9aa80de5d0ee99245c3b8a87e1e2a3522f078e67df2f9f13f74bf399447cd9e1",
+        "bytes": 212
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": {
+        "runner": "smoke-three-days",
+        "ok": true,
+        "errors": [],
+        "mode": "static-contract"
+      },
+      "scopeNote": "Runner-specific contract. A sourceHash in its own output remains authoritative for its actual inline/fixture scope; not every contract executes the current full HTML.",
+      "runnerArtifact": {
+        "path": "scripts/smoke-three-days.mjs",
+        "sha256": "0a623a20434a43ac004fa64617b4050ccc4ed2646efd0c98bcc4e5e521e5fdb4"
+      },
+      "originalTerminal": {
+        "sha256": "0add73b15baacb133d1d429ab3150738ac0b008aec77fd4cab87e005360907a0",
+        "bytes": 2771,
+        "portableName": "terminal.json"
+      },
+      "originalExternalRetained": true,
+      "nativeOrExplicitCompanion": {
+        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/static-three-day-smoke.json",
+        "sha256": "cc14c79b507f543a1bd39141d501a95aa681ca63b1bc4b019e53bca0393cf9a5"
+      },
+      "executionFacts": {
+        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/static-three-day-smoke-execution-facts.json",
+        "sha256": "100c5ae11b3f1040c0c6a57522b097796bb55bf57e4a70a26a9051c02b42718f"
+      }
+    },
+    {
+      "name": "relay-handoff-memory-v1",
+      "order": 44,
+      "selection": "supplement-current-input-binding",
+      "executionTerminal": true,
+      "exitCode": 0,
+      "reportKind": "native-json",
+      "report": {
+        "path": "supplement-memory-01/business/report.json",
+        "sha256": "dcba9c16d731df9575ca4dd242a9cfcda3c40abf81b27c73d1df7f437db4954f",
+        "bytes": 34103
+      },
+      "executionReceipt": {
+        "path": "supplement-memory-01/execution.json",
+        "sha256": "cd3e9adee1da2b66bb3b7eac57b8ebfd816861cfcb480329f34aa5180e2d0a40",
+        "bytes": 3000
+      },
+      "runner": {
+        "path": "supplement-memory-01/business/report.artifacts/runner-executed.mjs",
+        "sha256": "36e311de1d91ad7ed958789ab7a376a2fe2532e1bb691fc633f8da4e09d6afe2",
+        "bytes": 36754
+      },
+      "stderr": {
+        "path": "supplement-memory-01/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "originalReportedSummary": {
+        "runner": "source-relay-handoff-memory-v1",
+        "ok": true,
+        "count": 25,
+        "passed": 25,
+        "sourceHtmlSha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+      },
+      "scopeNote": "Supplement is selected once for the same named contract, not an additional unique contract.",
+      "runnerArtifact": {
+        "path": "scripts/check-relay-handoff-memory-v1.mjs",
+        "sha256": "36e311de1d91ad7ed958789ab7a376a2fe2532e1bb691fc633f8da4e09d6afe2"
+      },
+      "originalTerminal": {
+        "sha256": "cd3e9adee1da2b66bb3b7eac57b8ebfd816861cfcb480329f34aa5180e2d0a40",
+        "bytes": 3000,
+        "portableName": "execution.json"
+      },
+      "originalExternalRetained": true,
+      "nativeOrExplicitCompanion": {
+        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/relay-handoff-memory-v1.json",
+        "sha256": "dcba9c16d731df9575ca4dd242a9cfcda3c40abf81b27c73d1df7f437db4954f"
+      },
+      "executionFacts": {
+        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/relay-handoff-memory-v1-execution-facts.json",
+        "sha256": "073f810d0aa659b6560a9be9512f0a163821308220ecf2f77ff29190e4456c83"
+      }
+    }
+  ],
+  "redundantPasses": [
+    {
+      "name": "relay-handoff-memory-v1",
+      "reason": "same named contract already passed in matrix-v2, later current-input supplement selected; no unique increment",
+      "report": {
+        "path": "final-matrix-v2/executions/44-relay-handoff-memory-v1/native-report.json",
+        "sha256": "c29bd2b35889318371f8e3e14fd66589443b7b7b23d24d54500e7cb89f792234",
+        "bytes": 34799
+      },
+      "exitCode": 0,
+      "originalReportedSummary": {
+        "runner": "source-relay-handoff-memory-v1",
+        "ok": true,
+        "count": 25,
+        "passed": 25,
+        "sourceHtmlSha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+      }
+    }
+  ],
+  "originalFailures": [
+    {
+      "matrix": "final-matrix",
+      "name": "save-recovery",
+      "order": 9,
+      "status": "terminal",
+      "exitCode": 1,
+      "stdout": {
+        "path": "final-matrix/executions/09-save-recovery/stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderr": {
+        "path": "final-matrix/executions/09-save-recovery/stderr.log",
+        "sha256": "6c78439b28b5cf07f7b40c1698709393aa81954f5ff7faef7a2ae9cc667def80",
+        "bytes": 1426
+      },
+      "runner": {
+        "path": "final-matrix/executions/09-save-recovery/runner-executed.mjs",
+        "sha256": "554c400c174ad1b069c4dfcc839c12b3b45ea79c5aa7669e093a440ffa4845d3",
+        "bytes": 49798
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "classification": "strict legacy memory oracle missing newly authorized null; original failure not reclassified as pass"
+    },
+    {
+      "matrix": "final-matrix",
+      "name": "relay-producer",
+      "order": 26,
+      "status": "terminal",
+      "exitCode": 1,
+      "stdout": {
+        "path": "final-matrix/executions/26-relay-producer/stdout.log",
+        "sha256": "a801e3fe5fb99923cd57b24bf79e3554d9cf7d90626e75c97f42af608fc6a429",
+        "bytes": 13636
+      },
+      "stderr": {
+        "path": "final-matrix/executions/26-relay-producer/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "runner": {
+        "path": "final-matrix/executions/26-relay-producer/runner-executed.mjs",
+        "sha256": "7aa8df5bcd42ad6debaa91815672f49a012d8b7e357e8dad1ae8fa0c0b77c774",
+        "bytes": 6458
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "classification": "static syntax matcher expected literal dispatch; command variable requires strict trace adaptation; no dynamic handoff failure asserted"
+    },
+    {
+      "matrix": "final-matrix-v2",
+      "name": "npc-rest-work-v1",
+      "order": 40,
+      "status": "terminal",
+      "exitCode": 1,
+      "stdout": {
+        "path": "final-matrix-v2/executions/40-npc-rest-work-v1/stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderr": {
+        "path": "final-matrix-v2/executions/40-npc-rest-work-v1/stderr.log",
+        "sha256": "6d434aefa85f46ea9dd03982b932e576bfec4c60db4bfc63bb77886a742a514e",
+        "bytes": 970
+      },
+      "runner": {
+        "path": "final-matrix-v2/executions/40-npc-rest-work-v1/runner-executed.mjs",
+        "sha256": "d612d1996556e62e0884649b9cd29f0dc203dda9b8a165d8aa13264733bb594e",
+        "bytes": 28050
+      },
+      "sourceHtmlSha256Execution": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "classification": "method startup whole-IO SHA binding stale after unrelated test-oracle edits; runtime extraction itself unchanged; no domain assertions executed"
+    }
+  ],
+  "support": [
+    {
+      "name": "build-scenario-package-check",
+      "exitCode": 0,
+      "status": "terminal"
+    }
+  ],
+  "supportNote": "Original support commands remain outside the44 unique count; do not add them to contract totals.",
+  "representation": "non-native selected coverage facts"
+}

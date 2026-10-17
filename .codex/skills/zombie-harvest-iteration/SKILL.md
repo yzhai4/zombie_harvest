@@ -81,6 +81,8 @@ node scripts/replay-harness.mjs --self-test
 
 成功动作proof分开gross支付、同实体HP/产出、实际时间推进与推进副作用，记录真实nested command/event/causation；旧空payload不追溯补人物功绩。 业务成功event与父command的actor均实际核对；不同容器的默认值不可推定等价，时钟system事件经causation关联业务。保留窗口不是永久NPC成功账本，新个人链消费者仍需独立状态/迁移合同。拒绝必须不发成功receipt、任务功绩或奖励，不能只判断wrapper返回存在。
 
+个人经历按[来源与保存合同](../../../docs/decisions/ADR-20261018-relay-handoff-memory-v1.md)区分持久事实、本人资格与临时查看缓存。只清失效显示，不删除历史；context切人后旧显示复活、独立合法名册查看被其它context重绘误清，是两个相反的边界，须由实际renderer和公开入口验证。
+
 浏览器用保存夹具定位后期事件时，注明 fixture 模式，并在下次 boot 的 loader 之前注入：运行中改 localStorage 会被 pagehide checkpoint 覆盖。用 `scripts/server-content-chain.py` 验证事项切换、真实结算与刷新；自然试玩证据另行记录。
 
 修改计划结算、每日指挥点、日历或附近区域交互时，执行 `scripts/check-plan-day.mjs` 和 `scripts/check-camp-area.mjs`。实际日历三日用 `scripts/server-three-days.py` 的公开行动路线：分别验日历跨日与遭遇次数、固定人口与营地生存、真实收获、每日配给/计划/指挥点及刷新。训练改变 SAN/士气，不能据此评价自然节奏或平衡；低信任零 CP 路线也不能证明非零已花 CP 的防回补。
@@ -124,7 +126,7 @@ AI 或实验变更还必须提供：baseline、变体、seed 集、失败重试�
 
 ## 场景包与调研输入闸门（2026-10-17）
 
-涉及竖切片或观察者时，先读 `docs/qa/deep-research-baseline-20261017.md` 与 `docs/qa/iteration-manifest-v1.json`。外部调研是设计输入，不是运行时证据。维护 scenarioVersion/seed/worldConfig/gameVersion/aiConfig/storylet fallback，运行 `check-scenario-package-v1` 与 `check-observer-expression-v1`；resolver 当前是 headless fixture。先实现真实boot与旧档迁移，实际调用和验证证据齐全后才声明runtime loader生效。
+涉及竖切片或观察者时，先读 `docs/qa/iteration-manifest-v1.json` 与相关当前QA。外部调研是设计输入，不是运行时证据。维护 scenarioVersion/seed/worldConfig/gameVersion/aiConfig/storylet fallback，运行 `check-scenario-package-v1` 与 `check-observer-expression-v1`。Scenario真实boot支持范围按C1／C2合同与QA判断；独立headless resolver样本不能证明任意配置或内容图已接线。新增轴仍须有真实boot消费与旧档迁移证据。
 
 Scenario schema/版本化 snapshot 能保存，不等于 boot 已消费配置；须沿真实新开/继续入口验证实际世界效果和旧 writer 保留边界后，才称 loader 生效。
 

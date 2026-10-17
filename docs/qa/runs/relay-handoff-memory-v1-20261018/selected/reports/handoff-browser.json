@@ -1,0 +1,411 @@
+{
+  "runner": "browser-relay-handoff-memory-v1",
+  "runnerSha256": "9e8b4b303349a2c0926052761a32da527749535c259cd1bae781f17cb738096c",
+  "sourceHtmlSha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+  "inputManifestSha256": "34f1f5f71709e992ffd26735858e60c92b15a264c1d5bb5a290a98a5cdc10e8e",
+  "mode": "original-complete-source-native-preboot-fixtures-public-Chrome-controls",
+  "naturalGameplay": false,
+  "humanExperience": false,
+  "testStateWritesAfterBoot": false,
+  "hiddenGameActionsAfterBoot": false,
+  "forceClicks": false,
+  "sourceVmExecuted": false,
+  "normalSaveBeforePagehideRequired": true,
+  "budget": {
+    "overallSeconds": 120,
+    "sceneSeconds": 50,
+    "minimumPlayerHp": 35,
+    "maximumObservedHpLoss": 12,
+    "maximumPublicControlsPerScene": 18,
+    "navigationActions": 0
+  },
+  "checks": [
+    {
+      "name": "actual-held-core: continue-original-writer is visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "actual-held-core: actual-handoff is visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "actual-held-core: one actual new handoff success is saved before pagehide",
+      "ok": true
+    },
+    {
+      "name": "actual-held-core: memory matches actual successful receipt and original player actor",
+      "ok": true
+    },
+    {
+      "name": "actual-held-core: only actual receiving NPC owns one capsule and core paid once",
+      "ok": true
+    },
+    {
+      "name": "actual-held-core: recorded-desktop is visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "actual-held-core: authorized actual view shows personal history",
+      "ok": true
+    },
+    {
+      "name": "actual-held-core: 390 memory is readable and bound to same actor",
+      "ok": true
+    },
+    {
+      "name": "actual-held-core: repeat-free-view is visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "actual-held-core: open-terminal is visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "actual-held-core: survivors-tab is visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "actual-held-core: roster same-ID row consumes the same history",
+      "ok": true
+    },
+    {
+      "name": "actual-held-core: actual roster has ten unique personal fact rows",
+      "ok": true
+    },
+    {
+      "name": "actual-held-core: other roster identities receive no cached history",
+      "ok": true
+    },
+    {
+      "name": "actual-held-core: close-terminal is visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "actual-held-core: repeated view does not grant another handoff or standing reward",
+      "ok": true
+    },
+    {
+      "name": "actual-held-core: continue-new-memory is visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "actual-held-core: Continue and new real timer tick retain memory without adapter or duplicate",
+      "ok": true
+    },
+    {
+      "name": "actual-held-core: restored-390 is visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "actual-held-core: actual restored free view still shows the same personal history",
+      "ok": true
+    },
+    {
+      "name": "actual-held-core: original input seeded only once across real reload",
+      "ok": true
+    },
+    {
+      "name": "actual-old-delivered: continue-original-writer is visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "actual-old-delivered: original old successful history is not backfilled",
+      "ok": true
+    },
+    {
+      "name": "actual-old-delivered: old-unrecorded-desktop is visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "actual-old-delivered: free view says unrecorded rather than denying original delivery",
+      "ok": true
+    },
+    {
+      "name": "actual-old-delivered: continue-old-adapter-once is visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "actual-old-delivered: second Continue leaves null and adds no second migration or handoff",
+      "ok": true
+    },
+    {
+      "name": "actual-old-delivered: original input seeded only once across real reload",
+      "ok": true
+    },
+    {
+      "name": "main document actual-held-core matches frozen source",
+      "ok": true
+    },
+    {
+      "name": "main document actual-held-core matches frozen source",
+      "ok": true
+    },
+    {
+      "name": "main document actual-old-delivered matches frozen source",
+      "ok": true
+    },
+    {
+      "name": "main document actual-old-delivered matches frozen source",
+      "ok": true
+    },
+    {
+      "name": "actual-held-core: completed initial load and real reload have exactly two main responses",
+      "ok": true
+    },
+    {
+      "name": "actual-old-delivered: completed initial load and real reload have exactly two main responses",
+      "ok": true
+    }
+  ],
+  "errors": [],
+  "scenes": [
+    {
+      "id": "actual-held-core",
+      "inputSha256": "3096e2c66bb8ecda5a88dc81cfbda4ed8160055fc33f358d25990c0d4edfc0a9",
+      "kind": "original-complete-source-native-writer",
+      "originalEnemyIds": [
+        "wz-1",
+        "wz-2",
+        "wz-3",
+        "wz-4",
+        "frontier-1"
+      ],
+      "actions": [
+        {
+          "label": "continue-original-writer",
+          "selector": "#continueSaveBtn"
+        },
+        {
+          "label": "actual-handoff",
+          "selector": "[data-context-action=\"relayHandoff\"]"
+        },
+        {
+          "label": "recorded-desktop",
+          "selector": "[data-context-action=\"npcView\"][data-npc-id=\"commander\"]"
+        },
+        {
+          "label": "repeat-free-view",
+          "selector": "[data-context-action=\"npcView\"][data-npc-id=\"commander\"]"
+        },
+        {
+          "label": "open-terminal",
+          "selector": "#openInfoBtn"
+        },
+        {
+          "label": "survivors-tab",
+          "selector": "[data-info-tab=\"survivors\"]"
+        },
+        {
+          "label": "close-terminal",
+          "selector": "#infoModalClose"
+        },
+        {
+          "label": "continue-new-memory",
+          "selector": "#continueSaveBtn"
+        },
+        {
+          "label": "restored-390",
+          "selector": "[data-context-action=\"npcView\"][data-npc-id=\"commander\"]"
+        }
+      ],
+      "captures": [
+        {
+          "file": "actual-held-core-normal-post-boot-native.json",
+          "sha256": "3cf75ff695344936a1eb0caa08219e8551c281ee5c0a44afeb131f688a1bd82e",
+          "bytes": 77368
+        },
+        {
+          "file": "actual-held-core-normal-handoff-native.json",
+          "sha256": "e9d1bf223335acff04d755e760bdd44b0e6a7737305c9ed6cf9203a7daae5a9e",
+          "bytes": 85016
+        },
+        {
+          "file": "actual-held-core-recorded-desktop-ui.json",
+          "sha256": "5df16c8907980e51d4f23356e969950374e36d9dbc8e77fcffa56c9fa07fe6e9",
+          "bytes": 417
+        },
+        {
+          "file": "actual-held-core-recorded-desktop.png",
+          "sha256": "fb93046830414b0a9e8a26ed56c811a302f54b8d3dbb7c1d5b8411af4ded618a",
+          "bytes": 542716
+        },
+        {
+          "file": "actual-held-core-recorded-390-ui.json",
+          "sha256": "6dc91ad5796aefbcd767c7fcfff4696487401fe06794fe60bbd99f0762be9a86",
+          "bytes": 413
+        },
+        {
+          "file": "actual-held-core-recorded-390.png",
+          "sha256": "2c7635a08a697d930e364337e5dffbb315b52fde63ab2dfbd1174cb015fe768c",
+          "bytes": 165102
+        },
+        {
+          "file": "actual-held-core-roster-390-ui.json",
+          "sha256": "59ad3ef3bc757fad85c91119a3c618688f67bd8419296d6571bf813f99547dd8",
+          "bytes": 420
+        },
+        {
+          "file": "actual-held-core-roster-390.png",
+          "sha256": "1c94a84fa2346e3d22a1974e4194f158b3043ad70452b8a08debcafaf0e76b76",
+          "bytes": 187333
+        },
+        {
+          "file": "actual-held-core-normal-after-query-native.json",
+          "sha256": "6deb5dbe96259f0239cff32cc493bdab517aa6f2dd35e079cc086384defdd341",
+          "bytes": 95675
+        },
+        {
+          "file": "actual-held-core-normal-after-continue-native.json",
+          "sha256": "a904a8c0e05ee01bcd3176e56b663b5c9d2f8010ded44f1bdfaba2e271189e50",
+          "bytes": 103141
+        },
+        {
+          "file": "actual-held-core-restored-390-ui.json",
+          "sha256": "c9a3fef1663e70806fb43d01ff943cbc664714f67204faa8d83a8f83bf79fd22",
+          "bytes": 413
+        },
+        {
+          "file": "actual-held-core-restored-390.png",
+          "sha256": "7ca3daf7c40af9733cf9b89461d80c20921ad2789efb3e446b009d106e689db7",
+          "bytes": 170171
+        }
+      ],
+      "status": "VERIFIED",
+      "lastPublicSafety": {
+        "label": "capture-restored-390",
+        "started": true,
+        "hp": 94,
+        "battle": false
+      },
+      "actualReceipt": {
+        "eventId": "evt-000019",
+        "seq": 19,
+        "type": "relay.coreHandedOff",
+        "actorId": "player-1",
+        "commandId": "cmd-000255",
+        "causationId": null,
+        "tick": {
+          "world": 380,
+          "phase": 0,
+          "schedule": 20
+        },
+        "payload": {
+          "projectId": "camp-relay-001",
+          "itemId": "relayCore",
+          "itemInstanceId": "item-relayCore-001",
+          "commanderId": "commander",
+          "status": "briefed",
+          "expectedInstanceId": "camp-relay-001",
+          "expectedDefId": "relay-chain-001",
+          "expectedDefinitionVersion": 1,
+          "expectedEventId": "evt-000003"
+        },
+        "defId": "relay-chain-001",
+        "definitionVersion": 1,
+        "instanceId": "camp-relay-001",
+        "effects": [
+          {
+            "type": "fact",
+            "key": "briefed",
+            "eventType": "relay.coreHandedOff",
+            "amount": 0,
+            "payload": {}
+          }
+        ]
+      },
+      "recipientId": "commander"
+    },
+    {
+      "id": "actual-old-delivered",
+      "inputSha256": "38cdf0a6ce9a38263091f475db7a6730444464d510f812e84a0658b7a5bc2b77",
+      "kind": "original-complete-source-native-writer",
+      "originalEnemyIds": [
+        "wz-1",
+        "wz-2",
+        "wz-3",
+        "wz-4",
+        "frontier-1"
+      ],
+      "actions": [
+        {
+          "label": "continue-original-writer",
+          "selector": "#continueSaveBtn"
+        },
+        {
+          "label": "old-unrecorded-desktop",
+          "selector": "[data-context-action=\"npcView\"][data-npc-id=\"commander\"]"
+        },
+        {
+          "label": "continue-old-adapter-once",
+          "selector": "#continueSaveBtn"
+        }
+      ],
+      "captures": [
+        {
+          "file": "actual-old-delivered-normal-post-boot-native.json",
+          "sha256": "62e39ef3e8958c9fa452fb8d5767c249bdd3d4100a34f99c6387253ece6ab41d",
+          "bytes": 84278
+        },
+        {
+          "file": "actual-old-delivered-normal-old-adapted-native.json",
+          "sha256": "62e39ef3e8958c9fa452fb8d5767c249bdd3d4100a34f99c6387253ece6ab41d",
+          "bytes": 84278
+        },
+        {
+          "file": "actual-old-delivered-old-unrecorded-desktop-ui.json",
+          "sha256": "0a905a1fa8ef6604319d43de70179045ff4c0380b9ecd99eeafaddb1b2343d2a",
+          "bytes": 376
+        },
+        {
+          "file": "actual-old-delivered-old-unrecorded-desktop.png",
+          "sha256": "bb26a2fc6d91e3b01d2ce52207b3a6856a7567186be08baaa6c711a8cf4144dd",
+          "bytes": 546747
+        },
+        {
+          "file": "actual-old-delivered-normal-old-after-second-continue-native.json",
+          "sha256": "622bb0633c20bf2d6ca0dfbc9ec7276f6a644078a4cc705f34c61bdd2f51d089",
+          "bytes": 94919
+        }
+      ],
+      "status": "VERIFIED",
+      "lastPublicSafety": {
+        "label": "wait-normal-old-after-second-continue",
+        "started": true,
+        "hp": 94,
+        "battle": false
+      }
+    }
+  ],
+  "documents": [
+    {
+      "scene": "actual-held-core",
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "actual-held-core",
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "actual-old-delivered",
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "actual-old-delivered",
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    }
+  ],
+  "cleanup": {
+    "contextsClosed": true,
+    "browserClosed": true,
+    "serverClosed": true
+  },
+  "browserVersion": "155.0.8059.80",
+  "count": 34,
+  "passed": 34,
+  "ok": true,
+  "elapsedMs": 42106
+}

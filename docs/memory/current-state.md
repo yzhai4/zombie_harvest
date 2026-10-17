@@ -1,6 +1,14 @@
 # 当前状态
 
-## 当前检查点：等候禁用原因反馈（2026-10-18，优先于下方历史）
+## 当前检查点：本人核心交付记忆（2026-10-18，优先于下方历史）
+
+源码对象`d1542fd0e299ad7e44d094413c76199d6f3e07d9`／HTML`2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b`，917189字节，171项scripts／dist已与Git API源码树逐blob匹配；SAVE21／CONTENT3。真实成功返回收据只给当次接收者保留来源胶囊，同ID免费查看／名册消费，正常保存／Continue保留；旧缺槽一次null，不回填历史，不新增关系奖励。见[QA](../qa/relay-handoff-memory-v1-20261018.md)及[合同](../decisions/ADR-20261018-relay-handoff-memory-v1.md)。
+
+44个唯一源码合同各有通过终态：原矩阵42／44、后矩阵43／44保留，最后旧IO pin精确修正后rest16／16；公开伴件与当前IO的memory另验25／25，不改称一次矩阵全44通过。真实Chrome新记忆34、受影响direct200／self212／NPC112／episode12均terminal0并清理；同HTML绑定。独立A→B→A与名册resize两种相反缓存反例均实际复现并在最终2dd核对修正。原source23／25的方法错误和中间构建反例均保留。
+
+选中证据167个新文件／348条绑定已安装，本地freshness16／16、方法self-test76／76均真实exit0；本地无.git，commitVerification unavailable与Git API171项匹配分列。证据发布head及精确CI由PR #4／最终收据另核，不继承基线CI299，生产未部署。下载报告已再核同59069字节／SHA940efac9，路线没有新增外部实证或缩减长期目标；工作流与Skill修正过时时态并保留可复用的显示缓存边界。下一继续公开完整中继后果与既有小真人pilot；旧A02／B02仍未online／reload，不由本片提升。完整Memory／Social、Actor、Studio、多副本、UI素材与GameCore／引擎继续开放。
+
+## 历史检查点：等候禁用原因反馈（2026-10-18）
 
 源码对象`1db8954edb1565acb5ffcd817cde9558873313c3`／HTML`108042213a6defbfd16cbd2f56cde8fbc2c575717c5eefff942753353a19b09a`，903224字节，159条source inventory已与Git API树匹配；SAVE21／CONTENT3不变。等候按钮、context常驻说明和footer共用当次真实Gate，提交仍重核；只披露固定粗原因，未知中性，不暴露敌实体信息。未改危险、费用、时钟、模拟、保存或LLM。见[QA](../qa/camp-rest-feedback-20261018.md)。
 

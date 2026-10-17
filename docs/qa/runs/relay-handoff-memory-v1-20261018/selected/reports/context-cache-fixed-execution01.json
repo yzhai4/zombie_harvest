@@ -1,0 +1,238 @@
+{
+  "schema": "ChromeContextMemoryCacheReproV1",
+  "status": "NO_REVIVAL_OBSERVED",
+  "sourceHtmlSha256": "2fe4b25e60849e0f222438047da8137feaddf643312d91995895ac0df3b046d3",
+  "runnerSha256": "16612136f26d715805c1aeaa70a87e5f953e10f65b4d76e287188530fbb8b9d7",
+  "originalInput": {
+    "file": "original-Chrome8b97-native.json",
+    "sha256": "e9d1bf223335acff04d755e760bdd44b0e6a7737305c9ed6cf9203a7daae5a9e"
+  },
+  "input": {
+    "file": "TEST-ONLY-preboot-native.json",
+    "sha256": "dc5e326fe3498d28b1070f5777460a638bf60acded1fd7bdaaac122051afdf4b"
+  },
+  "prebootSourceFactory": {
+    "helperSha256": "e9872eeba85d49019d1bd806f3dd18357a5abc8f2f92922922f6a5324ec220dc",
+    "ioSha256": "554c400c174ad1b069c4dfcc839c12b3b45ea79c5aa7669e093a440ffa4845d3",
+    "usage": "actual checksum and strict validator only; no start/command/advance"
+  },
+  "changes": [
+    "TEST-ONLY geometry only: player10.9,5.3; commander10,6; doctor11,6.7; original roster order kept",
+    "TEST-ONLY clock.paused=true; original legal clock.rate retained. rate0 is rejected by product validator and not used.",
+    "Original real received capsule, source event, enemies/resources/HP/IDs all retained; no afterboot state write or hidden API"
+  ],
+  "controls": [
+    {
+      "type": "click",
+      "selector": "#continueSaveBtn"
+    },
+    {
+      "type": "click",
+      "selector": "[data-context-action=\"npcView\"][data-npc-id=\"commander\"]"
+    },
+    {
+      "type": "keyboard",
+      "key": "ArrowDown"
+    },
+    {
+      "type": "keyboard",
+      "key": "ArrowDown"
+    },
+    {
+      "type": "keyboard",
+      "key": "ArrowDown"
+    },
+    {
+      "type": "keyboard",
+      "key": "ArrowDown"
+    },
+    {
+      "type": "keyboard",
+      "key": "ArrowUp"
+    },
+    {
+      "type": "keyboard",
+      "key": "ArrowUp"
+    },
+    {
+      "type": "keyboard",
+      "key": "ArrowUp"
+    },
+    {
+      "type": "keyboard",
+      "key": "ArrowUp"
+    }
+  ],
+  "checks": [
+    {
+      "name": "A memory actually visible and recorded before movement",
+      "ok": true
+    },
+    {
+      "name": "only one NPC view has occurred",
+      "ok": true
+    },
+    {
+      "name": "A memory hides when actual context changes to B",
+      "ok": true
+    },
+    {
+      "name": "no second NPC view or explicit cache clear occurred",
+      "ok": true
+    }
+  ],
+  "documents": [
+    {
+      "status": 200,
+      "sha256": "2fe4b25e60849e0f222438047da8137feaddf643312d91995895ac0df3b046d3"
+    }
+  ],
+  "captures": [
+    {
+      "label": "01-A-viewed",
+      "public": {
+        "memory": {
+          "hidden": false,
+          "text": "交付记忆：第1天 06:20，玩家把广播核心交给了我。",
+          "npcId": "commander",
+          "status": "recorded"
+        },
+        "sight": {
+          "hidden": false,
+          "text": "第1天 06:20 · 本次所见\n这次查看没有得到可确认的视线报告。",
+          "npcId": "commander",
+          "status": "unavailable"
+        },
+        "views": [
+          {
+            "npcId": "commander",
+            "disabled": false
+          }
+        ],
+        "hp": 94
+      },
+      "png": "01-A-viewed.png"
+    },
+    {
+      "label": "01-A-viewed",
+      "native": "01-A-viewed-normal-native.json",
+      "source": "normal source writer; not pagehide",
+      "commanderDistance": 1.1401754250991385,
+      "doctorDistance": 1.4035668847618203,
+      "clock": {
+        "paused": true,
+        "rate": 1,
+        "phaseMinutes": 0,
+        "scheduleMinutes": 20
+      },
+      "player": {
+        "x": 10.9,
+        "y": 5.3,
+        "prevX": 11.1,
+        "prevY": 11
+      }
+    },
+    {
+      "label": "02-B-context",
+      "public": {
+        "memory": {
+          "hidden": true,
+          "text": ""
+        },
+        "sight": {
+          "hidden": true,
+          "text": "",
+          "npcId": "commander"
+        },
+        "views": [
+          {
+            "npcId": "doctor",
+            "disabled": false
+          }
+        ],
+        "hp": 94
+      },
+      "png": "02-B-context.png"
+    },
+    {
+      "label": "02-B-context",
+      "native": "02-B-context-normal-native.json",
+      "source": "normal source writer; not pagehide",
+      "commanderDistance": 0.9486832980505147,
+      "doctorDistance": 1.0049875621120907,
+      "clock": {
+        "paused": true,
+        "rate": 1,
+        "phaseMinutes": 0,
+        "scheduleMinutes": 20
+      },
+      "player": {
+        "x": 10.9,
+        "y": 5.699999999999998,
+        "prevX": 11.1,
+        "prevY": 11
+      }
+    },
+    {
+      "label": "03-A-return-without-view",
+      "public": {
+        "memory": {
+          "hidden": true,
+          "text": ""
+        },
+        "sight": {
+          "hidden": true,
+          "text": "",
+          "npcId": "commander"
+        },
+        "views": [
+          {
+            "npcId": "commander",
+            "disabled": false
+          }
+        ],
+        "hp": 94
+      },
+      "png": "03-A-return-without-view.png"
+    },
+    {
+      "label": "03-A-return",
+      "native": "03-A-return-normal-native.json",
+      "source": "normal source writer; not pagehide",
+      "commanderDistance": 1.1401754250991385,
+      "doctorDistance": 1.4035668847618203,
+      "clock": {
+        "paused": true,
+        "rate": 1,
+        "phaseMinutes": 0,
+        "scheduleMinutes": 20
+      },
+      "player": {
+        "x": 10.9,
+        "y": 5.3,
+        "prevX": 11.1,
+        "prevY": 11
+      }
+    }
+  ],
+  "errors": [],
+  "cleanup": {
+    "contextClosed": true,
+    "browserClosed": true,
+    "serverClosed": true
+  },
+  "naturalGameplay": false,
+  "businessHandoffExecuted": false,
+  "browserOnlyAfterBoot": true,
+  "browserVersion": "155.0.8059.80",
+  "directSightInitiallyVisible": true,
+  "directSightHiddenAtB": true,
+  "actualMemoryRevivedWithoutView": false,
+  "directSightAfterReturn": {
+    "hidden": true,
+    "text": "",
+    "npcId": "commander"
+  },
+  "directSightDidNotRevive": true,
+  "documentBinding": true
+}

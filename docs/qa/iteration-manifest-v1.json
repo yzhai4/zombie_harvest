@@ -2,13 +2,13 @@
   "schema": "IterationEvidenceV1",
   "version": 1,
   "status": "verified",
-  "scope": "Selected current camp-rest feedback UI evidence; exact source/static/VM and fixture-browser scopes remain separate. Not production or player-benefit acceptance.",
+  "scope": "Selected relay handoff memory slice provenance; exact source/static/VM and fixture-Chrome scope only. Verified is the existing manifest format; builder does not run Gate or grant release approval.",
   "source": {
     "repository": "yzhai4/zombie_harvest",
     "branch": "codex/v82-npc-succession",
-    "commit": "1db8954edb1565acb5ffcd817cde9558873313c3",
-    "tree": "d2974d81c70cd44010dfbf5200ace864091a53f9",
-    "htmlSha256": "108042213a6defbfd16cbd2f56cde8fbc2c575717c5eefff942753353a19b09a"
+    "commit": "d1542fd0e299ad7e44d094413c76199d6f3e07d9",
+    "tree": "dd5f66fb97261baea3859b2943a82e423064dfe7",
+    "htmlSha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
   },
   "compatibility": {
     "saveVersion": 21,
@@ -18,7 +18,8 @@
     "naturalGameplayClaim": false,
     "productionDeployed": false,
     "fullPlanningAccepted": false,
-    "fullActorObservationAccepted": false
+    "fullActorObservationAccepted": false,
+    "fullMemoryAccepted": false
   },
   "tests": {
     "required": [
@@ -37,8 +38,8 @@
         "count": 54,
         "passed": 54,
         "artifact": {
-          "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/reports/content-chain.log",
-          "sha256": "dbec7f749f90a0c28d1df5c1872de0097ed325ad014ccaebe97fc06bd9be2785"
+          "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/content-chain.log",
+          "sha256": "24965273b7e7ce53f92c5d5be59ff5e7dae1301a9e3528f46da4ebfabd9ba2b4"
         }
       },
       {
@@ -47,8 +48,8 @@
         "count": 20,
         "passed": 20,
         "artifact": {
-          "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/reports/event-gate-parity.json",
-          "sha256": "c37355034a740941611a15b9f3c181662b076ced3de443af4051eb1b9dc4dd15"
+          "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/event-gate-parity.json",
+          "sha256": "d94b3d6b88f7247185437662ebb578d7700983ce0c9eadb0bab18dfc4b2de749"
         }
       },
       {
@@ -57,7 +58,7 @@
         "count": 21,
         "passed": 21,
         "artifact": {
-          "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/reports/observer-expression.json",
+          "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/observer-expression.json",
           "sha256": "975dd345dcca51b71dd8acf37eaa4222038525acd3c1e2e959ad6010d3a5eabf"
         }
       },
@@ -67,7 +68,7 @@
         "count": 5,
         "passed": 5,
         "artifact": {
-          "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/reports/gameplay-vertical-slice.json",
+          "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/gameplay-vertical-slice.json",
           "sha256": "dc2cf63f0af7a31b6f6ffc2e1350c64bdb21e4b107e13a5a9c02d5e3a2e0e862"
         }
       },
@@ -77,18 +78,18 @@
         "count": 30,
         "passed": 30,
         "artifact": {
-          "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/reports/content-episode.json",
-          "sha256": "3384fd96a2449f66e7922fc6831432f52c806e987a5eb06291588433ffaa3533"
+          "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/content-episode.json",
+          "sha256": "5a26337fc5baa1308db759a92665025eeeb9c5f71abd7d43e9053774e93ab130"
         }
       },
       {
         "name": "replay-self-test",
         "status": "passed",
-        "count": 18,
-        "passed": 18,
+        "count": 19,
+        "passed": 19,
         "artifact": {
-          "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/reports/replay-self-test.json",
-          "sha256": "92f64ce8e3d1c2e6869ca70ffcc3fc9acb0ee6440141b0b4e3c22bb1258054b6"
+          "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/replay-self-test.json",
+          "sha256": "0813da21b6068f27a332a072cc73180b1362f2dffb7ed3b99e31a2a8392a8538"
         }
       },
       {
@@ -97,22 +98,46 @@
         "count": 55,
         "passed": 55,
         "artifact": {
-          "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/reports/static-three-day-smoke.json",
-          "sha256": "42f21fee7ce0924d7ac05f5ece2dc37e4d7888df4cbc03ee73f9b74aa1cf4e9c"
+          "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/static-three-day-smoke.json",
+          "sha256": "cc14c79b507f543a1bd39141d501a95aa681ca63b1bc4b019e53bca0393cf9a5"
         }
       },
       {
-        "name": "camp-rest",
+        "name": "relay-handoff-memory-v1",
         "status": "passed",
-        "count": 77,
-        "passed": 77,
+        "count": 25,
+        "passed": 25,
         "artifact": {
-          "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/reports/camp-rest.json",
-          "sha256": "71ca2361da6839d7e3ffd7e5618b914e9b87d168e0d8e54edb889727fe2caa87"
+          "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/relay-handoff-memory-v1.json",
+          "sha256": "dcba9c16d731df9575ca4dd242a9cfcda3c40abf81b27c73d1df7f437db4954f"
         }
       }
     ],
-    "scope": "Eight selected reports from43 source contracts; internal checks and required7 are not additional unique contracts."
+    "aggregateCurrentCoverage": {
+      "uniqueContracts": 44,
+      "selectedPassRows": 44,
+      "artifact": {
+        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/source-execution-matrix.json",
+        "sha256": "7dc04c767ee0a18268326cc56b6a59d8cbbc1bb47f262bf412c4076c9fa2dbe3"
+      },
+      "originalMatrixV2": {
+        "passed": 43,
+        "failed": 1,
+        "executions": 44
+      },
+      "supplements": [
+        "npc-rest-work-v1",
+        "relay-handoff-memory-v1"
+      ],
+      "v2AndTwoSupplements": {
+        "executions": 46,
+        "passedExecutions": 45,
+        "failedExecutions": 1,
+        "uniqueContracts": 44,
+        "supplementMemoryAddsUnique": false
+      }
+    },
+    "scope": "Eight selected native/current reports are a subset of44 unique contracts. V2 remains43/44; 44 selected passes are not an all-green original matrix or44 executions of full current inline."
   },
   "browser": {
     "status": "fixture-browser",
@@ -120,466 +145,136 @@
     "count": 12,
     "passed": 12,
     "artifact": {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/reports/episode-browser.json",
-      "sha256": "baafa963c19f259eaf9e31f6c54285453492cd9b0e6af18a0e1dbc5cdc9fd169"
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/episode-browser-01.json",
+      "sha256": "8dea2097f3cfb966a68b580161bf411f8a4644fccb171d8164819447923a7245"
     }
   },
   "localExecution": {
-    "uniqueSourceContracts": 43,
-    "executions": 43,
-    "passed": 43,
+    "uniqueSourceContracts": 44,
+    "selectedPassContracts": 44,
+    "v2AndTwoSupplements": {
+      "executions": 46,
+      "passedExecutions": 45,
+      "failedExecutions": 1,
+      "uniqueContracts": 44,
+      "supplementMemoryAddsUnique": false
+    },
     "selectedCurrentTestRows": 8,
     "freshnessGateExecutedByBuilder": false,
-    "gitCommitVerificationLocal": "supplied-cached-Git-tree-only; no local ancestry verification",
+    "selfTestExecutedByBuilder": false,
+    "gitCommitVerificationLocal": "supplied-cached-Git-tree-only; local .git unavailable; no ancestry/ref/CI claim",
     "allHistoricalIterationsPassed": false
   },
   "supplementaryEvidence": {
-    "currentSourceMatrix": {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/source-execution-matrix.json",
-      "sha256": "e64418cc57bc78385d580c0db1b797168ad0992f039cf5ab6d4304a5447777bb"
+    "currentSourceCoverage": {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/source-execution-matrix.json",
+      "sha256": "7dc04c767ee0a18268326cc56b6a59d8cbbc1bb47f262bf412c4076c9fa2dbe3"
     },
-    "sourceInputEnvelope": {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/source-input-index-native.json",
-      "sha256": "ae957ab59b5ec1bef175fd7e70eff8ca5672a704f022c673bf98711541f05866"
+    "historicalMatrixV2InputEnvelope": {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/a77fe1f04cc9b7474c6040ace7aa0297bcd49ddf679e40f41c26810f962c6739.json",
+      "sha256": "a77fe1f04cc9b7474c6040ace7aa0297bcd49ddf679e40f41c26810f962c6739"
     },
-    "episodeExecution": {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/reports/episode-execution-native.json",
-      "sha256": "ab33b4deac761562344c865c2a829ba4e811ad3a50e70ec3f7dc9b664827188f"
-    },
-    "campRestFeedback": {
+    "affected-direct-01": {
       "artifact": {
-        "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/reports/campRestFeedback.json",
-        "sha256": "7d1b1bbb0f0536d930e8801c22d4842d9b3567b767108fb06eb4473db9eec463"
+        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/affected-direct-01.json",
+        "sha256": "84222f7cb9b14788337d4f6f63e33da3090dddcbfe6e92e48a39efef408d4a17"
       },
-      "count": 14,
-      "passed": 14,
-      "runner": "browser-camp-rest-feedback-v1",
-      "runnerSha256": "98dfd95a54275eb1dab5ce7aca35b85059e3d39b4d0e185fc209b193618f98e8",
-      "sourceHtmlSha256": "108042213a6defbfd16cbd2f56cde8fbc2c575717c5eefff942753353a19b09a",
-      "currentBuild": true,
-      "naturalGameplayClaim": false,
       "execution": {
-        "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/reports/campRestFeedback-execution-facts.json",
-        "sha256": "dec2f5a498449d1cc3661a0f4d1c76bc1c952a4209560d5b501906d698f0cde9"
+        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/affected-direct-01-execution-facts.json",
+        "sha256": "5f85b8beb725c890edeeb864133146c8188c3c92a96a1e153cb1c94032a15509"
       },
-      "mainDocumentCount": 3,
-      "selectedArtifacts": [
-        {
-          "originalPortableName": "actor-sprites.js",
-          "artifact": {
-            "path": "dist/actor-sprites.js",
-            "sha256": "257f4b38760813c21c723bbb9f934f1198e742fd1223db48705f34787e0f71b7"
-          }
-        },
-        {
-          "originalPortableName": "actual-danger-390-native.json",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/e6203c13d6f7e633376d17b5dfc504a019567fbde8c118f7da30dcafea9336f2.json",
-            "sha256": "e6203c13d6f7e633376d17b5dfc504a019567fbde8c118f7da30dcafea9336f2"
-          }
-        },
-        {
-          "originalPortableName": "actual-danger-390-ui.json",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/50a561a4ccbf585a772677513c961e4d152f4e93b58b446d579bbfe96a8974d8.json",
-            "sha256": "50a561a4ccbf585a772677513c961e4d152f4e93b58b446d579bbfe96a8974d8"
-          }
-        },
-        {
-          "originalPortableName": "actual-danger-390.png",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/272cbb796698a14dd8045b94b897d9125e39601c3b299a8e9d1acfc5cd2dac75.png",
-            "sha256": "272cbb796698a14dd8045b94b897d9125e39601c3b299a8e9d1acfc5cd2dac75"
-          }
-        },
-        {
-          "originalPortableName": "actual-danger-desktop-native.json",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/e6203c13d6f7e633376d17b5dfc504a019567fbde8c118f7da30dcafea9336f2.json",
-            "sha256": "e6203c13d6f7e633376d17b5dfc504a019567fbde8c118f7da30dcafea9336f2"
-          }
-        },
-        {
-          "originalPortableName": "actual-danger-desktop-ui.json",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/84f894fb7eab0d98f02a149515ecb51e4e710699768b81d8b8f94d38fd890496.json",
-            "sha256": "84f894fb7eab0d98f02a149515ecb51e4e710699768b81d8b8f94d38fd890496"
-          }
-        },
-        {
-          "originalPortableName": "actual-danger-desktop.png",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/d1ce0e76acd424b51e5e7dd2581a2943b932f89f492238d7011389ab1474d21b.png",
-            "sha256": "d1ce0e76acd424b51e5e7dd2581a2943b932f89f492238d7011389ab1474d21b"
-          }
-        },
-        {
-          "originalPortableName": "actual-danger-input-native.json",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/e4fbb6c158e5a85bed24141dbc5b5a115860c47d4f580fa767747ef38d0d3f59.json",
-            "sha256": "e4fbb6c158e5a85bed24141dbc5b5a115860c47d4f580fa767747ef38d0d3f59"
-          }
-        },
-        {
-          "originalPortableName": "input-original-native.json",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/e4fbb6c158e5a85bed24141dbc5b5a115860c47d4f580fa767747ef38d0d3f59.json",
-            "sha256": "e4fbb6c158e5a85bed24141dbc5b5a115860c47d4f580fa767747ef38d0d3f59"
-          }
-        },
-        {
-          "originalPortableName": "io-adapter-executed.mjs",
-          "artifact": {
-            "path": "scripts/check-report-recovery.mjs",
-            "sha256": "554c400c174ad1b069c4dfcc839c12b3b45ea79c5aa7669e093a440ffa4845d3"
-          }
-        },
-        {
-          "originalPortableName": "runner-executed.mjs",
-          "artifact": {
-            "path": "scripts/browser-camp-rest-feedback-v1.mjs",
-            "sha256": "98dfd95a54275eb1dab5ce7aca35b85059e3d39b4d0e185fc209b193618f98e8"
-          }
-        },
-        {
-          "originalPortableName": "safe-zero-supplies-available-native.json",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/cf616b92ae6b426f744f3960bc9222b2b778bae40df6711db597e504833cecc6.json",
-            "sha256": "cf616b92ae6b426f744f3960bc9222b2b778bae40df6711db597e504833cecc6"
-          }
-        },
-        {
-          "originalPortableName": "safe-zero-supplies-available-ui.json",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/b2737879ec17bc5341bbd8cb0126ab4f9c32e5aef53b7174baa98649fb628658.json",
-            "sha256": "b2737879ec17bc5341bbd8cb0126ab4f9c32e5aef53b7174baa98649fb628658"
-          }
-        },
-        {
-          "originalPortableName": "safe-zero-supplies-cancelled-native.json",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/e3254472106ed8b0a107b0562e2ba1b531759097787582ce28f7a47f5ccfbc29.json",
-            "sha256": "e3254472106ed8b0a107b0562e2ba1b531759097787582ce28f7a47f5ccfbc29"
-          }
-        },
-        {
-          "originalPortableName": "safe-zero-supplies-cancelled-ui.json",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/5862d17658858d05a6c5a4493335adfeef737b339ee2a79094f463c6c43b26a5.json",
-            "sha256": "5862d17658858d05a6c5a4493335adfeef737b339ee2a79094f463c6c43b26a5"
-          }
-        },
-        {
-          "originalPortableName": "safe-zero-supplies-cancelled.png",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/097a3cece61bb50c8e244343c5126a6c59cea4b9363b4cc5d7ce0f93d422eafe.png",
-            "sha256": "097a3cece61bb50c8e244343c5126a6c59cea4b9363b4cc5d7ce0f93d422eafe"
-          }
-        },
-        {
-          "originalPortableName": "safe-zero-supplies-input-native.json",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/377b5416d57a8456db08ab6b21cafd9e5151cbe2f55f3eb23e4b81aa24c7dccc.json",
-            "sha256": "377b5416d57a8456db08ab6b21cafd9e5151cbe2f55f3eb23e4b81aa24c7dccc"
-          }
-        },
-        {
-          "originalPortableName": "source-runtime-fixture-executed.mjs",
-          "artifact": {
-            "path": "scripts/fixtures/scenario-boot-c1/frozen/scripts/lib/source-runtime-fixture.mjs",
-            "sha256": "e9872eeba85d49019d1bd806f3dd18357a5abc8f2f92922922f6a5324ec220dc"
-          }
-        },
-        {
-          "originalPortableName": "source.html",
-          "artifact": {
-            "path": "dist/index.html",
-            "sha256": "108042213a6defbfd16cbd2f56cde8fbc2c575717c5eefff942753353a19b09a"
-          }
-        },
-        {
-          "originalPortableName": "unknown-speed-desktop-native.json",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/52a2412f908a39e6e2c3d3b7aa4a5f2f6d9e039c9831567471d9836141ddda2c.json",
-            "sha256": "52a2412f908a39e6e2c3d3b7aa4a5f2f6d9e039c9831567471d9836141ddda2c"
-          }
-        },
-        {
-          "originalPortableName": "unknown-speed-desktop-ui.json",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/93820cfd1810db6941ec9d3fd2de03dbe8a39aa53bddbf3a5bde6bca2cc49210.json",
-            "sha256": "93820cfd1810db6941ec9d3fd2de03dbe8a39aa53bddbf3a5bde6bca2cc49210"
-          }
-        },
-        {
-          "originalPortableName": "unknown-speed-input-native.json",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/2fd0c65ed4d36b15049d4de12718b81a7c29f6630991cb43d32289de28c39bfe.json",
-            "sha256": "2fd0c65ed4d36b15049d4de12718b81a7c29f6630991cb43d32289de28c39bfe"
-          }
-        }
-      ]
+      "count": 200,
+      "passed": 200,
+      "mainDocumentCount": 12,
+      "naturalGameplayClaim": false
     },
-    "campRestRegression": {
+    "affected-self-01": {
       "artifact": {
-        "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/reports/campRestRegression.json",
-        "sha256": "2d9e4b1a47eaf8b6a8f5e0e4af4b71c7455a193dad306b6f2a05b92db3219354"
+        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/affected-self-01.json",
+        "sha256": "f4817fb08e2306fd4495c7c73cf0210cf01b586555801eeee84ef734a298a4ab"
       },
-      "count": 93,
-      "passed": 93,
-      "runner": "browser-camp-rest-v1",
-      "runnerSha256": "b25bca13beb843de144ec1e12aed56ceb45ef250a16f9b415877a8947f741b60",
-      "sourceHtmlSha256": "108042213a6defbfd16cbd2f56cde8fbc2c575717c5eefff942753353a19b09a",
-      "currentBuild": true,
-      "naturalGameplayClaim": false,
       "execution": {
-        "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/reports/campRestRegression-execution-facts.json",
-        "sha256": "a46184cad3f897d569b99a69af9e753f33086d840d5d476d2a88fe930a517c65"
+        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/affected-self-01-execution-facts.json",
+        "sha256": "ee45f9de5a27e191b65b7d9dc01d71f26fff8847c81d280f5eec4d73895a4748"
       },
-      "mainDocumentCount": 9,
-      "selectedArtifacts": [
-        {
-          "originalPortableName": "io-adapter-source-executed.mjs",
-          "artifact": {
-            "path": "scripts/check-report-recovery.mjs",
-            "sha256": "554c400c174ad1b069c4dfcc839c12b3b45ea79c5aa7669e093a440ffa4845d3"
-          }
-        },
-        {
-          "originalPortableName": "midnight-input-save.json",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/d4190b0be095f50ea2d3f919037df8ab41defb0a45f62b790e4ab6a843ad56fe.json",
-            "sha256": "d4190b0be095f50ea2d3f919037df8ab41defb0a45f62b790e4ab6a843ad56fe"
-          }
-        },
-        {
-          "originalPortableName": "midnight30-crossed-save.json",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/9169270de4c992537c670ea400174563579c24a047392e6a89b3f94a4101506f.json",
-            "sha256": "9169270de4c992537c670ea400174563579c24a047392e6a89b3f94a4101506f"
-          }
-        },
-        {
-          "originalPortableName": "midnight30-receipts.json",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/800ca578ba67c038abc311e11691b4c44d73ee4c7d2f0cdfdf7c0287b1639d17.json",
-            "sha256": "800ca578ba67c038abc311e11691b4c44d73ee4c7d2f0cdfdf7c0287b1639d17"
-          }
-        },
-        {
-          "originalPortableName": "midnight30-reloaded-save.json",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/e96bc0fedc49d2f95eed7fceeecf724e1914bdf52428f4f3ff1a4f8659837b48.json",
-            "sha256": "e96bc0fedc49d2f95eed7fceeecf724e1914bdf52428f4f3ff1a4f8659837b48"
-          }
-        },
-        {
-          "originalPortableName": "midnight30-time-control.json",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/95644444454dae10a794f03051193b10699d9ba9326935ce8c5805405b5b6d49.json",
-            "sha256": "95644444454dae10a794f03051193b10699d9ba9326935ce8c5805405b5b6d49"
-          }
-        },
-        {
-          "originalPortableName": "new-event-input-save.json",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/343ec62dcd42ef40c617ac2f059db3e772effe04cb35637258a6008aee5ab5a3.json",
-            "sha256": "343ec62dcd42ef40c617ac2f059db3e772effe04cb35637258a6008aee5ab5a3"
-          }
-        },
-        {
-          "originalPortableName": "new-event-interrupted-save.json",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/9b0c38e85679327608d31ca439a5ef414e5d91201e663c1f329a2e4e8bab7521.json",
-            "sha256": "9b0c38e85679327608d31ca439a5ef414e5d91201e663c1f329a2e4e8bab7521"
-          }
-        },
-        {
-          "originalPortableName": "new-event-receipts.json",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/4f3f874d8ce5492aff0d35c2e6e2536e1b5e032494971410efcd3e5fc130b88e.json",
-            "sha256": "4f3f874d8ce5492aff0d35c2e6e2536e1b5e032494971410efcd3e5fc130b88e"
-          }
-        },
-        {
-          "originalPortableName": "normal-input-save.json",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/3e5fab09165b60c382787f62459d091f049779edfc848ff89122d473e86383b4.json",
-            "sha256": "3e5fab09165b60c382787f62459d091f049779edfc848ff89122d473e86383b4"
-          }
-        },
-        {
-          "originalPortableName": "normal30-completed-save.json",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/969653197a5c3d955698a7d22d322f699a3b5e13ed918b03c67069eac9613323.json",
-            "sha256": "969653197a5c3d955698a7d22d322f699a3b5e13ed918b03c67069eac9613323"
-          }
-        },
-        {
-          "originalPortableName": "normal30-receipts.json",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/1a03e471f451178f50fd7b0ecee68de066a7c7f109fc031a632cfbbb3099e606.json",
-            "sha256": "1a03e471f451178f50fd7b0ecee68de066a7c7f109fc031a632cfbbb3099e606"
-          }
-        },
-        {
-          "originalPortableName": "normal30-time-control.json",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/9ca10032f529210461c3cceeeb6c5deda6e0b91c7921afdf95deabed0831c417.json",
-            "sha256": "9ca10032f529210461c3cceeeb6c5deda6e0b91c7921afdf95deabed0831c417"
-          }
-        },
-        {
-          "originalPortableName": "partial-cancel-cancelled-save.json",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/98261b804d06f6bccb96c9cb0acc9a13782353abb99973d5b264c31c039ba4e6.json",
-            "sha256": "98261b804d06f6bccb96c9cb0acc9a13782353abb99973d5b264c31c039ba4e6"
-          }
-        },
-        {
-          "originalPortableName": "partial-cancel-receipts.json",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/7849db117e28245258f83bb65cce1d3bc41a8779f32bc85babaacc9f8e691f2a.json",
-            "sha256": "7849db117e28245258f83bb65cce1d3bc41a8779f32bc85babaacc9f8e691f2a"
-          }
-        },
-        {
-          "originalPortableName": "partial-cancel-reloaded-after-natural-ticks-save.json",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/56fc757a0a85be954624e88c39fc69433f6a9f3a4e58c1e2777af2c2a9163c00.json",
-            "sha256": "56fc757a0a85be954624e88c39fc69433f6a9f3a4e58c1e2777af2c2a9163c00"
-          }
-        },
-        {
-          "originalPortableName": "public-battle-battle-save.json",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/95984befa1db9f26de3607bf4a7870eb3324bc0905ca36e532705b664a263a42.json",
-            "sha256": "95984befa1db9f26de3607bf4a7870eb3324bc0905ca36e532705b664a263a42"
-          }
-        },
-        {
-          "originalPortableName": "public-battle-receipts.json",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/d572d77baea7fde2f2a9f13930eaeae2ad8755d885a318c85a11259142693d15.json",
-            "sha256": "d572d77baea7fde2f2a9f13930eaeae2ad8755d885a318c85a11259142693d15"
-          }
-        },
-        {
-          "originalPortableName": "runner-executed.mjs",
-          "artifact": {
-            "path": "scripts/browser-camp-rest-v1.mjs",
-            "sha256": "b25bca13beb843de144ec1e12aed56ceb45ef250a16f9b415877a8947f741b60"
-          }
-        },
-        {
-          "originalPortableName": "source-fixture-capture-meta.json",
-          "artifact": {
-            "path": "scripts/fixtures/npc-threat-attention-v1/capture-meta.json",
-            "sha256": "a24e58af9364dc6a81b86a7fddf0b618fc19ca72c9823dcaff0756e4f32b25e5"
-          }
-        },
-        {
-          "originalPortableName": "source-fixture-original.json",
-          "artifact": {
-            "path": "scripts/fixtures/npc-threat-attention-v1/browser-writer-day1-1110-save21.json",
-            "sha256": "5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4"
-          }
-        },
-        {
-          "originalPortableName": "source-runtime-fixture-executed.mjs",
-          "artifact": {
-            "path": "scripts/fixtures/scenario-boot-c1/frozen/scripts/lib/source-runtime-fixture.mjs",
-            "sha256": "e9872eeba85d49019d1bd806f3dd18357a5abc8f2f92922922f6a5324ec220dc"
-          }
-        },
-        {
-          "originalPortableName": "source.html",
-          "artifact": {
-            "path": "dist/index.html",
-            "sha256": "108042213a6defbfd16cbd2f56cde8fbc2c575717c5eefff942753353a19b09a"
-          }
-        },
-        {
-          "originalPortableName": "visibility-unavailable-save.json",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/42d9a90b3b344519ae25cd1ec8feaf51026b1436db5874e65eb518900da0648e.json",
-            "sha256": "42d9a90b3b344519ae25cd1ec8feaf51026b1436db5874e65eb518900da0648e"
-          }
-        },
-        {
-          "originalPortableName": "zero-energy-input-save.json",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/bd803c2e1deddc70aec99981c074a44b9a4a80fc7950578aa2f3d1464f8e4c1f.json",
-            "sha256": "bd803c2e1deddc70aec99981c074a44b9a4a80fc7950578aa2f3d1464f8e4c1f"
-          }
-        },
-        {
-          "originalPortableName": "zero-energy60-completed-save.json",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/b0f1551062d7422aea3aab400b60cc707fc19419524f982610125f2138ff2217.json",
-            "sha256": "b0f1551062d7422aea3aab400b60cc707fc19419524f982610125f2138ff2217"
-          }
-        },
-        {
-          "originalPortableName": "zero-energy60-receipts.json",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/97d57d5e09fd7d9edc89b5d20f9a17b18a949772e3b0d558ee4b7ebcbd0a3b3a.json",
-            "sha256": "97d57d5e09fd7d9edc89b5d20f9a17b18a949772e3b0d558ee4b7ebcbd0a3b3a"
-          }
-        },
-        {
-          "originalPortableName": "zero-energy60-time-control.json",
-          "artifact": {
-            "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/b3a7880aac8c716786dc163993f91ccadb3409291936ba52326e3eda3e69ff53.json",
-            "sha256": "b3a7880aac8c716786dc163993f91ccadb3409291936ba52326e3eda3e69ff53"
-          }
-        }
-      ],
-      "visibility": {
-        "status": "not-verified-browser-did-not-produce-trusted-hidden",
-        "method": "real Chrome foreground/background tabs after disabling Playwright focus emulation; trusted native events only",
-        "observation": {
-          "hidden": false,
-          "events": [
-            {
-              "at": 37.20000000298023,
-              "hidden": false,
-              "visibilityState": "visible",
-              "type": "initial"
-            }
-          ]
-        }
+      "count": 212,
+      "passed": 212,
+      "mainDocumentCount": 13,
+      "naturalGameplayClaim": false
+    },
+    "affected-npc-01": {
+      "artifact": {
+        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/affected-npc-01.json",
+        "sha256": "2228cb074cebe134c37b3dd30a74a86d2aa2660d1b56c93fcce25963d9fb2bbb"
       },
-      "coverage": {
-        "verifiedScenarios": 6,
-        "attemptedUnavailableScenarios": 1,
-        "failedScenarios": 0
-      }
+      "execution": {
+        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/affected-npc-01-execution-facts.json",
+        "sha256": "551561322e3db6b326e110883aa0d6b8bf344cefa785fe1f826c55dab0971816"
+      },
+      "count": 112,
+      "passed": 112,
+      "mainDocumentCount": 30,
+      "naturalGameplayClaim": false
     },
-    "retainedOriginalReports": {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/retained-original-reports.json",
-      "sha256": "43f31d5f60617d43b570e67e1271f39f353c7e9296f96f230c9dd3302a1a1347"
+    "episode-browser-01": {
+      "artifact": {
+        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/episode-browser-01.json",
+        "sha256": "8dea2097f3cfb966a68b580161bf411f8a4644fccb171d8164819447923a7245"
+      },
+      "execution": {
+        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/episode-browser-01-execution-facts.json",
+        "sha256": "70f9acfb08ebce9354090a25de63d948d8b8ef8528fa8cfa5e9a95c1e91da3d1"
+      },
+      "count": 12,
+      "passed": 12,
+      "mainDocumentCount": 2,
+      "naturalGameplayClaim": false
     },
-    "selectedTransport": {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/transport-map.json",
-      "sha256": "36470754b9db8817062ffa0edc68a336d09435896e26ac6c7951fe9ff2070804"
+    "handoffBrowser": {
+      "artifact": {
+        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/handoff-browser.json",
+        "sha256": "1a88d5f9ebba268b166491971cf05ee91591ac609f588b2221e75dfad3c00322"
+      },
+      "count": 34,
+      "passed": 34,
+      "execution": {
+        "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/handoff-browser-execution-facts.json",
+        "sha256": "b3f06944aac80b2c3bc53884a630ae940fd085de308909d576402c4e3b31c03d"
+      },
+      "mainDocumentCount": 4,
+      "naturalGameplayClaim": false
+    },
+    "cacheAndRosterDiagnostics": {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/diagnostic-index.json",
+      "sha256": "5fa48528168974c58cee3d6c40240d4d1c0a2ef03e53f838860775fa07355443"
+    },
+    "originalMatrixFailures": {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/original-matrix-failures.json",
+      "sha256": "98421b0c36619d6428e1c524489297f4b65c90fdc8c9b1bbd078bc02dd7a3de2"
+    },
+    "historicalSourceAndBrowserReports": {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/retained-original-reports.json",
+      "sha256": "366adafb36c80f12490757e49f0e6a9eb92299a653289a349ea247b8f4ce01ca"
     },
     "sourceArtifactProof": {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/source-artifact-proof.json",
-      "sha256": "306ee371de8928c2643aac50e1f265226cd3e17b50266fbb4ec66d45ba8b45ca"
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/source-artifact-proof.json",
+      "sha256": "d1add8485610e2dd471f1091a469c4a7e194d10eef6854459bc0dbcc374203c1"
+    },
+    "selectedTransport": {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/transport-map.json",
+      "sha256": "7b90c1c8535a715f2535420015cabb77e6d9d290f0f989cd9192773dea0731fa"
     },
     "publicationIndex": {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/index.json",
-      "sha256": "433d63e03a8fed72344b11949f07937f3b6f3f9369744944b22226da5baea1a8"
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/index.json",
+      "sha256": "621586dfaf39bb39ef9cfa6ae5fe40718fa9e39f2c623ff7decb7fd73d698771"
     }
   },
   "historicalEvidence": {
-    "previousManifestSha256": "b0c54671b87618e4befe6aa71bd60a0d8731404c88b59903d3cbb06840ebb511",
-    "previousSourceCommit": "ed9933f4efd1b61abdcbc6a86f9a1169ab5dc29a",
-    "previousBrowserAndTestRowsAreNotCurrent": true,
-    "previousQaFilesRetainedWithoutRelabeling": true,
-    "oldRelay197NotCurrent": true,
-    "originalBaselineAnd60aFailuresRetained": true
+    "previousManifestSha256": "7d0666e250c776d93b6fffe35e968c34589a1afc41aaed189cf9c8bdf40f602c",
+    "previousSourceCommit": "1db8954edb1565acb5ffcd817cde9558873313c3",
+    "previousRowsAreNotCurrent": true,
+    "v1AndV2FailuresPreserved": true,
+    "rawPrivateProducerOriginalExternalNotPublished": "5fe9ccc0a222f1c2476d25c52f24cc3dbd6985cb7f36e38a8c33c4008847a599"
   },
   "artifactTransportNotes": {
     "selectedNotCompleteArchive": true,
@@ -589,16 +284,12 @@
   },
   "artifacts": [
     {
-      "path": ".github/workflows/validate.yml",
-      "sha256": "7f00292747905b36349b9a019e47b897932f336430828b19ce1fd1a2ea487adf"
-    },
-    {
       "path": "dist/actor-sprites.js",
       "sha256": "257f4b38760813c21c723bbb9f934f1198e742fd1223db48705f34787e0f71b7"
     },
     {
       "path": "dist/index.html",
-      "sha256": "108042213a6defbfd16cbd2f56cde8fbc2c575717c5eefff942753353a19b09a"
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
     },
     {
       "path": "docs/experiments/runs/food-shortage-strategies-32f911-20261017/report-artifacts/common-episode-baseline.json",
@@ -609,284 +300,692 @@
       "sha256": "8d6544b1d6b073273b5f485505c724d44df60a5d4eb6866c025108c1fec93b9a"
     },
     {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/index.json",
-      "sha256": "433d63e03a8fed72344b11949f07937f3b6f3f9369744944b22226da5baea1a8"
-    },
-    {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/097a3cece61bb50c8e244343c5126a6c59cea4b9363b4cc5d7ce0f93d422eafe.png",
-      "sha256": "097a3cece61bb50c8e244343c5126a6c59cea4b9363b4cc5d7ce0f93d422eafe"
-    },
-    {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/1a03e471f451178f50fd7b0ecee68de066a7c7f109fc031a632cfbbb3099e606.json",
-      "sha256": "1a03e471f451178f50fd7b0ecee68de066a7c7f109fc031a632cfbbb3099e606"
-    },
-    {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/272cbb796698a14dd8045b94b897d9125e39601c3b299a8e9d1acfc5cd2dac75.png",
-      "sha256": "272cbb796698a14dd8045b94b897d9125e39601c3b299a8e9d1acfc5cd2dac75"
-    },
-    {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/2fd0c65ed4d36b15049d4de12718b81a7c29f6630991cb43d32289de28c39bfe.json",
-      "sha256": "2fd0c65ed4d36b15049d4de12718b81a7c29f6630991cb43d32289de28c39bfe"
-    },
-    {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/343ec62dcd42ef40c617ac2f059db3e772effe04cb35637258a6008aee5ab5a3.json",
-      "sha256": "343ec62dcd42ef40c617ac2f059db3e772effe04cb35637258a6008aee5ab5a3"
-    },
-    {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/377b5416d57a8456db08ab6b21cafd9e5151cbe2f55f3eb23e4b81aa24c7dccc.json",
-      "sha256": "377b5416d57a8456db08ab6b21cafd9e5151cbe2f55f3eb23e4b81aa24c7dccc"
-    },
-    {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/3e5fab09165b60c382787f62459d091f049779edfc848ff89122d473e86383b4.json",
-      "sha256": "3e5fab09165b60c382787f62459d091f049779edfc848ff89122d473e86383b4"
-    },
-    {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/41ec30f8cea2196161b409681285a32cc55f3996b36e88d2a408d20ba3c58774.png",
-      "sha256": "41ec30f8cea2196161b409681285a32cc55f3996b36e88d2a408d20ba3c58774"
-    },
-    {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/42d9a90b3b344519ae25cd1ec8feaf51026b1436db5874e65eb518900da0648e.json",
-      "sha256": "42d9a90b3b344519ae25cd1ec8feaf51026b1436db5874e65eb518900da0648e"
-    },
-    {
       "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/48fd42455963cfb2020918f014275e895c3d237271cc06de02e9f0c1e652f2d0.png",
       "sha256": "48fd42455963cfb2020918f014275e895c3d237271cc06de02e9f0c1e652f2d0"
-    },
-    {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/4f3f874d8ce5492aff0d35c2e6e2536e1b5e032494971410efcd3e5fc130b88e.json",
-      "sha256": "4f3f874d8ce5492aff0d35c2e6e2536e1b5e032494971410efcd3e5fc130b88e"
-    },
-    {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/50a561a4ccbf585a772677513c961e4d152f4e93b58b446d579bbfe96a8974d8.json",
-      "sha256": "50a561a4ccbf585a772677513c961e4d152f4e93b58b446d579bbfe96a8974d8"
-    },
-    {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/52a2412f908a39e6e2c3d3b7aa4a5f2f6d9e039c9831567471d9836141ddda2c.json",
-      "sha256": "52a2412f908a39e6e2c3d3b7aa4a5f2f6d9e039c9831567471d9836141ddda2c"
-    },
-    {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/56fc757a0a85be954624e88c39fc69433f6a9f3a4e58c1e2777af2c2a9163c00.json",
-      "sha256": "56fc757a0a85be954624e88c39fc69433f6a9f3a4e58c1e2777af2c2a9163c00"
-    },
-    {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/5862d17658858d05a6c5a4493335adfeef737b339ee2a79094f463c6c43b26a5.json",
-      "sha256": "5862d17658858d05a6c5a4493335adfeef737b339ee2a79094f463c6c43b26a5"
-    },
-    {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/5be0adb4c59cad8d580ce65f4e458147826dec3b190d960c0573fa53024f49f4.png",
-      "sha256": "5be0adb4c59cad8d580ce65f4e458147826dec3b190d960c0573fa53024f49f4"
-    },
-    {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/7849db117e28245258f83bb65cce1d3bc41a8779f32bc85babaacc9f8e691f2a.json",
-      "sha256": "7849db117e28245258f83bb65cce1d3bc41a8779f32bc85babaacc9f8e691f2a"
-    },
-    {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/800ca578ba67c038abc311e11691b4c44d73ee4c7d2f0cdfdf7c0287b1639d17.json",
-      "sha256": "800ca578ba67c038abc311e11691b4c44d73ee4c7d2f0cdfdf7c0287b1639d17"
-    },
-    {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/84f894fb7eab0d98f02a149515ecb51e4e710699768b81d8b8f94d38fd890496.json",
-      "sha256": "84f894fb7eab0d98f02a149515ecb51e4e710699768b81d8b8f94d38fd890496"
-    },
-    {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/9169270de4c992537c670ea400174563579c24a047392e6a89b3f94a4101506f.json",
-      "sha256": "9169270de4c992537c670ea400174563579c24a047392e6a89b3f94a4101506f"
-    },
-    {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/93820cfd1810db6941ec9d3fd2de03dbe8a39aa53bddbf3a5bde6bca2cc49210.json",
-      "sha256": "93820cfd1810db6941ec9d3fd2de03dbe8a39aa53bddbf3a5bde6bca2cc49210"
-    },
-    {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/95644444454dae10a794f03051193b10699d9ba9326935ce8c5805405b5b6d49.json",
-      "sha256": "95644444454dae10a794f03051193b10699d9ba9326935ce8c5805405b5b6d49"
-    },
-    {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/95984befa1db9f26de3607bf4a7870eb3324bc0905ca36e532705b664a263a42.json",
-      "sha256": "95984befa1db9f26de3607bf4a7870eb3324bc0905ca36e532705b664a263a42"
-    },
-    {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/969653197a5c3d955698a7d22d322f699a3b5e13ed918b03c67069eac9613323.json",
-      "sha256": "969653197a5c3d955698a7d22d322f699a3b5e13ed918b03c67069eac9613323"
-    },
-    {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/97d57d5e09fd7d9edc89b5d20f9a17b18a949772e3b0d558ee4b7ebcbd0a3b3a.json",
-      "sha256": "97d57d5e09fd7d9edc89b5d20f9a17b18a949772e3b0d558ee4b7ebcbd0a3b3a"
-    },
-    {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/98261b804d06f6bccb96c9cb0acc9a13782353abb99973d5b264c31c039ba4e6.json",
-      "sha256": "98261b804d06f6bccb96c9cb0acc9a13782353abb99973d5b264c31c039ba4e6"
-    },
-    {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/9b0c38e85679327608d31ca439a5ef414e5d91201e663c1f329a2e4e8bab7521.json",
-      "sha256": "9b0c38e85679327608d31ca439a5ef414e5d91201e663c1f329a2e4e8bab7521"
-    },
-    {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/9ca10032f529210461c3cceeeb6c5deda6e0b91c7921afdf95deabed0831c417.json",
-      "sha256": "9ca10032f529210461c3cceeeb6c5deda6e0b91c7921afdf95deabed0831c417"
-    },
-    {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/b0f1551062d7422aea3aab400b60cc707fc19419524f982610125f2138ff2217.json",
-      "sha256": "b0f1551062d7422aea3aab400b60cc707fc19419524f982610125f2138ff2217"
-    },
-    {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/b2737879ec17bc5341bbd8cb0126ab4f9c32e5aef53b7174baa98649fb628658.json",
-      "sha256": "b2737879ec17bc5341bbd8cb0126ab4f9c32e5aef53b7174baa98649fb628658"
-    },
-    {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/b3a7880aac8c716786dc163993f91ccadb3409291936ba52326e3eda3e69ff53.json",
-      "sha256": "b3a7880aac8c716786dc163993f91ccadb3409291936ba52326e3eda3e69ff53"
-    },
-    {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/bd803c2e1deddc70aec99981c074a44b9a4a80fc7950578aa2f3d1464f8e4c1f.json",
-      "sha256": "bd803c2e1deddc70aec99981c074a44b9a4a80fc7950578aa2f3d1464f8e4c1f"
-    },
-    {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/cf616b92ae6b426f744f3960bc9222b2b778bae40df6711db597e504833cecc6.json",
-      "sha256": "cf616b92ae6b426f744f3960bc9222b2b778bae40df6711db597e504833cecc6"
-    },
-    {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/d1ce0e76acd424b51e5e7dd2581a2943b932f89f492238d7011389ab1474d21b.png",
-      "sha256": "d1ce0e76acd424b51e5e7dd2581a2943b932f89f492238d7011389ab1474d21b"
-    },
-    {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/d4190b0be095f50ea2d3f919037df8ab41defb0a45f62b790e4ab6a843ad56fe.json",
-      "sha256": "d4190b0be095f50ea2d3f919037df8ab41defb0a45f62b790e4ab6a843ad56fe"
-    },
-    {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/d572d77baea7fde2f2a9f13930eaeae2ad8755d885a318c85a11259142693d15.json",
-      "sha256": "d572d77baea7fde2f2a9f13930eaeae2ad8755d885a318c85a11259142693d15"
-    },
-    {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/e3254472106ed8b0a107b0562e2ba1b531759097787582ce28f7a47f5ccfbc29.json",
-      "sha256": "e3254472106ed8b0a107b0562e2ba1b531759097787582ce28f7a47f5ccfbc29"
     },
     {
       "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/e4fbb6c158e5a85bed24141dbc5b5a115860c47d4f580fa767747ef38d0d3f59.json",
       "sha256": "e4fbb6c158e5a85bed24141dbc5b5a115860c47d4f580fa767747ef38d0d3f59"
     },
     {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/e6203c13d6f7e633376d17b5dfc504a019567fbde8c118f7da30dcafea9336f2.json",
-      "sha256": "e6203c13d6f7e633376d17b5dfc504a019567fbde8c118f7da30dcafea9336f2"
+      "path": "docs/qa/runs/npc-rest-work-v1-20261018/legacy/objects/ebd2c2a6f1ab12b0e62dc6ba235231b4a229916759cdf1662c2594ed9ac4c7e6.json",
+      "sha256": "ebd2c2a6f1ab12b0e62dc6ba235231b4a229916759cdf1662c2594ed9ac4c7e6"
     },
     {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/e96bc0fedc49d2f95eed7fceeecf724e1914bdf52428f4f3ff1a4f8659837b48.json",
-      "sha256": "e96bc0fedc49d2f95eed7fceeecf724e1914bdf52428f4f3ff1a4f8659837b48"
+      "path": "docs/qa/runs/npc-rest-work-v1-20261018/source/objects/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/objects/f10dba064a2b5dd1cdd4bbca6392269c8351dd5de8c4e02a47db4391e9575ce2.json",
-      "sha256": "f10dba064a2b5dd1cdd4bbca6392269c8351dd5de8c4e02a47db4391e9575ce2"
+      "path": "docs/qa/runs/npc-self-observation-v1-20261017/self-source/blobs/1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f.json",
+      "sha256": "1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f"
     },
     {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/reports/camp-rest.json",
-      "sha256": "71ca2361da6839d7e3ffd7e5618b914e9b87d168e0d8e54edb889727fe2caa87"
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/diagnostic-index.json",
+      "sha256": "5fa48528168974c58cee3d6c40240d4d1c0a2ef03e53f838860775fa07355443"
     },
     {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/reports/campRestFeedback-execution-facts.json",
-      "sha256": "dec2f5a498449d1cc3661a0f4d1c76bc1c952a4209560d5b501906d698f0cde9"
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/index.json",
+      "sha256": "621586dfaf39bb39ef9cfa6ae5fe40718fa9e39f2c623ff7decb7fd73d698771"
     },
     {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/reports/campRestFeedback.json",
-      "sha256": "7d1b1bbb0f0536d930e8801c22d4842d9b3567b767108fb06eb4473db9eec463"
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/012f856abaf6d3463d504eada038184357c76f5066caa54926ff98919cfa4828.json",
+      "sha256": "012f856abaf6d3463d504eada038184357c76f5066caa54926ff98919cfa4828"
     },
     {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/reports/campRestRegression-execution-facts.json",
-      "sha256": "a46184cad3f897d569b99a69af9e753f33086d840d5d476d2a88fe930a517c65"
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/016d6affc9f4242099742cae6b90cea5326e01235f86eb1731d6f4137717ae22.json",
+      "sha256": "016d6affc9f4242099742cae6b90cea5326e01235f86eb1731d6f4137717ae22"
     },
     {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/reports/campRestRegression.json",
-      "sha256": "2d9e4b1a47eaf8b6a8f5e0e4af4b71c7455a193dad306b6f2a05b92db3219354"
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/035a7b78aac616b6aaea76620e584aba2b568dc1d129dcad0f28773907ddcaaf.json",
+      "sha256": "035a7b78aac616b6aaea76620e584aba2b568dc1d129dcad0f28773907ddcaaf"
     },
     {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/reports/content-chain.log",
-      "sha256": "dbec7f749f90a0c28d1df5c1872de0097ed325ad014ccaebe97fc06bd9be2785"
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/0611476d3e5f71be7c51671b974654538f65855dff4203e41f087a974aa66d8c.json",
+      "sha256": "0611476d3e5f71be7c51671b974654538f65855dff4203e41f087a974aa66d8c"
     },
     {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/reports/content-episode.json",
-      "sha256": "3384fd96a2449f66e7922fc6831432f52c806e987a5eb06291588433ffaa3533"
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/062abf7adb3e33ab3a9bb2a590c741f014553dc986005051549fdd0953724228.json",
+      "sha256": "062abf7adb3e33ab3a9bb2a590c741f014553dc986005051549fdd0953724228"
     },
     {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/reports/episode-browser.json",
-      "sha256": "baafa963c19f259eaf9e31f6c54285453492cd9b0e6af18a0e1dbc5cdc9fd169"
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/0a905a1fa8ef6604319d43de70179045ff4c0380b9ecd99eeafaddb1b2343d2a.json",
+      "sha256": "0a905a1fa8ef6604319d43de70179045ff4c0380b9ecd99eeafaddb1b2343d2a"
     },
     {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/reports/episode-execution-native.json",
-      "sha256": "ab33b4deac761562344c865c2a829ba4e811ad3a50e70ec3f7dc9b664827188f"
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/0e9428aaa676dd57db2de734e8676a30c9acb51a43a1a641fd37bdae8b590514.json",
+      "sha256": "0e9428aaa676dd57db2de734e8676a30c9acb51a43a1a641fd37bdae8b590514"
     },
     {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/reports/event-gate-parity.json",
-      "sha256": "c37355034a740941611a15b9f3c181662b076ced3de443af4051eb1b9dc4dd15"
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/0f5ddb6aacb840722ea1258b817ceb44963d378093eb042be931ac34ca8d2078.json",
+      "sha256": "0f5ddb6aacb840722ea1258b817ceb44963d378093eb042be931ac34ca8d2078"
     },
     {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/reports/gameplay-vertical-slice.json",
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/118653262c4379ebb80ef55781de43fd9dfff5ca788486bba868faaf012a7502.json",
+      "sha256": "118653262c4379ebb80ef55781de43fd9dfff5ca788486bba868faaf012a7502"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/124918ef497832a51f5a62e0cbd730e19674004cb8549659d9f50f65ac28f76e.json",
+      "sha256": "124918ef497832a51f5a62e0cbd730e19674004cb8549659d9f50f65ac28f76e"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/16f47bfce3ef3d3872800a55b0b17caf49009f9da33921c03f8c5965e8282768.json",
+      "sha256": "16f47bfce3ef3d3872800a55b0b17caf49009f9da33921c03f8c5965e8282768"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/1c94a84fa2346e3d22a1974e4194f158b3043ad70452b8a08debcafaf0e76b76.png",
+      "sha256": "1c94a84fa2346e3d22a1974e4194f158b3043ad70452b8a08debcafaf0e76b76"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/223686014aba901273f322069cbda044071a13701fb74feecbb4ad0c871197ff.json",
+      "sha256": "223686014aba901273f322069cbda044071a13701fb74feecbb4ad0c871197ff"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/256c3c792ab4e4bbc6c61db52304fadc0f2d9b75675f1d2935d521b77629b4b6.png",
+      "sha256": "256c3c792ab4e4bbc6c61db52304fadc0f2d9b75675f1d2935d521b77629b4b6"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/273456de4e5fa69167cb756bee752e8ac019f9fb7ff01753ffc0b65da7e8c29f.json",
+      "sha256": "273456de4e5fa69167cb756bee752e8ac019f9fb7ff01753ffc0b65da7e8c29f"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/282d3b7f91814b18b51d94794f1b6d22a2959c63fa4a7f1814b0665d64523b4c.json",
+      "sha256": "282d3b7f91814b18b51d94794f1b6d22a2959c63fa4a7f1814b0665d64523b4c"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/29ce4c584dca3910042e535e10d13b904d4f9805e1e7226605458b1dbc9ce19a.json",
+      "sha256": "29ce4c584dca3910042e535e10d13b904d4f9805e1e7226605458b1dbc9ce19a"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/2a63917a0157487c08fbb8a7dbb041ec3762b306d541d9c4856faca9f637e17b.json",
+      "sha256": "2a63917a0157487c08fbb8a7dbb041ec3762b306d541d9c4856faca9f637e17b"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/2bc446c203d58fc9543f0debcbf8768ee742796e45eb28c40ff4e1f3dbf63982.json",
+      "sha256": "2bc446c203d58fc9543f0debcbf8768ee742796e45eb28c40ff4e1f3dbf63982"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/2c7635a08a697d930e364337e5dffbb315b52fde63ab2dfbd1174cb015fe768c.png",
+      "sha256": "2c7635a08a697d930e364337e5dffbb315b52fde63ab2dfbd1174cb015fe768c"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/3114d4f790f9ae8a93747bd3ddfdf43d439e310c067c5e34cfbef060b071df6b.json",
+      "sha256": "3114d4f790f9ae8a93747bd3ddfdf43d439e310c067c5e34cfbef060b071df6b"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/31555a73d75022deb24f362253f58475787aae1fcfd023f551b2670ff2d3ff7e.json",
+      "sha256": "31555a73d75022deb24f362253f58475787aae1fcfd023f551b2670ff2d3ff7e"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/330d271ec0a1accee5205a123063a29ce83cd46715ebef8778ab351a1e8c2be8.json",
+      "sha256": "330d271ec0a1accee5205a123063a29ce83cd46715ebef8778ab351a1e8c2be8"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/34f1f5f71709e992ffd26735858e60c92b15a264c1d5bb5a290a98a5cdc10e8e.json",
+      "sha256": "34f1f5f71709e992ffd26735858e60c92b15a264c1d5bb5a290a98a5cdc10e8e"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/38b7d92f4099bf7b93a3f04b79c1e95c8c5de9677b29606f4cda85273d0d3b5a.json",
+      "sha256": "38b7d92f4099bf7b93a3f04b79c1e95c8c5de9677b29606f4cda85273d0d3b5a"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/3cf75ff695344936a1eb0caa08219e8551c281ee5c0a44afeb131f688a1bd82e.json",
+      "sha256": "3cf75ff695344936a1eb0caa08219e8551c281ee5c0a44afeb131f688a1bd82e"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/3ecb409f8bff29a6154b482c1dfeb4bf2d4c9c2691b32971df41719a770a04a6.json",
+      "sha256": "3ecb409f8bff29a6154b482c1dfeb4bf2d4c9c2691b32971df41719a770a04a6"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/4007fb976378e7eb9cf60bb03c4cb32171e7d320ab238981490e6b157b797824.json",
+      "sha256": "4007fb976378e7eb9cf60bb03c4cb32171e7d320ab238981490e6b157b797824"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/40805d1d901c27bf853e38f17a22073d321ce1f70d4043b48bbdb7c75ddf00a8.json",
+      "sha256": "40805d1d901c27bf853e38f17a22073d321ce1f70d4043b48bbdb7c75ddf00a8"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/410a77fd4e9d3f5a8136d47178a2e190e828ba085d2dff7ada028cb431f449a9.png",
+      "sha256": "410a77fd4e9d3f5a8136d47178a2e190e828ba085d2dff7ada028cb431f449a9"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/45e6686fc998482f217d4b55e9815b5d1bc96e23abaec1ab37cf61cfa42d38ea.json",
+      "sha256": "45e6686fc998482f217d4b55e9815b5d1bc96e23abaec1ab37cf61cfa42d38ea"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/45f2e8206e9df050e04bfec4ae61d2266042d21fd9c683d4f7dae247791a8e7f.json",
+      "sha256": "45f2e8206e9df050e04bfec4ae61d2266042d21fd9c683d4f7dae247791a8e7f"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/480e2d16c3a569fd513068556998fb6dc2ae5da92d192d9e730ce9eda7c2e2f4.json",
+      "sha256": "480e2d16c3a569fd513068556998fb6dc2ae5da92d192d9e730ce9eda7c2e2f4"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/4fb758e499bca2881741d44f9e1a83807a641c502c36bd5c73815b4c56bb1fef.json",
+      "sha256": "4fb758e499bca2881741d44f9e1a83807a641c502c36bd5c73815b4c56bb1fef"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/50065beae47be8456722246cb932b5616023b9606b013c71102337cf7294feca.json",
+      "sha256": "50065beae47be8456722246cb932b5616023b9606b013c71102337cf7294feca"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/524c00efca49125587b1e2b2767192556145d3197a5c315f2b9cee268a09c444.json",
+      "sha256": "524c00efca49125587b1e2b2767192556145d3197a5c315f2b9cee268a09c444"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/531c04b071a89785f9b00616790da6f43e37ce6acdf324ce09445a98eba306a2.json",
+      "sha256": "531c04b071a89785f9b00616790da6f43e37ce6acdf324ce09445a98eba306a2"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/554c400c174ad1b069c4dfcc839c12b3b45ea79c5aa7669e093a440ffa4845d3.mjs",
+      "sha256": "554c400c174ad1b069c4dfcc839c12b3b45ea79c5aa7669e093a440ffa4845d3"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/56507da8c5861471f7fa2f0bfe082908046fc0d9e7eec00b4cc67ac061230aa9.json",
+      "sha256": "56507da8c5861471f7fa2f0bfe082908046fc0d9e7eec00b4cc67ac061230aa9"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/5837fcb20f1f54f48d61d6b6cb28eab8494ef97fd3c517a24a005e4edaed9873.json",
+      "sha256": "5837fcb20f1f54f48d61d6b6cb28eab8494ef97fd3c517a24a005e4edaed9873"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/58417fccf2efe9b68176d6af5295067150c2fedc93d5c08758198f4002e8c6c8.json",
+      "sha256": "58417fccf2efe9b68176d6af5295067150c2fedc93d5c08758198f4002e8c6c8"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/58ff002fc35ebc252ca661b35cbc16ff5ebe0fa42e0e110293d818302902c7a9.json",
+      "sha256": "58ff002fc35ebc252ca661b35cbc16ff5ebe0fa42e0e110293d818302902c7a9"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/5961ff1e6fef97b01748f22583ddbb2c1bf6a925a958dc111a5544a597f23efc.json",
+      "sha256": "5961ff1e6fef97b01748f22583ddbb2c1bf6a925a958dc111a5544a597f23efc"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/59ad3ef3bc757fad85c91119a3c618688f67bd8419296d6571bf813f99547dd8.json",
+      "sha256": "59ad3ef3bc757fad85c91119a3c618688f67bd8419296d6571bf813f99547dd8"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/5a5cc8a4b7a5132f2befc4e0e585005b7ea4eab2dbf87998e6f1e0cd47b3e8aa.json",
+      "sha256": "5a5cc8a4b7a5132f2befc4e0e585005b7ea4eab2dbf87998e6f1e0cd47b3e8aa"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/5a663e44e6e85be737e117103e6b1a138c37f87ea57607558bbf00def1e12cde.json",
+      "sha256": "5a663e44e6e85be737e117103e6b1a138c37f87ea57607558bbf00def1e12cde"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/5df16c8907980e51d4f23356e969950374e36d9dbc8e77fcffa56c9fa07fe6e9.json",
+      "sha256": "5df16c8907980e51d4f23356e969950374e36d9dbc8e77fcffa56c9fa07fe6e9"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/5e28d24c97518376a599d402f3c6927cf86423f78b0bfa9cbbd438b2447e3d70.json",
+      "sha256": "5e28d24c97518376a599d402f3c6927cf86423f78b0bfa9cbbd438b2447e3d70"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/5f17d5395ffaf80bc8aa0a0935805c380cfce9c8be7fedd715e7776f4c2fdfbb.json",
+      "sha256": "5f17d5395ffaf80bc8aa0a0935805c380cfce9c8be7fedd715e7776f4c2fdfbb"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/6130e84da4f9ae3cf39617fda39f413c71b521d83b920108114f4ea07d47fa94.json",
+      "sha256": "6130e84da4f9ae3cf39617fda39f413c71b521d83b920108114f4ea07d47fa94"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/61594439948ceb420819c5b96a7611ac428c22a64165e137f893704d9d34daa7.json",
+      "sha256": "61594439948ceb420819c5b96a7611ac428c22a64165e137f893704d9d34daa7"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/622bb0633c20bf2d6ca0dfbc9ec7276f6a644078a4cc705f34c61bdd2f51d089.json",
+      "sha256": "622bb0633c20bf2d6ca0dfbc9ec7276f6a644078a4cc705f34c61bdd2f51d089"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/62e39ef3e8958c9fa452fb8d5767c249bdd3d4100a34f99c6387253ece6ab41d.json",
+      "sha256": "62e39ef3e8958c9fa452fb8d5767c249bdd3d4100a34f99c6387253ece6ab41d"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/63a527f7695b5ae06b5dd56575b1d8b4bb01a78e85f467241fc393feb21a28cd.json",
+      "sha256": "63a527f7695b5ae06b5dd56575b1d8b4bb01a78e85f467241fc393feb21a28cd"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/6dc91ad5796aefbcd767c7fcfff4696487401fe06794fe60bbd99f0762be9a86.json",
+      "sha256": "6dc91ad5796aefbcd767c7fcfff4696487401fe06794fe60bbd99f0762be9a86"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/6deb5dbe96259f0239cff32cc493bdab517aa6f2dd35e079cc086384defdd341.json",
+      "sha256": "6deb5dbe96259f0239cff32cc493bdab517aa6f2dd35e079cc086384defdd341"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/7545f4eef210449f626b489a4a11c048fb1f6ce6ed1986f5f8aec66659053f7f.json",
+      "sha256": "7545f4eef210449f626b489a4a11c048fb1f6ce6ed1986f5f8aec66659053f7f"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/7816a114fce8948d5f8bc55cee5b62fce2a02230394643fd16c5c6e38d54ef70.json",
+      "sha256": "7816a114fce8948d5f8bc55cee5b62fce2a02230394643fd16c5c6e38d54ef70"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/7a5114349f2bb39142bf7c996d03886e399677381fa2a7ffa11db38db70a0490.json",
+      "sha256": "7a5114349f2bb39142bf7c996d03886e399677381fa2a7ffa11db38db70a0490"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/7aa8bcd2f4ee45536434b0607b17352d2e5b4344503030697e5af2922d8dc9b1.json",
+      "sha256": "7aa8bcd2f4ee45536434b0607b17352d2e5b4344503030697e5af2922d8dc9b1"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/7aa8df5bcd42ad6debaa91815672f49a012d8b7e357e8dad1ae8fa0c0b77c774.mjs",
+      "sha256": "7aa8df5bcd42ad6debaa91815672f49a012d8b7e357e8dad1ae8fa0c0b77c774"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/7c958a7bac6432f006f0ca45c31a4a3310bbfb62a39832834b6ec099c176da70.json",
+      "sha256": "7c958a7bac6432f006f0ca45c31a4a3310bbfb62a39832834b6ec099c176da70"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/7ca3daf7c40af9733cf9b89461d80c20921ad2789efb3e446b009d106e689db7.png",
+      "sha256": "7ca3daf7c40af9733cf9b89461d80c20921ad2789efb3e446b009d106e689db7"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/865484b2dba9cfb9680c2c21c7c6a9e499fb9bcb57139421fa336fb663e92559.json",
+      "sha256": "865484b2dba9cfb9680c2c21c7c6a9e499fb9bcb57139421fa336fb663e92559"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/8b7434b532d308561d60c7f36f9c5fbded255e70a51c051a677f36f2ac430a6c.json",
+      "sha256": "8b7434b532d308561d60c7f36f9c5fbded255e70a51c051a677f36f2ac430a6c"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/8bb2be30e4d1c699c46b4f6b245e6149ba9c2242287870a77ceb7f4eae22b9e9.json",
+      "sha256": "8bb2be30e4d1c699c46b4f6b245e6149ba9c2242287870a77ceb7f4eae22b9e9"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/8cf6e73f9d5239f16cd4503589209c13a814870e758d1b25718ada84d5d0492a.json",
+      "sha256": "8cf6e73f9d5239f16cd4503589209c13a814870e758d1b25718ada84d5d0492a"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/90cd5ccde38a2737969971531ee360857831e4f0665202ceb0436b3470a2365e.json",
+      "sha256": "90cd5ccde38a2737969971531ee360857831e4f0665202ceb0436b3470a2365e"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/9131e889332f30693e53210aadb207c799052744f0befa4c3dc2f620446330c7.png",
+      "sha256": "9131e889332f30693e53210aadb207c799052744f0befa4c3dc2f620446330c7"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/91be3c3d7ccec14be4134563a0b4d8e8a43d207ea54c077cdcf99ec8add32725.json",
+      "sha256": "91be3c3d7ccec14be4134563a0b4d8e8a43d207ea54c077cdcf99ec8add32725"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/9b8cc2adbb0111ce4c30b715bb8526008ce3dbbfef3007470214d73aa0a5a22b.json",
+      "sha256": "9b8cc2adbb0111ce4c30b715bb8526008ce3dbbfef3007470214d73aa0a5a22b"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/a08c43cdd884e9b2ecacbb41e893d0a04d6bed93ab2743f8f924700cce0a14cb.json",
+      "sha256": "a08c43cdd884e9b2ecacbb41e893d0a04d6bed93ab2743f8f924700cce0a14cb"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/a77fe1f04cc9b7474c6040ace7aa0297bcd49ddf679e40f41c26810f962c6739.json",
+      "sha256": "a77fe1f04cc9b7474c6040ace7aa0297bcd49ddf679e40f41c26810f962c6739"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/a904a8c0e05ee01bcd3176e56b663b5c9d2f8010ded44f1bdfaba2e271189e50.json",
+      "sha256": "a904a8c0e05ee01bcd3176e56b663b5c9d2f8010ded44f1bdfaba2e271189e50"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/ab615483950eee7e493c81d811f750c4776d401b5155323720eebb765464c413.json",
+      "sha256": "ab615483950eee7e493c81d811f750c4776d401b5155323720eebb765464c413"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/ad2d56ea9c106142c40bdbd35105b1b9e6ef801068a44f790fceda38cc55c8ec.json",
+      "sha256": "ad2d56ea9c106142c40bdbd35105b1b9e6ef801068a44f790fceda38cc55c8ec"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/b251635db40e2ffaad578d4e011efb95a0737c51ab375176ad7d5ef8d7a06562.json",
+      "sha256": "b251635db40e2ffaad578d4e011efb95a0737c51ab375176ad7d5ef8d7a06562"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/b66c30d4a8c23ac49b396b8ce9aa1c020d5b61d127d532ae99acdad882dd3632.json",
+      "sha256": "b66c30d4a8c23ac49b396b8ce9aa1c020d5b61d127d532ae99acdad882dd3632"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/b7a6bc68fdb8e6aa3f0d8e28c2790b976191cb75e38e329f9e94efbc42cc4f44.json",
+      "sha256": "b7a6bc68fdb8e6aa3f0d8e28c2790b976191cb75e38e329f9e94efbc42cc4f44"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/b7d9a6f52594a0dd27d747934de6b632dcda37cb1f8c80574714acdd9929a47d.json",
+      "sha256": "b7d9a6f52594a0dd27d747934de6b632dcda37cb1f8c80574714acdd9929a47d"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/bb26a2fc6d91e3b01d2ce52207b3a6856a7567186be08baaa6c711a8cf4144dd.png",
+      "sha256": "bb26a2fc6d91e3b01d2ce52207b3a6856a7567186be08baaa6c711a8cf4144dd"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/bd502d2d80ef0dddc97c6c4bf447bad65ca82d2b972e5520e080cde07b272803.json",
+      "sha256": "bd502d2d80ef0dddc97c6c4bf447bad65ca82d2b972e5520e080cde07b272803"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/be90d5b35601ae7b14201ee77baa32693211cc93505cf7fcf0b328fe2de3b74d.json",
+      "sha256": "be90d5b35601ae7b14201ee77baa32693211cc93505cf7fcf0b328fe2de3b74d"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/c03dea73057c8e0ed1629838e10aa2f55cb4803740e775c8c787065b1a8f5e4a.json",
+      "sha256": "c03dea73057c8e0ed1629838e10aa2f55cb4803740e775c8c787065b1a8f5e4a"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/c304ddd97b93898b04975d8a7996dddd447e52d94d07afee86b23ce9e33f0fa0.json",
+      "sha256": "c304ddd97b93898b04975d8a7996dddd447e52d94d07afee86b23ce9e33f0fa0"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/c9a3fef1663e70806fb43d01ff943cbc664714f67204faa8d83a8f83bf79fd22.json",
+      "sha256": "c9a3fef1663e70806fb43d01ff943cbc664714f67204faa8d83a8f83bf79fd22"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/c9c8fe4e58b2818c51ec5745a5478826e59a0a6452f158eb979fb58766b2b8a7.json",
+      "sha256": "c9c8fe4e58b2818c51ec5745a5478826e59a0a6452f158eb979fb58766b2b8a7"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/cbc43eb68e9bb66a649a1223793ddd4df14a576a9575239cfc951e4870700345.json",
+      "sha256": "cbc43eb68e9bb66a649a1223793ddd4df14a576a9575239cfc951e4870700345"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/cf4cddaf85e0e0ed828716ddc0f84453ced58f9a426fa0ffc7c3e043e00b7285.json",
+      "sha256": "cf4cddaf85e0e0ed828716ddc0f84453ced58f9a426fa0ffc7c3e043e00b7285"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/cfd36c7f286773855bd4ceebb4b432e5bb2c3e2476c56279a1ea7cf8f374a276.json",
+      "sha256": "cfd36c7f286773855bd4ceebb4b432e5bb2c3e2476c56279a1ea7cf8f374a276"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/d0c59cdb4b0f766e6da283af4ed7112fbee0f0ec448f239a5f6d2436300b6e05.json",
+      "sha256": "d0c59cdb4b0f766e6da283af4ed7112fbee0f0ec448f239a5f6d2436300b6e05"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/d2e2c0a485062527c18b4d91301b123deaafb59954e876fcad24fa34d63f0d08.json",
+      "sha256": "d2e2c0a485062527c18b4d91301b123deaafb59954e876fcad24fa34d63f0d08"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/d612d1996556e62e0884649b9cd29f0dc203dda9b8a165d8aa13264733bb594e.mjs",
+      "sha256": "d612d1996556e62e0884649b9cd29f0dc203dda9b8a165d8aa13264733bb594e"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/d626118acd976af7f4dec8d5cd474110f8c6544e8b1d72708e43546d8b199b59.json",
+      "sha256": "d626118acd976af7f4dec8d5cd474110f8c6544e8b1d72708e43546d8b199b59"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/d8fcac374eb9fee25ad8d45c9a1658266f8ecfb9164b28ac5a24cf45f8952a11.json",
+      "sha256": "d8fcac374eb9fee25ad8d45c9a1658266f8ecfb9164b28ac5a24cf45f8952a11"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/d92a85cee98161b01d8f941a7e27ce484322da73d8ad6b8d3d5afecd131ddae5.json",
+      "sha256": "d92a85cee98161b01d8f941a7e27ce484322da73d8ad6b8d3d5afecd131ddae5"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/da982d24f4a0a9fd533cacf8cdbff8864f36b87fedff34da0e3785a83993da6e.json",
+      "sha256": "da982d24f4a0a9fd533cacf8cdbff8864f36b87fedff34da0e3785a83993da6e"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/dc5e326fe3498d28b1070f5777460a638bf60acded1fd7bdaaac122051afdf4b.json",
+      "sha256": "dc5e326fe3498d28b1070f5777460a638bf60acded1fd7bdaaac122051afdf4b"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/e348692d70ec97cb042fd2117f9ecf0ed3e0938dbabd0abb237604d3e9077f0f.png",
+      "sha256": "e348692d70ec97cb042fd2117f9ecf0ed3e0938dbabd0abb237604d3e9077f0f"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/e4484d7733c9a086545d8e3b0c537f21915082490c2b326fe28e6df2c69eb5ef.png",
+      "sha256": "e4484d7733c9a086545d8e3b0c537f21915082490c2b326fe28e6df2c69eb5ef"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/e44eb94b8de650fb3bd305693db3ed4db869908a79a78a31827f77b99dcb70f8.json",
+      "sha256": "e44eb94b8de650fb3bd305693db3ed4db869908a79a78a31827f77b99dcb70f8"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/e692e5e12cccaace2578055e990da3ba3f011f8c3a8cab68277aaecfb8e76634.json",
+      "sha256": "e692e5e12cccaace2578055e990da3ba3f011f8c3a8cab68277aaecfb8e76634"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/e90f600e3e55a5c0a8ef2ead9b02a5ce947c274813327ee7e504ecc4b9b2e984.json",
+      "sha256": "e90f600e3e55a5c0a8ef2ead9b02a5ce947c274813327ee7e504ecc4b9b2e984"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/ea61eb8fd3693596136cb4f146a14a3628c9dda48986f2b2f89863fb23d93db1.json",
+      "sha256": "ea61eb8fd3693596136cb4f146a14a3628c9dda48986f2b2f89863fb23d93db1"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/ec92cb284ed79815264faeaddb48ec1d4a9c0d650a2c8c98da34ec5b36db2e4f.json",
+      "sha256": "ec92cb284ed79815264faeaddb48ec1d4a9c0d650a2c8c98da34ec5b36db2e4f"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/eca8285455a0172af5509bc50594646fffdbf6308a5e091e13538dcd76c547be.json",
+      "sha256": "eca8285455a0172af5509bc50594646fffdbf6308a5e091e13538dcd76c547be"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/f166269d48d0f1279b01b7724b989c9af2bf8b56b1930c79fbd383e8d756c22f.json",
+      "sha256": "f166269d48d0f1279b01b7724b989c9af2bf8b56b1930c79fbd383e8d756c22f"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/f28b444ce50bf85442c584435d905066a1c790f12090f7bbb61cabfc672c4049.txt",
+      "sha256": "f28b444ce50bf85442c584435d905066a1c790f12090f7bbb61cabfc672c4049"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/f52842d28eb00c7399fd5aa402fd32c44fa178a29abcaae7b8b939ace6759735.json",
+      "sha256": "f52842d28eb00c7399fd5aa402fd32c44fa178a29abcaae7b8b939ace6759735"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/f6a17080e86ddccba4624cbeefc140be61bdd2294b76e6b0bb2e92384eac9d96.json",
+      "sha256": "f6a17080e86ddccba4624cbeefc140be61bdd2294b76e6b0bb2e92384eac9d96"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/f7c417887ca5b496742b218de42c0a96984230cd92378af2124d128e704411ec.json",
+      "sha256": "f7c417887ca5b496742b218de42c0a96984230cd92378af2124d128e704411ec"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/f9a553622a593a15be3952b29263158dec3423fabea50a940a36ab49b2f9062c.png",
+      "sha256": "f9a553622a593a15be3952b29263158dec3423fabea50a940a36ab49b2f9062c"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/fa16f55cc0e90e71fccdfad069ee383d0a5c3f65f1183943a8e2d0d77e882455.json",
+      "sha256": "fa16f55cc0e90e71fccdfad069ee383d0a5c3f65f1183943a8e2d0d77e882455"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/fb17a12f3a116584b539bf3f8dc9b8ab82b7e7032cc3ba33b9d8ee4ecceb68bc.json",
+      "sha256": "fb17a12f3a116584b539bf3f8dc9b8ab82b7e7032cc3ba33b9d8ee4ecceb68bc"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/fb93046830414b0a9e8a26ed56c811a302f54b8d3dbb7c1d5b8411af4ded618a.png",
+      "sha256": "fb93046830414b0a9e8a26ed56c811a302f54b8d3dbb7c1d5b8411af4ded618a"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/fcf4adbdbf9c5000f808974bb1186a060e302f0794732a281636913d5226168a.json",
+      "sha256": "fcf4adbdbf9c5000f808974bb1186a060e302f0794732a281636913d5226168a"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/objects/fd564792aba7d3787bb2124e63dceed0b9ddca6dbcd7415ef975cad9cd7e6367.json",
+      "sha256": "fd564792aba7d3787bb2124e63dceed0b9ddca6dbcd7415ef975cad9cd7e6367"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/original-matrix-failures.json",
+      "sha256": "98421b0c36619d6428e1c524489297f4b65c90fdc8c9b1bbd078bc02dd7a3de2"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/affected-direct-01-execution-facts.json",
+      "sha256": "5f85b8beb725c890edeeb864133146c8188c3c92a96a1e153cb1c94032a15509"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/affected-direct-01.json",
+      "sha256": "84222f7cb9b14788337d4f6f63e33da3090dddcbfe6e92e48a39efef408d4a17"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/affected-npc-01-execution-facts.json",
+      "sha256": "551561322e3db6b326e110883aa0d6b8bf344cefa785fe1f826c55dab0971816"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/affected-npc-01.json",
+      "sha256": "2228cb074cebe134c37b3dd30a74a86d2aa2660d1b56c93fcce25963d9fb2bbb"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/affected-self-01-execution-facts.json",
+      "sha256": "ee45f9de5a27e191b65b7d9dc01d71f26fff8847c81d280f5eec4d73895a4748"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/affected-self-01.json",
+      "sha256": "f4817fb08e2306fd4495c7c73cf0210cf01b586555801eeee84ef734a298a4ab"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/baseline108-execution02.json",
+      "sha256": "422c95b54b8731d959a904ecd92716fd032e57a81c674928c5a4d3bc6069375e"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/browser-baseline108-execution01.json",
+      "sha256": "a09d48b3f4f26cf8453bdff08257eb138a9cb314aff2bcf10af0479ef22e3309"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/candidate8b97-execution01.json",
+      "sha256": "49183069a2693847cca9ae779434390d44ea3971840c87830a545759ae3b0baa"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/candidate8b97-execution02.json",
+      "sha256": "fe2d48a245ba982dd1d2cdfb94cba163f371a1c749161d50f0e4b10adfbda079"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/content-chain-execution-facts.json",
+      "sha256": "9c946566bd6b6c66d011385f758b44191aeb6086d665dab8c5a1c00e851685b1"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/content-chain.log",
+      "sha256": "24965273b7e7ce53f92c5d5be59ff5e7dae1301a9e3528f46da4ebfabd9ba2b4"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/content-episode-execution-facts.json",
+      "sha256": "434dffaa07c43eef0fe8e1ce4ed8c331beb35f1b23193319b12c54927facb606"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/content-episode.json",
+      "sha256": "5a26337fc5baa1308db759a92665025eeeb9c5f71abd7d43e9053774e93ab130"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/context-cache-8b97-execution01-execution-facts.json",
+      "sha256": "55c5f2172e9cd16b8a5350076104e4a2d02c6a41a0d33b6d0ab01fa2a3ac540c"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/context-cache-8b97-execution01.json",
+      "sha256": "46f1aa9184183dce5e17748eaa55a88c561414e05ea3be79229d86ddd4217c04"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/context-cache-fixed-execution01-execution-facts.json",
+      "sha256": "7de97563acc7364f6a9b58388174f97b364969a7d7c63894d8842e51b1432c6a"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/context-cache-fixed-execution01.json",
+      "sha256": "ab3be3cf83ec20bb71861b9cf6a57c1005804bf8f62a84878af6123e6ea15f54"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/context-cache-v3-execution01-execution-facts.json",
+      "sha256": "e493177954dd92c32a3cf23afa17909678f2b10bcbd37bbcb8b3d4b1b42e6f98"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/context-cache-v3-execution01.json",
+      "sha256": "4bcaad1a9a9c4ace77d2c3dae891b07c289133a83b38ce3a289928f07473723f"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/episode-browser-01-execution-facts.json",
+      "sha256": "70f9acfb08ebce9354090a25de63d948d8b8ef8528fa8cfa5e9a95c1e91da3d1"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/episode-browser-01.json",
+      "sha256": "8dea2097f3cfb966a68b580161bf411f8a4644fccb171d8164819447923a7245"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/event-gate-parity-execution-facts.json",
+      "sha256": "43b851ea05546d75c486367bc42dd19797790892537c9b3597cf3ad9fe5a5697"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/event-gate-parity.json",
+      "sha256": "d94b3d6b88f7247185437662ebb578d7700983ce0c9eadb0bab18dfc4b2de749"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/gameplay-vertical-slice-execution-facts.json",
+      "sha256": "d39995d361d2092b57314d3f99af9f448cb631292410b0919a6804cbb11fba4b"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/gameplay-vertical-slice.json",
       "sha256": "dc2cf63f0af7a31b6f6ffc2e1350c64bdb21e4b107e13a5a9c02d5e3a2e0e862"
     },
     {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/reports/observer-expression.json",
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/handoff-browser-execution-facts.json",
+      "sha256": "b3f06944aac80b2c3bc53884a630ae940fd085de308909d576402c4e3b31c03d"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/handoff-browser.json",
+      "sha256": "1a88d5f9ebba268b166491971cf05ee91591ac609f588b2221e75dfad3c00322"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/npc-rest-work-v1-execution-facts.json",
+      "sha256": "9081aedc54b8beef59290c11e5df4cba74ff650d72ba657f2c5b4dfa010bd43e"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/npc-rest-work-v1.json",
+      "sha256": "89d43ff9404ea174342cd7248cce7f95777d1b2d0d3b7a696e9c1300d82143da"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/observer-expression-execution-facts.json",
+      "sha256": "b8946427ad0e6b074c77c2d8adea39a7ad1d673ebd37288ee58f2e73fd336654"
+    },
+    {
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/observer-expression.json",
       "sha256": "975dd345dcca51b71dd8acf37eaa4222038525acd3c1e2e959ad6010d3a5eabf"
     },
     {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/reports/replay-self-test.json",
-      "sha256": "92f64ce8e3d1c2e6869ca70ffcc3fc9acb0ee6440141b0b4e3c22bb1258054b6"
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/relay-handoff-memory-v1-execution-facts.json",
+      "sha256": "073f810d0aa659b6560a9be9512f0a163821308220ecf2f77ff29190e4456c83"
     },
     {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/reports/static-three-day-smoke.json",
-      "sha256": "42f21fee7ce0924d7ac05f5ece2dc37e4d7888df4cbc03ee73f9b74aa1cf4e9c"
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/relay-handoff-memory-v1.json",
+      "sha256": "dcba9c16d731df9575ca4dd242a9cfcda3c40abf81b27c73d1df7f437db4954f"
     },
     {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/retained-original-reports.json",
-      "sha256": "43f31d5f60617d43b570e67e1271f39f353c7e9296f96f230c9dd3302a1a1347"
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/replay-self-test-execution-facts.json",
+      "sha256": "0d8b77a935851790b2c790ebeccf9a1634be452c418d6daf8e69a8a554a8a260"
     },
     {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/source-artifact-proof.json",
-      "sha256": "306ee371de8928c2643aac50e1f265226cd3e17b50266fbb4ec66d45ba8b45ca"
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/replay-self-test.json",
+      "sha256": "0813da21b6068f27a332a072cc73180b1362f2dffb7ed3b99e31a2a8392a8538"
     },
     {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/source-commit-tree-proof-native.json",
-      "sha256": "c5c60b3b6ff6150fb107a83b566025c6016d52f66638e4507a6aaccfd626cb28"
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/roster-resize-v2-execution01-execution-facts.json",
+      "sha256": "43e4b3ab0b65d0e86b18f7e6150653ed66f58aeec24112246f294a1ca940c9d7"
     },
     {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/source-execution-matrix.json",
-      "sha256": "e64418cc57bc78385d580c0db1b797168ad0992f039cf5ab6d4304a5447777bb"
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/roster-resize-v2-execution01.json",
+      "sha256": "2cefc1bad8192dfc3f69ae4d1c1a35b2169eadd5be58b7f5be250f61cc61ccb7"
     },
     {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/source-input-index-native.json",
-      "sha256": "ae957ab59b5ec1bef175fd7e70eff8ca5672a704f022c673bf98711541f05866"
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/roster-resize-v3-execution01-execution-facts.json",
+      "sha256": "c48d661a29be03c16e9a54f2b64f930e411bf2c492c736f322bb06d5f98ed12b"
     },
     {
-      "path": "docs/qa/runs/camp-rest-feedback-v1-20261018/selected/transport-map.json",
-      "sha256": "36470754b9db8817062ffa0edc68a336d09435896e26ac6c7951fe9ff2070804"
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/roster-resize-v3-execution01.json",
+      "sha256": "c0e40bac30f1e8e57befdb388d74ae79f329d9cce132c2c7571844784d14f1e7"
     },
     {
-      "path": "docs/qa/runs/npc-rest-work-v1-20261018/legacy/objects/579ded5f8a260dd187cd3dd530a7d52bfeae224da56586299f70cd0355fb6bf1.json",
-      "sha256": "579ded5f8a260dd187cd3dd530a7d52bfeae224da56586299f70cd0355fb6bf1"
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/static-three-day-smoke-execution-facts.json",
+      "sha256": "100c5ae11b3f1040c0c6a57522b097796bb55bf57e4a70a26a9051c02b42718f"
     },
     {
-      "path": "docs/qa/runs/npc-rest-work-v1-20261018/legacy/objects/632d4a10966bbe3e1473c549331c2f10b55aa23a9fcc97db15e208a8955017bc.json",
-      "sha256": "632d4a10966bbe3e1473c549331c2f10b55aa23a9fcc97db15e208a8955017bc"
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/reports/static-three-day-smoke.json",
+      "sha256": "cc14c79b507f543a1bd39141d501a95aa681ca63b1bc4b019e53bca0393cf9a5"
     },
     {
-      "path": "docs/qa/runs/npc-rest-work-v1-20261018/legacy/objects/7529e717311b4b4b9e3ea86610cb7cd49c9923e64c5f1aed62792ef94daaf499.json",
-      "sha256": "7529e717311b4b4b9e3ea86610cb7cd49c9923e64c5f1aed62792ef94daaf499"
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/retained-original-reports.json",
+      "sha256": "366adafb36c80f12490757e49f0e6a9eb92299a653289a349ea247b8f4ce01ca"
     },
     {
-      "path": "docs/qa/runs/npc-rest-work-v1-20261018/legacy/objects/9a15fd55dadcfe7a05b874d0715730f169a9d31c7a5ea6e44e270dba7ab3cb80.json",
-      "sha256": "9a15fd55dadcfe7a05b874d0715730f169a9d31c7a5ea6e44e270dba7ab3cb80"
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/source-artifact-proof.json",
+      "sha256": "d1add8485610e2dd471f1091a469c4a7e194d10eef6854459bc0dbcc374203c1"
     },
     {
-      "path": "docs/qa/runs/npc-rest-work-v1-20261018/legacy/objects/9b91be9368cd043cb26915c5201ce9b6551811e3ce52216759691f8ce61372c3.json",
-      "sha256": "9b91be9368cd043cb26915c5201ce9b6551811e3ce52216759691f8ce61372c3"
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/source-commit-tree-proof-native.json",
+      "sha256": "4579dd98fe61d1bf5a49263f8dacf3b106ec8c1587faef58c662a502bdf87ec4"
     },
     {
-      "path": "docs/qa/runs/npc-rest-work-v1-20261018/legacy/objects/c64ba4cd22728f997b78e29910713247b79a0412920d873a05d361579f9a34ae.json",
-      "sha256": "c64ba4cd22728f997b78e29910713247b79a0412920d873a05d361579f9a34ae"
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/source-execution-matrix.json",
+      "sha256": "7dc04c767ee0a18268326cc56b6a59d8cbbc1bb47f262bf412c4076c9fa2dbe3"
     },
     {
-      "path": "docs/qa/runs/npc-rest-work-v1-20261018/legacy/objects/c830865089247a5e0977dd6fb35a00ff6823c79b62cc05297074c476a7de7902.json",
-      "sha256": "c830865089247a5e0977dd6fb35a00ff6823c79b62cc05297074c476a7de7902"
-    },
-    {
-      "path": "docs/qa/runs/npc-rest-work-v1-20261018/legacy/objects/e47fcb835cb7e46854fa4829a51b95b42316481f13c240270e008bc026185629.json",
-      "sha256": "e47fcb835cb7e46854fa4829a51b95b42316481f13c240270e008bc026185629"
+      "path": "docs/qa/runs/relay-handoff-memory-v1-20261018/selected/transport-map.json",
+      "sha256": "7b90c1c8535a715f2535420015cabb77e6d9d290f0f989cd9192773dea0731fa"
     },
     {
       "path": "docs/qa/runs/scenario-boot-c1-20261017/browser/associated-shortage/supplied-forage-reloaded-save.json",
@@ -943,6 +1042,18 @@
     {
       "path": "scripts/browser-relay-effective-role-v1.mjs",
       "sha256": "6e25d1dc84177855d52013bb1f6d68fc1e4e5d030350cd010a9b7f0277e6e904"
+    },
+    {
+      "path": "scripts/browser-relay-handoff-memory-context-v1.mjs",
+      "sha256": "16612136f26d715805c1aeaa70a87e5f953e10f65b4d76e287188530fbb8b9d7"
+    },
+    {
+      "path": "scripts/browser-relay-handoff-memory-roster-v1.mjs",
+      "sha256": "919a6fae90ca342e57626744e974dec94759e77ab50945404ecc74d92d803156"
+    },
+    {
+      "path": "scripts/browser-relay-handoff-memory-v1.mjs",
+      "sha256": "9e8b4b303349a2c0926052761a32da527749535c259cd1bae781f17cb738096c"
     },
     {
       "path": "scripts/browser-scenario-boot-c1.mjs",
@@ -1050,7 +1161,7 @@
     },
     {
       "path": "scripts/check-npc-rest-work-v1.mjs",
-      "sha256": "56d62759ad66bdf98dd3ffe315dddded6b13ee3d5b6eb4b3080918d4f6b36119"
+      "sha256": "578f38978f9385ed9e40bc3d3a989cb8fe7bbecbff2ec44beef07255710b7853"
     },
     {
       "path": "scripts/check-npc-self-observation-v1.mjs",
@@ -1058,7 +1169,7 @@
     },
     {
       "path": "scripts/check-npc-threat-attention.mjs",
-      "sha256": "baddccdc843c078c4177c111a767c4d67ca702bdef70ff7ec7c3d42c24cb3f18"
+      "sha256": "73f181e036ea92729ffd8abc238030db627526e411b8118cd2fa8bcb06734f88"
     },
     {
       "path": "scripts/check-observer-expression-v1.mjs",
@@ -1074,15 +1185,15 @@
     },
     {
       "path": "scripts/check-plan-integrity-ui.mjs",
-      "sha256": "7673308a83fab6806f1271453301f86042d79b699ca4384fa21a8802b279ff07"
+      "sha256": "9f2778f3b7ca0d289adc76127ad4831c3b98f92551c655e6cf62d46fa4e9860c"
     },
     {
       "path": "scripts/check-plan-integrity.mjs",
-      "sha256": "0a788ae621b5241ba505dbaa1e7104a3832e02846e003ecc6a3fc5080c4ccef1"
+      "sha256": "f689d5f350eb87285e175f933b751b8dbe75db3adb1d356fc978aeb5762f7777"
     },
     {
       "path": "scripts/check-relay-construction-producer.mjs",
-      "sha256": "7aa8df5bcd42ad6debaa91815672f49a012d8b7e357e8dad1ae8fa0c0b77c774"
+      "sha256": "10ddbe458f88c864502dfc67f23dc06529606f1046ed0d5bb9988bc7e8881e2f"
     },
     {
       "path": "scripts/check-relay-construction-runtime.mjs",
@@ -1097,20 +1208,24 @@
       "sha256": "3efa2f88290c274e087d4e5dedb55dbf47d632dd3c22061b0235a3a1460410c5"
     },
     {
+      "path": "scripts/check-relay-handoff-memory-v1.mjs",
+      "sha256": "36e311de1d91ad7ed958789ab7a376a2fe2532e1bb691fc633f8da4e09d6afe2"
+    },
+    {
       "path": "scripts/check-repair-proof.mjs",
       "sha256": "c305ef6a389c62adbfe5fbada45fa25a971669557ae27e13cad1e00a7a1f31d8"
     },
     {
       "path": "scripts/check-report-recovery.mjs",
-      "sha256": "554c400c174ad1b069c4dfcc839c12b3b45ea79c5aa7669e093a440ffa4845d3"
+      "sha256": "e0b467f2b9ee75b941f72c6338ed5376f4e6d0a8c7a1d1a7c210fa630efc63e7"
     },
     {
       "path": "scripts/check-scenario-boot-c1.mjs",
-      "sha256": "fbd9d3022b78ebc8e0fae33ba978935b556b55e821ea9eb2286cf07a69bb3c76"
+      "sha256": "226590b12eb257e5b15edd9f46f3281ef58f8e654f1e0e322b6d36d560ef5ff0"
     },
     {
       "path": "scripts/check-scenario-boot-c2.mjs",
-      "sha256": "b824fb66115fb7ae1d0bb7036c66e427b1e6cd5cfad93a2f87604e24b2d6477f"
+      "sha256": "fffb1e65b38f7012b9196cecda206f404491b76a46f2e998168dd90391297bea"
     },
     {
       "path": "scripts/check-scenario-package-v1.mjs",
@@ -1118,7 +1233,7 @@
     },
     {
       "path": "scripts/check-shortage-choice-v2.mjs",
-      "sha256": "53e23bafd4333f62eaf034162bc83869be33d65707e613aae705fb8a734ce8fe"
+      "sha256": "b07aa47005ed1ebcce4445deead106eee6ad48bc4b57baf77e710711449ef708"
     },
     {
       "path": "scripts/check-three-day-safety.py",
@@ -1287,6 +1402,38 @@
     {
       "path": "scripts/fixtures/relay-construction-v1.json",
       "sha256": "fbca5ac5621cc8b6cecd5c4aab68ce0274ef0838fa4ad9bfef449bffa0499bc6"
+    },
+    {
+      "path": "scripts/fixtures/relay-handoff-memory-browser-inputs.json",
+      "sha256": "8f1ad4d90c342e41620fe76c12c5653bf257cefdefe973a9108b64a706c5a4cd"
+    },
+    {
+      "path": "scripts/fixtures/relay-handoff-memory-v1/actual-Chrome8b97-handoff-native.json",
+      "sha256": "e9d1bf223335acff04d755e760bdd44b0e6a7737305c9ed6cf9203a7daae5a9e"
+    },
+    {
+      "path": "scripts/fixtures/relay-handoff-memory-v1/far-held-core-native.json",
+      "sha256": "bc5ed70f1418496c4fbbbd7e08d35b133c45c87312085e54b5f0cf4f81a29a98"
+    },
+    {
+      "path": "scripts/fixtures/relay-handoff-memory-v1/held-core-native.json",
+      "sha256": "3096e2c66bb8ecda5a88dc81cfbda4ed8160055fc33f358d25990c0d4edfc0a9"
+    },
+    {
+      "path": "scripts/fixtures/relay-handoff-memory-v1/input-selection.json",
+      "sha256": "900f8936f39ce9ff4915eeb17266687cd6a08ca0eb087ca85888c2d3bbc1e9ff"
+    },
+    {
+      "path": "scripts/fixtures/relay-handoff-memory-v1/producer-report-path-only-companion.json",
+      "sha256": "a27cc5089c6a0f5d7be1e540d2a9547401c99d68fa2d8e7add7ee576760dde20"
+    },
+    {
+      "path": "scripts/fixtures/relay-handoff-memory-v1/producer-runner-original.txt",
+      "sha256": "ac67a96b84496bd8482b71545af70714d86990a4d7a3faafee92b91107cbdd1f"
+    },
+    {
+      "path": "scripts/fixtures/relay-handoff-memory-v1/provenance.json",
+      "sha256": "126b697d057f18a914b221caec660945aa33d2b62f816ff86eb4e688f31921a3"
     },
     {
       "path": "scripts/fixtures/repair-proof/repair-legacy-basewriter.json",

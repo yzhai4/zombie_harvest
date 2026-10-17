@@ -1,6 +1,6 @@
 # EventFact首片：接收者记得真实交付
 
-状态：implementation plan／尚未接线。dccb为原来源锚点，下一实现以[当前manifest](../qa/iteration-manifest-v1.json)的108042／源码1db8954为基线，SAVE21／CONTENT3；源自[报告落地计划](research-adoption-plan-20261017.md)及[真实公开交付](../qa/public-relay-mainline-20261018.md)。不是完整Memory／Social或跨副本系统验收。
+状态：首片已接线并完成[列明本地验收](../qa/relay-handoff-memory-v1-20261018.md)，开发证据与精确CI另核。源码d1542fd／HTML2dd27255，SAVE21／CONTENT3；108042／源码1db8954为实施基线，dccb为原来源锚点。源自[报告落地计划](research-adoption-plan-20261017.md)及[真实公开交付](../qa/public-relay-mainline-20261018.md)。不是完整Memory／Social或跨副本系统验收。
 
 玩家承诺：交付核心后，再次查看同一位实际接收长官，能读到何时、谁把什么交给了他；正常保存／Continue后仍可核实。查询不变成支援、额外耗时或刷关系。历史事实与实时工程状态分开，不承诺完工期限、安全或未发生的施工。
 

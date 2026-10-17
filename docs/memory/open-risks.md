@@ -1,5 +1,11 @@
 # 未关闭风险
 
+## 当前优先级覆盖：本人交付记忆后（2026-10-18）
+
+[交付记忆首片](../qa/relay-handoff-memory-v1-20261018.md)已在最终2dd完成列明source／Chrome消费者验证，旧缺槽unknown、畸形保存、死亡／继任与窗口淘汰均各有受控证据。它不关闭完整Memory／Social、跨副本连续性、所有角色知识授权或玩家理解；“未记录”是否被误解成“未交付”、前任历史入口期待留给既有pilot。自然完整中继仍未online／reload，真人乐趣和自然三日没有新增结论。
+
+[内部actor来源风险](../problems/PROB-20261018-relay-handoff-actor-attribution.md)现由实际source QA复现：unsupported actor旧业务仍可成功，但不生产player-1胶囊；不能把无记忆说成命令已拒绝。相应LLM能力启用前须单独收口。两种临时显示缓存反例已按实际surface修正，不删除持久历史；全局有效岗位、生命一致性、contacts／共享、Studio、UI素材与引擎目标仍按原问题分开推进。精确发布CI与生产分别核。
+
 ## 当前优先级覆盖：中继修复后（2026-10-18）
 
 dccb中继片已完成列明源码43合同、真实Chrome四场197与关联episode12；[QA](../qa/relay-effective-role-v1-20261018.md)分开原失败、方法修正、真实继任及消费者完工。中继绑定与一次完工在该范围有证明，全局有效岗仍open，不能把其它医疗／战斗／福利／计划／长官交付调用者一并关闭。旧已online历史保留，其后人员维护另立合同。

@@ -1,10 +1,16 @@
 # 尸潮农场长期计划与双主线成果
 
-## 当前P2起步：持续恢复安排（2026-10-18）
+## 当前EventFact首片：本人接收历史（2026-10-18）
+
+[真实核心交付记忆](qa/relay-handoff-memory-v1-20261018.md)已接到当次接收者、免费查询、名册与正常保存／Continue；只限列明开发验证，不是完整P3或玩家收益。原未知不回填、继任不继承，显示缓存与持久事实分开。下一继续公开中继完整工程后果与既有小真人理解pilot，按反馈再接角色后续选择。此前A02／B02仍停筹料，未online／reload；不把工程检查替代自然路线。
+
+下载原报告已全文对照，方向保持：Scenario Studio、普通NPC规则规划、Memory／Social及特殊角色连续性、受约束生成表达、exact反事实／多主体sandbox、条件性P6；大地图／多副本、UI素材与GameCore／引擎适配仍开放。当前首片与十人Demo不是最终规模上限。
+
+## 历史P2检查点：持续恢复安排（2026-10-18）
 
 本人需求规划已由[木匠恢复／工作切片](qa/npc-rest-work-v1-20261018.md)接到实际routine、移动、劳动资格、SAN、保存和公开说明；列明源码／本地Chrome通过，开发ref／CI终态以PR服务核。它是唯一有效木匠的规则pilot，不是全职业P2或物理到岗系统。原敌情导致的中断与近完成定位分开，估算成本不当收益。
 
-同seed[公开A02／B02](qa/public-relay-mainline-20261018.md)已真实回收与交付，工程后半段未完成；优先补[等候禁用的可见理由](problems/PROB-20261018-camp-rest-disabled-feedback.md)，按[本人交付记忆计划](research/eventfact-handoff-plan-20261018.md)接实际EventFact消费者，再开展小真人pilot。严格缺岗C与全部观察topic不作为这些具体切片的无限前置。硬Gate／软policy、AI OFF与确定性模拟器始终保留；P5多主体sandbox、Studio、UI／素材、大地图／多副本、持久特殊NPC、引擎适配和P6研究目标不变。计划／合同尚非运行时实现或玩家收益。
+同seed[公开A02／B02](qa/public-relay-mainline-20261018.md)已真实回收与交付，工程后半段未完成；[等候禁用的可见理由](qa/camp-rest-feedback-20261018.md)已完成列明开发验证并由精确CI299核验。下一完成[本人交付记忆](research/eventfact-handoff-plan-20261018.md)的实际消费者与验收，再开展已有小真人pilot。严格缺岗C与全部观察topic不作为这些具体切片的无限前置。硬Gate／软policy、AI OFF与确定性模拟器始终保留；P5多主体sandbox、Studio、UI／素材、大地图／多副本、持久特殊NPC、引擎适配和P6研究目标不变。计划、候选及工程检查不等于完整能力或玩家收益。
 
 ## 当前P0检查点：当次侦察（2026-10-17）
 
