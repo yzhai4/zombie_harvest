@@ -125,3 +125,5 @@ Observer 只能使用白名单只读投影，不能触碰可变 WorldFacts 或�
 重复危机不重置有限来源：验藏粮 flag 跨日/刷新、岗位健康/继任与事务回滚，不虚构人口、势力信任、岗位占用或敌人 spawn。Observer 纯核心与深冻结白名单不等于 actor 权限/感知投影已完成。详细合同留在设计卡，Skill 只维护会改变后续决策的规则。
 
 内容选择的合理性要同时比较立即选择、关闭/暂不处理和先补粮等公开可达策略；分别写清内部 fallback 与真实 UI 入口。旧一次性完成档迁入 repeatable 后，还要调用真实事件菜单/renderer，证明新 episode 可见，不能仅凭 startChain 成功宣布迁移闭环。
+
+内容定义改变已发出选择的含义时，提升definitionVersion并明确已知旧active的适配范围；纯validate/prepare与实际boot迁移收据分开，已结算历史不退款、不补奖，未知声明版本不重置。先用同起点立即确认／延期对照检查点击税，再核真实renderer对当前库存与旧预警的解释；不能用强制忽略处罚掩盖激励问题。见shortage-choice-v2 ADR。

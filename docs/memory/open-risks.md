@@ -1,5 +1,12 @@
 # 未关闭风险
 
+## 当前优先级覆盖（2026-10-17）
+
+源码549521e1／HTML297327ec的断粮v2已完成列明source与fixture-browser验证，见[QA](../qa/shortage-choice-v2-20261017.md)。旧确认点击税已移除，不等于全面平衡完成。旧32四次自然短路线均未达到完整coverage；04真实公开播种空成功是下一P0，修复须共享live目标／范围并显式拒绝无效目标，不能只加epsilon。自然三日、真实hidden、移动端、继任双岗位、Scenario真实boot、actor知识授权、完整最终尸潮和生产仍open。
+
+[采集目标回执缺失](../problems/PROB-20261017-collection-target-receipt.md)影响EventFact来源但不是采集未发生。零粮foodSituation=断粮而计划加权检查紧张／短缺的词值问题，以及原大步advance与小步的NPC／敌人差异，未在本轮修复。下方旧规则／计数保留为历史，不覆盖本节。
+
+
 ## 当前检查点（2026-10-17）
 
 当前源码25d315ae／HTML32f911f6，营地等候的实际合同与已验范围见[QA](../qa/camp-rest-20261017.md)。source74/74、Chrome六场93/93；真实hidden仍unavailable，自然多日／断粮激励／生产部署仍open。下表旧构建计数按各自原范围保留，不给当前构建新增三日或平衡结论。

@@ -1,0 +1,274 @@
+{
+  "start": {
+    "eventId": "evt-000254",
+    "seq": 254,
+    "type": "camp.rest.started",
+    "actorId": "system",
+    "commandId": "cmd-000513",
+    "causationId": null,
+    "tick": {
+      "world": 670,
+      "phase": 0,
+      "schedule": 310
+    },
+    "payload": {
+      "active": true,
+      "restId": "rest-0-1-cmd-000513",
+      "requested": 30,
+      "completed": 0,
+      "remaining": 30,
+      "stepIndex": 0,
+      "generation": 0,
+      "reason": null,
+      "anchorId": "bld-4ep952",
+      "startMinute": 670,
+      "currentMinute": 670,
+      "targetMinute": 700
+    }
+  },
+  "stop": {
+    "eventId": "evt-000266",
+    "seq": 266,
+    "type": "camp.rest.stopped",
+    "actorId": "system",
+    "commandId": "cmd-000524",
+    "causationId": null,
+    "tick": {
+      "world": 675,
+      "phase": 0,
+      "schedule": 315
+    },
+    "payload": {
+      "active": false,
+      "restId": "rest-0-1-cmd-000513",
+      "requested": 30,
+      "completed": 5,
+      "remaining": 25,
+      "stepIndex": 5,
+      "generation": 0,
+      "reason": "new-matter",
+      "anchorId": "bld-4ep952",
+      "startMinute": 670,
+      "currentMinute": 675
+    }
+  },
+  "steps": [
+    {
+      "eventId": "evt-000256",
+      "seq": 256,
+      "type": "camp.rest.stepped",
+      "actorId": "system",
+      "commandId": "cmd-000514",
+      "causationId": null,
+      "tick": {
+        "world": 671,
+        "phase": 0,
+        "schedule": 311
+      },
+      "payload": {
+        "restId": "rest-0-1-cmd-000513",
+        "restStep": 1,
+        "beforeMinute": 670,
+        "afterMinute": 671,
+        "requested": 30,
+        "completed": 1,
+        "advanceCommandId": "cmd-000515"
+      }
+    },
+    {
+      "eventId": "evt-000258",
+      "seq": 258,
+      "type": "camp.rest.stepped",
+      "actorId": "system",
+      "commandId": "cmd-000516",
+      "causationId": null,
+      "tick": {
+        "world": 672,
+        "phase": 0,
+        "schedule": 312
+      },
+      "payload": {
+        "restId": "rest-0-1-cmd-000513",
+        "restStep": 2,
+        "beforeMinute": 671,
+        "afterMinute": 672,
+        "requested": 30,
+        "completed": 2,
+        "advanceCommandId": "cmd-000517"
+      }
+    },
+    {
+      "eventId": "evt-000260",
+      "seq": 260,
+      "type": "camp.rest.stepped",
+      "actorId": "system",
+      "commandId": "cmd-000518",
+      "causationId": null,
+      "tick": {
+        "world": 673,
+        "phase": 0,
+        "schedule": 313
+      },
+      "payload": {
+        "restId": "rest-0-1-cmd-000513",
+        "restStep": 3,
+        "beforeMinute": 672,
+        "afterMinute": 673,
+        "requested": 30,
+        "completed": 3,
+        "advanceCommandId": "cmd-000519"
+      }
+    },
+    {
+      "eventId": "evt-000262",
+      "seq": 262,
+      "type": "camp.rest.stepped",
+      "actorId": "system",
+      "commandId": "cmd-000520",
+      "causationId": null,
+      "tick": {
+        "world": 674,
+        "phase": 0,
+        "schedule": 314
+      },
+      "payload": {
+        "restId": "rest-0-1-cmd-000513",
+        "restStep": 4,
+        "beforeMinute": 673,
+        "afterMinute": 674,
+        "requested": 30,
+        "completed": 4,
+        "advanceCommandId": "cmd-000521"
+      }
+    },
+    {
+      "eventId": "evt-000265",
+      "seq": 265,
+      "type": "camp.rest.stepped",
+      "actorId": "system",
+      "commandId": "cmd-000522",
+      "causationId": null,
+      "tick": {
+        "world": 675,
+        "phase": 0,
+        "schedule": 315
+      },
+      "payload": {
+        "restId": "rest-0-1-cmd-000513",
+        "restStep": 5,
+        "beforeMinute": 674,
+        "afterMinute": 675,
+        "requested": 30,
+        "completed": 5,
+        "advanceCommandId": "cmd-000523"
+      }
+    }
+  ],
+  "advances": [
+    {
+      "eventId": "evt-000255",
+      "seq": 255,
+      "type": "time.advanced",
+      "actorId": "system",
+      "commandId": "cmd-000515",
+      "causationId": "cmd-000514",
+      "tick": {
+        "world": 671,
+        "phase": 0,
+        "schedule": 311
+      },
+      "payload": {
+        "minutes": 1,
+        "day": 1,
+        "hour": 11,
+        "minute": 11,
+        "restId": "rest-0-1-cmd-000513",
+        "restStep": 1
+      }
+    },
+    {
+      "eventId": "evt-000257",
+      "seq": 257,
+      "type": "time.advanced",
+      "actorId": "system",
+      "commandId": "cmd-000517",
+      "causationId": "cmd-000516",
+      "tick": {
+        "world": 672,
+        "phase": 0,
+        "schedule": 312
+      },
+      "payload": {
+        "minutes": 1,
+        "day": 1,
+        "hour": 11,
+        "minute": 12,
+        "restId": "rest-0-1-cmd-000513",
+        "restStep": 2
+      }
+    },
+    {
+      "eventId": "evt-000259",
+      "seq": 259,
+      "type": "time.advanced",
+      "actorId": "system",
+      "commandId": "cmd-000519",
+      "causationId": "cmd-000518",
+      "tick": {
+        "world": 673,
+        "phase": 0,
+        "schedule": 313
+      },
+      "payload": {
+        "minutes": 1,
+        "day": 1,
+        "hour": 11,
+        "minute": 13,
+        "restId": "rest-0-1-cmd-000513",
+        "restStep": 3
+      }
+    },
+    {
+      "eventId": "evt-000261",
+      "seq": 261,
+      "type": "time.advanced",
+      "actorId": "system",
+      "commandId": "cmd-000521",
+      "causationId": "cmd-000520",
+      "tick": {
+        "world": 674,
+        "phase": 0,
+        "schedule": 314
+      },
+      "payload": {
+        "minutes": 1,
+        "day": 1,
+        "hour": 11,
+        "minute": 14,
+        "restId": "rest-0-1-cmd-000513",
+        "restStep": 4
+      }
+    },
+    {
+      "eventId": "evt-000264",
+      "seq": 264,
+      "type": "time.advanced",
+      "actorId": "system",
+      "commandId": "cmd-000523",
+      "causationId": "cmd-000522",
+      "tick": {
+        "world": 675,
+        "phase": 0,
+        "schedule": 315
+      },
+      "payload": {
+        "minutes": 1,
+        "day": 1,
+        "hour": 11,
+        "minute": 15,
+        "restId": "rest-0-1-cmd-000513",
+        "restStep": 5
+      }
+    }
+  ]
+}
