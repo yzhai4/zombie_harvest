@@ -3,21 +3,22 @@ import { createServer } from 'node:http';
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { createRequire } from 'node:module';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import path from 'node:path';
 import vm from 'node:vm';
-import { root, saveKey, sourceRuntimeFactory } from './lib/source-runtime-fixture.mjs';
 
 // TEST-ONLY complete old-writer-derived boot scenes. Browser actions after boot
 // use visible public UI only. Canvas wrappers observe actual IO and always call
 // the original methods; neither renderer nor GameState is replaced or patched.
 const options = {};
 for (let i = 2; i < process.argv.length; i += 2) {
-  assert.ok(['--html', '--out', '--expect-html-sha256'].includes(process.argv[i]) && process.argv[i + 1], 'usage: --html ABSOLUTE_HTML --out NEW_ABSOLUTE_DIR --expect-html-sha256 SHA');
+  assert.ok(['--repo-root', '--html', '--out', '--expect-html-sha256'].includes(process.argv[i]) && process.argv[i + 1], 'usage: --html ABSOLUTE_HTML --out NEW_ABSOLUTE_DIR --expect-html-sha256 SHA [--repo-root ABS]');
   options[process.argv[i]] = process.argv[i + 1];
 }
 assert.ok(path.isAbsolute(options['--html'] || '') && path.isAbsolute(options['--out'] || ''), 'absolute --html and --out required');
 assert.match(options['--expect-html-sha256'] || '', /^[a-f0-9]{64}$/);
+const root=options['--repo-root']||path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');assert.ok(path.isAbsolute(root));
+const {saveKey,sourceRuntimeFactory}=await import(pathToFileURL(path.join(root,'scripts/lib/source-runtime-fixture.mjs')).href);
 const htmlPath = options['--html'], out = options['--out'];
 assert.equal(existsSync(out), false, 'output directory must be new; preserve earlier runs');
 mkdirSync(out, { recursive: true });
@@ -180,12 +181,17 @@ try {
   check('public context offers no away guard orders', expectedGuards.every(id => !contextNpcIds.includes(id)));
   const seq = (await b.saved()).worldMeta.eventSeq;
   await page.keyboard.press('e');
-  await page.waitForFunction(({ key, seq }) => JSON.parse(localStorage.getItem(key)).payload.worldMeta.events.some(e => e.seq > seq && e.type === 'npc.interacted'), { key: saveKey, seq });
+  await page.waitForFunction(({ key, seq }) => JSON.parse(localStorage.getItem(key)).payload.worldMeta.events.some(e => e.seq > seq && e.type === 'npc.dialogueOpened'), { key: saveKey, seq });
   const afterE = await b.saved();
-  const interacted = afterE.worldMeta.events.filter(e => e.seq > seq && e.type === 'npc.interacted');
+  const interacted = afterE.worldMeta.events.filter(e => e.seq > seq && e.type === 'npc.dialogueOpened');
   const interactions = interacted.map(e => afterE.worldMeta.replay.commands.find(c => c.commandId === e.commandId));
   writeFileSync(path.join(out, 'capture-e-receipts.json'), JSON.stringify({ interacted, interactions }, null, 2));
-  check('E executes a local NPC interaction positive control', interactions.some(c => c?.type === 'npc.interact' && c.payload.npcId === 'doctor'));
+  check('single E opens actual local doctor dialogue without claiming support', interacted.length === 1 && interactions.length === 1 &&
+    interactions[0]?.type === 'npc.interact' && interactions[0].payload.npcId === 'doctor' && interactions[0].actorId === 'player-1' &&
+    interacted[0].actorId === 'player-1' && interacted[0].payload.proofVersion === 1 && interacted[0].payload.npcId === 'doctor' &&
+    interacted[0].payload.operation === 'dialogue-open' && interacted[0].payload.payment.cost.energy === 0 &&
+    interacted[0].payload.clock.requestedMinutes === 0 && interacted[0].payload.clock.elapsedMinutes === 0 && interacted[0].payload.advance === null &&
+    !afterE.npcs.find(n => n.id === 'doctor').supportRequested && !afterE.worldMeta.events.some(e => e.seq > seq && e.type === 'npc.interacted'));
   check('E never targets an away guard', interactions.every(c => c && !expectedGuards.includes(c.payload.npcId)) && expectedGuards.every(id => !afterE.npcs.find(n => n.id === id).supportRequested));
   const preReload = await b.captureSave('before-reload');
   await b.reload();

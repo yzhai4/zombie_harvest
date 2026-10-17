@@ -11,28 +11,35 @@ import path from 'node:path';
 // provide a separately disclosed conservative safety veto, never goal rewards.
 const opts = {};
 for (let i = 2; i < process.argv.length; i += 2) {
-  assert.ok(['--html', '--out', '--expect-html-sha256', '--budget-seconds'].includes(process.argv[i]) && process.argv[i + 1], 'usage: --html ABS --out NEW_ABS --expect-html-sha256 SHA [--budget-seconds 480]');
+  assert.ok(['--run-approved', '--repo-root', '--protocol', '--method-supplement', '--html', '--out', '--expect-html-sha256', '--budget-seconds'].includes(process.argv[i]) && process.argv[i + 1], 'usage: --run-approved yes --html ABS --out NEW_ABS --expect-html-sha256 SHA [--repo-root ABS] [--protocol ABS] [--method-supplement ABS] [--budget-seconds 480]');
   opts[process.argv[i]] = process.argv[i + 1];
 }
+assert.equal(opts['--run-approved'], 'yes', 'external preparation draft; later final-source authorization required');
 assert.ok(path.isAbsolute(opts['--html'] || '') && path.isAbsolute(opts['--out'] || ''));
 assert.match(opts['--expect-html-sha256'] || '', /^[a-f0-9]{64}$/);
 const budgetSeconds = Number(opts['--budget-seconds'] || 480); assert.ok(Number.isInteger(budgetSeconds) && budgetSeconds > 0 && budgetSeconds <= 480);
-const out = opts['--out'], root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const out = opts['--out'], root = opts['--repo-root'] || path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+assert.ok(path.isAbsolute(root));
 assert.equal(existsSync(out), false, 'new output required; never overwrite or resume a prior natural route'); mkdirSync(out, { recursive: true });
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const source = readFileSync(opts['--html']), sourceHash = sha(source); assert.equal(sourceHash, opts['--expect-html-sha256']);
+assert.equal(sourceHash, '9edb6d3c3daa7ec63d90594381d811cb077828fd0955fb7095c601ce91b5b87b', 'this prepared fresh07 runner is bound to final NPC r3');
 const runner = readFileSync(fileURLToPath(import.meta.url)), sprites = readFileSync(path.join(root, 'dist/actor-sprites.js'));
-const protocol = readFileSync(path.join(root, 'docs/qa/natural-play-protocol-20261017.md'));
+const protocol = readFileSync(opts['--protocol'] || path.join(root,'docs/qa/natural-play-protocol-20261017.md'));
+const methodSupplement = opts['--method-supplement'] ? readFileSync(opts['--method-supplement']) : Buffer.from('Final NPC r3: same public ID, typed first dialogue0E0min is not support; actual confirmed support2E15min and effects required. Bounded original Canvas observation and all original seven coverage/480s/10-action limits are encoded in this exact executed runner.\n');
 writeFileSync(path.join(out, 'source.html'), source); writeFileSync(path.join(out, 'runner-executed.mjs'), runner); writeFileSync(path.join(out, 'actor-sprites-executed.js'), sprites);
 writeFileSync(path.join(out, 'protocol-executed.md'), protocol);
+writeFileSync(path.join(out, 'npc-method-supplement-executed.md'), methodSupplement);
 const key = 'zombie-harvest-progress-v12', startedAt = Date.now(), deadline = startedAt + budgetSeconds * 1000;
 const budgets = { wallSeconds: budgetSeconds, meaningfulActions: 10, meals: 2, daytimeAttacks: 4,
   stopPlayerHp: 60, minimumLaborEnergy: 15, retainFood: 3, maximumSingleIdleSeconds: 120, maximumTotalIdleSeconds: 360,
   training: 0, purposelessRest: 0, maximumGoalDrivenRestMinutes: 30, maximumGoalDrivenRestInstances: 1,
   navigationSecondsPerGoal: 30, maximumNavigationDetours: 3, encounterWarningPercent: 80, npcApproachRetryLimit: 2, npcCanvasObservationMaxMs: 250 };
 const report = { schema: 'NaturalMixedBrowserShortV1', runner: 'browser-natural-mixed-v1', runnerSha256: sha(runner),
-  sourceHtmlSha256: sourceHash, expectedHtmlSha256: opts['--expect-html-sha256'], actorSpritesSha256: sha(sprites), protocolSha256: sha(protocol),
-  mode: 'fresh-zero-save-injection-budgeted-short-natural-mixed-route', parameters: opts, budgets,
+  sourceHtmlSha256: sourceHash, expectedHtmlSha256: opts['--expect-html-sha256'], actorSpritesSha256: sha(sprites), protocolSha256: sha(protocol), methodSupplementSha256: sha(methodSupplement),
+  mode: 'fresh-zero-save-injection-budgeted-short-natural-mixed-route',
+  parameters: { source:'artifact:source.html',out:'artifact:./',protocol:'artifact:protocol-executed.md',methodSupplement:'artifact:npc-method-supplement-executed.md',expectedHtmlSha256:opts['--expect-html-sha256'],budgetSeconds,
+    dependencyRoot:opts['--repo-root']?'explicit external dependency root':'installed repository relative' }, budgets,
   policy: { freshBrowserContext: true, initialStorageMustBeEmpty: true, publicStart: true, saveInjection: false,
     initScriptInjection: false, hiddenGameActions: false, hiddenStateMutation: false, resume: false,
     goalKnowledge: 'public HUD/context controls and non-fogged rendered map objects/public art and tag metadata only; no hidden rewards',
@@ -43,7 +50,7 @@ const report = { schema: 'NaturalMixedBrowserShortV1', runner: 'browser-natural-
     authorization: 'current publicly named NPC only; original fillText executes unchanged, observer restores within 250ms; no forced render',
     zeroIoWrappingClaim: false, initScript: false, maximumObservations: 2, maximumObservationMs: 250,
     maximumApproachRetries: 2, approachHoldMs: 100, otherActorsCollected: false, hiddenNpcStateRead: false,
-    knownUiExecutionRadiusMismatchFixed: false, observations: [], restorationProofs: [], publicAttempts: [], approaches: [] },
+    publicQualificationContract: 'view <=1.25; action <=1.0; approach an actually visible same target without clicking disabled actions', observations: [], restorationProofs: [], publicAttempts: [], approaches: [] },
   coverage: { eventChoice: false, resourceCollection: false, npcInteraction: false, exploration: false, planting: false,
     usefulConstruction: false, goalDrivenRestAttempted: false, goalDrivenRest: false, encounter: false, harvest: false, threeDays: false },
   timers: { readingMs: 0, saveVerificationMs: 0, checkpointSynchronizationMs: 0, publicRestMs: 0, navigationMs: 0, idleMs: 0 },
@@ -238,7 +245,7 @@ async function observePublicNpc(name, npcId) {
   const observed = await page.evaluate(async ({ name, npcId, original }) => {
     const proto = CanvasRenderingContext2D.prototype, at = performance.now();
     const publicName = () => document.getElementById('contextTitle')?.textContent.split(' · ')[0]?.trim();
-    const publicId = () => document.querySelector('[data-context-action="npcOrder"]')?.dataset.npcId;
+    const publicId = () => document.querySelector('[data-context-action="npcView"][data-npc-id]')?.dataset.npcId;
     let timer, wrapper, capture = null, observationError = null, targetOriginalCalls = 0;
     const restored = () => { if (proto.fillText === wrapper) proto.fillText = original; };
     const nameBefore = publicName(), idBefore = publicId();
@@ -321,42 +328,67 @@ async function followPublicNpc(name, npcId, dialogue) {
 }
 async function attemptNearbyNpc(motivation) {
   if (report.coverage.npcInteraction) return true;
-  const npc = page.locator('[data-context-action="npc"]');
-  if (!(await npc.isVisible()) || !(await npc.isEnabled())) { report.blockedGoals.push({ goal: 'NPC', reason: 'no actually available local NPC request at this public location', motivation }); return false; }
+  const candidate = page.locator('[data-context-action="npc"][data-npc-id]').first();
+  if (!(await candidate.isVisible())) { report.blockedGoals.push({ goal: 'NPC', reason: 'no actually visible local NPC request at this public location', motivation }); return false; }
   report.npcContactPublic = await page.locator('#contextPanel').innerText();
   const name=(await page.locator('#contextTitle').innerText()).split(' · ')[0].trim();
-  const npcId=await page.locator('[data-context-action="npcOrder"]').first().getAttribute('data-npc-id');
+  const npcId=await candidate.getAttribute('data-npc-id');
   if (!name || !npcId) throw new RouteStop('INCOMPLETE_COVERAGE','public NPC identity is not actually disclosed');
-  let fixedPublicSample;
+  const npc = page.locator(`[data-context-action="npc"][data-npc-id="${npcId}"]`);
+  const view = page.locator(`[data-context-action="npcView"][data-npc-id="${npcId}"]`);
+  let fixedPublicSample, dialogueOpened=false;
   for (let attempt=0;attempt<=report.UIObservationInstrumentation.maximumApproachRetries;attempt++) {
-    if (!(await npc.isVisible()) || !(await npc.isEnabled()) || (await page.locator('#contextTitle').innerText()).split(' · ')[0].trim()!==name ||
-      await page.locator('[data-context-action="npcOrder"]').first().getAttribute('data-npc-id')!==npcId)
+    if (!(await npc.isVisible()) || !(await view.isVisible()) || (await page.locator('#contextTitle').innerText()).split(' · ')[0].trim()!==name ||
+      await view.getAttribute('data-npc-id')!==npcId)
       throw new RouteStop('INCOMPLETE_COVERAGE','same publicly observed NPC target no longer available; no private-target pursuit');
+    if (!(await npc.isEnabled())) {
+      const publicReason=await npc.innerText(), record={type:'npc-disabled-public-qualification',motivation,targetName:name,publicNpcId:npcId,
+        publicButton:publicReason,context:await page.locator('#contextPanel').innerText(),disabled:true,clicked:false,countedAsSuccessfulSupport:false};
+      report.actions.push(record); report.UIObservationInstrumentation.publicAttempts.push(record); writeReport();
+      if (!await view.isEnabled()||!publicReason.includes('请靠近到 1 格内')) {
+        report.blockedGoals.push({goal:'NPC support confirmation',reason:publicReason,method:'only explicit public distance disqualification permits bounded approach'});return false;
+      }
+      await view.click();
+      if (!await followPublicNpc(name,npcId,publicReason)) { report.blockedGoals.push({goal:'NPC support confirmation',reason:publicReason,boundedApproaches:report.UIObservationInstrumentation.approaches.length});return false; }
+      continue;
+    }
     fixedPublicSample={ sampledAtMs:Date.now()-startedAt,publicUi:await ui() };
-    const before=await save(); await npc.click();
-    const after=await waitSaved((p,v)=>p.worldMeta.events.some(e=>e.type==='npc.interacted'&&e.seq>v.seq),{seq:before.worldMeta.eventSeq});
-    const receipt=after.worldMeta.events.find(e=>e.type==='npc.interacted'&&e.seq>before.worldMeta.eventSeq), command=after.worldMeta.replay.commands.find(c=>c.commandId===receipt.commandId);
+    const before=await synchronizeWriter('NPC first typed dialogue',fixedPublicSample); await npc.click();
+    const after=await waitSaved((p,v)=>p.worldMeta.events.some(e=>e.seq>v.seq&&e.actorId==='player-1'&&
+      (e.type==='npc.dialogueOpened'&&e.payload.npcId===v.npcId||e.type==='command.rejected'&&e.payload.type==='npc.interact')),{seq:before.worldMeta.eventSeq,npcId});
+    const receipt=after.worldMeta.events.find(e=>e.type==='npc.dialogueOpened'&&e.seq>before.worldMeta.eventSeq&&e.payload.npcId===npcId);
+    const rejection=after.worldMeta.events.find(e=>e.type==='command.rejected'&&e.seq>before.worldMeta.eventSeq&&e.payload.type==='npc.interact');
+    const command=after.worldMeta.replay.commands.find(c=>c.commandId===(receipt||rejection)?.commandId);
     const dialogue=await page.locator('#toast').innerText();
-    const read={ type:'npc-dialogue-read',motivation,targetName:name,publicNpcId:npcId,publicDialogue:dialogue,receipt,command,countedAsSuccessfulSupport:false };
+    const read={ type:'npc-dialogue-read',motivation,targetName:name,publicNpcId:npcId,publicDialogue:dialogue,receipt,rejection,command,countedAsSuccessfulSupport:false };
     report.actions.push(read); report.UIObservationInstrumentation.publicAttempts.push(read);
     if (command?.payload.npcId!==npcId) throw new RouteStop('INCOMPLETE_COVERAGE','public NPC target changed during click');
-    if (dialogue.includes('再次按 E')) break;
-    const gap=dialogue.match(/^靠近(.+)（还差 ([\d.eE+-]+) 格）$/);
-    if (!gap || gap[1]!==name || !Number.isFinite(Number(gap[2])) || Number(gap[2])<=0 || !await followPublicNpc(name,npcId,dialogue)) {
+    if (receipt) {
+      const p=receipt.payload;
+      check('NPC first talk is typed zero-cost dialogue, never support',receipt.actorId==='player-1'&&command.actorId==='player-1'&&p.proofVersion===1&&p.operation==='dialogue-open'&&
+        p.target.id===npcId&&p.target.beforeAdvance===null&&p.target.afterAdvance===null&&p.payment.cost.energy===0&&p.payment.before.energy===p.payment.after.energy&&
+        p.clock.requestedMinutes===0&&p.clock.elapsedMinutes===0&&p.advance===null&&!p.target.atCompletion.supportRequested);
+      dialogueOpened=true;break;
+    }
+    if (rejection?.payload.reason!=='npc-too-far'||!await followPublicNpc(name,npcId,dialogue)) {
       report.blockedGoals.push({goal:'NPC support confirmation',reason:dialogue,boundedApproaches:report.UIObservationInstrumentation.approaches.length});return false;
     }
   }
+  if(!dialogueOpened)return false;
   await action('npc.interacted', '阅读当前真正近邻角色状态后第二次公开确认请求支援；只将实际support/bond/memory变化计作成功。', 15, async () => {
-    const title=await page.locator('#contextTitle').innerText(), currentId=await page.locator('[data-context-action="npcOrder"]').first().getAttribute('data-npc-id');
+    const title=await page.locator('#contextTitle').innerText(), currentId=await view.getAttribute('data-npc-id');
     report.UIObservationInstrumentation.confirmationPublic={targetName:name,publicNpcId:npcId,currentTitle:title,currentPublicNpcId:currentId,publicUi:await ui()};
     if(title.split(' · ')[0].trim()!==name||currentId!==npcId||!await npc.isVisible()||!await npc.isEnabled())
       throw new RouteStop('INCOMPLETE_COVERAGE','same public NPC confirmation target changed; no substituted support');
     await npc.click();
   }, (b,a,events,commands) => {
     const changed = a.npcs.find(n => n.id===npcId && n.supportRequested && !b.npcs.find(old => old.id === n.id).supportRequested && n.bond > b.npcs.find(old => old.id === n.id).bond);
-    const parent=commands.find(c=>c.type==='npc.interact'&&c.payload.npcId===npcId&&c.actorId==='player-1');
-    return !!changed && !!parent && events.some(e => e.type === 'npc.interacted'&&e.commandId===parent.commandId&&e.actorId==='player-1') &&
-      commands.some(c=>c.type==='world.advance'&&c.payload.minutes===15&&events.some(e=>e.type==='time.advanced'&&e.commandId===c.commandId&&e.causationId===parent.commandId&&e.payload.minutes===15)) &&
+    const receipt=events.find(e=>e.type==='npc.interacted'&&e.payload.npcId===npcId),p=receipt?.payload;
+    const parent=commands.find(c=>c.type==='npc.interact'&&c.commandId===receipt?.commandId&&c.payload.npcId===npcId&&c.actorId==='player-1');
+    return !!changed && !!parent && receipt.actorId==='player-1'&&p.proofVersion===1&&p.operation==='support-requested'&&p.target.id===npcId&&p.target.presentAtCompletion===true&&
+      p.target.beforeAdvance!==null&&p.target.afterAdvance!==null&&p.target.atCompletion.supportRequested===true&&p.payment.cost.energy===2&&p.payment.before.energy-p.payment.after.energy===2&&
+      p.clock.requestedMinutes===15&&p.clock.elapsedMinutes===15&&commands.some(c=>c.type==='world.advance'&&c.commandId===p.advance?.commandId&&c.payload.minutes===15&&
+        events.some(e=>e.type==='time.advanced'&&e.eventId===p.advance?.eventId&&e.commandId===c.commandId&&e.causationId===parent.commandId&&e.payload.minutes===15)) &&
       changed.memory.helpedByPlayer > b.npcs.find(old => old.id === changed.id).memory.helpedByPlayer;
   },{fixedPublicSample}); report.coverage.npcInteraction = true; return true;
 }
@@ -497,7 +529,7 @@ try {
 } catch (error) {
   report.status = error instanceof RouteStop ? error.status : 'UNVERIFIED_RUNNER_FAILURE';
   report.terminalReason = error.message;
-  if (!(error instanceof RouteStop)) report.errors.push({ type: 'runner', message: error.stack || String(error) });
+  if (!(error instanceof RouteStop)) { console.error(error.stack || String(error)); report.errors.push({ type: 'runner', message: error.message || String(error) }); }
 } finally {
   finishing = true; report.routeElapsedBeforeCleanupMs = Date.now() - startedAt;
   if (page && !page.isClosed()) {

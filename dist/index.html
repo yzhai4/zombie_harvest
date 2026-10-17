@@ -5957,9 +5957,9 @@ function resolveObserverExpression(input = {}) {
       let title = '附近互动';
       let hint = '靠近目标后按 E 交互；按 F 或空格攻击。';
       let actionIndex = 0;
-      const add = (label, sub, action, cls = '', disabled = false, cropTargetId = null) => {
+      const add = (label, sub, action, cls = '', disabled = false, cropTargetId = null, npcTargetId = null) => {
         const index = actionIndex++;
-        actions.push(`<button class="context-action ${cls}" data-context-action="${action}" data-context-index="${index}" ${cropTargetId !== null ? `data-building-id="${eventUiText(cropTargetId)}" data-crop-target="true"` : ''} ${disabled ? 'disabled' : ''}><kbd class="action-index">${index + 1}</kbd>${label}<small>${sub}</small></button>`);
+        actions.push(`<button class="context-action ${cls}" data-context-action="${action}" data-context-index="${index}" ${cropTargetId !== null ? `data-building-id="${eventUiText(cropTargetId)}" data-crop-target="true"` : ''} ${npcTargetId !== null ? `data-npc-id="${eventUiText(npcTargetId)}"` : ''} ${disabled ? 'disabled' : ''}><kbd class="action-index">${index + 1}</kbd>${label}<small>${sub}</small></button>`);
       };
       if (zombies.length) {
         icon = '🧟'; title = '僵尸就在身边'; hint = `相邻 ${zombies.length} 只，立刻处理可以减少受伤风险。`;
@@ -5968,7 +5968,10 @@ function resolveObserverExpression(input = {}) {
       if (npcs.length) {
         const npc = npcs[0]; icon = npc.icon; title = `${npc.name} · ${npc.role}`; hint = npc.desc;
         const currentOrder = getNpcOrderInfo(npc);
-        add(npc.supportRequested ? `✅ 已请求 · ${currentOrder.name}` : `🤝 请求${npc.name}支援`, npc.supportRequested ? `当前命令：${currentOrder.name} · 羁绊 ${npc.bond}/3` : `先选命令或消耗 2 行动体力 · 羁绊 ${npc.bond}/3`, 'npc', 'primary', !!npc.supportRequested || state.energy < 2);
+        const viewGate = npcPublicActionGate(npc, { action: 'view' });
+        const supportGate = npcPublicActionGate(npc, { action: 'support' });
+        add(`🔎 查看${npc.name}状态`, '查看范围 1.25 格 · 不请求支援、不支付体力', 'npcView', '', !viewGate.ok, null, npc.id);
+        add(npc.supportRequested ? `✅ 已请求 · ${currentOrder.name}` : state.npcTalkOpen === npc.id ? `🤝 确认请求${npc.name}支援` : `💬 交谈并请求${npc.name}支援`, npc.supportRequested ? `当前命令：${currentOrder.name} · 羁绊 ${npc.bond}/3` : !supportGate.ok ? npcPublicActionLabel(supportGate) : `确认消耗 2 行动体力 · 推进 15 分钟 · 羁绊 ${npc.bond}/3`, 'npc', 'primary', !!npc.supportRequested || !supportGate.ok, null, npc.id);
         evaluateNpcPromotion(npc, 'context');
         if (npc.hero?.status === 'eligible') { const promoteIndex = actionIndex++; actions.push(`<button class="context-action primary" data-context-action="promoteHero" data-context-index="${promoteIndex}" data-npc-id="${npc.id}" ${Number(state.contentState?.commandPoints || 0) < 1 ? 'disabled' : ''}><kbd class="action-index">${promoteIndex + 1}</kbd>⭐ 晋升为英雄<small>消耗 1 指挥点 · ${npcHeroLabel(npc)}</small></button>`); }
         if (npcHasRole(npc, 'commander') && state.relayProject?.status === 'core-recovered' && Number(state.specialItems?.relayCore) > 0) {
@@ -5979,7 +5982,8 @@ function resolveObserverExpression(input = {}) {
         getNpcOrders(npc).forEach(order => {
           const selected = npc.supportRequested && currentOrder.id === order.id;
           const index = actionIndex++;
-          actions.push(`<button class="context-action ${selected ? 'primary' : ''}" data-context-action="npcOrder" data-context-index="${index}" data-npc-id="${npc.id}" data-order="${order.id}" ${(!npc.supportRequested && state.energy < 2) ? 'disabled' : ''}><kbd class="action-index">${index + 1}</kbd>${selected ? '✅ ' : '🎯 '}${order.name}<small>${order.desc}</small></button>`);
+          const orderGate = npcPublicActionGate(npc, { action: 'order', orderId: order.id });
+          actions.push(`<button class="context-action ${selected ? 'primary' : ''}" data-context-action="npcOrder" data-context-index="${index}" data-npc-id="${eventUiText(npc.id)}" data-order="${eventUiText(order.id)}" ${!orderGate.ok ? 'disabled' : ''}><kbd class="action-index">${index + 1}</kbd>${selected ? '✅ ' : '🎯 '}${order.name}<small>${orderGate.ok ? order.desc : npcPublicActionLabel(orderGate)}</small></button>`);
         });
       }
       if (resources.length) {
@@ -6119,8 +6123,10 @@ function resolveObserverExpression(input = {}) {
       $('survivorList').innerHTML = state.npcs.map(n => {
         const near = nearby.some(item => item.id === n.id);
         const dead = !npcIsActive(n);
-        const status = dead ? '已死亡 · 岗位空缺' : n.garrisonedOutpostId ? '据点驻守 · 营地现场行动不可用' : n.supportRequested ? '已请求 · ' + getNpcOrderInfo(n).name : near ? '可立即请求并下达命令' : '靠近后交互';
-        const disabled = dead || !npcIsCampLocal(n) ? 'disabled' : '';
+        const viewGate = npcPublicActionGate(n, { action: 'view' });
+        const supportGate = npcPublicActionGate(n, { action: 'support' });
+        const status = dead ? '已死亡 · 岗位空缺' : n.garrisonedOutpostId ? '据点驻守 · 营地现场行动不可用' : n.supportRequested ? '查看状态 · 已请求 ' + getNpcOrderInfo(n).name : near ? supportGate.ok ? '查看状态 · 可在近身菜单请求支援' : '查看状态 · ' + npcPublicActionLabel(supportGate) : '靠近到 1.25 格内查看状态';
+        const disabled = !viewGate.ok ? 'disabled' : '';
         const zoneName = CAMP_ZONES[n.homeZone]?.name || '营地';
         const actingLabel = n.actingRole ? `暂代${NPC_TEMPLATES[n.actingRole]?.role || n.actingRole}` : '';
         const garrisonedLabel = n.garrisonedOutpostId ? ` · 驻守${OUTPOST_DEFS[n.garrisonedOutpostId]?.name || n.garrisonedOutpostId}` : '';
@@ -6128,7 +6134,7 @@ function resolveObserverExpression(input = {}) {
         const condition = dead ? '功能失效' : npcStateSummary(n) + ` · SAN ${Math.round(sanityValue(n))} · ${sanityLabel(n.sanity)}` + (actingLabel ? ' · ' + actingLabel : '') + garrisonedLabel + ` · ${npcHeroLabel(n)} · 羁绊 ` + n.bond + '/3';
         return '<button class="survivor-card ' + (near ? 'near' : '') + ' ' + (n.supportRequested ? 'supported' : '') + ' ' + (dead ? 'dead' : '') + ' ' + (n.lifeState === 'injured' ? 'injured' : '') + ' ' + (n.lifeState === 'critical' ? 'critical' : '') + '" data-npc="' + n.id + '" ' + disabled + '><div class="survivor-icon">' + actorSprite('npc', n.id, n.facing || 'down', n.lifeState === 'healthy' ? 'idle' : 'hurt', actorFrame(), npcActorVisual(n)) + '</div><b>' + n.name + ' · ' + n.role + '</b><span>' + detail + '</span><em>' + status + ' · ' + condition + '</em></button>';
       }).join('');
-      document.querySelectorAll('[data-npc]').forEach(card => card.addEventListener('click', () => interactNpc(card.dataset.npc)));
+      document.querySelectorAll('[data-npc]').forEach(card => card.addEventListener('click', () => viewNpc(card.dataset.npc)));
     }
     function render() {
       if (SessionController.exiting) return;
@@ -6753,7 +6759,7 @@ function resolveObserverExpression(input = {}) {
     function executeInteraction(target) {
       if (state.night) { toast('尸潮进行中：当前只能移动和攻击'); return false; }
       if (!target) return false;
-      if (target.kind === 'npc') { interactNpc(target.item.id); return true; }
+      if (target.kind === 'npc') { const result = interactNpc(target.item); return result?.ok === true && !result.duplicate; }
       if (target.kind === 'resource') { gather(target.item); return true; }
       if (target.kind === 'crop') { plantOrHarvest(target.item); return true; }
       if (target.kind === 'repair') { repairBuilding(target.item); return true; }
@@ -6842,7 +6848,11 @@ function resolveObserverExpression(input = {}) {
         const key = interactionTargetKey(target, target.item?.x, target.item?.y);
         if (!state.interactionFocus || state.interactionFocus.key !== key) { setInteractionFocus(target, target.item?.x, target.item?.y); toast('已锁定目标，再按 E 执行'); renderWorld(); renderContext(); return; }
       }
-      if (target && executeInteraction(target)) { clearInteractionFocus(); return; }
+      if (target) {
+        const executed = executeInteraction(target);
+        if (executed) { clearInteractionFocus(); return; }
+        if (target.kind === 'npc') return;
+      }
       const zombie = getZombieNear(state.player.x, state.player.y, 1.15);
       if (zombie) { toast('附近有僵尸；按 F 或空格攻击，E 保留给交互'); return; }
       if (candidates.length > 1) { renderContext(); toast('附近有多个目标，先用鼠标点选目标，再按 E'); return; }
@@ -7120,55 +7130,177 @@ function resolveObserverExpression(input = {}) {
         return result.ok ? { result, payload: result } : result;
       }, { eventType: 'crop.changed' });
     }
-    function setNpcOrderReducer(id, orderId) {
-      if (!guardNightAction()) return nightActionResult();
-      if (state.gameOver) return;
-      const npc = state.npcs.find(n => n.id === id); if (!npc) return;
-      if (npc.garrisonedOutpostId) { toast(`${npc.name}正在据点驻守，无法执行营地现场行动`); return { ok: false, reason: 'npc-not-in-camp' }; }
-      if (!npcIsActive(npc)) { toast(npc.name + '已经死亡，无法接受命令'); return; }
-      const order = getNpcOrderInfo(npc, orderId);
-      if (order.id !== orderId) { toast('这个幸存者没有这条命令'); return; }
-      const distance = distanceBetween(npc, state.player);
-      if (distance > 1) { toast(`靠近${npc.name}后才能下达命令`); return; }
+    function resolveNpcPublicTarget(preferred) {
+      let npc;
+      if (typeof preferred === 'string' && preferred) npc = state.npcs.find(item => item.id === preferred);
+      else if (preferred && typeof preferred === 'object' && state.npcs.includes(preferred)) npc = preferred;
+      else return { ok: false, reason: 'npc-target-unknown' };
+      if (!npc) return { ok: false, reason: 'npc-target-unknown' };
+      if (typeof npc.id !== 'string' || !npc.id || state.npcs.filter(item => item.id === npc.id).length !== 1) return { ok: false, reason: 'npc-target-identity' };
+      if (!npcIsActive(npc)) return { ok: false, reason: 'npc-dead' };
+      if (!npcIsCampLocal(npc)) return { ok: false, reason: 'npc-not-in-camp' };
+      // Critical and injured remain eligible: this validates data, not a new
+      // healthy-only policy. Do not normalize or repair malformed live input.
+      if (!['healthy', 'injured', 'critical'].includes(npc.lifeState) || !Number.isFinite(npc.hp) || !Number.isFinite(npc.maxHp) || npc.hp <= 0 || npc.maxHp <= 0 || npc.hp > npc.maxHp) return { ok: false, reason: 'npc-health-invalid' };
+      if (!inBounds(npc.x, npc.y) || !inBounds(state.player.x, state.player.y)) return { ok: false, reason: 'npc-position-invalid' };
+      return { ok: true, npc, npcId: npc.id, distance: distanceBetween(npc, state.player) };
+    }
+    function npcPublicActionGate(preferred, { action = 'interact', orderId } = {}) {
+      if (state.gameOver) return { ok: false, reason: 'game-over' };
+      if (!SessionController.isDay() || state.night) return { ok: false, reason: state.night ? 'night-lock' : 'day-only' };
+      if (!['view', 'interact', 'support', 'order'].includes(action)) return { ok: false, reason: 'npc-action-invalid' };
+      const target = resolveNpcPublicTarget(preferred);
+      if (!target.ok) return target;
+      const radius = action === 'view' ? CONTEXT_INTERACTION_RADIUS : 1;
+      if (!(target.distance <= radius)) return { ok: false, reason: action === 'view' ? 'npc-view-too-far' : 'npc-too-far' };
+      const { npc } = target;
+      if (action === 'view') return { ...target, operation: 'view', requiresAdvance: false };
+      let order = null;
+      if (action === 'order') {
+        if (typeof orderId !== 'string' || !orderId) return { ok: false, reason: 'npc-order-invalid' };
+        order = getNpcOrders(npc).find(item => item.id === orderId);
+        if (!order) return { ok: false, reason: 'npc-order-invalid' };
+      }
+      if (action === 'support' && npc.supportRequested) return { ok: false, reason: 'npc-already-supported' };
+      const operation = action === 'order' ? (npc.supportRequested ? 'order-change' : 'support-and-order') : npc.supportRequested ? 'status-inquiry' : action === 'support' || state.npcTalkOpen === npc.id ? 'support-requested' : 'dialogue-open';
+      const requiresAdvance = ['support-requested', 'support-and-order'].includes(operation);
+      if (requiresAdvance) {
+        if (!Number.isFinite(state.energy) || state.energy < 2) return { ok: false, reason: 'npc-energy' };
+        const clock = state.worldMeta.clock, now = worldMinute(), amount = 15 * clock.rate;
+        if (clock.paused) return { ok: false, reason: 'clock-paused' };
+        if (typeof clock.paused !== 'boolean' || !Number.isFinite(clock.rate) || clock.rate < .25 || clock.rate > 4 || !Number.isSafeInteger(amount) || !Number.isSafeInteger(now) || now < 0 || !Number.isSafeInteger(now + amount) || !Number.isInteger(state.day) || state.day < 1 || !Number.isInteger(state.hour) || state.hour < 0 || state.hour > 23 || !Number.isInteger(state.minute) || state.minute < 0 || state.minute > 59 || !Number.isFinite(clock.scheduleMinutes) || !Number.isFinite(clock.phaseMinutes) || !Number.isFinite(clock.scheduleMinutes + amount)) return { ok: false, reason: 'npc-clock-invalid' };
+      }
+      return { ...target, operation, order, requiresAdvance };
+    }
+    function npcPublicActionLabel(gate) {
+      return ({ 'npc-too-far': '请靠近到 1 格内，再请求支援或下达命令', 'npc-view-too-far': '靠近到 1.25 格内可查看状态', 'npc-energy': '需要 2 行动体力；仍可查看状态', 'clock-paused': '时钟暂停，暂不能执行需推进时间的行动', 'npc-clock-invalid': '当前时钟不支持该行动', 'npc-not-in-camp': '据点驻守，营地现场行动不可用', 'npc-dead': '已经死亡，现场行动不可用', 'npc-order-invalid': '该角色没有这条命令', 'night-lock': '战况中不可执行白天互动', 'day-only': '请先回到白天会话', 'game-over': '本局已结束' })[gate.reason] || '当前目标不可执行这项行动';
+    }
+    function viewNpc(preferred) {
+      const gate = npcPublicActionGate(preferred, { action: 'view' });
+      if (!gate.ok) { toast(npcPublicActionLabel(gate)); return gate; }
+      const { npc } = gate;
+      state.selectedNpc = npc.id;
+      // Read only the already-public local status. The generic summary/render
+      // helpers can normalize social facts or evaluate promotion; do not invoke
+      // them from this zero-business-effect view.
+      toast(`${npc.name}：${npcLifeLabel(npc)} · ${npc.scheduleState || npc.role} · ${npc.supportRequested ? '已请求支援' : '尚未请求支援'}；请求或命令需靠近到 1 格内`);
+      return { ok: true, npcId: npc.id, operation: 'view' };
+    }
+    function npcPublicActionSnapshot(npc) {
+      return { id: npc.id, supportRequested: npc.supportRequested, order: npc.order || null, bond: npc.bond, hp: npc.hp, lifeState: npc.lifeState, sanity: npc.sanity, helpedByPlayer: npc.memory?.helpedByPlayer || 0 };
+    }
+    function npcPublicActionClock() { return { day: state.day, hour: state.hour, minute: state.minute, world: worldMinute() }; }
+    function npcPublicActionProof(npc, operation, before, beforeAdvance, afterAdvance, energyBefore, energyAfterPayment, clockBefore, advancement = null, orderId = null) {
+      return { ok: true, proofVersion: 1, npcId: before.id, operation, outcome: 'completed', ...(orderId ? { orderId } : {}),
+        target: { id: before.id, before, beforeAdvance, afterAdvance, atCompletion: npcPublicActionSnapshot(npc), presentAtCompletion: state.npcs.includes(npc),
+          snapshotStages: { before: 'before-payment-and-own-effects', beforeAdvance: beforeAdvance ? 'after-pre-simulation-own-effects' : null, afterAdvance: afterAdvance ? 'after-world-simulation-before-post-effects' : null, atCompletion: 'reducer-final-state' } },
+        payment: { cost: { energy: advancement ? 2 : 0 }, before: { energy: energyBefore }, after: { energy: energyAfterPayment } },
+        resources: { energyBefore, energyAfterPayment, energyAfter: state.energy },
+        clock: { before: clockBefore, after: npcPublicActionClock(), requestedMinutes: advancement ? 15 : 0, elapsedMinutes: worldMinute() - clockBefore.world },
+        advance: advancement ? { commandId: advancement.commandId, eventId: advancement.event.eventId, causationId: advancement.event.causationId, minutes: advancement.event.payload.minutes, tick: stableClone(advancement.event.tick) } : null };
+    }
+    function npcPublicCompletionGate(npc, expectedNpcId) {
+      if (!state.npcs.includes(npc) || npc.id !== expectedNpcId || state.npcs.filter(item => item.id === expectedNpcId).length !== 1) return { ok: false, reason: 'npc-target-changed' };
+      if (!npcIsActive(npc) || !Number.isFinite(npc.hp) || npc.hp <= 0) return { ok: false, reason: 'npc-died-or-unavailable' };
+      if (!npcIsCampLocal(npc)) return { ok: false, reason: 'npc-left-camp' };
+      if (!SessionController.isDay() || !Number.isFinite(state.hp) || state.hp <= 0) return { ok: false, reason: 'session-ended' };
+      // A participant can move normally during the real simulation interval.
+      // Submission range is not a new requirement at completion.
+      return { ok: true };
+    }
+    function interruptNpcPublicAction(npc, operation, before, beforeAdvance, afterAdvance, energyBefore, energyAfterPayment, clockBefore, advancement, orderId, completion) {
+      const parentId = state.worldMeta.activeCommandId;
+      const proof = npcPublicActionProof(npc, operation, before, beforeAdvance, afterAdvance, energyBefore, energyAfterPayment, clockBefore, advancement, orderId);
+      recordWorldEvent('npc.actionInterrupted', { ...proof, ok: false, outcome: 'interrupted', reason: completion.reason }, { actorId: 'player-1', commandId: parentId, causationId: parentId });
+      toast(`${npc.name}的行动已中断；已发生的体力支付、时间和战斗后果保留`); render();
+      return { ok: false, reason: 'npc-action-interrupted' };
+    }
+    function checkpointNpcPublicOutcome(result, startSeq) {
+      if (result?.ok || result?.duplicate || !result?.commandId || !['npc-action-interrupted', 'npc-order-refused'].includes(result.reason)) return;
+      const expected = result.reason === 'npc-action-interrupted' ? 'npc.actionInterrupted' : 'npc.orderRefused';
+      const freshOutcome = state.worldMeta.events.some(event => event.seq > startSeq && event.type === expected && (event.commandId === result.commandId || event.causationId === result.commandId));
+      const rejected = state.worldMeta.events.some(event => event.seq > startSeq && event.type === 'command.rejected' && event.commandId === result.commandId && event.payload.reason === result.reason);
+      // Failed dispatches do not checkpoint. Save only after the matching real
+      // outcome and final command.rejected are both in the actual ledger.
+      if (freshOutcome && rejected) requestCheckpoint(`command:npc:${result.reason}`);
+    }
+    function setNpcOrderReducer(preferred, orderId) {
+      const gate = npcPublicActionGate(preferred, { action: 'order', orderId });
+      if (!gate.ok) { toast(npcPublicActionLabel(gate)); return gate; }
+      if (gate.requiresAdvance) { const budget = CommandBus.nextAutomaticId(state.worldMeta); if (!budget.ok) return { ok: false, reason: budget.reason }; }
+      const { npc, npcId, order, operation } = gate;
       const attitude = deriveNpcAttitude(npc);
       if ((order.id === 'patrol' || order.id === 'cover') && attitude.defectionRisk >= 72 && Number(npc.personality.riskTolerance || 50) < 50) {
         npc.lastReport = `拒绝${order.name}：${attitude.label}`;
         updateNpcRelation(npc, { resentmentOfPlayer: 2, trustToPlayer: -1 }, `拒绝高风险命令「${order.name}」`, { facts: [`refused:${order.id}`] });
         recordWorldEvent('npc.orderRefused', { npcId: npc.id, orderId: order.id, reason: 'defection-risk', attitude: deriveNpcAttitude(npc) }, { actorId: npc.id });
-        log(`${npc.name}没有接受「${order.name}」：${attitude.label}，他更在意先保住自己。`, 'warn'); toast(`${npc.name}拒绝了高风险命令`); render(); return;
+        log(`${npc.name}没有接受「${order.name}」：${attitude.label}，他更在意先保住自己。`, 'warn'); toast(`${npc.name}拒绝了高风险命令`); render();
+        return { ok: false, reason: 'npc-order-refused' };
       }
+      const before = npcPublicActionSnapshot(npc), energyBefore = state.energy, clockBefore = npcPublicActionClock();
+      let energyAfterPayment = state.energy, advancement = null, beforeAdvance = null, afterAdvance = null;
       if (!npc.supportRequested) {
-        if (!spendEnergy(2)) return;
-        npc.supportRequested = true; npc.bond = Math.min(3, npc.bond + 1); rememberNpc(npc, `接受了「${order.name}」命令`, 3); npc.memory.helpedByPlayer = (npc.memory.helpedByPlayer || 0) + 1; advance(15);
+        spendEnergy(2); energyAfterPayment = state.energy;
+        npc.supportRequested = true; npc.bond = Math.min(3, npc.bond + 1); rememberNpc(npc, `接受了「${order.name}」命令`, 3); npc.memory.helpedByPlayer = (npc.memory.helpedByPlayer || 0) + 1;
+        beforeAdvance = npcPublicActionSnapshot(npc);
+        advancement = advance(15);
+        afterAdvance = npcPublicActionSnapshot(npc);
+        const completion = npcPublicCompletionGate(npc, npcId);
+        if (!completion.ok) return interruptNpcPublicAction(npc, operation, before, beforeAdvance, afterAdvance, energyBefore, energyAfterPayment, clockBefore, advancement, order.id, completion);
         log(`${npc.name}接受了当前的任务，羁绊提升至 ${npc.bond}/3。`);
       }
       npc.order = order.id;
       npc.lastReport = `已接受${order.name}，当前信任 ${npc.relations?.trustToPlayer || 0}`;
       recordWorldEvent('npc.orderAccepted', { npcId: npc.id, orderId: order.id, attitude: deriveNpcAttitude(npc), visibility: 'local' }, { actorId: npc.id });
+      const proof = npcPublicActionProof(npc, operation, before, beforeAdvance, afterAdvance, energyBefore, energyAfterPayment, clockBefore, advancement, order.id);
       log(`${npc.name}当前执行「${order.name}」：${order.desc}`);
-      toast(`${npc.name}已设为${order.name}`); render();
+      toast(`${npc.name}已设为${order.name}`); render(); return proof;
     }
-    function setNpcOrder(id, orderId, options = {}) { return actionCommand('npc.order','npc.orderChanged',{npcId:id,orderId},()=>setNpcOrderReducer(id,orderId),options); }
-    function interactNpcReducer(id) {
-      if (!guardNightAction()) return nightActionResult();
-      if (state.gameOver) return;
-      const npc = state.npcs.find(n => n.id === id); if (!npc) return;
-      if (npc.garrisonedOutpostId) { toast(`${npc.name}正在据点驻守，无法执行营地现场行动`); return { ok: false, reason: 'npc-not-in-camp' }; }
-      if (!npcIsActive(npc)) { toast(npc.name + '已经死亡，岗位暂时空缺'); return; }
+    function setNpcOrder(preferred, orderId, options = {}) {
+      const npcId = typeof preferred === 'string' ? preferred : preferred?.id || null, startSeq = state.worldMeta.eventSeq;
+      const result = dispatchCommand({ type: 'npc.order', commandId: options.commandId, actorId: 'player-1', payload: { npcId, orderId } }, () => {
+        const outcome = setNpcOrderReducer(preferred, orderId);
+        return outcome.ok ? { result: outcome, payload: outcome } : outcome;
+      }, { eventType: 'npc.orderChanged' });
+      checkpointNpcPublicOutcome(result, startSeq); return result;
+    }
+    function interactNpcReducer(preferred) {
+      const gate = npcPublicActionGate(preferred);
+      if (!gate.ok) { toast(npcPublicActionLabel(gate)); return gate; }
+      if (gate.requiresAdvance) { const budget = CommandBus.nextAutomaticId(state.worldMeta); if (!budget.ok) return { ok: false, reason: budget.reason }; }
+      const { npc, operation } = gate, id = npc.id;
+      const before = npcPublicActionSnapshot(npc), energyBefore = state.energy, clockBefore = npcPublicActionClock();
       state.selectedNpc = id;
-      const distance = distanceBetween(npc, state.player);
-      if (distance > 1) { toast(`靠近${npc.name}（还差 ${distance - 1} 格）`); renderWorld(); renderSurvivors(); return; }
       const confirmed = state.npcTalkOpen === id;
       state.npcTalkOpen = confirmed ? null : id;
-      if (npc.supportRequested) { rememberNpc(npc, '玩家再次询问当前命令', 1); toast(`${npc.name}当前命令：${getNpcOrderInfo(npc).name}；状态卡已打开，可重新下达命令`); renderContext(); renderSurvivors(); return; }
-      if (!confirmed) { toast(`${npc.name}：${npcStateSummary(npc)}。再次按 E 确认请求支援`); renderContext(); renderSurvivors(); return; }
-      if (!spendEnergy(2)) return;
-      npc.supportRequested = true; npc.order = npc.order || defaultNpcOrder[npc.actingRole || npc.id] || 'guard'; npc.bond = Math.min(3, npc.bond + 1); advance(15);
+      if (npc.supportRequested) {
+        rememberNpc(npc, '玩家再次询问当前命令', 1); toast(`${npc.name}当前命令：${getNpcOrderInfo(npc).name}；状态卡已打开，可重新下达命令`); renderContext(); renderSurvivors();
+        return npcPublicActionProof(npc, operation, before, null, null, energyBefore, state.energy, clockBefore);
+      }
+      if (!confirmed) {
+        toast(`${npc.name}：${npcStateSummary(npc)}。再次按 E 或点击确认请求支援`); renderContext(); renderSurvivors();
+        return npcPublicActionProof(npc, operation, before, null, null, energyBefore, state.energy, clockBefore);
+      }
+      spendEnergy(2); const energyAfterPayment = state.energy;
+      npc.supportRequested = true; npc.order = npc.order || defaultNpcOrder[npc.actingRole || npc.id] || 'guard'; npc.bond = Math.min(3, npc.bond + 1);
+      const beforeAdvance = npcPublicActionSnapshot(npc), advancement = advance(15), afterAdvance = npcPublicActionSnapshot(npc);
+      const completion = npcPublicCompletionGate(npc, id);
+      if (!completion.ok) return interruptNpcPublicAction(npc, operation, before, beforeAdvance, afterAdvance, energyBefore, energyAfterPayment, clockBefore, advancement, null, completion);
       adjustSanity('player', 2, `与${npc.name}建立支援联系`); adjustSanity(npc, 2, '接受玩家支援请求'); rememberNpc(npc, '玩家请求支援', 3); npc.memory.helpedByPlayer = (npc.memory.helpedByPlayer || 0) + 1; npc.lastReport = `等待执行${getNpcOrderInfo(npc).name}`; state.npcTalkOpen = null;
+      const proof = npcPublicActionProof(npc, operation, before, beforeAdvance, afterAdvance, energyBefore, energyAfterPayment, clockBefore, advancement);
       log(`${npc.name}加入营地防守：${npc.desc}。羁绊提升至 ${npc.bond}/3。`);
-      toast(`${npc.name}已请求支援`); render();
+      toast(`${npc.name}已请求支援`); render(); return proof;
     }
-    function interactNpc(id, options = {}) { return actionCommand('npc.interact','npc.interacted',{npcId:id},()=>interactNpcReducer(id),options); }
+    function interactNpc(preferred, options = {}) {
+      const npcId = typeof preferred === 'string' ? preferred : preferred?.id || null, startSeq = state.worldMeta.eventSeq;
+      const result = dispatchCommand({ type: 'npc.interact', commandId: options.commandId, actorId: 'player-1', payload: { npcId } }, () => {
+        const outcome = interactNpcReducer(preferred);
+        if (!outcome.ok) return outcome;
+        const eventType = outcome.operation === 'dialogue-open' ? 'npc.dialogueOpened' : outcome.operation === 'status-inquiry' ? 'npc.statusInquired' : 'npc.interacted';
+        return { result: outcome, payload: outcome, eventType };
+      });
+      checkpointNpcPublicOutcome(result, startSeq); return result;
+    }
     function attackNearestThreat() {
       if (state.night) { nightAttack(); return; }
       attack();
@@ -8447,7 +8579,8 @@ function resolveObserverExpression(input = {}) {
       const nearbyShelter = nearbyContextItem(state.buildings, b => b.type === 'shelter');
       if (action === 'campRest30' || action === 'campRest60') { const result = requestCampRest(action === 'campRest30' ? 30 : 60); if (!result.ok) toast('当前无法等候，请检查附近威胁、位置与时钟'); renderContext(); }
       else if (action === 'attack') attackNearestThreat();
-      else if (action === 'npc' && nearbyNpc) interactNpc(nearbyNpc.id);
+      else if (action === 'npcView') viewNpc(button.dataset.npcId || '');
+      else if (action === 'npc') interactNpc(button.dataset.npcId || '');
       else if (action === 'npcOrder') setNpcOrder(button.dataset.npcId, button.dataset.order);
       else if (action === 'relayHandoff') handoffRelayCore(relayHandoffExpectedToken(button.dataset));
       else if (action === 'promoteHero') { const result = promoteNpcHero(button.dataset.npcId); if (result.ok) { hideContext(); render(); requestCheckpoint('npc-promotion'); } else toast(result.reason === 'command-points-empty' ? '指挥点不足，暂不能完成晋升' : '该 NPC 尚未满足晋升条件'); }
