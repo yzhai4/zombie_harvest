@@ -58,6 +58,9 @@ jobs:
           node --check scripts/browser-scenario-boot-c2.mjs
           node --check scripts/lib/observer-expression-v1.mjs
           node --check scripts/check-observer-expression-v1.mjs
+          node --check scripts/lib/npc-self-observation-v1.mjs
+          node --check scripts/check-npc-self-observation-v1.mjs
+          node --check scripts/browser-npc-self-observation-v1.mjs
           node --check scripts/check-gameplay-vertical-slice.mjs
           node --check scripts/check-iteration-evidence.mjs
           node --check scripts/check-iteration-evidence-self-test.mjs
@@ -153,6 +156,8 @@ jobs:
         run: node scripts/check-crop-target-v1.mjs --html dist/index.html --out "$RUNNER_TEMP/crop-target-v1.json"
       - name: Execute NPC public qualification, typed outcomes and actual interruption contracts
         run: node scripts/check-npc-public-eligibility-v1.mjs --html dist/index.html --out "$RUNNER_TEMP/npc-public-eligibility-v1.json"
+      - name: Execute trusted NPC self knowledge, disclosure and first-talk contracts
+        run: node scripts/check-npc-self-observation-v1.mjs --html dist/index.html --io-adapter scripts/check-report-recovery.mjs --out "$RUNNER_TEMP/npc-self-observation-v1.json"
       - name: Execute legacy and current crop proof method controls
         run: python -c "import sys; sys.path.insert(0, 'scripts'); from report_recovery_full import crop_method_controls; result = crop_method_controls(); print('synthetic crop proof method checks:', len(result['controls']))"
       - name: Reject stale or incomplete evidence manifests

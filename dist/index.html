@@ -450,6 +450,7 @@
     }
     .toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom)); transform: translate(-50%, 18px); opacity: 0; pointer-events: none; z-index: 20; max-width: min(88vw, 400px); padding: 10px 14px; background: #e9efcf; color: #16231b; border-radius: 999px; font-size: 12px; font-weight: 800; box-shadow: 0 10px 30px rgba(0,0,0,.3); transition: .25s ease; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .toast.show { opacity: 1; transform: translate(-50%, 0); }
+    .toast.npc-self-dialogue { width: max-content; max-width: min(90vw, 520px); box-sizing: border-box; white-space: normal; overflow: visible; text-overflow: clip; overflow-wrap: anywhere; line-height: 1.6; text-align: left; border-radius: 14px; }
     .night-overlay { position: fixed; inset: 0; z-index: 30; display: none; align-items: end; justify-content: center; padding: 10px 10px calc(10px + env(safe-area-inset-bottom)); overflow-y: auto; background: rgba(5,8,12,.9); backdrop-filter: blur(5px); }
     .night-overlay.show { display: grid; }
     .night-card { width: min(100%, 520px); max-height: 94svh; overflow-y: auto; border-radius: 25px; border: 1px solid rgba(247, 241, 207, .18); background: linear-gradient(180deg, rgba(25,36,47,.96), rgba(16,24,32,.98)); padding: 18px; box-shadow: 0 30px 80px rgba(0,0,0,.45); text-align: center; }
@@ -2194,6 +2195,87 @@ function resolveObserverExpression(input = {}) {
     sourceProjectionHash: observerFactsHash(facts) });
 }
 // OBSERVER_CORE_END
+// NPC_SELF_CORE_START
+function npcSelfKeys(value, keys) {
+  return value !== null && typeof value === 'object' && !Array.isArray(value)
+    && Object.keys(value).length === keys.length && keys.every(key => Object.hasOwn(value, key));
+}
+function npcSelfFinite(value, min, max) {
+  return typeof value === 'number' && Number.isFinite(value) && value >= min && value <= max;
+}
+function npcSelfNeedBand(value, kind) {
+  if (!npcSelfFinite(value, 0, 100)) return 'unknown';
+  return kind === 'energy' ? value <= 25 ? 'low' : 'normal' : value >= 70 ? 'urgent' : 'normal';
+}
+function npcSelfLifeState(self) {
+  // Same thresholds as the actual syncNpcLifeState, without normalizing state.
+  return self.hp < 30 ? 'critical' : self.hp < self.maxHp ? 'injured' : 'healthy';
+}
+function projectNpcSelfObservationV1(capture) {
+  const c = capture, r = c?.sourceRevision, s = c?.self;
+  const valid = npcSelfKeys(c, ['schema', 'version', 'actorId', 'sourceRevision', 'self', 'relationTrust'])
+    && c.schema === 'NpcSelfCaptureV1' && c.version === 1
+    && typeof c.actorId === 'string' && /^[A-Za-z0-9_-]{1,80}$/.test(c.actorId)
+    && npcSelfKeys(r, ['sessionGeneration', 'worldMinute', 'eventSeq', 'stepIndex', 'phase']) && r.phase === 'DAY'
+    && Number.isSafeInteger(r.sessionGeneration) && r.sessionGeneration >= 0
+    && npcSelfFinite(r.worldMinute, 0, Number.MAX_SAFE_INTEGER)
+    && Number.isSafeInteger(r.eventSeq) && r.eventSeq >= 0 && Number.isSafeInteger(r.stepIndex) && r.stepIndex >= 0
+    && npcSelfKeys(s, ['lifeState', 'hp', 'maxHp', 'needs']) && ['healthy', 'injured', 'critical'].includes(s.lifeState)
+    && npcSelfFinite(s.hp, Number.MIN_VALUE, Number.MAX_VALUE) && npcSelfFinite(s.maxHp, Number.MIN_VALUE, Number.MAX_VALUE) && s.hp <= s.maxHp
+    && s.lifeState === npcSelfLifeState(s)
+    && npcSelfKeys(s.needs, ['hunger', 'fatigue', 'energy'])
+    && (c.relationTrust === null || npcSelfFinite(c.relationTrust, -100, 100));
+  const base = { schema: 'ActorObservationV1', version: 1, policyVersion: 'npc-first-talk-self-v1',
+    hashVersion: 'fnv1a-utf16-base36-v1', actor: { id: valid ? c.actorId : null }, audienceId: 'player-1',
+    sourceRevision: valid ? { sessionGeneration: r.sessionGeneration, worldMinute: r.worldMinute, eventSeq: r.eventSeq, stepIndex: r.stepIndex, phase: r.phase } : null,
+    knowledge: valid ? [{ subjectId: c.actorId, status: 'observed',
+      facts: { lifeState: s.lifeState, hpBand: Math.round(s.hp / s.maxHp * 4) + '/4',
+        needBands: { hunger: npcSelfNeedBand(s.needs.hunger, 'hunger'), fatigue: npcSelfNeedBand(s.needs.fatigue, 'fatigue'), energy: npcSelfNeedBand(s.needs.energy, 'energy') } },
+      provenance: { kind: 'self', sourceId: c.actorId, at: r.worldMinute } }] : [],
+    unknown: valid ? [] : [{ reason: 'not-observable' }] };
+  return observerDeepFreeze({ ...base, observationHash: observerFactsHash(base) });
+}
+function resolveNpcSelfDialogueV1(observation, relationTrust, enabled = false) {
+  const o = observation, k = o?.knowledge?.[0], revision = o?.sourceRevision;
+  const valid = npcSelfKeys(o, ['schema', 'version', 'policyVersion', 'hashVersion', 'actor', 'audienceId', 'sourceRevision', 'knowledge', 'unknown', 'observationHash'])
+    && o.schema === 'ActorObservationV1' && o.version === 1 && o.policyVersion === 'npc-first-talk-self-v1'
+    && o.audienceId === 'player-1' && o.hashVersion === 'fnv1a-utf16-base36-v1'
+    && npcSelfKeys(o.actor, ['id']) && typeof o.actor.id === 'string' && /^[A-Za-z0-9_-]{1,80}$/.test(o.actor.id)
+    && Array.isArray(o.knowledge) && o.knowledge.length === 1 && Array.isArray(o.unknown) && o.unknown.length === 0
+    && npcSelfKeys(revision, ['sessionGeneration', 'worldMinute', 'eventSeq', 'stepIndex', 'phase']) && revision.phase === 'DAY'
+    && Number.isSafeInteger(revision.sessionGeneration) && revision.sessionGeneration >= 0
+    && npcSelfFinite(revision.worldMinute, 0, Number.MAX_SAFE_INTEGER)
+    && Number.isSafeInteger(revision.eventSeq) && revision.eventSeq >= 0 && Number.isSafeInteger(revision.stepIndex) && revision.stepIndex >= 0
+    && npcSelfKeys(k, ['subjectId', 'status', 'facts', 'provenance']) && k.status === 'observed' && k.subjectId === o.actor.id
+    && npcSelfKeys(k.provenance, ['kind', 'sourceId', 'at']) && k.provenance.kind === 'self' && k.provenance.sourceId === o.actor.id && k.provenance.at === revision.worldMinute
+    && npcSelfKeys(k.facts, ['lifeState', 'hpBand', 'needBands']) && ['healthy', 'injured', 'critical'].includes(k.facts.lifeState)
+    && ['0/4', '1/4', '2/4', '3/4', '4/4'].includes(k.facts.hpBand)
+    && npcSelfKeys(k.facts.needBands, ['hunger', 'fatigue', 'energy'])
+    && ['urgent', 'normal', 'unknown'].includes(k.facts.needBands.hunger) && ['urgent', 'normal', 'unknown'].includes(k.facts.needBands.fatigue)
+    && ['low', 'normal', 'unknown'].includes(k.facts.needBands.energy)
+    && o.observationHash === observerFactsHash({ schema: o.schema, version: o.version, policyVersion: o.policyVersion, hashVersion: o.hashVersion,
+      actor: o.actor, audienceId: o.audienceId, sourceRevision: revision, knowledge: o.knowledge, unknown: o.unknown });
+  const trustValid = npcSelfFinite(relationTrust, -100, 100), disclose = trustValid && relationTrust >= -10;
+  const facts = { kind: 'npc', id: valid ? o.actor.id : null, lifeState: valid ? k.facts.lifeState : 'unknown' };
+  let text = '暂时无法确认这位角色的伤势信息。';
+  if (valid) {
+    text = { healthy: '我目前没有受伤。', injured: '我受伤了。', critical: '我伤得很重。' }[facts.lifeState];
+    if (disclose) {
+      facts.hpBand = k.facts.hpBand;
+      facts.needBands = { ...k.facts.needBands };
+      const healthText = { '0/4': '我的生命余量已经很少。', '1/4': '我的生命余量大约还剩四分之一。', '2/4': '我的生命余量大约还剩一半。', '3/4': '我的生命余量大约还剩四分之三。', '4/4': '我的生命余量接近完整。' }[facts.hpBand];
+      if (healthText) text += healthText;
+      if (facts.needBands.hunger === 'urgent') text += '我饿得厉害，得找点吃的。';
+      else if (facts.needBands.fatigue === 'urgent') text += '我累得厉害，需要休息。';
+      else if (facts.needBands.energy === 'low') text += '我快没力气了，需要缓一缓。';
+    } else text += trustValid ? '具体情况，我暂时不想多谈。' : '更多身体详情暂时无法确认。';
+  }
+  return observerDeepFreeze({ schema: 'NpcSelfDialogueV1', version: 1, authority: 'expression_only', mode: 'authored',
+    observerEnabled: enabled === true, facts, text, sourceProjectionHash: observerFactsHash(facts),
+    observationHash: valid ? o.observationHash : null, fallbackReason: valid ? null : 'not-observable',
+    disclosureReason: !valid ? 'not-observable' : !trustValid ? 'relation-unknown' : disclose ? 'allowed' : 'limited-trust' });
+}
+// NPC_SELF_CORE_END
     function observerAiConfig() { return normalizeAiConfig(state.scenarioSnapshot?.aiConfig || {}); }
     function observerCommentary(subject = {}, context = {}) { return resolveObserverExpression({ subject, context, config: observerAiConfig() }); }
     function ensureStableIds() {
@@ -2332,7 +2414,7 @@ function resolveObserverExpression(input = {}) {
       const affinity = Number(npc.relations?.trustToPlayer || 0);
       const campTrust = Number(state.contentState?.meters?.campTrust || 0);
       const trustGate = story.commandUnlock?.requires?.some(requirement => String(requirement).startsWith('campTrust')) ? campTrust >= 60 : campTrust >= 40;
-      const progress = Math.round(Math.min(100, chainProgress * 45 + Math.min(1, affinity / 25) * 35 + (trustGate ? 20 : 0)));
+      const progress = Math.round(Math.max(0, Math.min(100, chainProgress * 45 + Math.min(1, affinity / 25) * 35 + (trustGate ? 20 : 0))));
       npc.hero.progress = progress;
       if (npc.hero.status !== 'promoted' && progress >= 100) {
         npc.hero.status = 'eligible';
@@ -5061,9 +5143,9 @@ function resolveObserverExpression(input = {}) {
       state.logs.unshift({text, kind, eventId: state.worldMeta?.lastEventId || null, worldMinute: worldMinute()});
       state.logs = state.logs.slice(0, 5);
     }
-    function toast(text) {
-      const el = $('toast'); el.textContent = text; el.classList.add('show');
-      clearTimeout(toast.timer); const generation = SessionController.generation; toast.timer = setTimeout(() => { if (generation === SessionController.generation && !SessionController.exiting) el.classList.remove('show'); }, 1800);
+    function toast(text, options = {}) {
+      const el = $('toast'); el.textContent = text; el.classList.toggle('npc-self-dialogue', options?.npcSelf === true); el.classList.add('show');
+      clearTimeout(toast.timer); const generation = SessionController.generation; toast.timer = setTimeout(() => { if (generation === SessionController.generation && !SessionController.exiting) el.classList.remove('show'); }, options?.npcSelf === true ? 12000 : 1800);
     }
     function pushFx(type, text, x = state.player.x, y = state.player.y, tone = '') {
       const effect = { id: ++state.effectSeq, type, text, x, y, tone, at: Date.now() };
@@ -7431,6 +7513,37 @@ function resolveObserverExpression(input = {}) {
     function npcPublicActionLabel(gate) {
       return ({ 'npc-too-far': '请靠近到 1 格内，再请求支援或下达命令', 'npc-view-too-far': '靠近到 1.25 格内可查看状态', 'npc-energy': '需要 2 行动体力；仍可查看状态', 'clock-paused': '时钟暂停，暂不能执行需推进时间的行动', 'npc-clock-invalid': '当前时钟不支持该行动', 'npc-not-in-camp': '据点驻守，营地现场行动不可用', 'npc-dead': '已经死亡，现场行动不可用', 'npc-order-invalid': '该角色没有这条命令', 'night-lock': '战况中不可执行白天互动', 'day-only': '请先回到白天会话', 'game-over': '本局已结束' })[gate.reason] || '当前目标不可执行这项行动';
     }
+    function captureFromQualifiedNpc(npc) {
+      // Internal first-talk adapter. Never accept a caller's subject, trust,
+      // policy or fabricated Gate. A view recheck has no support/clock cost.
+      if (arguments.length !== 1 || !npc || typeof npc !== 'object' || !state.npcs.includes(npc)) return null;
+      const target = npcPublicActionGate(npc, { action: 'view' });
+      if (!target.ok || target.npc !== npc || target.distance > 1 || !Object.hasOwn(NPC_TEMPLATES, npc.id)) return null;
+      // Older valid writers can contain a stale lifeState. Do not assert two
+      // contradictory health facts, and do not repair the saved world here.
+      if (npc.lifeState !== npcSelfLifeState(npc)) return null;
+      const outposts = state.contentState?.outposts;
+      if (!outposts || typeof outposts !== 'object' || Array.isArray(outposts)) return null;
+      // Do not silently treat a one-sided outpost assignment as camp presence.
+      for (const outpost of Object.values(outposts)) {
+        if (!outpost || typeof outpost !== 'object' || !Array.isArray(outpost.guardNpcIds) || outpost.guardNpcIds.includes(npc.id)) return null;
+      }
+      if (!Number.isFinite(state.hp) || state.hp <= 0 || !Number.isSafeInteger(state.day) || state.day < 1
+        || !Number.isInteger(state.hour) || state.hour < 0 || state.hour > 23 || !Number.isFinite(state.minute) || state.minute < 0 || state.minute >= 60) return null;
+      const minute = (state.day - 1) * 1440 + state.hour * 60 + state.minute;
+      const eventSeq = state.worldMeta?.eventSeq, stepIndex = state.motion?.stepIndex, sessionGeneration = SessionController.generation;
+      if (!Number.isFinite(minute) || minute > Number.MAX_SAFE_INTEGER || !Number.isSafeInteger(eventSeq) || eventSeq < 0 || !Number.isSafeInteger(stepIndex) || stepIndex < 0 || !Number.isSafeInteger(sessionGeneration) || sessionGeneration < 0) return null;
+      const need = key => npcSelfFinite(npc.needs?.[key], 0, 100) ? npc.needs[key] : null;
+      return observerDeepFreeze({ schema: 'NpcSelfCaptureV1', version: 1, actorId: npc.id,
+        sourceRevision: { sessionGeneration, worldMinute: minute, eventSeq, stepIndex, phase: 'DAY' },
+        self: { lifeState: npc.lifeState, hp: npc.hp, maxHp: npc.maxHp, needs: { hunger: need('hunger'), fatigue: need('fatigue'), energy: need('energy') } },
+        relationTrust: npcSelfFinite(npc.relations?.trustToPlayer, -100, 100) ? npc.relations.trustToPlayer : null });
+    }
+    function prepareNpcSelfDialogue(npc) {
+      const captured = arguments.length === 1 ? captureFromQualifiedNpc(npc) : null;
+      const observation = projectNpcSelfObservationV1(captured);
+      return observerDeepFreeze({ observation, expression: resolveNpcSelfDialogueV1(observation, captured?.relationTrust, observerAiConfig().observerCommentary) });
+    }
     function viewNpc(preferred) {
       const gate = npcPublicActionGate(preferred, { action: 'view' });
       if (!gate.ok) { toast(npcPublicActionLabel(gate)); return gate; }
@@ -7526,6 +7639,9 @@ function resolveObserverExpression(input = {}) {
       if (gate.requiresAdvance) { const budget = CommandBus.nextAutomaticId(state.worldMeta); if (!budget.ok) return { ok: false, reason: budget.reason }; }
       const { npc, operation } = gate, id = npc.id;
       const before = npcPublicActionSnapshot(npc), energyBefore = state.energy, clockBefore = npcPublicActionClock();
+      // Capture the original free first talk before changing talkOpen. The
+      // next interact can be paid support, which is a separate operation.
+      const selfDialogue = operation === 'dialogue-open' ? prepareNpcSelfDialogue(npc) : null;
       state.selectedNpc = id;
       const confirmed = state.npcTalkOpen === id;
       state.npcTalkOpen = confirmed ? null : id;
@@ -7534,7 +7650,9 @@ function resolveObserverExpression(input = {}) {
         return npcPublicActionProof(npc, operation, before, null, null, energyBefore, state.energy, clockBefore);
       }
       if (!confirmed) {
-        toast(`${npc.name}：${npcStateSummary(npc)}。再次按 E 或点击确认请求支援`); renderContext(); renderSurvivors();
+        const expression = selfDialogue.expression;
+        const message = expression.fallbackReason ? expression.text : `${npc.name}：${expression.text}`;
+        toast(`${message} 再次按 E 或点击确认请求支援`, { npcSelf: true }); renderContext(); renderSurvivors();
         return npcPublicActionProof(npc, operation, before, null, null, energyBefore, state.energy, clockBefore);
       }
       spendEnergy(2); const energyAfterPayment = state.energy;
