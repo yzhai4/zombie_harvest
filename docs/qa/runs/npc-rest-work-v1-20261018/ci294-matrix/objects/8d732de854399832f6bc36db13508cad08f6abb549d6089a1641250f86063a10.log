@@ -1,0 +1,30 @@
+{
+  "runner": "offline-leader-harness-replay-contract",
+  "productionWiring": false,
+  "ok": true,
+  "count": 5,
+  "passed": 5,
+  "replayHash": "9f82dc9ba884d9fa53f673d31ed3ac9a0ed964f105b7aebf662334986239113a",
+  "checks": [
+    {
+      "name": "valid intent mutates only the registered sandbox state",
+      "ok": true
+    },
+    {
+      "name": "duplicate intent is idempotent",
+      "ok": true
+    },
+    {
+      "name": "same input produces the same replay hash",
+      "ok": true
+    },
+    {
+      "name": "model unavailable falls back to abstain without a cost",
+      "ok": true
+    },
+    {
+      "name": "forbidden fields are rejected before execution",
+      "ok": true
+    }
+  ]
+}

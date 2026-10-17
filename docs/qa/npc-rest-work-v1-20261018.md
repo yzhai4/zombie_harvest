@@ -4,6 +4,14 @@
 
 源码提交`6dbee8cc06c45bec47ff114f41f27686123a8248`，HTML`c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571`，SAVE21／CONTENT3。纯core`266212a41dd4d9b7638c118659a1a0651e80855595f5584580c2113448b406bb`；源码检查器`b00acf57d83f09f744bcb6f9384087dfcf09f652031f5d74cfc0e4fa85aed69c`；最终新浏览器执行器`1bd9719efdb7a13c8f157665f129b1cebe96e6aba26faa5ff04d5b1178b8eb3b`。源码21个变更文件已经Git树逐blob核对。
 
+## CI294旧档回归补齐
+
+开发head `c8078dcd1f13f616b48fab1009917a3bf00c9f8a` 的[CI294](https://github.com/yzhai4/zombie_harvest/actions/runs/39049721090)真实失败：计划完整性47/48，后续步骤未执行。本地继续补齐未跑矩阵，保原计划会UI68/69；其它42个unique合同已有当前c21通过证据。两个旧方法漏列新增空安排adapter，已分别精确修复为48/48和69/69。原Scenario adapter与全部旧业务／UI比较保留，新增逐旧payload键比较及第二次真实Continue不再迁移；运行时字节未改。
+
+最终检验源 `3c56e094ebc3e031c71b9172ca812a43d990f486` 相对c807仅改两checker及工作流／Skill参考两文档，HTML仍c21。当前44个不同合同各有实际通过终态，包含14个已通过原执行复用、补充28个通过及两次失败合同修复；不是44次全新执行。两个隔离运行缺schema的ENOENT方法失败原件保留，补同字节依赖后只重跑该合同，不能算产品缺陷。工作流已将完整旧writer的计划会／UI继续路径前置到持久字段证据冻结前。
+
+原失败、修复与矩阵分别见[修复增量](runs/npc-rest-work-v1-20261018/ci294-repair/increment-index.json)和[补充矩阵](runs/npc-rest-work-v1-20261018/ci294-matrix/index.json)。原manifest `7a3c0214…` 按原字节保存，历史报告与检验器保持原SHA；后继精确CI终态从PR服务核对，本页不提前填绿。44源码合同与两项发布／构建Gate分开，语法子调用和内部断言不另增unique。
+
 ## 实际行为与设计取舍
 
 唯一有效、健康且本地的木匠在E<24时建立可保存的恢复安排，尝试前往本人的工坊home，持续至E>=36后按当前原日程安排。需求、生理恢复、行为、移动目标、工作credit和SAN读取同一安排／本段事实。恢复不发例行completed、不积工时；完成步不重复计整段工作。支援成功、中继、警觉／作战、紧迫需求、伤病／死亡、驻守、岗位与真实阶段变更让权；免费查看／首谈不取消，刷新保同ID。

@@ -1,0 +1,420 @@
+{
+  "runner": "source-camp-rest-v1",
+  "mode": "candidate",
+  "sourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+  "checkerSha256": "773c81abf2009ec58be790b2bf630ca40cc55176e0bb95cb9d30435a9fe9581b",
+  "ioAdapterSha256": "554c400c174ad1b069c4dfcc839c12b3b45ea79c5aa7669e093a440ffa4845d3",
+  "originalWriter": {
+    "path": "scripts/fixtures/npc-threat-attention-v1/browser-writer-day1-1110-save21.json",
+    "sha256": "5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4",
+    "sourceHtmlSha256": "cc900da9cdf865b101c37080eb7417148a8a388796ba808153c905ef8ad8494a",
+    "naturalGameplayClaim": false
+  },
+  "derivation": {
+    "testOnly": true,
+    "baseScenesBeforeBoot": true,
+    "fields": [
+      "calendar/world watermarks",
+      "player coordinate/HP/energy/SAN",
+      "food",
+      "enemy list or declared enemy position/clock",
+      "handled event",
+      "NPC needs/clocks/cooldown/positions",
+      "garden growth and campTrust for midnight scene",
+      "authored landmark found flag for genuine garrison setup"
+    ],
+    "afterBootNegativeInputs": [
+      "session phase/generation",
+      "document visibility",
+      "clock pause/rate",
+      "enemy movement after actual perception",
+      "new enemy during rest",
+      "unknown enemy kind",
+      "command budget exhaustion",
+      "legacy nearby coordinates for genuine garrison guard"
+    ],
+    "actualSourceDiagnosticStimuli": [
+      "applyDayCombatDamage for local NPC/building/death interruptions",
+      "applyDayPlayerDamage for player interruption",
+      "applyContentEffects for healing and genuine garrison assignment"
+    ],
+    "receiptsFabricated": false,
+    "fixedRosterPreserved": true
+  },
+  "io": "controlled DOM collections, storage, Date/performance and timer/RAF scheduling; final bootstrap Canvas render skipped; actual tested context renderer captured before unrelated render suppression",
+  "browserStarted": false,
+  "naturalGameplay": false,
+  "count": 74,
+  "ok": true,
+  "failures": [],
+  "checks": [
+    {
+      "name": "exact old complete writer loads without changing fixed roster or stored resources",
+      "ok": true
+    },
+    {
+      "name": "public encounter entry remains an encounter and cannot be called a calendar day",
+      "ok": true
+    },
+    {
+      "name": "actual passive recovery is invariant under sixty one-minute partitions",
+      "ok": true
+    },
+    {
+      "name": "candidate exposes the real request/cancel/Gate/controller functions",
+      "ok": true
+    },
+    {
+      "name": "unknown duration refuses without payment: undefined",
+      "ok": true
+    },
+    {
+      "name": "unknown duration refuses without payment: null",
+      "ok": true
+    },
+    {
+      "name": "unknown duration refuses without payment: 0",
+      "ok": true
+    },
+    {
+      "name": "unknown duration refuses without payment: -1",
+      "ok": true
+    },
+    {
+      "name": "unknown duration refuses without payment: 1",
+      "ok": true
+    },
+    {
+      "name": "unknown duration refuses without payment: 29",
+      "ok": true
+    },
+    {
+      "name": "unknown duration refuses without payment: 31",
+      "ok": true
+    },
+    {
+      "name": "unknown duration refuses without payment: 120",
+      "ok": true
+    },
+    {
+      "name": "unknown duration refuses without payment: NaN",
+      "ok": true
+    },
+    {
+      "name": "unknown duration refuses without payment: Infinity",
+      "ok": true
+    },
+    {
+      "name": "unknown duration refuses without payment: 30",
+      "ok": true
+    },
+    {
+      "name": "unknown duration refuses without payment: [object Object]",
+      "ok": true
+    },
+    {
+      "name": "actual phase Gate refuses START",
+      "ok": true
+    },
+    {
+      "name": "actual phase Gate refuses BATTLE",
+      "ok": true
+    },
+    {
+      "name": "actual phase Gate refuses REPORT",
+      "ok": true
+    },
+    {
+      "name": "actual phase Gate refuses LOSS",
+      "ok": true
+    },
+    {
+      "name": "actual phase Gate refuses RECOVERY",
+      "ok": true
+    },
+    {
+      "name": "actual phase Gate refuses SAVING",
+      "ok": true
+    },
+    {
+      "name": "actual phase Gate refuses EXITING",
+      "ok": true
+    },
+    {
+      "name": "actual phase Gate refuses UNKNOWN",
+      "ok": true
+    },
+    {
+      "name": "remote location refuses without resource/time payment",
+      "ok": true
+    },
+    {
+      "name": "missing shelter refuses without resource/time payment",
+      "ok": true
+    },
+    {
+      "name": "paused clock refuses without resource/time payment",
+      "ok": true
+    },
+    {
+      "name": "non-unit clock rate refuses without resource/time payment",
+      "ok": true
+    },
+    {
+      "name": "hidden document refuses without resource/time payment",
+      "ok": true
+    },
+    {
+      "name": "zero player HP refuses without resource/time payment",
+      "ok": true
+    },
+    {
+      "name": "terminal game refuses without resource/time payment",
+      "ok": true
+    },
+    {
+      "name": "food zero and energy zero retain agency rather than inventing a rest lock",
+      "ok": true
+    },
+    {
+      "name": "calendar evening is still a legal DAY phase",
+      "ok": true
+    },
+    {
+      "name": "one controller step equals the actual one-minute simulation with NPC and enemy evolution",
+      "ok": true
+    },
+    {
+      "name": "normal thirty-minute completion matches thirty real steps with no shelter reward",
+      "ok": true
+    },
+    {
+      "name": "sixty-minute completion applies the existing three-per-hour recovery",
+      "ok": true
+    },
+    {
+      "name": "passive recovery follows saved phase across reload without retroactive recovery or cap overflow",
+      "ok": true
+    },
+    {
+      "name": "existing optional pending event retains its identity and does not ban waiting",
+      "ok": true
+    },
+    {
+      "name": "nearby actual living enemy refuses before a paid minute",
+      "ok": true
+    },
+    {
+      "name": "actual recent enemy perception blocks a far pursuer without exposing its coordinates",
+      "ok": true
+    },
+    {
+      "name": "unknown enemy kind fails closed rather than assuming a safe camp",
+      "ok": true
+    },
+    {
+      "name": "actual shelter context radius accepts 1.25 and rejects 1.251",
+      "ok": true
+    },
+    {
+      "name": "enemy entering the danger boundary interrupts without deleting it or advancing another minute",
+      "ok": true
+    },
+    {
+      "name": "real day damage to the player is retained and stops any next rest minute",
+      "ok": true
+    },
+    {
+      "name": "real day damage to a local NPC remains visible and interrupts the controller",
+      "ok": true
+    },
+    {
+      "name": "real local building damage is not repaired or hidden by a rest interruption",
+      "ok": true
+    },
+    {
+      "name": "a real NPC death reduces the same roster and stops rest without resurrection",
+      "ok": true
+    },
+    {
+      "name": "healing followed by real damage is detected relative to the last confirmed step",
+      "ok": true
+    },
+    {
+      "name": "an NPC walking into the local radius is subsequently protected by the damage interruption",
+      "ok": true
+    },
+    {
+      "name": "actual local damage Gate cannot injure a garrisoned guard even at legacy nearby coordinates",
+      "ok": true
+    },
+    {
+      "name": "unsafe enemy speed fails closed: 0",
+      "ok": true
+    },
+    {
+      "name": "unsafe enemy speed fails closed: -1",
+      "ok": true
+    },
+    {
+      "name": "unsafe enemy speed fails closed: 100",
+      "ok": true
+    },
+    {
+      "name": "unsafe enemy speed fails closed: NaN",
+      "ok": true
+    },
+    {
+      "name": "unsafe enemy speed fails closed: Infinity",
+      "ok": true
+    },
+    {
+      "name": "unsafe enemy speed fails closed: 1",
+      "ok": true
+    },
+    {
+      "name": "cancel preserves exact partial progress and stale scheduled callback is inert",
+      "ok": true
+    },
+    {
+      "name": "saved partial facts reload idle without replay, automatic restart or fabricated completion",
+      "ok": true
+    },
+    {
+      "name": "natural timer and a cancelled native callback cannot compete with rest ownership",
+      "ok": true
+    },
+    {
+      "name": "hidden page stops partial rest and visible return never consumes its remaining rest budget",
+      "ok": true
+    },
+    {
+      "name": "pagehide stops and saves the applied watermark before public reload",
+      "ok": true
+    },
+    {
+      "name": "actual freeze REPORT fences scheduled rest callbacks",
+      "ok": true
+    },
+    {
+      "name": "actual freeze LOSS fences scheduled rest callbacks",
+      "ok": true
+    },
+    {
+      "name": "actual freeze RECOVERY fences scheduled rest callbacks",
+      "ok": true
+    },
+    {
+      "name": "session generation change invalidates an already queued rest callback",
+      "ok": true
+    },
+    {
+      "name": "actual public restart deletes saves and rest callbacks cannot recreate the exited session",
+      "ok": true
+    },
+    {
+      "name": "public encounter request cancels rest before entering the actual BATTLE clock",
+      "ok": true
+    },
+    {
+      "name": "exhausted automatic command budget refuses before an active instance or nested advance",
+      "ok": true
+    },
+    {
+      "name": "repeated request command is idempotent and cannot create a second timer or extend target",
+      "ok": true
+    },
+    {
+      "name": "real step CAS rejects wrong instance and stale progress without consuming time",
+      "ok": true
+    },
+    {
+      "name": "step and actual advance receipts have unique IDs, one-minute payloads and exact parent causes",
+      "ok": true
+    },
+    {
+      "name": "a real midnight step settles ration, plan, command points and the same crop once",
+      "ok": true
+    },
+    {
+      "name": "midnight shortage remains real and a new shortage episode interrupts without granting food",
+      "ok": true
+    },
+    {
+      "name": "actual context renderer publishes the public entry and actual click handler starts and cancels",
+      "ok": true
+    }
+  ],
+  "observations": {
+    "passiveRecovery": {
+      "one": 3,
+      "split": 3
+    }
+  },
+  "artifacts": [
+    {
+      "name": "writer-1",
+      "path": "native-report-artifacts/writer-1.json",
+      "sha256": "7529e717311b4b4b9e3ea86610cb7cd49c9923e64c5f1aed62792ef94daaf499",
+      "actualWriter": true,
+      "testOnlyScene": true,
+      "receiptFabricated": false
+    },
+    {
+      "name": "writer-2",
+      "path": "native-report-artifacts/writer-2.json",
+      "sha256": "e47fcb835cb7e46854fa4829a51b95b42316481f13c240270e008bc026185629",
+      "actualWriter": true,
+      "testOnlyScene": true,
+      "receiptFabricated": false
+    },
+    {
+      "name": "writer-3",
+      "path": "native-report-artifacts/writer-3.json",
+      "sha256": "579ded5f8a260dd187cd3dd530a7d52bfeae224da56586299f70cd0355fb6bf1",
+      "actualWriter": true,
+      "testOnlyScene": true,
+      "receiptFabricated": false
+    },
+    {
+      "name": "partial-seven-minutes-no-stop",
+      "path": "native-report-artifacts/partial-seven-minutes-no-stop.json",
+      "sha256": "c64ba4cd22728f997b78e29910713247b79a0412920d873a05d361579f9a34ae",
+      "actualWriter": true,
+      "testOnlyScene": true,
+      "receiptFabricated": false
+    },
+    {
+      "name": "writer-5",
+      "path": "native-report-artifacts/writer-5.json",
+      "sha256": "9b91be9368cd043cb26915c5201ce9b6551811e3ce52216759691f8ce61372c3",
+      "actualWriter": true,
+      "testOnlyScene": true,
+      "receiptFabricated": false
+    },
+    {
+      "name": "writer-6",
+      "path": "native-report-artifacts/writer-6.json",
+      "sha256": "9a15fd55dadcfe7a05b874d0715730f169a9d31c7a5ea6e44e270dba7ab3cb80",
+      "actualWriter": true,
+      "testOnlyScene": true,
+      "receiptFabricated": false
+    },
+    {
+      "name": "writer-7",
+      "path": "native-report-artifacts/writer-7.json",
+      "sha256": "632d4a10966bbe3e1473c549331c2f10b55aa23a9fcc97db15e208a8955017bc",
+      "actualWriter": true,
+      "testOnlyScene": true,
+      "receiptFabricated": false
+    },
+    {
+      "name": "writer-8",
+      "path": "native-report-artifacts/writer-8.json",
+      "sha256": "c830865089247a5e0977dd6fb35a00ff6823c79b62cc05297074c476a7de7902",
+      "actualWriter": true,
+      "testOnlyScene": true,
+      "receiptFabricated": false
+    }
+  ]
+}

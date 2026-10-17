@@ -1,0 +1,65 @@
+{
+  "schema": "ExplicitPrivatePathRedactedCompanionV1",
+  "nativeOriginalBytes": false,
+  "originalSha256": "4fe909845b4260eba65ada8981798b36ed9116071b3face549322589b7b3983f",
+  "originalBytes": 1794,
+  "transformation": "Replace private execution locations only; original external bytes retained. This companion is not a native report or a new execution.",
+  "portableData": {
+    "runner": "source-relay-construction-runtime",
+    "schema": "RelayConstructionTransactionV1",
+    "version": 1,
+    "sourceHash": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+    "htmlPath": "[PRIVATE_EXECUTION_PATH]",
+    "fixturePath": "[PRIVATE_EXECUTION_PATH]",
+    "fixtureCases": [
+      "flag-off-compatibility",
+      "stage-success-once",
+      "missing-worker",
+      "stale-token",
+      "duplicate-child",
+      "virtual-occupancy",
+      "save-reload-token",
+      "same-tick-order"
+    ],
+    "ok": true,
+    "count": 8,
+    "passed": 8,
+    "checks": [
+      {
+        "name": "flag-off compatibility and default false",
+        "ok": true
+      },
+      {
+        "name": "stage success exactly once",
+        "ok": true
+      },
+      {
+        "name": "missing worker leaves relay cross-domain state unchanged",
+        "ok": true
+      },
+      {
+        "name": "stale token leaves relay cross-domain state unchanged",
+        "ok": true
+      },
+      {
+        "name": "duplicate child command is a no-op",
+        "ok": true
+      },
+      {
+        "name": "virtual occupancy commits only after success",
+        "ok": true
+      },
+      {
+        "name": "save/reload preserves transaction token and replay child",
+        "ok": true
+      },
+      {
+        "name": "same-tick order keeps relay construction before world combat",
+        "ok": true
+      }
+    ],
+    "productionWiring": "feature-gated-stage-only",
+    "naturalGameplay": false,
+    "sitesVersion": "v81-unchanged"
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "runner": "source-daytime-combat",
+  "sourceHash": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+  "ok": true,
+  "count": 26,
+  "passed": 26,
+  "checks": [
+    {
+      "name": "NPC and tower damage a live daytime enemy",
+      "ok": true
+    },
+    {
+      "name": "daytime enemy damages an active NPC",
+      "ok": true
+    },
+    {
+      "name": "damage receipt preserves source, target, phase and event provenance",
+      "ok": true
+    },
+    {
+      "name": "runtime uses the CombatIntentV1 contract and rejects malformed envelopes",
+      "ok": true
+    },
+    {
+      "name": "inactive tower stops dealing daytime damage",
+      "ok": true
+    },
+    {
+      "name": "daytime enemy can damage an active tower",
+      "ok": true
+    },
+    {
+      "name": "daytime enemy can damage a defensive wall",
+      "ok": true
+    },
+    {
+      "name": "night gate prevents daytime combat re-entry",
+      "ok": true
+    },
+    {
+      "name": "save and reload do not replay daytime damage",
+      "ok": true
+    },
+    {
+      "name": "identical daytime combat fixture yields a stable replay hash",
+      "ok": true
+    },
+    {
+      "name": "duplicate world.advance command does not apply daytime damage twice",
+      "ok": true
+    },
+    {
+      "name": "resolving an event cleans only its source combat targets",
+      "ok": true
+    },
+    {
+      "name": "failed event resolution does not clean live combat targets",
+      "ok": true
+    },
+    {
+      "name": "stale event instance CAS rejects without reducer or cleanup",
+      "ok": true
+    },
+    {
+      "name": "event definition version CAS rejects stale planner output",
+      "ok": true
+    },
+    {
+      "name": "EventDef and SAN definitions expose the opt-in GateV1 contract",
+      "ok": true
+    },
+    {
+      "name": "GateV1 evaluates an NPC SAN event against its actor and fails closed",
+      "ok": true
+    },
+    {
+      "name": "GateV1 evaluates the player SAN event without using an NPC actor",
+      "ok": true
+    },
+    {
+      "name": "GateV1 choice.requires are evaluated independently and unknown conditions reject",
+      "ok": true
+    },
+    {
+      "name": "relay-chain-001 uses the same read-only GateV1 adapter",
+      "ok": true
+    },
+    {
+      "name": "relay handoff carries four-part CAS and rejects stale commands",
+      "ok": true
+    },
+    {
+      "name": "event CAS is checked before GateV1 preconditions",
+      "ok": true
+    },
+    {
+      "name": "daily event buttons carry the full event CAS token",
+      "ok": true
+    },
+    {
+      "name": "relay context button carries and dispatches the full CAS token",
+      "ok": true
+    },
+    {
+      "name": "relay UI token adapter reaches CommandBus and stale event rejects",
+      "ok": true
+    },
+    {
+      "name": "queued NPC event activation does not leak or over-clean combat targets",
+      "ok": true
+    }
+  ]
+}

@@ -1,0 +1,1709 @@
+{
+  "runner": "source-plan-integrity-ui-phase",
+  "sourceHash": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+  "adapterSourceHash": "554c400c174ad1b069c4dfcc839c12b3b45ea79c5aa7669e093a440ffa4845d3",
+  "sourceFile": "index.html",
+  "browserStarted": false,
+  "naturalGameplayExecuted": false,
+  "rendererReplaced": false,
+  "controllerReplaced": false,
+  "purityBoundary": "serialized state value plus ledger/save/timer stability; object-reference identity and native browser layout are not asserted",
+  "ioMocks": {
+    "dom": "in-memory nodes; source innerHTML attributes parsed without layout or focus",
+    "storage": "Map-backed local/session storage",
+    "clocks": "controlled Date.now/performance.now",
+    "timers": "queued callbacks; asynchronous real-time callbacks not run",
+    "bootstrap": "unrelated final Canvas render omitted",
+    "replacedRenderingFunctions": [
+      "renderWorld",
+      "renderHud",
+      "renderContext"
+    ],
+    "preservedFunctions": [
+      "renderPlanMeeting",
+      "handlePlanMeetingAction",
+      "commitPlanMeeting",
+      "generatePlanMeeting",
+      "CommandBus",
+      "ensureContentState",
+      "loadProgress",
+      "saveProgress"
+    ]
+  },
+  "fixture": {
+    "name": "plan-committed-legacy-basewriter.json",
+    "sha256": "d9b8811fed88c25f9f1da0849d772d92e19742280f41e2aec3871d178d9bb05b",
+    "checksum": "707889bd",
+    "provenance": {
+      "testOnly": true,
+      "naturalGameplay": false,
+      "acquiredBy": "actual complete base inline runtime CommandBus commit and saveProgress writer",
+      "writerHtmlSha256": "412c69fd80e79e8b307511798c4d6bf5bee712116dbb45c3df5c951ad3100ba8",
+      "fileSha256": "d9b8811fed88c25f9f1da0849d772d92e19742280f41e2aec3871d178d9bb05b",
+      "checksum": "707889bd",
+      "saveVersion": 21,
+      "contentVersion": 3,
+      "instanceId": "camp-plan-meeting-001:d1",
+      "declaredInputs": {
+        "campTrust": 20,
+        "commandPointsBeforeCommit": 2,
+        "action": "modify",
+        "selectedOriginalRank": 2
+      },
+      "receiptFabricated": false,
+      "scope": "source method compatibility fixture, not browser evidence or a minimal partial save"
+    }
+  },
+  "checks": [
+    {
+      "name": "trust 59 CP0 actual renderer preserves serialized facts",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "trust 59 CP0 all support/modify/deny disabled properties match permission",
+      "ok": true,
+      "detail": {
+        "buttons": [
+          {
+            "action": "support",
+            "disabled": true
+          },
+          {
+            "action": "modify",
+            "disabled": true
+          },
+          {
+            "action": "deny",
+            "disabled": true
+          },
+          {
+            "action": "support",
+            "disabled": true
+          },
+          {
+            "action": "modify",
+            "disabled": true
+          },
+          {
+            "action": "support",
+            "disabled": true
+          },
+          {
+            "action": "modify",
+            "disabled": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "trust 59 CP0 actual visible permission text explains gate",
+      "ok": true,
+      "detail": {
+        "html": "<div class=\"status-overview-grid\"><div class=\"status-overview-card\"><span>营地信任</span><b>59</b></div><div class=\"status-overview-card\"><span>指挥点</span><b>0/0</b></div><div class=\"status-overview-card\"><span>营地崩溃</span><b>0</b></div><div class=\"status-overview-card\"><span>共振压力</span><b>25</b></div></div><div class=\"status-overview-note\">第 1 天候选 · 营地信任需达到 60 才能干预计划（当前 59），现在可以旁听。</div><div class=\"event-choice-list\"><article class=\"event-choice-card\" style=\"border-color:var(--green);\"><strong>1. 收缩核心防线</strong><small>防御 · 提案：林岑 · 票权 7/7</small><p>核心建筑承压下降，夜间失守风险降低；风险：外围采集与前哨推进放缓</p><div style=\"display:flex;gap:6px;flex-wrap:wrap\"><button type=\"button\" data-plan-action=\"support\" data-plan-id=\"plan-defend-core-001\" disabled>支持</button><button type=\"button\" data-plan-action=\"modify\" data-plan-id=\"plan-defend-core-001\" disabled>修改后执行</button><button type=\"button\" data-plan-action=\"deny\" data-plan-id=\"plan-defend-core-001\" disabled>否决主案</button></div></article><article class=\"event-choice-card\" style=\"\"><strong>2. 把中继优先级调到前线</strong><small>研究 · 提案：阿默 · 票权 7/7</small><p>提前识别下一波路线，降低共振压力；风险：短期会增加外围行动的暴露</p><div style=\"display:flex;gap:6px;flex-wrap:wrap\"><button type=\"button\" data-plan-action=\"support\" data-plan-id=\"plan-relay-priority-001\" disabled>支持</button><button type=\"button\" data-plan-action=\"modify\" data-plan-id=\"plan-relay-priority-001\" disabled>修改后执行</button></div></article><article class=\"event-choice-card\" style=\"\"><strong>3. 校准共振信标</strong><small>研究 · 提案：阿默 · 票权 7/7</small><p>中继预警更稳定，共振压力下降；风险：需要把人员留在指挥频道</p><div style=\"display:flex;gap:6px;flex-wrap:wrap\"><button type=\"button\" data-plan-action=\"support\" data-plan-id=\"plan-research-signal-001\" disabled>支持</button><button type=\"button\" data-plan-action=\"modify\" data-plan-id=\"plan-research-signal-001\" disabled>修改后执行</button></div></article></div>"
+      }
+    },
+    {
+      "name": "trust 59 CP0 disabled actual registered handler emits no command or reward",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "trust 59 CP1 actual renderer preserves serialized facts",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "trust 59 CP1 all support/modify/deny disabled properties match permission",
+      "ok": true,
+      "detail": {
+        "buttons": [
+          {
+            "action": "support",
+            "disabled": true
+          },
+          {
+            "action": "modify",
+            "disabled": true
+          },
+          {
+            "action": "deny",
+            "disabled": true
+          },
+          {
+            "action": "support",
+            "disabled": true
+          },
+          {
+            "action": "modify",
+            "disabled": true
+          },
+          {
+            "action": "support",
+            "disabled": true
+          },
+          {
+            "action": "modify",
+            "disabled": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "trust 59 CP1 actual visible permission text explains gate",
+      "ok": true,
+      "detail": {
+        "html": "<div class=\"status-overview-grid\"><div class=\"status-overview-card\"><span>营地信任</span><b>59</b></div><div class=\"status-overview-card\"><span>指挥点</span><b>1/1</b></div><div class=\"status-overview-card\"><span>营地崩溃</span><b>0</b></div><div class=\"status-overview-card\"><span>共振压力</span><b>25</b></div></div><div class=\"status-overview-note\">第 1 天候选 · 营地信任需达到 60 才能干预计划（当前 59），现在可以旁听。</div><div class=\"event-choice-list\"><article class=\"event-choice-card\" style=\"border-color:var(--green);\"><strong>1. 收缩核心防线</strong><small>防御 · 提案：林岑 · 票权 7/7</small><p>核心建筑承压下降，夜间失守风险降低；风险：外围采集与前哨推进放缓</p><div style=\"display:flex;gap:6px;flex-wrap:wrap\"><button type=\"button\" data-plan-action=\"support\" data-plan-id=\"plan-defend-core-001\" disabled>支持</button><button type=\"button\" data-plan-action=\"modify\" data-plan-id=\"plan-defend-core-001\" disabled>修改后执行</button><button type=\"button\" data-plan-action=\"deny\" data-plan-id=\"plan-defend-core-001\" disabled>否决主案</button></div></article><article class=\"event-choice-card\" style=\"\"><strong>2. 把中继优先级调到前线</strong><small>研究 · 提案：阿默 · 票权 7/7</small><p>提前识别下一波路线，降低共振压力；风险：短期会增加外围行动的暴露</p><div style=\"display:flex;gap:6px;flex-wrap:wrap\"><button type=\"button\" data-plan-action=\"support\" data-plan-id=\"plan-relay-priority-001\" disabled>支持</button><button type=\"button\" data-plan-action=\"modify\" data-plan-id=\"plan-relay-priority-001\" disabled>修改后执行</button></div></article><article class=\"event-choice-card\" style=\"\"><strong>3. 校准共振信标</strong><small>研究 · 提案：阿默 · 票权 7/7</small><p>中继预警更稳定，共振压力下降；风险：需要把人员留在指挥频道</p><div style=\"display:flex;gap:6px;flex-wrap:wrap\"><button type=\"button\" data-plan-action=\"support\" data-plan-id=\"plan-research-signal-001\" disabled>支持</button><button type=\"button\" data-plan-action=\"modify\" data-plan-id=\"plan-research-signal-001\" disabled>修改后执行</button></div></article></div>"
+      }
+    },
+    {
+      "name": "trust 59 CP1 disabled actual registered handler emits no command or reward",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "trust 59.99 CP0 actual renderer preserves serialized facts",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "trust 59.99 CP0 all support/modify/deny disabled properties match permission",
+      "ok": true,
+      "detail": {
+        "buttons": [
+          {
+            "action": "support",
+            "disabled": true
+          },
+          {
+            "action": "modify",
+            "disabled": true
+          },
+          {
+            "action": "deny",
+            "disabled": true
+          },
+          {
+            "action": "support",
+            "disabled": true
+          },
+          {
+            "action": "modify",
+            "disabled": true
+          },
+          {
+            "action": "support",
+            "disabled": true
+          },
+          {
+            "action": "modify",
+            "disabled": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "trust 59.99 CP0 actual visible permission text explains gate",
+      "ok": true,
+      "detail": {
+        "html": "<div class=\"status-overview-grid\"><div class=\"status-overview-card\"><span>营地信任</span><b>59.99</b></div><div class=\"status-overview-card\"><span>指挥点</span><b>0/0</b></div><div class=\"status-overview-card\"><span>营地崩溃</span><b>0</b></div><div class=\"status-overview-card\"><span>共振压力</span><b>25</b></div></div><div class=\"status-overview-note\">第 1 天候选 · 营地信任需达到 60 才能干预计划（当前 59.99），现在可以旁听。</div><div class=\"event-choice-list\"><article class=\"event-choice-card\" style=\"border-color:var(--green);\"><strong>1. 收缩核心防线</strong><small>防御 · 提案：林岑 · 票权 7/7</small><p>核心建筑承压下降，夜间失守风险降低；风险：外围采集与前哨推进放缓</p><div style=\"display:flex;gap:6px;flex-wrap:wrap\"><button type=\"button\" data-plan-action=\"support\" data-plan-id=\"plan-defend-core-001\" disabled>支持</button><button type=\"button\" data-plan-action=\"modify\" data-plan-id=\"plan-defend-core-001\" disabled>修改后执行</button><button type=\"button\" data-plan-action=\"deny\" data-plan-id=\"plan-defend-core-001\" disabled>否决主案</button></div></article><article class=\"event-choice-card\" style=\"\"><strong>2. 把中继优先级调到前线</strong><small>研究 · 提案：阿默 · 票权 7/7</small><p>提前识别下一波路线，降低共振压力；风险：短期会增加外围行动的暴露</p><div style=\"display:flex;gap:6px;flex-wrap:wrap\"><button type=\"button\" data-plan-action=\"support\" data-plan-id=\"plan-relay-priority-001\" disabled>支持</button><button type=\"button\" data-plan-action=\"modify\" data-plan-id=\"plan-relay-priority-001\" disabled>修改后执行</button></div></article><article class=\"event-choice-card\" style=\"\"><strong>3. 校准共振信标</strong><small>研究 · 提案：阿默 · 票权 7/7</small><p>中继预警更稳定，共振压力下降；风险：需要把人员留在指挥频道</p><div style=\"display:flex;gap:6px;flex-wrap:wrap\"><button type=\"button\" data-plan-action=\"support\" data-plan-id=\"plan-research-signal-001\" disabled>支持</button><button type=\"button\" data-plan-action=\"modify\" data-plan-id=\"plan-research-signal-001\" disabled>修改后执行</button></div></article></div>"
+      }
+    },
+    {
+      "name": "trust 59.99 CP0 disabled actual registered handler emits no command or reward",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "trust 59.99 CP1 actual renderer preserves serialized facts",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "trust 59.99 CP1 all support/modify/deny disabled properties match permission",
+      "ok": true,
+      "detail": {
+        "buttons": [
+          {
+            "action": "support",
+            "disabled": true
+          },
+          {
+            "action": "modify",
+            "disabled": true
+          },
+          {
+            "action": "deny",
+            "disabled": true
+          },
+          {
+            "action": "support",
+            "disabled": true
+          },
+          {
+            "action": "modify",
+            "disabled": true
+          },
+          {
+            "action": "support",
+            "disabled": true
+          },
+          {
+            "action": "modify",
+            "disabled": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "trust 59.99 CP1 actual visible permission text explains gate",
+      "ok": true,
+      "detail": {
+        "html": "<div class=\"status-overview-grid\"><div class=\"status-overview-card\"><span>营地信任</span><b>59.99</b></div><div class=\"status-overview-card\"><span>指挥点</span><b>1/1</b></div><div class=\"status-overview-card\"><span>营地崩溃</span><b>0</b></div><div class=\"status-overview-card\"><span>共振压力</span><b>25</b></div></div><div class=\"status-overview-note\">第 1 天候选 · 营地信任需达到 60 才能干预计划（当前 59.99），现在可以旁听。</div><div class=\"event-choice-list\"><article class=\"event-choice-card\" style=\"border-color:var(--green);\"><strong>1. 收缩核心防线</strong><small>防御 · 提案：林岑 · 票权 7/7</small><p>核心建筑承压下降，夜间失守风险降低；风险：外围采集与前哨推进放缓</p><div style=\"display:flex;gap:6px;flex-wrap:wrap\"><button type=\"button\" data-plan-action=\"support\" data-plan-id=\"plan-defend-core-001\" disabled>支持</button><button type=\"button\" data-plan-action=\"modify\" data-plan-id=\"plan-defend-core-001\" disabled>修改后执行</button><button type=\"button\" data-plan-action=\"deny\" data-plan-id=\"plan-defend-core-001\" disabled>否决主案</button></div></article><article class=\"event-choice-card\" style=\"\"><strong>2. 把中继优先级调到前线</strong><small>研究 · 提案：阿默 · 票权 7/7</small><p>提前识别下一波路线，降低共振压力；风险：短期会增加外围行动的暴露</p><div style=\"display:flex;gap:6px;flex-wrap:wrap\"><button type=\"button\" data-plan-action=\"support\" data-plan-id=\"plan-relay-priority-001\" disabled>支持</button><button type=\"button\" data-plan-action=\"modify\" data-plan-id=\"plan-relay-priority-001\" disabled>修改后执行</button></div></article><article class=\"event-choice-card\" style=\"\"><strong>3. 校准共振信标</strong><small>研究 · 提案：阿默 · 票权 7/7</small><p>中继预警更稳定，共振压力下降；风险：需要把人员留在指挥频道</p><div style=\"display:flex;gap:6px;flex-wrap:wrap\"><button type=\"button\" data-plan-action=\"support\" data-plan-id=\"plan-research-signal-001\" disabled>支持</button><button type=\"button\" data-plan-action=\"modify\" data-plan-id=\"plan-research-signal-001\" disabled>修改后执行</button></div></article></div>"
+      }
+    },
+    {
+      "name": "trust 59.99 CP1 disabled actual registered handler emits no command or reward",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "trust 60 CP0 actual renderer preserves serialized facts",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "trust 60 CP0 all support/modify/deny disabled properties match permission",
+      "ok": true,
+      "detail": {
+        "buttons": [
+          {
+            "action": "support",
+            "disabled": true
+          },
+          {
+            "action": "modify",
+            "disabled": true
+          },
+          {
+            "action": "deny",
+            "disabled": true
+          },
+          {
+            "action": "support",
+            "disabled": true
+          },
+          {
+            "action": "modify",
+            "disabled": true
+          },
+          {
+            "action": "support",
+            "disabled": true
+          },
+          {
+            "action": "modify",
+            "disabled": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "trust 60 CP0 actual visible permission text explains gate",
+      "ok": true,
+      "detail": {
+        "html": "<div class=\"status-overview-grid\"><div class=\"status-overview-card\"><span>营地信任</span><b>60</b></div><div class=\"status-overview-card\"><span>指挥点</span><b>0/0</b></div><div class=\"status-overview-card\"><span>营地崩溃</span><b>0</b></div><div class=\"status-overview-card\"><span>共振压力</span><b>25</b></div></div><div class=\"status-overview-note\">第 1 天候选 · 指挥点不足，计划会只能旁听。</div><div class=\"event-choice-list\"><article class=\"event-choice-card\" style=\"border-color:var(--green);\"><strong>1. 收缩核心防线</strong><small>防御 · 提案：林岑 · 票权 7/7</small><p>核心建筑承压下降，夜间失守风险降低；风险：外围采集与前哨推进放缓</p><div style=\"display:flex;gap:6px;flex-wrap:wrap\"><button type=\"button\" data-plan-action=\"support\" data-plan-id=\"plan-defend-core-001\" disabled>支持</button><button type=\"button\" data-plan-action=\"modify\" data-plan-id=\"plan-defend-core-001\" disabled>修改后执行</button><button type=\"button\" data-plan-action=\"deny\" data-plan-id=\"plan-defend-core-001\" disabled>否决主案</button></div></article><article class=\"event-choice-card\" style=\"\"><strong>2. 把中继优先级调到前线</strong><small>研究 · 提案：阿默 · 票权 7/7</small><p>提前识别下一波路线，降低共振压力；风险：短期会增加外围行动的暴露</p><div style=\"display:flex;gap:6px;flex-wrap:wrap\"><button type=\"button\" data-plan-action=\"support\" data-plan-id=\"plan-relay-priority-001\" disabled>支持</button><button type=\"button\" data-plan-action=\"modify\" data-plan-id=\"plan-relay-priority-001\" disabled>修改后执行</button></div></article><article class=\"event-choice-card\" style=\"\"><strong>3. 校准共振信标</strong><small>研究 · 提案：阿默 · 票权 7/7</small><p>中继预警更稳定，共振压力下降；风险：需要把人员留在指挥频道</p><div style=\"display:flex;gap:6px;flex-wrap:wrap\"><button type=\"button\" data-plan-action=\"support\" data-plan-id=\"plan-research-signal-001\" disabled>支持</button><button type=\"button\" data-plan-action=\"modify\" data-plan-id=\"plan-research-signal-001\" disabled>修改后执行</button></div></article></div>"
+      }
+    },
+    {
+      "name": "trust 60 CP0 disabled actual registered handler emits no command or reward",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "trust 60 CP1 actual renderer preserves serialized facts",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "trust 60 CP1 all support/modify/deny disabled properties match permission",
+      "ok": true,
+      "detail": {
+        "buttons": [
+          {
+            "action": "support",
+            "disabled": false
+          },
+          {
+            "action": "modify",
+            "disabled": false
+          },
+          {
+            "action": "deny",
+            "disabled": false
+          },
+          {
+            "action": "support",
+            "disabled": false
+          },
+          {
+            "action": "modify",
+            "disabled": false
+          },
+          {
+            "action": "support",
+            "disabled": false
+          },
+          {
+            "action": "modify",
+            "disabled": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "trust 60 CP1 actual visible permission text explains gate",
+      "ok": true,
+      "detail": {
+        "html": "<div class=\"status-overview-grid\"><div class=\"status-overview-card\"><span>营地信任</span><b>60</b></div><div class=\"status-overview-card\"><span>指挥点</span><b>1/1</b></div><div class=\"status-overview-card\"><span>营地崩溃</span><b>0</b></div><div class=\"status-overview-card\"><span>共振压力</span><b>25</b></div></div><div class=\"status-overview-note\">第 1 天候选 · 可消耗 1 点指挥点作出决定。</div><div class=\"event-choice-list\"><article class=\"event-choice-card\" style=\"border-color:var(--green);\"><strong>1. 收缩核心防线</strong><small>防御 · 提案：林岑 · 票权 7/7</small><p>核心建筑承压下降，夜间失守风险降低；风险：外围采集与前哨推进放缓</p><div style=\"display:flex;gap:6px;flex-wrap:wrap\"><button type=\"button\" data-plan-action=\"support\" data-plan-id=\"plan-defend-core-001\" >支持</button><button type=\"button\" data-plan-action=\"modify\" data-plan-id=\"plan-defend-core-001\" >修改后执行</button><button type=\"button\" data-plan-action=\"deny\" data-plan-id=\"plan-defend-core-001\" >否决主案</button></div></article><article class=\"event-choice-card\" style=\"\"><strong>2. 把中继优先级调到前线</strong><small>研究 · 提案：阿默 · 票权 7/7</small><p>提前识别下一波路线，降低共振压力；风险：短期会增加外围行动的暴露</p><div style=\"display:flex;gap:6px;flex-wrap:wrap\"><button type=\"button\" data-plan-action=\"support\" data-plan-id=\"plan-relay-priority-001\" >支持</button><button type=\"button\" data-plan-action=\"modify\" data-plan-id=\"plan-relay-priority-001\" >修改后执行</button></div></article><article class=\"event-choice-card\" style=\"\"><strong>3. 校准共振信标</strong><small>研究 · 提案：阿默 · 票权 7/7</small><p>中继预警更稳定，共振压力下降；风险：需要把人员留在指挥频道</p><div style=\"display:flex;gap:6px;flex-wrap:wrap\"><button type=\"button\" data-plan-action=\"support\" data-plan-id=\"plan-research-signal-001\" >支持</button><button type=\"button\" data-plan-action=\"modify\" data-plan-id=\"plan-research-signal-001\" >修改后执行</button></div></article></div>"
+      }
+    },
+    {
+      "name": "enabled support actual registered listener commits once and spends exactly one CP",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "committed support actual renderer preserves plan/CP and removes interventions",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "stale enabled support node cannot submit or debit twice",
+      "ok": true,
+      "detail": {
+        "beforePlan": {
+          "version": 1,
+          "status": "committed",
+          "meetingDay": 1,
+          "instanceId": "camp-plan-meeting-001:d1",
+          "source": "TEST-ONLY UI seed",
+          "candidates": [
+            {
+              "id": "plan-defend-core-001",
+              "title": "收缩核心防线",
+              "category": "defense",
+              "proposerId": "commander",
+              "cost": 1,
+              "expected": "核心建筑承压下降，夜间失守风险降低",
+              "risk": "外围采集与前哨推进放缓",
+              "affectedRoles": [
+                "commander",
+                "sergeant",
+                "guardJi",
+                "guardChen"
+              ],
+              "votes": 7,
+              "voteWeight": 7,
+              "ballots": [
+                {
+                  "npcId": "commander",
+                  "weight": 3,
+                  "score": 58
+                },
+                {
+                  "npcId": "doctor",
+                  "weight": 1,
+                  "score": 45
+                },
+                {
+                  "npcId": "radio",
+                  "weight": 1,
+                  "score": 47
+                },
+                {
+                  "npcId": "sergeant",
+                  "weight": 2,
+                  "score": 55
+                }
+              ],
+              "rank": 1,
+              "validDay": 1,
+              "effects": [
+                {
+                  "op": "adjustMeter",
+                  "key": "campCollapse",
+                  "value": -3
+                },
+                {
+                  "op": "recordHistory",
+                  "key": "plan-defend-core-001:applied",
+                  "payload": {
+                    "category": "defense"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "plan-relay-priority-001",
+              "title": "把中继优先级调到前线",
+              "category": "research",
+              "proposerId": "radio",
+              "cost": 1,
+              "expected": "提前识别下一波路线，降低共振压力",
+              "risk": "短期会增加外围行动的暴露",
+              "affectedRoles": [
+                "radio",
+                "sergeant",
+                "guardJiang"
+              ],
+              "votes": 7,
+              "voteWeight": 7,
+              "ballots": [
+                {
+                  "npcId": "commander",
+                  "weight": 3,
+                  "score": 41
+                },
+                {
+                  "npcId": "doctor",
+                  "weight": 1,
+                  "score": 40
+                },
+                {
+                  "npcId": "radio",
+                  "weight": 1,
+                  "score": 52
+                },
+                {
+                  "npcId": "sergeant",
+                  "weight": 2,
+                  "score": 38
+                }
+              ],
+              "rank": 2,
+              "validDay": 1,
+              "effects": [
+                {
+                  "op": "adjustMeter",
+                  "key": "resonancePressure",
+                  "value": -3
+                },
+                {
+                  "op": "adjustMeter",
+                  "key": "campCollapse",
+                  "value": 1
+                },
+                {
+                  "op": "recordHistory",
+                  "key": "plan-relay-priority-001:applied",
+                  "payload": {
+                    "category": "research"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "plan-research-signal-001",
+              "title": "校准共振信标",
+              "category": "research",
+              "proposerId": "radio",
+              "cost": 1,
+              "expected": "中继预警更稳定，共振压力下降",
+              "risk": "需要把人员留在指挥频道",
+              "affectedRoles": [
+                "radio",
+                "commander",
+                "doctor"
+              ],
+              "votes": 7,
+              "voteWeight": 7,
+              "ballots": [
+                {
+                  "npcId": "commander",
+                  "weight": 3,
+                  "score": 39
+                },
+                {
+                  "npcId": "doctor",
+                  "weight": 1,
+                  "score": 38
+                },
+                {
+                  "npcId": "radio",
+                  "weight": 1,
+                  "score": 50
+                },
+                {
+                  "npcId": "sergeant",
+                  "weight": 2,
+                  "score": 36
+                }
+              ],
+              "rank": 3,
+              "validDay": 1,
+              "effects": [
+                {
+                  "op": "adjustMeter",
+                  "key": "resonancePressure",
+                  "value": -4
+                },
+                {
+                  "op": "recordHistory",
+                  "key": "plan-research-signal-001:applied",
+                  "payload": {
+                    "category": "research"
+                  }
+                }
+              ]
+            }
+          ],
+          "selectedId": "plan-defend-core-001",
+          "playerAction": "support",
+          "committedDay": 1,
+          "resolvedDay": null,
+          "autonomyResult": null,
+          "history": []
+        },
+        "afterPlan": {
+          "version": 1,
+          "status": "committed",
+          "meetingDay": 1,
+          "instanceId": "camp-plan-meeting-001:d1",
+          "source": "TEST-ONLY UI seed",
+          "candidates": [
+            {
+              "id": "plan-defend-core-001",
+              "title": "收缩核心防线",
+              "category": "defense",
+              "proposerId": "commander",
+              "cost": 1,
+              "expected": "核心建筑承压下降，夜间失守风险降低",
+              "risk": "外围采集与前哨推进放缓",
+              "affectedRoles": [
+                "commander",
+                "sergeant",
+                "guardJi",
+                "guardChen"
+              ],
+              "votes": 7,
+              "voteWeight": 7,
+              "ballots": [
+                {
+                  "npcId": "commander",
+                  "weight": 3,
+                  "score": 58
+                },
+                {
+                  "npcId": "doctor",
+                  "weight": 1,
+                  "score": 45
+                },
+                {
+                  "npcId": "radio",
+                  "weight": 1,
+                  "score": 47
+                },
+                {
+                  "npcId": "sergeant",
+                  "weight": 2,
+                  "score": 55
+                }
+              ],
+              "rank": 1,
+              "validDay": 1,
+              "effects": [
+                {
+                  "op": "adjustMeter",
+                  "key": "campCollapse",
+                  "value": -3
+                },
+                {
+                  "op": "recordHistory",
+                  "key": "plan-defend-core-001:applied",
+                  "payload": {
+                    "category": "defense"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "plan-relay-priority-001",
+              "title": "把中继优先级调到前线",
+              "category": "research",
+              "proposerId": "radio",
+              "cost": 1,
+              "expected": "提前识别下一波路线，降低共振压力",
+              "risk": "短期会增加外围行动的暴露",
+              "affectedRoles": [
+                "radio",
+                "sergeant",
+                "guardJiang"
+              ],
+              "votes": 7,
+              "voteWeight": 7,
+              "ballots": [
+                {
+                  "npcId": "commander",
+                  "weight": 3,
+                  "score": 41
+                },
+                {
+                  "npcId": "doctor",
+                  "weight": 1,
+                  "score": 40
+                },
+                {
+                  "npcId": "radio",
+                  "weight": 1,
+                  "score": 52
+                },
+                {
+                  "npcId": "sergeant",
+                  "weight": 2,
+                  "score": 38
+                }
+              ],
+              "rank": 2,
+              "validDay": 1,
+              "effects": [
+                {
+                  "op": "adjustMeter",
+                  "key": "resonancePressure",
+                  "value": -3
+                },
+                {
+                  "op": "adjustMeter",
+                  "key": "campCollapse",
+                  "value": 1
+                },
+                {
+                  "op": "recordHistory",
+                  "key": "plan-relay-priority-001:applied",
+                  "payload": {
+                    "category": "research"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "plan-research-signal-001",
+              "title": "校准共振信标",
+              "category": "research",
+              "proposerId": "radio",
+              "cost": 1,
+              "expected": "中继预警更稳定，共振压力下降",
+              "risk": "需要把人员留在指挥频道",
+              "affectedRoles": [
+                "radio",
+                "commander",
+                "doctor"
+              ],
+              "votes": 7,
+              "voteWeight": 7,
+              "ballots": [
+                {
+                  "npcId": "commander",
+                  "weight": 3,
+                  "score": 39
+                },
+                {
+                  "npcId": "doctor",
+                  "weight": 1,
+                  "score": 38
+                },
+                {
+                  "npcId": "radio",
+                  "weight": 1,
+                  "score": 50
+                },
+                {
+                  "npcId": "sergeant",
+                  "weight": 2,
+                  "score": 36
+                }
+              ],
+              "rank": 3,
+              "validDay": 1,
+              "effects": [
+                {
+                  "op": "adjustMeter",
+                  "key": "resonancePressure",
+                  "value": -4
+                },
+                {
+                  "op": "recordHistory",
+                  "key": "plan-research-signal-001:applied",
+                  "payload": {
+                    "category": "research"
+                  }
+                }
+              ]
+            }
+          ],
+          "selectedId": "plan-defend-core-001",
+          "playerAction": "support",
+          "committedDay": 1,
+          "resolvedDay": null,
+          "autonomyResult": null,
+          "history": []
+        }
+      }
+    },
+    {
+      "name": "enabled modify actual registered listener commits once and spends exactly one CP",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "committed modify actual renderer preserves plan/CP and removes interventions",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "stale enabled modify node cannot submit or debit twice",
+      "ok": true,
+      "detail": {
+        "beforePlan": {
+          "version": 1,
+          "status": "committed",
+          "meetingDay": 1,
+          "instanceId": "camp-plan-meeting-001:d1",
+          "source": "TEST-ONLY UI seed",
+          "candidates": [
+            {
+              "id": "plan-defend-core-001",
+              "title": "收缩核心防线",
+              "category": "defense",
+              "proposerId": "commander",
+              "cost": 1,
+              "expected": "核心建筑承压下降，夜间失守风险降低",
+              "risk": "外围采集与前哨推进放缓",
+              "affectedRoles": [
+                "commander",
+                "sergeant",
+                "guardJi",
+                "guardChen"
+              ],
+              "votes": 7,
+              "voteWeight": 7,
+              "ballots": [
+                {
+                  "npcId": "commander",
+                  "weight": 3,
+                  "score": 58
+                },
+                {
+                  "npcId": "doctor",
+                  "weight": 1,
+                  "score": 45
+                },
+                {
+                  "npcId": "radio",
+                  "weight": 1,
+                  "score": 47
+                },
+                {
+                  "npcId": "sergeant",
+                  "weight": 2,
+                  "score": 55
+                }
+              ],
+              "rank": 1,
+              "validDay": 1,
+              "effects": [
+                {
+                  "op": "adjustMeter",
+                  "key": "campCollapse",
+                  "value": -3
+                },
+                {
+                  "op": "recordHistory",
+                  "key": "plan-defend-core-001:applied",
+                  "payload": {
+                    "category": "defense"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "plan-relay-priority-001",
+              "title": "把中继优先级调到前线",
+              "category": "research",
+              "proposerId": "radio",
+              "cost": 1,
+              "expected": "提前识别下一波路线，降低共振压力",
+              "risk": "短期会增加外围行动的暴露",
+              "affectedRoles": [
+                "radio",
+                "sergeant",
+                "guardJiang"
+              ],
+              "votes": 7,
+              "voteWeight": 7,
+              "ballots": [
+                {
+                  "npcId": "commander",
+                  "weight": 3,
+                  "score": 41
+                },
+                {
+                  "npcId": "doctor",
+                  "weight": 1,
+                  "score": 40
+                },
+                {
+                  "npcId": "radio",
+                  "weight": 1,
+                  "score": 52
+                },
+                {
+                  "npcId": "sergeant",
+                  "weight": 2,
+                  "score": 38
+                }
+              ],
+              "rank": 2,
+              "validDay": 1,
+              "effects": [
+                {
+                  "op": "adjustMeter",
+                  "key": "resonancePressure",
+                  "value": -3
+                },
+                {
+                  "op": "adjustMeter",
+                  "key": "campCollapse",
+                  "value": 1
+                },
+                {
+                  "op": "recordHistory",
+                  "key": "plan-relay-priority-001:applied",
+                  "payload": {
+                    "category": "research"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "plan-research-signal-001",
+              "title": "校准共振信标",
+              "category": "research",
+              "proposerId": "radio",
+              "cost": 1,
+              "expected": "中继预警更稳定，共振压力下降",
+              "risk": "需要把人员留在指挥频道",
+              "affectedRoles": [
+                "radio",
+                "commander",
+                "doctor"
+              ],
+              "votes": 7,
+              "voteWeight": 7,
+              "ballots": [
+                {
+                  "npcId": "commander",
+                  "weight": 3,
+                  "score": 39
+                },
+                {
+                  "npcId": "doctor",
+                  "weight": 1,
+                  "score": 38
+                },
+                {
+                  "npcId": "radio",
+                  "weight": 1,
+                  "score": 50
+                },
+                {
+                  "npcId": "sergeant",
+                  "weight": 2,
+                  "score": 36
+                }
+              ],
+              "rank": 3,
+              "validDay": 1,
+              "effects": [
+                {
+                  "op": "adjustMeter",
+                  "key": "resonancePressure",
+                  "value": -4
+                },
+                {
+                  "op": "recordHistory",
+                  "key": "plan-research-signal-001:applied",
+                  "payload": {
+                    "category": "research"
+                  }
+                }
+              ]
+            }
+          ],
+          "selectedId": "plan-defend-core-001",
+          "playerAction": "modify",
+          "committedDay": 1,
+          "resolvedDay": null,
+          "autonomyResult": null,
+          "history": []
+        },
+        "afterPlan": {
+          "version": 1,
+          "status": "committed",
+          "meetingDay": 1,
+          "instanceId": "camp-plan-meeting-001:d1",
+          "source": "TEST-ONLY UI seed",
+          "candidates": [
+            {
+              "id": "plan-defend-core-001",
+              "title": "收缩核心防线",
+              "category": "defense",
+              "proposerId": "commander",
+              "cost": 1,
+              "expected": "核心建筑承压下降，夜间失守风险降低",
+              "risk": "外围采集与前哨推进放缓",
+              "affectedRoles": [
+                "commander",
+                "sergeant",
+                "guardJi",
+                "guardChen"
+              ],
+              "votes": 7,
+              "voteWeight": 7,
+              "ballots": [
+                {
+                  "npcId": "commander",
+                  "weight": 3,
+                  "score": 58
+                },
+                {
+                  "npcId": "doctor",
+                  "weight": 1,
+                  "score": 45
+                },
+                {
+                  "npcId": "radio",
+                  "weight": 1,
+                  "score": 47
+                },
+                {
+                  "npcId": "sergeant",
+                  "weight": 2,
+                  "score": 55
+                }
+              ],
+              "rank": 1,
+              "validDay": 1,
+              "effects": [
+                {
+                  "op": "adjustMeter",
+                  "key": "campCollapse",
+                  "value": -3
+                },
+                {
+                  "op": "recordHistory",
+                  "key": "plan-defend-core-001:applied",
+                  "payload": {
+                    "category": "defense"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "plan-relay-priority-001",
+              "title": "把中继优先级调到前线",
+              "category": "research",
+              "proposerId": "radio",
+              "cost": 1,
+              "expected": "提前识别下一波路线，降低共振压力",
+              "risk": "短期会增加外围行动的暴露",
+              "affectedRoles": [
+                "radio",
+                "sergeant",
+                "guardJiang"
+              ],
+              "votes": 7,
+              "voteWeight": 7,
+              "ballots": [
+                {
+                  "npcId": "commander",
+                  "weight": 3,
+                  "score": 41
+                },
+                {
+                  "npcId": "doctor",
+                  "weight": 1,
+                  "score": 40
+                },
+                {
+                  "npcId": "radio",
+                  "weight": 1,
+                  "score": 52
+                },
+                {
+                  "npcId": "sergeant",
+                  "weight": 2,
+                  "score": 38
+                }
+              ],
+              "rank": 2,
+              "validDay": 1,
+              "effects": [
+                {
+                  "op": "adjustMeter",
+                  "key": "resonancePressure",
+                  "value": -3
+                },
+                {
+                  "op": "adjustMeter",
+                  "key": "campCollapse",
+                  "value": 1
+                },
+                {
+                  "op": "recordHistory",
+                  "key": "plan-relay-priority-001:applied",
+                  "payload": {
+                    "category": "research"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "plan-research-signal-001",
+              "title": "校准共振信标",
+              "category": "research",
+              "proposerId": "radio",
+              "cost": 1,
+              "expected": "中继预警更稳定，共振压力下降",
+              "risk": "需要把人员留在指挥频道",
+              "affectedRoles": [
+                "radio",
+                "commander",
+                "doctor"
+              ],
+              "votes": 7,
+              "voteWeight": 7,
+              "ballots": [
+                {
+                  "npcId": "commander",
+                  "weight": 3,
+                  "score": 39
+                },
+                {
+                  "npcId": "doctor",
+                  "weight": 1,
+                  "score": 38
+                },
+                {
+                  "npcId": "radio",
+                  "weight": 1,
+                  "score": 50
+                },
+                {
+                  "npcId": "sergeant",
+                  "weight": 2,
+                  "score": 36
+                }
+              ],
+              "rank": 3,
+              "validDay": 1,
+              "effects": [
+                {
+                  "op": "adjustMeter",
+                  "key": "resonancePressure",
+                  "value": -4
+                },
+                {
+                  "op": "recordHistory",
+                  "key": "plan-research-signal-001:applied",
+                  "payload": {
+                    "category": "research"
+                  }
+                }
+              ]
+            }
+          ],
+          "selectedId": "plan-defend-core-001",
+          "playerAction": "modify",
+          "committedDay": 1,
+          "resolvedDay": null,
+          "autonomyResult": null,
+          "history": []
+        }
+      }
+    },
+    {
+      "name": "enabled deny actual registered listener commits once and spends exactly one CP",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "committed deny actual renderer preserves plan/CP and removes interventions",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "stale enabled deny node cannot submit or debit twice",
+      "ok": true,
+      "detail": {
+        "beforePlan": {
+          "version": 1,
+          "status": "committed",
+          "meetingDay": 1,
+          "instanceId": "camp-plan-meeting-001:d1",
+          "source": "TEST-ONLY UI seed",
+          "candidates": [
+            {
+              "id": "plan-defend-core-001",
+              "title": "收缩核心防线",
+              "category": "defense",
+              "proposerId": "commander",
+              "cost": 1,
+              "expected": "核心建筑承压下降，夜间失守风险降低",
+              "risk": "外围采集与前哨推进放缓",
+              "affectedRoles": [
+                "commander",
+                "sergeant",
+                "guardJi",
+                "guardChen"
+              ],
+              "votes": 7,
+              "voteWeight": 7,
+              "ballots": [
+                {
+                  "npcId": "commander",
+                  "weight": 3,
+                  "score": 58
+                },
+                {
+                  "npcId": "doctor",
+                  "weight": 1,
+                  "score": 45
+                },
+                {
+                  "npcId": "radio",
+                  "weight": 1,
+                  "score": 47
+                },
+                {
+                  "npcId": "sergeant",
+                  "weight": 2,
+                  "score": 55
+                }
+              ],
+              "rank": 1,
+              "validDay": 1,
+              "effects": [
+                {
+                  "op": "adjustMeter",
+                  "key": "campCollapse",
+                  "value": -3
+                },
+                {
+                  "op": "recordHistory",
+                  "key": "plan-defend-core-001:applied",
+                  "payload": {
+                    "category": "defense"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "plan-relay-priority-001",
+              "title": "把中继优先级调到前线",
+              "category": "research",
+              "proposerId": "radio",
+              "cost": 1,
+              "expected": "提前识别下一波路线，降低共振压力",
+              "risk": "短期会增加外围行动的暴露",
+              "affectedRoles": [
+                "radio",
+                "sergeant",
+                "guardJiang"
+              ],
+              "votes": 7,
+              "voteWeight": 7,
+              "ballots": [
+                {
+                  "npcId": "commander",
+                  "weight": 3,
+                  "score": 41
+                },
+                {
+                  "npcId": "doctor",
+                  "weight": 1,
+                  "score": 40
+                },
+                {
+                  "npcId": "radio",
+                  "weight": 1,
+                  "score": 52
+                },
+                {
+                  "npcId": "sergeant",
+                  "weight": 2,
+                  "score": 38
+                }
+              ],
+              "rank": 2,
+              "validDay": 1,
+              "effects": [
+                {
+                  "op": "adjustMeter",
+                  "key": "resonancePressure",
+                  "value": -3
+                },
+                {
+                  "op": "adjustMeter",
+                  "key": "campCollapse",
+                  "value": 1
+                },
+                {
+                  "op": "recordHistory",
+                  "key": "plan-relay-priority-001:applied",
+                  "payload": {
+                    "category": "research"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "plan-research-signal-001",
+              "title": "校准共振信标",
+              "category": "research",
+              "proposerId": "radio",
+              "cost": 1,
+              "expected": "中继预警更稳定，共振压力下降",
+              "risk": "需要把人员留在指挥频道",
+              "affectedRoles": [
+                "radio",
+                "commander",
+                "doctor"
+              ],
+              "votes": 7,
+              "voteWeight": 7,
+              "ballots": [
+                {
+                  "npcId": "commander",
+                  "weight": 3,
+                  "score": 39
+                },
+                {
+                  "npcId": "doctor",
+                  "weight": 1,
+                  "score": 38
+                },
+                {
+                  "npcId": "radio",
+                  "weight": 1,
+                  "score": 50
+                },
+                {
+                  "npcId": "sergeant",
+                  "weight": 2,
+                  "score": 36
+                }
+              ],
+              "rank": 3,
+              "validDay": 1,
+              "effects": [
+                {
+                  "op": "adjustMeter",
+                  "key": "resonancePressure",
+                  "value": -4
+                },
+                {
+                  "op": "recordHistory",
+                  "key": "plan-research-signal-001:applied",
+                  "payload": {
+                    "category": "research"
+                  }
+                }
+              ]
+            }
+          ],
+          "selectedId": "plan-relay-priority-001",
+          "playerAction": "deny",
+          "committedDay": 1,
+          "resolvedDay": null,
+          "autonomyResult": null,
+          "history": []
+        },
+        "afterPlan": {
+          "version": 1,
+          "status": "committed",
+          "meetingDay": 1,
+          "instanceId": "camp-plan-meeting-001:d1",
+          "source": "TEST-ONLY UI seed",
+          "candidates": [
+            {
+              "id": "plan-defend-core-001",
+              "title": "收缩核心防线",
+              "category": "defense",
+              "proposerId": "commander",
+              "cost": 1,
+              "expected": "核心建筑承压下降，夜间失守风险降低",
+              "risk": "外围采集与前哨推进放缓",
+              "affectedRoles": [
+                "commander",
+                "sergeant",
+                "guardJi",
+                "guardChen"
+              ],
+              "votes": 7,
+              "voteWeight": 7,
+              "ballots": [
+                {
+                  "npcId": "commander",
+                  "weight": 3,
+                  "score": 58
+                },
+                {
+                  "npcId": "doctor",
+                  "weight": 1,
+                  "score": 45
+                },
+                {
+                  "npcId": "radio",
+                  "weight": 1,
+                  "score": 47
+                },
+                {
+                  "npcId": "sergeant",
+                  "weight": 2,
+                  "score": 55
+                }
+              ],
+              "rank": 1,
+              "validDay": 1,
+              "effects": [
+                {
+                  "op": "adjustMeter",
+                  "key": "campCollapse",
+                  "value": -3
+                },
+                {
+                  "op": "recordHistory",
+                  "key": "plan-defend-core-001:applied",
+                  "payload": {
+                    "category": "defense"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "plan-relay-priority-001",
+              "title": "把中继优先级调到前线",
+              "category": "research",
+              "proposerId": "radio",
+              "cost": 1,
+              "expected": "提前识别下一波路线，降低共振压力",
+              "risk": "短期会增加外围行动的暴露",
+              "affectedRoles": [
+                "radio",
+                "sergeant",
+                "guardJiang"
+              ],
+              "votes": 7,
+              "voteWeight": 7,
+              "ballots": [
+                {
+                  "npcId": "commander",
+                  "weight": 3,
+                  "score": 41
+                },
+                {
+                  "npcId": "doctor",
+                  "weight": 1,
+                  "score": 40
+                },
+                {
+                  "npcId": "radio",
+                  "weight": 1,
+                  "score": 52
+                },
+                {
+                  "npcId": "sergeant",
+                  "weight": 2,
+                  "score": 38
+                }
+              ],
+              "rank": 2,
+              "validDay": 1,
+              "effects": [
+                {
+                  "op": "adjustMeter",
+                  "key": "resonancePressure",
+                  "value": -3
+                },
+                {
+                  "op": "adjustMeter",
+                  "key": "campCollapse",
+                  "value": 1
+                },
+                {
+                  "op": "recordHistory",
+                  "key": "plan-relay-priority-001:applied",
+                  "payload": {
+                    "category": "research"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "plan-research-signal-001",
+              "title": "校准共振信标",
+              "category": "research",
+              "proposerId": "radio",
+              "cost": 1,
+              "expected": "中继预警更稳定，共振压力下降",
+              "risk": "需要把人员留在指挥频道",
+              "affectedRoles": [
+                "radio",
+                "commander",
+                "doctor"
+              ],
+              "votes": 7,
+              "voteWeight": 7,
+              "ballots": [
+                {
+                  "npcId": "commander",
+                  "weight": 3,
+                  "score": 39
+                },
+                {
+                  "npcId": "doctor",
+                  "weight": 1,
+                  "score": 38
+                },
+                {
+                  "npcId": "radio",
+                  "weight": 1,
+                  "score": 50
+                },
+                {
+                  "npcId": "sergeant",
+                  "weight": 2,
+                  "score": 36
+                }
+              ],
+              "rank": 3,
+              "validDay": 1,
+              "effects": [
+                {
+                  "op": "adjustMeter",
+                  "key": "resonancePressure",
+                  "value": -4
+                },
+                {
+                  "op": "recordHistory",
+                  "key": "plan-research-signal-001:applied",
+                  "payload": {
+                    "category": "research"
+                  }
+                }
+              ]
+            }
+          ],
+          "selectedId": "plan-relay-priority-001",
+          "playerAction": "deny",
+          "committedDay": 1,
+          "resolvedDay": null,
+          "autonomyResult": null,
+          "history": []
+        }
+      }
+    },
+    {
+      "name": "night actual renderer preserves serialized facts and all intervention buttons disabled",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "night actual status message gives matching reason",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "night disabled handler cannot mutate input state",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "expired actual renderer preserves serialized facts and all intervention buttons disabled",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "expired actual status message gives matching reason",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "expired disabled handler cannot mutate input state",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "gameOver actual renderer preserves serialized facts and all intervention buttons disabled",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "gameOver actual status message gives matching reason",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "gameOver disabled handler cannot mutate input state",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "REPORT actual SessionController rejects daytime input",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "REPORT night=false rendered facts stable and all interventions disabled",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "REPORT actual visible note explains report/recovery and DAY boundary",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "REPORT disabled registered listener creates no command or toast task",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "RECOVERY actual SessionController rejects daytime input",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "RECOVERY night=false rendered facts stable and all interventions disabled",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "RECOVERY actual visible note explains report/recovery and DAY boundary",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "RECOVERY disabled registered listener creates no command or toast task",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "LOSS actual SessionController rejects daytime input",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "LOSS night=false rendered facts stable and all interventions disabled",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "LOSS actual visible note explains report/recovery and DAY boundary",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "LOSS disabled registered listener creates no command or toast task",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "SAVING actual SessionController rejects daytime input",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "SAVING night=false rendered facts stable and all interventions disabled",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "SAVING actual visible note explains report/recovery and DAY boundary",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "SAVING disabled registered listener creates no command or toast task",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "EXITING actual SessionController rejects daytime input",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "EXITING night=false rendered facts stable and all interventions disabled",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "EXITING actual visible note explains report/recovery and DAY boundary",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "EXITING disabled registered listener creates no command or toast task",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "DAY-exiting actual SessionController rejects daytime input",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "DAY-exiting night=false rendered facts stable and all interventions disabled",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "DAY-exiting actual visible note explains report/recovery and DAY boundary",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "DAY-exiting disabled registered listener creates no command or toast task",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "complete old committed source-writer fixture boots with same plan and spent CP",
+      "ok": false,
+      "detail": {}
+    },
+    {
+      "name": "actual legacy committed renderer preserves serialized facts with no intervention buttons",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "repeated legacy committed rendering cannot refund CP or erase commitment",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "idle actual renderer preserves serialized facts with no buttons",
+      "ok": true,
+      "detail": {}
+    }
+  ],
+  "failures": [
+    "complete old committed source-writer fixture boots with same plan and spent CP"
+  ],
+  "ok": false,
+  "count": 69,
+  "passed": 68
+}

@@ -1,0 +1,109 @@
+{
+  "name": "public disabled and real reducer refuses no-seeds",
+  "inputClassification": "TEST-ONLY-derived-from-original-writer",
+  "derivations": [
+    {
+      "playerOnly": {
+        "x": 7,
+        "y": 13
+      }
+    },
+    "no-seeds"
+  ],
+  "observations": [
+    {
+      "actualContextRenderer": {
+        "title": "菜畦",
+        "crop": {
+          "disabled": true,
+          "attrs": {
+            "class": "context-action primary",
+            "data-context-action": "crop",
+            "data-context-index": "0",
+            "data-building-id": "bld-mazjx8",
+            "data-crop-target": "true"
+          },
+          "dataset": {
+            "contextAction": "crop",
+            "contextIndex": "0",
+            "buildingId": "bld-mazjx8",
+            "cropTarget": "true"
+          },
+          "text": "<kbd class=\"action-index\">1</kbd>🌱 播种<small>没有种子 · 需要 1 种子和 4 行动体力</small>"
+        },
+        "building": {
+          "disabled": true,
+          "attrs": {
+            "class": "context-action primary",
+            "data-context-action": "building",
+            "data-context-index": "1",
+            "data-building-id": "bld-mazjx8",
+            "data-crop-target": "true"
+          },
+          "dataset": {
+            "contextAction": "building",
+            "contextIndex": "1",
+            "buildingId": "bld-mazjx8",
+            "cropTarget": "true"
+          },
+          "text": "<kbd class=\"action-index\">2</kbd>⚙️ 使用建筑<small>没有种子 · 需要 1 种子和 4 行动体力</small>"
+        },
+        "html": "<button class=\"context-action primary\" data-context-action=\"crop\" data-context-index=\"0\" data-building-id=\"bld-mazjx8\" data-crop-target=\"true\"  disabled><kbd class=\"action-index\">1</kbd>🌱 播种<small>没有种子 · 需要 1 种子和 4 行动体力</small></button><button class=\"context-action primary\" data-context-action=\"building\" data-context-index=\"1\" data-building-id=\"bld-mazjx8\" data-crop-target=\"true\"  disabled><kbd class=\"action-index\">2</kbd>⚙️ 使用建筑<small>没有种子 · 需要 1 种子和 4 行动体力</small></button><button class=\"context-action \" data-context-action=\"evolve\" data-context-index=\"2\"   ><kbd class=\"action-index\">3</kbd>🧬 查看建筑进化<small>需要蓝图、材料和对应 NPC 羁绊</small></button>"
+      }
+    },
+    {
+      "events": [
+        {
+          "eventId": "evt-000115",
+          "seq": 115,
+          "type": "command.rejected",
+          "actorId": "player-1",
+          "commandId": "crop-no-seeds",
+          "causationId": null,
+          "tick": {
+            "world": 469,
+            "phase": 0,
+            "schedule": 109
+          },
+          "payload": {
+            "type": "crop.change",
+            "reason": "crop-seeds"
+          }
+        }
+      ],
+      "commands": [
+        {
+          "commandId": "crop-no-seeds",
+          "type": "crop.change",
+          "actorId": "player-1",
+          "payload": {
+            "buildingId": "bld-mazjx8"
+          }
+        }
+      ],
+      "resources": {
+        "wood": 28,
+        "stone": 12,
+        "food": 13,
+        "parts": 5,
+        "medicine": 0,
+        "seeds": 0,
+        "energy": 66,
+        "hp": 100,
+        "sanity": 76,
+        "morale": 72
+      },
+      "minute": 469,
+      "plot": {
+        "x": 7,
+        "y": 14,
+        "type": "garden",
+        "planted": false,
+        "growth": 0,
+        "ready": false,
+        "id": "bld-mazjx8"
+      },
+      "toast": "没有种子了"
+    }
+  ]
+}

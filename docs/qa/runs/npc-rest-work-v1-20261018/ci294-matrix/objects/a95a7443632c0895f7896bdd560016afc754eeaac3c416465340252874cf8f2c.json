@@ -1,0 +1,38 @@
+{
+  "schema": "ExplicitPrivatePathRedactedCompanionV1",
+  "nativeOriginalBytes": false,
+  "originalSha256": "19c5d0b6b8556f430e87cce50dfa27c20a81cc1c6e7267adf924b55707af7844",
+  "originalBytes": 1271,
+  "transformation": "Replace private execution locations only; original external bytes retained. This companion is not a native report or a new execution.",
+  "portableData": {
+    "order": 41,
+    "name": "crop-method",
+    "status": "terminal",
+    "startedAt": "2026-10-17T16:39:44.507120+00:00",
+    "command": [
+      "[PRIVATE_EXECUTION_PATH] Files (x86)\\Microsoft Visual Studio\\Shared\\Python39_64\\python.exe",
+      "-X",
+      "utf8",
+      "-c",
+      "import sys; sys.path.insert(0, 'scripts'); from report_recovery_full import crop_method_controls; result = crop_method_controls(); print('synthetic crop proof method checks:', len(result['controls']))"
+    ],
+    "cwd": "[PRIVATE_EXECUTION_PATH]",
+    "sourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+    "runner": {
+      "path": "scripts/report_recovery_full.py",
+      "sha256": "7a6d4f7ac30c4ddb54343cb7208fa8930b6ed4262157c187f14457a2bc77e6d2"
+    },
+    "finishedAt": "2026-10-17T16:39:44.703784+00:00",
+    "exitCode": 0,
+    "stdout": {
+      "path": "stdout.log",
+      "sha256": "a8049b071dbaf060a0879959acf19360c3eda789367dfe16eee2bc8fe665c808",
+      "bytes": 40
+    },
+    "stderr": {
+      "path": "stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  }
+}

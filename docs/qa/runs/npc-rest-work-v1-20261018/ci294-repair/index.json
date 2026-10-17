@@ -1,0 +1,83 @@
+{
+  "schema": "Ci294PlanMethodRepairPublicEvidenceV1",
+  "sourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+  "context": {
+    "failedCi": 294,
+    "failedJob": 117445651548,
+    "failedPublishedRef": "c807",
+    "repairedSourceCommit": "29d62c87",
+    "developmentRefNotAdvancedByThisTask": true,
+    "newExactCiApproval": false
+  },
+  "reports": [
+    {
+      "role": "original published-method source reproduction failure",
+      "logicalPath": "original-execution/original-failure-native.json",
+      "count": 48,
+      "passed": 47,
+      "exitCode": 1,
+      "native": true,
+      "publicRef": {
+        "repositoryPath": "docs/qa/runs/npc-rest-work-v1-20261018/ci294-repair/objects/d73279f58c19230ca1102759d9f1b1fc4986034e8e023554ee7d314f0536e105.json",
+        "sha256": "d73279f58c19230ca1102759d9f1b1fc4986034e8e023554ee7d314f0536e105",
+        "bytes": 108609,
+        "storage": "new-content-addressed-byte-object"
+      },
+      "methodSha256": "9cbf1587c413ab5b651d81e0e401dd3399e80c8760533384a7c720962de354c8"
+    },
+    {
+      "role": "repaired method, same runtime and pinned fixture",
+      "logicalPath": "original-execution/repaired-native.json",
+      "count": 48,
+      "passed": 48,
+      "exitCode": 0,
+      "native": true,
+      "publicRef": {
+        "repositoryPath": "docs/qa/runs/npc-rest-work-v1-20261018/ci294-repair/objects/0cf116cad25c7913139dea74eeef6be340a86c384085d1db356f70b03de346fb.json",
+        "sha256": "0cf116cad25c7913139dea74eeef6be340a86c384085d1db356f70b03de346fb",
+        "bytes": 111565,
+        "storage": "new-content-addressed-byte-object"
+      },
+      "methodSha256": "0a788ae621b5241ba505dbaa1e7104a3832e02846e003ecc6a3fc5080c4ccef1"
+    }
+  ],
+  "ciOriginalLog": {
+    "logicalPath": "ci294-native-job.log",
+    "nativeDecodedLfOriginal": true,
+    "publicRef": {
+      "repositoryPath": "docs/qa/runs/npc-rest-work-v1-20261018/ci294-repair/objects/7bbbb4f1b24977df7cacdc3d9fcf9eb4fd3681347cd6b7d41b13194f51cc35e6.log",
+      "sha256": "7bbbb4f1b24977df7cacdc3d9fcf9eb4fd3681347cd6b7d41b13194f51cc35e6",
+      "bytes": 52019,
+      "storage": "new-content-addressed-byte-object"
+    },
+    "publicHostedRunnerPathsRetained": true,
+    "tokenOrEmailSecretScanPassed": true
+  },
+  "transport": {
+    "repositoryPath": "docs/qa/runs/npc-rest-work-v1-20261018/ci294-repair/transport-map.json",
+    "sha256": "9f3b646a528e289329513cfe27e240266e969deb5b618a0fd9d7a4008e75175d",
+    "bytes": 15953
+  },
+  "originalIndex": {
+    "logicalPath": "original-execution/index.json",
+    "publicRef": {
+      "repositoryPath": "docs/qa/runs/npc-rest-work-v1-20261018/ci294-repair/objects/71f8ff8f28a5880f684dbb31386dbce0067c511d32347dff3386af1b60c64343.json",
+      "sha256": "71f8ff8f28a5880f684dbb31386dbce0067c511d32347dff3386af1b60c64343",
+      "bytes": 4893,
+      "storage": "new-content-addressed-byte-object"
+    },
+    "declaredFiles": 25,
+    "allDeclaredOriginalShaAndLengthsVerified": true
+  },
+  "scope": "Single plan-integrity method repair; original failure is a missing exact routineIntent migration expectation, not a runtime rule change. Existing business comparisons preserved, all original payload keys additionally compared, second actual Continue has identical full payload and same migration. No other contract rerun, game, Chrome or new CI executed by curation.",
+  "privacy": {
+    "privateAbsolutePathsPublished": false,
+    "unmaskedTokenOrEmailSecretsFound": false,
+    "publicRunnerPathsAllowed": true,
+    "companionsNeeded": 0,
+    "allSelectedFilesPortableAndExact": true
+  },
+  "logicalMappingCount": 27,
+  "newObjectCount": 17,
+  "reusedObjectCount": 7
+}
