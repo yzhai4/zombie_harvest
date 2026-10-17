@@ -2533,7 +2533,10 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       state.specialItems = { relayCore: 0, ...(state.specialItems || {}) };
       state.specialItems.relayCore = Math.max(0, Math.min(1, Number(state.specialItems.relayCore) || 0));
       const defaults = { id: 'camp-relay-001', status: 'unknown', coreItemId: null, handoffAt: null, materialNeed: { wood: 10, parts: 5, stone: 4 }, materialProgress: { wood: 0, parts: 0, stone: 0 }, workMinutes: 0, targetMinutes: 180, buildingId: 'bld-relay-station', assignedNpcIds: ['radio', 'carpenter', 'quartermaster'], sharedSightBonus: 2, sharedRangeBonus: 4, forecastLeadMinutes: 180, routeId: 'eastern-breach' };
-      state.relayProject = { ...defaults, ...(state.relayProject || {}), materialNeed: { ...defaults.materialNeed, ...(state.relayProject?.materialNeed || {}) }, materialProgress: { ...defaults.materialProgress, ...(state.relayProject?.materialProgress || {}) }, assignedNpcIds: Array.isArray(state.relayProject?.assignedNpcIds) ? state.relayProject.assignedNpcIds : defaults.assignedNpcIds };
+      // Reducers retain this project through material/building helpers. Keep
+      // its identity so later status/work writes cannot land on a retired copy.
+      const project = state.relayProject && typeof state.relayProject === 'object' && !Array.isArray(state.relayProject) ? state.relayProject : {};
+      state.relayProject = Object.assign(project, { ...defaults, ...project, materialNeed: { ...defaults.materialNeed, ...(project.materialNeed || {}) }, materialProgress: { ...defaults.materialProgress, ...(project.materialProgress || {}) }, assignedNpcIds: Array.isArray(project.assignedNpcIds) ? project.assignedNpcIds : defaults.assignedNpcIds });
       state.relayProject.workMinutes = Math.max(0, Number(state.relayProject.workMinutes) || 0);
       state.relayProject.targetMinutes = Math.max(30, Number(state.relayProject.targetMinutes) || defaults.targetMinutes);
       state.relayProject.status = ['unknown', 'core-recovered', 'briefed', 'staging', 'building', 'online'].includes(state.relayProject.status) ? state.relayProject.status : 'unknown';
@@ -4480,7 +4483,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       if (state.night || state.gameOver || !SessionController.isDay()) ownerReason = 'phase-changed';
       else if (npc?.supportRequested || npc?.currentOrder) ownerReason = 'support-requested';
       else if (npc?.combatStatus !== 'ready' || ['alert','guard-alert','patrol','cover','combat','flee'].includes(npc?.behaviorState)) ownerReason = 'alert-or-combat';
-      else if (['briefed','staging','building'].includes(state.relayProject?.status) && (state.relayProject.assignedNpcIds || []).some(roleId => state.npcs.find(item => npcIsCampLocal(item) && (item.id === roleId || npcHasRole(item, roleId))) === npc)) ownerReason = 'relay-duty';
+      else if (['briefed','staging','building'].includes(state.relayProject?.status) && relayRoleBindings().bindings.some(binding => binding.npc === npc)) ownerReason = 'relay-duty';
       else if (validNeeds && (npc.needs.fatigue > 88 || npc.needs.hunger >= 72 || npc.needs.social >= 72 || npc.needs.safety >= 72)) ownerReason = 'urgent-need';
       return { actorId: npc?.id, energy: npc?.needs?.energy, eligible, ownerReason,
         intent: npc?.routineIntent === undefined ? null : npc.routineIntent, worldMinute: now };
@@ -5177,7 +5180,9 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       if (needs.stress > 88) blockers.push('压力过高');
       if (sanityValue(npc) < 25) blockers.push('心智失稳');
       const role = npc.actingRole || npc.id;
-      const relayRole = ['radio', 'carpenter', 'quartermaster'].includes(role) && ['staging', 'building'].includes(state.relayProject?.status);
+      const relayAssignment = relayRoleBindings();
+      const relayRole = ['staging', 'building'].includes(state.relayProject?.status) && relayAssignment.bindings.some(binding => binding.npc === npc);
+      if (relayRole && relayAssignment.blockedReason) blockers.push('中继缺岗待命');
       const destinations = { carpenter: 'workshop', radio: 'command', commander: 'command', sergeant: 'barracks', quartermaster: 'warehouse', doctor: 'infirmary', cook: 'residence', guardJi: 'eastGate', guardChen: 'northGate', guardJiang: 'eastOutpost' };
       const destination = relayRole ? (role === 'radio' ? 'command' : role === 'quartermaster' ? 'warehouse' : 'workshop') : destinations[role] || npc.workZone;
       const area = CAMP_AREAS.find(item => item.zone === destination);
@@ -5186,7 +5191,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
         npc.scheduleState = `工作中断 · ${blockers[0]}`;
         npc.lastReport = `工作脉冲 ${workId}：${blockers[0]}`;
         npc.workHistory = [...(npc.workHistory || []), { id: workId, at: worldMinute(), role, status: 'blocked', reason: blockers[0] }].slice(-8);
-        appendFeedbackEvent('npc.work.blocked', { workId, npcId: npc.id, role, reason: blockers[0], destination }, { actorId: npc.id });
+        appendFeedbackEvent('npc.work.blocked', { workId, npcId: npc.id, role, reason: blockers[0], destination, ...(relayRole ? { relayProjectId: state.relayProject.id } : {}) }, { actorId: npc.id });
         return;
       }
       let task = relayRole ? '参与广播中继筹料/施工' : role === 'carpenter' ? '检查工坊与墙体库存' : role === 'quartermaster' ? '盘点仓库并整理物流' : role === 'radio' ? '监听频道并标记尸群方向' : role === 'doctor' ? '巡查伤员与医务库存' : role === 'cook' ? '安排营地餐火与配给' : role === 'commander' ? '分派营地岗位与防线任务' : ['guardJi','guardChen','guardJiang','sergeant'].includes(role) ? '巡检防线与索敌范围' : '完成岗位例行工作';
@@ -5926,6 +5931,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       if (!panel) return;
       const project = state.relayProject || {};
       const status = project.status || 'unknown';
+      const assignment = relayRoleBindings(project);
       const previousStatus = panel.dataset.relayStatus;
       if (previousStatus && previousStatus !== status && status !== 'unknown') panel.classList.add('open');
       panel.dataset.relayStatus = status;
@@ -5940,7 +5946,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       const progressMap = { unknown: 0, 'core-recovered': 1, briefed: 2, staging: 2, building: 3, online: 5 };
       const completed = progressMap[status] ?? 0;
       const steps = ['发现核心', '交付长官', '筹备筹料', '施工中继站', '共享预警'];
-      $('relayStatusText').innerHTML = `状态：<strong>${statusLabels[status] || status}</strong>`;
+      $('relayStatusText').innerHTML = `状态：<strong>${assignment.blockedReason ? '暂停 · ' : ''}${statusLabels[status] || status}</strong>`;
       $('relayProgressBar').style.width = `${Math.round(completed / (steps.length) * 100)}%`;
       $('relaySteps').innerHTML = steps.map((label, index) => {
         const cls = index < completed ? 'done' : index === completed && completed < steps.length ? 'current' : '';
@@ -5950,7 +5956,9 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       $('relayForecastText').textContent = forecast.source === 'relay-station'
         ? `中继在线 · ${forecast.confidence || 0}%可信 · 提前 ${forecast.leadMinutes || 0} 分钟`
         : status === 'building' ? '施工完成前只能依靠营地观察' : '营地观察 · 尚无提前量';
-      const task = status === 'unknown' ? '先找到废弃广播塔'
+      const task = assignment.blockedReason === 'invalid-role-configuration' ? '项目岗位配置不完整或重复；需要广播员、木匠、后勤官各一岗。已投入进度保留。'
+        : assignment.blockedReason === 'missing-role' ? `缺少或无法唯一确认${assignment.missingRoles.map(relayRoleLabel).join('、')}；岗位补齐后自动继续，已筹材料与工时保留。`
+        : status === 'unknown' ? '先找到废弃广播塔'
         : status === 'core-recovered' ? '靠近林岑，交付 relayCore'
         : status === 'briefed' ? '广播员、木匠和后勤官将自动筹料'
         : status === 'staging' ? '等待三名岗位成员完成材料筹备'
@@ -5963,13 +5971,11 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
         const need = Number(project.materialNeed?.[kind]) || 0;
         return `<div class="relay-material"><strong>${have}/${need}</strong>${materialNames[kind] || kind}</div>`;
       }).join('');
-      const roleNames = { radio: '阿默', carpenter: '阿梁', quartermaster: '周岚' };
-      const crew = (project.assignedNpcIds || ['radio', 'carpenter', 'quartermaster']).map(role => {
-        const npc = state.npcs.find(item => npcHasRole(item, role));
-        if (!npc || !npcIsActive(npc)) return `<em>${roleNames[role] || role}缺席</em>`;
-        return `${roleNames[role] || npc.name}${npc.lastReport ? `（${npc.lastReport}）` : '已就位'}`;
+      const crew = assignment.bindings.map(({ roleId, npc, reason }) => {
+        if (!npc) return `${relayRoleLabel(roleId)}：${reason === 'ambiguous-role' ? '任职不唯一' : '缺岗'}`;
+        return `${relayRoleLabel(roleId)}：${npc.name}${npc.id !== roleId ? '（暂代）' : ''}${assignment.blockedReason ? ' · 等待补岗' : npc.lastReport ? `（${npc.lastReport}）` : ' · 可承担'}`;
       });
-      $('relayCrewText').innerHTML = `项目成员：${crew.join(' · ')}`;
+      $('relayCrewText').textContent = `项目成员：${assignment.configurationValid ? crew.join(' · ') : '岗位配置无效，尚未安排'}`;
       $('relayPanelHint').textContent = status === 'online' ? '广播中继站已经把尸潮路线和共享索敌接入营地。' : '这条链会把一次探索，转成营地全局的防御优势。';
     }
     function planCategoryLabel(category) { return ({ defense: '防御', harvest: '采集', logistics: '后勤', research: '研究', diplomacy: '外交', medical: '医疗' }[category] || category || '综合'); }
@@ -6071,7 +6077,8 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       if ($('overviewFrontierDetail')) $('overviewFrontierDetail').textContent = `外围压力：${frontierStatusText()}。回到营地使用 shelter、指挥所或仓库整备，压力才会真正降下来。`;
       $('weatherPill').textContent = `🌗 光照：${lightLabel} · ${formatTime()}${state.night ? ' · 实时战况' : ''}`;
       const relay = state.relayProject || {};
-      const relayProgress = relay.lastBlockedReason === 'missing-role' ? '暂停 · 缺少岗位' : relay.status === 'building' ? `施工 ${Math.min(100, Math.round((Number(relay.workMinutes) || 0) / Math.max(1, Number(relay.targetMinutes) || 180) * 100))}%` : relay.status === 'staging' ? `筹料 ${Object.keys(relay.materialNeed || {}).map(kind => `${Math.min(Number(relay.materialProgress?.[kind]) || 0, Number(relay.materialNeed?.[kind]) || 0)}/${Number(relay.materialNeed?.[kind]) || 0}`).join(' ')}` : ({ unknown: '未发现', 'core-recovered': 'relayCore 待交付', briefed: '已交给长官', online: '已启用' }[relay.status] || '待筹备');
+      const relayAssignment = relayRoleBindings(relay);
+      const relayProgress = relayAssignment.blockedReason === 'invalid-role-configuration' ? '暂停 · 岗位配置错误' : relayAssignment.blockedReason === 'missing-role' ? `暂停 · 缺少${relayAssignment.missingRoles.map(relayRoleLabel).join('、')}` : relay.status === 'building' ? `施工 ${Math.min(100, Math.round((Number(relay.workMinutes) || 0) / Math.max(1, Number(relay.targetMinutes) || 180) * 100))}%` : relay.status === 'staging' ? `筹料 ${Object.keys(relay.materialNeed || {}).map(kind => `${Math.min(Number(relay.materialProgress?.[kind]) || 0, Number(relay.materialNeed?.[kind]) || 0)}/${Number(relay.materialNeed?.[kind]) || 0}`).join(' ')}` : ({ unknown: '未发现', 'core-recovered': 'relayCore 待交付', briefed: '已交给长官', online: '已启用' }[relay.status] || '待筹备');
       const relayHint = `中继：${relayProgress}`;
       $('missionText').textContent = missionDone ? `第 ${state.day} 天：防线和援防都准备好了；食物${food.level}，${relayHint}。` : supports ? `第 ${state.day} 天：已有 ${supports} 名幸存者支援，再补 ${Math.max(0, 3-walls)} 面木墙；食物${food.level}；${relayHint}。` : `第 ${state.day} 天：先靠近一名幸存者请求支援，再补一面木墙；食物${food.level}；${relayHint}。`;
       $('missionBar').style.width = `${Math.min(100, 20 + walls * 20 + supports * 20)}%`;
@@ -6835,7 +6842,35 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
         instance: { instanceId: project.id || 'camp-relay-001', defId: 'relay-chain-001', definitionVersion: Number(def?.definitionVersion) || EVENT_DEFINITION_VERSION, status: 'active', actorId }
       });
     }
-    function relayActiveParticipants() { ensureRelayFacts(); return state.relayProject.assignedNpcIds.map(id => state.npcs.find(npc => npcIsCampLocal(npc) && (npc.id === id || npcHasRole(npc, id)))).filter(npcIsCampLocal); }
+    function relayRoleLabel(roleId) { return NPC_ROLE_DEFS[roleId]?.role || roleId; }
+    // The project has three authored duties. Identity/history stays on npc.id;
+    // execution uses one unique camp-local holder of each current role. This
+    // projection never normalizes the project or writes occupancy on a read.
+    function relayRoleBindings(project = state.relayProject) {
+      const requiredRoles = ['radio', 'carpenter', 'quartermaster'];
+      const assigned = project?.assignedNpcIds;
+      const configurationValid = Array.isArray(assigned) && assigned.length === requiredRoles.length
+        && new Set(assigned).size === requiredRoles.length && requiredRoles.every(roleId => assigned.includes(roleId));
+      const roles = configurationValid ? assigned : requiredRoles;
+      const bindings = roles.map(roleId => {
+        const candidates = configurationValid ? state.npcs.filter(npc => npcFulfillsRole(npc, roleId)) : [];
+        const holder = candidates.length === 1 ? candidates[0] : null;
+        const uniqueIdentity = holder && state.npcs.filter(npc => npc.id === holder.id).length === 1;
+        return { roleId, npc: uniqueIdentity ? holder : null,
+          reason: candidates.length > 1 || holder && !uniqueIdentity ? 'ambiguous-role' : holder ? null : 'missing-role' };
+      });
+      const actorIds = bindings.filter(binding => binding.npc).map(binding => binding.npc.id);
+      bindings.forEach(binding => {
+        if (binding.npc && actorIds.filter(id => id === binding.npc.id).length !== 1) {
+          binding.npc = null; binding.reason = 'ambiguous-role';
+        }
+      });
+      const missingRoles = bindings.filter(binding => !binding.npc).map(binding => binding.roleId);
+      const unfinished = ['briefed', 'staging', 'building'].includes(project?.status);
+      return { configurationValid, bindings, missingRoles,
+        blockedReason: unfinished ? !configurationValid ? 'invalid-role-configuration' : missingRoles.length ? 'missing-role' : null : null };
+    }
+    function relayActiveParticipants() { return relayRoleBindings().bindings.map(binding => binding.npc).filter(Boolean); }
     function relayStationBuilding() { return state.buildings.find(building => building.id === state.relayProject?.buildingId || building.type === 'relayStation') || null; }
     function ensureRelayStationBuilding() {
       ensureRelayFacts();
@@ -6894,10 +6929,9 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       return { ok: false, reason, ...(Object.keys(details).length ? { details: relayConstructionRuntimeClone(details) } : {}), ...(snapshot === undefined ? {} : { snapshot: relayConstructionRuntimeClone(snapshot) }) };
     }
     function relayConstructionRuntimeParticipants(project) {
-      return (project.assignedNpcIds || []).map(roleId => state.npcs.find(npc => npcIsCampLocal(npc) && npcHasRole(npc, roleId)) || null);
+      return relayRoleBindings(project).bindings.map(binding => binding.npc);
     }
     function relayConstructionRuntimeSnapshot() {
-      ensureRelayFacts();
       const project = state.relayProject || {};
       const definition = eventDefinition('relay-chain-001');
       const latestEventId = relayLatestEventId(project.id || 'camp-relay-001') || project.latestEventId || null;
@@ -6925,8 +6959,8 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
           status: station.projectStatus || (station.active ? 'online' : 'vacant'), occupiedBy: station.occupiedBy ?? null,
           virtual: false
         } : { id: project.buildingId || 'bld-relay-station', status: 'vacant', occupiedBy: null, virtual: true },
-        participants: (project.assignedNpcIds || []).map(roleId => {
-          const npc = participants.find(item => item && npcHasRole(item, roleId));
+        participants: (project.assignedNpcIds || []).map((roleId, index) => {
+          const npc = participants[index];
           return npc ? { id: roleId, npcId: npc.id, alive: npcIsActive(npc), active: npcIsActive(npc), scheduleState: npc.scheduleState || null, behaviorState: npc.behaviorState || null, lastReport: npc.lastReport || '' } : { id: roleId, npcId: null, alive: false, active: false, scheduleState: null, behaviorState: null, lastReport: '' };
         })
       };
@@ -6969,8 +7003,11 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       if (!RELAY_TX_RUNTIME_CONSTRUCTION_STATUSES.includes(instance.status)) return relayConstructionRuntimeFailure(instance.status === 'online' ? 'construction-complete' : 'construction-not-ready', { status: instance.status }, before);
       const minutes = Number(payload.minutes);
       if (!Number.isFinite(minutes) || minutes < 0 || minutes > 1440) return relayConstructionRuntimeFailure('minutes-invalid', { minutes }, before);
+      const assignment = relayRoleBindings();
+      if (!assignment.configurationValid) return relayConstructionRuntimeFailure('participant-configuration-invalid', { assignedRoles: instance.assignedNpcIds }, before);
       const missing = before.participants.filter(item => item.active !== true || item.alive !== true).map(item => item.id);
-      if (missing.length) return relayConstructionRuntimeFailure('participant-unavailable', { missing }, before);
+      const actorIds = before.participants.map(item => item.npcId);
+      if (missing.length || actorIds.some(id => typeof id !== 'string' || !id) || new Set(actorIds).size !== before.participants.length) return relayConstructionRuntimeFailure('participant-unavailable', { missing }, before);
       const building = before.building;
       if (building.occupiedBy !== null && building.occupiedBy !== instance.instanceId) return relayConstructionRuntimeFailure('building-occupied', { occupiedBy: building.occupiedBy, projectId: instance.instanceId }, before);
       // This slice owns only briefed -> staging. Materials, work, online and
@@ -7063,10 +7100,12 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       return ['wood', 'parts', 'stone'].every(kind => Number(project.materialProgress[kind]) >= Number(project.materialNeed[kind]));
     }
     function updateRelayForecast() {
+      // Capture the prior observation before normalization fills online
+      // defaults, so the real route change retains its causal event.
+      const previous = state.hordeForecast || {};
       ensureRelayFacts();
       const project = state.relayProject;
       const online = project.status === 'online';
-      const previous = state.hordeForecast || {};
       const next = { ...previous, confidence: online ? 92 : project.status === 'building' ? 58 : 18, leadMinutes: online ? project.forecastLeadMinutes : 0, routeId: online ? 'relay-guided-west' : 'eastern-breach', source: online ? 'relay-station' : 'camp-observation', updatedAt: worldMinute() };
       state.hordeForecast = next;
       if (online && (previous.routeId !== next.routeId || previous.source !== next.source || previous.confidence !== next.confidence)) recordWorldEvent('threat.forecastChanged', { projectId: project.id, forecast: stableClone(next), routeId: next.routeId }, relayEventMeta('online', 'radio'));
@@ -7085,11 +7124,11 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
         return transaction;
       }
       if (project.status === 'unknown' || project.status === 'core-recovered' || project.status === 'online') { updateRelayForecast(); return; }
-      const participants = relayActiveParticipants();
-      const allPresent = project.assignedNpcIds.every(id => participants.some(npc => npcHasRole(npc, id)));
-      if (!allPresent) {
-        if (project.lastBlockedReason !== 'missing-role') appendFeedbackEvent('relay.projectBlocked', { projectId: project.id, reason: 'missing-role', requiredRoles: project.assignedNpcIds, activeParticipantIds: participants.map(npc => npc.id) }, { actorId: 'system' });
-        project.lastBlockedReason = 'missing-role'; updateRelayForecast(); return;
+      const assignment = relayRoleBindings(project);
+      const participants = assignment.bindings.map(binding => binding.npc).filter(Boolean);
+      if (assignment.blockedReason) {
+        if (project.lastBlockedReason !== assignment.blockedReason) appendFeedbackEvent('relay.projectBlocked', { projectId: project.id, reason: assignment.blockedReason, requiredRoles: project.assignedNpcIds, missingRoles: assignment.missingRoles, activeParticipantIds: participants.map(npc => npc.id) }, { actorId: 'system' });
+        project.lastBlockedReason = assignment.blockedReason; updateRelayForecast(); return;
       }
       project.lastBlockedReason = null;
       if (project.status === 'briefed') {
@@ -7102,13 +7141,13 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       while (project.materialClock >= 30 && !relayMaterialsReady()) {
         project.materialClock -= 30;
         const reports = [];
-        const carpenter = participants.find(npc => npcHasRole(npc, 'carpenter'));
-        const radio = participants.find(npc => npcHasRole(npc, 'radio'));
-        const quartermaster = participants.find(npc => npcHasRole(npc, 'quartermaster'));
-        if (carpenter) { const wood = relayTakeMaterial('wood', 2, ['tree']); if (wood) reports.push(`阿梁筹到木材 ${wood}`); }
-        if (quartermaster) { const parts = relayTakeMaterial('parts', 1, ['scrap']); if (parts) reports.push(`周岚整理零件 ${parts}`); }
-        if (radio) { const parts = relayTakeMaterial('parts', 1, ['scrap']); if (parts) reports.push(`阿默回收电子零件 ${parts}`); }
-        if (radio && Number(project.materialProgress.parts) >= Number(project.materialNeed.parts)) { const stone = relayTakeMaterial('stone', 1, ['rock']); if (stone) reports.push(`阿默找到基座石料 ${stone}`); }
+        const carpenter = assignment.bindings.find(binding => binding.roleId === 'carpenter')?.npc;
+        const radio = assignment.bindings.find(binding => binding.roleId === 'radio')?.npc;
+        const quartermaster = assignment.bindings.find(binding => binding.roleId === 'quartermaster')?.npc;
+        if (carpenter) { const wood = relayTakeMaterial('wood', 2, ['tree']); if (wood) reports.push(`${carpenter.name}筹到木材 ${wood}`); }
+        if (quartermaster) { const parts = relayTakeMaterial('parts', 1, ['scrap']); if (parts) reports.push(`${quartermaster.name}整理零件 ${parts}`); }
+        if (radio) { const parts = relayTakeMaterial('parts', 1, ['scrap']); if (parts) reports.push(`${radio.name}回收电子零件 ${parts}`); }
+        if (radio && Number(project.materialProgress.parts) >= Number(project.materialNeed.parts)) { const stone = relayTakeMaterial('stone', 1, ['rock']); if (stone) reports.push(`${radio.name}找到基座石料 ${stone}`); }
         project.lastMaterialAt = worldMinute();
         if (reports.length) { recordWorldEvent('relay.materialsGathered', { projectId: project.id, at: project.lastMaterialAt, progress: stableClone(project.materialProgress), reports, sources: (state.__relayMaterialSources || []).splice(0) }, relayEventMeta('stage')); log(`中继筹料：${reports.join('，')}。`); }
       }

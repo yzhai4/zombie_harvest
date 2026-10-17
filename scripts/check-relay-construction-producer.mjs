@@ -94,9 +94,10 @@ check('handoff has a separate tokenized CommandBus producer', () => {
   assert.match(inline, /dispatchCommand\(\{ type: 'relay\.coreHandoff'/);
   assert.match(inline, /event-state-conflict/);
 });
-check('construction state carries a persisted transaction token ledger', () => {
+check('construction exposes normalization and transaction token fields', () => {
   assert.match(inline, /function ensureRelayFacts\(\)/);
-  assert.match(inline, /state\.relayProject = \{ \.\.\.defaults/);
+  // Actual persistence/round-trip is exercised by the runtime contract. The
+  // producer trace must not require replacing the live project container.
   assert.match(inline, /function relayConstructionRuntimeToken\(/);
   assert.match(inline, /latestEventId/);
   assert.match(inline, /appliedCommandIds/);
