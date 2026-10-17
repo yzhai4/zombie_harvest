@@ -2,17 +2,19 @@
 
 ## 当前检查点（2026-10-17，优先于下方历史）
 
-当前开发 HTML 为 `51faa0c7c62607aa0d4e280a5bc056e4eb01b374b1ae3f45782c232445ae1662`，SAVE21 / CONTENT3。已落地 NPC attention 最小修复：在真实可见候选中优先敌人触发警觉，同时保留可见玩家联系人；沿用原 FOV、遮挡、射程、伤害、岗位和伤亡 Gate。新源码测试 21/21；同一检查对旧 `cc900da9` 构建为 16/21、exit1，形成回归控制。它不保证长动作期间一定获救，也不等于完整 actor 知识授权。
+当前开发 HTML 为 `71657c62e7adfcd9b6f6d7e4a8aa89a8fe0976ea6603c63b8f706e79ef68bfd8`，SAVE21 / CONTENT3。在既有 attention 敌人优先修复上新增 `npcIsCampLocal`，使据点派驻者退出营地双向作战、新感知与共享；真实 captureOutpost/release 派生源码夹具29/29，原 `51faa0c7` 同检查24/29、exit1。仍保留原视野/射程/伤害与固定人口，不把派驻视为死亡。更广 routine/motion/render/getNpc 占位与群体福利仍沿 active 名单，整体离营语义 open；critical 政策未改。见[据点营地存在问题](../problems/PROB-20261017-npc-outpost-camp-presence.md)。
 
-本地全套 30 条源码检查 exit0、静态 smoke 55/55、真实 Chrome episode boot 夹具 12/12；runner safety 方法检查已扩为 28/28，仅证明方法合同，不是三日结果。先前[断粮剧本卡](../scripts/zh-food-shortage-001.md)的按日 episode、五元 CAS、有限应急藏粮和纯 Observer 深冻结白名单继续保留；评论开关与 HUD 独立，没有新造人口、势力信任或敌人 spawn。
+新构建本地全套30条命令 exit0、静态55/55、runner方法28/28，旧goldens未变；根代理已在真实新Chrome验证episode夹具12/12、零errors，两次HTTP均为71657并目视截图。这不包含自然三日或整体离营验收。[断粮合同](../scripts/zh-food-shortage-001.md)与纯表达Observer保持。本轮来源对象 `407a2db8ca21c106fb60ab1c6e188fc653db2ffd`，分支head及来源字节CI以当前PR单独核验；旧51f的CI #283不能作为71657证据。
 
-旧公开行动日历路线在第1天 13:01 玩家 HP=0，95 项中94项通过，整轮 FAILED 保留。旧 runner 的 `campHp` 实际读取玩家 `payload.hp`，不得解释成营地建筑 HP 归零；原因与修复边界见[白天注意力/路线安全问题](../problems/PROB-20261017-daytime-attention-and-route-safety.md)。训练会提高 SAN/士气，该路线不是自然玩法或平衡测试。
+旧公开行动日历路线A在第1天 13:01 玩家 HP=0，95 项中94项通过，整轮 FAILED 保留。旧 runner 的 `campHp` 实际读取玩家 `payload.hp`，不得解释成营地建筑 HP 归零；原因与修复边界见[白天注意力/路线安全问题](../problems/PROB-20261017-daytime-attention-and-route-safety.md)。训练会提高 SAN/士气，该路线不是自然玩法或平衡测试。
 
 长跑 B 使用 v1 runner `16cc2b7890229a876d06d0bdc840e74cdc9e6cbf0d40870019c8335375ab7a5a` / HTML `51faa0c7`，已 terminal exit1：elapsed 900.578 秒，已执行 543 checks 均 true，但整体预算耗尽时 settle 返回 generic timeout，最后已验证第2天 11:41 / evt1280。原 report SHA `13a2552f8a3901e031d5f3c1bb62d817fe0ec025218152f6dd17d6f020be32df`，95份保存与13张截图已导出；整轮 FAILED 保留，不将全true前缀视为完成，也不据此推定新的存档根因。
 
-长跑 C 从全新 profile 使用 v2 runner `bc16789fb58d60ea141488c8a5bd393a98e7de673bbf21efcddf123418db93ff` / 同一 `51faa0c7` HTML，预算2400秒，当前第1天，未完成。v2已合并合格 preflight 保存以避免双重等待，并按 normal/runner/brute 真实反击修正预算、对未知 kind fail-closed；28项方法检查通过不能代替 C 的终态浏览器验证。新源码对象虽已创建，分支引用与 CI 尚未更新，不作已推送或已验证结论。
+长跑C已terminal exit0：冻结来源 `38c7e9d6a3517270be40cf6e975ec9da7e3aaaf9` / 旧 `51faa0c7` HTML / v2 runner `bc16789fb58d60ea141488c8a5bd393a98e7de673bbf21efcddf123418db93ff`，1642.125秒、1488/1488检查，93次训练，实际到day4 06:35 / evt2740；玩家100HP、food6、10人healthy、campCollapse0。原report SHA `6cf61c79eb81721c0f65eb402ce521b5dc7a54d3902e1e180aa8e671196494d6`，公开摘要见[completed-calendar-summary](../qa/runs/daytime-attention-20261017/completed-calendar-summary.json)。
 
-下一顺序是自然玩法可靠性 → Scenario 真实 boot → actor projection → 内容扩展。Scenario 的[ADR](../decisions/ADR-20261017-scenario-boot-contract.md)/[问题](../problems/PROB-20261017-scenario-stored-not-bound.md)及 ActorObservation 的[ADR](../decisions/ADR-20261017-actor-observation-v1.md)/[问题](../problems/PROB-20261017-observer-trusted-input-boundary.md)均是 proposed / 未接线；保存 metadata 不等于配置生效，表达白名单不等于知识权限。长期仍沿[调研 P0–P6](../qa/deep-research-baseline-20261017.md)。Sites 生产保持 v81，未发布。
+C原strict Gate270/270通过，2项方法负控另列；终态后导出251份保存、29张截图、0 unmapped，导出包仅用allowed-root自包含重绑定仍同strict Gate270/270。它只证明旧冻结51f的公开行动三日日历回归，不能给当前71657记三日、自然玩法或平衡通过；A/B仍FAILED，不合并成连续通过。当前71657独立按[本构建QA](../qa/garrison-attention-20261017.md)验收。
+
+下一P0先统一实际离营边界，并按[自然混合协议](../qa/natural-play-protocol-20261017.md)验证有意义玩法、节奏与断粮选择激励。N只开遭遇不跳日，当前没有公开睡眠或倍速；协议与可能的休整出口尚未实现或执行，不能靠反复训练填日历。之后依次Scenario真实boot → actor projection → 内容扩展。Scenario的[ADR](../decisions/ADR-20261017-scenario-boot-contract.md)/[问题](../problems/PROB-20261017-scenario-stored-not-bound.md)与ActorObservation的[ADR](../decisions/ADR-20261017-actor-observation-v1.md)/[问题](../problems/PROB-20261017-observer-trusted-input-boundary.md)仍proposed/未接线。长期沿[调研P0–P6](../qa/deep-research-baseline-20261017.md)；Sites生产v81未发布。
 
 下方全部旧 hash、提交、“最新”和未完成描述均为历史时点，不覆盖本检查点；来源/runner/计数须各自对账，旧 QA 或 manifest 的绿色不能转移到新构建。
 
