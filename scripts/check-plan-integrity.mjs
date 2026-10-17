@@ -15,7 +15,7 @@ import vm from 'node:vm';
 import { createHash } from 'node:crypto';
 
 // Only the two pinned complete SAVE21 fixtures in these four legacy checks.
-// This validates the exact additive Scenario receipt; it never removes arbitrary
+// This validates the exact additive Scenario/routine-intent receipt; it never removes arbitrary
 // migrations or relaxes historical plan/resource/CP/population assertions.
 function hasOnlyExpectedScenarioLegacyMigration(runtime, envelope) {
   const s = runtime.api.state, p = envelope.payload, eq = (a,b) => JSON.stringify(a) === JSON.stringify(b);
@@ -23,9 +23,10 @@ function hasOnlyExpectedScenarioLegacyMigration(runtime, envelope) {
   const date = { day: p.day, hour: p.hour, minute: p.minute }, seq = p.worldMeta.eventSeq + 1;
   const expected = { eventId: `evt-${String(seq).padStart(6,'0')}`, seq, type: 'save.migrated', actorId: 'system', commandId: null, causationId: null,
     tick: { world: (p.day-1)*1440+p.hour*60+p.minute, phase: p.worldMeta.clock.phaseMinutes, schedule: p.worldMeta.clock.scheduleMinutes },
-    payload: { migration: 'resolved-report-recovery-001', migrationVersion: 1, reason: 'scenario-legacy-unbound-v1,scenario-content-binding-v1', sourceCategory: 'primary',
+    payload: { migration: 'resolved-report-recovery-001', migrationVersion: 1, reason: 'npc-routine-intent-v1,scenario-legacy-unbound-v1,scenario-content-binding-v1', sourceCategory: 'primary',
       originalChecksum: envelope.checksum, originalDate: date, selectedChecksum: envelope.checksum, selectedDate: date, rollback: false, instanceId: null,
-      fromSaveVersion: 21, fromContentVersion: 3, adapter: null, addedDomains: [], scenarioBindingAdapters: [{ adapter: 'scenario-legacy-unbound-v1',
+      fromSaveVersion: 21, fromContentVersion: 3, adapter: null, addedDomains: ['npc.routineIntent'],
+      npcRoutineIntentAdapters: [{ adapter: 'npc-routine-intent-v1', npcIds: p.npcs.map(n=>n.id), defaultValue: null }], scenarioBindingAdapters: [{ adapter: 'scenario-legacy-unbound-v1',
         sourceSeed: p.worldMeta.seed, hadDeclaredSnapshot: Object.hasOwn(p,'scenarioSnapshot'), seedSource: 'saved-world-meta', declaredSeed: p.scenarioSnapshot?.seed ?? null,
         liveSeed: p.worldMeta.seed, aiDowngraded: false, effectiveAuthority: 'expression_only' }],
       scenarioContentAdapters: [{adapter:'scenario-content-binding-v1',oldPackageDigest:null,oldBindingStatus:'missing',
@@ -33,6 +34,14 @@ function hasOnlyExpectedScenarioLegacyMigration(runtime, envelope) {
   const added = s.worldMeta.events.filter(event => event.seq > p.worldMeta.eventSeq), stored = runtime.storage.get(saveKey);
   if (!stored || !runtime.api.validate({raw:stored,sourceCategory:'primary'}).ok) return false;
   const written = JSON.parse(stored).payload;
+  // Compare every original persisted field. The pre-existing loader supplies
+  // activeCommandId:null; only the exact migration ledger and new null intent
+  // are added here. Expected old facts come from the pinned writer, not normalize.
+  const expectedNpcs = p.npcs.map(n=>({ ...n, routineIntent: null }));
+  const expectedMeta = { ...p.worldMeta, activeCommandId: null, eventSeq: seq,
+    lastEventId: expected.eventId, events: [...p.worldMeta.events, expected] };
+  for (const key of Object.keys(p)) assert.deepEqual(written[key], key === 'npcs' ? expectedNpcs : key === 'worldMeta' ? expectedMeta : p[key], `original persisted ${key}`);
+  assert.deepEqual(Object.keys(written).sort(), [...new Set([...Object.keys(p),'scenarioSnapshot'])].sort());
   return eq(added,[expected]) && s.worldMeta.eventSeq === seq
     && eq(s.worldMeta.events.slice(0,p.worldMeta.events.length),p.worldMeta.events)
     && eq(written.worldMeta.events,s.worldMeta.events) && written.version === 21 && written.contentState.contentVersion === 3
@@ -40,6 +49,7 @@ function hasOnlyExpectedScenarioLegacyMigration(runtime, envelope) {
     && s.worldMeta.commandSeq === p.worldMeta.commandSeq && eq(s.worldMeta.seenCommands,p.worldMeta.seenCommands)
     && eq(s.world,p.world) && ['day','hour','minute','hp','energy','sanity','wood','stone','food','seeds','parts','medicine','morale'].every(key => s[key] === p[key])
     && eq(s.resources,p.resources) && eq(s.npcs.map(n=>({id:n.id,hp:n.hp,lifeState:n.lifeState})),p.npcs.map(n=>({id:n.id,hp:n.hp,lifeState:n.lifeState})))
+    && s.npcs.every(n=>n.routineIntent===null) && written.npcs.every(n=>n.routineIntent===null)
     && eq(s.contentState.planMeeting,p.contentState.planMeeting) && s.contentState.commandPoints === p.contentState.commandPoints
     && eq(s.scenarioSnapshot.binding,{version:1,status:'legacy-unbound',sourceSeed:p.worldMeta.seed,declaredSnapshot:p.scenarioSnapshot??null})
     && s.scenarioSnapshot.seed === p.worldMeta.seed
@@ -211,9 +221,14 @@ report.legacyInput = { testOnly:true, naturalGameplay:false, acquiredBy:legacyMe
   instanceId:originalPlan.instanceId, commandPoints:legacyEnvelope.payload.contentState.commandPoints, provenance:legacyMeta };
 scenario('legacy committed boot and current low trust', () => {
   const r = currentRuntime(runtime,[[saveKey,legacyRaw]]), expected = legacyEnvelope.payload.contentState.planMeeting;
+  const migratedRaw = r.storage.get(saveKey), reloaded = currentRuntime(runtime,[[saveKey,migratedRaw]]), reloadedRaw = reloaded.storage.get(saveKey);
   check('old complete committed save boots without reward or schema change',r.api.state.contentState.planMeeting.status === 'committed'
     && JSON.stringify(clone(r.api.state.contentState.planMeeting)) === JSON.stringify(expected)
-    && r.api.state.contentState.commandPoints === legacyEnvelope.payload.contentState.commandPoints && hasOnlyExpectedScenarioLegacyMigration(r,legacyEnvelope));
+    && r.api.state.contentState.commandPoints === legacyEnvelope.payload.contentState.commandPoints && hasOnlyExpectedScenarioLegacyMigration(r,legacyEnvelope)
+    && JSON.stringify(JSON.parse(reloadedRaw).payload) === JSON.stringify(JSON.parse(migratedRaw).payload)
+    && JSON.stringify(events(reloaded,'save.migrated')) === JSON.stringify(events(r,'save.migrated')),
+    { migration: events(r,'save.migrated'), migratedNativeSha256: sha(migratedRaw), reloadedNativeSha256: sha(reloadedRaw),
+      secondContinueAddsNoMigrationOrBusinessChange: JSON.stringify(JSON.parse(reloadedRaw).payload) === JSON.stringify(JSON.parse(migratedRaw).payload) });
   const before = protectedFacts(r), force = r.api.generatePlan({force:true}), repeat = r.api.commit('support',expected.selectedId);
   check('restored legacy meeting remains frozen and cannot spend another CP',force.duplicate === true && repeat.ok === false
     && JSON.stringify(protectedFacts(r)) === JSON.stringify(before) && events(r,'plan.meeting.committed').length === 1);
