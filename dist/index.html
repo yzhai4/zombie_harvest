@@ -6150,7 +6150,9 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       // a negative number in the basic HUD.
       const clockAlert = Math.max(0, Math.min(100, Math.round(((state.hour - 6) * 100) / 12)));
       const forecast = state.hordeForecast || {};
-      const alertText = state.relayProject?.status === 'online' ? forecast.routeId === 'relay-guided-west' ? '中继在线 · 下场采用标定分散通道' : forecast.routeId === 'eastern-breach' ? '中继在线 · 下场采用常规接近通道' : '中继在线 · 下场接近通道未记录' : `尸潮预警 ${clockAlert}%`;
+      const currentEncounter = SessionController.mode === 'BATTLE' && state.nightBattle && !state.nightBattle.resolved ? state.nightBattle : null;
+      const alertText = currentEncounter ? currentEncounter.routeId === 'relay-guided-west' ? '本场 · 中继标定分散通道' : currentEncounter.routeId === 'eastern-breach' ? '本场 · 常规接近通道' : '本场接近通道未记录'
+        : state.relayProject?.status === 'online' ? forecast.routeId === 'relay-guided-west' ? '中继在线 · 下场采用标定分散通道' : forecast.routeId === 'eastern-breach' ? '中继在线 · 下场采用常规接近通道' : '中继在线 · 下场接近通道未记录' : `尸潮预警 ${clockAlert}%`;
       $('alertPill').textContent = alertText;
       if ($('basicAlertValue')) $('basicAlertValue').textContent = alertText;
       if ($('overviewDay')) $('overviewDay').textContent = `第 ${state.day} 天 · ${formatTime()}`;
