@@ -1,5 +1,15 @@
 # 当前状态
 
+## 当前检查点：中继有效岗与完工事实（2026-10-18，优先于下方历史）
+
+源码对象`ed9933f4efd1b61abdcbc6a86f9a1169ab5dc29a`／HTML`dccb52ff94a0101992f6696c3ecb93c7092b1049d85dbbe2701d5e6ad1ca004a`，SAVE21／CONTENT3。中继三岗共享唯一有效岗位绑定，实际筹料／施工、stage adapter、恢复职责、work-pulse与公开crew一致；缺岗或配置错误停新增成本／工时，保留合法进度。另修规范化替换项目引用导致live完工丢失、重复上线收益及预警事件缺失。旧null时间、角色身份、已投入历史和online不追溯重算。见[QA](../qa/relay-effective-role-v1-20261018.md)与[ADR](../decisions/ADR-20261018-relay-effective-role-v1.md)。
+
+43个唯一源码合同各有通过终态（44次执行含一份原rest夹具失败；仅该方法改合法三岗重跑），新增runtime10／10，同方法c21为8／10、岗位修复中间版为9／10。真实Chrome四场197／197、episode12／12，共209个内部检查、10次main响应全同dccb；没有运行中写state或资源补偿，正常保存后才reload，各场新tick已核。root目视桌面及390宽缺岗／补岗／配置错误与关联episode；不称完整移动端或真人理解验收。
+
+当前开发ref仍为上轮85c5；本轮源码对象已创建但最终证据commit、ref和精确CI仍待完成。manifest与Git终态由PR #4实际核，不能预填绿色；生产未部署。这里的briefed来自原真实命令writer，死亡／继任与配置变体为明确source-VM／TEST-ONLY定位；消费者分钟不等于自然世界推进。下方旧pilot的死亡与预算停止保持原事实。
+
+下一推进同构建的公开主线后果与单因素路线，从实际阻碍选择有限补给／防卫／等候；EventFact／记忆围绕真实承诺与后果接线。全项目岗位互斥、长官交付与指挥所空缺、完整观察／规划／关系、自然三日／玩家体验、Studio、更大世界／多副本、UI素材及引擎迁移继续开放。
+
 ## 当前检查点：调研原文与中继工程pilot（2026-10-18）
 
 原文59069字节与归档同SHA940efac9，已有[调研计划](../research/research-adoption-plan-20261017.md)按最新实测更新。游戏运行时仍c21／SAVE21／CONTENT3；本轮没有业务源码变更或部署。开发基线a506的CI295已实际成功（[Actions](https://github.com/yzhai4/zombie_harvest/actions/runs/39051616474)），不是下方历史文字中的待核；后续文档commit不继承精确head CI。

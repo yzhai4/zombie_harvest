@@ -1,6 +1,6 @@
 # ADR：中继唯一有效岗位
 
-状态：设计已裁决，候选实现／验收中。SAVE21／CONTENT3保持，未部署。问题来源为[继任双岗](../problems/PROB-20261017-effective-role-exclusivity.md)及[公开中继pilot](../qa/relay-pilot-20261018.md)，不把同一实体占两槽说成已发生双倍产出。
+状态：adopted，列明源码与本地Chrome范围已验；开发ref／精确CI待发布核验。SAVE21／CONTENT3保持，未部署。问题来源为[继任双岗](../problems/PROB-20261017-effective-role-exclusivity.md)及[公开中继pilot](../qa/relay-pilot-20261018.md)，不把同一实体占两槽说成已发生双倍产出。
 
 玩家需要看清谁承担工程职责、缺什么、为何停工，以及原有进度怎样继续。当前中继是广播员、木匠、后勤官三岗工程；普通岗位、医疗、战斗、计划和指挥所继任界面不在本片统改。
 
@@ -31,3 +31,5 @@
 先由完整真实命令路径产生的briefed writer定位消费者，再真实死亡／继任复现旧版反例与候选阻断。已有八个stage合同保持；新增岗位逻辑负控覆盖default／opt-in、真实补岗、已投入进度、纯读、等待credit与配置变体，另新增legacy完工一次回归。配置变体明确TEST-ONLY；新增测试不手填项目阶段／材料／角色解决主反例。当前构建实际浏览器核公开crew／停工、真实保存与刷新，source-VM和浏览器不相互代替。
 
 完整自然主线／三日、真人可理解性、全项目有效岗、physical arrival、记忆／规划和引擎迁移继续独立验收。候选通过后才将该片标开发验收，不以设计卡存在、代码diff或旧green作完成证据。
+
+实际验收见[本轮QA](../qa/relay-effective-role-v1-20261018.md)：source43个唯一合同、runtime10、Chrome四场197＋episode12分层；源码ed9933f4／HTMLdccb。原c21与仅岗位修复版同方法负控保留，非自然主线／三日或全局岗位完成。

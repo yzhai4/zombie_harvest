@@ -1,0 +1,340 @@
+{
+  "runner": "source-relay-construction-runtime",
+  "schema": "RelayConstructionTransactionV1",
+  "version": 1,
+  "sourceHash": "dccb52ff94a0101992f6696c3ecb93c7092b1049d85dbbe2701d5e6ad1ca004a",
+  "htmlPath": "dist/index.html",
+  "fixturePath": "scripts/fixtures/relay-construction-runtime-v1.json",
+  "fixtureCases": [
+    "flag-off-compatibility",
+    "stage-success-once",
+    "missing-worker",
+    "stale-token",
+    "duplicate-child",
+    "virtual-occupancy",
+    "save-reload-token",
+    "same-tick-order",
+    "effective-role-native-successor",
+    "legacy-online-once"
+  ],
+  "runnerSha256": "ec2cdcca561b80647fde3db0251f036a4158ba7a9be91286c4082da7156f4039",
+  "harnessSha256": "554c400c174ad1b069c4dfcc839c12b3b45ea79c5aa7669e093a440ffa4845d3",
+  "roleFixture": {
+    "path": "scripts/fixtures/relay-construction-role-v1/briefed-native.json",
+    "sha256": "38cdf0a6ce9a38263091f475db7a6730444464d510f812e84a0658b7a5bc2b77",
+    "bytes": 82162
+  },
+  "roleEvidence": {
+    "inputSha256": "38cdf0a6ce9a38263091f475db7a6730444464d510f812e84a0658b7a5bc2b77",
+    "method": "TEST-ONLY native Continue, real death/succession and direct consumer calls; no world.advance or natural-time equivalence",
+    "cases": [
+      {
+        "mode": "legacy",
+        "actualDeathAndTwoSuccessions": true,
+        "calendarUnchanged": true,
+        "partialCrewBlocked": true,
+        "recovered": true
+      },
+      {
+        "mode": "opt-in",
+        "actualDeathAndTwoSuccessions": true,
+        "calendarUnchanged": true,
+        "partialCrewBlocked": true,
+        "recovered": true
+      },
+      {
+        "id": "empty",
+        "method": "TEST-ONLY complete-writer configuration derivative; array not historical original",
+        "roles": [],
+        "valid": false
+      },
+      {
+        "id": "missing",
+        "method": "TEST-ONLY complete-writer configuration derivative; array not historical original",
+        "roles": [
+          "radio",
+          "carpenter"
+        ],
+        "valid": false
+      },
+      {
+        "id": "foreign-known",
+        "method": "TEST-ONLY complete-writer configuration derivative; array not historical original",
+        "roles": [
+          "radio",
+          "carpenter",
+          "doctor"
+        ],
+        "valid": false
+      },
+      {
+        "id": "duplicate",
+        "method": "TEST-ONLY complete-writer configuration derivative; array not historical original",
+        "roles": [
+          "radio",
+          "carpenter",
+          "carpenter"
+        ],
+        "valid": false
+      },
+      {
+        "id": "reordered",
+        "method": "TEST-ONLY complete-writer configuration derivative; array not historical original",
+        "roles": [
+          "quartermaster",
+          "radio",
+          "carpenter"
+        ],
+        "valid": true
+      },
+      {
+        "id": "unknown-identity",
+        "rejectedBeforeInstall": true
+      },
+      {
+        "id": "legacy-online-once",
+        "consumerSteps": 11,
+        "worldAdvance": false,
+        "onlineOnce": true,
+        "questPartsRewardOnce": true
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "legacy-normal-briefed-native.json",
+        "sha256": "149ae3feb4d9884013c8dc56283cca5ebb1923c893b49b85a14dae143edf2d12",
+        "bytes": 82126,
+        "path": "candidate-dccb-report.json.artifacts/legacy-normal-briefed-native.json"
+      },
+      {
+        "name": "legacy-missing-role-native.json",
+        "sha256": "51c0cad0aacb4db0aaf66b66111f7287957121a843db9aaa87a8cfeef2e61ab5",
+        "bytes": 93848,
+        "path": "candidate-dccb-report.json.artifacts/legacy-missing-role-native.json"
+      },
+      {
+        "name": "legacy-missing-role-consumer.json",
+        "sha256": "a3ee52a5cdcbf530f65218c0961bdba3d00620be0d05864c139861d342140422",
+        "bytes": 5542,
+        "path": "candidate-dccb-report.json.artifacts/legacy-missing-role-consumer.json"
+      },
+      {
+        "name": "legacy-restored-before-consumer-native.json",
+        "sha256": "7807bebb7888c8c211ba233d6fdeb664f9b561ee29c2f2b1ae8c13586779af85",
+        "bytes": 94764,
+        "path": "candidate-dccb-report.json.artifacts/legacy-restored-before-consumer-native.json"
+      },
+      {
+        "name": "legacy-restored-before-reload-native.json",
+        "sha256": "41b0966ff1426fce48f2aa13fd36df9d54197934ed5c6396d033613ec2f807a8",
+        "bytes": 97774,
+        "path": "candidate-dccb-report.json.artifacts/legacy-restored-before-reload-native.json"
+      },
+      {
+        "name": "legacy-restored-after-reload-native.json",
+        "sha256": "41b0966ff1426fce48f2aa13fd36df9d54197934ed5c6396d033613ec2f807a8",
+        "bytes": 97774,
+        "path": "candidate-dccb-report.json.artifacts/legacy-restored-after-reload-native.json"
+      },
+      {
+        "name": "legacy-blocked-work-consumer.json",
+        "sha256": "7c2962edaf618f008796c93414a55610415929ab5fbf6d106d2da5cfd51b10af",
+        "bytes": 645,
+        "path": "candidate-dccb-report.json.artifacts/legacy-blocked-work-consumer.json"
+      },
+      {
+        "name": "opt-in-normal-briefed-native.json",
+        "sha256": "33c875ffb188c4323aa1f414b23fbdd595584e7b1825125ee9686ba92ce0e2f5",
+        "bytes": 82221,
+        "path": "candidate-dccb-report.json.artifacts/opt-in-normal-briefed-native.json"
+      },
+      {
+        "name": "opt-in-missing-role-native.json",
+        "sha256": "72a2463a1cfe1993ff1d2b2a0cc5527f3f024d234a936ed22903228252182315",
+        "bytes": 93944,
+        "path": "candidate-dccb-report.json.artifacts/opt-in-missing-role-native.json"
+      },
+      {
+        "name": "opt-in-missing-role-consumer.json",
+        "sha256": "a3ee52a5cdcbf530f65218c0961bdba3d00620be0d05864c139861d342140422",
+        "bytes": 5542,
+        "path": "candidate-dccb-report.json.artifacts/opt-in-missing-role-consumer.json"
+      },
+      {
+        "name": "opt-in-restored-before-consumer-native.json",
+        "sha256": "04af891d4adefad59158db3da62fe5c6b39806db457a12e8237ed64673a2df55",
+        "bytes": 95196,
+        "path": "candidate-dccb-report.json.artifacts/opt-in-restored-before-consumer-native.json"
+      },
+      {
+        "name": "opt-in-restored-before-reload-native.json",
+        "sha256": "a4d362e701eace00ab7d464e9dedcc278471ad08d040b6df65557b26a5967a30",
+        "bytes": 104494,
+        "path": "candidate-dccb-report.json.artifacts/opt-in-restored-before-reload-native.json"
+      },
+      {
+        "name": "opt-in-restored-after-reload-native.json",
+        "sha256": "a4d362e701eace00ab7d464e9dedcc278471ad08d040b6df65557b26a5967a30",
+        "bytes": 104494,
+        "path": "candidate-dccb-report.json.artifacts/opt-in-restored-after-reload-native.json"
+      },
+      {
+        "name": "opt-in-blocked-work-consumer.json",
+        "sha256": "e2a3bacc2100521926700262fc71948b798c979bf571c50a6c26ed83268de1a6",
+        "bytes": 645,
+        "path": "candidate-dccb-report.json.artifacts/opt-in-blocked-work-consumer.json"
+      },
+      {
+        "name": "config-empty-legacy-native.json",
+        "sha256": "0093e1f2fcd095250a8266a6d9a0d4e4abfbc7caffcb8b7f19c57c9ce9415e5f",
+        "bytes": 82056,
+        "path": "candidate-dccb-report.json.artifacts/config-empty-legacy-native.json"
+      },
+      {
+        "name": "config-empty-opt-in-native.json",
+        "sha256": "1cc5c915675775cefff9284854ec2b8a46a933a6b39aae24fb7af7884b839e46",
+        "bytes": 82152,
+        "path": "candidate-dccb-report.json.artifacts/config-empty-opt-in-native.json"
+      },
+      {
+        "name": "config-missing-legacy-native.json",
+        "sha256": "4cbc30a11724ae5a48753b6f538961e7cb62a87383c88133ed8b1a46a72350a0",
+        "bytes": 82094,
+        "path": "candidate-dccb-report.json.artifacts/config-missing-legacy-native.json"
+      },
+      {
+        "name": "config-missing-opt-in-native.json",
+        "sha256": "9e338cb02f541a46846e2982315fbd610d5ef6bedfc34232e8559af10586b5b4",
+        "bytes": 82190,
+        "path": "candidate-dccb-report.json.artifacts/config-missing-opt-in-native.json"
+      },
+      {
+        "name": "config-foreign-known-legacy-native.json",
+        "sha256": "ef456109565e4971c44af6ccfea7a76f07288e000d1b0937d517ebafecf35bb3",
+        "bytes": 82112,
+        "path": "candidate-dccb-report.json.artifacts/config-foreign-known-legacy-native.json"
+      },
+      {
+        "name": "config-foreign-known-opt-in-native.json",
+        "sha256": "9016b762837a682e0433dd98931d3fc0a8f41b1fe8234ee8dbf0e4fe68a5ae96",
+        "bytes": 82208,
+        "path": "candidate-dccb-report.json.artifacts/config-foreign-known-opt-in-native.json"
+      },
+      {
+        "name": "config-duplicate-legacy-native.json",
+        "sha256": "9b2a8688ff8a027a3600f9bb7fc1666c1b7dce6257461b63a702ff5b3837198b",
+        "bytes": 82118,
+        "path": "candidate-dccb-report.json.artifacts/config-duplicate-legacy-native.json"
+      },
+      {
+        "name": "config-duplicate-opt-in-native.json",
+        "sha256": "05695d297fedc8929ca91c92d21f9dbcf65377900ff19e7d7d79b970595b8909",
+        "bytes": 82214,
+        "path": "candidate-dccb-report.json.artifacts/config-duplicate-opt-in-native.json"
+      },
+      {
+        "name": "config-reordered-legacy-native.json",
+        "sha256": "e7a357613c4d7f8bd0c1dc22c5fc076f2dd113b28252ec2b3f52e38166aa2dd8",
+        "bytes": 82126,
+        "path": "candidate-dccb-report.json.artifacts/config-reordered-legacy-native.json"
+      },
+      {
+        "name": "config-reordered-opt-in-native.json",
+        "sha256": "573669f74d0909fcda92f8aca9df4d362c200747018625d2edf74a422f9c1a27",
+        "bytes": 82221,
+        "path": "candidate-dccb-report.json.artifacts/config-reordered-opt-in-native.json"
+      },
+      {
+        "name": "legacy-completion-at-terminal-consumer.json",
+        "sha256": "996cc5208cba41d980d4ababa53798f864e2c8b6e372f0b262c3e97ba50f4965",
+        "bytes": 18455,
+        "path": "candidate-dccb-report.json.artifacts/legacy-completion-at-terminal-consumer.json"
+      },
+      {
+        "name": "legacy-completion-consumer-steps.json",
+        "sha256": "6bcd2714c3eda3b0c614cfca20bf4b653ca2694babce38fc6279b7261c464d19",
+        "bytes": 12858,
+        "path": "candidate-dccb-report.json.artifacts/legacy-completion-consumer-steps.json"
+      },
+      {
+        "name": "legacy-completion-provenance.json",
+        "sha256": "d4663413aaea6b29f66ed15ae83b6eb3fcd73add928c29193d49793cd042bf8f",
+        "bytes": 15033,
+        "path": "candidate-dccb-report.json.artifacts/legacy-completion-provenance.json"
+      },
+      {
+        "name": "legacy-online-before-reload-native.json",
+        "sha256": "010414c01b44d5e23c744d622763d0084e4e65a8e758fa2398cd5173edba0f93",
+        "bytes": 99460,
+        "path": "candidate-dccb-report.json.artifacts/legacy-online-before-reload-native.json"
+      },
+      {
+        "name": "legacy-online-after-reload-native.json",
+        "sha256": "4bb6aac0eb6b4f440aa60d7b58e13de5c33b8dd70ca4f073f4757d245735a6a8",
+        "bytes": 99460,
+        "path": "candidate-dccb-report.json.artifacts/legacy-online-after-reload-native.json"
+      }
+    ]
+  },
+  "ok": true,
+  "count": 10,
+  "passed": 10,
+  "checks": [
+    {
+      "name": "flag-off compatibility and default false",
+      "ok": true
+    },
+    {
+      "name": "stage success exactly once",
+      "ok": true
+    },
+    {
+      "name": "missing worker leaves relay cross-domain state unchanged",
+      "ok": true
+    },
+    {
+      "name": "stale token leaves relay cross-domain state unchanged",
+      "ok": true
+    },
+    {
+      "name": "duplicate child command is a no-op",
+      "ok": true
+    },
+    {
+      "name": "virtual occupancy commits only after success",
+      "ok": true
+    },
+    {
+      "name": "save/reload preserves transaction token and replay child",
+      "ok": true
+    },
+    {
+      "name": "same-tick order keeps relay construction before world combat",
+      "ok": true
+    },
+    {
+      "name": "actual native effective-role loss blocks both producers and real next successor resumes",
+      "ok": true
+    },
+    {
+      "name": "actual briefed legacy consumer completes once and reload never repeats online rewards",
+      "ok": true
+    }
+  ],
+  "productionWiring": "feature-gated-stage-only",
+  "naturalGameplay": false,
+  "sitesVersion": "v81-unchanged",
+  "publicTransport": {
+    "representation": "non-native-path-only-companion",
+    "originalReportSha256": "c09d8ec5df20cbef8543eea1cf1c60eb239343f10888455b96f86b803704dc87",
+    "originalReportBytes": 12560,
+    "originalPortableName": "candidate-dccb-report.json",
+    "originalExternalRetained": true,
+    "onlyReplacedFields": [
+      "$.htmlPath",
+      "$.fixturePath",
+      "$.roleFixture.path"
+    ],
+    "checkFactsAndCountsUnchanged": true
+  }
+}

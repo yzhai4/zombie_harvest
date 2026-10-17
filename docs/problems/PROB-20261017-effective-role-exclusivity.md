@@ -1,6 +1,8 @@
 # 继任者同时被旧岗与新岗识别
 
-状态：confirmed / open；本轮presence不修此独立岗位语义。
+状态：全局confirmed / open；中继列明consumer已按dccb修复验证，其它caller保持open。
+
+2026-10-18最新：[中继ADR](../decisions/ADR-20261018-relay-effective-role-v1.md)已接入唯一有效绑定及停工解释。source真实briefed→死亡／继任→缺岗停工→第二继任恢复、旧档／幂等和Chrome四场已验，具体计数和范围见[QA](../qa/relay-effective-role-v1-20261018.md)。没有全局替换npcHasRole；旧长官核心交付、指挥所空缺、医疗／福利／战斗／计划需独立分类，不能把中继结果迁给这些调用者。下方为保留的原问题与当时计划。
 
 2026-10-18增量：当前c21以同一完整旧writer执行真实木匠死亡／继任，quartermaster暂代carpenter后，实际`relayActiveParticipants()`返回`[radio,quartermaster,quartermaster]`；两人被计三岗。材料／库存／世界实体保留，项目仍unknown，没有执行筹料／施工，不证明双倍产出或工时。见[中继复盘](../qa/relay-pilot-20261018.md)。
 
