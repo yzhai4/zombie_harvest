@@ -4,7 +4,7 @@
 
 本轮开发候选已完成[断粮竖切片](scripts/zh-food-shortage-001.md)的按日 episode、五元身份 CAS、加性 SAVE21 适配和有限应急藏粮取回；Observer 为运行时与 Node 共用的纯表达核心，白名单事实深冻结，评论开关与 HUD 独立。源码 VM 与真实 Chrome boot 夹具已有通过结果，最终计数与源码绑定以 QA/manifest 为准。它不是自然三日或平衡验收，Sites v81 尚未发布。
 
-最终构建的旧 writer/fallback/跨日 stale 与浏览器刷新已补；下一轮先接 Scenario 真实 boot loader 与 actor/perception 信息权限，再补同构建自然三日。持续按[调研 P0–P6](qa/deep-research-baseline-20261017.md)推进可复现玩法、Scenario runtime loader、规则 NPC 规划、记忆与受约束表达；Scenario 当前仍为 headless minimal，actor 权限/感知投影尚未完成。exact simulator 先于 learned World Model，当前不增加引擎迁移任务。
+最终构建的旧 writer/fallback/跨日 stale 与浏览器刷新已补；下一轮优先完成同构建自然三日与短缺选择激励验收，同时接 Scenario 真实 boot loader 与 actor/perception 信息权限。持续按[调研 P0–P6](qa/deep-research-baseline-20261017.md)推进可复现玩法、Scenario runtime loader、规则 NPC 规划、记忆与受约束表达；Scenario 当前仍为 headless minimal，actor 权限/感知投影尚未完成。exact simulator 先于 learned World Model，当前不增加引擎迁移任务。
 
 下方阶段编号和逐次 checkpoint 是保留的长期路线与历史记录；旧“一次性断粮”“只有存活门”“尚无 episode/browser”描述已被本节限定范围内的新进展取代，不能反向改写旧失败。
 

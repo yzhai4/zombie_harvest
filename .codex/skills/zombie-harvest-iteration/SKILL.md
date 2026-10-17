@@ -101,3 +101,5 @@ Observer 只能使用白名单只读投影，不能触碰可变 WorldFacts 或�
 内容链若声明 `repeatable:true`，按断粮设计卡/身份 ADR 验创建日 key、五元预期 token、跨日 stale、未处理实例跨午夜、choice/fallback/自治身份回执和按 episode 去重。执行入口不隐式刷新 token；缺字段/未知版本拒绝，拒绝不发奖。用完整旧 writer 验真实 loader 的 SAVE21 加性适配，派生负控另列，非重复旧链 projection/golden 不变。
 
 重复危机不重置有限来源：验藏粮 flag 跨日/刷新、岗位健康/继任与事务回滚，不虚构人口、势力信任、岗位占用或敌人 spawn。Observer 纯核心与深冻结白名单不等于 actor 权限/感知投影已完成。详细合同留在设计卡，Skill 只维护会改变后续决策的规则。
+
+内容选择的合理性要同时比较立即选择、关闭/暂不处理和先补粮等公开可达策略；分别写清内部 fallback 与真实 UI 入口。旧一次性完成档迁入 repeatable 后，还要调用真实事件菜单/renderer，证明新 episode 可见，不能仅凭 startChain 成功宣布迁移闭环。

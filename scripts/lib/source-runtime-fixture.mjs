@@ -17,12 +17,17 @@ export function sourceRuntimeFactory(htmlPath = path.join(root, 'dist/index.html
   const end = harness.indexOf('\nfunction envelope(payload)', start);
   assert.ok(start >= 0 && end > start, 'source IO adapter extraction markers');
   let body = harness.slice(start, end);
+  // DOM collection operation only; preserve the actual event renderer and its
+  // source/choice selection logic. The older IO adapter did not need this API.
+  const childMarker = 'appendChild(child) { this.children.push(child); }';
+  assert.equal(body.split(childMarker).length, 2);
+  body = body.replace(childMarker, childMarker + ', replaceChildren(...children) { this.children = [...children]; }');
   const marker = 'registry: EVENT_DEFS, hash: checksum,';
   assert.equal(body.split(marker).length, 2);
   body = body.replace(marker, `
     contentRegistry: ContentRegistry, contentResolve: resolveContentChainCommand,
     bindChoice: bindEventChoice, expectedToken: eventChoiceExpectedToken,
-    handleChoice: handleEventChoice, renderEvent,
+    handleChoice: handleEventChoice, renderEvent, eventContentChainViews,
     selectChain(id) { eventPanelSelection = 'chain:' + id; eventPanelReceipt = null; },
     observerCommentary, observerTruthProjection, worldSnapshot: WorldFacts.snapshot,
     registry: EVENT_DEFS, hash: checksum,

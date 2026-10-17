@@ -6,9 +6,9 @@
 
 Observer 纯核心已以相同实现嵌入运行时，返回深冻结白名单事实；评论开关与简洁 HUD 独立，配置随 SAVE21 保存。它不是 LLM、持久记忆或完整 actor 权限/感知投影。Scenario 包 loader 仍是 headless 最小合同，不能称生产场景加载已完成。
 
-最终 HTML 候选已重跑：episode 源码 VM 29/29、observer 21/21、Gate parity 20/20、vertical slice 5/5，本地 30 条检查全部 exit0；真实 Chrome 的完整旧 writer boot 夹具 12/12，两次 HTTP 文档 SHA 相同。身份透传、历史隔离、未知版本拒绝与 fallback/autonomy 重试已纳入最终检查。严格证据检查器另通过 76/76 方法自测，精确来源与报告见 [QA](../qa/episode-observer-20261017.md) 和 [manifest](../qa/iteration-manifest-v1.json)。自然三日 browser 本轮未做；Sites 生产保持 v81，未发布。
+最终 HTML 候选已重跑：episode 源码 VM 30/30、observer 21/21、Gate parity 20/20、vertical slice 5/5，本地 30 条检查全部 exit0；真实 Chrome 的完整旧 writer boot 夹具 12/12，两次 HTTP 文档 SHA 相同。身份透传、历史隔离、未知版本拒绝、fallback/autonomy 重试与旧一次性完成档的新 episode 菜单可见性已纳入最终检查。严格证据检查器另通过 76/76 方法自测，精确来源与报告见 [QA](../qa/episode-observer-20261017.md) 和 [manifest](../qa/iteration-manifest-v1.json)。自然三日 browser 本轮未做；Sites 生产保持 v81，未发布。
 
-下一轮优先补 Scenario 真实 boot loader 与 actor/perception 观察权限，随后执行同构建自然三日与后果验收；身份合同见[ADR](../decisions/ADR-20261017-repeatable-episode-identity.md)。长期顺序沿[调研 P0–P6](../qa/deep-research-baseline-20261017.md)，当前不增加引擎迁移主题。下方全部旧 hash、提交、“最新”和未完成描述均为历史时点，不覆盖本检查点；具体构建证据以 QA 与 manifest 为准。
+下一轮优先执行同构建自然三日与短缺后果/延后选择的激励验收，同时补 Scenario 真实 boot loader 与 actor/perception 观察权限；身份合同见[ADR](../decisions/ADR-20261017-repeatable-episode-identity.md)。长期顺序沿[调研 P0–P6](../qa/deep-research-baseline-20261017.md)，当前不增加引擎迁移主题。下方全部旧 hash、提交、“最新”和未完成描述均为历史时点，不覆盖本检查点；具体构建证据以 QA 与 manifest 为准。
 
 ## 历史检查点（保留原失败与证据）
 

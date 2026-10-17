@@ -5349,8 +5349,10 @@ function resolveObserverExpression(input = {}) {
     function eventContentChainViews() {
       ensureContentState();
       return Object.entries(state.contentState.activeChains || {}).flatMap(([chainId, active]) => {
-        if (!active || typeof active.chainId !== 'string' || chainId !== active.chainId || active.status !== 'active' || state.contentState.completedChains.includes(active.chainId)) return [];
+        if (!active || typeof active.chainId !== 'string' || chainId !== active.chainId || active.status !== 'active') return [];
         const definition = contentDefinition('eventChain', active.chainId);
+        const completionKey = definition?.repeatable ? active.instanceKey : active.chainId;
+        if (state.contentState.completedChains.includes(completionKey)) return [];
         const node = definition?.nodes?.find(item => item.nodeId === active.nodeId);
         return definition && node ? [{ active, definition, node, choices: Array.isArray(node.choices) ? node.choices : [] }] : [];
       }).sort((a, b) => (Number(b.definition.priority) || 0) - (Number(a.definition.priority) || 0) || String(a.active.chainId).localeCompare(String(b.active.chainId)));

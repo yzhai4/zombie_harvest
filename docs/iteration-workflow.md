@@ -147,3 +147,5 @@ Evidence manifest 绑定 branch、evidence commit、HTML SHA、SAVE/CONTENT、CI
 资源内容必须有有限来源、代价和持久耗尽标记：短缺可重开不代表藏粮可重领。六视角账本核对实际增减，不虚构人口、势力信任、岗位占用或敌人 spawn。Observer 的纯核心/深冻结只证明表达边界，actor 权限和感知来源未验收时仍列未完成。
 
 证据遵循 exact source/runner/input/artifact 绑定；static、source-VM、真实 boot fixture、自然 browser 和 Sites 分层列示。源码改变即使旧 browser 已通过也须重验受影响合同；pending、缺 hash、stale 与 unavailable 不作通过，旧失败不重标。详细验收项引用设计卡与 ADR，避免在工作流累积逐次日志。
+
+内容选择的合理性要同时比较立即选择、关闭/暂不处理和先补粮等公开可达策略；分别写清内部 fallback 与真实 UI 入口。旧一次性完成档迁入 repeatable 后，还要调用真实事件菜单/renderer，证明新 episode 可见，不能仅凭 startChain 成功宣布迁移闭环。

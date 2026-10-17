@@ -92,6 +92,19 @@ test('legacy one-shot completion holds saved day only without rewriting history'
   assert.equal(r.api.contentRegistry.startChain(id).ok, false);
   calendar(r, 2);
   assert.equal(r.api.contentRegistry.startChain(id).ok, true);
+  assert.ok(r.api.eventContentChainViews().some(view => view.active.instanceKey === id + ':2'));
+});
+test('legacy completed history cannot hide a new episode in the actual event menu after reload', () => {
+  const saved = plain(fixture.payload);
+  delete saved.contentState.activeChains[id]; saved.contentState.completedChains.push(id);
+  const r = startRuntime(factory, [[saveKey, envelope(factory, saved)]]);
+  calendar(r, 2); r.api.contentHook('onDayStart', { actorId: 'camp-autonomy' });
+  const reloaded = startRuntime(factory, [[saveKey, write(r)]]);
+  reloaded.api.selectChain(id); reloaded.api.renderEvent();
+  assert.ok(reloaded.node('eventSourceSelect').children.some(option => option.value === 'chain:' + id));
+  assert.equal(reloaded.node('eventChoiceA').dataset.eventInstanceKey, id + ':2');
+  assert.equal(reloaded.node('eventChoiceB').dataset.eventInstanceId, 'content:' + id + ':2');
+  assert.equal(reloaded.api.state.contentState.completedChains.includes(id), true);
 });
 test('real rendered producer carries all five identity fields into replay and receipt', () => {
   const r = fresh(), expected = token(r);
