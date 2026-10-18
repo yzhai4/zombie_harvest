@@ -1,6 +1,6 @@
 # 中继当前能力、损毁与真实维修 v1
 
-2026-10-18；本地开发合同已验证，源对象 `d5e4176b477a7f471a092048600ab97f9a7681a7`，HTML `4f697787f6eb4a215a7eab4a483e7d11a65b23b6f1fcb55f175d9c4edfef3e21`（957569B），SAVE21／CONTENT3。7个源码文件、176项依赖已逐Git API树核对；源对象准备不等于开发ref、精确CI或生产发布。最终开发发布／CI见PR #4与本轮发布收据。
+2026-10-18；本地开发合同已验证，源对象 `37c6e387f34b207ce2b3fffea881816e7640b49a`，HTML `4f697787f6eb4a215a7eab4a483e7d11a65b23b6f1fcb55f175d9c4edfef3e21`（957569B），SAVE21／CONTENT3。7个源码文件、176项依赖已逐Git API树核对；源对象准备不等于开发ref、精确CI或生产发布。最终开发发布／CI见PR #4与本轮发布收据。
 
 ## 实现结果
 
@@ -18,12 +18,14 @@
 | 新中继源码 | 7／7，exit0 | 原完整online writer、真实敌伤8→2→0、writer／Continue／下一tick、纯能力、旧未知、真实费用／credit、同ID／距离／MAX_SAFE、任务、再毁／致死及锁定场边界 |
 | 实际Chrome | 28／28，2scene、3main，8484ms，errors[]，3cleanup true | 旧完整writer派生HP0/stale flags定位，真实Continue／公开维修／正常writer先于reload／新boot，1.25查看与1执行带，390禁用原因与历史标签 |
 | 同源episode | 12／12，2main，实际exit0 | 实际事项切换、结算和刷新等原episode合同 |
-| 本地证据freshness | 20／20，实际exit0 | 294引用及当前来源检查；本机无.git，commitVerification为unavailable，Git API树证明另列，远端require-git CI另验 |
+| 本地证据freshness | 20／20，实际exit0 | 当前295引用及来源检查（初次为294）；本机无.git，commitVerification为unavailable，Git API树证明另列，远端require-git CI另验 |
 | 证据方法self-test | 76／76，实际exit0 | manifest拒绝与方法控制，不计作76项玩法或真人检查 |
 
 5次main响应均为本页HTML。source敌伤使用明确TEST-ONLY几何定位，但原伤害／冷却逻辑真实运行；runDayCombat(24)的24是consumer输入，不是24世界分钟。Chrome预启动直接派生HP0只证明恢复／UI，不冒充受击。场景保原敌人、资源、人口，未运行中注入状态或调用隐藏维修／推进。root已目视最终损毁桌面／390、修后390与距离禁用390图；不称完整移动端打磨、自然全链、真人理解、经济平衡或生产部署。
 
 ## 原失败与方法修正
+
+[CI306](https://github.com/yzhai4/zombie_harvest/actions/runs/39089974475)实际failure：新增workflow步骤漏传runner必需的`--expect-html-sha256`，CLI预检退出，7组业务未执行。修正只在job内从checkout字节计算并传入哈希；HTML、全部游戏／checker／IO方法及原输入／报告字节不变。来源树与176依赖证明更新，原47／7和Chrome28／episode12按各自原SHA复用；精确新CI另验，不改绿CI306，也不重复未受影响的玩法。
 
 旧7b23由最终同方法实际exit1、0／1：原敌伤8→2→0，正常writer与Continue保0，但下一真实advance使active／relayEnabled及感知恢复，确认为业务反例。早期2dd末尾错误BATTLE保存期望保原失败，不转成同源负控。
 

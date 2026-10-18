@@ -6,9 +6,9 @@
 
 ## 当前代码与证据
 
-本次重新实查的开发head为 `67bea1db9f4efa9dc139c0ce4b9231ca3de2e7d8`，运行时来源 `b598c3770bdf216bd7c77f5bef2f0390e43e31aa`；HTML SHA-256 `7b23b0b757ed2242903c952f54c5c31145499ba98280aa80f1578e64b78780cc`，SAVE21／CONTENT3。[CI305](https://github.com/yzhai4/zombie_harvest/actions/runs/39083685375)在同一head实际completed／success。PR #4仍为开发源线；生产与自然完整主线另验。此前CI302／3545属于历史状态，不能再列为当前基线。
+本轮开始时实查的开发基线head为 `67bea1db9f4efa9dc139c0ce4b9231ca3de2e7d8`，运行时来源 `b598c3770bdf216bd7c77f5bef2f0390e43e31aa`；HTML SHA-256 `7b23b0b757ed2242903c952f54c5c31145499ba98280aa80f1578e64b78780cc`，SAVE21／CONTENT3。[CI305](https://github.com/yzhai4/zombie_harvest/actions/runs/39083685375)在同一head实际completed／success。PR #4仍为开发源线；生产与自然完整主线另验。此前CI302／3545属于历史状态，不能再列为当前基线。
 
-[中继维护](../qa/relay-maintenance-v1-20261018.md)最终HTML `4f697787f6eb4a215a7eab4a483e7d11a65b23b6f1fcb55f175d9c4edfef3e21`已完成列明本地开发验证，源对象 `d5e4176b477a7f471a092048600ab97f9a7681a7`；尚未由此声明新的开发ref／精确CI或生产发布，不能继承CI305。
+[中继维护](../qa/relay-maintenance-v1-20261018.md)最终HTML `4f697787f6eb4a215a7eab4a483e7d11a65b23b6f1fcb55f175d9c4edfef3e21`已完成列明本地开发验证，源对象 `37c6e387f34b207ce2b3fffea881816e7640b49a`；尚未由此声明新的开发ref／精确CI或生产发布，不能继承CI305。
 
 | 报告方向 | 当前实际采纳 | 尚未完成 |
 | --- | --- | --- |
