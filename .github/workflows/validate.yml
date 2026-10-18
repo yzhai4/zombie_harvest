@@ -154,7 +154,9 @@ jobs:
       - name: Execute sourced personal handoff memory and legacy save contracts
         run: node scripts/check-relay-handoff-memory-v1.mjs --repo-root "$GITHUB_WORKSPACE" --html "$GITHUB_WORKSPACE/dist/index.html" --out "$RUNNER_TEMP/relay-handoff-memory-v1.json"
       - name: Execute current relay capability, paid repair and recovery contracts
-        run: node scripts/check-relay-maintenance-v1.mjs --repo-root "$GITHUB_WORKSPACE" --html "$GITHUB_WORKSPACE/dist/index.html" --out "$RUNNER_TEMP/relay-maintenance-v1.json"
+        run: |
+          RELAY_MAINTENANCE_HTML_SHA=$(sha256sum dist/index.html | cut -d' ' -f1)
+          node scripts/check-relay-maintenance-v1.mjs --repo-root "$GITHUB_WORKSPACE" --html "$GITHUB_WORKSPACE/dist/index.html" --out "$RUNNER_TEMP/relay-maintenance-v1.json" --expect-html-sha256 "$RELAY_MAINTENANCE_HTML_SHA"
       - name: Execute Scenario package and observer contracts
         run: |
           node scripts/build-scenario-package.mjs --check
