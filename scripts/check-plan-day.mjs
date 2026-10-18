@@ -36,6 +36,9 @@ const functions = [
   'migrateContentState', 'normalizeContentEpisodes', 'contentEpisodeIdentity', 'normalizeOutpostAssignments', 'ensureContentState',
   'contentRegistryBase', 'contentDefinition', 'applyContentEffect', 'applyContentEffects',
   ...['applyContentEffectsTransaction'].filter(name => source.includes(`function ${name}(`)),
+  // Real outer-transaction station identity read; the accounting fixtures do
+  // not contain a station and do not exercise maintenance or forecast writes.
+  ...['relayStationBuilding'].filter(name => source.includes(`function ${name}(`)),
   'planMeetingState', 'campTrustValue', 'commandPointCap', 'refreshCommandPoints',
   'planNpcVoteWeight', 'planCandidateScore', 'generatePlanMeeting', 'commitPlanMeeting',
   // Older shipped HTML calculated candidates inline. Load actual transaction

@@ -2551,14 +2551,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       state.relayProject.status = ['unknown', 'core-recovered', 'briefed', 'staging', 'building', 'online'].includes(state.relayProject.status) ? state.relayProject.status : 'unknown';
       if (state.relayProject.status === 'unknown' && state.specialItems.relayCore > 0) { state.relayProject.status = 'core-recovered'; state.relayProject.coreItemId = state.relayProject.coreItemId || 'item-relayCore-001'; }
       state.hordeForecast = { confidence: 0, leadMinutes: 0, routeId: 'eastern-breach', source: 'camp-observation', updatedAt: 0, ...(state.hordeForecast || {}) };
-      if (state.relayProject.status === 'online') {
-        state.hordeForecast = { ...state.hordeForecast, confidence: 92, leadMinutes: state.relayProject.forecastLeadMinutes, routeId: 'relay-guided-west', source: 'relay-station', updatedAt: worldMinute() };
-      }
-      const station = state.buildings?.find(building => building.id === state.relayProject.buildingId || building.type === 'relayStation');
-      if (station) {
-        station.id = state.relayProject.buildingId;
-        station.type = 'relayStation'; station.w = station.w || 2; station.h = station.h || 2; station.active = state.relayProject.status === 'online'; station.relayEnabled = station.active; station.projectStatus = state.relayProject.status;
-      }
+
     }
     function applyStandingDelta(delta = {}, meta = {}) {
       ensureSocialFacts();
@@ -3372,6 +3365,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
      }
      function applyContentEffects(effects = [], meta = {}) {
       const outer = contentEffectDepth === 0, hpBefore = state.hp;
+      const stationHpBefore = outer ? relayStationBuilding()?.hp : null;
       if (outer) contentHpFatalSource = null;
       contentEffectDepth += 1;
       let result;
@@ -3380,6 +3374,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       // Nested hooks are part of the enclosing successful effect transaction.
       // A later heal or rollback wins before a death is ever latched.
       if (outer) {
+        if (result?.ok && Number.isFinite(stationHpBefore) && stationHpBefore > 0 && relayStationBuilding()?.hp === 0) { syncRelayStationCapability(); updateRelayForecast(); }
         const source = contentHpFatalSource; contentHpFatalSource = null;
         if (result?.ok && hpBefore > 0 && state.hp === 0 && source && latchDayFatal('content-effect', source.event, source.actorId) && !state.worldMeta.activeCommandId) finalizeDayFatalOutcome();
       }
@@ -5138,7 +5133,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
         const needs = actor.needs || NPC_NEED_DEFAULTS;
         const impairment = Math.max(0, Math.min(.55, (needs.fatigue - 55) * .004 + (needs.stress - 65) * .003 + (25 - needs.energy) * .004 + Math.max(0, 45 - sanityValue(actor)) * .004));
         profile.sight *= 1 - impairment; profile.hearing *= 1 - impairment * .55; profile.cone = Math.max(70, profile.cone - impairment * 50);
-        if (state.relayProject?.status === 'online') {
+        if (relayOnline()) {
           profile.sight += Number(state.relayProject.sharedSightBonus) || 0;
           profile.share = Math.max(Number(profile.share) || 0, Number(state.relayProject.sharedRangeBonus) || 0);
           profile.memory = Math.max(Number(profile.memory) || 0, 24);
@@ -5320,6 +5315,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       } else if (['wall', 'spikeWall', 'bunker', 'depot', 'relayStation'].includes(target.type)) {
         if (after <= 0) { target.hp = 0; target.active = false; recordWorldEvent('combat.entity.defeated', { ...payload, defeatedAt: worldMinute(), inactive: true }, { actorId: sourceId }); }
       }
+      if (target === relayStationBuilding() && after === 0) { syncRelayStationCapability(); updateRelayForecast(); }
       return { ok: true, payload };
     }
     function applyDayPlayerDamage(source, amount, meta = {}) {
@@ -6187,7 +6183,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
         briefed: '长官已接收，等待项目启动',
         staging: '筹料中',
         building: '施工中',
-        online: '已启用'
+        online: relayStationStatusText()
       };
       const progressMap = { unknown: 0, 'core-recovered': 1, briefed: 2, staging: 2, building: 3, online: 5 };
       const completed = progressMap[status] ?? 0;
@@ -6199,19 +6195,19 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
         return `<div class="relay-step ${cls}">${index < completed ? '✓ ' : ''}${label}</div>`;
       }).join('');
       const forecast = state.hordeForecast || {};
-      $('relayForecastText').textContent = status === 'online' ? '中继侦察已接入营地'
+      $('relayForecastText').textContent = status === 'online' ? relayOnline() ? '中继侦察当前可用；仍需准备防线。' : '工程完成历史保留；当前依靠营地观察。'
         : status === 'core-recovered' ? '核心尚未交付；中继未启用。'
         : status === 'building' ? '施工完成前，当前仍依靠营地观察。' : '营地观察 · 中继未启用';
       const nextRelayRouteText = forecast.routeId === 'relay-guided-west' ? '下一场将采用中继标定的分散通道'
         : forecast.routeId === 'eastern-breach' ? '下一场将采用常规接近通道' : '下一场接近通道未记录';
-      const task = assignment.blockedReason === 'invalid-role-configuration' ? '工程暂停：需要广播员、木匠、后勤官各一岗。当前岗位安排无法执行；已投入材料与工时保留。'
+      const task = project.lastBlockedReason === 'station-unavailable' && status === 'building' ? '施工暂停：原站点无法确认；投入与工时保留，不会自动重建。' : assignment.blockedReason === 'invalid-role-configuration' ? '工程暂停：需要广播员、木匠、后勤官各一岗。当前岗位安排无法执行；已投入材料与工时保留。'
         : assignment.blockedReason === 'missing-role' ? `工程暂停：${assignment.missingRoles.map(relayRoleLabel).join('、')}尚无唯一可用成员。补齐岗位后自动继续；已投入材料与工时保留。`
         : status === 'unknown' ? '找到废弃广播塔，回收广播核心。'
         : status === 'core-recovered' ? '靠近可接收的营地长官，交付广播核心。'
         : status === 'briefed' ? '核心已交付。三名岗位成员将每累计30分钟分批筹料；先用库存，再取有限的现有材料来源。'
         : status === 'staging' ? '每累计30分钟尝试分批筹料；先用库存，再取有限的树木、废料和石块。材料齐备后自动施工。'
         : status === 'building' ? `施工累计 ${Number.isFinite(project.workMinutes) ? project.workMinutes : '未记录'}/${Number.isFinite(project.targetMinutes) ? project.targetMinutes : '未记录'} 分钟；筹料另计。世界与危险继续，岗位变化可能暂停工程。`
-        : status === 'online' ? `${nextRelayRouteText}；侦察与共享范围已扩大。仍需准备防线并亲自应对。` : '工程状态未记录。';
+        : status === 'online' ? relayOnline() ? `${nextRelayRouteText}；当前侦察与共享范围扩大，仍需准备防线并亲自应对。` : `${relayStationStatusText()}。靠近同一站点查看维修资格；已投入材料、工程与交付记录保留。` : '工程状态未记录。';
       $('relayTaskText').textContent = task;
       const materialNames = { wood: '🪵 木材', parts: '🔩 零件', stone: '🪨 石材' };
       $('relayMaterials').innerHTML = Object.keys(project.materialNeed || { wood: 10, parts: 5, stone: 4 }).map(kind => {
@@ -6221,10 +6217,10 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       }).join('');
       const crew = assignment.bindings.map(({ roleId, npc, reason }) => {
         if (!npc) return `${relayRoleLabel(roleId)}：${reason === 'ambiguous-role' ? '任职不唯一' : '缺岗'}`;
-        return `${relayRoleLabel(roleId)}：${npc.name}${npc.id !== roleId ? '（暂代）' : ''}${assignment.blockedReason ? ' · 等待补岗' : npc.lastReport ? `（${npc.lastReport}）` : ' · 可承担'}`;
+        return `${relayRoleLabel(roleId)}：${npc.name}${npc.id !== roleId ? '（暂代）' : ''}${assignment.blockedReason ? ' · 等待补岗' : npc.lastReport ? `（上次报告：${npc.lastReport}）` : ' · 可承担'}`;
       });
       $('relayCrewText').textContent = `项目成员：${assignment.configurationValid ? crew.join(' · ') : '岗位配置无效，尚未安排'}`;
-      $('relayPanelHint').textContent = status === 'online' ? '中继帮助发现威胁、标定下一场接近通道，不会替你守住营地。当前工程状态与过去的交付记录分别保留。'
+      $('relayPanelHint').textContent = status === 'online' ? '工程完成与当前能力分开记录；站点损毁会停止当前侦察和下一场标定，付费修理时世界与危险继续。'
         : ['briefed','staging','building'].includes(status) ? '工程会消耗真实材料并占用三名岗位成员。世界、人物需求和危险仍在继续；留意库存、人员与防线。'
         : '探索、交付、筹料与施工完成后，广播中继站才能投入使用。';
     }
@@ -6309,7 +6305,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       const forecast = state.hordeForecast || {};
       const currentEncounter = SessionController.mode === 'BATTLE' && state.nightBattle && !state.nightBattle.resolved ? state.nightBattle : null;
       const alertText = currentEncounter ? currentEncounter.routeId === 'relay-guided-west' ? '本场 · 中继标定分散通道' : currentEncounter.routeId === 'eastern-breach' ? '本场 · 常规接近通道' : '本场接近通道未记录'
-        : state.relayProject?.status === 'online' ? forecast.routeId === 'relay-guided-west' ? '中继在线 · 下场采用标定分散通道' : forecast.routeId === 'eastern-breach' ? '中继在线 · 下场采用常规接近通道' : '中继在线 · 下场接近通道未记录' : `尸潮预警 ${clockAlert}%`;
+        : relayProjectCompleted() ? !relayOnline() ? '工程已完成 · 当前中继停用 · 下场依靠营地观察' : forecast.routeId === 'relay-guided-west' ? '中继在线 · 下场采用标定分散通道' : forecast.routeId === 'eastern-breach' ? '中继在线 · 下场采用常规接近通道' : '中继在线 · 下场接近通道未记录' : `尸潮预警 ${clockAlert}%`;
       $('alertPill').textContent = alertText;
       if ($('basicAlertValue')) $('basicAlertValue').textContent = alertText;
       if ($('overviewDay')) $('overviewDay').textContent = `第 ${state.day} 天 · ${formatTime()}`;
@@ -6784,7 +6780,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       const item = target.item;
       if (target.kind === 'resource') { const gain = item.type === 'tree' ? 4 : item.type === 'rock' ? 3 : 2; const unit = {tree:'木材',rock:'石材',berry:'食物',scrap:'零件',herb:'药草'}[item.type] || '资源'; return `预演：消耗 8 行动体力 · 推进 30 分钟 · 预计 ${unit} +${gain}`; }
       if (target.kind === 'crop') return item.ready ? '预演：消耗 6 体力 · 推进 20 分钟 · 食物 +3' : item.planted ? `预演：作物生长 ${item.growth}/2 · 当前不可收获` : '预演：消耗 4 体力和 1 种子 · 推进 20 分钟';
-      if (target.kind === 'repair') return '预演：消耗 14 行动体力、2 木材 · 推进 20 分钟 · 防线耐久 +1';
+      if (target.kind === 'repair') return target.repairType === 'relayStation' ? '维修中继站：消耗14行动体力、2木材 · 推进20分钟 · 耐久+1；世界与危险继续' : '预演：消耗 14 行动体力、2 木材 · 推进 20 分钟 · 防线耐久 +1';
       if (target.kind === 'npc') return `状态卡：${npcStateSummary(item)} · 再按一次 E 确认请求支援`;
       if (target.kind === 'landmark') return '预演：消耗 3 行动体力 · 推进 20 分钟 · 触发一次探索奖励或噪声';
       if (target.kind === 'outpost') {
@@ -6849,9 +6845,10 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       let hint = '靠近目标后按 E 交互；按 F 或空格攻击。';
       let actionIndex = 0;
       const dayAttackGate = playerDayAttackGate();
-      const add = (label, sub, action, cls = '', disabled = false, cropTargetId = null, npcTargetId = null, attackTargetId = null) => {
+      let relayMaintenanceFeedback = '';
+      const add = (label, sub, action, cls = '', disabled = false, cropTargetId = null, npcTargetId = null, attackTargetId = null, repairTargetId = null) => {
         const index = actionIndex++;
-        actions.push(`<button class="context-action ${cls}" data-context-action="${action}" data-context-index="${index}" ${/^campRest(30|60)$/.test(action) ? 'aria-describedby="campRestFeedback"' : ''} ${cropTargetId !== null ? `data-building-id="${eventUiText(cropTargetId)}" data-crop-target="true"` : ''} ${npcTargetId !== null ? `data-npc-id="${eventUiText(npcTargetId)}"` : ''} ${attackTargetId !== null ? `data-enemy-id="${eventUiText(attackTargetId)}"` : ''} ${action === 'attack' ? 'aria-describedby="playerAttackFeedback"' : ''} ${disabled ? 'disabled' : ''}><kbd class="action-index">${index + 1}</kbd>${label}<small>${sub}</small></button>`);
+        actions.push(`<button class="context-action ${cls}" data-context-action="${action}" data-context-index="${index}" ${/^campRest(30|60)$/.test(action) ? 'aria-describedby="campRestFeedback"' : ''} ${cropTargetId !== null ? `data-building-id="${eventUiText(cropTargetId)}" data-crop-target="true"` : ''} ${npcTargetId !== null ? `data-npc-id="${eventUiText(npcTargetId)}"` : ''} ${attackTargetId !== null ? `data-enemy-id="${eventUiText(attackTargetId)}"` : ''} ${action === 'attack' ? 'aria-describedby="playerAttackFeedback"' : ''} ${repairTargetId !== null ? `data-building-id="${eventUiText(repairTargetId)}" data-repair-type="relayStation" ${action === 'repair' ? 'aria-describedby="relayMaintenanceFeedback"' : ''}` : ''} ${disabled ? 'disabled' : ''}><kbd class="action-index">${index + 1}</kbd>${label}<small>${sub}</small></button>`);
       };
       if (zombies.length) {
         icon = '🧟'; title = '附近有僵尸';
@@ -6913,6 +6910,13 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
         if (shelter) add('⚙️ 查看武器进化', '选择一条改变战斗方式的路线', 'weapon');
         const repairable = buildings.find(b => (b.type === 'wall' || b.type === 'spikeWall') && (b.hp || 0) < (b.type === 'spikeWall' ? 4 : 3));
         if (repairable) add('🪚 修理墙体', `消耗 14 行动体力、2 木材 · 防线耐久 +1`, 'repair', 'primary', state.wood < 2 || state.energy < 14);
+        const relayStation = buildings.find(building => building.type === 'relayStation');
+        if (relayStation) {
+          const gate = relayStationRepairGate(relayStation);
+          relayMaintenanceFeedback = relayStationStatusText() + '。' + (gate.ok ? '维修消耗2木材、14行动体力，耐久+1；推进20分钟，世界与危险继续。' : relayMaintenanceReasonText(gate.reason));
+          add('📡 查看中继站', '查看范围1.25格 · 只查看当前耐久与能力', 'relayStationView', '', false, null, null, null, relayStation.id);
+          add('🪚 维修中继站', '2木材 · 14行动体力 · 耐久+1 · 推进20分钟', 'repair', 'primary', !gate.ok, null, null, null, relayStation.id);
+        }
       }
       if (landmarks.length) {
         const l = landmarks[0]; icon = l.icon; title = `${l.name} · 地标`; hint = '探索会消耗体力，但可能找到收藏品、蓝图和零件。';
@@ -6960,7 +6964,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       $('contextIcon').textContent = icon;
       $('contextTitle').textContent = title;
       $('contextHint').textContent = hint;
-      $('contextActions').innerHTML = (zombies.length ? `<p class="camp-rest-feedback" id="playerAttackFeedback" role="status">${eventUiText(dayAttackGate.ok ? '可攻击相邻目标 · 消耗5行动体力' : playerDayAttackReasonText(dayAttackGate.reason))}</p>` : '') + (campRestGates ? `<p class="camp-rest-feedback" id="campRestFeedback" role="status" aria-live="polite">${eventUiText(campRestGateFeedback(campRestGates))}</p>` : '') + actions.join('');
+      $('contextActions').innerHTML = (zombies.length ? `<p class="camp-rest-feedback" id="playerAttackFeedback" role="status">${eventUiText(dayAttackGate.ok ? '可攻击相邻目标 · 消耗5行动体力' : playerDayAttackReasonText(dayAttackGate.reason))}</p>` : '') + (campRestGates ? `<p class="camp-rest-feedback" id="campRestFeedback" role="status" aria-live="polite">${eventUiText(campRestGateFeedback(campRestGates))}</p>` : '') + (relayMaintenanceFeedback ? `<p class="camp-rest-feedback" id="relayMaintenanceFeedback" role="status">${eventUiText(relayMaintenanceFeedback)}</p>` : '') + actions.join('');
       panel.classList.add('show');
       if (campRestGates) renderCampRestStatus(campRestGates);
       if (previousSightActor && !Array.from($('contextActions').querySelectorAll('[data-context-action="npcView"]')).some(button => button.dataset.npcId === previousSightActor)) clearNpcSightReportUi();
@@ -7075,7 +7079,47 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       if (state.collection[kind] === cap && before < cap) log(`${kind === 'tape' ? '旧磁带' : kind === 'blueprint' ? '蓝图碎片' : '旧时代遗物'}收藏完成，探索奖励已记入收藏册。`, '');
       return state.collection[kind] - before;
     }
-    function relayOnline() { return state.relayProject?.status === 'online'; }
+    // Completion is history; operational capability is a pure current query.
+    function relayProjectCompleted() { return state.relayProject?.status === 'online'; }
+    function relayStationBuilding() {
+      const id = state.relayProject?.buildingId;
+      if (typeof id !== 'string' || !id || !Array.isArray(state.buildings)) return null;
+      const matches = state.buildings.filter(building => building && building.id === id);
+      return matches.length === 1 && matches[0].type === 'relayStation' ? matches[0] : null;
+    }
+    function relayStationGeometry(station) {
+      if (!station || !inBounds(station.x, station.y)) return false;
+      if (['w','h'].some(key => Object.hasOwn(station,key) && (!Number.isFinite(station[key]) || station[key] !== 2))) return false;
+      const footprint = buildingFootprint(station);
+      return footprint.w === 2 && footprint.h === 2 && station.x + 2 <= MAP.cols && station.y + 2 <= MAP.rows;
+    }
+    function relayStationCapability() {
+      const station = relayStationBuilding(), maxHp = 8;
+      const result = (status, reason, hp = null) => ({ status, operational: status === 'operational', station, hp, maxHp, reason });
+      if (!relayProjectCompleted()) return result('not-complete','project-not-complete');
+      if (!station || !relayStationGeometry(station)) return result('unknown','station-identity');
+      if (!Object.hasOwn(station,'hp') || !Number.isFinite(station.hp) || station.hp < 0 || station.hp > maxHp) return result('unknown','station-health');
+      if (station.hp === 0) return result('destroyed','station-destroyed',0);
+      if (['active','relayEnabled'].some(key => !Object.hasOwn(station,key) || typeof station[key] !== 'boolean')) return result('unknown','station-flags',station.hp);
+      if (!station.active || !station.relayEnabled) return result('inactive','station-inactive',station.hp);
+      return result('operational',null,station.hp);
+    }
+    function relayOnline() { return relayStationCapability().operational; }
+    // Called only by committed damage, physical repair or first completion.
+    // A read, render, loader or ordinary project tick never reopens the station.
+    function syncRelayStationCapability(restore = false) {
+      const station = relayStationBuilding();
+      if (!station || !relayStationGeometry(station) || !Number.isFinite(station.hp) || station.hp < 0 || station.hp > 8) return;
+      if (station.hp === 0) { station.active = false; station.relayEnabled = false; }
+      else if (restore && relayProjectCompleted()) { station.active = true; station.relayEnabled = true; }
+    }
+    function relayStationStatusText() {
+      const view = relayStationCapability();
+      if (!relayProjectCompleted()) return '工程尚未完成 · 当前中继未启用';
+      const hp = view.hp === null ? '未记录' : String(view.hp);
+      const status = view.operational ? '当前中继可用' : view.status === 'destroyed' ? '站点损毁 · 当前中继停用' : view.status === 'inactive' ? '当前中继停用' : '当前站点无法确认';
+      return `工程已完成 · ${status} · 耐久 ${hp}/8`;
+    }
     function relayEventMeta(effectKey, actorId = 'system') { const def = eventDefinition('relay-chain-001'); return { actorId, defId: 'relay-chain-001', definitionVersion: def?.definitionVersion || EVENT_DEFINITION_VERSION, instanceId: state.relayProject?.id || 'camp-relay-001', effects: def?.effects?.[effectKey] || def?.choices?.find(choice => choice.id === effectKey)?.effects || [] }; }
     function relayLatestEventId(projectId = state.relayProject?.id || 'camp-relay-001') {
       const events = Array.isArray(state.worldMeta?.events) ? state.worldMeta.events : [];
@@ -7136,16 +7180,15 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
         blockedReason: unfinished ? !configurationValid ? 'invalid-role-configuration' : missingRoles.length ? 'missing-role' : null : null };
     }
     function relayActiveParticipants() { return relayRoleBindings().bindings.map(binding => binding.npc).filter(Boolean); }
-    function relayStationBuilding() { return state.buildings.find(building => building.id === state.relayProject?.buildingId || building.type === 'relayStation') || null; }
-    function ensureRelayStationBuilding() {
-      ensureRelayFacts();
+    function ensureRelayStationBuilding(options = {}) {
+      const project = state.relayProject;
       let station = relayStationBuilding();
-      if (!station) {
-        station = { id: state.relayProject.buildingId, x: 12, y: 0, type: 'relayStation', w: 2, h: 2, hp: 8, active: false, projectStatus: state.relayProject.status };
+      if (!station && options.create === true && project?.status === 'staging' &&
+          !state.buildings.some(building => building.id === project.buildingId)) {
+        station = { id: project.buildingId, x: 12, y: 0, type: 'relayStation', w: 2, h: 2, hp: 8, active: false, relayEnabled: false, projectStatus: 'building' };
         state.buildings.push(station);
       }
-      station.id = state.relayProject.buildingId; station.type = 'relayStation'; station.w = 2; station.h = 2; station.hp = Math.max(0, Number(station.hp) || 8); station.active = relayOnline(); station.relayEnabled = station.active; station.projectStatus = state.relayProject.status;
-      return station;
+      return station && relayStationGeometry(station) ? station : null;
     }
     function relayTakeMaterial(kind, amount, sourceTypes = []) {
       ensureRelayFacts();
@@ -7274,6 +7317,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       const actorIds = before.participants.map(item => item.npcId);
       if (missing.length || actorIds.some(id => typeof id !== 'string' || !id) || new Set(actorIds).size !== before.participants.length) return relayConstructionRuntimeFailure('participant-unavailable', { missing }, before);
       const building = before.building;
+      if (state.buildings.some(item => item.id === instance.buildingId) && !relayStationBuilding()) return relayConstructionRuntimeFailure('building-identity-invalid', {}, before);
       if (building.occupiedBy !== null && building.occupiedBy !== instance.instanceId) return relayConstructionRuntimeFailure('building-occupied', { occupiedBy: building.occupiedBy, projectId: instance.instanceId }, before);
       // This slice owns only briefed -> staging. Materials, work, online and
       // standing remain on the legacy source-of-truth until later gates.
@@ -7408,17 +7452,14 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       return ['wood', 'parts', 'stone'].every(kind => Number(project.materialProgress[kind]) >= Number(project.materialNeed[kind]));
     }
     function updateRelayForecast() {
-      // Capture the prior observation before normalization fills online
-      // defaults, so the real route change retains its causal event.
-      const previous = state.hordeForecast || {};
-      ensureRelayFacts();
-      const project = state.relayProject;
-      const online = project.status === 'online';
+      const previous = state.hordeForecast || {}, project = state.relayProject || {};
+      const online = relayOnline();
       const next = { ...previous, confidence: online ? 92 : project.status === 'building' ? 58 : 18, leadMinutes: online ? project.forecastLeadMinutes : 0, routeId: online ? 'relay-guided-west' : 'eastern-breach', source: online ? 'relay-station' : 'camp-observation', updatedAt: worldMinute() };
       state.hordeForecast = next;
-      if (online && (previous.routeId !== next.routeId || previous.source !== next.source || previous.confidence !== next.confidence)) recordWorldEvent('threat.forecastChanged', { projectId: project.id, forecast: stableClone(next), routeId: next.routeId }, relayEventMeta('online', 'radio'));
+      if ((online || previous.source === 'relay-station' || previous.routeId === 'relay-guided-west') && (previous.routeId !== next.routeId || previous.source !== next.source || previous.confidence !== next.confidence || previous.leadMinutes !== next.leadMinutes))
+        recordWorldEvent('threat.forecastChanged', { projectId: project.id, forecast: stableClone(next), routeId: next.routeId }, { ...relayEventMeta('online'), actorId: 'camp-autonomy' });
       state.campaign = state.campaign || {};
-      state.campaign.phase = online ? 'relay-online' : state.campaign.phase === 'relay-online' ? 'omen' : state.campaign.phase;
+      if (relayProjectCompleted()) state.campaign.phase = 'relay-online';
     }
     function updateRelayProject(minutes = 0) {
       ensureRelayFacts();
@@ -7460,24 +7501,26 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
         if (reports.length) { recordWorldEvent('relay.materialsGathered', { projectId: project.id, at: project.lastMaterialAt, progress: stableClone(project.materialProgress), reports, sources: (state.__relayMaterialSources || []).splice(0) }, relayEventMeta('stage')); log(`中继筹料：${reports.join('，')}。`); }
       }
       if (relayMaterialsReady() && project.status === 'staging') {
-        project.status = 'building'; project.materialClock = 0; project.workMinutes = 0;
-        const station = ensureRelayStationBuilding(); station.projectStatus = 'building';
+        const station = ensureRelayStationBuilding({ create: true });
+        if (!station) { project.lastBlockedReason = 'station-unavailable'; updateRelayForecast(); return; }
+        project.status = 'building'; project.materialClock = 0; project.workMinutes = 0; station.projectStatus = 'building';
         participants.forEach(npc => { cancelNpcRoutineIntent(npc, 'relay-duty'); npc.scheduleState = '中继施工'; npc.behaviorState = 'work'; npc.lastReport = '正在施工广播中继站'; });
         recordWorldEvent('relay.materialsCommitted', { projectId: project.id, materialProgress: stableClone(project.materialProgress), buildingId: station.id }, relayEventMeta('stage'));
         log('中继站材料齐备，广播员、木匠和后勤官开始施工。');
       }
       if (project.status === 'building') {
-        project.workMinutes += Math.max(0, Number(minutes) || 0);
-        const station = ensureRelayStationBuilding(); station.projectStatus = 'building';
+        const station = ensureRelayStationBuilding();
+        if (!station) { project.lastBlockedReason = 'station-unavailable'; updateRelayForecast(); return; }
+        project.workMinutes += Math.max(0, Number(minutes) || 0); station.projectStatus = 'building';
         participants.forEach(npc => { cancelNpcRoutineIntent(npc, 'relay-duty'); npc.scheduleState = '中继施工'; npc.behaviorState = 'work'; npc.lastReport = `施工中 · ${Math.min(100, Math.round(project.workMinutes / project.targetMinutes * 100))}%`; });
         if (project.workMinutes >= project.targetMinutes) {
-          project.status = 'online'; project.completedAt = worldMinute(); station.active = true; station.projectStatus = 'online';
-          participants.forEach(npc => { npc.scheduleState = '广播中继站值守'; npc.behaviorState = 'work'; npc.lastReport = '广播中继站已启用，正在共享尸群坐标'; });
+          project.status = 'online'; project.completedAt = worldMinute(); station.projectStatus = 'online'; syncRelayStationCapability(true);
+          participants.forEach(npc => { npc.scheduleState = '广播中继站值守'; npc.behaviorState = 'work'; npc.lastReport = relayOnline() ? '广播中继站已启用，正在共享尸群坐标' : '工程已完成，站点当前未运行'; });
           updateRelayForecast();
           applyStandingDelta({ prestige: 3, merit: 5, contribution: 3, legitimacy: 2, domains: { defense: 2, recon: 4 } }, { reason: '广播中继站启用', visibility: 'public' });
           recordWorldEvent('relay.stationOnline', { projectId: project.id, buildingId: station.id, sharedSightBonus: project.sharedSightBonus, sharedRangeBonus: project.sharedRangeBonus, forecast: stableClone(state.hordeForecast), routeId: state.hordeForecast.routeId }, relayEventMeta('online'));
-          log('广播中继站启用：幸存者开始共享更远的索敌范围，尸潮路线出现新的预测窗口。');
-          pushFx('signal', '📡 中继启用', station.x, station.y, 'info');
+          log(relayOnline() ? '广播中继站启用：幸存者开始共享更远的索敌范围，尸潮路线出现新的预测窗口。' : '中继工程已完成，但站点当前未运行；投入与完成记录保留，需检查实际耐久。');
+          pushFx('signal', relayOnline() ? '📡 中继启用' : '📡 工程完成 · 当前停用', station.x, station.y, 'info');
         }
       }
       updateRelayForecast();
@@ -7661,6 +7704,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       const area = nearestEntityAt(CAMP_AREAS, x, y, 0.85);
       if (npc) return { kind: 'npc', item: npc, priority: 1 };
       if (resource) return { kind: 'resource', item: resource, priority: 2 };
+      if (building?.type === 'relayStation' && relayProjectCompleted() && Number.isFinite(building.hp) && building.hp < 8) return { kind: 'repair', item: building, repairType: 'relayStation', priority: 4 };
       if (building && (building.type === 'garden' || building.type === 'greenhouse')) return { kind: 'crop', item: building, priority: 3 };
       if (building && (building.type === 'wall' || building.type === 'spikeWall') && (building.hp || 0) < (building.type === 'spikeWall' ? 4 : 3)) return { kind: 'repair', item: building, priority: 4 };
       if (landmark) return { kind: 'landmark', item: landmark, priority: 5 };
@@ -7742,7 +7786,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       if (target.kind === 'npc') { const result = interactNpc(target.item); return result?.ok === true && !result.duplicate; }
       if (target.kind === 'resource') { gather(target.item); return true; }
       if (target.kind === 'crop') { plantOrHarvest(target.item); return true; }
-      if (target.kind === 'repair') { repairBuilding(target.item); return true; }
+      if (target.kind === 'repair') { const result = repairBuilding(target.item, { relayStation: target.repairType === 'relayStation' }); return result?.ok === true && !result.duplicate; }
       if (target.kind === 'landmark') { discoverLandmark(target.item); return true; }
       if (target.kind === 'outpost') { captureOutpost(target.item.type); return true; }
       if (target.kind === 'building') {
@@ -7782,7 +7826,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       }
       if (type === 'relayStation') {
         const project = state.relayProject || {};
-        const statusLabel = project.status === 'online' ? '已启用' : project.status === 'building' ? `施工中 ${Math.min(100, Math.round(project.workMinutes / project.targetMinutes * 100))}%` : project.status === 'staging' ? '筹料中' : '待长官接收 relayCore';
+        const statusLabel = project.status === 'online' ? relayStationStatusText() : project.status === 'building' ? `施工中 ${Math.min(100, Math.round(project.workMinutes / project.targetMinutes * 100))}%` : project.status === 'staging' ? '筹料中' : '待长官接收 relayCore';
         toast(`广播中继站：${statusLabel}`); log(`广播中继站状态：${statusLabel}。`); render(); return { message: statusLabel };
       }
       if (['tower','flameTower'].includes(type)) {
@@ -8037,6 +8081,74 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       else { log('你在菜畦里播下一颗种子，记得活到两天后。'); toast('播种完成'); }
       render(); return { ok: true, ...proof };
     }
+    function relayStationRepairGate(preferred, options = {}) {
+      const fail = reason => ({ ok: false, reason });
+      if (state.gameOver) return fail('game-over');
+      if (!SessionController.isDay()) return fail(state.night ? 'night-lock' : 'day-only');
+      const id = typeof preferred === 'string' ? preferred : preferred?.id;
+      if (typeof id !== 'string' || !id || !Array.isArray(state.buildings)) return fail('repair-target-unknown');
+      const matches = state.buildings.filter(item => item.id === id);
+      if (matches.length !== 1) return fail('repair-target-identity');
+      const station = matches[0];
+      if (preferred && typeof preferred === 'object' && preferred !== station) return fail('repair-target-unknown');
+      if (station.type !== 'relayStation' || id !== state.relayProject?.buildingId) return fail('repair-target-type');
+      if (!relayProjectCompleted()) return fail('relay-not-complete');
+      if (!relayStationGeometry(station)) return fail('repair-target-geometry');
+      if (!Number.isFinite(station.hp) || !Object.hasOwn(station,'hp') || station.hp < 0 || station.hp > 8) return fail('repair-target-health');
+      if (!(contextDistance(station) <= 1)) return fail('repair-too-far');
+      if (station.hp >= 8) return fail('repair-full');
+      if (state.worldMeta.clock?.paused) return fail('clock-paused');
+      const plan = planWorldAdvance(20); if (!plan.ok) return fail(plan.reason);
+      let budget = CommandBus.nextAutomaticId(state.worldMeta);
+      if (budget.ok && options.parentAllocated !== true) budget = CommandBus.nextAutomaticId({ ...state.worldMeta, commandSeq: budget.commandSeq, activeCommandId: budget.commandId });
+      if (!budget.ok) return fail(budget.reason);
+      if (!Number.isFinite(state.wood) || state.wood < 2) return fail('repair-wood');
+      if (!Number.isFinite(state.energy) || state.energy < 14) return fail('repair-energy');
+      return { ok: true, station, buildingId: id, plan };
+    }
+    function relayMaintenanceReasonText(reason) {
+      return ({ 'repair-too-far':'靠近至1格内才能维修；查看范围为1.25格', 'repair-full':'当前耐久已满，无需修理',
+        'repair-wood':'需要2木材', 'repair-energy':'需要14行动体力', 'clock-paused':'先恢复世界时间再维修',
+        'game-over':'本局已结束', 'day-only':'当前阶段无法维修', 'night-lock':'遭遇期间不能维修',
+        'relay-not-complete':'工程尚未完成，不能进行上线维护', 'repair-target-health':'当前耐久无法确认，不能按未知值维修',
+        'repair-target-geometry':'当前站点无法确认', 'repair-target-type':'原站点身份已变化',
+        'repair-target-identity':'原站点无法唯一确认', 'repair-target-unknown':'原站点已不在场',
+        'command-sequence-exhausted':'本次行动编号不足，尚未支付', 'command-sequence-invalid':'当前行动状态无法确认' })[reason] || '当前时钟或站点状态无法完成维修';
+    }
+    function viewRelayStation(preferred) {
+      const id = typeof preferred === 'string' ? preferred : preferred?.id;
+      const station = relayStationBuilding();
+      if (!SessionController.isDay() || !station || station.id !== id || preferred && typeof preferred === 'object' && preferred !== station || !(contextDistance(station) <= CONTEXT_INTERACTION_RADIUS)) return { ok: false, reason: 'station-view-unavailable' };
+      const text = relayStationStatusText(); toast(text); return { ok: true, buildingId: id, text };
+    }
+    function repairRelayStationReducer(preferred) {
+      const gate = relayStationRepairGate(preferred, { parentAllocated: true }); if (!gate.ok) return gate;
+      const station = gate.station;
+      const resources = () => Object.fromEntries(['wood','stone','food','parts','medicine','seeds','energy'].map(key => [key,state[key]]));
+      const calendar = () => ({ day: state.day, hour: state.hour, minute: state.minute, world: worldMinute() });
+      const before = resources(), clockBefore = calendar(), hpBefore = station.hp;
+      const standingBefore = stableClone(state.campStanding), trustBefore = campTrustValue(), capabilityBefore = relayStationCapability().status;
+      setPlayerAction('work',760); if (!spendEnergy(14)) return { ok: false, reason: 'repair-energy' };
+      state.wood -= 2; const afterPayment = resources(); station.hp = Math.min(8,hpBefore + 1);
+      const hpAfterRepair = station.hp; syncRelayStationCapability(true); updateRelayForecast();
+      const advanceStartSeq = state.worldMeta.eventSeq, advancement = advance(20);
+      const after = resources(), clockAfter = calendar();
+      const advanceEvents = state.worldMeta.events.filter(event => event.seq > advanceStartSeq && event.seq <= (advancement?.event?.seq ?? state.worldMeta.eventSeq));
+      const present = state.buildings.includes(station) && relayStationBuilding() === station;
+      const capability = relayStationCapability();
+      const proof = { proofVersion: 1, buildingId: gate.buildingId, buildingType: 'relayStation',
+        target: { id: gate.buildingId, type:'relayStation', typeAtCompletion: present ? station.type : null, hpBefore, hpAfter: hpAfterRepair, maxHp:8, presentAtCompletion:present, hpAtCompletion:present ? station.hp : null },
+        payment: { cost:{wood:2,energy:14}, before:{wood:before.wood,energy:before.energy}, after:{wood:afterPayment.wood,energy:afterPayment.energy} },
+        resources:{before,afterPayment,after}, delta:Object.fromEntries(Object.keys(before).map(key=>[key,after[key]-before[key]])),
+        clock:{before:clockBefore,after:clockAfter,requestedMinutes:20,elapsedMinutes:clockAfter.world-clockBefore.world},
+        standing:{before:standingBefore,afterRepair:standingBefore,after:stableClone(state.campStanding),trustBefore,trustAfterRepair:trustBefore,trustAfter:campTrustValue(),eventIds:[]},
+        advance:{ok:advancement?.ok === true,commandId:advancement?.commandId || null,eventId:advancement?.event?.eventId || null,causationId:advancement?.event?.causationId || null,minutes:advancement?.event?.payload?.minutes ?? null,tick:advancement?.event ? stableClone(advancement.event.tick) : null,...(advancement?.event?.payload?.clockPolicy ? {clockPolicy:advancement.event.payload.clockPolicy,scaledMinutes:advancement.event.payload.scaledMinutes,remainderBefore:advancement.event.payload.remainderBefore,remainderAfter:advancement.event.payload.remainderAfter} : {})},
+        advanceEffects:{resourceDelta:Object.fromEntries(Object.keys(before).map(key=>[key,after[key]-afterPayment[key]])),events:advanceEvents.map(event=>({eventId:event.eventId,type:event.type,actorId:event.actorId,commandId:event.commandId,causationId:event.causationId})),npcMeals:advanceEvents.filter(event=>event.type==='npc.need.fulfilled'&&event.payload.need==='hunger').map(event=>({eventId:event.eventId,npcId:event.payload.npcId,food:event.payload.food}))},
+        outcome:{physicalRepairApplied:true,capabilityBefore,currentCapability:capability.status,operationalAtCompletion:capability.operational,playerSurvived:state.hp>0&&!state.gameOver} };
+      log(`你修理了广播中继站，实际耐久 +1；${relayStationStatusText()}。`);
+      if (!state.gameOver) { toast(capability.operational ? '中继站修理完成；当前可用，仍需留意危险' : '已修复1点耐久；当前中继仍不可用'); render(); }
+      return { ok:true,...proof };
+    }
     function repairBuildingReducer(preferred = null) {
       if (!guardNightAction()) return nightActionResult();
       if (state.gameOver) return { ok: false, reason: 'game-over' };
@@ -8096,8 +8208,11 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
     }
     function repairBuilding(preferred = null, options = {}) {
       if (!guardNightAction(options)) return nightActionResult();
-      return dispatchCommand({ type: 'building.repair', commandId: options.commandId, payload: { buildingId: preferred?.id || null } }, () => {
-        const result = repairBuildingReducer(preferred);
+      const isStation = options.relayStation === true || typeof preferred === 'string' || preferred?.type === 'relayStation';
+      const id = typeof preferred === 'string' ? preferred : preferred?.id;
+      const buildingId = typeof id === 'string' ? id : null;
+      return dispatchCommand({ type: 'building.repair', ...(isStation ? { actorId: 'player-1' } : {}), commandId: options.commandId, payload: { buildingId } }, () => {
+        const result = isStation ? repairRelayStationReducer(preferred) : repairBuildingReducer(preferred);
         if (!result.ok) return result;
         return { result, payload: result };
       }, { eventType: 'building.repaired' });
@@ -8225,7 +8340,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       for (const key of ['motionTarget', 'goal']) {
         if (npc[key] != null && (typeof npc[key] !== 'object' || !inBounds(npc[key].x, npc[key].y))) return false;
       }
-      if (state.relayProject?.status === 'online' && ['sharedSightBonus', 'sharedRangeBonus'].some(key =>
+      if (relayOnline() && ['sharedSightBonus', 'sharedRangeBonus'].some(key =>
         !Number.isFinite(state.relayProject[key]) || state.relayProject[key] < 0)) return false;
       if (!Array.isArray(state.worldZombies) || state.worldZombies.length > 64 || !Array.isArray(state.buildings) || state.buildings.length > 128) return false;
       for (const building of state.buildings) {
@@ -9191,9 +9306,10 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       const food = foodSituation();
       const foodThreat = food.level === '断粮' ? 2 : food.level === '紧张' ? 1 : 0;
       const foodDefense = food.level === '充裕' ? 2 : food.level === '稳定' ? 1 : food.level === '紧张' ? -1 : -3;
+      updateRelayForecast();
       const forecast = state.hordeForecast || {};
-      const relayGuided = state.relayProject?.status === 'online';
-      const routeId = relayGuided ? (forecast.routeId || 'relay-guided-west') : 'eastern-breach';
+      const relayGuided = relayOnline();
+      const routeId = relayGuided ? 'relay-guided-west' : 'eastern-breach';
       const relayReduction = relayGuided ? 1 : 0;
       const count = Math.max(1, 3 + state.day - radioReduction - relayReduction - (radioOrder === 'guard' ? 1 : 0) - (hasBeacon && radioReduction ? 1 : 0) + state.eventThreat + noiseLevel + foodThreat);
       const supportText = activeSupports.length ? activeSupports.map(n => { const order = getNpcOrderInfo(n); return n.name + '·' + order.name; }).join(' · ') : '未请求支援';
@@ -9203,7 +9319,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       const sergeantActive = activeSupports.some(n => npcHasRole(n, 'sergeant'));
       const coordinationBonus = (commanderActive ? 4 : 0) + (sergeantActive ? 2 : 0);
       const barrierMax = Math.max(1, 1 + wallCount + spikeCount * 2 + (hasCarpenter ? Math.max(1, Math.round(carpenterEfficiency)) : 0) + guardCount * 2 + coordinationBonus);
-      const defense = 8 + state.buildings.reduce((sum,b) => sum + (b.type === 'shelter' ? 8 : buildInfo[b.type]?.defense || 0), 0) + Math.round(state.morale/20) + (hasCarpenter ? Math.round(6 * carpenterEfficiency) : 0) + guardCount * 3 + coverCount * 2 + coordinationBonus + (state.tempCoordination ? 1 : 0) + foodDefense;
+      const defense = 8 + state.buildings.reduce((sum,b) => sum + (b.type === 'shelter' ? 8 : b.type === 'relayStation' ? relayGuided && b === relayStationBuilding() ? 8 : 0 : buildInfo[b.type]?.defense || 0), 0) + Math.round(state.morale/20) + (hasCarpenter ? Math.round(6 * carpenterEfficiency) : 0) + guardCount * 3 + coverCount * 2 + coordinationBonus + (state.tempCoordination ? 1 : 0) + foodDefense;
       const startProgress = relayGuided ? 0 : radioOrder === 'guard' ? 0 : 3;
       const routeLanes = routeId === 'relay-guided-west' ? [5, 9, 13] : MAP.battle.laneRows;
       const encounterId = `threat-${state.day}-${state.hour}-${state.minute}-${state.worldMeta.eventSeq + 1}`;
@@ -9922,7 +10038,8 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       else if (action === 'captureOutpost' && nearbyOutpost) captureOutpost(button.dataset.outpostId || nearbyOutpost.type);
       else if (action === 'gather') gather();
       else if (action === 'crop') plantOrHarvest(button.dataset.buildingId || '');
-      else if (action === 'repair') repairBuilding();
+      else if (action === 'repair') { const result = button.dataset.repairType === 'relayStation' ? repairBuilding(button.dataset.buildingId || '', { relayStation: true }) : repairBuilding(); if (!result.ok && button.dataset.repairType === 'relayStation') toast(relayMaintenanceReasonText(result.reason)); }
+      else if (action === 'relayStationView') { const result = viewRelayStation(button.dataset.buildingId || ''); if (!result.ok) toast('当前无法查看原中继站'); }
       else if (action === 'landmark' && nearbyLandmark) discoverLandmark(nearbyLandmark);
       else if (action === 'area') { const nearbyArea = nearbyContextItem(CAMP_AREAS); if (nearbyArea) interactCampArea(nearbyArea); }
       else if (action === 'building' && button.dataset.cropTarget === 'true') plantOrHarvest(button.dataset.buildingId || '');

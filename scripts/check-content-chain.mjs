@@ -39,6 +39,10 @@ const functionNames = [
   'contentDefinition', 'contentRequirementsMet', 'compare', 'contentPhaseAllows',
   'applyContentEffect', 'applyContentEffects', 'contentConditionMet', 'contentDefinitionUsesGateV1', 'contentGateConditions',
   ...['applyContentEffectsTransaction'].filter(name => source.includes(`function ${name}(`)),
+  // The actual outer effect transaction now reads the bound station before
+  // applying effects. These chain fixtures have no station; keep that real
+  // identity lookup rather than replacing it with a fixture null-return stub.
+  ...['relayStationBuilding'].filter(name => source.includes(`function ${name}(`)),
   'contentChainDefinitionGate', 'contentChainChoiceGateRuntime', 'runContentHook',
   'contentChainRuntimeGate', 'startContentChain', 'resolveContentChain',
   'contentEpisodeIdentity', 'normalizeContentEpisodes', 'contentEpisodeExpectedToken', 'contentEpisodeGate',

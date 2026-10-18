@@ -300,8 +300,12 @@ assert.equal(sha(readFileSync(htmlPath)), sourceHtmlSha256, 'HTML immutable duri
 assert.equal(sha(readFileSync(ioPath)), sha(ioBytes), 'IO immutable during execution');
 assert.equal(sha(readFileSync(fileURLToPath(import.meta.url))), sha(checkerBytes), 'checker immutable during execution');
 const passed = checks.filter(v => v.ok).length;
+// Keep the native verdict small. Full observations retain their original data
+// in a separately hashed artifact; no assertion or observed fact is discarded.
+const observationLog = artifact('observations-full.json', { schema: 'DayFatalObservationsV1', observations });
+const observationIndex = observations.map((entry, index) => ({ label: entry.label, observationIndex: index, artifact: observationLog }));
 const report = { runner: 'source-day-fatal-outcome-v1', mode, sourceHtmlSha256, sourceHash: sourceHtmlSha256,
-  ok: passed === checks.length, count: checks.length, passed, checks, observations, fixtures, artifacts,
+  reportFormatVersion: 2, ok: passed === checks.length, count: checks.length, passed, checks, observations: observationIndex, fixtures, artifacts,
   inputs: { checker: { sha256: sha(checkerBytes), bytes: checkerBytes.length }, io: { sha256: sha(ioBytes), bytes: ioBytes.length },
     ioRuntimeFactory: { sha256: sha(factorySource), bytes: Buffer.byteLength(factorySource) }, originalWriter },
   naturalGameplay: false, productionDeployment: false,
