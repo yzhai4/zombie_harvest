@@ -28,6 +28,8 @@ NPC 参与资格复核补充：存在/存活不等于营地本地、健康可工
 
 公开路线复用[行动与采样](../.codex/skills/zombie-harvest-iteration/references/public-pilot-accounting.md)时，分别核原全局累计预算与已结案probe，以及网格可达、连续目标表达和真实交互精度。未发键的空候选不是产品道路证据；保存观察中发生的工程成本按实际阶段记录，不借未执行的动作解释因果。
 
+实际行动预检沿driver→spec→helper→检查消费者核对，保留检查函数不等于当前调用已经传入时长；方法veto与游戏Gate拒绝分别报告。入口缺失、存在但禁用、真正启用是不同结果，快捷外框不代替主入口资格。按剩余全局额度选择能完成的证据范围，不能因不足以再次reload便重给预算。玩家未受伤与敌方受伤、例行岗位压力分别核账，不用一个空摘要宣称全场没有战斗。案例见[A07公开前缀](qa/public-shelter-prefix-a07-20261018.md)。
+
 ## 当前合同入口（2026-10-17）
 
 本轮 repeatable/SAVE21/有限资源规则以[断粮设计卡](scripts/zh-food-shortage-001.md)和[episode 身份 ADR](decisions/ADR-20261017-repeatable-episode-identity.md)为入口，以下通用规则继续适用。源码/fixture-browser 已有候选证据；最终源码变动后须重跑并重新绑定，不能把旧结果搬成新构建验收。Sites v81 未发布，本轮未做自然三日。
