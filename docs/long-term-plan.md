@@ -1,11 +1,17 @@
 # 尸潮农场长期计划与双主线成果
-## 当前执行增量（2026-10-18）
+## 当前执行增量：终态可信后继续世界后果（2026-10-18）
+
+[DAY玩家结局](qa/day-fatal-outcome-v1-20261018.md)已完成列明源码与真实Chrome验证；开发ref／精确CI见发布收据，生产另验。时钟／可恢复候选保护和真实失败保存两片各有证据，不能由此声称自然三日或玩家收益。
+
+下一为中继当前受损能力与公开付费修复 → 公开完整中继主线 → 已有小真人理解pilot及正常／缺粮／缺岗单因素。完整Actor／规则Planning／Memory／Social、Scenario Studio、跨副本特殊角色连续性、更大世界／多副本、UI素材、GameCore／引擎与P0–P6全部保留。硬Gate拥有规则与事实，低频LLM意图／表达保观察权限、预算、AI OFF和确定性fallback；exact simulator优先，learned World Model须有收益／成本缺口证据。
+
+## 历史执行增量（2026-10-18）
 
 [时钟／可恢复候选保护](qa/world-clock-persistence-v1-20261018.md)已实现并完成列明本地源码与Chrome；精确新CI另核。下一顺序为：真实DAY致死loss／报告／存档 → 中继当前受损能力与公开付费修复 → 公开完整主线和已有玩家理解pilot。当前writer只保留旧安全档，不声称已经保存无结局的DAY败局；自然三日和真人收益继续开放。
 
 长期Scenario Studio、完整NPC规则规划、Memory／Social、少量特殊角色跨副本连续性、受约束LLM与exact反事实／后置WM、更大世界／多副本、UI素材和GameCore／引擎适配全部保持。旧报告和工程检查不是最终产品规模或玩家价值上限。
 
-## 当前优先级（2026-10-18）
+## 历史优先级（2026-10-18，攻击切片完成时）
 
 [DAY攻击入口与真实结算](qa/player-day-attack-v1-20261018.md)完成列明开发验证：共享live目标、支付前重核、typed拒绝、同目标gross proof及本次DAY攻击推进可保存性预检。下一先修原自动回调已复现的全局小数时钟与正常writer保护（仍未实现），再闭合中继受损后的当前能力与付费修复，随后继续“有限工程→实际预警／下一场后果→保存恢复”的公开主线。报告原件再次核为与归档同字节，见[对账](research/report-source-reconciliation-20261018.md)，不重复计为新证据。旧全链仍未online／reload，受控Chrome一次F不替代自然三日和既有真人理解pilot。
 

@@ -1,6 +1,8 @@
 # 白天致死伤害未形成可恢复失守状态
 
-状态：open，P0。实际source诊断已复现；当前时钟／writer切片只保护旧安全存档，没有完成DAY失守结算。
+状态：开发修复已验证，生产待发布。7b23的真实死亡、最终收据、一次LOSS、正常writer／Continue和公开重试／重开已完成列明验证；见[QA](../qa/day-fatal-outcome-v1-20261018.md)与[合同](../decisions/ADR-20261018-day-fatal-outcome-v1.md)。开发ref／精确CI以本次发布收据为准。
+
+以下为保留的原始复现与当时下一行动，不覆盖上述现状。
 
 在272f实际完整runtime与原IO中，去掉旧竖切片孤立覆盖scenarioSnapshot.seed的夹具错误后，真实30／1440／1440分钟推进到第三天；wz-4实际combat事件evt189将玩家HP4→0，gameOver仍null。正常writer结构validator为true，真实classifySavedRecovery却为RECOVERY_REQUIRED／unconfirmed-zero-hp，Continue拒绝。该状态不是renderer遮蔽或补造HP产生；DAY伤害路径缺少最终失守语义。诊断与源方法原件已保留，不能据此称自然生存三日。
 

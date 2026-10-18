@@ -51,7 +51,7 @@ description: 为尸潮农场创建或修改主线、支线、NPC、势力、科�
 
 ## 场景包内容合同（2026-10-17）
 
-新增故事、NPC、势力或营地事件时，同时更新版本化 JSON 包与设计卡。每个 storylet 必须有 stable ID、触发条件、fallback 及玩家/NPC/营地/势力/敌人/全局链账本。未知引用、循环、不可满足门槛和无 AI-OFF 路径需要分层校验；当前轻量JSON validator只核基础合同，不能据此宣称这些完整校验均已实现。内容包当前先以 headless fixture 验证，未由启动路径实际加载并记录 scenarioVersion/contentVersion 前，标记为设计冻结/fixture。
+新增故事、NPC、势力或营地事件时，同时更新版本化 JSON 包与设计卡。每个 storylet 必须有 stable ID、触发条件、fallback 及玩家/NPC/营地/势力/敌人/全局链账本。支持的 JSON 编译和启动范围以 Scenario C1/C2 合同及当前 QA 为准；未知引用、循环、不可满足门槛和无 AI-OFF 路径仍须按具体包分层核验。新配置或内容图未由真实启动消费并记录 scenarioVersion/contentVersion 前，标记为设计冻结/fixture；已有有限支持不能推定任意图均已接线。
 
 Observer 台词只能读取白名单事实并生成表达/披露；不能改资源、人口、敌人、事件或存档。需要 AI 时同时提供规则 fallback、预算和拒绝回执，并在 manifest 中区分 browser 与 source-VM。
 

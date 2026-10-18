@@ -87,6 +87,8 @@ node scripts/replay-harness.mjs --self-test
 
 涉及倍率的付费动作按本次真实时长核可保存性，不能因全局倍率合法就推定该动作产生的日历也合法，或照抄其它动作步长。暂停分支按原语义单验；写入成功须再对同份writer输出做实际validator／loader核对，不能把保存返回true等同于可恢复。
 
+终态按[DAY结局合同](../../../docs/decisions/ADR-20261018-day-fatal-outcome-v1.md)核真实来源、已付动作的最终收据、cleanup与最终writer的顺序；cleanup内的立即保存不能抢先。可回滚效果须等最外层成功事务稳定，无Bus只承诺该事务边界。新增同类伤害收据后，方法按真实damageType区分自动敌袭与原反击，不能只按targetId推定来源；旧失败与可达性不足分别保留。
+
 个人经历按[来源与保存合同](../../../docs/decisions/ADR-20261018-relay-handoff-memory-v1.md)区分持久事实、本人资格与临时查看缓存。只清失效显示，不删除历史；context切人后旧显示复活、独立合法名册查看被其它context重绘误清，是两个相反的边界，须由实际renderer和公开入口验证。
 
 浏览器用保存夹具定位后期事件时，注明 fixture 模式，并在下次 boot 的 loader 之前注入：运行中改 localStorage 会被 pagehide checkpoint 覆盖。用 `scripts/server-content-chain.py` 验证事项切换、真实结算与刷新；自然试玩证据另行记录。

@@ -1,5 +1,13 @@
 # 当前状态
-## 当前检查点：整数时钟与候选写前保护（2026-10-18）
+## 当前检查点：白天玩家结局闭环（2026-10-18）
+
+源码 b598c3770bdf216bd7c77f5bef2f0390e43e31aa／HTML7b23b0b7、944195B，SAVE21／CONTENT3；175项源码依赖逐Git API树匹配。真实DAY敌伤、原反咬、成功效果事务接到一次来源结局；按合同的命令／效果事务边界清理并保存，正常Continue保持DAY LOSS，公开重试／重开已接。见[QA](../qa/day-fatal-outcome-v1-20261018.md)与[合同](../decisions/ADR-20261018-day-fatal-outcome-v1.md)。
+
+当前同一最终源码矩阵46/46、独立DAY合同6/6均实际exit0；真实Chrome64/64、3scene／9main、cleanup全true，episode另12/12／2main。11次actual main均同7b23，root目视桌面／390与失败retry；不是自然三日或真人体验。2bad原业务负控、未达cadence和旧标题／大步预期等方法失败全部保留。源对象不等于ref／CI：开发发布head与精确CI以PR #4本次最终收据为准，生产未部署。
+
+下一先接中继当前受损能力与公开付费修复，再跑公开完整主线和既有理解pilot。原公开A02／B02仍只到交付和2木／2零件，未online／完工后reload；不因本片提升。完整Actor／Planning／Memory／Social、Studio、多副本／大世界、UI素材和GameCore／引擎、P0–P6目标继续开放。下方旧“当前／下一”保其历史时点。
+
+## 历史检查点：整数时钟与候选写前保护（2026-10-18）
 
 源码对象5a23b6951b7ff70b15d4fb5ddadad35a16b5dbb6／HTML2bad52a4、930889B，SAVE21／CONTENT3；174项scripts／dist／workflow已逐Git blob匹配，开发ref与精确新CI待发布核。非默认倍率以持久十进制余量结转，只有whole分钟驱动真实模拟；旧missing／整数轨迹、暂停、休整及夜战边界保留。writer先校同一raw及实际恢复分类，再接触旧主备，拒绝不可恢复候选。见[ADR](../decisions/ADR-20261018-whole-minute-clock-v1.md)和[QA](../qa/world-clock-persistence-v1-20261018.md)。
 
@@ -7,7 +15,7 @@
 
 新实际P0为[DAY致死缺失结局](../problems/PROB-20261018-day-fatal-outcome.md)：大步真实战斗HP4→0但gameOver=null，当前writer拒写并保留旧安全档，尚未保存现场败局。先统一真实loss事实／UI／timer与可恢复存档，然后接中继当前能力／付费修复，再继续公开全链与理解pilot。长期Actor／Planning／Memory／Social／Studio、多副本／更大世界、UI素材和GameCore／引擎目标保持。下方旧‘当前／下一’均属各自历史构建。
 
-## 当前检查点：白天攻击资格与可恢复结算（2026-10-18）
+## 历史检查点：白天攻击资格与可恢复结算（2026-10-18）
 
 源码对象bbba03a6／HTML3545adb1、926318B，SAVE21／CONTENT3；173项scripts／dist／workflow依赖已逐Git blob匹配。DAY共享真实1.15范围与live身份Gate，按钮绑定敌ID且提交重核，失败typed拒绝；F保原锁定／首项，成功记录gross5、立即命中与实际推进副作用。不可保存的小数分钟在支付前拒绝，合法倍率与原paused0分钟保留；night独立规则不改。见[合同](../decisions/ADR-20261018-player-day-attack-v1.md)与[QA](../qa/player-day-attack-v1-20261018.md)。
 

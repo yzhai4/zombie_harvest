@@ -1,11 +1,17 @@
 # 未关闭风险
-## 当前优先级：白天致死结局，其后中继维护（2026-10-18）
+## 当前优先级：中继当前能力与公开维修（2026-10-18）
+
+[DAY玩家结局](../qa/day-fatal-outcome-v1-20261018.md)已在7b23完成列明源码与Chrome闭环：实际来源、最终收据、一次LOSS、writer／Continue及公开失败重试；精确开发CI见发布收据，生产未部署。原HP0/null旧坏档仍拒绝，不补造历史；无Bus效果只承诺事务边界，未来致死链直接调用须扩完整命令边界。任意存储故障原子性、所有reducer通用中断未由本片宣称解决。
+
+[中继受损能力](../problems/PROB-20261018-relay-station-operational-state.md)仍open：历史online可能与HP0／inactive当前事实冲突，部分consumer仍按历史授权。下一分开完成历史、一次收益、当前能力，接真实代价的公开修复和正常保存／Continue，再核感知／预警／新遭遇；已锁定旧场不追改。自然全链、已有理解pilot、完整Actor／Planning／Memory／Social、Studio／大世界／多副本、UI素材及引擎继续开放。
+
+## 历史优先级：白天致死结局，其后中继维护（2026-10-18）
 
 [时钟与writer](../qa/world-clock-persistence-v1-20261018.md)在2bad已完成列明本地源码与Chrome验证；精确新head／CI与生产另核。余量和同raw恢复分类检查不构成自动抢救旧坏档或全局事务回滚。
 
 [白天致死结局](../problems/PROB-20261018-day-fatal-outcome.md)仍open：实际DAY combat使HP0但无loss记录。候选已拒绝覆盖安全档，但现场失守／重开／可恢复败局尚缺。下一优先统一死亡权威与最终账本，不用补HP／改validator掩盖；之后继续中继真实受损能力／修复、公开主线及既有理解pilot。原三日大步只验证日历和拒写，恢复的是旧checkpoint，不是第三天生存或败局。
 
-## 当前优先级：全局小数时钟存档，其后中继损毁（2026-10-18）
+## 历史优先级：全局小数时钟存档，其后中继损毁（2026-10-18）
 
 [小数时钟](../problems/PROB-20261017-fractional-clock-calendar.md)在3545原自动回调已实际复现：合法rate0.5使日历360→360.5，正常save返回true但同字节validator以calendar拒绝，第二次Continue进入RECOVERY／no-valid-primary。诊断exit0只表示反例被观察，不是修复通过，也不证明默认rate1或全部生产档损坏。优先实现完整候选写前校验及持久余量合同；当前未改运行时，新checker／Chrome方法仅准备，旧CI302不能关闭该风险。
 
