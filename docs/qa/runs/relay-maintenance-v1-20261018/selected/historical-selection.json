@@ -1,0 +1,250 @@
+{
+  "schema": "RelayMaintenanceHistoricalSelectionV1",
+  "rows": [
+    {
+      "id": "baseline7b23-final02",
+      "sourceHtmlSha256": "7b23b0b757ed2242903c952f54c5c31145499ba98280aa80f1578e64b78780cc",
+      "count": 1,
+      "passed": 0,
+      "exitCode": 1,
+      "artifact": {
+        "path": "docs/qa/runs/relay-maintenance-v1-20261018/selected/objects/74b8dbc1d9c5971c67434aa421a273b8705a434a8449606d6a79e980196cd0fc.json",
+        "sha256": "74b8dbc1d9c5971c67434aa421a273b8705a434a8449606d6a79e980196cd0fc"
+      },
+      "originalReport": {
+        "portableName": "report.json",
+        "sha256": "74b8dbc1d9c5971c67434aa421a273b8705a434a8449606d6a79e980196cd0fc",
+        "bytes": 4357
+      },
+      "terminal": {
+        "path": "docs/qa/runs/relay-maintenance-v1-20261018/selected/objects/847cdf715c4632838501e831eb1fe9160b980bd3648874328579e67244bd674e.json",
+        "sha256": "847cdf715c4632838501e831eb1fe9160b980bd3648874328579e67244bd674e"
+      },
+      "classification": "ACTUAL_PRODUCT_COUNTEREXAMPLE: original station HP8-to0 damage then next advance restored flags/capability",
+      "currentPassedSelection": false
+    },
+    {
+      "id": "candidate1b100-method01",
+      "sourceHtmlSha256": "1b10043c05a54fce97d86c544ac817a32a9a1a7954a3ab759674d6c8205e7930",
+      "count": 7,
+      "passed": 6,
+      "exitCode": 1,
+      "artifact": {
+        "path": "docs/qa/runs/relay-maintenance-v1-20261018/selected/reports/historical-candidate1b100-method01.original-failure-excerpt.json",
+        "sha256": "05f2d3ca080025a9aedd56c2e0cd3af11dc4eaf39e026b90b4968fabbf58ddb4"
+      },
+      "originalReport": {
+        "portableName": "report.json",
+        "sha256": "845ec77ac32abfc2a13df62091569573ba3f06c85a92167bccb519ec8271e426",
+        "bytes": 16013
+      },
+      "terminal": {
+        "path": "docs/qa/runs/relay-maintenance-v1-20261018/selected/objects/7358a56720dd03ca630f62a4829b1b9f264d595e14586b032f8d02c7b48bbbb2.json",
+        "sha256": "7358a56720dd03ca630f62a4829b1b9f264d595e14586b032f8d02c7b48bbbb2"
+      },
+      "classification": "METHOD_ORACLE_FAILURE: frontierClock boundary carry was omitted in original expected delta; original six-of-seven preserved",
+      "currentPassedSelection": false
+    },
+    {
+      "id": "source-existing-01",
+      "artifact": {
+        "path": "docs/qa/runs/relay-maintenance-v1-20261018/selected/reports/historical-source-source-existing-01.path-only-companion.json",
+        "sha256": "335b40cb717b06ed0962a01386e5e9ab2c40b6b50ef775925d3c26157a033f57"
+      },
+      "originalClosure": {
+        "portableName": "closure.json",
+        "sha256": "2f9fc828dc3a5af8954e515b935086eef06dd2dc3d1aab2cdcd90e2f81dee212",
+        "bytes": 269596
+      },
+      "sourceHtmlSha256": "1b10043c05a54fce97d86c544ac817a32a9a1a7954a3ab759674d6c8205e7930",
+      "uniqueContracts": 47,
+      "passed": 44,
+      "ok": false,
+      "failedOutputs": [
+        {
+          "name": "content-chain",
+          "exitCode": 1,
+          "outputs": [
+            {
+              "logicalPath": "04-content-chain/runner-executed",
+              "original": {
+                "portableName": "runner-executed",
+                "sha256": "84a0291b854f8b85a257c3861a7ed2df61cfebdd44e59bf49251ce99e8fcf1e9",
+                "bytes": 45266
+              },
+              "artifact": {
+                "path": "docs/qa/runs/relay-maintenance-v1-20261018/selected/objects/84a0291b854f8b85a257c3861a7ed2df61cfebdd44e59bf49251ce99e8fcf1e9",
+                "sha256": "84a0291b854f8b85a257c3861a7ed2df61cfebdd44e59bf49251ce99e8fcf1e9"
+              }
+            },
+            {
+              "logicalPath": "04-content-chain/stderr.log",
+              "original": {
+                "portableName": "stderr.log",
+                "sha256": "8318f474062c6b7a4f6545cc105645df73f5e826ac767e90417b01126f7a52ba",
+                "bytes": 1504
+              },
+              "artifact": {
+                "path": "docs/qa/runs/relay-maintenance-v1-20261018/selected/reports/original-source-source-existing-01-content-chain-stderr.log.path-only-text-companion.json",
+                "sha256": "0045dfecd0c3fd2136560f6f8b1203319d512dfcd2cede7152c292bb30de45a3"
+              }
+            },
+            {
+              "logicalPath": "04-content-chain/stdout.log",
+              "original": {
+                "portableName": "stdout.log",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "bytes": 0
+              },
+              "artifact": {
+                "path": "docs/qa/runs/npc-rest-work-v1-20261018/source/objects/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.log",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              }
+            }
+          ],
+          "currentPassedSelection": false
+        },
+        {
+          "name": "plan-day",
+          "exitCode": 1,
+          "outputs": [
+            {
+              "logicalPath": "05-plan-day/runner-executed",
+              "original": {
+                "portableName": "runner-executed",
+                "sha256": "067b597ea895d0ed78a06247b548df8e09554d854a468dd3cf70bf94fb2a5060",
+                "bytes": 27775
+              },
+              "artifact": {
+                "path": "docs/qa/runs/relay-maintenance-v1-20261018/selected/objects/067b597ea895d0ed78a06247b548df8e09554d854a468dd3cf70bf94fb2a5060",
+                "sha256": "067b597ea895d0ed78a06247b548df8e09554d854a468dd3cf70bf94fb2a5060"
+              }
+            },
+            {
+              "logicalPath": "05-plan-day/stderr.log",
+              "original": {
+                "portableName": "stderr.log",
+                "sha256": "33d686bba9faa908162015a26b278ff7f61abed39f1375f0e58e84a1cfcb2500",
+                "bytes": 1469
+              },
+              "artifact": {
+                "path": "docs/qa/runs/relay-maintenance-v1-20261018/selected/reports/original-source-source-existing-01-plan-day-stderr.log.path-only-text-companion.json",
+                "sha256": "97a4215cb5e718ddbcf247d79a824a7c19619a04835ba4943b193bf2829f9f54"
+              }
+            },
+            {
+              "logicalPath": "05-plan-day/stdout.log",
+              "original": {
+                "portableName": "stdout.log",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "bytes": 0
+              },
+              "artifact": {
+                "path": "docs/qa/runs/npc-rest-work-v1-20261018/source/objects/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.log",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              }
+            }
+          ],
+          "currentPassedSelection": false
+        },
+        {
+          "name": "npc-direct-sight-v1",
+          "exitCode": 1,
+          "outputs": [
+            {
+              "logicalPath": "39-npc-direct-sight-v1/native-report.json",
+              "original": {
+                "portableName": "native-report.json",
+                "sha256": "a7c1ff634d7f6ca569d94b85baadbb9371b6d27582b702801f2c2059f2e67ab2",
+                "bytes": 65491
+              },
+              "artifact": {
+                "path": "docs/qa/runs/relay-maintenance-v1-20261018/selected/reports/original-source-source-existing-01-npc-direct-sight-v1-native-report.json.path-only-companion.json",
+                "sha256": "f6fc6648a321536130b9db6ccd9ea1239123a8bc868441fd55e026187b40123d"
+              }
+            },
+            {
+              "logicalPath": "39-npc-direct-sight-v1/runner-executed",
+              "original": {
+                "portableName": "runner-executed",
+                "sha256": "31071e612ecdffe444739475b7edb20926e1a21f8b1f8da813078decdb6d3430",
+                "bytes": 49765
+              },
+              "artifact": {
+                "path": "docs/qa/runs/relay-maintenance-v1-20261018/selected/objects/31071e612ecdffe444739475b7edb20926e1a21f8b1f8da813078decdb6d3430",
+                "sha256": "31071e612ecdffe444739475b7edb20926e1a21f8b1f8da813078decdb6d3430"
+              }
+            },
+            {
+              "logicalPath": "39-npc-direct-sight-v1/stderr.log",
+              "original": {
+                "portableName": "stderr.log",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "bytes": 0
+              },
+              "artifact": {
+                "path": "docs/qa/runs/npc-rest-work-v1-20261018/source/objects/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.log",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              }
+            },
+            {
+              "logicalPath": "39-npc-direct-sight-v1/stdout.log",
+              "original": {
+                "portableName": "stdout.log",
+                "sha256": "1ffb81580d0833b0c3b05905eb42c93ae64a99699f5641e9002e979e982e4ff6",
+                "bytes": 2920
+              },
+              "artifact": {
+                "path": "docs/qa/runs/relay-maintenance-v1-20261018/selected/reports/original-source-source-existing-01-npc-direct-sight-v1-stdout.log.path-only-companion.json",
+                "sha256": "1a2579409e740ae2865fa169e12e1b9c0e678bdc62c061a0f8a0f44ad2b6a644"
+              }
+            }
+          ],
+          "currentPassedSelection": false
+        }
+      ],
+      "currentPassedSelection": false
+    }
+  ],
+  "methodAndDiagnosticNotes": [
+    {
+      "artifact": {
+        "path": "docs/qa/runs/relay-maintenance-v1-20261018/selected/objects/ec636c29baaae24696b4fb08c14ee3d318945a45a98dcfaff72d3162c36cfaa5.json",
+        "sha256": "ec636c29baaae24696b4fb08c14ee3d318945a45a98dcfaff72d3162c36cfaa5"
+      },
+      "original": {
+        "portableName": "terminal.json",
+        "sha256": "ec636c29baaae24696b4fb08c14ee3d318945a45a98dcfaff72d3162c36cfaa5",
+        "bytes": 556
+      },
+      "newPassContract": false
+    },
+    {
+      "artifact": {
+        "path": "docs/qa/runs/relay-maintenance-v1-20261018/selected/objects/b80a2d5131d6af454e2656cab91929440237fd82b1f5a900ef4269b53c394937.json",
+        "sha256": "b80a2d5131d6af454e2656cab91929440237fd82b1f5a900ef4269b53c394937"
+      },
+      "original": {
+        "portableName": "source-execution-index.json",
+        "sha256": "b80a2d5131d6af454e2656cab91929440237fd82b1f5a900ef4269b53c394937",
+        "bytes": 8145
+      },
+      "newPassContract": false
+    },
+    {
+      "artifact": {
+        "path": "docs/qa/runs/relay-maintenance-v1-20261018/selected/objects/dd151ff4cf3dea506e4d7e8cffc18a6ce2fdd5e11b7c236ee7d53ee805d57091.json",
+        "sha256": "dd151ff4cf3dea506e4d7e8cffc18a6ce2fdd5e11b7c236ee7d53ee805d57091"
+      },
+      "original": {
+        "portableName": "crew-history-freeze.json",
+        "sha256": "dd151ff4cf3dea506e4d7e8cffc18a6ce2fdd5e11b7c236ee7d53ee805d57091",
+        "bytes": 645
+      },
+      "newPassContract": false
+    }
+  ],
+  "previousManifestSha256": "7b86b92f023f8ee250d2b18082cddb1f955af6f11e534623c08bc5707165a1b7",
+  "originalFailuresPreserved": true,
+  "scope": "Old7b23 station failure and explicitly selected original method/build failures only; old DAY Chrome64 and clock Chrome10 are not current coverage"
+}

@@ -1,5 +1,13 @@
 # 当前状态
-## 当前检查点：白天玩家结局闭环（2026-10-18）
+## 当前检查点：中继物理能力与真实维修（2026-10-18）
+
+源对象 `d5e4176b477a7f471a092048600ab97f9a7681a7`／HTML4f697787、957569B，SAVE21／CONTENT3；176依赖逐Git API树匹配。损毁不再由ensure／推进复活，完工历史与当前增益分开；公开同站2木／14体力、即时+1再请求20分钟，保真实再毁／致死与合法任务后果。成员旧文字标为上次报告。见[QA](../qa/relay-maintenance-v1-20261018.md)。
+
+最终47／47既有合同、新7／7均actualexit0且无漂移；Chrome28／28、episode12／12，共5次main同4f697、errors[]／cleanup全true。旧7b23真实负控、1b10044／47方法失败和未标历史截图分别保留。源对象不等于开发ref／精确CI；发布收据与PR #4另核，生产未部署。
+
+下一回同构建公开完整中继主线和既有理解pilot，正常／缺粮／缺岗分别比较，不以工程绿色替代自然三日或真人收益。完整Actor／Planning／Memory／Social、Studio、多副本／大世界、UI素材与GameCore／引擎、P0–P6全部保持开放。
+
+## 历史检查点：白天玩家结局闭环（2026-10-18）
 
 源码 b598c3770bdf216bd7c77f5bef2f0390e43e31aa／HTML7b23b0b7、944195B，SAVE21／CONTENT3；175项源码依赖逐Git API树匹配。真实DAY敌伤、原反咬、成功效果事务接到一次来源结局；按合同的命令／效果事务边界清理并保存，正常Continue保持DAY LOSS，公开重试／重开已接。见[QA](../qa/day-fatal-outcome-v1-20261018.md)与[合同](../decisions/ADR-20261018-day-fatal-outcome-v1.md)。
 

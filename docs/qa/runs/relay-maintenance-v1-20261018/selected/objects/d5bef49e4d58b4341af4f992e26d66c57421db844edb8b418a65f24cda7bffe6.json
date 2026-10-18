@@ -1,0 +1,305 @@
+{
+  "rejected": {
+    "ok": false,
+    "reason": "unknown-resource:unknown",
+    "results": [
+      {
+        "ok": true,
+        "op": "damageBuilding",
+        "buildingId": "bld-relay-station"
+      },
+      {
+        "ok": false,
+        "reason": "unknown-resource:unknown"
+      }
+    ],
+    "rolledBack": true
+  },
+  "accepted": {
+    "ok": true,
+    "results": [
+      {
+        "ok": true,
+        "op": "damageBuilding",
+        "buildingId": "bld-relay-station"
+      }
+    ]
+  },
+  "after": {
+    "calendar": {
+      "day": 1,
+      "hour": 6,
+      "minute": 20,
+      "world": 380
+    },
+    "station": {
+      "id": "bld-relay-station",
+      "x": 12,
+      "y": 0,
+      "type": "relayStation",
+      "w": 2,
+      "h": 2,
+      "hp": 0,
+      "active": false,
+      "projectStatus": "online",
+      "relayEnabled": false
+    },
+    "online": false,
+    "project": {
+      "id": "camp-relay-001",
+      "status": "online",
+      "coreItemId": "item-relayCore-001",
+      "handoffAt": null,
+      "materialNeed": {
+        "wood": 10,
+        "parts": 5,
+        "stone": 4
+      },
+      "materialProgress": {
+        "wood": 10,
+        "parts": 5,
+        "stone": 4
+      },
+      "workMinutes": 180,
+      "targetMinutes": 180,
+      "buildingId": "bld-relay-station",
+      "assignedNpcIds": [
+        "radio",
+        "carpenter",
+        "quartermaster"
+      ],
+      "sharedSightBonus": 2,
+      "sharedRangeBonus": 4,
+      "forecastLeadMinutes": 180,
+      "routeId": "eastern-breach",
+      "materialClock": 150,
+      "lastBlockedReason": null,
+      "lastMaterialAt": 380,
+      "completedAt": 380
+    },
+    "forecast": {
+      "confidence": 18,
+      "leadMinutes": 0,
+      "routeId": "eastern-breach",
+      "source": "camp-observation",
+      "updatedAt": 380
+    },
+    "standing": {
+      "prestige": 7,
+      "merit": 12,
+      "fear": 0,
+      "legitimacy": 53,
+      "contribution": 6,
+      "domains": {
+        "rescue": 0,
+        "defense": 3,
+        "supply": 0,
+        "recon": 9
+      }
+    },
+    "quests": [
+      {
+        "id": "camp-chain-001",
+        "defId": "camp-chain-001",
+        "status": "active",
+        "stepIndex": 0,
+        "completedSteps": [],
+        "rewardClaimed": false
+      },
+      {
+        "id": "relay-chain-001",
+        "defId": "relay-chain-001",
+        "status": "completed",
+        "stepIndex": 4,
+        "completedSteps": [
+          "recover-relay-core",
+          "brief-commander",
+          "start-construction",
+          "relay-online"
+        ],
+        "rewardClaimed": true
+      }
+    ],
+    "inventory": {
+      "wood": 14,
+      "stone": 8,
+      "parts": 1,
+      "food": 8,
+      "energy": 76,
+      "hp": 94,
+      "sanity": 68
+    },
+    "radioProfile": {
+      "sight": 3.8,
+      "hearing": 11,
+      "cone": 360,
+      "memory": 150,
+      "share": 8
+    },
+    "roster": [
+      {
+        "id": "carpenter",
+        "hp": 100,
+        "lifeState": "healthy"
+      },
+      {
+        "id": "doctor",
+        "hp": 100,
+        "lifeState": "healthy"
+      },
+      {
+        "id": "radio",
+        "hp": 100,
+        "lifeState": "healthy"
+      },
+      {
+        "id": "commander",
+        "hp": 100,
+        "lifeState": "healthy"
+      },
+      {
+        "id": "sergeant",
+        "hp": 100,
+        "lifeState": "healthy"
+      },
+      {
+        "id": "guardJi",
+        "hp": 100,
+        "lifeState": "healthy"
+      },
+      {
+        "id": "guardChen",
+        "hp": 100,
+        "lifeState": "healthy"
+      },
+      {
+        "id": "guardJiang",
+        "hp": 100,
+        "lifeState": "healthy"
+      },
+      {
+        "id": "quartermaster",
+        "hp": 100,
+        "lifeState": "healthy"
+      },
+      {
+        "id": "cook",
+        "hp": 100,
+        "lifeState": "healthy"
+      }
+    ],
+    "enemies": [
+      {
+        "id": "wz-1",
+        "kind": "normal",
+        "hp": 90
+      },
+      {
+        "id": "wz-2",
+        "kind": "runner",
+        "hp": 100
+      },
+      {
+        "id": "wz-3",
+        "kind": "brute",
+        "hp": 150
+      },
+      {
+        "id": "wz-4",
+        "kind": "normal",
+        "hp": 100
+      },
+      {
+        "id": "frontier-1",
+        "kind": "normal",
+        "hp": 100
+      }
+    ],
+    "eventSeq": 34,
+    "commandSeq": 255
+  },
+  "events": [
+    {
+      "eventId": "evt-000033",
+      "seq": 33,
+      "type": "content.effects.applied",
+      "actorId": "player-1",
+      "commandId": null,
+      "causationId": null,
+      "tick": {
+        "world": 380,
+        "phase": 0,
+        "schedule": 20
+      },
+      "payload": {
+        "effects": [
+          {
+            "op": "damageBuilding",
+            "buildingId": "bld-relay-station",
+            "value": 8
+          }
+        ],
+        "results": [
+          {
+            "ok": true,
+            "op": "damageBuilding",
+            "buildingId": "bld-relay-station"
+          }
+        ]
+      },
+      "defId": null,
+      "definitionVersion": 1,
+      "instanceId": "event-initial",
+      "effects": [
+        {
+          "op": "damageBuilding",
+          "buildingId": "bld-relay-station",
+          "value": 8
+        }
+      ]
+    },
+    {
+      "eventId": "evt-000034",
+      "seq": 34,
+      "type": "threat.forecastChanged",
+      "actorId": "camp-autonomy",
+      "commandId": null,
+      "causationId": null,
+      "tick": {
+        "world": 380,
+        "phase": 0,
+        "schedule": 20
+      },
+      "payload": {
+        "projectId": "camp-relay-001",
+        "forecast": {
+          "confidence": 18,
+          "leadMinutes": 0,
+          "routeId": "eastern-breach",
+          "source": "camp-observation",
+          "updatedAt": 380
+        },
+        "routeId": "eastern-breach"
+      },
+      "defId": "relay-chain-001",
+      "definitionVersion": 1,
+      "instanceId": "camp-relay-001",
+      "effects": [
+        {
+          "type": "fact",
+          "key": "online",
+          "eventType": "relay.stationOnline",
+          "amount": 0,
+          "payload": {}
+        },
+        {
+          "type": "forecast",
+          "key": "hordeForecast",
+          "eventType": null,
+          "amount": 0,
+          "payload": {}
+        }
+      ]
+    }
+  ]
+}

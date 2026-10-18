@@ -1,0 +1,448 @@
+{
+  "runner": "source-relay-maintenance-v1",
+  "mode": "candidate",
+  "sourceHtmlSha256": "4f697787f6eb4a215a7eab4a483e7d11a65b23b6f1fcb55f175d9c4edfef3e21",
+  "checkerSha256": "df6f17b126bd0d9b47cb25e323128b6f392fee4753476e32607e301912f82775",
+  "inputs": {
+    "originalWriter": {
+      "repositoryPath": "docs/qa/runs/relay-effective-role-v1-20261018/selected/objects/4bb6aac0eb6b4f440aa60d7b58e13de5c33b8dd70ca4f073f4757d245735a6a8.json",
+      "sha256": "4bb6aac0eb6b4f440aa60d7b58e13de5c33b8dd70ca4f073f4757d245735a6a8",
+      "bytes": 99460
+    },
+    "ioAdapter": {
+      "repositoryPath": "scripts/check-report-recovery.mjs",
+      "sha256": "6e0da555742e930b8bf926eeec0db0ee22f17240a4fa305978841f8ba862c0a3",
+      "runtimeFactorySha256": "5dc89410d5f4a1ce303bbdb03370f6f08c646e38d426a39e7dacd3a3f4e2b89d"
+    }
+  },
+  "ok": true,
+  "count": 7,
+  "passed": 7,
+  "checks": [
+    {
+      "name": "real old online writer: enemy 8→2→0, Continue and next advance never reactivate current capability",
+      "ok": true,
+      "facts": {
+        "realDamageEvents": [
+          "evt-000035",
+          "evt-000036"
+        ],
+        "worldAdvance": 1,
+        "stationHp": 0,
+        "currentCapability": false,
+        "history": "online"
+      },
+      "artifactRefs": [
+        "report-artifacts/inputs/real-damage-geometry-native.json",
+        "report-artifacts/inputs/real-damage-geometry-provenance.json",
+        "report-artifacts/native/01-real-destroyed.json",
+        "report-artifacts/native/02-destroyed-Continue-next-minute.json",
+        "report-artifacts/observations/01-real-damage-and-next-minute.json"
+      ]
+    },
+    {
+      "name": "legacy unknown station and pure current projection preserve the actual old writer without repair or migration",
+      "ok": true,
+      "facts": {
+        "legacyCases": 4,
+        "noBackfill": true
+      },
+      "artifactRefs": [
+        "report-artifacts/inputs/legacy-missing-hp-native.json",
+        "report-artifacts/native/legacy-missing-hp.json",
+        "report-artifacts/inputs/legacy-missing-flags-native.json",
+        "report-artifacts/native/legacy-missing-flags.json",
+        "report-artifacts/inputs/legacy-explicit-inactive-native.json",
+        "report-artifacts/native/legacy-explicit-inactive.json",
+        "report-artifacts/inputs/legacy-missing-station-native.json",
+        "report-artifacts/native/legacy-missing-station.json",
+        "report-artifacts/observations/02-legacy-unknown-pure.json"
+      ]
+    },
+    {
+      "name": "bound station repair pays gross2wood14E, applies+1 then actual whole/carry child, duplicate and Continue preserve history",
+      "ok": true,
+      "facts": {
+        "grossCost": {
+          "wood": 2,
+          "energy": 14
+        },
+        "requested": 20,
+        "actualWhole": 16,
+        "remainder": "0.5",
+        "duplicate": true,
+        "history": "online"
+      },
+      "artifactRefs": [
+        "report-artifacts/inputs/safe-repair-carry-native.json",
+        "report-artifacts/native/03-paid-station.json",
+        "report-artifacts/native/04-paid-station-reload.json",
+        "report-artifacts/inputs/actual-camp-chain-repair-step-native.json",
+        "report-artifacts/observations/03-paid-proof.json"
+      ]
+    },
+    {
+      "name": "station execution distance1 differs from view1.25; stale/identity/resources/session/number budget reject before cost or time",
+      "ok": true,
+      "facts": {
+        "preconditionCases": 11,
+        "executionRange": 1,
+        "viewRange": 1.25,
+        "noPaidFalseSuccess": true,
+        "lastSafeChildAccepted": true
+      },
+      "artifactRefs": [
+        "report-artifacts/inputs/reject-view-band-1.018-native.json",
+        "report-artifacts/inputs/reject-view-edge-1.25-native.json",
+        "report-artifacts/inputs/reject-detached-native.json",
+        "report-artifacts/inputs/reject-unknown-id-native.json",
+        "report-artifacts/inputs/reject-wood-short-native.json",
+        "report-artifacts/inputs/reject-energy-short-native.json",
+        "report-artifacts/inputs/reject-paused-native.json",
+        "report-artifacts/inputs/reject-max-safe-parent-native.json",
+        "report-artifacts/inputs/stale-submission-native.json",
+        "report-artifacts/inputs/submit-race-ambiguous-id-native.json",
+        "report-artifacts/inputs/submit-race-type-changed-native.json",
+        "report-artifacts/inputs/last-safe-child-native.json",
+        "report-artifacts/observations/04-rejections.json"
+      ]
+    },
+    {
+      "name": "real20-minute repair consequences can destroy the+1 prefix again or kill the player, with durable final proof",
+      "ok": true,
+      "facts": {
+        "redestroyed": true,
+        "playerFatal": true,
+        "physicalPrefixRetained": true,
+        "noRefund": true
+      },
+      "artifactRefs": [
+        "report-artifacts/inputs/repair-redestroy-native.json",
+        "report-artifacts/native/05-repair-real-redestroy.json",
+        "report-artifacts/inputs/repair-player-fatal-native.json",
+        "report-artifacts/native/06-repair-player-fatal.json",
+        "report-artifacts/observations/05-paid-consequence-prefixes.json"
+      ]
+    },
+    {
+      "name": "all current perception/frontier consumers lose station benefits while history stays online and new encounter locks current facts",
+      "ok": true,
+      "facts": {
+        "profileSightBonus": 2,
+        "pressureRelief": 12,
+        "actionExposureRatio": 0.5,
+        "sanDifference": 1,
+        "nextEnemyReduction": 1,
+        "currentStationDefense": 8,
+        "lockedHistoryUnchanged": true
+      },
+      "artifactRefs": [
+        "report-artifacts/inputs/consumer-operational-native.json",
+        "report-artifacts/inputs/consumer-destroyed-native.json",
+        "report-artifacts/observations/06-current-consumers-and-locked-encounter.json"
+      ]
+    },
+    {
+      "name": "generic content damage synchronizes only after successful transaction; rollback cannot leak capability or forecast changes",
+      "ok": true,
+      "facts": {
+        "rollbackPreserved": true,
+        "successfulDamageDeactivates": true,
+        "history": "online"
+      },
+      "artifactRefs": [
+        "report-artifacts/native/07-content-real-damage.json",
+        "report-artifacts/observations/07-content-transaction.json"
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "report-artifacts/inputs/source.html",
+      "sha256": "4f697787f6eb4a215a7eab4a483e7d11a65b23b6f1fcb55f175d9c4edfef3e21",
+      "bytes": 957569,
+      "kind": "executed-source"
+    },
+    {
+      "path": "report-artifacts/inputs/io-adapter.mjs",
+      "sha256": "6e0da555742e930b8bf926eeec0db0ee22f17240a4fa305978841f8ba862c0a3",
+      "bytes": 51172,
+      "kind": "actual-io"
+    },
+    {
+      "path": "report-artifacts/inputs/checker-executed.mjs",
+      "sha256": "df6f17b126bd0d9b47cb25e323128b6f392fee4753476e32607e301912f82775",
+      "bytes": 29665,
+      "kind": "executed-method"
+    },
+    {
+      "path": "report-artifacts/inputs/original-online-native.json",
+      "sha256": "4bb6aac0eb6b4f440aa60d7b58e13de5c33b8dd70ca4f073f4757d245735a6a8",
+      "bytes": 99460,
+      "kind": "original-complete-writer"
+    },
+    {
+      "path": "report-artifacts/inputs/real-damage-geometry-native.json",
+      "sha256": "dd29c7b4464e2f8bcc53225eedd0444a55a5891bb90c5febbffde75bc63daad0",
+      "bytes": 99243,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "report-artifacts/inputs/real-damage-geometry-provenance.json",
+      "sha256": "0ce16ca5dd54bf09006c5a1cd95ee6f3fd116c5f1bbd1f2469e946fca6f8fa70",
+      "bytes": 393,
+      "kind": "observation"
+    },
+    {
+      "path": "report-artifacts/native/01-real-destroyed.json",
+      "sha256": "bfab2eedb4cfbcdec18273b4a444b64aa06422a87defe445e56e40f964e024c9",
+      "bytes": 107554,
+      "kind": "actual-source-writer"
+    },
+    {
+      "path": "report-artifacts/native/02-destroyed-Continue-next-minute.json",
+      "sha256": "c74caf4fe94c5cadd6feb289225e11d1a0f17436e91a649d396991ad1be54316",
+      "bytes": 108832,
+      "kind": "actual-source-writer"
+    },
+    {
+      "path": "report-artifacts/observations/01-real-damage-and-next-minute.json",
+      "sha256": "f8f4747fa59b9e5cd8c0617b94412965498f2ae5dc85f793c37ae94575810578",
+      "bytes": 17984,
+      "kind": "observation"
+    },
+    {
+      "path": "report-artifacts/inputs/legacy-missing-hp-native.json",
+      "sha256": "77e4c872d3c3888201cfb4ab577604888f3bba9770e71f30cf84e6f4bc364d57",
+      "bytes": 99421,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "report-artifacts/native/legacy-missing-hp.json",
+      "sha256": "31eb16b4186b0db153a463ac0ff432fb6fe2b680c80bdec6c09da07049a2e8df",
+      "bytes": 101544,
+      "kind": "actual-source-writer"
+    },
+    {
+      "path": "report-artifacts/inputs/legacy-missing-flags-native.json",
+      "sha256": "6d4dc7b671ae4dac9058cbf5b34466a195faf18dd5114977a1398452906f7395",
+      "bytes": 99367,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "report-artifacts/native/legacy-missing-flags.json",
+      "sha256": "2e5968c207687468dfdb11665fff0d8dd88614a879062cfb8662196387967a13",
+      "bytes": 101489,
+      "kind": "actual-source-writer"
+    },
+    {
+      "path": "report-artifacts/inputs/legacy-explicit-inactive-native.json",
+      "sha256": "d1a02ada3c944733a0ea9c56f679e260d4f0502de80527b85a04a2c5ef1ced78",
+      "bytes": 99439,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "report-artifacts/native/legacy-explicit-inactive.json",
+      "sha256": "a1110a9e733829e4beaa1bdcaee2addad5e142af7c6e058a72c880f19b3fa1a0",
+      "bytes": 101562,
+      "kind": "actual-source-writer"
+    },
+    {
+      "path": "report-artifacts/inputs/legacy-missing-station-native.json",
+      "sha256": "7507c2f1c905dfa124fc48fbfc9255a09bc3621c8280b8760237350c76f2b15a",
+      "bytes": 99155,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "report-artifacts/native/legacy-missing-station.json",
+      "sha256": "cfaa51c356b5c31746eec0b6c3e65c7a1c2b6a10b4a6381408e05df5b142f49f",
+      "bytes": 101278,
+      "kind": "actual-source-writer"
+    },
+    {
+      "path": "report-artifacts/observations/02-legacy-unknown-pure.json",
+      "sha256": "4611adfe57341cf45ea3cc097a01724df25f80d6d1fb4b341206ce5026702efe",
+      "bytes": 977,
+      "kind": "observation"
+    },
+    {
+      "path": "report-artifacts/inputs/safe-repair-carry-native.json",
+      "sha256": "2fd99545e84ea7cc179fa1393c1c95b19c88b92774696002d147d535b537fee3",
+      "bytes": 107711,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "report-artifacts/native/03-paid-station.json",
+      "sha256": "c8e1b540c09c0a4d093496083895ad8b928189f93b90548f739885d85097cf3a",
+      "bytes": 117842,
+      "kind": "actual-source-writer"
+    },
+    {
+      "path": "report-artifacts/native/04-paid-station-reload.json",
+      "sha256": "a275b5913b29492e619c8f43e915ccb65838f6c9c2038cdff3592f81f9bb7f7c",
+      "bytes": 117812,
+      "kind": "actual-source-writer"
+    },
+    {
+      "path": "report-artifacts/inputs/actual-camp-chain-repair-step-native.json",
+      "sha256": "63f9026041bd6a6501bf1a5d580f9a64551e87d40d58795bb558af5190880040",
+      "bytes": 107671,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "report-artifacts/observations/03-paid-proof.json",
+      "sha256": "4e263b2888a312bf50ab510cf120cb0eef73c4f9ef0183a09fa19ea6b44e8208",
+      "bytes": 15604,
+      "kind": "observation"
+    },
+    {
+      "path": "report-artifacts/inputs/reject-view-band-1.018-native.json",
+      "sha256": "65761e219483892c9f5c98a0571aaeaec8bda00820ce5817b0dac6bdceca9c8a",
+      "bytes": 107661,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "report-artifacts/inputs/reject-view-edge-1.25-native.json",
+      "sha256": "563ec1ce954c50311300b9907311871146535046efe9399765427016688bc6e8",
+      "bytes": 107659,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "report-artifacts/inputs/reject-detached-native.json",
+      "sha256": "6d4ef205f6500253fc9a441bd6993d3bf32e819dc9ea0812114b09b7fa6da1de",
+      "bytes": 107653,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "report-artifacts/inputs/reject-unknown-id-native.json",
+      "sha256": "6d4ef205f6500253fc9a441bd6993d3bf32e819dc9ea0812114b09b7fa6da1de",
+      "bytes": 107653,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "report-artifacts/inputs/reject-wood-short-native.json",
+      "sha256": "675be9d168174139c6e7a3af64c16893660d0ef040e8a00f2d93339a7e6f7447",
+      "bytes": 107651,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "report-artifacts/inputs/reject-energy-short-native.json",
+      "sha256": "cddce41337904785e7ce69c592fcf8a53b1428051a7152208b2568485f193c5e",
+      "bytes": 107653,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "report-artifacts/inputs/reject-paused-native.json",
+      "sha256": "e4f39b073dfc7294cb1106d21c5d8a253e0f479cf03159b34b5ed60af19f3d29",
+      "bytes": 107651,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "report-artifacts/inputs/reject-max-safe-parent-native.json",
+      "sha256": "6d4ef205f6500253fc9a441bd6993d3bf32e819dc9ea0812114b09b7fa6da1de",
+      "bytes": 107653,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "report-artifacts/inputs/stale-submission-native.json",
+      "sha256": "6d4ef205f6500253fc9a441bd6993d3bf32e819dc9ea0812114b09b7fa6da1de",
+      "bytes": 107653,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "report-artifacts/inputs/submit-race-ambiguous-id-native.json",
+      "sha256": "6d4ef205f6500253fc9a441bd6993d3bf32e819dc9ea0812114b09b7fa6da1de",
+      "bytes": 107653,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "report-artifacts/inputs/submit-race-type-changed-native.json",
+      "sha256": "6d4ef205f6500253fc9a441bd6993d3bf32e819dc9ea0812114b09b7fa6da1de",
+      "bytes": 107653,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "report-artifacts/inputs/last-safe-child-native.json",
+      "sha256": "0db06bfe83582bc71ef809b87f3d8c773c065a830210b96a5385a54fbf15e2ff",
+      "bytes": 107679,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "report-artifacts/observations/04-rejections.json",
+      "sha256": "6c865fbfaecbf30bc307028dc0ad5c562188d5edbe990604769afdcd9bc3ac2a",
+      "bytes": 718,
+      "kind": "observation"
+    },
+    {
+      "path": "report-artifacts/inputs/repair-redestroy-native.json",
+      "sha256": "e48bf2013575a3e756e01e412b59904b1eeb1b746368ea7e9366fb6e9c3d5d9e",
+      "bytes": 107461,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "report-artifacts/native/05-repair-real-redestroy.json",
+      "sha256": "6cac1f0b6baacbb21ecf25fb7b990bb69df03fa288790406f13022a666039182",
+      "bytes": 118982,
+      "kind": "actual-source-writer"
+    },
+    {
+      "path": "report-artifacts/inputs/repair-player-fatal-native.json",
+      "sha256": "ea80f38db0cc1de54ed79ebc5111c3459bd66869f2356d9b9fe07cacc214a2a5",
+      "bytes": 107467,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "report-artifacts/native/06-repair-player-fatal.json",
+      "sha256": "7e7454179038ed23a431b67d9f1e24fd72230b904a2869d42b1a0dae661274a6",
+      "bytes": 118338,
+      "kind": "actual-source-fatal-writer"
+    },
+    {
+      "path": "report-artifacts/observations/05-paid-consequence-prefixes.json",
+      "sha256": "8e7cc1b36214d1e9e1431347f7841c946044940d3cf69e0400764a11f745eb11",
+      "bytes": 10954,
+      "kind": "observation"
+    },
+    {
+      "path": "report-artifacts/inputs/consumer-operational-native.json",
+      "sha256": "1fd8e8b6374f007ae6678f6929e0ebe64f1267765891081ddd5fd9479e44a62b",
+      "bytes": 99371,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "report-artifacts/inputs/consumer-destroyed-native.json",
+      "sha256": "bb9d7b2c7b3dd9f642093bde844baa43e589a8fcd51764414d75ea637fb1d308",
+      "bytes": 99375,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "report-artifacts/observations/06-current-consumers-and-locked-encounter.json",
+      "sha256": "f36682a6e4e192cb946a217416f52f1a756cb187070f386593d96e44b03983f1",
+      "bytes": 13413,
+      "kind": "observation"
+    },
+    {
+      "path": "report-artifacts/native/07-content-real-damage.json",
+      "sha256": "aad61bc247934d0a6040440299fe8fa69cda88aa75dc44bc86009a1043497778",
+      "bytes": 103760,
+      "kind": "actual-source-writer"
+    },
+    {
+      "path": "report-artifacts/observations/07-content-transaction.json",
+      "sha256": "d5bef49e4d58b4341af4f992e26d66c57421db844edb8b418a65f24cda7bffe6",
+      "bytes": 6219,
+      "kind": "observation"
+    }
+  ],
+  "scope": {
+    "fullInline": true,
+    "actualIO": true,
+    "actualBus": true,
+    "browser": false,
+    "naturalGameplay": false,
+    "testOnlyBootGeometry": true,
+    "noTargetGateOrDamageMock": true,
+    "noPixelClaim": true,
+    "completeMainline": false
+  }
+}

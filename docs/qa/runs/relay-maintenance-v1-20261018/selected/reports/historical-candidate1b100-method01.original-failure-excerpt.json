@@ -1,0 +1,161 @@
+{
+  "schema": "ExplicitOriginalFailureExcerptV1",
+  "isOriginalNativeReport": false,
+  "originalExternalRetained": true,
+  "original": {
+    "portableName": "report.json",
+    "sha256": "845ec77ac32abfc2a13df62091569573ba3f06c85a92167bccb519ec8271e426",
+    "bytes": 16013
+  },
+  "omittedFieldsRetainedExternally": [
+    "checkerSha256",
+    "inputs",
+    "artifacts",
+    "scope"
+  ],
+  "replacedStackPathSubstrings": [],
+  "resultCountAndFailedChecksUnchanged": true,
+  "reportExcerpt": {
+    "runner": "source-relay-maintenance-v1",
+    "mode": "candidate",
+    "sourceHtmlSha256": "1b10043c05a54fce97d86c544ac817a32a9a1a7954a3ab759674d6c8205e7930",
+    "ok": false,
+    "count": 7,
+    "passed": 6,
+    "checks": [
+      {
+        "name": "real old online writer: enemy 8→2→0, Continue and next advance never reactivate current capability",
+        "ok": true,
+        "facts": {
+          "realDamageEvents": [
+            "evt-000035",
+            "evt-000036"
+          ],
+          "worldAdvance": 1,
+          "stationHp": 0,
+          "currentCapability": false,
+          "history": "online"
+        },
+        "artifactRefs": [
+          "report-artifacts/inputs/real-damage-geometry-native.json",
+          "report-artifacts/inputs/real-damage-geometry-provenance.json",
+          "report-artifacts/native/01-real-destroyed.json",
+          "report-artifacts/native/02-destroyed-Continue-next-minute.json",
+          "report-artifacts/observations/01-real-damage-and-next-minute.json"
+        ]
+      },
+      {
+        "name": "legacy unknown station and pure current projection preserve the actual old writer without repair or migration",
+        "ok": true,
+        "facts": {
+          "legacyCases": 4,
+          "noBackfill": true
+        },
+        "artifactRefs": [
+          "report-artifacts/inputs/legacy-missing-hp-native.json",
+          "report-artifacts/native/legacy-missing-hp.json",
+          "report-artifacts/inputs/legacy-missing-flags-native.json",
+          "report-artifacts/native/legacy-missing-flags.json",
+          "report-artifacts/inputs/legacy-explicit-inactive-native.json",
+          "report-artifacts/native/legacy-explicit-inactive.json",
+          "report-artifacts/inputs/legacy-missing-station-native.json",
+          "report-artifacts/native/legacy-missing-station.json",
+          "report-artifacts/observations/02-legacy-unknown-pure.json"
+        ]
+      },
+      {
+        "name": "bound station repair pays gross2wood14E, applies+1 then actual whole/carry child, duplicate and Continue preserve history",
+        "ok": true,
+        "facts": {
+          "grossCost": {
+            "wood": 2,
+            "energy": 14
+          },
+          "requested": 20,
+          "actualWhole": 16,
+          "remainder": "0.5",
+          "duplicate": true,
+          "history": "online"
+        },
+        "artifactRefs": [
+          "report-artifacts/inputs/safe-repair-carry-native.json",
+          "report-artifacts/native/03-paid-station.json",
+          "report-artifacts/native/04-paid-station-reload.json",
+          "report-artifacts/observations/03-paid-proof.json"
+        ]
+      },
+      {
+        "name": "station execution distance1 differs from view1.25; stale/identity/resources/session/number budget reject before cost or time",
+        "ok": true,
+        "facts": {
+          "preconditionCases": 9,
+          "executionRange": 1,
+          "viewRange": 1.25,
+          "noPaidFalseSuccess": true
+        },
+        "artifactRefs": [
+          "report-artifacts/inputs/reject-view-band-1.018-native.json",
+          "report-artifacts/inputs/reject-view-edge-1.25-native.json",
+          "report-artifacts/inputs/reject-detached-native.json",
+          "report-artifacts/inputs/reject-unknown-id-native.json",
+          "report-artifacts/inputs/reject-wood-short-native.json",
+          "report-artifacts/inputs/reject-energy-short-native.json",
+          "report-artifacts/inputs/reject-paused-native.json",
+          "report-artifacts/inputs/reject-max-safe-parent-native.json",
+          "report-artifacts/inputs/stale-submission-native.json",
+          "report-artifacts/observations/04-rejections.json"
+        ]
+      },
+      {
+        "name": "real20-minute repair consequences can destroy the+1 prefix again or kill the player, with durable final proof",
+        "ok": true,
+        "facts": {
+          "redestroyed": true,
+          "playerFatal": true,
+          "physicalPrefixRetained": true,
+          "noRefund": true
+        },
+        "artifactRefs": [
+          "report-artifacts/inputs/repair-redestroy-native.json",
+          "report-artifacts/native/05-repair-real-redestroy.json",
+          "report-artifacts/inputs/repair-player-fatal-native.json",
+          "report-artifacts/native/06-repair-player-fatal.json",
+          "report-artifacts/observations/05-paid-consequence-prefixes.json"
+        ]
+      },
+      {
+        "name": "all current perception/frontier consumers lose station benefits while history stays online and new encounter locks current facts",
+        "ok": false,
+        "error": {
+          "name": "AssertionError",
+          "message": "Expected values to be strictly equal:\n\n0 !== 30\n"
+        },
+        "failure": {
+          "path": "report-artifacts/failures/group-6.json",
+          "sha256": "687a7151c57b4c1e7bcea67ff5f757ca90971a64d447c8f9ed2b67d7d710d6ee",
+          "bytes": 888,
+          "kind": "original-method-failure"
+        },
+        "artifactRefs": [
+          "report-artifacts/inputs/consumer-operational-native.json",
+          "report-artifacts/inputs/consumer-destroyed-native.json",
+          "report-artifacts/failures/group-6.json"
+        ]
+      },
+      {
+        "name": "generic content damage synchronizes only after successful transaction; rollback cannot leak capability or forecast changes",
+        "ok": true,
+        "facts": {
+          "rollbackPreserved": true,
+          "successfulDamageDeactivates": true,
+          "history": "online"
+        },
+        "artifactRefs": [
+          "report-artifacts/native/07-content-real-damage.json",
+          "report-artifacts/observations/07-content-transaction.json"
+        ]
+      }
+    ]
+  },
+  "scope": "Selection of original failure checks and identity only; full repeated observations/fixtures/artifacts remain in unchanged external native report. Not a new execution or native pass row."
+}

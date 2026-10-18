@@ -1,0 +1,63 @@
+{
+  "schema": "RelayMaintenanceBrowserInputsV1",
+  "sourceHtmlSha256": "4f697787f6eb4a215a7eab4a483e7d11a65b23b6f1fcb55f175d9c4edfef3e21",
+  "motherSha256": "4bb6aac0eb6b4f440aa60d7b58e13de5c33b8dd70ca4f073f4757d245735a6a8",
+  "naturalDamageClaim": false,
+  "naturalGameplay": false,
+  "humanExperience": false,
+  "stationId": "bld-relay-station",
+  "scenes": [
+    {
+      "id": "destroyed-near-repair",
+      "file": "destroyed-near-repair-input-native.json",
+      "sha256": "4d2802c6504c3f195ba173c96c359510bfcf809ffcb232b3c843d0cfb71f6c64",
+      "bytes": 101564,
+      "stationId": "bld-relay-station",
+      "initialDistance": 0.9,
+      "expectedInitialRepairAllowed": true,
+      "kind": "TEST-ONLY-complete-real-online-writer-derived-HP0-stale-flags-and-player-position"
+    },
+    {
+      "id": "destroyed-view-only-range",
+      "file": "destroyed-view-only-range-input-native.json",
+      "sha256": "258381bdaf8f44c97d17bc9403c09a5ea4a568b447bfa239e6492f80fa4a60cf",
+      "bytes": 101572,
+      "stationId": "bld-relay-station",
+      "initialDistance": 1.19,
+      "expectedInitialRepairAllowed": false,
+      "kind": "TEST-ONLY-complete-real-online-writer-derived-HP0-stale-flags-and-player-position"
+    }
+  ],
+  "provenanceFiles": [
+    {
+      "file": "producer-executed.mjs",
+      "sha256": "b6fb59dec90f9c7e4a508165555e70cf3400508ef3e511b73ddc20cd66a472d7",
+      "bytes": 7174
+    },
+    {
+      "file": "original-online-mother-native.json",
+      "sha256": "4bb6aac0eb6b4f440aa60d7b58e13de5c33b8dd70ca4f073f4757d245735a6a8",
+      "bytes": 99460
+    },
+    {
+      "file": "normalized-online-control-native.json",
+      "sha256": "a33a0c13862567e4d42f0eb7e7c5bbe3c4a7e2842721cf24fe3e2239761d988e",
+      "bytes": 101607
+    },
+    {
+      "file": "io-adapter-executed.mjs",
+      "sha256": "6e0da555742e930b8bf926eeec0db0ee22f17240a4fa305978841f8ba862c0a3",
+      "bytes": 51172
+    },
+    {
+      "file": "source-runtime-fixture-executed.mjs",
+      "sha256": "e9872eeba85d49019d1bd806f3dd18357a5abc8f2f92922922f6a5324ec220dc",
+      "bytes": 2959
+    },
+    {
+      "file": "producer-report.json",
+      "sha256": "70b372ae121b50483c268b6c61c5cb5832004243b751d6c26cea4ef10dfece26",
+      "bytes": 2722
+    }
+  ]
+}

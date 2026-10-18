@@ -1,0 +1,118 @@
+{
+  "runner": "source-relay-maintenance-v1",
+  "mode": "baseline",
+  "sourceHtmlSha256": "7b23b0b757ed2242903c952f54c5c31145499ba98280aa80f1578e64b78780cc",
+  "checkerSha256": "df6f17b126bd0d9b47cb25e323128b6f392fee4753476e32607e301912f82775",
+  "inputs": {
+    "originalWriter": {
+      "repositoryPath": "docs/qa/runs/relay-effective-role-v1-20261018/selected/objects/4bb6aac0eb6b4f440aa60d7b58e13de5c33b8dd70ca4f073f4757d245735a6a8.json",
+      "sha256": "4bb6aac0eb6b4f440aa60d7b58e13de5c33b8dd70ca4f073f4757d245735a6a8",
+      "bytes": 99460
+    },
+    "ioAdapter": {
+      "repositoryPath": "scripts/check-report-recovery.mjs",
+      "sha256": "6e0da555742e930b8bf926eeec0db0ee22f17240a4fa305978841f8ba862c0a3",
+      "runtimeFactorySha256": "5dc89410d5f4a1ce303bbdb03370f6f08c646e38d426a39e7dacd3a3f4e2b89d"
+    }
+  },
+  "ok": false,
+  "count": 1,
+  "passed": 0,
+  "checks": [
+    {
+      "name": "real old online writer: enemy 8→2→0, Continue and next advance never reactivate current capability",
+      "ok": false,
+      "error": {
+        "name": "AssertionError",
+        "message": "actual update must not reactivate zero HP station\n\ntrue !== false\n"
+      },
+      "failure": {
+        "path": "report-artifacts/failures/group-1.json",
+        "sha256": "9b332422724bf9ed69ecdf7baa0d47aecc750189a5ae1ef340a05fd7f6697d1a",
+        "bytes": 913,
+        "kind": "original-method-failure"
+      },
+      "artifactRefs": [
+        "report-artifacts/inputs/real-damage-geometry-native.json",
+        "report-artifacts/inputs/real-damage-geometry-provenance.json",
+        "report-artifacts/native/01-real-destroyed.json",
+        "report-artifacts/native/02-destroyed-Continue-next-minute.json",
+        "report-artifacts/observations/01-real-damage-and-next-minute.json",
+        "report-artifacts/failures/group-1.json"
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "report-artifacts/inputs/source.html",
+      "sha256": "7b23b0b757ed2242903c952f54c5c31145499ba98280aa80f1578e64b78780cc",
+      "bytes": 944195,
+      "kind": "executed-source"
+    },
+    {
+      "path": "report-artifacts/inputs/io-adapter.mjs",
+      "sha256": "6e0da555742e930b8bf926eeec0db0ee22f17240a4fa305978841f8ba862c0a3",
+      "bytes": 51172,
+      "kind": "actual-io"
+    },
+    {
+      "path": "report-artifacts/inputs/checker-executed.mjs",
+      "sha256": "df6f17b126bd0d9b47cb25e323128b6f392fee4753476e32607e301912f82775",
+      "bytes": 29665,
+      "kind": "executed-method"
+    },
+    {
+      "path": "report-artifacts/inputs/original-online-native.json",
+      "sha256": "4bb6aac0eb6b4f440aa60d7b58e13de5c33b8dd70ca4f073f4757d245735a6a8",
+      "bytes": 99460,
+      "kind": "original-complete-writer"
+    },
+    {
+      "path": "report-artifacts/inputs/real-damage-geometry-native.json",
+      "sha256": "dd29c7b4464e2f8bcc53225eedd0444a55a5891bb90c5febbffde75bc63daad0",
+      "bytes": 99243,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "report-artifacts/inputs/real-damage-geometry-provenance.json",
+      "sha256": "0ce16ca5dd54bf09006c5a1cd95ee6f3fd116c5f1bbd1f2469e946fca6f8fa70",
+      "bytes": 393,
+      "kind": "observation"
+    },
+    {
+      "path": "report-artifacts/native/01-real-destroyed.json",
+      "sha256": "1902d941bf602a9a7b76ec4652eb36feb70dc7e289bfcf960ecd9be890675317",
+      "bytes": 106318,
+      "kind": "actual-source-writer"
+    },
+    {
+      "path": "report-artifacts/native/02-destroyed-Continue-next-minute.json",
+      "sha256": "acbb066b75abee99ae49878e0985c52ea8d1463b3485df1d7e0fcc5057a686e6",
+      "bytes": 107598,
+      "kind": "actual-source-writer"
+    },
+    {
+      "path": "report-artifacts/observations/01-real-damage-and-next-minute.json",
+      "sha256": "5707a10a7ce059ba00b2d5f4ccfc3644477b24fa9a5e57357b8a2362e4fa8dd6",
+      "bytes": 17983,
+      "kind": "observation"
+    },
+    {
+      "path": "report-artifacts/failures/group-1.json",
+      "sha256": "9b332422724bf9ed69ecdf7baa0d47aecc750189a5ae1ef340a05fd7f6697d1a",
+      "bytes": 913,
+      "kind": "original-method-failure"
+    }
+  ],
+  "scope": {
+    "fullInline": true,
+    "actualIO": true,
+    "actualBus": true,
+    "browser": false,
+    "naturalGameplay": false,
+    "testOnlyBootGeometry": true,
+    "noTargetGateOrDamageMock": true,
+    "noPixelClaim": true,
+    "completeMainline": false
+  }
+}

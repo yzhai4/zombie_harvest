@@ -40,6 +40,8 @@ NPC 参与资格复核补充：存在/存活不等于营地本地、健康可工
 
 P0–P6约束建设顺序，不冻结最终地图、NPC或副本规模。日志放QA/问题/实验，计划和Skill只保留决策规则及链接。只有新反例、体验矛盾、预算失败或新的有效证据才改工作流/Skill，避免每轮复制相同清单。
 
+项目完成历史、物理当前能力和当次遭遇锁定各有权威，按[维护合同](decisions/ADR-20261018-relay-maintenance-v1.md)追到真实consumer；旧成功报告可以保留，呈现时要标明历史。维修或恢复必须付出真实代价，推进中再毁／致死保已发生前缀；既有任务按实际predicate承认合法功绩。测试通过后仍审真实截图，工程绿色不能遮住当前与历史文字的矛盾，也不能代填玩家理解或乐趣反馈。
+
 NPC 自述按[角色观察验证边界](../.codex/skills/zombie-harvest-iteration/references/actor-observation-verification.md)分开知识与披露、纯组件与承载动作。有效存档必须经过真实继续／renderer／pagehide／reload；原生 writer 的合法性不能由输入 validator 推定。遇到实际浏览器反例先保留原报告、修正真实consumer，再按新HTML重新绑定；启动写入时机、模板名称和CSS过渡的测试假设另记方法失败。
 
 ## 目标闭环与协作

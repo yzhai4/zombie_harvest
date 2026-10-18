@@ -1,6 +1,8 @@
 # PROB：中继物理损毁与当前能力
 
-状态：active。真实source-VM反例已观察，在线维护／修复产品合同待制定；本轮公开说明不改变该规则。
+状态：开发修复本地验证完成，精确CI与生产另核；历史反例保留。见[维护QA](../qa/relay-maintenance-v1-20261018.md)与[合同](../decisions/ADR-20261018-relay-maintenance-v1.md)。
+
+当前4f697以同方法旧7b23真实负控和新7组、既有47合同、Chrome28及episode12验证损毁／能力／付费修复／保存闭环。旧missingHP保持未知，历史上线和当次锁定不追改；自然损毁频率、公开全链与玩家理解仍未验收。下方原反例及其原整体失败保持原时点。
 
 HTML2dd27255的完整旧online writer，保10人／5敌，TEST-ONLY仅把原normal敌移到原站下方一格。真实dayEnemyTarget选同站，原runDayCombat(24)按真实冷却命中8→2→0并发defeated，active=false；这24为consumer输入而非24分钟世界。随后真实world.advance(1)使HP仍0却active／relayEnabled回true。直接从受损writer Continue本身保持active=false，但profile仍有上线sight加成，真实threat.start仍锁定中继通道、count3、初始progress0。
 
