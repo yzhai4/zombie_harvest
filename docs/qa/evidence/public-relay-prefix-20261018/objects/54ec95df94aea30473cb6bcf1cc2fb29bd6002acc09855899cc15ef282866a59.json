@@ -1,0 +1,1260 @@
+{
+  "schema": "PublicA06PolicyV1",
+  "status": "SESSION_PROOF_COMPLETE",
+  "naturalGameplay": false,
+  "humanExperience": false,
+  "singleBuild": false,
+  "controlledContinuation": true,
+  "inputSha256": "9f1ff9ac728ac23ce412bc4887510a648a63c4e196dca7fddb15f859c28511f8",
+  "sourceHtmlSha256": "2fca005df63742164bd6f6e8e82fc0c2d3962b4678419b633482f8a54e09ef93",
+  "accountingScope": {
+    "worldMinutesIsLowerBound": true,
+    "chargedBeforeThisProbe": 252,
+    "originalA04RemainsFailed": true,
+    "originalA05ApproachNotExecuted": true,
+    "newProbeNotSameBuildComparison": true,
+    "unobservedPriorCleanupTailUnknown": true
+  },
+  "bounds": {
+    "countCaps": {
+      "major": 10,
+      "business": 10,
+      "ui": 80,
+      "navigation": 240,
+      "keyMs": 90000,
+      "restAccepted": 3,
+      "attackAttempts": 3,
+      "eatAttempts": 2
+    },
+    "world": 110,
+    "wall": 180000,
+    "deadline": 1061
+  },
+  "sliceLimits": {
+    "major": 3,
+    "business": 3,
+    "ui": 18,
+    "navigation": 15,
+    "restAccepted": 1,
+    "attackAttempts": 1,
+    "eatAttempts": 1,
+    "worldMinutes": 110,
+    "wallMs": 180000,
+    "verificationWorld": 16,
+    "verificationWallMs": 20000,
+    "ordinaryProbeWorld": 4,
+    "ordinaryProbeWallMs": 6000,
+    "collisionAlternatives": 3,
+    "relocations": 1
+  },
+  "decisions": [
+    {
+      "kind": "relay-panel",
+      "public": {
+        "at": 1792305980746,
+        "day": 1,
+        "hour": 9,
+        "minute": 54,
+        "hp": 86,
+        "energy": 100,
+        "food": 7,
+        "player": {
+          "x": 9.1,
+          "y": 9.1
+        },
+        "activityGeneration": 1,
+        "context": null,
+        "feedback": {
+          "rest": null,
+          "restStatus": "营地等候：暂不可等候：请靠近可用庇护所后重试",
+          "attack": null,
+          "maintenance": null
+        },
+        "available": []
+      },
+      "label": "initial-public-project",
+      "relay": {
+        "status": "状态：筹料中",
+        "task": "每累计30分钟尝试分批筹料；先用库存，再取有限的树木、废料和石块。材料齐备后自动施工。",
+        "crew": "项目成员：广播员：阿默（上次报告：收到commander共享的威胁坐标） · 木匠：阿梁（上次报告：参与广播中继筹料/施工（工作脉冲 3）） · 后勤官：周岚（上次报告：收到radio共享的威胁坐标）",
+        "forecast": "营地观察 · 中继未启用",
+        "materials": "6/10\n🪵 木材\n5/5\n🔩 零件\n1/4\n🪨 石材",
+        "steps": "✓ 发现核心\n✓ 交付长官\n筹备筹料\n施工中继站\n共享预警"
+      }
+    },
+    {
+      "kind": "public-core-approach-selected",
+      "public": {
+        "at": 1792305981864,
+        "day": 1,
+        "hour": 9,
+        "minute": 55,
+        "hp": 86,
+        "energy": 100,
+        "food": 7,
+        "player": {
+          "x": 9.1,
+          "y": 9.1
+        },
+        "activityGeneration": 1,
+        "context": null,
+        "feedback": {
+          "rest": null,
+          "restStatus": "营地等候：暂不可等候：请靠近可用庇护所后重试",
+          "attack": null,
+          "maintenance": null
+        },
+        "available": [
+          {
+            "id": "eatBtn",
+            "context": null,
+            "disabled": false,
+            "text": "🍲 吃饭 · 回复体力\n食物 7 · +24；共享营地口粮"
+          },
+          {
+            "id": "eatBtnAction",
+            "context": null,
+            "disabled": false,
+            "text": "🍲 吃饭 · 回复体力\n食物 7 · +24；共享营地口粮"
+          },
+          {
+            "id": "attackBtn",
+            "context": null,
+            "disabled": true,
+            "text": "🪓 攻击\n再靠近目标后攻击"
+          }
+        ]
+      },
+      "goal": {
+        "x": 9,
+        "y": 7,
+        "source": "one finite west approach of the currently labeled central public footprint; no shelter or safety inference",
+        "anchor": {
+          "x": 10,
+          "y": 7,
+          "tag": "加固指挥所 · 2×2"
+        },
+        "priorPublic": {
+          "file": "A05-final-public-ui.json",
+          "at": 1792305454926,
+          "worldMinute": 594,
+          "sha256": "69d757dec25cb43db8adaeff83063599ec2179b8c81ebe9ee75f2b90aaecc846"
+        },
+        "bootConfirmation": {
+          "at": 1792305979522,
+          "worldMinute": 593,
+          "files": [
+            {
+              "file": "000-current-boot-public-map-native.json",
+              "sha256": "9f1ff9ac728ac23ce412bc4887510a648a63c4e196dca7fddb15f859c28511f8",
+              "bytes": 319399,
+              "kind": "actual durable writer"
+            },
+            {
+              "file": "000-current-boot-public-map-live.json",
+              "sha256": "86a7dd7cc4945d6aa9d6de60eb105007fa002635f98a1acf0dd8d62b8c88d801",
+              "bytes": 224222,
+              "kind": "privileged read-only live; not navigation"
+            },
+            {
+              "file": "000-current-boot-public-map-ui.json",
+              "sha256": "0e9012e069ae4ed3a512415cd21a37e1c877cf544226c72671eb8ad756130e1b",
+              "bytes": 109891,
+              "kind": "current public viewport"
+            },
+            {
+              "file": "000-current-boot-public-map.png",
+              "sha256": "3c4859fd2ec0ad09fb7d0fbb1da539350a65e4e4f45dc9d8946fa53afbced0c6",
+              "bytes": 513384,
+              "kind": "actual viewport screenshot"
+            }
+          ],
+          "anchorTile": "10,7",
+          "targetTile": "9,7"
+        }
+      },
+      "noSafetyPromise": true
+    },
+    {
+      "kind": "new-public-context-on-approach",
+      "public": {
+        "at": 1792305983809,
+        "day": 1,
+        "hour": 9,
+        "minute": 56,
+        "hp": 86,
+        "energy": 100,
+        "food": 7,
+        "player": {
+          "x": 9.1,
+          "y": 8.1
+        },
+        "activityGeneration": 1,
+        "context": "树林 · 可采集",
+        "feedback": {
+          "rest": null,
+          "restStatus": "营地等候：暂不可等候：请靠近可用庇护所后重试",
+          "attack": null,
+          "maintenance": null
+        },
+        "available": [
+          {
+            "id": "eatBtn",
+            "context": null,
+            "disabled": false,
+            "text": "🍲 吃饭 · 回复体力\n食物 7 · +24；共享营地口粮"
+          },
+          {
+            "id": "",
+            "context": "gather",
+            "disabled": false,
+            "text": "1🧺 采集木材\n消耗 8 行动体力 · 前往附近资源"
+          },
+          {
+            "id": "eatBtnAction",
+            "context": null,
+            "disabled": false,
+            "text": "🍲 吃饭 · 回复体力\n食物 7 · +24；共享营地口粮"
+          },
+          {
+            "id": "attackBtn",
+            "context": null,
+            "disabled": true,
+            "text": "🪓 攻击\n再靠近目标后攻击"
+          }
+        ]
+      },
+      "goal": {
+        "x": 9,
+        "y": 7,
+        "source": "one finite west approach of the currently labeled central public footprint; no shelter or safety inference",
+        "anchor": {
+          "x": 10,
+          "y": 7,
+          "tag": "加固指挥所 · 2×2"
+        },
+        "priorPublic": {
+          "file": "A05-final-public-ui.json",
+          "at": 1792305454926,
+          "worldMinute": 594,
+          "sha256": "69d757dec25cb43db8adaeff83063599ec2179b8c81ebe9ee75f2b90aaecc846"
+        },
+        "bootConfirmation": {
+          "at": 1792305979522,
+          "worldMinute": 593,
+          "files": [
+            {
+              "file": "000-current-boot-public-map-native.json",
+              "sha256": "9f1ff9ac728ac23ce412bc4887510a648a63c4e196dca7fddb15f859c28511f8",
+              "bytes": 319399,
+              "kind": "actual durable writer"
+            },
+            {
+              "file": "000-current-boot-public-map-live.json",
+              "sha256": "86a7dd7cc4945d6aa9d6de60eb105007fa002635f98a1acf0dd8d62b8c88d801",
+              "bytes": 224222,
+              "kind": "privileged read-only live; not navigation"
+            },
+            {
+              "file": "000-current-boot-public-map-ui.json",
+              "sha256": "0e9012e069ae4ed3a512415cd21a37e1c877cf544226c72671eb8ad756130e1b",
+              "bytes": 109891,
+              "kind": "current public viewport"
+            },
+            {
+              "file": "000-current-boot-public-map.png",
+              "sha256": "3c4859fd2ec0ad09fb7d0fbb1da539350a65e4e4f45dc9d8946fa53afbced0c6",
+              "bytes": 513384,
+              "kind": "actual viewport screenshot"
+            }
+          ],
+          "anchorTile": "10,7",
+          "targetTile": "9,7"
+        }
+      },
+      "feedbackRead": true
+    },
+    {
+      "kind": "new-public-context-on-approach",
+      "public": {
+        "at": 1792305984392,
+        "day": 1,
+        "hour": 9,
+        "minute": 57,
+        "hp": 86,
+        "energy": 100,
+        "food": 7,
+        "player": {
+          "x": 9.1,
+          "y": 7.699999999999999
+        },
+        "activityGeneration": 1,
+        "context": "树林 · 可采集",
+        "feedback": {
+          "rest": null,
+          "restStatus": "营地等候：暂不可等候：请靠近可用庇护所后重试",
+          "attack": null,
+          "maintenance": null
+        },
+        "available": [
+          {
+            "id": "eatBtn",
+            "context": null,
+            "disabled": false,
+            "text": "🍲 吃饭 · 回复体力\n食物 7 · +24；共享营地口粮"
+          },
+          {
+            "id": "",
+            "context": "gather",
+            "disabled": false,
+            "text": "1🧺 采集木材\n消耗 8 行动体力 · 前往附近资源"
+          },
+          {
+            "id": "eatBtnAction",
+            "context": null,
+            "disabled": false,
+            "text": "🍲 吃饭 · 回复体力\n食物 7 · +24；共享营地口粮"
+          },
+          {
+            "id": "attackBtn",
+            "context": null,
+            "disabled": true,
+            "text": "🪓 攻击\n再靠近目标后攻击"
+          }
+        ]
+      },
+      "goal": {
+        "x": 9,
+        "y": 7,
+        "source": "one finite west approach of the currently labeled central public footprint; no shelter or safety inference",
+        "anchor": {
+          "x": 10,
+          "y": 7,
+          "tag": "加固指挥所 · 2×2"
+        },
+        "priorPublic": {
+          "file": "A05-final-public-ui.json",
+          "at": 1792305454926,
+          "worldMinute": 594,
+          "sha256": "69d757dec25cb43db8adaeff83063599ec2179b8c81ebe9ee75f2b90aaecc846"
+        },
+        "bootConfirmation": {
+          "at": 1792305979522,
+          "worldMinute": 593,
+          "files": [
+            {
+              "file": "000-current-boot-public-map-native.json",
+              "sha256": "9f1ff9ac728ac23ce412bc4887510a648a63c4e196dca7fddb15f859c28511f8",
+              "bytes": 319399,
+              "kind": "actual durable writer"
+            },
+            {
+              "file": "000-current-boot-public-map-live.json",
+              "sha256": "86a7dd7cc4945d6aa9d6de60eb105007fa002635f98a1acf0dd8d62b8c88d801",
+              "bytes": 224222,
+              "kind": "privileged read-only live; not navigation"
+            },
+            {
+              "file": "000-current-boot-public-map-ui.json",
+              "sha256": "0e9012e069ae4ed3a512415cd21a37e1c877cf544226c72671eb8ad756130e1b",
+              "bytes": 109891,
+              "kind": "current public viewport"
+            },
+            {
+              "file": "000-current-boot-public-map.png",
+              "sha256": "3c4859fd2ec0ad09fb7d0fbb1da539350a65e4e4f45dc9d8946fa53afbced0c6",
+              "bytes": 513384,
+              "kind": "actual viewport screenshot"
+            }
+          ],
+          "anchorTile": "10,7",
+          "targetTile": "9,7"
+        }
+      },
+      "feedbackRead": true
+    },
+    {
+      "kind": "new-public-context-on-approach",
+      "public": {
+        "at": 1792305984963,
+        "day": 1,
+        "hour": 9,
+        "minute": 57,
+        "hp": 86,
+        "energy": 100,
+        "food": 7,
+        "player": {
+          "x": 9.1,
+          "y": 7.300000000000001
+        },
+        "activityGeneration": 1,
+        "context": "树林 · 可采集",
+        "feedback": {
+          "rest": null,
+          "restStatus": "营地等候：暂不可等候：请靠近可用庇护所后重试",
+          "attack": null,
+          "maintenance": null
+        },
+        "available": [
+          {
+            "id": "eatBtn",
+            "context": null,
+            "disabled": false,
+            "text": "🍲 吃饭 · 回复体力\n食物 7 · +24；共享营地口粮"
+          },
+          {
+            "id": "",
+            "context": "gather",
+            "disabled": false,
+            "text": "1🧺 采集木材\n消耗 8 行动体力 · 前往附近资源"
+          },
+          {
+            "id": "",
+            "context": "building",
+            "disabled": false,
+            "text": "2⚙️ 使用建筑\n互动：查看指挥简报并临时协调岗位 · 不移动位置；结果会写入日志和世界事件"
+          },
+          {
+            "id": "eatBtnAction",
+            "context": null,
+            "disabled": false,
+            "text": "🍲 吃饭 · 回复体力\n食物 7 · +24；共享营地口粮"
+          },
+          {
+            "id": "attackBtn",
+            "context": null,
+            "disabled": true,
+            "text": "🪓 攻击\n再靠近目标后攻击"
+          }
+        ]
+      },
+      "goal": {
+        "x": 9,
+        "y": 7,
+        "source": "one finite west approach of the currently labeled central public footprint; no shelter or safety inference",
+        "anchor": {
+          "x": 10,
+          "y": 7,
+          "tag": "加固指挥所 · 2×2"
+        },
+        "priorPublic": {
+          "file": "A05-final-public-ui.json",
+          "at": 1792305454926,
+          "worldMinute": 594,
+          "sha256": "69d757dec25cb43db8adaeff83063599ec2179b8c81ebe9ee75f2b90aaecc846"
+        },
+        "bootConfirmation": {
+          "at": 1792305979522,
+          "worldMinute": 593,
+          "files": [
+            {
+              "file": "000-current-boot-public-map-native.json",
+              "sha256": "9f1ff9ac728ac23ce412bc4887510a648a63c4e196dca7fddb15f859c28511f8",
+              "bytes": 319399,
+              "kind": "actual durable writer"
+            },
+            {
+              "file": "000-current-boot-public-map-live.json",
+              "sha256": "86a7dd7cc4945d6aa9d6de60eb105007fa002635f98a1acf0dd8d62b8c88d801",
+              "bytes": 224222,
+              "kind": "privileged read-only live; not navigation"
+            },
+            {
+              "file": "000-current-boot-public-map-ui.json",
+              "sha256": "0e9012e069ae4ed3a512415cd21a37e1c877cf544226c72671eb8ad756130e1b",
+              "bytes": 109891,
+              "kind": "current public viewport"
+            },
+            {
+              "file": "000-current-boot-public-map.png",
+              "sha256": "3c4859fd2ec0ad09fb7d0fbb1da539350a65e4e4f45dc9d8946fa53afbced0c6",
+              "bytes": 513384,
+              "kind": "actual viewport screenshot"
+            }
+          ],
+          "anchorTile": "10,7",
+          "targetTile": "9,7"
+        }
+      },
+      "feedbackRead": true
+    },
+    {
+      "kind": "new-public-context-on-approach",
+      "public": {
+        "at": 1792305985519,
+        "day": 1,
+        "hour": 9,
+        "minute": 58,
+        "hp": 86,
+        "energy": 100,
+        "food": 7,
+        "player": {
+          "x": 9.1,
+          "y": 7
+        },
+        "activityGeneration": 1,
+        "context": "加固指挥所 · 可管理",
+        "feedback": {
+          "rest": null,
+          "restStatus": "营地等候：暂不可等候：请靠近可用庇护所后重试",
+          "attack": null,
+          "maintenance": null
+        },
+        "available": [
+          {
+            "id": "eatBtn",
+            "context": null,
+            "disabled": false,
+            "text": "🍲 吃饭 · 回复体力\n食物 7 · +24；共享营地口粮"
+          },
+          {
+            "id": "",
+            "context": "building",
+            "disabled": false,
+            "text": "1⚙️ 使用建筑\n互动：查看指挥简报并临时协调岗位 · 不移动位置；结果会写入日志和世界事件"
+          },
+          {
+            "id": "eatBtnAction",
+            "context": null,
+            "disabled": false,
+            "text": "🍲 吃饭 · 回复体力\n食物 7 · +24；共享营地口粮"
+          },
+          {
+            "id": "attackBtn",
+            "context": null,
+            "disabled": true,
+            "text": "🪓 攻击\n再靠近目标后攻击"
+          }
+        ]
+      },
+      "goal": {
+        "x": 9,
+        "y": 7,
+        "source": "one finite west approach of the currently labeled central public footprint; no shelter or safety inference",
+        "anchor": {
+          "x": 10,
+          "y": 7,
+          "tag": "加固指挥所 · 2×2"
+        },
+        "priorPublic": {
+          "file": "A05-final-public-ui.json",
+          "at": 1792305454926,
+          "worldMinute": 594,
+          "sha256": "69d757dec25cb43db8adaeff83063599ec2179b8c81ebe9ee75f2b90aaecc846"
+        },
+        "bootConfirmation": {
+          "at": 1792305979522,
+          "worldMinute": 593,
+          "files": [
+            {
+              "file": "000-current-boot-public-map-native.json",
+              "sha256": "9f1ff9ac728ac23ce412bc4887510a648a63c4e196dca7fddb15f859c28511f8",
+              "bytes": 319399,
+              "kind": "actual durable writer"
+            },
+            {
+              "file": "000-current-boot-public-map-live.json",
+              "sha256": "86a7dd7cc4945d6aa9d6de60eb105007fa002635f98a1acf0dd8d62b8c88d801",
+              "bytes": 224222,
+              "kind": "privileged read-only live; not navigation"
+            },
+            {
+              "file": "000-current-boot-public-map-ui.json",
+              "sha256": "0e9012e069ae4ed3a512415cd21a37e1c877cf544226c72671eb8ad756130e1b",
+              "bytes": 109891,
+              "kind": "current public viewport"
+            },
+            {
+              "file": "000-current-boot-public-map.png",
+              "sha256": "3c4859fd2ec0ad09fb7d0fbb1da539350a65e4e4f45dc9d8946fa53afbced0c6",
+              "bytes": 513384,
+              "kind": "actual viewport screenshot"
+            }
+          ],
+          "anchorTile": "10,7",
+          "targetTile": "9,7"
+        }
+      },
+      "feedbackRead": true
+    },
+    {
+      "kind": "public-core-approach-reached",
+      "public": {
+        "at": 1792305985519,
+        "day": 1,
+        "hour": 9,
+        "minute": 58,
+        "hp": 86,
+        "energy": 100,
+        "food": 7,
+        "player": {
+          "x": 9.1,
+          "y": 7
+        },
+        "activityGeneration": 1,
+        "context": "加固指挥所 · 可管理",
+        "feedback": {
+          "rest": null,
+          "restStatus": "营地等候：暂不可等候：请靠近可用庇护所后重试",
+          "attack": null,
+          "maintenance": null
+        },
+        "available": [
+          {
+            "id": "eatBtn",
+            "context": null,
+            "disabled": false,
+            "text": "🍲 吃饭 · 回复体力\n食物 7 · +24；共享营地口粮"
+          },
+          {
+            "id": "",
+            "context": "building",
+            "disabled": false,
+            "text": "1⚙️ 使用建筑\n互动：查看指挥简报并临时协调岗位 · 不移动位置；结果会写入日志和世界事件"
+          },
+          {
+            "id": "eatBtnAction",
+            "context": null,
+            "disabled": false,
+            "text": "🍲 吃饭 · 回复体力\n食物 7 · +24；共享营地口粮"
+          },
+          {
+            "id": "attackBtn",
+            "context": null,
+            "disabled": true,
+            "text": "🪓 攻击\n再靠近目标后攻击"
+          }
+        ]
+      },
+      "goal": {
+        "x": 9,
+        "y": 7,
+        "source": "one finite west approach of the currently labeled central public footprint; no shelter or safety inference",
+        "anchor": {
+          "x": 10,
+          "y": 7,
+          "tag": "加固指挥所 · 2×2"
+        },
+        "priorPublic": {
+          "file": "A05-final-public-ui.json",
+          "at": 1792305454926,
+          "worldMinute": 594,
+          "sha256": "69d757dec25cb43db8adaeff83063599ec2179b8c81ebe9ee75f2b90aaecc846"
+        },
+        "bootConfirmation": {
+          "at": 1792305979522,
+          "worldMinute": 593,
+          "files": [
+            {
+              "file": "000-current-boot-public-map-native.json",
+              "sha256": "9f1ff9ac728ac23ce412bc4887510a648a63c4e196dca7fddb15f859c28511f8",
+              "bytes": 319399,
+              "kind": "actual durable writer"
+            },
+            {
+              "file": "000-current-boot-public-map-live.json",
+              "sha256": "86a7dd7cc4945d6aa9d6de60eb105007fa002635f98a1acf0dd8d62b8c88d801",
+              "bytes": 224222,
+              "kind": "privileged read-only live; not navigation"
+            },
+            {
+              "file": "000-current-boot-public-map-ui.json",
+              "sha256": "0e9012e069ae4ed3a512415cd21a37e1c877cf544226c72671eb8ad756130e1b",
+              "bytes": 109891,
+              "kind": "current public viewport"
+            },
+            {
+              "file": "000-current-boot-public-map.png",
+              "sha256": "3c4859fd2ec0ad09fb7d0fbb1da539350a65e4e4f45dc9d8946fa53afbced0c6",
+              "bytes": 513384,
+              "kind": "actual viewport screenshot"
+            }
+          ],
+          "anchorTile": "10,7",
+          "targetTile": "9,7"
+        }
+      }
+    },
+    {
+      "kind": "public-approach-prefix-observed",
+      "public": {
+        "at": 1792305985715,
+        "day": 1,
+        "hour": 9,
+        "minute": 58,
+        "hp": 86,
+        "energy": 100,
+        "food": 7,
+        "player": {
+          "x": 9.1,
+          "y": 7
+        },
+        "activityGeneration": 1,
+        "context": "加固指挥所 · 可管理",
+        "feedback": {
+          "rest": null,
+          "restStatus": "营地等候：暂不可等候：请靠近可用庇护所后重试",
+          "attack": null,
+          "maintenance": null
+        },
+        "available": [
+          {
+            "id": "eatBtn",
+            "context": null,
+            "disabled": false,
+            "text": "🍲 吃饭 · 回复体力\n食物 7 · +24；共享营地口粮"
+          },
+          {
+            "id": "",
+            "context": "building",
+            "disabled": false,
+            "text": "1⚙️ 使用建筑\n互动：查看指挥简报并临时协调岗位 · 不移动位置；结果会写入日志和世界事件"
+          },
+          {
+            "id": "eatBtnAction",
+            "context": null,
+            "disabled": false,
+            "text": "🍲 吃饭 · 回复体力\n食物 7 · +24；共享营地口粮"
+          },
+          {
+            "id": "attackBtn",
+            "context": null,
+            "disabled": true,
+            "text": "🪓 攻击\n再靠近目标后攻击"
+          }
+        ]
+      },
+      "noExtraWaitSamples": true
+    },
+    {
+      "kind": "relay-panel",
+      "public": {
+        "at": 1792305986471,
+        "day": 1,
+        "hour": 9,
+        "minute": 59,
+        "hp": 86,
+        "energy": 100,
+        "food": 7,
+        "player": {
+          "x": 9.1,
+          "y": 7
+        },
+        "activityGeneration": 1,
+        "context": "加固指挥所 · 可管理",
+        "feedback": {
+          "rest": null,
+          "restStatus": "营地等候：暂不可等候：请靠近可用庇护所后重试",
+          "attack": null,
+          "maintenance": null
+        },
+        "available": []
+      },
+      "label": "after-public-approach-project",
+      "relay": {
+        "status": "状态：筹料中",
+        "task": "每累计30分钟尝试分批筹料；先用库存，再取有限的树木、废料和石块。材料齐备后自动施工。",
+        "crew": "项目成员：广播员：阿默（上次报告：收到commander共享的威胁坐标） · 木匠：阿梁（上次报告：参与广播中继筹料/施工（工作脉冲 3）） · 后勤官：周岚（上次报告：收到radio共享的威胁坐标）",
+        "forecast": "营地观察 · 中继未启用",
+        "materials": "6/10\n🪵 木材\n5/5\n🔩 零件\n1/4\n🪨 石材",
+        "steps": "✓ 发现核心\n✓ 交付长官\n筹备筹料\n施工中继站\n共享预警"
+      }
+    }
+  ],
+  "recovery": {
+    "complete": true,
+    "scope": "actual-selected-raw-and-tested-facts",
+    "selected": {
+      "classification": "DAY",
+      "sourceCategory": "primary",
+      "originalChecksum": "647d0872",
+      "eventSeq": 345,
+      "worldMinute": 603,
+      "complete": true,
+      "scope": "actual-selected-raw-and-tested-facts",
+      "rawSha256": "a91bcebf0aa8219c5a8cd6db31c8616d277dd43356adc7343d74f6e522872f82",
+      "payloadSha256": "6df6f3ff077703a4bf2204fd83311a978f177008623acf82fad109194ba4d6a0",
+      "samePreReloadRaw": false,
+      "samePreReloadPayload": false,
+      "reason": null
+    },
+    "postReloadTick": {
+      "eventId": "evt-000346",
+      "seq": 346,
+      "type": "time.advanced",
+      "actorId": "system",
+      "commandId": "cmd-000942",
+      "causationId": null,
+      "tick": {
+        "world": 604,
+        "phase": 0,
+        "schedule": 244
+      },
+      "payload": {
+        "minutes": 1,
+        "day": 1,
+        "hour": 10,
+        "minute": 4
+      }
+    },
+    "samePreReloadRaw": false,
+    "samePreReloadPayload": false,
+    "testedFactsPreserved": true
+  },
+  "sessionValidity": {
+    "verified": true,
+    "scope": "method/session evidence only; branch and relay are independent",
+    "exit0DoesNotMeanMainlineCompleted": true
+  },
+  "branchOutcome": {
+    "kind": "bounded-prefix",
+    "reason": "one finite approach completed or unavailable; no further eligible bounded public action",
+    "restRequests": 0,
+    "completedRests": 0,
+    "relocations": 1,
+    "attacks": 0,
+    "eats": 0,
+    "supports": 0,
+    "nextPublicAffordances": [
+      {
+        "id": "eatBtn",
+        "context": null,
+        "disabled": false,
+        "text": "🍲 吃饭 · 回复体力\n食物 7 · +24；共享营地口粮"
+      },
+      {
+        "id": "",
+        "context": "building",
+        "disabled": false,
+        "text": "1⚙️ 使用建筑\n互动：查看指挥简报并临时协调岗位 · 不移动位置；结果会写入日志和世界事件"
+      },
+      {
+        "id": "eatBtnAction",
+        "context": null,
+        "disabled": false,
+        "text": "🍲 吃饭 · 回复体力\n食物 7 · +24；共享营地口粮"
+      },
+      {
+        "id": "attackBtn",
+        "context": null,
+        "disabled": true,
+        "text": "🪓 攻击\n再靠近目标后攻击"
+      }
+    ]
+  },
+  "relayOutcome": {
+    "engineeringHistory": "staging",
+    "complete": false,
+    "publicPanel": {
+      "status": "状态：筹料中",
+      "task": "每累计30分钟尝试分批筹料；先用库存，再取有限的树木、废料和石块。材料齐备后自动施工。",
+      "crew": "项目成员：广播员：阿默（上次报告：收到commander共享的威胁坐标） · 木匠：阿梁（上次报告：参与广播中继筹料/施工（工作脉冲 3）） · 后勤官：周岚（上次报告：收到radio共享的威胁坐标）",
+      "forecast": "营地观察 · 中继未启用",
+      "materials": "6/10\n🪵 木材\n5/5\n🔩 零件\n1/4\n🪨 石材",
+      "steps": "✓ 发现核心\n✓ 交付长官\n筹备筹料\n施工中继站\n共享预警"
+    },
+    "currentCapabilityEvidence": {
+      "sameIdBuilding": null,
+      "publicStatus": "状态：筹料中",
+      "publicForecast": "营地观察 · 中继未启用",
+      "notInferredFromHistoricalOnline": true
+    },
+    "projectId": "camp-relay-001",
+    "buildingId": "bld-relay-station",
+    "materials": {
+      "wood": 6,
+      "parts": 5,
+      "stone": 1
+    },
+    "workMinutes": 0,
+    "progressDuringThisPrefix": {
+      "materialsFrom": {
+        "wood": 6,
+        "parts": 5,
+        "stone": 1
+      },
+      "materialsTo": {
+        "wood": 6,
+        "parts": 5,
+        "stone": 1
+      },
+      "workFrom": 0,
+      "workTo": 0
+    },
+    "initialPublicPanel": {
+      "status": "状态：筹料中",
+      "task": "每累计30分钟尝试分批筹料；先用库存，再取有限的树木、废料和石块。材料齐备后自动施工。",
+      "crew": "项目成员：广播员：阿默（上次报告：收到commander共享的威胁坐标） · 木匠：阿梁（上次报告：参与广播中继筹料/施工（工作脉冲 3）） · 后勤官：周岚（上次报告：收到radio共享的威胁坐标）",
+      "forecast": "营地观察 · 中继未启用",
+      "materials": "6/10\n🪵 木材\n5/5\n🔩 零件\n1/4\n🪨 石材",
+      "steps": "✓ 发现核心\n✓ 交付长官\n筹备筹料\n施工中继站\n共享预警"
+    },
+    "notAClaimOfNaturalOrHumanCompletion": true
+  },
+  "originalFailuresUnchanged": true,
+  "initial": {
+    "classification": "DAY",
+    "sourceCategory": "primary",
+    "originalChecksum": "cb03cd61",
+    "eventSeq": 325,
+    "worldMinute": 593,
+    "complete": true,
+    "scope": "actual-selected-raw-and-tested-facts",
+    "rawSha256": "9f1ff9ac728ac23ce412bc4887510a648a63c4e196dca7fddb15f859c28511f8",
+    "payloadSha256": "f7ddc6f69c2b8b30824cdbe35765967ebcec94aa397eda811c34a82d1bb6db84",
+    "samePreReloadRaw": true,
+    "samePreReloadPayload": true,
+    "reason": null,
+    "files": [
+      {
+        "file": "initial-selected-raw.json",
+        "sha256": "9f1ff9ac728ac23ce412bc4887510a648a63c4e196dca7fddb15f859c28511f8",
+        "bytes": 319399
+      },
+      {
+        "file": "initial-selected-payload.json",
+        "sha256": "8c899f2149299e363f4c1643cb485578fd8f1c1d5c22727a025d88ffe4eec6ed",
+        "bytes": 281627
+      }
+    ]
+  },
+  "initialInstallation": {
+    "file": {
+      "file": "initial-continue-installation.json",
+      "sha256": "9170c80d6dba33f0920d81bdf5866a84be4954720d878c83255d4e04a0838ac8",
+      "bytes": 1456
+    },
+    "installed": true,
+    "gameStarted": true,
+    "mode": "DAY",
+    "exiting": false,
+    "savePending": false,
+    "classification": "DAY",
+    "overlayHidden": true,
+    "originalChecksum": "cb03cd61",
+    "sourceCategory": "primary",
+    "key": "zombie-harvest-progress-v12",
+    "draftUsesSelected": true,
+    "migration": null,
+    "migrationRecorded": false,
+    "live": {
+      "day": 1,
+      "hour": 9,
+      "minute": 53,
+      "totalMinutes": 593,
+      "eventSeq": 325,
+      "projectId": "camp-relay-001",
+      "handoffAt": 489,
+      "materials": {
+        "wood": 6,
+        "parts": 5,
+        "stone": 1
+      },
+      "workMinutes": 0,
+      "personalHandoffs": [
+        {
+          "id": "commander",
+          "receipt": {
+            "version": 1,
+            "eventId": "evt-000173",
+            "eventSeq": 173,
+            "commandId": "cmd-000622",
+            "causationId": null,
+            "tick": {
+              "world": 489,
+              "phase": 0,
+              "schedule": 129
+            },
+            "actorId": "player-1",
+            "recipientId": "commander",
+            "projectId": "camp-relay-001",
+            "itemId": "relayCore",
+            "itemInstanceId": "item-relayCore-001",
+            "defId": "relay-chain-001",
+            "definitionVersion": 1,
+            "instanceId": "camp-relay-001",
+            "expectedEventId": "evt-000129"
+          }
+        }
+      ]
+    },
+    "selectedRawSha256": "9f1ff9ac728ac23ce412bc4887510a648a63c4e196dca7fddb15f859c28511f8",
+    "sameActualSelection": true
+  },
+  "currentBoot": {
+    "public": {
+      "at": 1792305979522,
+      "day": 1,
+      "hour": 9,
+      "minute": 53,
+      "hp": 86,
+      "energy": 100,
+      "food": 7,
+      "player": {
+        "x": 9.1,
+        "y": 9.1
+      },
+      "activityGeneration": 1,
+      "context": null,
+      "feedback": {
+        "rest": null,
+        "restStatus": "营地等候：暂不可等候：请靠近可用庇护所后重试",
+        "attack": null,
+        "maintenance": null
+      },
+      "available": [
+        {
+          "id": "eatBtn",
+          "context": null,
+          "disabled": false,
+          "text": "🍲 吃饭 · 回复体力\n食物 7 · +24；共享营地口粮"
+        },
+        {
+          "id": "eatBtnAction",
+          "context": null,
+          "disabled": false,
+          "text": "🍲 吃饭 · 回复体力\n食物 7 · +24；共享营地口粮"
+        },
+        {
+          "id": "attackBtn",
+          "context": null,
+          "disabled": true,
+          "text": "🪓 攻击\n再靠近目标后攻击"
+        }
+      ]
+    },
+    "files": [
+      {
+        "file": "000-current-boot-public-map-native.json",
+        "sha256": "9f1ff9ac728ac23ce412bc4887510a648a63c4e196dca7fddb15f859c28511f8",
+        "bytes": 319399,
+        "kind": "actual durable writer"
+      },
+      {
+        "file": "000-current-boot-public-map-live.json",
+        "sha256": "86a7dd7cc4945d6aa9d6de60eb105007fa002635f98a1acf0dd8d62b8c88d801",
+        "bytes": 224222,
+        "kind": "privileged read-only live; not navigation"
+      },
+      {
+        "file": "000-current-boot-public-map-ui.json",
+        "sha256": "0e9012e069ae4ed3a512415cd21a37e1c877cf544226c72671eb8ad756130e1b",
+        "bytes": 109891,
+        "kind": "current public viewport"
+      },
+      {
+        "file": "000-current-boot-public-map.png",
+        "sha256": "3c4859fd2ec0ad09fb7d0fbb1da539350a65e4e4f45dc9d8946fa53afbced0c6",
+        "bytes": 513384,
+        "kind": "actual viewport screenshot"
+      }
+    ]
+  },
+  "publicMaterialBatch": {
+    "initialPublicPanel": {
+      "status": "状态：筹料中",
+      "task": "每累计30分钟尝试分批筹料；先用库存，再取有限的树木、废料和石块。材料齐备后自动施工。",
+      "crew": "项目成员：广播员：阿默（上次报告：收到commander共享的威胁坐标） · 木匠：阿梁（上次报告：参与广播中继筹料/施工（工作脉冲 3）） · 后勤官：周岚（上次报告：收到radio共享的威胁坐标）",
+      "forecast": "营地观察 · 中继未启用",
+      "materials": "6/10\n🪵 木材\n5/5\n🔩 零件\n1/4\n🪨 石材",
+      "steps": "✓ 发现核心\n✓ 交付长官\n筹备筹料\n施工中继站\n共享预警"
+    },
+    "afterApproachPublicPanel": {
+      "status": "状态：筹料中",
+      "task": "每累计30分钟尝试分批筹料；先用库存，再取有限的树木、废料和石块。材料齐备后自动施工。",
+      "crew": "项目成员：广播员：阿默（上次报告：收到commander共享的威胁坐标） · 木匠：阿梁（上次报告：参与广播中继筹料/施工（工作脉冲 3）） · 后勤官：周岚（上次报告：收到radio共享的威胁坐标）",
+      "forecast": "营地观察 · 中继未启用",
+      "materials": "6/10\n🪵 木材\n5/5\n🔩 零件\n1/4\n🪨 石材",
+      "steps": "✓ 发现核心\n✓ 交付长官\n筹备筹料\n施工中继站\n共享预警"
+    },
+    "before": [
+      {
+        "have": 6,
+        "need": 10
+      },
+      {
+        "have": 5,
+        "need": 5
+      },
+      {
+        "have": 1,
+        "need": 4
+      }
+    ],
+    "after": [
+      {
+        "have": 6,
+        "need": 10
+      },
+      {
+        "have": 5,
+        "need": 5
+      },
+      {
+        "have": 1,
+        "need": 4
+      }
+    ],
+    "batch": false,
+    "source": "actual public relay panel after the finite approach; no hidden material clock planning"
+  },
+  "normalWriterBeforeReload": {
+    "file": "normal-before-reload-native.json",
+    "sha256": "6af5dd6d21c0ba78e0b6b1d56e4c69ca5ab347b003f68e60766958e6662df6c7",
+    "bytes": 321573,
+    "watermark": {
+      "eventSeq": 345,
+      "worldMinute": 603
+    }
+  },
+  "reload": {
+    "classification": "DAY",
+    "sourceCategory": "primary",
+    "originalChecksum": "647d0872",
+    "eventSeq": 345,
+    "worldMinute": 603,
+    "complete": true,
+    "scope": "actual-selected-raw-and-tested-facts",
+    "rawSha256": "a91bcebf0aa8219c5a8cd6db31c8616d277dd43356adc7343d74f6e522872f82",
+    "payloadSha256": "6df6f3ff077703a4bf2204fd83311a978f177008623acf82fad109194ba4d6a0",
+    "samePreReloadRaw": false,
+    "samePreReloadPayload": false,
+    "reason": null,
+    "files": [
+      {
+        "file": "reload-selected-raw.json",
+        "sha256": "a91bcebf0aa8219c5a8cd6db31c8616d277dd43356adc7343d74f6e522872f82",
+        "bytes": 321594
+      },
+      {
+        "file": "reload-selected-payload.json",
+        "sha256": "8ea28b56836a5ff1f0993cbf6148f96060aa34fc5769a62a819b9f541ec667a4",
+        "bytes": 283103
+      }
+    ]
+  },
+  "reloadInstallation": {
+    "file": {
+      "file": "reload-continue-installation.json",
+      "sha256": "6cc394685bbd541c683e83faeb50511303d073f0b12f14fee00c8d23a828be9e",
+      "bytes": 1456
+    },
+    "installed": true,
+    "gameStarted": true,
+    "mode": "DAY",
+    "exiting": false,
+    "savePending": false,
+    "classification": "DAY",
+    "overlayHidden": true,
+    "originalChecksum": "647d0872",
+    "sourceCategory": "primary",
+    "key": "zombie-harvest-progress-v12",
+    "draftUsesSelected": true,
+    "migration": null,
+    "migrationRecorded": false,
+    "live": {
+      "day": 1,
+      "hour": 10,
+      "minute": 3,
+      "totalMinutes": 603,
+      "eventSeq": 345,
+      "projectId": "camp-relay-001",
+      "handoffAt": 489,
+      "materials": {
+        "wood": 6,
+        "parts": 5,
+        "stone": 1
+      },
+      "workMinutes": 0,
+      "personalHandoffs": [
+        {
+          "id": "commander",
+          "receipt": {
+            "version": 1,
+            "eventId": "evt-000173",
+            "eventSeq": 173,
+            "commandId": "cmd-000622",
+            "causationId": null,
+            "tick": {
+              "world": 489,
+              "phase": 0,
+              "schedule": 129
+            },
+            "actorId": "player-1",
+            "recipientId": "commander",
+            "projectId": "camp-relay-001",
+            "itemId": "relayCore",
+            "itemInstanceId": "item-relayCore-001",
+            "defId": "relay-chain-001",
+            "definitionVersion": 1,
+            "instanceId": "camp-relay-001",
+            "expectedEventId": "evt-000129"
+          }
+        }
+      ]
+    },
+    "selectedRawSha256": "a91bcebf0aa8219c5a8cd6db31c8616d277dd43356adc7343d74f6e522872f82",
+    "sameActualSelection": true
+  },
+  "postReloadNormal": {
+    "file": "normal-after-continue-new-tick.json",
+    "sha256": "100b89b5de634e2678cbe058f6d449d3847ed57a1b74b5646816b458379805c8",
+    "bytes": 324210
+  },
+  "reason": "Session proof complete; branch and relay outcomes remain separate",
+  "actual": {
+    "status": "SESSION_PROOF_COMPLETE",
+    "counts": {
+      "major": 7,
+      "business": 7,
+      "ui": 76,
+      "navigation": 231,
+      "keyMs": 35845,
+      "restAccepted": 2,
+      "attackAttempts": 2,
+      "eatAttempts": 1
+    },
+    "delta": {
+      "major": 0,
+      "business": 0,
+      "ui": 9,
+      "navigation": 6,
+      "keyMs": 958,
+      "restAccepted": 0,
+      "attackAttempts": 0,
+      "eatAttempts": 0
+    },
+    "worldSpent": 273,
+    "verification": {
+      "startedAt": 1792305987808,
+      "startWorldMinute": 600,
+      "worldCap": 16,
+      "wallCapMs": 20000,
+      "scope": "entire normal-writer/reload/selected/Continue/new-tick/final-evidence/cleanup segment",
+      "actual": {
+        "worldMinutes": 14,
+        "wallMs": 19331,
+        "within": true
+      }
+    },
+    "errors": [],
+    "cleanup": {
+      "contextClosed": true,
+      "browserClosed": true,
+      "serverClosed": true
+    },
+    "documents": [
+      {
+        "at": 1792305978594,
+        "sha256": "2fca005df63742164bd6f6e8e82fc0c2d3962b4678419b633482f8a54e09ef93",
+        "status": 200
+      },
+      {
+        "at": 1792305992194,
+        "sha256": "2fca005df63742164bd6f6e8e82fc0c2d3962b4678419b633482f8a54e09ef93",
+        "status": 200
+      }
+    ],
+    "damage": []
+  }
+}

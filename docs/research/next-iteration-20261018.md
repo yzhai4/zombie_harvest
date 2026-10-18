@@ -1,6 +1,12 @@
 # 调研原文落实与下一轮交付
 
-2026-10-18。本轮冻结前最后已核开发文档head为 `e62fa3283ed701dffefa16925b7fcfb2572cee71`，运行时源 `29ca5f960508bd278b4e5486c1bf5d9123bd584b`、HTML `ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a`、SAVE21／CONTENT3。[CI309](https://github.com/yzhai4/zombie_harvest/actions/runs/39098244542)已核同head成功；游戏运行时仍沿原验收来源，当前本地最终候选为2fca，列明验收见下文；本次文档与新候选不继承该head精确CI。main未合并，生产未部署。
+2026-10-18。本轮冻结前已核开发head为000ce18a2d48f6f3bb26bf5daf0890cff42359f4，源码97f2ccf9fa3d72083400b8524ad7eaac7459d02f／HTML2fca、SAVE21／CONTENT3；[CI310](https://github.com/yzhai4/zombie_harvest/actions/runs/39103502733)同run head completed／success。当前真实续跑与下一出口见下文；本次证据／文档增量的开发head和精确CI另核，main未合并、生产未部署。
+
+## 本轮实际续跑与当前唯一出口
+
+[A05／A06](../qa/public-relay-prefix-a05-a06-20261018.md)已在最终2fca实际执行并保留正常writer／真实选档／Continue／后续正常tick。A05一批6／5／1耐久，A06真实回近指挥所但仍不具休整资格；恢复观察609的新批在613主档为8／5／2，仍未施工上线。A05零导航不代表道路不可达，A06的6段实际移动已闭合方法修正；原A03／A04失败不改。
+
+下一只用公开标识确认一处具体庇护候选并核实际资格，合法且剩余预算允许才一次休整；从真实613主档续接，保累计至少273分钟、wall265992ms、UI76／80、nav231／240及至少1分钟回退。不得把新的probe预算当旧失败获通过或重给全局额度。正常完整工程、真人理解、一个NPC事实消费者与表达比较仍依原顺序推进，源码97f2／HTML2fca未因本轮记录改变。开发同步后的精确CI另核。
 
 ## 设计裁定
 
