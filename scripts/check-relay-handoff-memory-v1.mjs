@@ -159,6 +159,20 @@ function success() {
   return successProof;
 }
 function loadedSuccess() { const p=success(); return startRaw(p.raw,'success-reload'); }
+function expectDeclaredWatchpostBootPack(expected) {
+  if (!htmlBytes.toString('utf8').includes('/* WATCHPOST_MANUAL_PACK_BEGIN */')) return;
+  // The only new boot delta is this exact declared package. Keep all original
+  // replay commands, RNG, historical events, memory and business fields exact.
+  const binding={version:1,packId:'watchpost-manual-v1',definitionVersion:1,digest:'fnv1a-utf16-canonical-hex-v1:b8d8b128',status:'bound'};
+  assert.equal(Object.hasOwn(expected.worldMeta.replay,'contentPacks'),false,'original legacy oracle has no pack binding');
+  assert.equal(expected.worldMeta.events.at(-1)?.type,'save.migrated','existing null-slot migration remains first');
+  const seq=expected.worldMeta.eventSeq+1;
+  expected.worldMeta.events.push({eventId:'evt-'+String(seq).padStart(6,'0'),seq,type:'content.pack.loaded',actorId:'system',commandId:null,causationId:null,
+    tick:{world:(expected.day-1)*1440+expected.hour*60+expected.minute,phase:expected.worldMeta.clock.phaseMinutes,schedule:expected.worldMeta.clock.scheduleMinutes},
+    payload:binding,defId:'watchpost-003',definitionVersion:1,instanceId:expected.eventInstance.instanceId,effects:[]});
+  expected.worldMeta.eventSeq=seq;expected.worldMeta.lastEventId='evt-'+String(seq).padStart(6,'0');
+  expected.worldMeta.replay.contentPacks=[binding];
+}
 function exactOldPayload(original, raw, missing) {
   const old = JSON.parse(original), p = plain(old.payload), seq = p.worldMeta.eventSeq + 1;
   const adapter = { adapter:'npc-relay-handoff-memory-v1',npcIds:missing,defaultValue:null };
@@ -173,7 +187,8 @@ function exactOldPayload(original, raw, missing) {
   // Existing baseline prepareSavedPayload resets this transient integration remainder.
   // Keep every other motion key and all business fields in the exact comparison.
   p.motion.accumulator=0;
-  assert.deepEqual(JSON.parse(raw).payload,p,'complete original payload plus ONLY exact null/migration/checkpoint delta');
+  expectDeclaredWatchpostBootPack(p);
+  assert.deepEqual(JSON.parse(raw).payload,p,'complete original payload plus exact null/migration/checkpoint and declared one-time package binding');
   return p;
 }
 

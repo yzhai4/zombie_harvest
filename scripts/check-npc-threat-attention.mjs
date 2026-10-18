@@ -8,6 +8,30 @@ import { sourceRuntimeFactory, startRuntime, root, saveKey, plain } from './lib/
 // Only the two pinned complete SAVE21 fixtures in these four legacy checks.
 // This validates the exact additive Scenario/routine-intent/handoff-memory receipt; it never removes arbitrary
 // migrations or relaxes historical plan/resource/CP/population assertions.
+
+// The authored pack is independent input, not an expectation copied from state.
+// Accept exactly its once boot ledger and preserve every prior replay field.
+function expectedWatchpostBootLedger(before,after,htmlText){
+  before=JSON.parse(JSON.stringify(before));after=JSON.parse(JSON.stringify(after));
+  const raw=fs.readFileSync(new URL('../content/packs/watchpost-manual-v1.json',import.meta.url));
+  assert.equal(createHash('sha256').update(raw).digest('hex'),'b2d196a171d3a4e828d8486c36ea664992e51fd8df1223ea395172a511b869e3','actual authored watchpost pack SHA');
+  const match=/const WATCHPOST_MANUAL_PACK = observerDeepFreeze\((\{[^\n]+\})\);/.exec(htmlText);assert.ok(match,'actual embedded watchpost pack');assert.deepEqual(JSON.parse(match[1]),JSON.parse(raw));
+  const binding={status:'bound',packId:'watchpost-manual-v1',version:1,definitionVersion:1,digest:'fnv1a-utf16-canonical-hex-v1:b8d8b128'};
+  const old=before.worldMeta.replay.contentPacks||[],already=old.some(v=>JSON.stringify(v)===JSON.stringify(binding)),reportOnly=before.night===true&&before.nightBattle?.resolved===true,load=!reportOnly&&!already;
+  const replay=reportOnly?before.worldMeta.replay:{...before.worldMeta.replay,contentPacks:[...old.filter(v=>v.packId!==binding.packId),binding]};
+  const added=after.worldMeta.events.filter(e=>e.seq>before.worldMeta.eventSeq),migrations=added.filter(e=>e.type==='save.migrated');assert.ok(migrations.length<=1,'at most original declared boot migration');
+  const seq=before.worldMeta.eventSeq+migrations.length+1;
+  const event={eventId:`evt-${String(seq).padStart(6,'0')}`,seq,type:'content.pack.loaded',actorId:'system',commandId:null,causationId:null,
+    tick:{world:(before.day-1)*1440+before.hour*60+before.minute,phase:before.worldMeta.clock.phaseMinutes,schedule:before.worldMeta.clock.scheduleMinutes},payload:binding,
+    defId:'watchpost-003',definitionVersion:1,instanceId:after.eventInstance?.instanceId||null,effects:[]};
+  assert.deepEqual(after.worldMeta.replay,replay,'only exact authored pack binding may be added to old replay');
+  assert.deepEqual(added.map(e=>e.type),[...migrations.map(()=>'save.migrated'),...(load?['content.pack.loaded']:[])],'no extra boot business/reward event');
+  if(load)assert.deepEqual(added.at(-1),event,'one exact boot pack receipt after original migration');
+  const end=before.worldMeta.eventSeq+migrations.length+(load?1:0);assert.equal(after.worldMeta.eventSeq,end);assert.equal(after.worldMeta.lastEventId,`evt-${String(end).padStart(6,'0')}`);
+  assert.deepEqual(after.worldMeta.events.slice(0,before.worldMeta.events.length),before.worldMeta.events,'old event prefix retained');
+  return{binding,replay,event:load?event:null,end};
+}
+
 function hasOnlyExpectedScenarioLegacyMigration(runtime, envelope) {
   const s = runtime.api.state, p = envelope.payload, eq = (a,b) => JSON.stringify(a) === JSON.stringify(b);
   if (!['707889bd','7fde7715'].includes(envelope.checksum)) return false;
@@ -28,10 +52,11 @@ function hasOnlyExpectedScenarioLegacyMigration(runtime, envelope) {
   const added = s.worldMeta.events.filter(event => event.seq > p.worldMeta.eventSeq), stored = runtime.storage.get(saveKey);
   if (!stored || !runtime.api.validate({raw:stored,sourceCategory:'primary'}).ok) return false;
   const written = JSON.parse(stored).payload;
-  return eq(added,[expected]) && s.worldMeta.eventSeq === seq
+  const packLedger=expectedWatchpostBootLedger(p,s,fs.readFileSync(htmlPath,'utf8'));
+  return eq(added,[expected,packLedger.event]) && s.worldMeta.eventSeq === seq+1
     && eq(s.worldMeta.events.slice(0,p.worldMeta.events.length),p.worldMeta.events)
     && eq(written.worldMeta.events,s.worldMeta.events) && written.version === 21 && written.contentState.contentVersion === 3
-    && s.worldMeta.seed === p.worldMeta.seed && s.worldMeta.rngState === p.worldMeta.rngState && eq(s.worldMeta.replay,p.worldMeta.replay)
+    && s.worldMeta.seed === p.worldMeta.seed && s.worldMeta.rngState === p.worldMeta.rngState && eq(s.worldMeta.replay,packLedger.replay)
     && s.worldMeta.commandSeq === p.worldMeta.commandSeq && eq(s.worldMeta.seenCommands,p.worldMeta.seenCommands)
     && eq(s.world,p.world) && ['day','hour','minute','hp','energy','sanity','wood','stone','food','seeds','parts','medicine','morale'].every(key => s[key] === p[key])
     && eq(s.resources,p.resources) && eq(s.npcs.map(n=>({id:n.id,hp:n.hp,lifeState:n.lifeState})),p.npcs.map(n=>({id:n.id,hp:n.hp,lifeState:n.lifeState})))
@@ -47,8 +72,8 @@ function hasOnlyExpectedScenarioLegacyMigration(runtime, envelope) {
 }
 
 const args = process.argv.slice(2);
-assert.ok(args.length === 0 || args.length === 2 && args[0] === '--html' && path.isAbsolute(args[1]), 'usage: node scripts/check-npc-threat-attention.mjs [--html ABSOLUTE_HTML]');
-const htmlPath = args[1] || path.join(root, 'dist/index.html');
+const cli={};assert.equal(args.length%2,0);for(let i=0;i<args.length;i+=2){assert.ok(['--html','--out'].includes(args[i])&&path.isAbsolute(args[i+1]));assert.ok(!cli[args[i]]);cli[args[i]]=args[i+1];}
+const htmlPath = cli['--html'] || path.join(root, 'dist/index.html');
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const directory = path.join(root, 'scripts/fixtures/npc-threat-attention-v1');
 const meta = JSON.parse(fs.readFileSync(path.join(directory, 'capture-meta.json'), 'utf8'));
@@ -59,11 +84,11 @@ function test(name, run) {
   try { run(); checks.push({ name, ok: true }); }
   catch (error) { checks.push({ name, ok: false, error: String(error.stack || error) }); }
 }
-function load() {
+function load(keepBootCheckpoint=false) {
   const r = factory([[saveKey, raw]]);
   assert.equal(r.api.validate({ raw, sourceCategory: 'primary' }).ok, true);
   assert.equal(r.api.boot.classification, 'DAY');
-  assert.equal(r.api.start().ok, true); r.tasks.clear();
+  assert.equal(r.api.start().ok, true); if(!keepBootCheckpoint)r.tasks.clear();
   return r;
 }
 const actor = r => r.api.state.npcs.find(n => n.id === 'sergeant');
@@ -95,7 +120,7 @@ test('original automation browser writer capture provenance and untouched bytes'
   assert.deepEqual(meta.offlineChanges, []); assert.equal(original.savedAt, 670);
 });
 test('actual loader preserves captured population health positions resources and RNG', () => {
-  const r = load(), s = r.api.state;
+  const r = load(true), s = r.api.state;
   assert.equal(s.hp, 52); assert.equal(s.energy, 53); assert.equal(s.npcs.length, 10);
   for (const n of original.payload.npcs) {
     const loaded = s.npcs.find(item => item.id === n.id);
@@ -103,8 +128,12 @@ test('actual loader preserves captured population health positions resources and
   }
   assert.deepEqual(plain(s.worldZombies), original.payload.worldZombies);
   assert.equal(s.worldMeta.rngState, original.payload.worldMeta.rngState);
+  const beforeBootCheckpoint=r.storage.get(saveKey),pending=[...r.tasks].filter(([,t])=>t.kind==='timeout'&&t.delay===650);assert.equal(pending.length,1);
+  for(const[id,t]of pending){r.tasks.delete(id);t.callback();}r.tasks.clear();const afterBootCheckpoint=r.storage.get(saveKey);assert.equal(r.api.validate({raw:afterBootCheckpoint,sourceCategory:'primary'}).ok,true);
+  observations.bootCheckpoint={scope:'actual already-queued 650ms normal checkpoint; no explicit save or pagehide',beforeSha256:sha(beforeBootCheckpoint),afterSha256:sha(afterBootCheckpoint)};
+  if(cli['--out']){fs.writeFileSync(cli['--out']+'.boot-migration-before.json',beforeBootCheckpoint,{flag:'wx'});fs.writeFileSync(cli['--out']+'.boot-checkpoint-after.json',afterBootCheckpoint,{flag:'wx'});observations.bootCheckpoint.beforeFile=path.basename(cli['--out'])+'.boot-migration-before.json';observations.bootCheckpoint.afterFile=path.basename(cli['--out'])+'.boot-checkpoint-after.json';}
   assert.equal(hasOnlyExpectedScenarioLegacyMigration(r, original), true);
-  assert.equal(s.worldMeta.eventSeq, original.payload.worldMeta.eventSeq + 1);
+  assert.equal(s.worldMeta.eventSeq, original.payload.worldMeta.eventSeq + 2);
 });
 test('captured guard sees enemy but nearest visible player is closer before update', () => {
   const r = load(), g = actor(r), z = enemy(r);
@@ -292,12 +321,13 @@ test('same original input and explicit sense/combat steps produce deterministic 
   assert.deepEqual(play(), play());
 });
 const passed = checks.filter(row => row.ok).length;
-console.log(JSON.stringify({ runner: 'source-npc-threat-attention', ok: passed === checks.length, passed, count: checks.length,
+const report={ runner: 'source-npc-threat-attention', ok: passed === checks.length, passed, count: checks.length,
   sourceHtmlSha256: sha(fs.readFileSync(htmlPath)), sourceFixtureSha256: sha(bytes), sourceCaptureHtmlSha256: meta.source.htmlSha256,
   originalReportSha256: meta.source.reportSha256, fixtureCapture: 'automation browser writer from failed run; not production',
   browserStarted: false, naturalGameplay: false, scope: 'actual complete inline loader/perception/combat/writer; Map IO and queued timers, explicit offline negative scenes',
   limitations: ['Direct perception then combat proves this attention defect; complete advance may change view direction/positions before combat, so this does not guarantee rescue during repeated training.',
     'Candidate camp combat membership excludes assigned outpost guards; damage/range/cadence/FOV unchanged, critical-health policy unchanged. Broader routine/motion/render membership is not covered. Original FAILED browser result is unchanged.'],
   offlineNegativeScenes: ['remove/move existing world threats; dead existing enemy/guard; turn existing guard; move existing wall; place existing quartermaster at guard viewpoint; night uses existing threat reference; frozen session modes; discover existing waterMill then actual captureOutpost/release for existing guardJi; declared coordinate isolation for incoming/outgoing combat'],
-  observations, checks }, null, 2));
+  observations, checks };
+console.log(JSON.stringify(report,null,2));if(cli['--out'])fs.writeFileSync(cli['--out'],JSON.stringify(report,null,2)+'\n',{flag:'wx'});
 if (passed !== checks.length) process.exitCode = 1;

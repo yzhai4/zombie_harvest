@@ -14,6 +14,7 @@ export const GATE_V1_OBJECT_KEYS = Object.freeze({
   camp_trust: Object.freeze(['type', 'min']),
   npc_alive: Object.freeze(['type', 'id']),
   role_available: Object.freeze(['type', 'role', 'healthyOnly']),
+  outpost_ready: Object.freeze(['type', 'id', 'healthyOnly', 'nearby']),
   food_days: Object.freeze(['type', 'max']),
   flag: Object.freeze(['type', 'id', 'value']),
   day_between: Object.freeze(['type', 'min', 'max'])
@@ -22,6 +23,35 @@ export const GATE_V1_OBJECT_KEYS = Object.freeze({
 const phaseSet = new Set(GATE_V1_PHASES);
 const own = (value, key) => Object.prototype.hasOwnProperty.call(Object(value), key);
 const stateOf = context => context && context.state && typeof context.state === 'object' ? context.state : {};
+
+// The shadow has no browser registry or MAP singleton. Its trusted caller
+// supplies the actual validated pack binding and world bounds as immutable
+// context facts; physical eligibility is still computed from state here.
+function watchpostEligibilityReason(state, context) {
+  const pack = context?.watchpostPack;
+  if (pack?.status !== 'bound' || pack.packId !== 'watchpost-manual-v1' || pack.version !== 1 || pack.definitionVersion !== 1) return 'pack-unavailable';
+  const landmarks = Array.isArray(state.landmarks) ? state.landmarks.filter(item => item?.type === 'watchPost') : [];
+  if (landmarks.length !== 1) return landmarks.length ? 'station-ambiguous' : 'station-missing';
+  const landmark = landmarks[0], bounds = context?.worldBounds;
+  if (landmark.found !== true) return 'not-discovered';
+  if (typeof landmark.id !== 'string' || !landmark.id || !Number.isFinite(landmark.x) || !Number.isFinite(landmark.y)
+      || !Number.isFinite(bounds?.cols) || !Number.isFinite(bounds?.rows)
+      || landmark.x < 0 || landmark.x >= bounds.cols || landmark.y < 0 || landmark.y >= bounds.rows
+      || state.landmarks.filter(item => item?.id === landmark.id).length !== 1) return 'station-identity';
+  const outpost = state.contentState?.outposts?.watchPost;
+  if (!outpost || typeof outpost !== 'object' || Array.isArray(outpost)) return 'unsecured';
+  if (outpost.status !== 'secured') return outpost.status === 'strained' ? 'upkeep-shortage' : outpost.status === 'vacant' ? 'no-capable-guard' : 'outpost-status-unknown';
+  if (outpost.guardSlots !== 1 || !Array.isArray(outpost.guardNpcIds) || outpost.guardNpcIds.length !== 1 || typeof outpost.guardNpcIds[0] !== 'string' || !outpost.guardNpcIds[0]) return 'guard-record';
+  const guardId = outpost.guardNpcIds[0], guards = Array.isArray(state.npcs) ? state.npcs.filter(npc => npc?.id === guardId) : [];
+  if (guards.length !== 1) return 'guard-missing';
+  const guard = guards[0];
+  if (guard.garrisonedOutpostId !== 'watchPost') return 'guard-presence-conflict';
+  const places = Object.entries(state.contentState?.outposts || {}).filter(([, record]) => Array.isArray(record?.guardNpcIds) && record.guardNpcIds.includes(guardId));
+  if (places.length !== 1 || places[0][0] !== 'watchPost') return 'guard-presence-conflict';
+  if (guard.lifeState !== 'healthy' || !Number.isFinite(guard.hp) || !Number.isFinite(guard.maxHp) || guard.maxHp <= 0 || guard.hp !== guard.maxHp) return 'guard-not-healthy';
+  if (!Number.isFinite(state.player?.x) || !Number.isFinite(state.player?.y) || Math.hypot(landmark.x - state.player.x, landmark.y - state.player.y) > 1.25) return 'too-far';
+  return null;
+}
 
 function clampSanity(value, fallback = 72) {
   const number = Number(value);
@@ -138,6 +168,11 @@ export function evaluateGateV1Object(condition, context = {}) {
   if (type === 'landmark_exists') {
     if (typeof condition.id !== 'string' || !condition.id) return { ok: false, reason: 'event-precondition-invalid', failedGate: { type, condition } };
     return Array.isArray(state.landmarks) && state.landmarks.some(item => item?.type === condition.id && item.found !== false) ? { ok: true } : { ok: false, reason: 'event-precondition', failedGate: { type, condition } };
+  }
+  if (type === 'outpost_ready') {
+    if (condition.id !== 'watchPost' || condition.healthyOnly !== true || condition.nearby !== true) return { ok: false, reason: 'event-precondition-invalid', failedGate: { type, condition } };
+    const reason = watchpostEligibilityReason(state, context);
+    return reason === null ? { ok: true } : { ok: false, reason: 'event-precondition', failedGate: { type, condition }, details: { outpostId: 'watchPost', reason } };
   }
   if (type === 'camp_trust') {
     const min = Number(condition.min);

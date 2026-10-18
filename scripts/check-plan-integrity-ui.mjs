@@ -14,6 +14,30 @@ import { createHash } from 'node:crypto';
 // Only the two pinned complete SAVE21 fixtures in these four legacy checks.
 // This validates the exact additive Scenario/routine-intent/handoff-memory receipt; it never removes arbitrary
 // migrations or relaxes historical plan/resource/CP/population assertions.
+
+// The authored pack is independent input, not an expectation copied from state.
+// Accept exactly its once boot ledger and preserve every prior replay field.
+function expectedWatchpostBootLedger(before,after,htmlText){
+  before=JSON.parse(JSON.stringify(before));after=JSON.parse(JSON.stringify(after));
+  const raw=readFileSync(new URL('../content/packs/watchpost-manual-v1.json',import.meta.url));
+  assert.equal(createHash('sha256').update(raw).digest('hex'),'b2d196a171d3a4e828d8486c36ea664992e51fd8df1223ea395172a511b869e3','actual authored watchpost pack SHA');
+  const match=/const WATCHPOST_MANUAL_PACK = observerDeepFreeze\((\{[^\n]+\})\);/.exec(htmlText);assert.ok(match,'actual embedded watchpost pack');assert.deepEqual(JSON.parse(match[1]),JSON.parse(raw));
+  const binding={status:'bound',packId:'watchpost-manual-v1',version:1,definitionVersion:1,digest:'fnv1a-utf16-canonical-hex-v1:b8d8b128'};
+  const old=before.worldMeta.replay.contentPacks||[],already=old.some(v=>JSON.stringify(v)===JSON.stringify(binding)),reportOnly=before.night===true&&before.nightBattle?.resolved===true,load=!reportOnly&&!already;
+  const replay=reportOnly?before.worldMeta.replay:{...before.worldMeta.replay,contentPacks:[...old.filter(v=>v.packId!==binding.packId),binding]};
+  const added=after.worldMeta.events.filter(e=>e.seq>before.worldMeta.eventSeq),migrations=added.filter(e=>e.type==='save.migrated');assert.ok(migrations.length<=1,'at most original declared boot migration');
+  const seq=before.worldMeta.eventSeq+migrations.length+1;
+  const event={eventId:`evt-${String(seq).padStart(6,'0')}`,seq,type:'content.pack.loaded',actorId:'system',commandId:null,causationId:null,
+    tick:{world:(before.day-1)*1440+before.hour*60+before.minute,phase:before.worldMeta.clock.phaseMinutes,schedule:before.worldMeta.clock.scheduleMinutes},payload:binding,
+    defId:'watchpost-003',definitionVersion:1,instanceId:after.eventInstance?.instanceId||null,effects:[]};
+  assert.deepEqual(after.worldMeta.replay,replay,'only exact authored pack binding may be added to old replay');
+  assert.deepEqual(added.map(e=>e.type),[...migrations.map(()=>'save.migrated'),...(load?['content.pack.loaded']:[])],'no extra boot business/reward event');
+  if(load)assert.deepEqual(added.at(-1),event,'one exact boot pack receipt after original migration');
+  const end=before.worldMeta.eventSeq+migrations.length+(load?1:0);assert.equal(after.worldMeta.eventSeq,end);assert.equal(after.worldMeta.lastEventId,`evt-${String(end).padStart(6,'0')}`);
+  assert.deepEqual(after.worldMeta.events.slice(0,before.worldMeta.events.length),before.worldMeta.events,'old event prefix retained');
+  return{binding,replay,event:load?event:null,end};
+}
+
 function hasOnlyExpectedScenarioLegacyMigration(runtime, envelope) {
   const s = runtime.api.state, p = envelope.payload, eq = (a,b) => JSON.stringify(a) === JSON.stringify(b);
   if (!['707889bd','7fde7715'].includes(envelope.checksum)) return false;
@@ -34,17 +58,18 @@ function hasOnlyExpectedScenarioLegacyMigration(runtime, envelope) {
   const added = s.worldMeta.events.filter(event => event.seq > p.worldMeta.eventSeq), stored = runtime.storage.get(saveKey);
   if (!stored || !runtime.api.validate({raw:stored,sourceCategory:'primary'}).ok) return false;
   const written = JSON.parse(stored).payload;
+  const packLedger=expectedWatchpostBootLedger(p,s,readFileSync(htmlPath,'utf8'));
   // Keep every original persisted fact, using the pinned writer as expected.
   // activeCommandId:null is an existing loader default, not a new relaxed field.
   const expectedNpcs = p.npcs.map((n,index)=>({ ...n, memory: expectedMemories[index], routineIntent: null }));
-  const expectedMeta = { ...p.worldMeta, activeCommandId: null, eventSeq: seq,
-    lastEventId: expected.eventId, events: [...p.worldMeta.events, expected] };
+  const expectedMeta = { ...p.worldMeta, activeCommandId: null, lastCheckpointReason:'session-start', replay:packLedger.replay,eventSeq: seq+1,
+    lastEventId: packLedger.event.eventId, events: [...p.worldMeta.events, expected,packLedger.event] };
   for (const key of Object.keys(p)) assert.deepEqual(written[key], key === 'npcs' ? expectedNpcs : key === 'worldMeta' ? expectedMeta : p[key], `original persisted ${key}`);
   assert.deepEqual(Object.keys(written).sort(), [...new Set([...Object.keys(p),'scenarioSnapshot'])].sort());
-  return eq(added,[expected]) && s.worldMeta.eventSeq === seq
+  return eq(added,[expected,packLedger.event]) && s.worldMeta.eventSeq === seq+1
     && eq(s.worldMeta.events.slice(0,p.worldMeta.events.length),p.worldMeta.events)
     && eq(written.worldMeta.events,s.worldMeta.events) && written.version === 21 && written.contentState.contentVersion === 3
-    && s.worldMeta.seed === p.worldMeta.seed && s.worldMeta.rngState === p.worldMeta.rngState && eq(s.worldMeta.replay,p.worldMeta.replay)
+    && s.worldMeta.seed === p.worldMeta.seed && s.worldMeta.rngState === p.worldMeta.rngState && eq(s.worldMeta.replay,packLedger.replay)
     && s.worldMeta.commandSeq === p.worldMeta.commandSeq && eq(s.worldMeta.seenCommands,p.worldMeta.seenCommands)
     && eq(s.world,p.world) && ['day','hour','minute','hp','energy','sanity','wood','stone','food','seeds','parts','medicine','morale'].every(key => s[key] === p[key])
     && eq(s.resources,p.resources) && eq(s.npcs.map(n=>({id:n.id,hp:n.hp,lifeState:n.lifeState})),p.npcs.map(n=>({id:n.id,hp:n.hp,lifeState:n.lifeState})))
@@ -95,6 +120,15 @@ function fresh(entries=[]) {
   vm.runInContext('qa.planRender = renderPlanMeeting;', r.context);
   r.emit('continueSaveBtn','click'); assert.equal(r.api.started,true); assert.equal(r.api.session.mode,'DAY');
   return r;
+}
+function settleLegacyBootCheckpoint(r) {
+  const before=r.storage.get(saveKey),pending=[...r.tasks].filter(([,t])=>t.kind==='timeout'&&t.delay===650);
+  assert.equal(pending.length,1,'actual already-queued normal startup checkpoint');
+  for(const[id,t]of pending){r.tasks.delete(id);t.callback();}
+  const after=r.storage.get(saveKey);assert.equal(r.api.validate({raw:after,sourceCategory:'primary'}).ok,true);
+  const receipt={scope:'actual queued 650ms checkpoint only; no explicit save or pagehide',beforeSha256:sha(before),afterSha256:sha(after)};
+  writeFileSync(options['--out']+'.boot-migration-before.json',before,{flag:'wx'});writeFileSync(options['--out']+'.boot-checkpoint-after.json',after,{flag:'wx'});receipt.beforeFile=path.basename(options['--out'])+'.boot-migration-before.json';receipt.afterFile=path.basename(options['--out'])+'.boot-checkpoint-after.json';
+  return receipt;
 }
 function seed(trust,cp) {
   const r=fresh(); r.api.state.contentState.meters.campTrust=trust;
@@ -195,12 +229,13 @@ scenario('complete old committed writer fixture',()=>{
   const r=fresh([[saveKey,legacyRaw]]),p=fixture.payload;
   assert.equal(r.api.hash(p),fixture.checksum);assert.equal(r.api.validate({raw:legacyRaw,sourceCategory:'primary'}).ok,true);
   const view=render(r);
+  const bootCheckpoint=settleLegacyBootCheckpoint(r);
   const migratedRaw=r.storage.get(saveKey),reloaded=fresh([[saveKey,migratedRaw]]),reloadedRaw=reloaded.storage.get(saveKey);
   check('complete old committed source-writer fixture boots with same plan and spent CP',JSON.stringify(clone(r.api.state.contentState.planMeeting))===JSON.stringify(p.contentState.planMeeting)
     &&r.api.state.contentState.commandPoints===p.contentState.commandPoints&&hasOnlyExpectedScenarioLegacyMigration(r,fixture)
     &&JSON.stringify(JSON.parse(reloadedRaw).payload)===JSON.stringify(JSON.parse(migratedRaw).payload)
     &&JSON.stringify(reloaded.api.state.worldMeta.events.filter(e=>e.type==='save.migrated'))===JSON.stringify(r.api.state.worldMeta.events.filter(e=>e.type==='save.migrated')),
-    {migration:clone(r.api.state.worldMeta.events.filter(e=>e.type==='save.migrated')),migratedNativeSha256:sha(migratedRaw),reloadedNativeSha256:sha(reloadedRaw),secondContinuePreservesFullPayload:JSON.stringify(JSON.parse(reloadedRaw).payload)===JSON.stringify(JSON.parse(migratedRaw).payload)});
+    {bootCheckpoint,migration:clone(r.api.state.worldMeta.events.filter(e=>e.type==='save.migrated')),migratedNativeSha256:sha(migratedRaw),reloadedNativeSha256:sha(reloadedRaw),secondContinuePreservesFullPayload:JSON.stringify(JSON.parse(reloadedRaw).payload)===JSON.stringify(JSON.parse(migratedRaw).payload)});
   check('actual legacy committed renderer preserves serialized facts with no intervention buttons',view.pure&&view.buttons.length===0
     &&view.html.includes('已在第 1 天提交')&&view.html.includes(p.contentState.planMeeting.candidates.find(c=>c.id===p.contentState.planMeeting.selectedId).title));
   const before=snapshot(r);render(r);check('repeated legacy committed rendering cannot refund CP or erase commitment',snapshot(r)===before);

@@ -47,14 +47,38 @@ function compiled(r){assert.equal(typeof r.api.compile,'function','actual C2 com
 function weaponInput(r,weaponId){const weapon={...plain(r.api.contentRegistry.get('weapon','rustAxe')),id:weaponId,damage:{min:45,max:55},definitionVersion:1};assert.equal(r.api.contentRegistry.validate('weapon',weapon).ok,true,'TEST-ONLY weapon must satisfy the actual old public registration schema before namespace rejection');return weapon;}
 function visibleChoice(r,choice){r.api.selectChain(id);r.api.renderEvent();const index=choice==='ration'?0:1,button=r.node(index?'eventChoiceB':'eventChoiceA');return{button,selection:plain(button.dataset),text:button.innerHTML,title:r.node('eventTitle').textContent,body:r.node('eventText').textContent};}
 function settle(r,choice){const view=visibleChoice(r,choice);assert.equal(view.button.disabled,false);assert.equal(view.selection.eventChoiceId,choice);const before=plain(r.api.state),seq=before.worldMeta.eventSeq;r.emit(choice==='ration'?'eventChoiceA':'eventChoiceB','click');const after=plain(r.api.state);return{view:{...view,button:undefined},before,after,newEvents:after.worldMeta.events.filter(e=>e.seq>seq)};}
-function preservation(before,after){for(const k of ['food','seeds','wood','stone','parts','medicine','day','hour','minute','energy','hp','sanity','player','resources','buildings','campStanding','quests'])assert.deepEqual(after[k],before[k],k+' retained');const npcs=plain(after.npcs);assert.equal(npcs.length,before.npcs.length);for(let i=0;i<npcs.length;i++){for(const key of ['attributes','hero','garrisonedOutpostId'])if(!Object.hasOwn(before.npcs[i],key))delete npcs[i][key];if(!Object.hasOwn(before.npcs[i],'routineIntent')){assert.equal(npcs[i].routineIntent,null,'only the exact new null default is additive');delete npcs[i].routineIntent;}if(!Object.hasOwn(before.npcs[i].memory,'relayCoreHandoff')){assert.equal(npcs[i].memory.relayCoreHandoff,null,'only missing handoff memory becomes null; no historical backfill');delete npcs[i].memory.relayCoreHandoff;}assert.deepEqual(npcs[i],before.npcs[i],'old NPC facts retained; only absent established additive NPC domains excluded');}assert.deepEqual([after.worldMeta.seed,after.worldMeta.rngState,after.worldMeta.replay.seed,after.worldMeta.commandSeq,after.worldMeta.seenCommands,after.worldMeta.replay.commands],[before.worldMeta.seed,before.worldMeta.rngState,before.worldMeta.replay.seed,before.worldMeta.commandSeq,before.worldMeta.seenCommands,before.worldMeta.replay.commands]);
+
+// The authored pack is independent input, not an expectation copied from state.
+// Accept exactly its once boot ledger and preserve every prior replay field.
+function expectedWatchpostBootLedger(before,after,htmlText){
+  before=JSON.parse(JSON.stringify(before));after=JSON.parse(JSON.stringify(after));
+  const raw=fs.readFileSync(new URL('../content/packs/watchpost-manual-v1.json',import.meta.url));
+  assert.equal(createHash('sha256').update(raw).digest('hex'),'b2d196a171d3a4e828d8486c36ea664992e51fd8df1223ea395172a511b869e3','actual authored watchpost pack SHA');
+  const match=/const WATCHPOST_MANUAL_PACK = observerDeepFreeze\((\{[^\n]+\})\);/.exec(htmlText);assert.ok(match,'actual embedded watchpost pack');assert.deepEqual(JSON.parse(match[1]),JSON.parse(raw));
+  const binding={status:'bound',packId:'watchpost-manual-v1',version:1,definitionVersion:1,digest:'fnv1a-utf16-canonical-hex-v1:b8d8b128'};
+  const old=before.worldMeta.replay.contentPacks||[],already=old.some(v=>JSON.stringify(v)===JSON.stringify(binding)),reportOnly=before.night===true&&before.nightBattle?.resolved===true,load=!reportOnly&&!already;
+  const replay=reportOnly?before.worldMeta.replay:{...before.worldMeta.replay,contentPacks:[...old.filter(v=>v.packId!==binding.packId),binding]};
+  const added=after.worldMeta.events.filter(e=>e.seq>before.worldMeta.eventSeq),migrations=added.filter(e=>e.type==='save.migrated');assert.ok(migrations.length<=1,'at most original declared boot migration');
+  const seq=before.worldMeta.eventSeq+migrations.length+1;
+  const event={eventId:`evt-${String(seq).padStart(6,'0')}`,seq,type:'content.pack.loaded',actorId:'system',commandId:null,causationId:null,
+    tick:{world:(before.day-1)*1440+before.hour*60+before.minute,phase:before.worldMeta.clock.phaseMinutes,schedule:before.worldMeta.clock.scheduleMinutes},payload:binding,
+    defId:'watchpost-003',definitionVersion:1,instanceId:after.eventInstance?.instanceId||null,effects:[]};
+  assert.deepEqual(after.worldMeta.replay,replay,'only exact authored pack binding may be added to old replay');
+  assert.deepEqual(added.map(e=>e.type),[...migrations.map(()=>'save.migrated'),...(load?['content.pack.loaded']:[])],'no extra boot business/reward event');
+  if(load)assert.deepEqual(added.at(-1),event,'one exact boot pack receipt after original migration');
+  const end=before.worldMeta.eventSeq+migrations.length+(load?1:0);assert.equal(after.worldMeta.eventSeq,end);assert.equal(after.worldMeta.lastEventId,`evt-${String(end).padStart(6,'0')}`);
+  assert.deepEqual(after.worldMeta.events.slice(0,before.worldMeta.events.length),before.worldMeta.events,'old event prefix retained');
+  return{binding,replay,event:load?event:null,end};
+}
+
+function preservation(before,after){const packLedger=expectedWatchpostBootLedger(before,after,source);for(const k of ['food','seeds','wood','stone','parts','medicine','day','hour','minute','energy','hp','sanity','player','resources','buildings','campStanding','quests'])assert.deepEqual(after[k],before[k],k+' retained');const npcs=plain(after.npcs);assert.equal(npcs.length,before.npcs.length);for(let i=0;i<npcs.length;i++){for(const key of ['attributes','hero','garrisonedOutpostId'])if(!Object.hasOwn(before.npcs[i],key))delete npcs[i][key];if(!Object.hasOwn(before.npcs[i],'routineIntent')){assert.equal(npcs[i].routineIntent,null,'only the exact new null default is additive');delete npcs[i].routineIntent;}if(!Object.hasOwn(before.npcs[i].memory,'relayCoreHandoff')){assert.equal(npcs[i].memory.relayCoreHandoff,null,'only missing handoff memory becomes null; no historical backfill');delete npcs[i].memory.relayCoreHandoff;}assert.deepEqual(npcs[i],before.npcs[i],'old NPC facts retained; only absent established additive NPC domains excluded');}assert.deepEqual([after.worldMeta.seed,after.worldMeta.rngState,after.worldMeta.replay.seed,after.worldMeta.commandSeq,after.worldMeta.seenCommands,after.worldMeta.replay.commands],[before.worldMeta.seed,before.worldMeta.rngState,before.worldMeta.replay.seed,before.worldMeta.commandSeq,before.worldMeta.seenCommands,before.worldMeta.replay.commands]);
   const missing=before.npcs.filter(n=>!Object.hasOwn(n,'routineIntent')).map(n=>n.id);
   const handoffMissing=before.npcs.filter(n=>!Object.hasOwn(n.memory,'relayCoreHandoff')).map(n=>n.id);
   if(missing.length||handoffMissing.length){
-    const added=after.worldMeta.events.filter(e=>e.seq>before.worldMeta.eventSeq);
+    const added=after.worldMeta.events.filter(e=>e.seq>before.worldMeta.eventSeq&&e.type!=='content.pack.loaded');
     assert.equal(added.length,1,'one actual additive boot migration, no routine business event');
     assert.equal(added[0].type,'save.migrated');
-    assert.equal(after.worldMeta.eventSeq,before.worldMeta.eventSeq+1);
+    assert.equal(after.worldMeta.eventSeq,before.worldMeta.eventSeq+2);
     assert.deepEqual(after.worldMeta.events.slice(0,before.worldMeta.events.length),before.worldMeta.events,'old event prefix retained');
     if(missing.length){
       assert.deepEqual(added[0].payload.npcRoutineIntentAdapters,[{adapter:'npc-routine-intent-v1',npcIds:missing,defaultValue:null}]);

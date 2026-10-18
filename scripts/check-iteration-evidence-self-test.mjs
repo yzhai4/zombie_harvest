@@ -139,7 +139,10 @@ try {
     const f = fixture();
     function git(...args) { const r = spawnSync('git', ['-C', f.root, ...args], { encoding: 'utf8', windowsHide: true }); assert.equal(r.status, 0, r.stderr); return r.stdout.trim(); }
     git('init'); git('config', 'user.name', 'Validator Method Test'); git('config', 'user.email', 'validator@example.invalid');
-    git('add', 'dist', 'scripts'); git('commit', '-m', 'synthetic initial');
+    const authoredPackPath = 'content/packs/synthetic-method-only.json';
+    const authoredPackBytes = '{"syntheticValidatorControl":1}';
+    f.manifest.artifacts.push(write(f.root, authoredPackPath, authoredPackBytes));
+    git('add', 'dist', 'scripts', 'content'); git('commit', '-m', 'synthetic initial');
     const commit = git('rev-parse', 'HEAD'); f.manifest.source.commit = commit;
     assert.equal(f.run(f.manifest, { requireGit: true }).commitVerification, 'verified');
     write(f.root, 'extra.txt', 'synthetic descendant'); git('add', 'extra.txt'); git('commit', '-m', 'synthetic descendant');
@@ -155,6 +158,12 @@ try {
     assert.equal(staleRunner.ok, false); assert.equal(staleRunner.commitVerification, 'failed');
     assert.ok(staleRunner.errors.some(e => e.includes('git source artifact differs from commit: ' + changedPath)));
     fs.writeFileSync(path.join(f.root, changedPath), originalBytes);
+    const changedPack = clone(f.manifest), packUpdate = write(f.root, authoredPackPath, '{"syntheticValidatorControl":2}');
+    changedPack.artifacts.find(ref => ref.path === authoredPackPath).sha256 = packUpdate.sha256;
+    const stalePack = f.run(changedPack, { requireGit: true });
+    assert.equal(stalePack.ok, false); assert.equal(stalePack.commitVerification, 'failed');
+    assert.ok(stalePack.errors.some(e => e.includes('git source artifact differs from commit: ' + authoredPackPath)));
+    fs.writeFileSync(path.join(f.root, authoredPackPath), authoredPackBytes);
     write(f.root, 'dist/index.html', 'changed HTML'); const stale = clone(f.manifest); stale.source.htmlSha256 = sha(Buffer.from('changed HTML'));
     const staleGit = f.run(stale); assert.equal(staleGit.ok, false); assert.ok(staleGit.errors.some(e => e.includes('git commit HTML bytes')));
   });

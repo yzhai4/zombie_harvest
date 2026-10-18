@@ -45,7 +45,7 @@ const functionNames = [
   ...['relayStationBuilding'].filter(name => source.includes(`function ${name}(`)),
   'contentChainDefinitionGate', 'contentChainChoiceGateRuntime', 'runContentHook',
   'contentChainRuntimeGate', 'startContentChain', 'resolveContentChain',
-  'contentEpisodeIdentity', 'normalizeContentEpisodes', 'contentEpisodeExpectedToken', 'contentEpisodeGate',
+  'contentChainUsesInstanceToken', 'contentChainCompletionKey', 'syncWatchpostWarningForecast', 'contentEpisodeIdentity', 'normalizeContentEpisodes', 'contentEpisodeExpectedToken', 'contentEpisodeGate',
   'resolveContentFallback', 'resolveContentAutonomy', 'registerContentPack',
   'dispatchCommand', 'resolveContentChainCommand', 'clampSanity', 'sanityValue', 'npcIsActive', 'npcIsCampLocal', 'npcHasRole', 'applyQuestEvent',
   'planMeetingState', 'campTrustValue', 'commandPointCap', 'refreshCommandPoints',
@@ -63,6 +63,7 @@ vm.runInContext(`
   // Actual controller methods are loaded, but lifecycle IO is outside this
   // isolated chain suite. Each fixture explicitly starts a DAY session.
   ${source.includes('const SessionController =') ? section('const SessionController =', 'let checkpointTimer =') : 'const SessionController = null;'}
+  ${source.includes('const WATCHPOST_MANUAL_BINDING =') ? section('const WATCHPOST_MANUAL_BINDING =', 'function prepareWatchpostManualPack(') : ''}
   const checkpoints = [];
   const EVENT_DEFS = Object.create(null);
   const EVENT_DEFINITION_VERSION = 1;

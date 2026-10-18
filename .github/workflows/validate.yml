@@ -157,6 +157,10 @@ jobs:
         run: |
           RELAY_MAINTENANCE_HTML_SHA=$(sha256sum dist/index.html | cut -d' ' -f1)
           node scripts/check-relay-maintenance-v1.mjs --repo-root "$GITHUB_WORKSPACE" --html "$GITHUB_WORKSPACE/dist/index.html" --out "$RUNNER_TEMP/relay-maintenance-v1.json" --expect-html-sha256 "$RELAY_MAINTENANCE_HTML_SHA"
+      - name: Execute manual watchpost warning, old reports and source parity contracts
+        run: |
+          WATCHPOST_HTML_SHA=$(sha256sum dist/index.html | cut -d' ' -f1)
+          node scripts/check-watchpost-warning-v1.mjs --repo-root "$GITHUB_WORKSPACE" --html "$GITHUB_WORKSPACE/dist/index.html" --out "$RUNNER_TEMP/watchpost-warning-v1.json" --expect-html-sha256 "$WATCHPOST_HTML_SHA" --mode candidate --pack "$GITHUB_WORKSPACE/content/packs/watchpost-manual-v1.json" --legacy-report "$GITHUB_WORKSPACE/scripts/fixtures/watchpost-manual-v1/legacy-report-day2-save21.json" --legacy-window-report "$GITHUB_WORKSPACE/scripts/fixtures/watchpost-manual-v1/legacy-report-day8-save21.json"
       - name: Execute Scenario package and observer contracts
         run: |
           node scripts/build-scenario-package.mjs --check

@@ -33,6 +33,7 @@ function sourceFunction(name) {
 }
 const functions = [
   'stableClone', 'worldMinute', 'eventDefinition', 'recordWorldEvent', 'applyQuestEvent',
+  'contentChainUsesInstanceToken', 'syncWatchpostWarningForecast', 'watchpostManualPackStatus', 'reconcileWatchpostManualBoot', 'startWatchpostManualChain',
   'migrateContentState', 'normalizeContentEpisodes', 'contentEpisodeIdentity', 'normalizeOutpostAssignments', 'ensureContentState',
   'contentRegistryBase', 'contentDefinition', 'applyContentEffect', 'applyContentEffects',
   ...['applyContentEffectsTransaction'].filter(name => source.includes(`function ${name}(`)),
@@ -69,6 +70,7 @@ vm.runInContext(`
   ${section('const PLAN_DEFS =', 'function planMeetingState(')}
   ${section('const CONTENT_KINDS =', 'function migrateContentState(')}
   const calls = { spawn: 0, successors: 0, hooks: 0, simulationStart: 0 };
+  ${source.includes('const WATCHPOST_MANUAL_BINDING =') ? section('const WATCHPOST_MANUAL_BINDING =', 'function prepareWatchpostManualPack(') : ''}
   const checkpoints = [];
   function requestCheckpoint(reason) { checkpoints.push(reason); }
   function spawnResource() { calls.spawn++; }

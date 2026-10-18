@@ -1089,12 +1089,14 @@
         </div>
         <div class="relay-materials" id="relayMaterials"></div>
         <div class="relay-crew" id="relayCrewText">项目成员：广播员、木匠、后勤官</div>
+        <div id="watchpostWarningPanel" class="status-overview-note" aria-live="polite"></div>
       </div>
     </section>
 
     <section class="event-panel hud-window" id="eventPanel">
       <label class="event-source" id="eventSourceRow" hidden>处理事项<select id="eventSourceSelect" aria-label="选择处理事项"></select></label>
       <div class="event-head"><div class="event-icon" id="eventIcon">📦</div><div class="event-copy"><b id="eventTitle">今日异动：废弃补给箱</b><span id="eventText">围栏外有一个被雨水泡过的补给箱。声音会把东西引过来，但里面可能有能救命的物资。</span></div><div class="event-state" id="eventState">待处理</div></div>
+      <p id="watchpostChoiceFeedback" class="camp-rest-feedback" role="status" aria-live="polite" hidden></p>
       <div class="event-actions"><button class="event-choice" id="eventChoiceA">🔎 搜索补给箱<small>消耗 6 体力，获得食物和零件</small></button><button class="event-choice" id="eventChoiceB">🚶 安静绕开<small>不消耗体力，士气 +2</small></button></div>
       <div class="event-actions" id="eventExtraChoices" hidden></div>
     </section>
@@ -2135,7 +2137,119 @@ function createScenarioSnapshot(p,o={}) {
 }
 // SCENARIO_C1_CORE_END
     const SCENARIO_BOOT_PACKAGE = observerDeepFreeze({"schemaVersion":1,"scenario":{"id":"zombie-farm","version":1,"contentVersion":3},"metadata":{"title":"尸潮农场","campaign":"im-the-savior"},"world":{"ordinaryNpcCount":10,"foodMultiplier":1,"medicineMultiplier":1,"materialMultiplier":1,"initialEnemyMultiplier":1,"waveGrowthMultiplier":1,"eventFrequency":1},"difficulty":{"presets":{"standard":{},"hard":{"initialEnemyMultiplier":1.3}},"playerCustomizable":["world.foodMultiplier"]},"events":{"registry":[{"kind":"eventDef","id":"relay-chain-001"},{"kind":"eventChain","id":"zh-food-shortage-001"}],"storylets":[{"id":"zh-food-shortage-001","chainId":"zh-food-shortage-001","title":"断粮警报","description":"基础配给余量不足，需要决定现在动用两份应急藏粮，还是保留备用粮并另行筹粮。","definitionVersion":2,"category":"survival","phase":["day_1","day_13"],"priority":82,"gateVersion":1,"evaluatePreconditions":true,"gate":{"version":1,"phase":"DAY","nightAllowed":false,"preconditions":[{"type":"food_days","max":1}]},"preconditions":[{"type":"food_days","max":1}],"startConditions":[{"type":"food_days","max":1}],"nodes":[{"nodeId":"shortage_choice","title":"粮仓见底","text":"后勤官登记有两份应急藏粮，整局只可动用一次。可以现在动用，也可以保留备用粮，另行采集或收获；人物用餐与配给仍按真实库存结算。","choices":[{"id":"ration","label":"保留备用粮，另行筹粮","hint":"仅确认并记录 · 食物不变 · 不额外增加崩溃压力 · 原配给与人物需求照常","requires":[],"effects":[{"op":"recordHistory","key":"zh-food-shortage-001:ration","payload":{"route":"ration"}}]},{"id":"forage","label":"动用后勤应急藏粮","hint":"整局一次 · 食物 +2 · 共振仪表 +2 · 需要健康后勤人员在岗","requires":[{"type":"role_available","role":"quartermaster","healthyOnly":true},{"type":"flag","id":"zh-shortage-cache-retrieved","value":false}],"effects":[{"op":"addResource","key":"food","value":2},{"op":"adjustMeter","key":"resonancePressure","value":2},{"op":"unlock","key":"zh-shortage-cache-retrieved"},{"op":"recordHistory","key":"zh-food-shortage-001:forage","payload":{"route":"emergency-cache","sourceId":"zh-shortage-cache-001","amount":2,"resonancePressure":2}}]}]}],"fallback":{"ifMissingNpc":{"id":"shortage_deferred","effects":[{"op":"adjustMeter","key":"campCollapse","value":1}]},"ifInsufficientPopulation":{"id":"shortage_deferred","effects":[{"op":"adjustMeter","key":"campCollapse","value":2}]},"ifExpired":"ledger_only","ifSkipped":"ledger_only"},"hooks":["onDayStart"],"repeatable":true,"optional":true,"source":{"id":"zh-shortage-cache-001","food":2,"retrievalLimit":1,"flag":"zh-shortage-cache-retrieved"},"expression":{"observerCommentary":{"authority":"expression_only"}}}]},"ai":{"generativeFeaturesDefault":false,"policies":{"observer":{"authority":"expression_only"}}},"continuity":{"importContracts":[],"exportContracts":["observer_core_v1"]}});
-    const SCENARIO_BOOT_OPTIONS = observerDeepFreeze({ seed: 0x5eedc0de, difficultyProfile: 'standard', worldConfig: { foodMultiplier: 1 } });
+    // A single built-in package, prepared with the existing content table.
+    // The JSON file is the authored source; the embedded value is build-checked.
+    /* WATCHPOST_MANUAL_PACK_BEGIN */
+    const WATCHPOST_MANUAL_PACK = observerDeepFreeze({"schemaVersion":1,"id":"watchpost-manual-v1","version":1,"definition":{"id":"watchpost-003","chainId":"watchpost-003","definitionVersion":1,"instancePolicy":"once-v1","title":"岗亭人工哨报","description":"让已驻守的健康守卫提供独立于中继的较弱预警准备。","category":"defense","phase":["day_2","day_8"],"priority":74,"repeatable":false,"optional":true,"gateVersion":1,"evaluatePreconditions":true,"gate":{"version":1,"phase":"DAY","nightAllowed":false,"preconditions":[{"type":"landmark_exists","id":"watchPost"}]},"preconditions":[{"type":"landmark_exists","id":"watchPost"}],"startConditions":[{"type":"landmark_exists","id":"watchPost"}],"nodes":[{"nodeId":"manual_preparation","title":"岗亭哨报准备","text":"现有守卫可在岗亭轮班传回人工哨报。先探索并接管同一岗亭，再靠近确认；也可关闭事项、先补粮或继续中继。确认追加0物资、0分钟，不是新的安装劳动。原接管支付6体力、30分钟并占用固定守军；据点维护额外1粮/日，守军仍按原规则配给，不参加本营援防。普通人工准备只降低下一场的起始接近，弱于中继，不保证安全。","choices":[{"id":"manual","label":"确认低噪人工哨报","hint":"追加0物资／0分钟 · 需同站健康守军、维护有效且在1.25格内 · 可暂不处理","requires":[{"type":"outpost_ready","id":"watchPost","healthyOnly":true,"nearby":true}],"effects":[{"op":"unlock","key":"watchpost-manual-prepared"},{"op":"recordHistory","key":"watchpost-003:manual","payload":{"route":"manual","outpostId":"watchPost","definitionVersion":1}}]}]}],"autonomy":{"resultId":"watchpost_manual_autonomous","effects":[{"op":"unlock","key":"watchpost-manual-prepared"},{"op":"recordHistory","key":"watchpost-003:manual-autonomy","payload":{"route":"autonomy:manual","outpostId":"watchPost","definitionVersion":1}}]},"fallback":{"ifMissingNpc":"ledger_only","ifInsufficientPopulation":"ledger_only","ifExpired":"watchpost_damaged","ifSkipped":"ledger_only"},"hooks":["onDayStart","onOutpostSecured"]}});
+    /* WATCHPOST_MANUAL_PACK_END */
+    const WATCHPOST_MANUAL_BINDING = Symbol('watchpost-manual-v1');
+    const WATCHPOST_DAY_START_AUTHORITY = Symbol('watchpost-day-start-authority');
+    function prepareWatchpostManualPack(table) {
+      const pack = WATCHPOST_MANUAL_PACK;
+      const unavailable = reason => Object.freeze({ status: 'unavailable', packId: 'watchpost-manual-v1', version: 1, definitionVersion: 1, reason });
+      if (!pack || pack.schemaVersion !== 1 || pack.id !== 'watchpost-manual-v1' || pack.version !== 1 || pack.definition?.chainId !== 'watchpost-003' || pack.definition.definitionVersion !== 1) return unavailable('pack-version-unavailable');
+      const definition = pack.definition, check = validateContentDefinition('eventChain', definition);
+      if (!check.ok || definition.instancePolicy !== 'once-v1' || definition.repeatable !== false || definition.nodes.length !== 1 || definition.nodes[0].nodeId !== 'manual_preparation' || definition.nodes[0].choices.length !== 1 || definition.nodes[0].choices[0].id !== 'manual') throw new Error('watchpost-package-contract');
+      if (Object.hasOwn(contentRegistryBase('eventChain'), check.id) || Object.hasOwn(table, check.id)) throw new Error('watchpost-definition-conflict');
+      table[check.id] = observerDeepFreeze(stableClone({ ...definition, id: check.id }));
+      return Object.freeze({ status: 'bound', packId: pack.id, version: pack.version, definitionVersion: 1, digest: scenarioDigest(pack) });
+    }
+    function watchpostManualPackStatus(lookupContext = null) {
+      const binding = lookupContext ? lookupContext.watchpostPack : CONTENT_EXTENSIONS.eventChain[WATCHPOST_MANUAL_BINDING];
+      const definition = contentDefinition('eventChain', 'watchpost-003', lookupContext);
+      return binding?.status === 'bound' && binding.packId === 'watchpost-manual-v1' && binding.version === 1 && binding.definitionVersion === 1 && definition?.definitionVersion === 1 && definition.instancePolicy === 'once-v1'
+        ? binding : Object.freeze({ status: 'unavailable', packId: 'watchpost-manual-v1', version: 1, definitionVersion: 1, reason: binding?.reason || 'pack-not-mounted' });
+    }
+    function watchpostWarningEligibility(options = {}) {
+      const result = (status, reason, guardNpcId = null, landmarkId = null) => Object.freeze({ status, operational: status === 'ready', outpostId: 'watchPost', guardNpcId, landmarkId, reason });
+      if (watchpostManualPackStatus().status !== 'bound') return result('unknown', 'pack-unavailable');
+      const landmarks = Array.isArray(state.landmarks) ? state.landmarks.filter(item => item?.type === 'watchPost') : [];
+      if (landmarks.length !== 1) return result('unknown', landmarks.length ? 'station-ambiguous' : 'station-missing');
+      const landmark = landmarks[0];
+      if (landmark.found !== true) return result('unavailable', 'not-discovered');
+      if (typeof landmark.id !== 'string' || !landmark.id || !Number.isFinite(landmark.x) || !Number.isFinite(landmark.y) || !inBounds(landmark.x, landmark.y) || state.landmarks.filter(item => item?.id === landmark.id).length !== 1) return result('unknown', 'station-identity');
+      const outpost = state.contentState?.outposts?.watchPost;
+      if (!outpost || typeof outpost !== 'object' || Array.isArray(outpost)) return result('unavailable', 'unsecured', null, landmark.id);
+      if (outpost.status !== 'secured') return result(outpost.status === 'strained' || outpost.status === 'vacant' ? 'unavailable' : 'unknown', outpost.status === 'strained' ? 'upkeep-shortage' : outpost.status === 'vacant' ? 'no-capable-guard' : 'outpost-status-unknown', null, landmark.id);
+      if (outpost.guardSlots !== 1 || !Array.isArray(outpost.guardNpcIds) || outpost.guardNpcIds.length !== 1 || typeof outpost.guardNpcIds[0] !== 'string' || !outpost.guardNpcIds[0]) return result('unknown', 'guard-record', null, landmark.id);
+      const guardNpcId = outpost.guardNpcIds[0], guards = Array.isArray(state.npcs) ? state.npcs.filter(npc => npc?.id === guardNpcId) : [];
+      if (guards.length !== 1) return result('unavailable', 'guard-missing', guardNpcId, landmark.id);
+      const guard = guards[0];
+      if (guard.garrisonedOutpostId !== 'watchPost') return result('unknown', 'guard-presence-conflict', guardNpcId, landmark.id);
+      const places = Object.entries(state.contentState?.outposts || {}).filter(([, record]) => Array.isArray(record?.guardNpcIds) && record.guardNpcIds.includes(guardNpcId));
+      if (places.length !== 1 || places[0][0] !== 'watchPost') return result('unknown', 'guard-presence-conflict', guardNpcId, landmark.id);
+      // Ongoing service is not a new dispatch. Population and retained role
+      // markers do not disable an actually present guard. Health is physical.
+      if (guard.lifeState !== 'healthy' || !Number.isFinite(guard.hp) || !Number.isFinite(guard.maxHp) || guard.maxHp <= 0 || guard.hp !== guard.maxHp) return result('unavailable', 'guard-not-healthy', guardNpcId, landmark.id);
+      if (options.nearby === true && (!Number.isFinite(state.player?.x) || !Number.isFinite(state.player?.y) || distanceBetween(landmark, state.player) > 1.25)) return result('unavailable', 'too-far', guardNpcId, landmark.id);
+      return result('ready', null, guardNpcId, landmark.id);
+    }
+    function watchpostWarningCapability() {
+      const flag = state.contentState?.flags?.['watchpost-manual-prepared'];
+      if (flag !== true) return Object.freeze({ status: flag === undefined || flag === false ? 'unprepared' : 'unknown', operational: false, outpostId: 'watchPost', guardNpcId: null, landmarkId: null, reason: flag === undefined || flag === false ? 'not-prepared' : 'configuration-unknown' });
+      return watchpostWarningEligibility();
+    }
+    function watchpostWarningReasonText(reason) {
+      return ({ 'pack-unavailable': '哨报内容暂不可用，原有记录保留', 'not-prepared': '尚未确认人工哨报准备', 'configuration-unknown': '准备记录无法确认', 'not-discovered': '先探索东侧岗亭', 'unsecured': '先通过原接管入口安排守军', 'upkeep-shortage': '据点维护缺粮，待下一次真实维护支付后恢复', 'no-capable-guard': '当前没有有效守军', 'guard-missing': '原守军不在当前名册', 'guard-not-healthy': '守军伤病，暂不能提供哨报', 'too-far': '靠近同一岗亭后确认（1.25格内）', 'station-missing': '岗亭尚无法确认', 'station-ambiguous': '岗亭身份不唯一', 'station-identity': '岗亭记录无法确认', 'guard-record': '守军记录无法确认', 'guard-presence-conflict': '守军驻守记录矛盾', 'outpost-status-unknown': '据点维护状态无法确认' }[reason] || '当前条件未满足');
+    }
+    function currentWarningPreparation() {
+      const manual = watchpostWarningCapability(), online = relayOnline();
+      return Object.freeze({ availableWarningSource: online ? 'relay-station' : manual.operational ? 'watchpost-manual' : 'camp-observation', manualAvailable: manual.operational, outpostId: manual.operational ? 'watchPost' : null, guardNpcId: manual.operational ? manual.guardNpcId : null, manualReason: manual.reason, leadMinutes: online ? state.relayProject.forecastLeadMinutes : manual.operational ? 60 : 0, routeId: online ? 'relay-guided-west' : 'eastern-breach' });
+    }
+    function watchpostPreparationSnapshot(radioOrder = null) {
+      const preparation = currentWarningPreparation(), relayGuided = preparation.availableWarningSource === 'relay-station';
+      const oldStart = relayGuided || radioOrder === 'guard' ? 0 : 3;
+      const startProgress = preparation.manualAvailable && !relayGuided ? Math.min(oldStart, 1) : oldStart;
+      return Object.freeze({ version: 1, availableWarningSource: preparation.availableWarningSource, effectiveStartSource: relayGuided ? 'relay-station' : radioOrder === 'guard' ? 'radio-guard' : startProgress < oldStart ? 'watchpost-manual' : 'camp-observation', manualAvailable: preparation.manualAvailable, outpostId: preparation.outpostId, guardNpcId: preparation.guardNpcId, oldStartProgress: oldStart, startProgress, additionalProgressReduction: oldStart - startProgress });
+    }
+    function watchpostLockedPreparationText(value) {
+      if (!value || value.version !== 1) return '';
+      return value.effectiveStartSource === 'watchpost-manual' ? '本场锁定：人工哨报准备，起始接近由3降至1；仍需守住防线。'
+        : value.effectiveStartSource === 'radio-guard' && value.manualAvailable ? '本场锁定：广播员警戒给出起始0；岗亭准备可用，但未额外叠加。'
+        : value.effectiveStartSource === 'relay-station' ? '本场锁定：中继标定；岗亭准备不叠加中继收益。' : '本场锁定：沿用原营地准备。';
+    }
+    function validWatchpostPreparation(value, battle) {
+      const keys = ['version','availableWarningSource','effectiveStartSource','manualAvailable','outpostId','guardNpcId','oldStartProgress','startProgress','additionalProgressReduction'];
+      if (!value || typeof value !== 'object' || Array.isArray(value) || Object.keys(value).length !== keys.length || keys.some(key => !Object.hasOwn(value, key)) || value.version !== 1 || typeof value.manualAvailable !== 'boolean') return false;
+      if (!['relay-station','watchpost-manual','camp-observation'].includes(value.availableWarningSource) || !['relay-station','radio-guard','watchpost-manual','camp-observation'].includes(value.effectiveStartSource)) return false;
+      if (value.manualAvailable ? value.outpostId !== 'watchPost' || typeof value.guardNpcId !== 'string' || !value.guardNpcId : value.outpostId !== null || value.guardNpcId !== null) return false;
+      const relay = value.availableWarningSource === 'relay-station', radio = value.effectiveStartSource === 'radio-guard';
+      const oldStart = relay || radio ? 0 : 3, expected = value.manualAvailable && !relay ? Math.min(oldStart, 1) : oldStart;
+      const source = relay ? 'relay-station' : radio ? 'radio-guard' : expected < oldStart ? 'watchpost-manual' : 'camp-observation';
+      return value.oldStartProgress === oldStart && value.startProgress === expected && value.additionalProgressReduction === oldStart - expected && value.effectiveStartSource === source && value.availableWarningSource === (relay ? 'relay-station' : value.manualAvailable ? 'watchpost-manual' : 'camp-observation') && battle.routeId === (relay ? 'relay-guided-west' : 'eastern-breach');
+    }
+    function syncWatchpostWarningForecast() {
+      if (contentEffectDepth > 0) return;
+      if (state.contentState?.flags?.['watchpost-manual-prepared'] === true || state.hordeForecast?.source === 'watchpost-manual') updateRelayForecast();
+    }
+    function startWatchpostManualChain(source = 'world-hook') {
+      if (state.day < 2 || state.day > 8 || watchpostManualPackStatus().status !== 'bound') return { ok: false, reason: 'watchpost-window-or-pack' };
+      return startContentChain('watchpost-003', { actorId: 'camp-autonomy', source });
+    }
+    function reconcileWatchpostManualBoot() {
+      const binding = watchpostManualPackStatus();
+      const bindings = Array.isArray(state.worldMeta.replay.contentPacks) ? state.worldMeta.replay.contentPacks : [];
+      const recorded = bindings.find(item => item?.packId === binding.packId && item.version === binding.version && item.digest === binding.digest && item.status === binding.status);
+      if (!recorded) {
+        state.worldMeta.replay.contentPacks = [...bindings.filter(item => item?.packId !== binding.packId), stableClone(binding)];
+        recordWorldEvent(binding.status === 'bound' ? 'content.pack.loaded' : 'content.pack.missing', stableClone(binding), { actorId: 'system', defId: 'watchpost-003' });
+      }
+      // Continue of an already found/secured old save is a real entry point.
+      // It creates only the pending once instance, never a completed history.
+      const result = startWatchpostManualChain('boot-reconcile');
+      syncWatchpostWarningForecast();
+      return result;
+    }
+    function renderWatchpostWarningPanel() {
+      const panel = $('watchpostWarningPanel'); if (!panel) return;
+      const capability = watchpostWarningCapability(), preparation = currentWarningPreparation();
+      const completed = state.contentState?.completedChains?.includes('watchpost-003') === true;
+      const history = state.contentState?.flags?.['watchpost-manual-prepared'] === true ? '准备历史：已确认人工哨报。' : completed ? '上次结果：岗亭哨报事项已结算；未获得人工准备。' : '准备历史：尚未确认。';
+      const current = capability.operational ? preparation.availableWarningSource === 'relay-station' ? '当前岗亭准备可用；有效中继优先，收益不叠加。' : '当前人工哨报可用；下一场沿常规通道接近，弱于中继。' : `当前：${watchpostWarningReasonText(capability.reason)}。`;
+      panel.innerHTML = `<strong>🕯️ 岗亭人工哨报</strong><p id="watchpostWarningCurrent">${eventUiText(current)}</p><p id="watchpostWarningHistory">${eventUiText(history)}</p><p id="watchpostWarningCost">确认追加0物资／0分钟。原接管6体力／30分钟；据点维护额外1粮／日，守军仍按原规则配给，不参加本营援防。</p><p id="watchpostWarningLocked">${eventUiText(watchpostLockedPreparationText(state.nightBattle?.warningPreparation))}</p>`;
+    }
+
+     const SCENARIO_BOOT_OPTIONS = observerDeepFreeze({ seed: 0x5eedc0de, difficultyProfile: 'standard', worldConfig: { foodMultiplier: 1 } });
     function normalizeAiConfig(raw = {}) {
       const source = raw && typeof raw === 'object' ? raw : {};
       return { generativeDialogue: source.generativeDialogue === true, observerCommentary: source.observerCommentary === true, generatedWorldEvents: source.generatedWorldEvents === true, learnedWorldModel: source.learnedWorldModel === true, policyVersion: typeof source.policyVersion === 'string' && source.policyVersion ? source.policyVersion : DEFAULT_SCENARIO_SNAPSHOT.aiConfig.policyVersion };
@@ -2654,7 +2768,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
     // emits receipts, or applies effects; callers decide how to report a
     // rejection and still run their domain transaction only after it passes.
     const GATE_V1_PHASES = new Set(['DAY', 'NIGHT', 'ANY']);
-    const GATE_V1_OBJECT_KEYS = Object.freeze({ landmark_exists: ['type', 'id'], camp_trust: ['type', 'min'], npc_alive: ['type', 'id'], role_available: ['type', 'role', 'healthyOnly'], flag: ['type', 'id', 'value'], day_between: ['type', 'min', 'max'], food_days: ['type', 'max'] });
+    const GATE_V1_OBJECT_KEYS = Object.freeze({ landmark_exists: ['type', 'id'], camp_trust: ['type', 'min'], npc_alive: ['type', 'id'], role_available: ['type', 'role', 'healthyOnly'], flag: ['type', 'id', 'value'], day_between: ['type', 'min', 'max'], food_days: ['type', 'max'], outpost_ready: ['type', 'id', 'healthyOnly', 'nearby'] });
     function gateV1Actor(context = {}) {
       const event = context.event || state.event || {};
       const instance = context.instance || state.eventInstance || {};
@@ -2751,6 +2865,11 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       if (type === 'role_available') { const role = condition.role; if (typeof role !== 'string' || !role || condition.healthyOnly !== undefined && typeof condition.healthyOnly !== 'boolean') return { ok: false, reason: 'event-precondition-invalid', failedGate: { type, condition } }; const actual = (state.npcs || []).some(npc => typeof npcFulfillsRole === 'function' && npcFulfillsRole(npc, role) && (condition.healthyOnly !== true || npc.lifeState === 'healthy')); return actual ? { ok: true } : { ok: false, reason: 'event-precondition', failedGate: { type, condition }, details: { role, actual } }; }
       if (type === 'flag') { if (typeof condition.id !== 'string' || !condition.id || condition.value !== undefined && typeof condition.value !== 'boolean') return { ok: false, reason: 'event-precondition-invalid', failedGate: { type, condition } }; const actual = !!state.contentState?.flags?.[condition.id]; const expected = condition.value !== false; return actual === expected ? { ok: true } : { ok: false, reason: 'event-precondition', failedGate: { type, condition }, details: { actual, expected } }; }
       if (type === 'day_between') { const min = Number(condition.min), max = Number(condition.max); if (!Number.isFinite(min) || !Number.isFinite(max) || min > max) return { ok: false, reason: 'event-precondition-invalid', failedGate: { type, condition } }; return state.day >= min && state.day <= max ? { ok: true } : { ok: false, reason: 'event-precondition', failedGate: { type, condition }, details: { actual: state.day } }; }
+      if (type === 'outpost_ready') {
+        if (condition.id !== 'watchPost' || condition.healthyOnly !== true || condition.nearby !== true) return { ok: false, reason: 'event-precondition-invalid', failedGate: { type, condition } };
+        const eligibility = watchpostWarningEligibility({ nearby: true });
+        return eligibility.operational ? { ok: true } : { ok: false, reason: 'event-precondition', failedGate: { type, condition }, details: { outpostId: 'watchPost', reason: eligibility.reason } };
+      }
       if (type === 'food_days') { const max = condition.max; if (typeof max !== 'number' || !Number.isFinite(max) || max < 0) return { ok: false, reason: 'event-precondition-invalid', failedGate: { type, condition } }; const actual = Number(foodSituation().ratio); return actual <= max ? { ok: true } : { ok: false, reason: 'event-precondition', failedGate: { type, condition }, details: { actual, max } }; }
       return { ok: false, reason: 'event-precondition-invalid', failedGate: { type, condition } };
     }
@@ -3109,6 +3228,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
        refreshPlanMeetingPresence('outpost-released');
        if (!state.event || state.event.handled) activateQueuedNpcEvent();
        recordWorldEvent('outpost.guardReleased', { outpostId, npcId: npc.id, reason, population: outpostPopulationLedger() }, { actorId: 'system' });
+       if (outpostId === 'watchPost') syncWatchpostWarningForecast();
        return true;
      }
      function outpostGuardEligible(npc, outpostId) {
@@ -3203,6 +3323,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
          }
          recordWorldEvent('outpost.upkeep', { outpostId, day, food, paid: record.lastUpkeepResult === 'paid' ? food : 0, status: record.status, population: outpostPopulationLedger() }, { actorId: 'system' });
        });
+      syncWatchpostWarningForecast();
      }
      function ensureContentState() {
       const defaults = { contentVersion: CONTENT_SCHEMA_VERSION, meters: { campCollapse: 0, resonancePressure: 25, campTrust: 0 }, unlockedTech: [], unlockedWeapons: ['rustAxe'], unlockedBlueprints: [], flags: {}, scheduledEvents: [], triggeredEvents: [], activeChains: {}, completedChains: [], appliedEffects: [], outposts: {}, history: [], npcRoster: { promotedNpcIds: [], promotionHistory: [] }, commandPoints: 0, commandPointsMax: 0, commandPointsGrantedDay: 0, autonomyWeights: { defense: 40, harvest: 25, logistics: 20, research: 10, diplomacy: 5 }, planMeeting: { version: 1, status: 'idle', meetingDay: 0, instanceId: null, source: 'summary', candidates: [], selectedId: null, playerAction: null, committedDay: null, resolvedDay: null, autonomyResult: null, history: [] } };
@@ -3375,6 +3496,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       // A later heal or rollback wins before a death is ever latched.
       if (outer) {
         if (result?.ok && Number.isFinite(stationHpBefore) && stationHpBefore > 0 && relayStationBuilding()?.hp === 0) { syncRelayStationCapability(); updateRelayForecast(); }
+        if (result?.ok) syncWatchpostWarningForecast();
         const source = contentHpFatalSource; contentHpFatalSource = null;
         if (result?.ok && hpBefore > 0 && state.hp === 0 && source && latchDayFatal('content-effect', source.event, source.actorId) && !state.worldMeta.activeCommandId) finalizeDayFatalOutcome();
       }
@@ -3468,6 +3590,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
         // interpreting a missing choice as an empty, automatically-passing
         // requirement list.
         if (!definition || typeof definition !== 'object' || Array.isArray(definition)) return { ok: false, reason: 'choice-contract' };
+       if (definition.chainId === 'watchpost-003' && !SessionController.isDay()) return { ok: false, reason: 'phase-blocked' };
         if (!choice || typeof choice !== 'object' || Array.isArray(choice)) return { ok: false, reason: 'choice-contract' };
        const requirements = choice?.requires !== undefined ? choice.requires : choice?.requirements === undefined ? [] : choice.requirements;
        if (!Array.isArray(requirements) || requirements.some(requirement => typeof requirement !== 'string' && (!requirement || typeof requirement !== 'object' || Array.isArray(requirement)))) return { ok: false, reason: 'choice-contract' };
@@ -3478,6 +3601,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
        if (!phaseGate.ok) return phaseGate;
        const result = evaluateGateV1({ version: 1, phase: 'ANY', nightAllowed: true, preconditions: requirements }, context);
        if (!result.ok) return { ...result, reason: result.reason === 'event-precondition-invalid' ? 'choice-requirement-invalid' : 'choice-requirement' };
+       if (definition.chainId === 'watchpost-003' && state.contentState?.activeChains?.['watchpost-003']?.targetLandmarkId !== watchpostWarningEligibility().landmarkId) return { ok: false, reason: 'content-target-conflict', details: { reason: 'station-identity' } };
        return { ...result, gateVersion: 1, checked: requirements.length };
      }
      function runContentHook(hook, meta = {}) {
@@ -3491,7 +3615,11 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
          const result = startContentChain(definition.chainId || definition.id, { actorId: meta.actorId || 'system' });
          if (result.ok && !result.duplicate) started.push(result.active.chainId);
        });
-       const due = state.contentState.scheduledEvents.filter(event => Number(event.dueDay) <= Number(state.day) && !state.contentState.triggeredEvents.includes(event.id));
+      if (hook === 'onDayStart' && state.day === 8 && meta[WATCHPOST_DAY_START_AUTHORITY] === true) {
+        const active = state.contentState.activeChains['watchpost-003'];
+        if (active && watchpostWarningEligibility().operational) resolveContentAutonomy('watchpost-003', { actorId: 'camp-autonomy', ...contentEpisodeExpectedToken(active), [WATCHPOST_DAY_START_AUTHORITY]: true });
+      }
+      const due = state.contentState.scheduledEvents.filter(event => Number(event.dueDay) <= Number(state.day) && !state.contentState.triggeredEvents.includes(event.id));
        if (due.length) {
          due.slice().sort((a, b) => String(a.id).localeCompare(String(b.id))).forEach(event => {
            const chainId = event.payload?.chainId;
@@ -3514,9 +3642,11 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
 
      // EventInstance identity for opt-in repeatable content. Legacy chains keep
      // their original projection and receipts; episode fields are additive.
+     function contentChainUsesInstanceToken(definition) { return definition?.repeatable === true || definition?.chainId === 'watchpost-003' && definition.instancePolicy === 'once-v1'; }
+     function contentChainCompletionKey(definition, active, chainId) { return definition?.repeatable === true ? active?.instanceKey || chainId : chainId; }
      function contentEpisodeIdentity(definition, active) {
        const episodeDay = Math.floor(Number(active.startedAt) / 1440) + 1;
-       const instanceKey = active.instanceKey || `${active.chainId}:${episodeDay}`;
+       const instanceKey = active.instanceKey || (definition?.chainId === 'watchpost-003' && definition.instancePolicy === 'once-v1' ? 'watchpost-003:once' : `${active.chainId}:${episodeDay}`);
        return {
          episodeSchemaVersion: 1, instanceKey,
          instanceId: active.instanceId || `content:${instanceKey}`,
@@ -3545,8 +3675,9 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
          expectedDefId: active.defId ?? null, expectedDefinitionVersion: active.definitionVersion ?? null, expectedNodeId: active.nodeId ?? null };
      }
      function contentEpisodeGate(chainId, nodeId, expected = {}) {
+       if (chainId === 'watchpost-003' && watchpostManualPackStatus().status !== 'bound') return { ok: false, reason: 'watchpost-pack-unavailable' };
        const definition = contentDefinition('eventChain', chainId);
-       if (!definition?.repeatable) return { ok: true };
+       if (!contentChainUsesInstanceToken(definition)) return { ok: true };
        const active = state.contentState?.activeChains?.[chainId];
        if (!active || active.status !== 'active') return { ok: false, reason: 'content-instance-missing' };
        const current = contentEpisodeExpectedToken(active);
@@ -3558,6 +3689,8 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
      }
      function startContentChain(chainId, meta = {}) {
        const gate = contentChainRuntimeGate(); if (!gate.ok) return gate;
+       if (chainId === 'watchpost-003' && !SessionController.isDay()) return { ok: false, reason: 'phase-blocked' };
+       if (chainId === 'watchpost-003' && watchpostManualPackStatus().status !== 'bound') return { ok: false, reason: 'watchpost-pack-unavailable' };
        ensureContentState();
        const definition = contentDefinition('eventChain', chainId);
        if (!definition) return { ok: false, reason: 'chain-missing' };
@@ -3571,21 +3704,24 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
          const gate = contentChainDefinitionGate(definition, { actorId, event: { id: chainId, defId: chainId }, instance: { instanceId: `content-${chainId}-${state.day}`, defId: chainId, definitionVersion: Number(definition.definitionVersion) || 1, status: 'active', actorId } });
          if (!gate.ok) return { ok: false, reason: 'start-condition', gate };
        } else if (!(definition.startConditions || []).every(contentConditionMet)) return { ok: false, reason: 'start-condition' };
+       const watchpostTargets = chainId === 'watchpost-003' ? (state.landmarks || []).filter(item => item.type === 'watchPost' && item.found === true) : [];
+       if (chainId === 'watchpost-003' && (watchpostTargets.length !== 1 || typeof watchpostTargets[0].id !== 'string' || !watchpostTargets[0].id)) return { ok: false, reason: 'watchpost-target-unknown' };
        const firstNode = definition.nodes?.[0];
        if (!firstNode) return { ok: false, reason: 'chain-node-missing' };
-       const active = { chainId, nodeId: firstNode.nodeId, status: 'active', startedAt: worldMinute(), actorId, resolvedNodeIds: [] };
-       if (repeatable) Object.assign(active, contentEpisodeIdentity(definition, active));
+       const active = { chainId, nodeId: firstNode.nodeId, status: 'active', startedAt: worldMinute(), actorId, resolvedNodeIds: [], ...(chainId === 'watchpost-003' ? { targetLandmarkId: watchpostTargets[0].id } : {}) };
+       if (contentChainUsesInstanceToken(definition)) Object.assign(active, contentEpisodeIdentity(definition, active));
        state.contentState.activeChains[chainId] = active;
-       const startedPayload = { chainId, nodeId: firstNode.nodeId }; if (repeatable) startedPayload.instanceKey = episodeKey;
-       recordWorldEvent('content.chain.started', startedPayload, { actorId: meta.actorId || 'player-1', defId: chainId, ...(repeatable ? { instanceId: active.instanceId, definitionVersion: active.definitionVersion } : {}) });
+       const startedPayload = { chainId, nodeId: firstNode.nodeId }; if (contentChainUsesInstanceToken(definition)) startedPayload.instanceKey = active.instanceKey;
+       recordWorldEvent('content.chain.started', startedPayload, { actorId: meta.actorId || 'player-1', defId: chainId, ...(contentChainUsesInstanceToken(definition) ? { instanceId: active.instanceId, definitionVersion: active.definitionVersion } : {}) });
        return { ok: true, active };
      }
      function resolveContentChain(chainId, nodeId, choiceId, meta = {}) {
        const gate = contentChainRuntimeGate(); if (!gate.ok) return gate;
+       if (chainId === 'watchpost-003' && (meta.actorId || 'player-1') !== 'player-1') return { ok: false, reason: 'watchpost-player-only' };
        const identity = contentEpisodeGate(chainId, nodeId, meta); if (!identity.ok) return identity;
        ensureContentState();
        const definition = contentDefinition('eventChain', chainId); const active = state.contentState.activeChains[chainId];
-       const episodeKey = active?.instanceKey || chainId;
+       const episodeKey = contentChainCompletionKey(definition, active, chainId);
        if (definition && !contentPhaseAllows(definition)) return { ok: false, reason: 'phase-window' };
        if (definition && !definition.repeatable && state.contentState.completedChains.includes(chainId) || definition?.repeatable && active && state.contentState.completedChains.includes(episodeKey)) return { ok: false, reason: 'chain-completed', episodeKey };
        const node = definition?.nodes?.find(item => item.nodeId === nodeId); const choice = node?.choices?.find(item => item.id === choiceId);
@@ -3603,7 +3739,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
        const choiceGate = contentChainChoiceGateRuntime(definition, choice, { actorId, event: { id: chainId, defId: chainId, nodeId, choiceId }, instance: { instanceId: `content-${chainId}-${active.startedAt || state.day}`, defId: chainId, definitionVersion: Number(definition.definitionVersion) || 1, status: 'active', actorId } });
        if (!choiceGate.ok) return choiceGate;
        if (state.contentState.appliedEffects.includes(`${episodeKey}:${nodeId}:${choiceId}`)) return { ok: false, reason: 'chain-choice-already-applied' };
-       const result = applyContentEffects(choice.effects || [], { actorId: meta.actorId || 'player-1', defId: chainId, effectId: `${episodeKey}:${nodeId}:${choiceId}`, ...(definition.repeatable ? { instanceKey: episodeKey, instanceId: active.instanceId, definitionVersion: active.definitionVersion } : {}) });
+       const result = applyContentEffects(choice.effects || [], { actorId: meta.actorId || 'player-1', defId: chainId, effectId: `${episodeKey}:${nodeId}:${choiceId}`, ...(contentChainUsesInstanceToken(definition) ? { instanceKey: active.instanceKey, instanceId: active.instanceId, definitionVersion: active.definitionVersion } : {}) });
        if (!result.ok) return result;
        if (choice.next) {
          // Effects normalize contentState, so the pre-effect active reference
@@ -3612,13 +3748,13 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
          current.nodeId = choice.next;
          current.history = [...history, { nodeId, choiceId, at: worldMinute() }].slice(-20);
          current.resolvedNodeIds = definedNodeIds.filter(id => id === nodeId || resolvedNodeIds.includes(id));
-         recordWorldEvent('content.chain.choice', { chainId, ...(definition.repeatable ? { instanceKey: episodeKey } : {}), nodeId, choiceId, nextNodeId: choice.next, results: result.results }, { actorId: meta.actorId || 'player-1', defId: chainId, effects: choice.effects || [], ...(definition.repeatable ? { instanceId: active.instanceId, definitionVersion: active.definitionVersion } : {}) });
+         recordWorldEvent('content.chain.choice', { chainId, ...(contentChainUsesInstanceToken(definition) ? { instanceKey: active.instanceKey } : {}), nodeId, choiceId, nextNodeId: choice.next, results: result.results }, { actorId: meta.actorId || 'player-1', defId: chainId, effects: choice.effects || [], ...(contentChainUsesInstanceToken(definition) ? { instanceId: active.instanceId, definitionVersion: active.definitionVersion } : {}) });
          return { ok: true, chainId, nodeId, choiceId, nextNodeId: choice.next, active: current, results: result.results };
        }
        delete state.contentState.activeChains[chainId];
        state.contentState.completedChains = [...new Set([...state.contentState.completedChains, episodeKey])].slice(-100);
-       const resolvedPayload = { chainId, nodeId, choiceId, results: result.results }; if (definition.repeatable) resolvedPayload.instanceKey = episodeKey;
-       recordWorldEvent('content.chain.resolved', resolvedPayload, { actorId: meta.actorId || 'player-1', defId: chainId, effects: choice.effects || [], ...(definition.repeatable ? { instanceId: active.instanceId, definitionVersion: active.definitionVersion } : {}) });
+       const resolvedPayload = { chainId, nodeId, choiceId, results: result.results }; if (contentChainUsesInstanceToken(definition)) resolvedPayload.instanceKey = active.instanceKey;
+       recordWorldEvent('content.chain.resolved', resolvedPayload, { actorId: meta.actorId || 'player-1', defId: chainId, effects: choice.effects || [], ...(contentChainUsesInstanceToken(definition) ? { instanceId: active.instanceId, definitionVersion: active.definitionVersion } : {}) });
        return { ok: true, chainId, nodeId, choiceId, results: result.results };
      }
      function resolveContentFallback(chainId, reason = 'ifSkipped', meta = {}) {
@@ -3635,18 +3771,18 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
        if (!['ifMissingNpc', 'ifInsufficientPopulation', 'ifExpired', 'ifSkipped'].includes(reason)) return { ok: false, reason: 'fallback-reason' };
        const phaseDays = (definition.phase || []).map(phase => Number(String(phase).match(/^day_(\d+)$/i)?.[1])).filter(Number.isFinite);
        if (reason === 'ifExpired' ? !phaseDays.length || state.day <= Math.max(...phaseDays) : !contentPhaseAllows(definition)) return { ok: false, reason: 'phase-window' };
-       const episodeKey = active?.instanceKey || chainId;
+       const episodeKey = contentChainCompletionKey(definition, active, chainId);
        if (definition && !definition.repeatable && state.contentState.completedChains.includes(chainId) || definition?.repeatable && active && state.contentState.completedChains.includes(episodeKey)) return { ok: true, duplicate: true, chainId, episodeKey, reason };
        if (!active || active.status !== 'active') return { ok: false, reason: 'chain-not-started' };
        const fallbackSpec = definition.fallback?.[reason] || definition.fallback?.ifSkipped || 'ledger_only';
        const fallbackId = typeof fallbackSpec === 'string' ? fallbackSpec : (fallbackSpec?.id || 'ledger_only');
        const fallbackEffects = Array.isArray(fallbackSpec) ? fallbackSpec : (fallbackSpec?.effects || definition.fallbackEffects?.[fallbackId] || []);
-       const effectResult = applyContentEffects(fallbackEffects, { actorId: meta.actorId || 'camp-autonomy', defId: chainId, effectId: `${episodeKey}:fallback:${reason}`, ...(definition.repeatable ? { instanceKey: episodeKey, instanceId: active.instanceId, definitionVersion: active.definitionVersion } : {}) });
+       const effectResult = applyContentEffects(fallbackEffects, { actorId: meta.actorId || 'camp-autonomy', defId: chainId, effectId: `${episodeKey}:fallback:${reason}`, ...(contentChainUsesInstanceToken(definition) ? { instanceKey: active.instanceKey, instanceId: active.instanceId, definitionVersion: active.definitionVersion } : {}) });
        if (!effectResult.ok) return effectResult;
        if (active) delete state.contentState.activeChains[chainId];
        state.contentState.completedChains = [...new Set([...state.contentState.completedChains, episodeKey])].slice(-100);
-       const payload = { chainId, reason, fallbackId, active: !!active, results: effectResult.results || [] }; if (definition.repeatable) { payload.instanceKey = episodeKey; payload.nodeId = active.nodeId; }
-       recordWorldEvent('content.chain.fallback', payload, { actorId: meta.actorId || 'camp-autonomy', defId: chainId, effects: fallbackEffects, ...(definition.repeatable ? { instanceId: active.instanceId, definitionVersion: active.definitionVersion } : {}) });
+       const payload = { chainId, reason, fallbackId, active: !!active, results: effectResult.results || [], ...(chainId === 'watchpost-003' ? { outpostId: 'watchPost', expiredWindow: [2, 8], unavailableReason: watchpostWarningEligibility().reason || 'preparation-window-expired' } : {}) }; if (contentChainUsesInstanceToken(definition)) { payload.instanceKey = active.instanceKey; payload.nodeId = active.nodeId; }
+       recordWorldEvent('content.chain.fallback', payload, { actorId: meta.actorId || 'camp-autonomy', defId: chainId, effects: fallbackEffects, ...(contentChainUsesInstanceToken(definition) ? { instanceId: active.instanceId, definitionVersion: active.definitionVersion } : {}) });
        state.contentState.history = [...state.contentState.history, { id: `${episodeKey}:fallback:${reason}`, at: worldMinute(), payload, actorId: meta.actorId || 'camp-autonomy' }].slice(-100);
        return { ok: true, ...payload };
      }
@@ -3657,17 +3793,19 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
        const identity = contentEpisodeGate(chainId, state.contentState?.activeChains?.[chainId]?.nodeId, meta); if (!identity.ok) return identity;
        ensureContentState();
        const definition = contentDefinition('eventChain', chainId); const autonomy = definition?.autonomy;
+       if (chainId === 'watchpost-003' && (meta[WATCHPOST_DAY_START_AUTHORITY] !== true || meta.actorId !== 'camp-autonomy' || state.day !== 8)) return { ok: false, reason: 'watchpost-autonomy-internal' };
+       if (chainId === 'watchpost-003' && (!SessionController.isDay() || !watchpostWarningEligibility().operational || state.contentState?.activeChains?.[chainId]?.targetLandmarkId !== watchpostWarningEligibility().landmarkId)) return { ok: false, reason: 'watchpost-autonomy-unavailable' };
        if (!definition || !autonomy) return { ok: false, reason: 'autonomy-missing' };
        if (!contentPhaseAllows(definition)) return { ok: false, reason: 'phase-window' };
-       const active = state.contentState.activeChains[chainId], episodeKey = active?.instanceKey || chainId;
+       const active = state.contentState.activeChains[chainId], episodeKey = contentChainCompletionKey(definition, active, chainId);
        if (state.contentState.completedChains.includes(episodeKey)) return { ok: true, duplicate: true, chainId };
        if (active?.status !== 'active') return { ok: false, reason: 'chain-not-started' };
-       const result = applyContentEffects(autonomy.effects || [], { actorId: meta.actorId || 'camp-autonomy', defId: chainId, effectId: `${episodeKey}:autonomy:${state.day}`, ...(definition.repeatable ? { instanceKey: episodeKey, instanceId: active.instanceId, definitionVersion: active.definitionVersion } : {}) });
+       const result = applyContentEffects(autonomy.effects || [], { actorId: meta.actorId || 'camp-autonomy', defId: chainId, effectId: `${episodeKey}:autonomy:${state.day}`, ...(contentChainUsesInstanceToken(definition) ? { instanceKey: active.instanceKey, instanceId: active.instanceId, definitionVersion: active.definitionVersion } : {}) });
        if (!result.ok) return result;
        delete state.contentState.activeChains[chainId];
        state.contentState.completedChains = [...new Set([...state.contentState.completedChains, episodeKey])].slice(-100);
-       const payload = { chainId, ...(definition.repeatable ? { instanceKey: episodeKey, nodeId: active.nodeId } : {}), resultId: autonomy.resultId || 'autonomous', results: result.results };
-       recordWorldEvent('content.chain.autonomy', payload, { actorId: meta.actorId || 'camp-autonomy', defId: chainId, effects: autonomy.effects || [], ...(definition.repeatable ? { instanceId: active.instanceId, definitionVersion: active.definitionVersion } : {}) });
+       const payload = { chainId, ...(contentChainUsesInstanceToken(definition) ? { instanceKey: active.instanceKey, nodeId: active.nodeId } : {}), resultId: autonomy.resultId || 'autonomous', results: result.results };
+       recordWorldEvent('content.chain.autonomy', payload, { actorId: meta.actorId || 'camp-autonomy', defId: chainId, effects: autonomy.effects || [], ...(contentChainUsesInstanceToken(definition) ? { instanceId: active.instanceId, definitionVersion: active.definitionVersion } : {}) });
        state.contentState.history = [...state.contentState.history, { id: `${episodeKey}:autonomy:${state.day}`, at: worldMinute(), payload, actorId: meta.actorId || 'camp-autonomy' }].slice(-100);
        return { ok: true, ...payload };
      }
@@ -4190,13 +4328,17 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       for (const [id,chain] of Object.entries(cs.activeChains)) if (!savedRecord(chain) || chain.chainId !== id || typeof chain.nodeId !== 'string' || !chain.nodeId || chain.status !== 'active' || !savedNumbers(chain,['startedAt']) || chain.startedAt > savedMinute(payload) || typeof chain.actorId !== 'string' || !chain.actorId || chain.resolvedNodeIds !== undefined && !savedStringIds(chain.resolvedNodeIds) || chain.history !== undefined && (!Array.isArray(chain.history) || chain.history.some(item => !savedRecord(item) || typeof item.nodeId !== 'string' || typeof item.choiceId !== 'string' || !savedNumbers(item,['at']) || item.at > savedMinute(payload)))) return fail('content-active-chain');
 
       for (const [id, chain] of Object.entries(cs.activeChains)) {
-        const episodeDay = Math.floor(chain.startedAt / 1440) + 1, expectedKey = `${id}:${episodeDay}`;
+        const episodeDay = Math.floor(chain.startedAt / 1440) + 1, expectedKey = id === 'watchpost-003' ? 'watchpost-003:once' : `${id}:${episodeDay}`;
         if (chain.instanceKey !== undefined && chain.instanceKey !== expectedKey ||
             chain.instanceId !== undefined && chain.instanceId !== `content:${expectedKey}` ||
             chain.defId !== undefined && chain.defId !== id ||
             chain.definitionVersion !== undefined && (!Number.isSafeInteger(chain.definitionVersion) || chain.definitionVersion < 1) ||
             chain.episodeSchemaVersion !== undefined && (chain.episodeSchemaVersion !== 1 || ['instanceKey','instanceId','defId','definitionVersion'].some(key => chain[key] === undefined))) return fail('content-episode-identity');
         const definition = contentDefinition('eventChain', id, lookupContext);
+        if (id === 'watchpost-003') {
+          if (chain.episodeSchemaVersion !== 1 || chain.instanceKey !== 'watchpost-003:once' || chain.instanceId !== 'content:watchpost-003:once' || chain.defId !== id || chain.definitionVersion !== 1 || chain.nodeId !== 'manual_preparation' || typeof chain.targetLandmarkId !== 'string' || !chain.targetLandmarkId || cs.completedChains.includes(id)) return fail('content-watchpost-identity');
+          if (!definition && watchpostManualPackStatus(lookupContext).status !== 'bound') continue;
+        }
         if (!definition || !definition.nodes?.some(node => node.nodeId === chain.nodeId)) return fail('content-active-definition-missing');
         const shortageLegacy = id === 'zh-food-shortage-001' && (chain.definitionVersion === 1 || !Object.prototype.hasOwnProperty.call(chain, 'definitionVersion'));
         const shortageAdapter = shortageLegacy && definition.definitionVersion === 2 ? shortageDefinitionAdapterSpec(cs, chain, lookupContext) : null;
@@ -4233,7 +4375,8 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       if (!savedNumbers(standing,['prestige','merit','fear','legitimacy','contribution'],-100,100) || !savedNumbers(standing.domains,['rescue','defense','supply','recon'],-100,100)) return fail('camp-standing-contract');
       if (!savedRecord(relay) || ['id','buildingId','routeId'].some(key => typeof relay[key] !== 'string' || !relay[key]) || !['unknown','core-recovered','briefed','staging','building','online'].includes(relay.status) || !Object.prototype.hasOwnProperty.call(relay,'coreItemId') || relay.coreItemId !== null && (typeof relay.coreItemId !== 'string' || !relay.coreItemId) || !Object.prototype.hasOwnProperty.call(relay,'handoffAt') || relay.handoffAt !== null && (!Number.isFinite(relay.handoffAt) || relay.handoffAt < 0 || relay.handoffAt > savedMinute(payload)) || !savedNumbers(relay.materialNeed,['wood','parts','stone']) || !savedNumbers(relay.materialProgress,['wood','parts','stone']) || !savedNumbers(relay,['materialClock','workMinutes','sharedSightBonus','sharedRangeBonus','forecastLeadMinutes']) || !savedNumbers(relay,['targetMinutes'],30) || !savedStringIds(relay.assignedNpcIds) || relay.assignedNpcIds.some(id => !expectedIds.includes(id))) return fail('relay-project-contract');
       if (!savedNumbers(forecast,['confidence'],0,100) || !savedNumbers(forecast,['leadMinutes','updatedAt']) || forecast.updatedAt > savedMinute(payload) || typeof forecast.routeId !== 'string' || !forecast.routeId || typeof forecast.source !== 'string' || !forecast.source || !savedNumbers(payload.specialItems,['relayCore'],0,1) || !savedNumbers(payload.collection,['tape','blueprint','relic'])) return fail('forecast-or-collection-contract');
-      for (const key of ['quests','npcEvents']) if (payload[key] !== undefined && (!Array.isArray(payload[key]) || payload[key].some(item => !savedRecord(item)))) return fail(`domain:${key}`);
+      if (payload.nightBattle && Object.hasOwn(payload.nightBattle, 'warningPreparation') && !validWatchpostPreparation(payload.nightBattle.warningPreparation, payload.nightBattle)) return fail('watchpost-battle-preparation');
+       for (const key of ['quests','npcEvents']) if (payload[key] !== undefined && (!Array.isArray(payload[key]) || payload[key].some(item => !savedRecord(item)))) return fail(`domain:${key}`);
       if (payload.quests?.some(item => typeof item.id !== 'string' || !Array.isArray(item.completedSteps)) || payload.version === SAVE_VERSION && !Array.isArray(payload.quests)) return fail('quest-contract');
       if (!validateDayFatalOutcome(payload)) return fail('day-fatal-outcome');
       if (!savedRecord(payload.weapon) || !weaponInfo[payload.weapon.id] || payload.event != null && !savedRecord(payload.event) || payload.eventInstance != null && !savedRecord(payload.eventInstance)) return fail('event-or-weapon');
@@ -4282,6 +4425,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       const encodedStartSeq = /^threat-\d+-\d+-\d+-(\d+)$/.exec(id)?.[1];
       const referencedStart = encodedStartSeq ? events.find(event => event.seq === Number(encodedStartSeq)) : null;
       if (referencedStart && savedStartedIdentity(referencedStart, payload) !== id) return { ok: false, reason: 'started-identity-conflict', legacy };
+      if (battle.warningPreparation && (JSON.stringify(battle.warningPreparation) !== JSON.stringify(resolved[0].payload.warningPreparation))) return { ok: false, reason: 'watchpost-report-preparation-conflict', legacy };
       if (Object.entries({ kills: 'kills', breaches: 'breaches', finalDamage: 'damage', routeId: 'routeId' }).some(([key, receiptKey]) => battle[key] !== undefined && resolved[0].payload[receiptKey] !== undefined && battle[key] !== resolved[0].payload[receiptKey])) return { ok: false, reason: 'resolved-result-conflict', legacy };
       const starts = events.filter(event => event.type === 'threat.started' && savedStartedIdentity(event, payload) === id);
       if (starts.length > 1 || starts.some(event => event.seq >= resolved[0].seq || event.tick.world > resolved[0].tick.world)) return { ok: false, reason: 'started-identity-conflict', legacy };
@@ -4304,7 +4448,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       const battle = savedRecord(payload.nightBattle) ? payload.nightBattle : {}, resolved = identity?.resolved;
       const number = (key, receiptKey = null) => Number.isFinite(battle[key]) ? battle[key] : receiptKey && Number.isFinite(resolved?.payload?.[receiptKey]) ? resolved.payload[receiptKey] : null;
       return { instanceId: identity?.instanceId || null, loss, resolved: battle.resolved === true, date: savedDate(payload), reportMinute: resolved?.tick?.world ?? savedMinute(payload), routeId: typeof battle.routeId === 'string' ? battle.routeId : resolved?.payload?.routeId || payload.campaign?.finalCrisisRoute || null,
-        kills: number('kills','kills'), breaches: number('breaches','breaches'), damage: number('finalDamage','damage'), walls: number('wallDamage'), npcDeaths: number('npcDeaths'), autoKills: number('autoKills'), morale: Number.isFinite(battle.moraleAfter) ? battle.moraleAfter : null, defense: number('defense'), supportCount: savedStringIds(battle.supportIds) && new Set(battle.supportIds).size === battle.supportIds.length ? battle.supportIds.length : null,
+        kills: number('kills','kills'), breaches: number('breaches','breaches'), damage: number('finalDamage','damage'), walls: number('wallDamage'), npcDeaths: number('npcDeaths'), autoKills: number('autoKills'), morale: Number.isFinite(battle.moraleAfter) ? battle.moraleAfter : null, defense: number('defense'), ...(battle.warningPreparation ? { warningPreparation: stableClone(battle.warningPreparation) } : {}), supportCount: savedStringIds(battle.supportIds) && new Set(battle.supportIds).size === battle.supportIds.length ? battle.supportIds.length : null,
         feed: Array.isArray(battle.feed) ? battle.feed.filter(item => typeof item === 'string').slice(-3) : [], currentFood: payload.food, currentHp: payload.hp, currentMorale: payload.morale, currentSanity: Number.isFinite(payload.sanity) ? payload.sanity : null };
     }
     function classifySavedRecovery(payload, lookupContext = null) {
@@ -4367,6 +4511,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
         if (Object.hasOwn(contentRegistryBase('eventChain'), check.id) || Object.hasOwn(eventChainTable, check.id)) throw new Error('scenario-definition-conflict:' + check.id);
         eventChainTable[check.id] = observerDeepFreeze(stableClone(raw));
       }
+      const watchpostPack = prepareWatchpostManualPack(eventChainTable);
       for (const ref of compiled.registry) {
         if (ref.kind === 'eventDef' ? !eventDefinition(ref.id) : ref.kind !== 'eventChain' || !eventChainTable[ref.id]) throw new Error('scenario-reference-missing:' + ref.kind + ':' + ref.id);
       }
@@ -4375,12 +4520,15 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       // after installation; only the compiled definitions are deeply frozen.
       const committedTable = Object.assign(Object.create(null), eventChainTable);
       Object.defineProperty(committedTable, SCENARIO_SOURCE_FLAGS, { value: protectedFlags, enumerable: false });
-      return Object.freeze({ compiled: observerDeepFreeze(stableClone(compiled)), eventChainTable: Object.freeze(eventChainTable), committedTable, protectedFlags, originalTable, originalProjection: scenarioCanonical(originalTable) });
+      Object.defineProperty(committedTable, WATCHPOST_MANUAL_BINDING, { value: watchpostPack, enumerable: false });
+      return Object.freeze({ compiled: observerDeepFreeze(stableClone(compiled)), eventChainTable: Object.freeze(eventChainTable), committedTable, protectedFlags, watchpostPack, originalTable, originalProjection: scenarioCanonical(originalTable) });
     }
     function validatePreparedScenarioContent(context, committed = false) {
       if (!context || !Object.isFrozen(context) || !Object.isFrozen(context.eventChainTable) || !Object.isFrozen(context.compiled)) throw new Error('scenario-content-draft');
       if (committed ? CONTENT_EXTENSIONS.eventChain !== context.committedTable : CONTENT_EXTENSIONS.eventChain !== context.originalTable || scenarioCanonical(CONTENT_EXTENSIONS.eventChain) !== context.originalProjection || scenarioCanonical(context.committedTable) !== scenarioCanonical(context.eventChainTable)) throw new Error('scenario-content-directory-changed');
       const compiled = context.compiled;
+      if (!Object.isFrozen(context.watchpostPack) || context.committedTable[WATCHPOST_MANUAL_BINDING] !== context.watchpostPack) throw new Error('watchpost-content-binding');
+      if (context.watchpostPack.status === 'bound' && (context.watchpostPack.digest !== scenarioDigest(WATCHPOST_MANUAL_PACK) || scenarioCanonical(context.eventChainTable['watchpost-003']) !== scenarioCanonical({ ...WATCHPOST_MANUAL_PACK.definition, id: 'watchpost-003' }) || scenarioCanonical(context.committedTable['watchpost-003']) !== scenarioCanonical(context.eventChainTable['watchpost-003']))) throw new Error('watchpost-content-definition');
       if (!Object.isFrozen(context.protectedFlags) || context.committedTable[SCENARIO_SOURCE_FLAGS] !== context.protectedFlags || scenarioCanonical(context.protectedFlags) !== scenarioCanonical(SCENARIO_BOOT_PACKAGE.events.storylets.map(story => story.source.flag)) || context.protectedFlags.some(flag => contentDefinition('weapon', flag))) throw new Error('scenario-source-flag-conflict');
       if (compiled.compilerVersion !== 'scenario-event-chain-v1' || compiled.catalogDigest !== scenarioDigest(SCENARIO_BOOT_PACKAGE.events) || compiled.rulesDigest !== scenarioRulesDigest(SCENARIO_BOOT_PACKAGE.events)) throw new Error('scenario-content-digest');
       for (const definition of compiled.definitions) {
@@ -4746,9 +4894,11 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
     }
     function syncNpcLifeState(npc) {
       if (!npc) return;
+      const previousLife = npc.lifeState;
       if (npc.hp !== npc.maxHp) cancelNpcRoutineIntent(npc, npc.hp <= 0 ? 'dead' : 'injured');
-      if (npc.hp <= 0) { npc.hp = 0; npc.lifeState = 'dead'; npc.combatStatus = 'dead'; npc.behaviorState = 'dead'; npc.supportRequested = false; npc.order = null; return; }
+      if (npc.hp <= 0) { npc.hp = 0; npc.lifeState = 'dead'; npc.combatStatus = 'dead'; npc.behaviorState = 'dead'; npc.supportRequested = false; npc.order = null; if (npc.garrisonedOutpostId === 'watchPost' && state.npcs?.includes(npc)) syncWatchpostWarningForecast(); return; }
       npc.lifeState = npc.hp < 30 ? 'critical' : npc.hp < npc.maxHp ? 'injured' : 'healthy';
+      if (npc.lifeState !== previousLife && npc.garrisonedOutpostId === 'watchPost' && state.npcs?.includes(npc)) syncWatchpostWarningForecast();
     }
     function getLandmark(x, y) { return state.landmarks.find(l => l.x === x && l.y === y && !l.found); }
       function getKnownOutpost(x, y) { return state.landmarks.find(l => l.x === x && l.y === y && l.found === true && !!outpostDefinitionFor(l)); }
@@ -5794,7 +5944,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       spawnResource();
       assignMorningSuccessors();
       applyOutpostUpkeep(state.day);
-      runContentHook('onDayStart', { actorId: 'camp-autonomy' });
+      runContentHook('onDayStart', { actorId: 'camp-autonomy', [WATCHPOST_DAY_START_AUTHORITY]: true });
       const gardens = state.buildings.filter(b => b.type === 'garden' || b.type === 'greenhouse').length;
       let ready = 0;
       state.buildings.filter(b => (b.type === 'garden' || b.type === 'greenhouse') && b.planted && !b.ready).forEach(g => { g.growth += 1; if (g.growth >= 2) { g.ready = true; ready += 1; } });
@@ -6220,6 +6370,8 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
         return `${relayRoleLabel(roleId)}：${npc.name}${npc.id !== roleId ? '（暂代）' : ''}${assignment.blockedReason ? ' · 等待补岗' : npc.lastReport ? `（上次报告：${npc.lastReport}）` : ' · 可承担'}`;
       });
       $('relayCrewText').textContent = `项目成员：${assignment.configurationValid ? crew.join(' · ') : '岗位配置无效，尚未安排'}`;
+      renderWatchpostWarningPanel();
+      if (currentWarningPreparation().availableWarningSource === 'watchpost-manual') $('relayForecastText').textContent = '当前人工哨报准备可用；仍走常规通道，弱于中继。';
       $('relayPanelHint').textContent = status === 'online' ? '工程完成与当前能力分开记录；站点损毁会停止当前侦察和下一场标定，付费修理时世界与危险继续。'
         : ['briefed','staging','building'].includes(status) ? '工程会消耗真实材料并占用三名岗位成员。世界、人物需求和危险仍在继续；留意库存、人员与防线。'
         : '探索、交付、筹料与施工完成后，广播中继站才能投入使用。';
@@ -6306,8 +6458,9 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       const currentEncounter = SessionController.mode === 'BATTLE' && state.nightBattle && !state.nightBattle.resolved ? state.nightBattle : null;
       const alertText = currentEncounter ? currentEncounter.routeId === 'relay-guided-west' ? '本场 · 中继标定分散通道' : currentEncounter.routeId === 'eastern-breach' ? '本场 · 常规接近通道' : '本场接近通道未记录'
         : relayProjectCompleted() ? !relayOnline() ? '工程已完成 · 当前中继停用 · 下场依靠营地观察' : forecast.routeId === 'relay-guided-west' ? '中继在线 · 下场采用标定分散通道' : forecast.routeId === 'eastern-breach' ? '中继在线 · 下场采用常规接近通道' : '中继在线 · 下场接近通道未记录' : `尸潮预警 ${clockAlert}%`;
-      $('alertPill').textContent = alertText;
-      if ($('basicAlertValue')) $('basicAlertValue').textContent = alertText;
+      const watchpostAlert = !currentEncounter && currentWarningPreparation().availableWarningSource === 'watchpost-manual' ? '当前人工哨报准备可用 · 下场仍走常规通道' : alertText;
+      $('alertPill').textContent = watchpostAlert;
+      if ($('basicAlertValue')) $('basicAlertValue').textContent = watchpostAlert;
       if ($('overviewDay')) $('overviewDay').textContent = `第 ${state.day} 天 · ${formatTime()}`;
       if ($('overviewLight')) $('overviewLight').textContent = lightLabel + (state.night ? ' · 战斗' : '');
       if ($('overviewFood')) $('overviewFood').textContent = `${state.food} · ${food.level}`;
@@ -6320,7 +6473,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       if ($('overviewSan')) { $('overviewSan').textContent = sanitySummary('player'); $('overviewSan').style.color = sanityState(state.sanity).color; }
       if ($('overviewCampSan')) { $('overviewCampSan').textContent = `平均 ${averageNpcSanity()} · 最低 ${lowestNpcSanity()}`; $('overviewCampSan').style.color = sanityState(averageNpcSanity()).color; }
       if ($('overviewGoal')) $('overviewGoal').textContent = `当前目标：${missionDone ? '防线和援防已准备好，继续维持营地。' : '让营地稳步存续；' + (supports ? `已有 ${supports} 名幸存者支援。` : '先靠近一名幸存者请求支援。')}`;
-      if ($('overviewAlert')) $('overviewAlert').textContent = `即时情报：${alertText}${state.event?.handled ? ' · 今日异动已处理。' : ' · 详细事件在“任务 / 事件”标签。'}`;
+      if ($('overviewAlert')) $('overviewAlert').textContent = `即时情报：${watchpostAlert}${state.event?.handled ? ' · 今日异动已处理。' : ' · 详细事件在“任务 / 事件”标签。'}`;
       if ($('overviewLocation')) $('overviewLocation').textContent = `${getMapRegion(state.player.x, state.player.y)} · ${(state.player.x + 1).toFixed(1)}/${MAP.cols} 列 · ${(state.player.y + 1).toFixed(1)}/${MAP.rows} 行`;
       if ($('overviewFrontierDetail')) $('overviewFrontierDetail').textContent = `外围压力：${frontierStatusText()}。回到营地使用 shelter、指挥所或仓库整备，压力才会真正降下来。`;
       $('weatherPill').textContent = `🌗 光照：${lightLabel} · ${formatTime()}${state.night ? ' · 实时战况' : ''}`;
@@ -6591,8 +6744,10 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       if (state.gameOver) return { ok: false, reason: 'game-over', label: '本局已经结束' };
       const chain = activeContentChainView();
       if (chain && !contentPhaseAllows(chain.definition)) return { ok: false, reason: 'phase-window', label: '已错过这条支线的处理时间' };
+      if (chain?.active.chainId === 'watchpost-003' && !SessionController.isDay()) return { ok: false, reason: 'phase-blocked', label: '只有可操作白天才能确认岗亭准备' };
       const gate = contentChainChoiceGateRuntime(chain?.definition || null, choice, { actorId: chain?.active?.actorId || 'player-1' });
       if (!gate.ok) {
+        if (chain?.active.chainId === 'watchpost-003') return { ...gate, label: watchpostWarningReasonText(gate.details?.reason) };
         const requirements = choice?.requires !== undefined ? choice.requires : choice?.requirements === undefined ? [] : choice.requirements;
         if (gate.reason === 'choice-contract' || gate.reason === 'choice-requirement-invalid') return { ...gate, label: '这条路线暂时不可用' };
         const unmet = Array.isArray(requirements) ? requirements.filter(requirement => typeof requirement === 'string' && !contentRequirementsMet([requirement])) : [];
@@ -6604,7 +6759,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
     }
     function resolveContentChainCommand(chainId, nodeId, choiceId, options = {}) {
       const gate = contentChainRuntimeGate(); if (!gate.ok) return gate;
-      const repeatable = contentDefinition('eventChain', chainId)?.repeatable === true;
+      const repeatable = contentChainUsesInstanceToken(contentDefinition('eventChain', chainId));
       const expected = repeatable ? Object.fromEntries(Object.keys(contentEpisodeExpectedToken()).map(key => [key, options[key] ?? null])) : {};
       return dispatchCommand({ type: 'content.chain.resolve', commandId: options.commandId, actorId: options.actorId || 'player-1', payload: { chainId, nodeId, choiceId, ...expected } }, () => {
         const result = resolveContentChain(chainId, nodeId, choiceId, { actorId: options.actorId || 'player-1', ...expected });
@@ -6618,6 +6773,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       return (result?.results || []).map(effect => {
         if (effect.op === 'addResource' || effect.op === 'adjust_resource') return `${resources[effect.key] || '物资'} ${signed(Number.isFinite(effect.before) && Number.isFinite(effect.after) ? effect.after - effect.before : effect.value)}`;
         if (effect.op === 'adjustMeter' || effect.op === 'adjust_meter') return `${meters[effect.key] || '营地状态'} ${signed(effect.after - effect.before)}`;
+      if (effect.op === 'unlock' && effect.key === 'watchpost-manual-prepared') return '人工哨报准备已记录 · 追加0物资／0分钟 · 当前能力随守军与维护变化';
         if (effect.op === 'unlock' && effect.key === 'watermill_t2') return '闸门修复已记录';
         if (effect.op === 'unlockTech') return '新的科技已解锁';
         return null;
@@ -6688,6 +6844,9 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       const views = eventContentChainViews();
       const chain = activeContentChainView(views);
       renderEventSources(views, chain);
+      const watchpostFeedback = $('watchpostChoiceFeedback');
+      if (watchpostFeedback) { watchpostFeedback.hidden = true; watchpostFeedback.textContent = ''; }
+      $('eventChoiceB').hidden = false; $('eventChoiceB').style.display = '';
       const extras = $('eventExtraChoices');
       extras.replaceChildren();
       extras.hidden = true;
@@ -6718,6 +6877,11 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
           const current = food.ratio > 1 ? '当前基础供给已缓解；这是原预警，仍可确认并保留备用粮。' : '结算时若库存不足，原配给缺口与人物需求后果照常发生。';
           $('eventText').textContent = `${storyText} 当前库存 ${state.food} 份，基础日需 ${food.dailyNeed} 份；下次午夜配给为第 ${nextRationDay} 天 00:00（约 ${Math.ceil(untilMidnight)} 分钟后）。个人用餐与据点维护另计，库存会继续变化。${current}`;
         } else $('eventText').textContent = storyText;
+        if (chain.active.chainId === 'watchpost-003') {
+          const publicGate = contentChainChoiceGate(choices[0]);
+          if (watchpostFeedback) { watchpostFeedback.hidden = false; watchpostFeedback.textContent = publicGate.ok ? '当前可确认 · 追加0物资／0分钟；据点维护额外1粮/日，守军仍按原规则配给。' : publicGate.label + '。确认追加0物资／0分钟；据点维护额外1粮/日，守军仍按原规则配给。'; }
+          $('eventChoiceB').hidden = true; $('eventChoiceB').style.display = 'none';
+        }
         $('eventState').textContent = chain.node.title || '等待决定';
         $('eventChoiceA').innerHTML = renderChoice(choices[0], 0);
         $('eventChoiceB').innerHTML = renderChoice(choices[1], 1);
@@ -6929,6 +7093,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
         icon = outpost.icon || '🏕️'; title = `${def?.name || outpost.name} · 据点`;
         add(gate.ok ? `🏕️ 接管${def?.name || outpost.name}` : `🏕️ ${def?.name || outpost.name}`, gate.ok ? `派驻 ${gate.guards.map(npc => npc.name).join('、')} · 消耗 6 行动体力 · 推进 30 分钟` : `接管 Gate：${gate.label}`, 'captureOutpost', 'primary', !gate.ok);
         hint = gate.ok ? '据点会占用固定人口，并在每日清晨消耗维护食物。' : `当前无法接管：${gate.label}`;
+        if (outpost.type === 'watchPost') add('🕯️ 查看岗亭人工哨报', '确认追加0物资／0分钟 · 维护额外1粮/日，守军仍按原规则配给', 'watchpostWarning');
       }
       let campRestGates = null;
       if (nearShelter) {
@@ -7453,11 +7618,19 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
     }
     function updateRelayForecast() {
       const previous = state.hordeForecast || {}, project = state.relayProject || {};
-      const online = relayOnline();
-      const next = { ...previous, confidence: online ? 92 : project.status === 'building' ? 58 : 18, leadMinutes: online ? project.forecastLeadMinutes : 0, routeId: online ? 'relay-guided-west' : 'eastern-breach', source: online ? 'relay-station' : 'camp-observation', updatedAt: worldMinute() };
+      const online = relayOnline(), preparation = currentWarningPreparation();
+      const next = { ...previous, confidence: online ? 92 : project.status === 'building' ? 58 : 18, leadMinutes: preparation.leadMinutes, routeId: preparation.routeId, source: preparation.availableWarningSource, updatedAt: worldMinute() };
+      delete next.sourceOutpostId; delete next.guardNpcId;
+      if (next.source === 'watchpost-manual') { next.sourceOutpostId = 'watchPost'; next.guardNpcId = preparation.guardNpcId; }
       state.hordeForecast = next;
-      if ((online || previous.source === 'relay-station' || previous.routeId === 'relay-guided-west') && (previous.routeId !== next.routeId || previous.source !== next.source || previous.confidence !== next.confidence || previous.leadMinutes !== next.leadMinutes))
-        recordWorldEvent('threat.forecastChanged', { projectId: project.id, forecast: stableClone(next), routeId: next.routeId }, { ...relayEventMeta('online'), actorId: 'camp-autonomy' });
+      const relayTransition = next.source === 'relay-station' || previous.source === 'relay-station' || (!previous.source && previous.routeId === 'relay-guided-west');
+      const manualTransition = next.source === 'watchpost-manual' || previous.source === 'watchpost-manual';
+      if ((relayTransition || manualTransition) && (previous.routeId !== next.routeId || previous.source !== next.source || previous.confidence !== next.confidence || previous.leadMinutes !== next.leadMinutes || previous.guardNpcId !== next.guardNpcId)) {
+        // A watchpost forecast change is not a relay completion. The recorder
+        // retains the actual enclosing command as causation for either source.
+        const metadata = relayTransition ? { ...relayEventMeta('online'), actorId: 'camp-autonomy' } : { actorId: 'camp-autonomy', defId: 'watchpost-003', definitionVersion: WATCHPOST_MANUAL_PACK.definition.definitionVersion, instanceId: 'content:watchpost-003:once', effects: [{ type: 'forecast', key: 'hordeForecast' }] };
+        recordWorldEvent('threat.forecastChanged', { projectId: project.id, forecast: stableClone(next), routeId: next.routeId, ...(manualTransition ? { source: next.source, sourceOutpostId: next.sourceOutpostId || null, currentCapability: stableClone(watchpostWarningCapability()) } : {}) }, metadata);
+      }
       state.campaign = state.campaign || {};
       if (relayProjectCompleted()) state.campaign.phase = 'relay-online';
     }
@@ -7556,6 +7729,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       adjustSanity('player', frontierTier(frontierRegionKeyAt()) > 0 ? -3 : -1, `探索${name}`);
       applyStandingDelta({ prestige: 2, merit: 4, contribution: 1, legitimacy: 1, domains: { recon: 3 } }, { reason: `探索${name}`, visibility: 'public' });
       advance(20);
+      if (target.type === 'watchPost') startWatchpostManualChain('landmark-discovered');
       log(`你探索了${name}，收藏册有了新的记录。`);
       toast(`${name}已探索，发现稀有物资`);
       render();
@@ -9117,6 +9291,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       }
       const feed = $('towerFeed');
       const messages = b.feed.slice(-4);
+      if (b.warningPreparation) messages.unshift(watchpostLockedPreparationText(b.warningPreparation));
       feed.innerHTML = messages.map(m => `<span>${m}</span>`).join('');
       lane.innerHTML = '<span class="lane-gate">🏚️</span>' + b.enemies.map(enemy => {
         const left = Math.max(6, Math.min(85, 6 + enemy.progress * .79));
@@ -9320,7 +9495,8 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       const coordinationBonus = (commanderActive ? 4 : 0) + (sergeantActive ? 2 : 0);
       const barrierMax = Math.max(1, 1 + wallCount + spikeCount * 2 + (hasCarpenter ? Math.max(1, Math.round(carpenterEfficiency)) : 0) + guardCount * 2 + coordinationBonus);
       const defense = 8 + state.buildings.reduce((sum,b) => sum + (b.type === 'shelter' ? 8 : b.type === 'relayStation' ? relayGuided && b === relayStationBuilding() ? 8 : 0 : buildInfo[b.type]?.defense || 0), 0) + Math.round(state.morale/20) + (hasCarpenter ? Math.round(6 * carpenterEfficiency) : 0) + guardCount * 3 + coverCount * 2 + coordinationBonus + (state.tempCoordination ? 1 : 0) + foodDefense;
-      const startProgress = relayGuided ? 0 : radioOrder === 'guard' ? 0 : 3;
+      const warningPreparation = watchpostPreparationSnapshot(radioOrder);
+      const startProgress = warningPreparation.startProgress;
       const routeLanes = routeId === 'relay-guided-west' ? [5, 9, 13] : MAP.battle.laneRows;
       const encounterId = `threat-${state.day}-${state.hour}-${state.minute}-${state.worldMeta.eventSeq + 1}`;
       const enemies = Array.from({length: count}, (_, i) => {
@@ -9329,9 +9505,10 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
         return { id: `${encounterId}:enemy:${i + 1}`, lane: i % routeLanes.length, routeId, kind, progress: startProgress + (i % 3) * 4, hp: kind === 'brute' ? 150 : kind === 'runner' ? 75 : 100, maxHp: kind === 'brute' ? 150 : kind === 'runner' ? 75 : 100, speed: baseSpeed, baseSpeed, damage: kind === 'brute' ? 14 : kind === 'runner' ? 6 : 7, phase: enemyPhaseAt(startProgress + (i % 3) * 4), state: 'far', dead: false, reached: false, hit: false, perception: { clock: 0, targetId: null, targetAt: 0 } };
       });
       const towers = state.buildings.filter(b => (b.type === 'tower' || b.type === 'flameTower') && b.active !== false).map((tower, index) => ({ name: tower.type === 'flameTower' ? '火油塔' : `瞭望塔 ${index + 1}`, damage: tower.type === 'flameTower' ? 56 : 32, cadence: tower.type === 'flameTower' ? 1 : 2 }));
-      state.nightBattle = { instanceId: encounterId, count, defense, routeId, forecast: stableClone(forecast), foodLevel: food.level, foodScore: food.score, kills: 0, autoKills: 0, autoShots: 0, breaches: 0, campDamage: 0, finalDamage: 0, wallDamage: 0, hpBefore: state.hp, moraleBefore: state.morale, barrier: barrierMax, barrierMax, supportIds: activeSupports.map(n => n.id), supportOrders, guardCount, patrolCount, coverCount, noiseLevel, doctorInterceptUsed: false, eventShield: state.eventShield, enemies, towers, tick: 0, feed: [], npcEvents: [], npcDeaths: 0, resolved: false };
+      state.nightBattle = { instanceId: encounterId, count, defense, routeId, ...(warningPreparation.manualAvailable ? { warningPreparation: stableClone(warningPreparation) } : {}), forecast: stableClone(forecast), foodLevel: food.level, foodScore: food.score, kills: 0, autoKills: 0, autoShots: 0, breaches: 0, campDamage: 0, finalDamage: 0, wallDamage: 0, hpBefore: state.hp, moraleBefore: state.morale, barrier: barrierMax, barrierMax, supportIds: activeSupports.map(n => n.id), supportOrders, guardCount, patrolCount, coverCount, noiseLevel, doctorInterceptUsed: false, eventShield: state.eventShield, enemies, towers, tick: 0, feed: [], npcEvents: [], npcDeaths: 0, resolved: false };
       const encounterRouteText = state.nightBattle.routeId === 'relay-guided-west' ? '中继标定的分散通道' : state.nightBattle.routeId === 'eastern-breach' ? '常规接近通道' : '尚未确认的接近通道';
       $('nightTitle').textContent = state.nightBattle.routeId === 'relay-guided-west' ? '中继标定的尸潮接近' : '威胁接近'; $('nightCopy').textContent = activeSupports.length ? `尸群沿${encounterRouteText}接近。当前援防：${activeSupports.map(n => n.name).join('、')}。建筑会自动开火，你负责补刀。` : `尸群正沿${encounterRouteText}接近。建筑会自动开火，但防线不会替你处理所有威胁。`; $('nightIcon').textContent = state.nightBattle.routeId === 'relay-guided-west' ? '📡' : '⚠️';
+      if (state.nightBattle.warningPreparation) $('nightCopy').textContent += ' ' + watchpostLockedPreparationText(state.nightBattle.warningPreparation);
       $('supportDetail').textContent = `当前援防：${supportText} · 食物势力状态：${food.level}（日需 ${food.dailyNeed}）`;
       syncBattleZombies(); renderWorld(); renderNightControls(); render(); startBattleLoop();
     }
@@ -9402,7 +9579,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       state.eventShield = 0; state.eventThreat = 0;
       document.body.classList.remove('threat-map-active'); $('nightOverlay').classList.add('show', 'summary-mode');
       SessionController.freeze(state.gameOver === 'lose' ? 'LOSS' : 'REPORT');
-      recordWorldEvent('threat.resolved', { threatId: b.instanceId || null, kills: b.kills, breaches: b.breaches, damage: totalDamage, routeId: crisisRoute, finalCrisisRoute: state.campaign.finalCrisisRoute });
+      recordWorldEvent('threat.resolved', { threatId: b.instanceId || null, kills: b.kills, breaches: b.breaches, damage: totalDamage, routeId: crisisRoute, finalCrisisRoute: state.campaign.finalCrisisRoute, ...(b.warningPreparation ? { warningPreparation: stableClone(b.warningPreparation) } : {}) });
       preparePlanMeetingAtSummary();
       renderResolvedReport(projectResolvedReport(state, savedReportIdentity(state), state.gameOver === 'lose'));
       requestCheckpoint('threat-resolved');
@@ -9459,7 +9636,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       b.feed.push(`你用${weapon.name}补刀 ${targets.length} 只${localCoverCount ? ' · NPC掩护生效' : ''}`);
       syncBattleZombies(); renderWorld(); renderNightControls(); renderBattleLane(); if (!document.body.classList.contains('threat-map-active')) renderNightWorld(); renderHud(); recordWorldEvent('threat.playerAttack', { threatId: b.instanceId || null, targets: targets.map(t => t.id), weapon: state.weapon.id }); requestCheckpoint('threat-player-attack');
     }
-    function startThreatEncounter(options = {}) { if (!SessionController.acceptsInput()) return { ok: false, reason: 'session-frozen' }; if (!guardNightAction(options)) return nightActionResult(); return dispatchCommand({ type: 'threat.start', commandId: options.commandId }, () => { const result = startThreatEncounterReducer(); return { result, payload: { day: state.day, hour: state.hour, enemyCount: state.nightBattle?.enemies?.length || 0 } }; }, { eventType: 'threat.started' }); }
+    function startThreatEncounter(options = {}) { if (!SessionController.acceptsInput()) return { ok: false, reason: 'session-frozen' }; if (!guardNightAction(options)) return nightActionResult(); return dispatchCommand({ type: 'threat.start', commandId: options.commandId }, () => { const result = startThreatEncounterReducer(); return { result, payload: { day: state.day, hour: state.hour, enemyCount: state.nightBattle?.enemies?.length || 0, ...(state.nightBattle?.warningPreparation ? { warningPreparation: stableClone(state.nightBattle.warningPreparation) } : {}) } }; }, { eventType: 'threat.started' }); }
     function continueMorningReducer() {
       clearInterval(battleTimer); battleTimer = null;
       document.body.classList.remove('threat-map-active'); $('nightOverlay').classList.remove('show', 'summary-mode');
@@ -9523,6 +9700,9 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
         log(`第 ${state.day} 天，${ready ? `${ready} 块种植地可以收获。` : gardens ? '种植地又长高了一格。' : '风很冷，但火还在。'}${jobs.length ? ` ${jobs.join('，')}。` : ''}`);
       }
       SessionController.mode = 'DAY'; BootRecovery.classification = 'DAY';
+      // Closing an older report is also an entry into the current day's window.
+      // Reconcile pending content only; do not repeat the day-start autonomy hook.
+      reconcileWatchpostManualBoot();
       startWorldSimulation();
       toast(`继续世界 · 第 ${state.day} 天 ${formatTime()}`); render();
     }
@@ -9618,7 +9798,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
         SessionController.freeze(BootRecovery.classification === 'LOSS_REPORT' ? 'LOSS' : 'REPORT');
         renderResolvedReport(BootRecovery.reportView || projectResolvedReport(state, BootRecovery.identity, state.gameOver === 'lose'));
       } else {
-        SessionController.mode = 'DAY'; render(); startWorldSimulation(); requestCheckpoint('session-start');
+        SessionController.mode = 'DAY'; reconcileWatchpostManualBoot(); render(); startWorldSimulation(); requestCheckpoint('session-start');
       }
       toast(PLAYTEST_MODE ? '隔离试玩开始：不会写入正式存档' : (savedAtBoot ? '已继续存档' : '新游戏开始'));
       return { ok: true, classification: BootRecovery.classification };
@@ -9688,7 +9868,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       $('summaryDamage').textContent = damage;
       const recorded = `击杀 ${value(view.kills)} · 突破 ${value(view.breaches)} · 本轮损失 ${damage} · 自动击杀 ${value(view.autoKills)}`;
       const savedRouteText = view.routeId === 'relay-guided-west' ? '本场通道：中继标定分散通道' : view.routeId === 'eastern-breach' ? '本场通道：常规接近通道' : '本场接近通道：未记录';
-      $('summaryFeed').textContent = [recorded, savedRouteText, `当前保存值：生命 ${view.currentHp}、口粮 ${view.currentFood}、士气 ${view.currentMorale}、SAN ${value(view.currentSanity)}`, ...view.feed].join(' · ');
+      $('summaryFeed').textContent = [recorded, savedRouteText, ...(view.warningPreparation ? ['上次遭遇准备：' + watchpostLockedPreparationText(view.warningPreparation)] : []), `当前保存值：生命 ${view.currentHp}、口粮 ${view.currentFood}、士气 ${view.currentMorale}、SAN ${value(view.currentSanity)}`, ...view.feed].join(' · ');
       const milestone = !view.loss && view.date.day >= 5, relayGuided = view.routeId === 'relay-guided-west';
       $('nightTitle').textContent = view.loss ? '营地失守' : milestone ? relayGuided ? '中继标定的遭遇已结束' : '无线电重新亮起' : Number.isFinite(view.damage) ? view.damage > 0 ? '防线被咬开了！' : '平安守住这一轮' : '尸潮已结算 · 历史损失未记录';
       $('nightCopy').textContent = view.loss ? '火种熄灭了。下一局先观察自动防线的伤害数字，再决定白天建墙还是升级炮塔。重新开始会清除本局，回到新局入口。' : `${milestone ? relayGuided ? '广播中继站为本场标定了分散接近通道。营地仍在运转，下一步由你的选择决定。' : '第五天的里程碑已经完成，远处传来了回应。世界仍在运转，新的聚落和威胁会继续出现。' : ''}这份报告来自原保存结果；阅读不会再次结算，关闭后继续原世界时间。`;
@@ -10035,6 +10215,10 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       else if (action === 'npcOrder') setNpcOrder(button.dataset.npcId, button.dataset.order);
       else if (action === 'relayHandoff') handoffRelayCore(relayHandoffExpectedToken(button.dataset));
       else if (action === 'promoteHero') { const result = promoteNpcHero(button.dataset.npcId); if (result.ok) { hideContext(); render(); requestCheckpoint('npc-promotion'); } else toast(result.reason === 'command-points-empty' ? '指挥点不足，暂不能完成晋升' : '该 NPC 尚未满足晋升条件'); }
+      else if (action === 'watchpostWarning') {
+        if (state.contentState?.activeChains?.['watchpost-003']) { eventPanelSelection = 'chain:watchpost-003'; openInfoModal('events'); renderEvent(); }
+        else { openInfoModal('build'); renderWatchpostWarningPanel(); }
+      }
       else if (action === 'captureOutpost' && nearbyOutpost) captureOutpost(button.dataset.outpostId || nearbyOutpost.type);
       else if (action === 'gather') gather();
       else if (action === 'crop') plantOrHarvest(button.dataset.buildingId || '');

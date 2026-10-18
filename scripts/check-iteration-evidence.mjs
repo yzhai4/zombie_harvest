@@ -15,7 +15,8 @@ export const REQUIRED_SOURCE_ARTIFACTS = Object.freeze([
   'scripts/replay-harness.mjs', 'scripts/smoke-three-days.mjs'
 ]);
 const RUNNERS = Object.freeze({ 'event-gate-parity': 'event-gate-v1-parity', 'observer-expression': 'observer-expression-v1',
-  'gameplay-vertical-slice': 'source-gameplay-vertical-slice-v1', 'content-episode': 'source-content-episode-v1' });
+  'gameplay-vertical-slice': 'source-gameplay-vertical-slice-v1', 'content-episode': 'source-content-episode-v1',
+  'watchpost-warning-v1': 'source-watchpost-warning-v1' });
 const DEFAULT_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const record = value => value !== null && typeof value === 'object' && !Array.isArray(value);
 const sha256 = bytes => createHash('sha256').update(bytes).digest('hex');
@@ -170,9 +171,9 @@ export function validateIterationEvidence(options = {}) {
       requireCondition(show.status === 0 && sha256(show.stdout) === htmlHash, 'git commit HTML bytes do not match current HTML');
       requireCondition(git('merge-base', '--is-ancestor', commit, 'HEAD').status === 0, 'source commit is not an ancestor of HEAD');
       requireCondition(Array.isArray(m.artifacts), 'source artifact inventory missing');
-      // Reports under docs are outputs. Every declared scripts/dist dependency
+      // Reports under docs are outputs. Every declared scripts/dist/content dependency
       // must also match the source commit, including additional dependencies.
-      for (const ref of m.artifacts) if (typeof ref?.path === 'string' && /^(scripts|dist)\//.test(ref.path)) {
+      for (const ref of m.artifacts) if (typeof ref?.path === 'string' && /^(scripts|dist|content)\//.test(ref.path)) {
         artifactBytes(ref, root);
         const stored = git('show', commit + ':' + ref.path);
         requireCondition(stored.status === 0 && sha256(stored.stdout) === ref.sha256.toLowerCase(), 'git source artifact differs from commit: ' + ref.path);
