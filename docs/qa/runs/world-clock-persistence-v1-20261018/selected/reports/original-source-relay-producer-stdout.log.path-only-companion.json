@@ -1,0 +1,76 @@
+{
+  "schema": "ExplicitPathOnlyPublicCompanionV1",
+  "isOriginalNativeReport": false,
+  "originalExternalRetained": true,
+  "original": {
+    "portableName": "stdout.log",
+    "sha256": "b67f7f8d6de85cb736d93ab7218e0288b8d3ac122b522542b49ed1aae7566c87",
+    "bytes": 13125
+  },
+  "replacedMetadataFields": [
+    {
+      "field": "$.htmlPath",
+      "originalValueSha256": "2be9d3e7def5196ecc62e75adab305e7637a4ba30e0944cd677afcf61cc35cef",
+      "originalValueBytes": 135,
+      "replacement": "external-path-sha256:2be9d3e7def5196ecc62e75adab305e7637a4ba30e0944cd677afcf61cc35cef"
+    }
+  ],
+  "resultFactsUnchanged": true,
+  "report": {
+    "runner": "relay-construction-producer-trace",
+    "sourceHash": "272f2c3871708a3f00a6a509f4695ebb84a020ee87dbc97cd8af71584f97fe5c",
+    "htmlPath": "external-path-sha256:2be9d3e7def5196ecc62e75adab305e7637a4ba30e0944cd677afcf61cc35cef",
+    "ok": false,
+    "count": 9,
+    "passed": 8,
+    "checks": [
+      {
+        "name": "world.advance is the explicit CommandBus producer",
+        "ok": false,
+        "error": "The input did not match the regular expression /advanceReducer\\(amount\\)/. Input:\n\n'function advance(minutes, options = {}) {\\n' +\n  \"      if (SessionController.exiting || !SessionController.acceptsInput()) return { ok: false, reason: 'session-frozen' };\\n\" +\n  \"      if (CampRestController.ownsClock() && !CampRestController.isInternalStep(options)) cancelCampRest('player-action');\\n\" +\n  '      if (state.worldMeta.clock?.paused) return { ok: true, paused: true };\\n' +\n  '      const plan = planWorldAdvance(minutes);\\n' +\n  '      const restMeta = CampRestController.isInternalStep(options) ? { restId: options.restId, restStep: options.restStep } : {};\\n' +\n  '      const payload = plan.ok ? { minutes: plan.minutes, ...plan.metadata, ...restMeta } : { minutes: 0, ...restMeta };\\n' +\n  \"      return dispatchCommand({ type: 'world.advance', commandId: options.commandId, payload }, () => {\\n\" +\n  '        state.worldMeta.clock.scheduleMinutes += plan.scaledMinutes;\\n' +\n  '        if (state.night) state.worldMeta.clock.phaseMinutes += plan.minutes;\\n' +\n  '        if (plan.writeRemainder) state.worldMeta.clock.subMinuteRemainder = plan.remainderAfter;\\n' +\n  '        if (plan.minutes > 0) advanceReducer(plan.minutes);\\n' +\n  '        return { payload: { minutes: plan.minutes, day: state.day, hour: state.hour, minute: state.minute, ...plan.metadata, ...restMeta } };\\n' +\n  \"      }, { eventType: 'time.advanced', checkpoint: false, validate: () => plan });\\n\" +\n  '    }\\n' +\n  '\\n' +\n  '    // Ephemeral clock ownership only. The existing writer remains the sole\\n' +\n  '    // persistent authority for elapsed time and all consequences of each step.\\n' +\n  '    const CampRestController = (() => {\\n' +\n  '      let active = null, last = null, timer = null, serial = 0, stepping = false;\\n' +\n  '      let skipVisibilityCatchup = false;\\n' +\n  '      function snapshot(record = active || last) {\\n' +\n  '        return record ? { active: !!active && record === active, restId: record.restId, requested: record.requested,\\n' +\n  '          completed: record.completed, remaining: Math.max(0, record.requested - record.completed), stepIndex: record.completed,\\n' +\n  '          generation: record.generation, reason: record.reason || null, anchorId: record.anchorId,\\n' +\n  '          startMinute: record.startMinute, currentMinute: worldMinute() } :\\n' +\n  '          { active: false, restId: null, requested: 0, completed: 0, remaining: 0, stepIndex: 0,\\n' +\n  '            generation: SessionController.generation, reason: null, anchorId: null, startMinute: null, currentMinute: worldMinute() };\\n' +\n  '      }\\n' +\n  '      function status() { return Object.freeze({ ...snapshot(), last: last ? Object.freeze(snapshot(last)) : null }); }\\n' +\n  '      function pendingIdentities() {\\n' +\n  '        const keys = [];\\n' +\n  \"        if (state.event && !state.event.handled) keys.push(`event:${state.event.id}:${state.eventInstance?.instanceId || ''}:${state.event.defId || ''}`);\\n\" +\n  '        Object.entries(state.contentState?.activeChains || {}).forEach(([id, value]) => {\\n' +\n  \"          if (value?.status === 'active') keys.push(`chain:${id}:${value.instanceId || value.instanceKey || value.startedAt}`);\\n\" +\n  '        });\\n' +\n  \"        (state.npcEvents || []).filter(value => value.status === 'queued').forEach(value => keys.push(`npc:${value.id}:${value.event?.id || ''}`));\\n\" +\n  '        return keys;\\n' +\n  '      }\\n' +\n  '      function observations(anchor) {\\n' +\n  '        const near = entity => distanceBetween(entity, state.player) <= 5 || distanceBetween(entity, anchor) <= 5;\\n' +\n  '        return { hp: state.hp, population: state.npcs.filter(npcIsActive).length, eventSeq: state.worldMeta.eventSeq,\\n' +\n  '          collapse: Number(state.contentState?.meters?.campCollapse || 0),\\n' +\n  '          npcs: state.npcs.filter(npcIsCampLocal).map(npc => ({ id: npc.id, hp: npc.hp, near: near(npc) })),\\n' +\n  '          buildings: state.buildings.filter(building => Number.isFinite(building.hp)).map(building => ({ id: building.id, hp: building.hp, near: near(building) })) };\\n' +\n  '      }\\n' +\n  '      function consequence(record) {\\n' +\n  '        const before = record.observed;\\n' +\n  '        const anchor = state.buildings.find(building => building.id === record.anchorId);\\n' +\n  '        const near = entity => !!entity && (distanceBetween(entity, state.player) <= 5 || !!anchor && distanceBetween(entity, anchor) <= 5);\\n' +\n  '        const npcIds = new Set(before.npcs.filter(prior => { const npc = state.npcs.find(value => value.id === prior.id); return !npc?.garrisonedOutpostId && (prior.near || near(npc)); }).map(prior => prior.id));\\n' +\n  '        const buildingIds = new Set(before.buildings.filter(prior => prior.near || near(state.buildings.find(value => value.id === prior.id))).map(prior => prior.id));\\n' +\n  \"        const damage = (state.worldMeta.events || []).filter(event => event.seq > before.eventSeq && event.type === 'combat.damage.applied' && event.payload?.amount > 0);\\n\" +\n  \"        if (damage.some(event => event.payload.targetId === 'player-1')) return 'player-damaged';\\n\" +\n  \"        if (damage.some(event => npcIds.has(event.payload.targetId))) return 'local-npc-damaged';\\n\" +\n  \"        if (damage.some(event => buildingIds.has(event.payload.targetId))) return 'building-damaged';\\n\" +\n  \"        if (state.hp < before.hp || state.hp <= 0) return 'player-damaged';\\n\" +\n  \"        if (state.npcs.filter(npcIsActive).length < before.population) return 'population-loss';\\n\" +\n  \"        if (Number(state.contentState?.meters?.campCollapse || 0) > before.collapse) return 'camp-deteriorated';\\n\" +\n  \"        if (before.npcs.some(prior => { const npc = state.npcs.find(value => value.id === prior.id); return npcIds.has(prior.id) && (!npc || !npcIsActive(npc) || npc.hp < prior.hp); })) return 'local-npc-damaged';\\n\" +\n  \"        if (before.buildings.some(prior => { const building = state.buildings.find(value => value.id === prior.id); return buildingIds.has(prior.id) && (!building || building.hp < prior.hp); })) return 'building-damaged';\\n\" +\n  \"        if (pendingIdentities().some(key => !record.pending.has(key))) return 'new-matter';\\n\" +\n  '        return null;\\n' +\n  '      }\\n' +\n  '      function budget(count, suppliedId) {\\n' +\n  '        const wm = state.worldMeta;\\n' +\n  '        const copy = { commandSeq: wm.commandSeq, seenCommands: [...wm.seenCommands], replay: { commands: [...(wm.replay?.commands || [])] }, activeCommandId: wm.activeCommandId };\\n' +\n  '        if (suppliedId !== undefined) {\\n' +\n  \"          if (typeof suppliedId !== 'string' || !suppliedId) return { ok: false, reason: 'command-id-invalid' };\\n\" +\n  '          const match = /^cmd-([0-9]+)$/.exec(suppliedId), sequence = match ? Number(match[1]) : null;\\n' +\n  \"          if (match && /^[1-9][0-9]{15,}$/.test(match[1]) && !Number.isSafeInteger(sequence)) return { ok: false, reason: 'command-id-unsafe' };\\n\" +\n  \"          if (Number.isSafeInteger(sequence) && sequence > 0 && suppliedId === `cmd-${String(sequence).padStart(6, '0')}`) copy.commandSeq = Math.max(copy.commandSeq, sequence);\\n\" +\n  '          copy.seenCommands.push(suppliedId); count -= 1;\\n' +\n  '        }\\n' +\n  '        for (let index = 0; index < count; index += 1) {\\n' +\n  '          const allocation = CommandBus.nextAutomaticId(copy); if (!allocation.ok) return allocation;\\n' +\n  '          copy.commandSeq = allocation.commandSeq; copy.seenCommands.push(allocation.commandId);\\n' +\n  '        }\\n' +\n  '        return { ok: true };\\n' +\n  '      }\\n' +\n  '      function arm(record) {\\n' +\n  '        if (active !== record) return;\\n' +\n  '        const expected = { restId: record.restId, expectedCompleted: record.completed, generation: record.generation };\\n' +\n  '        timer = setTimeout(() => tick(expected), 200);\\n' +\n  '      }\\n' +\n  \"      function stop(reason = 'player-cancel', options = {}) {\\n\" +\n  '        if (!active) return { ok: true, duplicate: true, status: status() };\\n' +\n  '        const record = active;\\n' +\n  '        clearTimeout(timer); timer = null; active = null; record.reason = reason; last = record;\\n' +\n  '        worldLastTickAt = Date.now();\\n' +\n  \"        if (['hidden','pagehide','focus-lost'].includes(reason)) skipVisibilityCatchup = true;\\n\" +\n  '        const payload = { ...snapshot(record), active: false, completed: record.completed, reason };\\n' +\n  \"        const event = dispatchCommand({ type: 'camp.rest.stop', payload }, () => ({ payload }), { eventType: 'camp.rest.stopped', checkpoint: false });\\n\" +\n  '        // Cleanup never depends on allocating a terminal command ID.\\n' +\n  '        renderCampRestStatus();\\n' +\n  \"        requestCheckpoint('camp-rest-stopped', { immediate: true });\\n\" +\n  '        if (options.resume !== false && SessionController.isDay() && state.hp > 0 && !document.hidden) startWorldSimulation();\\n' +\n  '        return { ...event, status: status() };\\n' +\n  '      }\\n' +\n  '      function begin(minutes, options = {}) {\\n' +\n  \"        const command = { type: 'camp.rest.begin', commandId: options.commandId, payload: { minutes } };\\n\" +\n  '        const duplicate = options.commandId && (state.worldMeta.seenCommands.includes(options.commandId) || state.worldMeta.replay?.commands?.some(value => value.commandId === options.commandId));\\n' +\n  \"        if (duplicate) return dispatchCommand(command, () => ({ ok: false, reason: 'duplicate-not-executed' }), { checkpoint: false });\\n\" +\n  '        const gate = restGate(minutes); if (!gate.ok) return { ok: false, reason: gate.reason };\\n' +\n  '        const allocation = budget(3, options.commandId); if (!allocation.ok) return allocation;\\n' +\n  '        const result = dispatchCommand(command, accepted => {\\n' +\n  '          const checked = restGate(minutes); if (!checked.ok) return checked;\\n' +\n  '          const anchor = checked.anchor;\\n' +\n  '          stopWorldSimulation(); stopHeldMovement(); stopInteractionRepeat(); state.motion.input = { x: 0, y: 0 };\\n' +\n  \"          if (pointerId !== null) { try { if ($('joystick').hasPointerCapture?.(pointerId)) $('joystick').releasePointerCapture(pointerId); } catch (error) {} pointerId = null; }\\n\" +\n  '          const record = { restId: `rest-${SessionController.generation}-${++serial}-${accepted.commandId || state.worldMeta.activeCommandId}`,\\n' +\n  '            requested: minutes, completed: 0, generation: SessionController.generation, anchorId: anchor.id,\\n' +\n  '            startMinute: worldMinute(), position: { x: state.player.x, y: state.player.y }, pending: new Set(pendingIdentities()), observed: observations(anchor), reason: null };\\n' +\n  '          active = record; last = null; arm(record); renderCampRestStatus();\\n' +\n  '          return { payload: { ...snapshot(record), targetMinute: record.startMinute + minutes }, result: snapshot(record) };\\n' +\n  \"        }, { eventType: 'camp.rest.started', c\"... 9053 more characters\n"
+      },
+      {
+        "name": "advanceReducer calls relay construction between NPC routine and world combat",
+        "ok": true
+      },
+      {
+        "name": "daytime timer is the only automatic advance source",
+        "ok": true
+      },
+      {
+        "name": "construction reducer emits the three relay construction facts",
+        "ok": true
+      },
+      {
+        "name": "construction reducer has only an opt-in stage adapter producer",
+        "ok": true
+      },
+      {
+        "name": "relay.projectAdvance keeps EventDef metadata and has one gated runtime child command",
+        "ok": true
+      },
+      {
+        "name": "handoff has a separate tokenized CommandBus producer",
+        "ok": true
+      },
+      {
+        "name": "construction exposes normalization and transaction token fields",
+        "ok": true
+      },
+      {
+        "name": "construction path remains explicit about its migration boundary",
+        "ok": true
+      }
+    ],
+    "producer": {
+      "explicit": "advance -> CommandBus(world.advance) -> advanceReducer -> updateRelayProject",
+      "automaticSource": "startWorldSimulation daytime interval",
+      "constructionCommandProducer": true,
+      "constructionCommandProducerMode": "feature-gated-stage-only",
+      "registryChoiceMetadataOnly": true,
+      "productionWiring": "opt-in-stage-only",
+      "naturalGameplay": false
+    },
+    "migrationRequired": true
+  }
+}

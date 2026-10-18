@@ -1,6 +1,6 @@
 # 非默认时钟倍率与整数日历不一致
 
-状态：open，实际源码场景已复现；没有据此声称默认rate1流程或当前线上受影响。NPC动作切片只提前拒绝该动作已知不能保存的结算，没有完成全局时钟修复。
+状态：2bad候选已完成本地开发验证，精确新ref／CI与生产另核。原复现和历史状态保留下文；完整合同及证据见[时钟QA](../qa/world-clock-persistence-v1-20261018.md)。整数分钟＋持久余量、旧missing无新迁移、原Bus去重、暂停／rate／休整／原callback所有权均已接线；writer同raw结构与恢复分类均通过后才写主备。它不自动修复旧坏小数日历，也不修复独立DAY致死缺失结局。
 
 2026-10-18补充：HTML3545adb19fc8e75256013a50ce9885e051aa4170757a0c33095cc682cfcb7aa1，在完整旧writer仅预启动调整合法rate0.5后，真实Continue至DAY；调用实际已注册1200ms interval的原callback一次（方法未直接调用advance），日历360→360.5、time.advanced.minutes=0.5。正常writer返回true，实际同字节validator以calendar拒绝；第二个运行时用实际storage Continue得到RECOVERY／no-valid-primary。诊断报告SHA e29b41aabc4b6bb44a3aa2a555eb751b4553433f080fc0ae437105b5c50d4a14，实际terminal／exit0仅表示COUNTEREXAMPLE_OBSERVED，productFixAcceptance=false。此处记录本地已保留诊断摘要，完整方法／输入尚未作为仓库独立复放包发布，也无Chrome或生产证据。
 

@@ -1,4 +1,12 @@
 # 当前状态
+## 当前检查点：整数时钟与候选写前保护（2026-10-18）
+
+源码对象5a23b6951b7ff70b15d4fb5ddadad35a16b5dbb6／HTML2bad52a4、930889B，SAVE21／CONTENT3；174项scripts／dist／workflow已逐Git blob匹配，开发ref与精确新CI待发布核。非默认倍率以持久十进制余量结转，只有whole分钟驱动真实模拟；旧missing／整数轨迹、暂停、休整及夜战边界保留。writer先校同一raw及实际恢复分类，再接触旧主备，拒绝不可恢复候选。见[ADR](../decisions/ADR-20261018-whole-minute-clock-v1.md)和[QA](../qa/world-clock-persistence-v1-20261018.md)。
+
+45项既有源码／方法合同与新clock8组分别实际exit0。真实Chrome clock10／10、21个真实callback、2main；episode12／12、2main，4main均同2bad，errors0。正常非零余量已在reload前观测，实际selected与新boot同06:05／seq14／carry0.5，新正常writer06:10／seq24／carry0.5；root目视390恢复画面。当前为明确旧writer定位，不称自然三日、玩家收益或生产部署。原3545回调0/1、272f源码42/45及browser7/8原失败保留，方法修正不改绿。
+
+新实际P0为[DAY致死缺失结局](../problems/PROB-20261018-day-fatal-outcome.md)：大步真实战斗HP4→0但gameOver=null，当前writer拒写并保留旧安全档，尚未保存现场败局。先统一真实loss事实／UI／timer与可恢复存档，然后接中继当前能力／付费修复，再继续公开全链与理解pilot。长期Actor／Planning／Memory／Social／Studio、多副本／更大世界、UI素材和GameCore／引擎目标保持。下方旧‘当前／下一’均属各自历史构建。
+
 ## 当前检查点：白天攻击资格与可恢复结算（2026-10-18）
 
 源码对象bbba03a6／HTML3545adb1、926318B，SAVE21／CONTENT3；173项scripts／dist／workflow依赖已逐Git blob匹配。DAY共享真实1.15范围与live身份Gate，按钮绑定敌ID且提交重核，失败typed拒绝；F保原锁定／首项，成功记录gross5、立即命中与实际推进副作用。不可保存的小数分钟在支付前拒绝，合法倍率与原paused0分钟保留；night独立规则不改。见[合同](../decisions/ADR-20261018-player-day-attack-v1.md)与[QA](../qa/player-day-attack-v1-20261018.md)。

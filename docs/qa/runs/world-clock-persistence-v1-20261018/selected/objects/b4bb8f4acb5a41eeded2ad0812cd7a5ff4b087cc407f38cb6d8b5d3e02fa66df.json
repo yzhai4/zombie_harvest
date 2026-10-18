@@ -1,0 +1,174 @@
+{
+  "runner": "browser-world-clock-half-rate-v3",
+  "sourceHtmlSha256": "2bad52a4435ed95d1dfa6d0030dab3407f4a4cc9b0e63f07b5ff804304accc16",
+  "runnerSha256": "9ec704b1a9f84a1f6f6870c53f4f500e9afc92449247820d6a356b1e58cdd768",
+  "inputManifestSha256": "f5999102e0f1d79bd2af486b3f4a5ee9462c27a00b81666ae6a319d701799f9e",
+  "mode": "TEST-ONLY-complete-old-writer-preboot-rate-half-real-world-interval",
+  "naturalGameplay": false,
+  "humanExperience": false,
+  "publicRateControlUsed": false,
+  "stateWritesAfterBoot": false,
+  "hiddenAdvanceCalls": 0,
+  "pausedForCapture": false,
+  "timerCallbacksInvokedByMethod": 0,
+  "budget": {
+    "overallMs": 70000,
+    "sceneMs": 48000,
+    "normalWriterWaitMs": 19000,
+    "minimumHpExclusive": 35,
+    "maximumObservedHpLoss": 12,
+    "movementKeys": 0,
+    "businessControls": 0,
+    "samplingIntervalMs": 120
+  },
+  "pendingContract": {
+    "field": "subMinuteRemainder",
+    "unit": "canonical-decimal-string-minutes",
+    "range": "[0,1)",
+    "missingReadAs": "0",
+    "missingMaterializedByMethod": false
+  },
+  "checks": [
+    {
+      "name": "legacy-half-rate: actual Continue visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "legacy-half-rate: actual loader reads old missing credit0 without materialization or gifts",
+      "ok": true
+    },
+    {
+      "name": "legacy-half-rate: ten actual callbacks conserve exact half-units and normal writer saves true nonzero credit",
+      "ok": true
+    },
+    {
+      "name": "legacy-half-rate: real Continue restores the actual selected primary fraction/calendar",
+      "ok": true
+    },
+    {
+      "name": "legacy-half-rate: real nonzero normal credit survives selected primary and Continue",
+      "ok": true
+    },
+    {
+      "name": "legacy-half-rate: new real ticks exceed the new boot watermark rather than old pre-pagehide state",
+      "ok": true
+    },
+    {
+      "name": "legacy-half-rate: original full input seeded once across real reload",
+      "ok": true
+    },
+    {
+      "name": "legacy-half-rate: actual main body equals frozen HTML",
+      "ok": true
+    },
+    {
+      "name": "legacy-half-rate: actual main body equals frozen HTML",
+      "ok": true
+    },
+    {
+      "name": "legacy-half-rate: first load and real reload recorded",
+      "ok": true
+    }
+  ],
+  "errors": [],
+  "scenes": [
+    {
+      "id": "legacy-half-rate",
+      "inputSha256": "a9d5aeccc31ea0dd80d034361605cb06b4b94978471ec29a4411ff0f4d24813b",
+      "expectedInitialRemainder": "0",
+      "status": "VERIFIED",
+      "artifacts": [
+        {
+          "file": "legacy-half-rate-initial-public-ui-live.json",
+          "sha256": "389b9686e5d82541d65334884b425e708761ab1df035400adfb8bea5299b068c",
+          "bytes": 60367
+        },
+        {
+          "file": "legacy-half-rate-initial-public.png",
+          "sha256": "42748ff0af6956dac44c060d0f579e6740a3ae88b066e464af7f724708b56e47",
+          "bytes": 492427
+        },
+        {
+          "file": "legacy-half-rate-before-reload-first-observed-nonzero-normal-native.json",
+          "sha256": "5835d8c461053662f92da71d64a597058f2bec39abe4e240007375381106320e",
+          "bytes": 66682
+        },
+        {
+          "file": "legacy-half-rate-before-reload-callback-trace.json",
+          "sha256": "e67c883c6fa17e4ef6567699859a10d677dd8910d5e31363badb628e7c32b3f8",
+          "bytes": 10538
+        },
+        {
+          "file": "legacy-half-rate-before-reload-normal-native.json",
+          "sha256": "3e5b6cf68d11220f1b4395192e21062ee969eae28cb6e2a198b993681189bb6c",
+          "bytes": 79810
+        },
+        {
+          "file": "legacy-half-rate-actual-reload-selected-primary-native.json",
+          "sha256": "69e4a5cf716128559b626d2b3ad2b342da22409d5133fe0e5baef0d30d22234a",
+          "bytes": 79816
+        },
+        {
+          "file": "legacy-half-rate-reload-boot-watermark.json",
+          "sha256": "fcb063c41560bc29efce942e5f20b74a2013caf1655135a7fcbdff41bb25ccc3",
+          "bytes": 7069
+        },
+        {
+          "file": "legacy-half-rate-after-reload-first-observed-nonzero-normal-native.json",
+          "sha256": "2a54d1bfbe1d16ca85ce30142a30634218443ae615172b6a7a4386bd6ea39ac7",
+          "bytes": 82231
+        },
+        {
+          "file": "legacy-half-rate-after-reload-callback-trace.json",
+          "sha256": "61e818e06d36f54714b69e569dccb472f3a11ddb89e6a3ea4315597de1278853",
+          "bytes": 16376
+        },
+        {
+          "file": "legacy-half-rate-after-reload-normal-native.json",
+          "sha256": "04556d8965d0d5c4280f0f26b5242ae90429bf2ba6a5b6013e32897e9df29c53",
+          "bytes": 90866
+        },
+        {
+          "file": "legacy-half-rate-restored-public-390-ui-live.json",
+          "sha256": "99f98387e769c9aa39b78295d89b649d1c60e453642a7705555c9d08a7307d39",
+          "bytes": 95053
+        },
+        {
+          "file": "legacy-half-rate-restored-public-390.png",
+          "sha256": "bc64c4d8eb046f6e9fb330f844e1c1e936a8a3379d78622a1ac86c228e4de3ce",
+          "bytes": 159615
+        }
+      ],
+      "actualCallbacks": 21
+    }
+  ],
+  "documentHashes": [
+    "2bad52a4435ed95d1dfa6d0030dab3407f4a4cc9b0e63f07b5ff804304accc16",
+    "2bad52a4435ed95d1dfa6d0030dab3407f4a4cc9b0e63f07b5ff804304accc16"
+  ],
+  "documents": [
+    {
+      "scene": "legacy-half-rate",
+      "status": 200,
+      "sha256": "2bad52a4435ed95d1dfa6d0030dab3407f4a4cc9b0e63f07b5ff804304accc16",
+      "bytes": 930889
+    },
+    {
+      "scene": "legacy-half-rate",
+      "status": 200,
+      "sha256": "2bad52a4435ed95d1dfa6d0030dab3407f4a4cc9b0e63f07b5ff804304accc16",
+      "bytes": 930889
+    }
+  ],
+  "cleanup": {
+    "contextsClosed": true,
+    "browserClosed": true,
+    "serverClosed": true
+  },
+  "browserVersion": "155.0.8059.80",
+  "count": 10,
+  "passed": 10,
+  "elapsedMs": 28839,
+  "ok": true,
+  "status": "VERIFIED"
+}

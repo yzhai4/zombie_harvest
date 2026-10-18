@@ -1,0 +1,456 @@
+{
+  "start": {
+    "at": 1792280681939,
+    "public": {
+      "overlay": false,
+      "hp": 100,
+      "energy": 78,
+      "dayLabel": "第 1 天",
+      "timeLabel": "06:00 · 清晨",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "recovery": null,
+      "battle": false
+    },
+    "clock": {
+      "day": 1,
+      "hour": 6,
+      "minute": 0,
+      "totalMinutes": 360,
+      "pending": "0",
+      "pendingPresent": false,
+      "rate": 0.5,
+      "paused": false,
+      "scheduleMinutes": 0,
+      "eventSeq": 3,
+      "events": [],
+      "aiConfig": {
+        "generativeDialogue": false,
+        "observerCommentary": false,
+        "generatedWorldEvents": false,
+        "learnedWorldModel": false,
+        "policyVersion": "observer-expression-v1"
+      }
+    },
+    "ownership": {
+      "timerActive": true,
+      "lastTickAt": 1792280681694,
+      "counter": 0,
+      "epoch": 2,
+      "generation": 0,
+      "mode": "DAY",
+      "hidden": false,
+      "restOwnsClock": false
+    }
+  },
+  "trace": [
+    {
+      "at": 1792280683021,
+      "counter": 1,
+      "baseMinutes": 1,
+      "scaledMinutes": 0.5,
+      "day": 1,
+      "hour": 6,
+      "minute": 0,
+      "pending": "0.5",
+      "eventSeq": 4,
+      "expectedEffectiveHalfUnits": 721,
+      "actualTimeReceipt": {
+        "eventId": "evt-000004",
+        "seq": 4,
+        "type": "time.advanced",
+        "actorId": "system",
+        "commandId": "cmd-000001",
+        "causationId": null,
+        "tick": {
+          "world": 360,
+          "phase": 0,
+          "schedule": 0.5
+        },
+        "payload": {
+          "minutes": 0,
+          "day": 1,
+          "hour": 6,
+          "minute": 0,
+          "clockPolicy": "whole-minute-v1",
+          "scaledMinutes": 0.5,
+          "remainderBefore": "0",
+          "remainderAfter": "0.5"
+        }
+      }
+    },
+    {
+      "at": 1792280684137,
+      "counter": 2,
+      "baseMinutes": 1,
+      "scaledMinutes": 0.5,
+      "day": 1,
+      "hour": 6,
+      "minute": 1,
+      "pending": "0",
+      "eventSeq": 5,
+      "expectedEffectiveHalfUnits": 722,
+      "actualTimeReceipt": {
+        "eventId": "evt-000005",
+        "seq": 5,
+        "type": "time.advanced",
+        "actorId": "system",
+        "commandId": "cmd-000002",
+        "causationId": null,
+        "tick": {
+          "world": 361,
+          "phase": 0,
+          "schedule": 1
+        },
+        "payload": {
+          "minutes": 1,
+          "day": 1,
+          "hour": 6,
+          "minute": 1,
+          "clockPolicy": "whole-minute-v1",
+          "scaledMinutes": 0.5,
+          "remainderBefore": "0.5",
+          "remainderAfter": "0"
+        }
+      }
+    },
+    {
+      "at": 1792280685359,
+      "counter": 3,
+      "baseMinutes": 1,
+      "scaledMinutes": 0.5,
+      "day": 1,
+      "hour": 6,
+      "minute": 1,
+      "pending": "0.5",
+      "eventSeq": 6,
+      "expectedEffectiveHalfUnits": 723,
+      "actualTimeReceipt": {
+        "eventId": "evt-000006",
+        "seq": 6,
+        "type": "time.advanced",
+        "actorId": "system",
+        "commandId": "cmd-000003",
+        "causationId": null,
+        "tick": {
+          "world": 361,
+          "phase": 0,
+          "schedule": 1.5
+        },
+        "payload": {
+          "minutes": 0,
+          "day": 1,
+          "hour": 6,
+          "minute": 1,
+          "clockPolicy": "whole-minute-v1",
+          "scaledMinutes": 0.5,
+          "remainderBefore": "0",
+          "remainderAfter": "0.5"
+        }
+      }
+    },
+    {
+      "at": 1792280686571,
+      "counter": 4,
+      "baseMinutes": 1,
+      "scaledMinutes": 0.5,
+      "day": 1,
+      "hour": 6,
+      "minute": 2,
+      "pending": "0",
+      "eventSeq": 7,
+      "expectedEffectiveHalfUnits": 724,
+      "actualTimeReceipt": {
+        "eventId": "evt-000007",
+        "seq": 7,
+        "type": "time.advanced",
+        "actorId": "system",
+        "commandId": "cmd-000004",
+        "causationId": null,
+        "tick": {
+          "world": 362,
+          "phase": 0,
+          "schedule": 2
+        },
+        "payload": {
+          "minutes": 1,
+          "day": 1,
+          "hour": 6,
+          "minute": 2,
+          "clockPolicy": "whole-minute-v1",
+          "scaledMinutes": 0.5,
+          "remainderBefore": "0.5",
+          "remainderAfter": "0"
+        }
+      }
+    },
+    {
+      "at": 1792280687817,
+      "counter": 5,
+      "baseMinutes": 1,
+      "scaledMinutes": 0.5,
+      "day": 1,
+      "hour": 6,
+      "minute": 2,
+      "pending": "0.5",
+      "eventSeq": 8,
+      "expectedEffectiveHalfUnits": 725,
+      "actualTimeReceipt": {
+        "eventId": "evt-000008",
+        "seq": 8,
+        "type": "time.advanced",
+        "actorId": "system",
+        "commandId": "cmd-000005",
+        "causationId": null,
+        "tick": {
+          "world": 362,
+          "phase": 0,
+          "schedule": 2.5
+        },
+        "payload": {
+          "minutes": 0,
+          "day": 1,
+          "hour": 6,
+          "minute": 2,
+          "clockPolicy": "whole-minute-v1",
+          "scaledMinutes": 0.5,
+          "remainderBefore": "0",
+          "remainderAfter": "0.5"
+        }
+      }
+    },
+    {
+      "at": 1792280688949,
+      "counter": 6,
+      "baseMinutes": 1,
+      "scaledMinutes": 0.5,
+      "day": 1,
+      "hour": 6,
+      "minute": 3,
+      "pending": "0",
+      "eventSeq": 9,
+      "expectedEffectiveHalfUnits": 726,
+      "actualTimeReceipt": {
+        "eventId": "evt-000009",
+        "seq": 9,
+        "type": "time.advanced",
+        "actorId": "system",
+        "commandId": "cmd-000006",
+        "causationId": null,
+        "tick": {
+          "world": 363,
+          "phase": 0,
+          "schedule": 3
+        },
+        "payload": {
+          "minutes": 1,
+          "day": 1,
+          "hour": 6,
+          "minute": 3,
+          "clockPolicy": "whole-minute-v1",
+          "scaledMinutes": 0.5,
+          "remainderBefore": "0.5",
+          "remainderAfter": "0"
+        }
+      }
+    },
+    {
+      "at": 1792280690239,
+      "counter": 7,
+      "baseMinutes": 1,
+      "scaledMinutes": 0.5,
+      "day": 1,
+      "hour": 6,
+      "minute": 3,
+      "pending": "0.5",
+      "eventSeq": 10,
+      "expectedEffectiveHalfUnits": 727,
+      "actualTimeReceipt": {
+        "eventId": "evt-000010",
+        "seq": 10,
+        "type": "time.advanced",
+        "actorId": "system",
+        "commandId": "cmd-000007",
+        "causationId": null,
+        "tick": {
+          "world": 363,
+          "phase": 0,
+          "schedule": 3.5
+        },
+        "payload": {
+          "minutes": 0,
+          "day": 1,
+          "hour": 6,
+          "minute": 3,
+          "clockPolicy": "whole-minute-v1",
+          "scaledMinutes": 0.5,
+          "remainderBefore": "0",
+          "remainderAfter": "0.5"
+        }
+      }
+    },
+    {
+      "at": 1792280691353,
+      "counter": 8,
+      "baseMinutes": 1,
+      "scaledMinutes": 0.5,
+      "day": 1,
+      "hour": 6,
+      "minute": 4,
+      "pending": "0",
+      "eventSeq": 11,
+      "expectedEffectiveHalfUnits": 728,
+      "actualTimeReceipt": {
+        "eventId": "evt-000011",
+        "seq": 11,
+        "type": "time.advanced",
+        "actorId": "system",
+        "commandId": "cmd-000008",
+        "causationId": null,
+        "tick": {
+          "world": 364,
+          "phase": 0,
+          "schedule": 4
+        },
+        "payload": {
+          "minutes": 1,
+          "day": 1,
+          "hour": 6,
+          "minute": 4,
+          "clockPolicy": "whole-minute-v1",
+          "scaledMinutes": 0.5,
+          "remainderBefore": "0.5",
+          "remainderAfter": "0"
+        }
+      }
+    },
+    {
+      "at": 1792280692595,
+      "counter": 9,
+      "baseMinutes": 1,
+      "scaledMinutes": 0.5,
+      "day": 1,
+      "hour": 6,
+      "minute": 4,
+      "pending": "0.5",
+      "eventSeq": 12,
+      "expectedEffectiveHalfUnits": 729,
+      "actualTimeReceipt": {
+        "eventId": "evt-000012",
+        "seq": 12,
+        "type": "time.advanced",
+        "actorId": "system",
+        "commandId": "cmd-000009",
+        "causationId": null,
+        "tick": {
+          "world": 364,
+          "phase": 0,
+          "schedule": 4.5
+        },
+        "payload": {
+          "minutes": 0,
+          "day": 1,
+          "hour": 6,
+          "minute": 4,
+          "clockPolicy": "whole-minute-v1",
+          "scaledMinutes": 0.5,
+          "remainderBefore": "0",
+          "remainderAfter": "0.5"
+        }
+      }
+    },
+    {
+      "at": 1792280693719,
+      "counter": 10,
+      "baseMinutes": 1,
+      "scaledMinutes": 0.5,
+      "day": 1,
+      "hour": 6,
+      "minute": 5,
+      "pending": "0",
+      "eventSeq": 13,
+      "expectedEffectiveHalfUnits": 730,
+      "actualTimeReceipt": {
+        "eventId": "evt-000013",
+        "seq": 13,
+        "type": "time.advanced",
+        "actorId": "system",
+        "commandId": "cmd-000010",
+        "causationId": null,
+        "tick": {
+          "world": 365,
+          "phase": 0,
+          "schedule": 5
+        },
+        "payload": {
+          "minutes": 1,
+          "day": 1,
+          "hour": 6,
+          "minute": 5,
+          "clockPolicy": "whole-minute-v1",
+          "scaledMinutes": 0.5,
+          "remainderBefore": "0.5",
+          "remainderAfter": "0"
+        }
+      }
+    },
+    {
+      "at": 1792280694954,
+      "counter": 11,
+      "baseMinutes": 1,
+      "scaledMinutes": 0.5,
+      "day": 1,
+      "hour": 6,
+      "minute": 5,
+      "pending": "0.5",
+      "eventSeq": 14,
+      "expectedEffectiveHalfUnits": 731,
+      "actualTimeReceipt": {
+        "eventId": "evt-000014",
+        "seq": 14,
+        "type": "time.advanced",
+        "actorId": "system",
+        "commandId": "cmd-000011",
+        "causationId": null,
+        "tick": {
+          "world": 365,
+          "phase": 0,
+          "schedule": 5.5
+        },
+        "payload": {
+          "minutes": 0,
+          "day": 1,
+          "hour": 6,
+          "minute": 5,
+          "clockPolicy": "whole-minute-v1",
+          "scaledMinutes": 0.5,
+          "remainderBefore": "0",
+          "remainderAfter": "0.5"
+        }
+      }
+    }
+  ],
+  "callbacks": 11,
+  "firstObservedNonzero": {
+    "reason": "world-subminute",
+    "savedAt": 360,
+    "eventSeq": 4,
+    "day": 1,
+    "hour": 6,
+    "minute": 0,
+    "remainder": "0.5"
+  },
+  "normalWriter": {
+    "reason": "world-subminute",
+    "savedAt": 365,
+    "eventSeq": 14,
+    "calendar": {
+      "day": 1,
+      "hour": 6,
+      "minute": 5
+    },
+    "pending": "0.5"
+  }
+}

@@ -1,4 +1,10 @@
 # 未关闭风险
+## 当前优先级：白天致死结局，其后中继维护（2026-10-18）
+
+[时钟与writer](../qa/world-clock-persistence-v1-20261018.md)在2bad已完成列明本地源码与Chrome验证；精确新head／CI与生产另核。余量和同raw恢复分类检查不构成自动抢救旧坏档或全局事务回滚。
+
+[白天致死结局](../problems/PROB-20261018-day-fatal-outcome.md)仍open：实际DAY combat使HP0但无loss记录。候选已拒绝覆盖安全档，但现场失守／重开／可恢复败局尚缺。下一优先统一死亡权威与最终账本，不用补HP／改validator掩盖；之后继续中继真实受损能力／修复、公开主线及既有理解pilot。原三日大步只验证日历和拒写，恢复的是旧checkpoint，不是第三天生存或败局。
+
 ## 当前优先级：全局小数时钟存档，其后中继损毁（2026-10-18）
 
 [小数时钟](../problems/PROB-20261017-fractional-clock-calendar.md)在3545原自动回调已实际复现：合法rate0.5使日历360→360.5，正常save返回true但同字节validator以calendar拒绝，第二次Continue进入RECOVERY／no-valid-primary。诊断exit0只表示反例被观察，不是修复通过，也不证明默认rate1或全部生产档损坏。优先实现完整候选写前校验及持久余量合同；当前未改运行时，新checker／Chrome方法仅准备，旧CI302不能关闭该风险。

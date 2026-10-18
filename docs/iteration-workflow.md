@@ -2,6 +2,8 @@
 
 再次收到调研材料先核原件与归档字节；同一SHA只对账当前实现、反例和下一切片，不重复建综述、框架或结果。新实证、真实消费者缺口或目标变化才触发实质计划／Skill修订；原引用不可解析和未随附的附件保持未核，不推定已读。
 
+全局倍率／writer按[整数时钟合同](decisions/ADR-20261018-whole-minute-clock-v1.md)核原callback、持久credit和真实恢复分类。结构合法不等于loader可继续；拒写保留旧checkpoint须明确其原日历，不能称已保存当前失败结局。正常writer与当前live使用同一水位，旧trace匹配不证明当前已存；pagehide实际selected另核，不能替代reload前正常写入的观察。
+
 付费动作的可恢复性以真实writer、validator和loader共同验证：全局合法倍率仍可能让某个动作产生不合法日历，支付前按本次实际推进量检查，不套其它动作的步长。暂停与倍率的旧语义分别列明；成功写入不等于能够恢复。实际反例与局部处理见[DAY攻击合同](decisions/ADR-20261018-player-day-attack-v1.md)。
 
 跨helper保存可变业务引用时，核对规范化后写入的仍是权威容器；实际终态、建筑能力、预警与一次收益必须一致。已接线legacy路径须独立走到完工／再次调用／保存继续，不能用opt-in阶段合同替代。只传消费者分钟的VM检查不称世界时钟或自然游玩；字面源码trace失败与真实行为失败分列。具体教训见[中继ADR](decisions/ADR-20261018-relay-effective-role-v1.md)，不据此限制未来不可变GameCore的合法设计。
