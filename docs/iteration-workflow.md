@@ -10,7 +10,7 @@
 
 跨helper保存可变业务引用时，核对规范化后写入的仍是权威容器；实际终态、建筑能力、预警与一次收益必须一致。已接线legacy路径须独立走到完工／再次调用／保存继续，不能用opt-in阶段合同替代。只传消费者分钟的VM检查不称世界时钟或自然游玩；字面源码trace失败与真实行为失败分列。具体教训见[中继ADR](decisions/ADR-20261018-relay-effective-role-v1.md)，不据此限制未来不可变GameCore的合法设计。
 
-公开工程pilot／自然路线按[行动与采样](../.codex/skills/zombie-harvest-iteration/references/public-pilot-accounting.md)校对真实父业务命令和成本；地图“选择”可能已经执行，自动advance子命令不另算决策。未暂停阅读／截图／RPC计入世界暴露，逐步核即时HP、危险和位移再继续，不在被阻挡方向盲重复。实时UI、权威采样、最后耐久writer各标时间水位；死亡画面不等于死亡已写盘或刷新验收。受控Continue续跑把实际回退与已花成本带入helper预算，不重置为fresh；旧公开记忆与本次boot现场分列。原报告方法漏计只加独立更正，不能覆盖原失败；没有运行时反例就先修方法。例见[中继pilot复盘](qa/relay-pilot-20261018.md)。
+公开工程pilot／自然路线与Continue恢复取证按[行动与采样](../.codex/skills/zombie-harvest-iteration/references/public-pilot-accounting.md)核对父业务、同生命周期HP、实际选中存档的恢复范围和整段观察费用；地图“选择”可能已经执行，自动advance子命令不另算决策。未暂停阅读／截图／RPC计入世界暴露，逐步核即时HP、危险和位移再继续，不在被阻挡方向盲重复。实时UI、权威采样、最后耐久writer各标时间水位；死亡画面不等于死亡已写盘或刷新验收。受控Continue续跑把实际回退与已花成本带入helper预算，不重置为fresh；旧公开记忆与本次boot现场分列。原报告方法漏计只加独立更正，不能覆盖原失败；没有运行时反例就先修方法。例见[中继pilot复盘](qa/relay-pilot-20261018.md)。
 
 NPC持续安排按[恢复／工作合同](decisions/ADR-20261018-npc-rest-work-v1.md)逐consumer核生理、日程、行为、真实目标、工作credit与SAN。计划退出和实际结算要消费同一本段事实，避免末端清状态后错误按工作结算，或整段休整后又补整段工时。成本估算、近完成定位、完整恢复与真人理解分别报告；原敌情／需求中断不能通过测试提速、补粮或删敌改成成功。具体规则只在policy／ADR维护，Skill保留[可复用执行检查](../.codex/skills/zombie-harvest-iteration/references/npc-routine-execution.md)。
 

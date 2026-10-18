@@ -1,11 +1,13 @@
 # 深度调研落地计划
-## 当前执行增量：独立岗亭预警与公开失败诊断（2026-10-18）
+## 当前执行增量：公开反制与下一事实消费者（2026-10-18）
 
-报告原文仍同59069B／SHA940efac9，不增加研究结果。[岗亭manual](../qa/watchpost-manual-v1-20261018.md)承接既有L003承诺：既有健康实驻守、真实每日粮食成本、确认和下一场起始输入形成最小因果；不借新配置生成个人经历，不增加隐藏知识或LLM自由写入。过载因新增成本／离散压力后果尚不足延期。
+原文59069B／SHA940efac9已再核同归档，不增加研究证据。[岗亭manual](../qa/watchpost-manual-v1-20261018.md)已接真实驻守、有限维护与弱预警，开发基线35d／CI308已实际同head成功，生产未部署。
 
-独立source／受控Chrome与正常writer只证明该首片消费者。旧4f[A01／A02](../qa/public-relay-maintenance-pilot-20261018.md)仍真实停止，manual不解决DAY追踪或休整。下一固定writer和源码，区分真实追击、公开退避与方法预算，再继续探索→交付→有限工程→预警→遭遇→恢复的完整公开链和既有理解pilot；先正常／缺粮／缺岗单因素再组合，不用自动指标代填真人收益。
+[A03与D0/D1](../qa/pursuit-counterplay-20261018.md)已实际收口：公开休整24/30后追踪中断；同初态exact诊断表明固定退避可暂时改变Gate，视觉与legacy7格追猎分路，不能包装听觉／嗅觉或判定永久软锁。A03仅水位／效果／新tick恢复已验，selected原raw缺失，不改称精确原字节恢复。VM诊断不增加原49源码合同／84受控Chrome检查。
 
-规则事实归exact simulator，普通NPC规则规划、硬Gate／软低频LLM及AI OFF不变；learned WM仍须有收益／成本缺口。完整Actor／Planning／Memory／Social、Studio、多副本／大世界、特殊角色连续性、UI素材、GameCore／引擎与P0–P6继续开放。
+下一复用已存在的粗危险、完成分钟和工程批次UI继续有限公开反制／完整中继与既有理解pilot，不为凑切片重复加提示。依据真实反馈接一名NPC有来源的后续选择，再比较同权限模板与低频受约束表达。详细入口、六视角和验收见[下一轮交付](next-iteration-20261018.md)。正常／缺粮／缺岗先单因素后组合；工程指标不代填真人收益。
+
+事实归exact simulator，普通NPC规则规划、硬Gate／软policy、AI OFF及确定性fallback保持；WM须有实际收益／成本缺口。完整Actor／Planning／Memory／Social、Studio、最终尸潮、特殊角色连续性、UI素材、大世界／多副本、GameCore／引擎与P0–P6继续开放。
 
 ## 历史执行增量：从维护规则返回可玩主线（2026-10-18）
 

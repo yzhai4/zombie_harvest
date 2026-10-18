@@ -1,11 +1,13 @@
 # 当前状态
-## 当前检查点：岗亭人工哨报首片（2026-10-18）
+## 当前检查点：岗亭开发验收与公开反制诊断（2026-10-18）
 
-源码`29ca5f960508bd278b4e5486c1bf5d9123bd584b`／HTMLad7627a9，984373B，SAVE21／CONTENT3。已合法接管的同一健康驻守者与真实维护提供弱于中继的独立预警；once身份、旧REPORT关闭与正常保存已接实际入口。完整范围见[QA](../qa/watchpost-manual-v1-20261018.md)。开发ref／精确CI按PR #4的实际Checks核对，main未合并、生产未部署。
+开发head `35d267513c57dcd6e686c666ef6c96f075ffb694`／源码 `29ca5f960508bd278b4e5486c1bf5d9123bd584b`，HTMLad7627a9、984373B、SAVE21／CONTENT3。[CI308](https://github.com/yzhai4/zombie_harvest/actions/runs/39096232256)已核同head completed／success，48job steps成功、freshness21／21且源提交核验verified。后续文档head须另核精确CI；main未合并、生产未部署。
 
-最终既有48合同全部actualexit0，新岗亭8组独立合同另列，合计49个不同源码合同；原窄恢复2例与CI等价8组重叠。Chrome72＋关联episode12共84项、9次实际main同ad762；原失败保留，不称自然主线、真人收益或三日通过。
+[岗亭manual](../qa/watchpost-manual-v1-20261018.md)的实际驻守／每日成本、once身份、旧REPORT关闭、预警／遭遇锁定及正常保存已接线。49个不同源码合同和84项受控浏览器检查／9次main均按原范围验收；不称自然主线或真人收益。
 
-前轮4f公开A01／A02均exit1，A02实际交付后仍被追踪、材料脉冲尚未到期；不是新岗亭通过或已确认软锁。下一先做固定writer的危险／退避／工时诊断，再按公开有限预算继续完整主线和已有理解pilot。过载延期；完整Actor／Planning／Memory／Social、最终尸潮、Studio、特殊角色连续性、大世界／多副本、UI素材与GameCore／引擎及P0–P6保持开放。
+[新A03](../qa/pursuit-counterplay-20261018.md)保持exit1：公开退避后30分钟请求只完成24，追踪中断；无新增伤害、有限筹料有成本、未完工。恢复只证同水位／已测效果／新tick，selected原raw未捕获。D0／D1各实际exit0／6方法与恢复合同，原位与固定移动12分钟对照区分视觉与legacy距离追猎，支持暂时反制，不确认永久追踪／软锁；不增加49／84计数。
+
+原报告同59069B／SHA940efac9；下一复用现有UI做有限公开反制／完整中继和既有理解pilot，再选下一个NPC事实后果消费者，不重复加同义说明。见[下一轮交付](../research/next-iteration-20261018.md)。过载延期；完整14天／最终尸潮、Actor／Planning／Memory／Social、Studio、特殊角色连续性、大世界／多副本、UI素材、GameCore／引擎与P0–P6保持开放。
 
 ## 历史检查点：中继物理能力与真实维修（2026-10-18）
 
