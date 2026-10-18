@@ -85,7 +85,7 @@ node scripts/replay-harness.mjs --self-test
 
 显式commandId/嵌套命令变更还运行`check-command-id-reservation.mjs`，维修变更运行`check-repair-proof.mjs`，使用显式HTML、真实IO-adapter、全新私有out及完整旧writer fixture。canonical只按当前formatter往返一致的正safe数字认定；opaque旧字符串保持，duplicate先验历史而不再次改水位，自动编号避开seen/replay/active父ID。MAX_SAFE耗尽必须在支付前核必要子命令预算，不能另建动作专属编号器或把未知nested异常说成已获全局回滚。
 
-成功动作proof分开gross支付、同实体HP/产出、实际时间推进与推进副作用，记录真实nested command/event/causation；旧空payload不追溯补人物功绩。 业务成功event与父command的actor均实际核对；不同容器的默认值不可推定等价，时钟system事件经causation关联业务。保留窗口不是永久NPC成功账本，新个人链消费者仍需独立状态/迁移合同。拒绝必须不发成功receipt、任务功绩或奖励，不能只判断wrapper返回存在。
+成功动作proof分开gross支付、同实体HP/产出、实际时间推进与推进副作用，记录真实nested command/event/causation；旧空payload不追溯补人物功绩。 业务成功event与父command的actor均实际核对；不同容器的默认值不可推定等价，时钟system事件经causation关联业务。跨链复用预警等收据时，核defId／instanceId／effects、实际来源及latestEvent／CAS消费者；新增来源不借记另一链上线，真实旧链进入／退出仍保其身份。保留的legacy效果描述单列范围，不宣布全量规范化，见[岗亭合同](../../../docs/decisions/ADR-20261018-watchpost-manual-v1.md)。保留窗口不是永久NPC成功账本，新个人链消费者仍需独立状态/迁移合同。拒绝必须不发成功receipt、任务功绩或奖励，不能只判断wrapper返回存在。
 
 全局倍率先读[时钟合同](../../../docs/decisions/ADR-20261018-whole-minute-clock-v1.md)，用原已注册callback验证credit／whole／保存与Continue；局部付费预检不能代称自动timer已修。writer必须核同一raw及真实恢复分类，结构validator通过仍可能无法Continue；严格区分拒写保留旧checkpoint与保存当前结局，不补造loss或回填时间。
 

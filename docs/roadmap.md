@@ -1,8 +1,12 @@
 # 尸潮农场开发路线
+## 当前出口：独立岗亭预警后的公开链（2026-10-18）
+
+当前冻结来源与已完成范围见[岗亭QA](qa/watchpost-manual-v1-20261018.md)及[当前状态](memory/current-state.md)，不从下方历史版本移用通过。新manual只覆盖同一健康实驻守与维护→当前预警→新遭遇起始输入。下一诊断旧公开pilot危险停止，再继续完整中继与理解pilot；自然三日、真人体验、过载、最终尸潮、完整Actor／Planning／Memory／Social、Studio／大世界／多副本、UI素材与GameCore／引擎仍开放。
+
 
 当前优先级由[调研落地计划](research/research-adoption-plan-20261017.md)统一：P0–P6是能力依赖，v82–v90是交付包；下方历史“P1可重复竖切片”属于旧命名，不能当成报告P1 Scenario已完成。当前地图/人口只限定首副本验证，后续规模和跨副本连续世界目标保留。
 
-## 当前出口与下一闸门（2026-10-17）
+## 历史出口与下一闸门（2026-10-17）
 
 最新开发HTML32f911f6／源码25d315ae已实现真实营地等候与被动恢复分片修复：source74/74、原30+补充6条命令exit0，真实Chrome六场93/93；hidden尝试unavailable，原失败保留。驻守37和episode12已在同新构建重跑。下一P0是自然混合路线及断粮选择激励，随后真实Scenario boot与actor知识边界；生产尚未部署。见[QA](qa/camp-rest-20261017.md)。
 

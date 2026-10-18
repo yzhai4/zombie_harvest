@@ -1,0 +1,207 @@
+{
+  "schema": "ExplicitPathOnlyPublicCompanionV1",
+  "isOriginalNativeReport": false,
+  "originalExternalRetained": true,
+  "original": {
+    "portableName": "episode-completion-ad762.json",
+    "sha256": "1b03a02f3cc15cb86b857bfdee7159a6dea3c3921695b917f164b91073b896dc",
+    "bytes": 6404
+  },
+  "replacedMetadataFields": [
+    {
+      "field": "$.nativeReport.path",
+      "originalValueSha256": "8afcaf2a9d98f5d3010bdcfa1decf4d25df9d157c237e2cbea8770f76e87c655",
+      "originalValueBytes": 135,
+      "replacement": "external-path-sha256:8afcaf2a9d98f5d3010bdcfa1decf4d25df9d157c237e2cbea8770f76e87c655"
+    },
+    {
+      "field": "$.actualExecution.command[0]",
+      "originalValueSha256": "c1f2d55c025bb763cd04596f58dd543bad16ef531c8148937241585c01b34a28",
+      "originalValueBytes": 88,
+      "replacement": "external-path-sha256:c1f2d55c025bb763cd04596f58dd543bad16ef531c8148937241585c01b34a28"
+    },
+    {
+      "field": "$.actualExecution.command[1]",
+      "originalValueSha256": "956cafdfbd3fc2e162ad9b9ad941a7a8dfd91f2db36b0d6c4c384afd89d343fe",
+      "originalValueBytes": 158,
+      "replacement": "external-path-sha256:956cafdfbd3fc2e162ad9b9ad941a7a8dfd91f2db36b0d6c4c384afd89d343fe"
+    },
+    {
+      "field": "$.actualExecution.command[3]",
+      "originalValueSha256": "1ffef3e99489739870e7474c1b15fd6528e7c57154db830cf6dba7a23e33c87a",
+      "originalValueBytes": 123,
+      "replacement": "external-path-sha256:1ffef3e99489739870e7474c1b15fd6528e7c57154db830cf6dba7a23e33c87a"
+    },
+    {
+      "field": "$.prior4fOriginalReport.path",
+      "originalValueSha256": "62e3fa97c8de12f6b14108d3fae3c2befe5faec20545d983a95de967073e4228",
+      "originalValueBytes": 121,
+      "replacement": "external-path-sha256:62e3fa97c8de12f6b14108d3fae3c2befe5faec20545d983a95de967073e4228"
+    }
+  ],
+  "resultFactsUnchanged": true,
+  "report": {
+    "schema": "EpisodeBrowserAd762RebindReceiptV1",
+    "observedAt": "2026-10-18T03:41:15.095016+00:00",
+    "nativeReport": {
+      "path": "external-path-sha256:8afcaf2a9d98f5d3010bdcfa1decf4d25df9d157c237e2cbea8770f76e87c655",
+      "sha256": "97a08cf6deb6cbf1a9e1f3ba21a8c9c0c8d77cb639ff720d0345644876ac95c8",
+      "bytes": 1477,
+      "passed": 12,
+      "count": 12,
+      "errors": [],
+      "documentHashes": [
+        "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a",
+        "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+      ]
+    },
+    "actualExecution": {
+      "runner": "browser-content-episode-execution-v1",
+      "status": "TERMINAL",
+      "startedAt": "2026-10-18T03:40:29.567533+00:00",
+      "command": [
+        "external-path-sha256:c1f2d55c025bb763cd04596f58dd543bad16ef531c8148937241585c01b34a28",
+        "external-path-sha256:956cafdfbd3fc2e162ad9b9ad941a7a8dfd91f2db36b0d6c4c384afd89d343fe",
+        "--out",
+        "external-path-sha256:1ffef3e99489739870e7474c1b15fd6528e7c57154db830cf6dba7a23e33c87a"
+      ],
+      "inputs": [
+        {
+          "path": "dist/index.html",
+          "bytes": 984373,
+          "sha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "path": "dist/actor-sprites.js",
+          "bytes": 19246,
+          "sha256": "257f4b38760813c21c723bbb9f934f1198e742fd1223db48705f34787e0f71b7"
+        },
+        {
+          "path": "scripts/browser-content-episode-v1.mjs",
+          "bytes": 6475,
+          "sha256": "a91f58668aae7f0d5e2132fc5712bb4fca1f30cee403cadf7949bccea20f5be5"
+        },
+        {
+          "path": "scripts/lib/source-runtime-fixture.mjs",
+          "bytes": 2959,
+          "sha256": "e9872eeba85d49019d1bd806f3dd18357a5abc8f2f92922922f6a5324ec220dc"
+        },
+        {
+          "path": "scripts/fixtures/content-episode-v1/save21-pre-identity-active.json",
+          "bytes": 54441,
+          "sha256": "eb3b163e5b55e17f356b3ec95a4f9e5e55147bb78b8250ba0fac6ec3b6a0096d"
+        },
+        {
+          "path": "scripts/check-report-recovery.mjs",
+          "bytes": 51172,
+          "sha256": "6e0da555742e930b8bf926eeec0db0ee22f17240a4fa305978841f8ba862c0a3"
+        }
+      ],
+      "naturalGameplay": false,
+      "browserChannel": "chrome",
+      "chromeProgramFilesEnvironmentSet": true,
+      "sourceHtmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a",
+      "exitCode": 0,
+      "finishedAt": "2026-10-18T03:40:35.056756+00:00",
+      "unchanged": true,
+      "reportSha256": "97a08cf6deb6cbf1a9e1f3ba21a8c9c0c8d77cb639ff720d0345644876ac95c8"
+    },
+    "inputsAfterRead": [
+      {
+        "path": "dist/index.html",
+        "bytes": 984373,
+        "sha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+      },
+      {
+        "path": "dist/actor-sprites.js",
+        "bytes": 19246,
+        "sha256": "257f4b38760813c21c723bbb9f934f1198e742fd1223db48705f34787e0f71b7"
+      },
+      {
+        "path": "scripts/browser-content-episode-v1.mjs",
+        "bytes": 6475,
+        "sha256": "a91f58668aae7f0d5e2132fc5712bb4fca1f30cee403cadf7949bccea20f5be5"
+      },
+      {
+        "path": "scripts/lib/source-runtime-fixture.mjs",
+        "bytes": 2959,
+        "sha256": "e9872eeba85d49019d1bd806f3dd18357a5abc8f2f92922922f6a5324ec220dc"
+      },
+      {
+        "path": "scripts/fixtures/content-episode-v1/save21-pre-identity-active.json",
+        "bytes": 54441,
+        "sha256": "eb3b163e5b55e17f356b3ec95a4f9e5e55147bb78b8250ba0fac6ec3b6a0096d"
+      },
+      {
+        "path": "scripts/check-report-recovery.mjs",
+        "bytes": 51172,
+        "sha256": "6e0da555742e930b8bf926eeec0db0ee22f17240a4fa305978841f8ba862c0a3"
+      }
+    ],
+    "beforeAfterAllEqual": true,
+    "originalRunnerSha256": "a91f58668aae7f0d5e2132fc5712bb4fca1f30cee403cadf7949bccea20f5be5",
+    "originalLauncherSha256": "0314a35614448bd1487dafd1291d6731a2700cc9ff57235bd2279ec1d52a8041",
+    "fixedOriginalInputSha256": "eb3b163e5b55e17f356b3ec95a4f9e5e55147bb78b8250ba0fac6ec3b6a0096d",
+    "prior4fOriginalReport": {
+      "path": "external-path-sha256:62e3fa97c8de12f6b14108d3fae3c2befe5faec20545d983a95de967073e4228",
+      "sha256": "408189b79c67dde7bc35c73bb8d60f0f5c8d7fc8defe95970a2a9769a55805eb",
+      "unchanged": true
+    },
+    "cleanup": {
+      "nativeBooleanTelemetry": false,
+      "evidence": "Unchanged runner success path awaits context.close, browser.close and server.close; all12/errors[] and actual Node/launcher exit0. Original report has no independent cleanup boolean fields; none invented.",
+      "runnerSuccessfulPathCompleted": true,
+      "actualProcessTerminal": true
+    },
+    "artifactRefs": [
+      {
+        "file": "execution.json",
+        "bytes": 2036,
+        "sha256": "8665170472d11ed34f11ba875f779d3ca39f7ea1289beef77f90e626c214e88d"
+      },
+      {
+        "file": "launcher-executed.py",
+        "bytes": 3042,
+        "sha256": "0314a35614448bd1487dafd1291d6731a2700cc9ff57235bd2279ec1d52a8041"
+      },
+      {
+        "file": "report.json",
+        "bytes": 1477,
+        "sha256": "97a08cf6deb6cbf1a9e1f3ba21a8c9c0c8d77cb639ff720d0345644876ac95c8"
+      },
+      {
+        "file": "runner-executed.mjs",
+        "bytes": 6475,
+        "sha256": "a91f58668aae7f0d5e2132fc5712bb4fca1f30cee403cadf7949bccea20f5be5"
+      },
+      {
+        "file": "saved-after-reload.json",
+        "bytes": 65387,
+        "sha256": "1e7ffccb149b0ff13819697a53c3ed11273d9a82766b8e1c8c1199d5f91cd951"
+      },
+      {
+        "file": "shortage-before.png",
+        "bytes": 341025,
+        "sha256": "b77707574f5a0ff578baf38ff8c1c7c50a765242e4415e77f8bf9af14aa650f1"
+      },
+      {
+        "file": "shortage-reloaded.png",
+        "bytes": 491194,
+        "sha256": "3599e824bb3f8509a78cd990a795eb9304142c600e1a30e8242abf603dd0383a"
+      },
+      {
+        "file": "stderr.txt",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "stdout.txt",
+        "bytes": 1477,
+        "sha256": "97a08cf6deb6cbf1a9e1f3ba21a8c9c0c8d77cb639ff720d0345644876ac95c8"
+      }
+    ],
+    "naturalGameplay": false,
+    "runtimeEditedByThisTask": false,
+    "runtimeStorageInjectionAfterBoot": false
+  }
+}

@@ -1,0 +1,960 @@
+{
+  "day8": {
+    "day": 8,
+    "hour": 12,
+    "minute": 0,
+    "world": {
+      "version": 1,
+      "totalMinutes": 10800,
+      "lastRationDay": 8,
+      "lastDailyUpkeepDay": 8,
+      "frontierExposure": 10,
+      "frontierClock": 0,
+      "frontierPackBucket": 72,
+      "frontierPackSeq": 0,
+      "dayCombatIntentSeq": 119,
+      "dayCombatSeq": 18
+    },
+    "energy": 47,
+    "hp": 64,
+    "food": 14,
+    "wood": 28,
+    "parts": 6,
+    "stone": 12,
+    "standing": {
+      "prestige": 2,
+      "merit": 7,
+      "fear": 0,
+      "legitimacy": 51,
+      "contribution": 4,
+      "domains": {
+        "rescue": 0,
+        "defense": 0,
+        "supply": 3,
+        "recon": 3
+      }
+    },
+    "meters": {
+      "campCollapse": 0,
+      "resonancePressure": 25,
+      "campTrust": 3
+    },
+    "flag": true,
+    "outpost": {
+      "status": "secured",
+      "guardNpcIds": [
+        "guardJi"
+      ],
+      "guardSlots": 1,
+      "securedAt": 2130,
+      "lastUpkeepDay": 8,
+      "lastUpkeepResult": "paid",
+      "vacancyReason": null
+    },
+    "active": null,
+    "completed": [
+      "watchpost-003"
+    ],
+    "applied": [
+      "camp:threat:threat-1-9-0-137",
+      "qa-watchpost-capture-positive",
+      "watchpost-003:autonomy:8"
+    ],
+    "forecast": {
+      "confidence": 18,
+      "leadMinutes": 60,
+      "routeId": "eastern-breach",
+      "source": "watchpost-manual",
+      "updatedAt": 10800,
+      "sourceOutpostId": "watchPost",
+      "guardNpcId": "guardJi"
+    },
+    "roster": [
+      {
+        "id": "carpenter",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": null
+      },
+      {
+        "id": "doctor",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": null
+      },
+      {
+        "id": "radio",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": null
+      },
+      {
+        "id": "commander",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": null
+      },
+      {
+        "id": "sergeant",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": null
+      },
+      {
+        "id": "guardJi",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": "watchPost"
+      },
+      {
+        "id": "guardChen",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": null
+      },
+      {
+        "id": "guardJiang",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": null
+      },
+      {
+        "id": "quartermaster",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": null
+      },
+      {
+        "id": "cook",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": null
+      }
+    ],
+    "eventSeq": 283,
+    "commandSeq": 514
+  },
+  "day8Upkeep": {
+    "eventId": "evt-000279",
+    "seq": 279,
+    "type": "outpost.upkeep",
+    "actorId": "system",
+    "commandId": null,
+    "causationId": null,
+    "tick": {
+      "world": 10800,
+      "phase": 0,
+      "schedule": 360
+    },
+    "payload": {
+      "outpostId": "watchPost",
+      "day": 8,
+      "food": 1,
+      "paid": 1,
+      "status": "secured",
+      "population": {
+        "livingRoster": 10,
+        "workEligible": 9,
+        "campLocal": 9,
+        "garrisoned": 1
+      }
+    }
+  },
+  "day8Autonomy": {
+    "eventId": "evt-000283",
+    "seq": 283,
+    "type": "content.chain.autonomy",
+    "actorId": "camp-autonomy",
+    "commandId": null,
+    "causationId": null,
+    "tick": {
+      "world": 10800,
+      "phase": 0,
+      "schedule": 360
+    },
+    "payload": {
+      "chainId": "watchpost-003",
+      "instanceKey": "watchpost-003:once",
+      "nodeId": "manual_preparation",
+      "resultId": "watchpost_manual_autonomous",
+      "results": [
+        {
+          "ok": true,
+          "op": "unlock",
+          "key": "watchpost-manual-prepared"
+        },
+        {
+          "ok": true,
+          "op": "recordHistory",
+          "key": "watchpost-003:once:watchpost-003:manual-autonomy"
+        }
+      ]
+    },
+    "defId": "watchpost-003",
+    "definitionVersion": 1,
+    "instanceId": "content:watchpost-003:once",
+    "effects": [
+      {
+        "op": "unlock",
+        "key": "watchpost-manual-prepared"
+      },
+      {
+        "op": "recordHistory",
+        "key": "watchpost-003:manual-autonomy",
+        "payload": {
+          "route": "autonomy:manual",
+          "outpostId": "watchPost",
+          "definitionVersion": 1
+        }
+      }
+    ]
+  },
+  "directPublicAutonomy": {
+    "ok": false,
+    "reason": "watchpost-autonomy-internal"
+  },
+  "directPublicHookGranted": false,
+  "poorDay8": {
+    "day": 8,
+    "hour": 12,
+    "minute": 0,
+    "world": {
+      "version": 1,
+      "totalMinutes": 10800,
+      "lastRationDay": 8,
+      "lastDailyUpkeepDay": 8,
+      "frontierExposure": 10,
+      "frontierClock": 0,
+      "frontierPackBucket": 72,
+      "frontierPackSeq": 0,
+      "dayCombatIntentSeq": 119,
+      "dayCombatSeq": 18
+    },
+    "energy": 47,
+    "hp": 64,
+    "food": 0,
+    "wood": 28,
+    "parts": 6,
+    "stone": 12,
+    "standing": {
+      "prestige": 2,
+      "merit": 7,
+      "fear": 0,
+      "legitimacy": 51,
+      "contribution": 4,
+      "domains": {
+        "rescue": 0,
+        "defense": 0,
+        "supply": 3,
+        "recon": 3
+      }
+    },
+    "meters": {
+      "campCollapse": 2,
+      "resonancePressure": 25,
+      "campTrust": 3
+    },
+    "flag": null,
+    "outpost": {
+      "status": "strained",
+      "guardNpcIds": [
+        "guardJi"
+      ],
+      "guardSlots": 1,
+      "securedAt": 2130,
+      "lastUpkeepDay": 8,
+      "lastUpkeepResult": "shortage",
+      "vacancyReason": null
+    },
+    "active": {
+      "chainId": "watchpost-003",
+      "nodeId": "manual_preparation",
+      "status": "active",
+      "startedAt": 2130,
+      "actorId": "camp-autonomy",
+      "resolvedNodeIds": [],
+      "targetLandmarkId": "poi-1vpf7ue",
+      "episodeSchemaVersion": 1,
+      "instanceKey": "watchpost-003:once",
+      "instanceId": "content:watchpost-003:once",
+      "defId": "watchpost-003",
+      "definitionVersion": 1
+    },
+    "completed": [],
+    "applied": [
+      "camp:threat:threat-1-9-0-137",
+      "qa-watchpost-capture-positive"
+    ],
+    "forecast": {
+      "confidence": 18,
+      "leadMinutes": 0,
+      "routeId": "eastern-breach",
+      "source": "camp-observation",
+      "updatedAt": 2160
+    },
+    "roster": [
+      {
+        "id": "carpenter",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": null
+      },
+      {
+        "id": "doctor",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": null
+      },
+      {
+        "id": "radio",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": null
+      },
+      {
+        "id": "commander",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": null
+      },
+      {
+        "id": "sergeant",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": null
+      },
+      {
+        "id": "guardJi",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": "watchPost"
+      },
+      {
+        "id": "guardChen",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": null
+      },
+      {
+        "id": "guardJiang",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": null
+      },
+      {
+        "id": "quartermaster",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": null
+      },
+      {
+        "id": "cook",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": null
+      }
+    ],
+    "eventSeq": 281,
+    "commandSeq": 514
+  },
+  "lateCapture": {
+    "testOnlyPostMorningPositioning": true,
+    "before": {
+      "day": 8,
+      "hour": 11,
+      "minute": 10,
+      "world": {
+        "version": 1,
+        "totalMinutes": 10750,
+        "lastRationDay": 8,
+        "lastDailyUpkeepDay": 8,
+        "frontierExposure": 2,
+        "frontierClock": 10,
+        "frontierPackBucket": -1,
+        "frontierPackSeq": 0,
+        "dayCombatIntentSeq": 117,
+        "dayCombatSeq": 18
+      },
+      "energy": 53,
+      "hp": 64,
+      "food": 15,
+      "wood": 28,
+      "parts": 5,
+      "stone": 12,
+      "standing": {
+        "prestige": 0,
+        "merit": 3,
+        "fear": 0,
+        "legitimacy": 50,
+        "contribution": 3,
+        "domains": {
+          "rescue": 0,
+          "defense": 0,
+          "supply": 3,
+          "recon": 0
+        }
+      },
+      "meters": {
+        "campCollapse": 0,
+        "resonancePressure": 25,
+        "campTrust": 1.5
+      },
+      "flag": null,
+      "outpost": null,
+      "active": {
+        "chainId": "watchpost-003",
+        "nodeId": "manual_preparation",
+        "status": "active",
+        "startedAt": 10750,
+        "actorId": "camp-autonomy",
+        "resolvedNodeIds": [],
+        "targetLandmarkId": "poi-1vpf7ue",
+        "episodeSchemaVersion": 1,
+        "instanceKey": "watchpost-003:once",
+        "instanceId": "content:watchpost-003:once",
+        "defId": "watchpost-003",
+        "definitionVersion": 1
+      },
+      "completed": [],
+      "applied": [
+        "camp:threat:threat-1-9-0-137",
+        "plan:1:plan-defend-core-001"
+      ],
+      "forecast": {
+        "confidence": 18,
+        "leadMinutes": 0,
+        "routeId": "eastern-breach",
+        "source": "camp-observation",
+        "updatedAt": 670
+      },
+      "roster": [
+        {
+          "id": "carpenter",
+          "hp": 100,
+          "lifeState": "healthy",
+          "garrisonedOutpostId": null
+        },
+        {
+          "id": "doctor",
+          "hp": 100,
+          "lifeState": "healthy",
+          "garrisonedOutpostId": null
+        },
+        {
+          "id": "radio",
+          "hp": 100,
+          "lifeState": "healthy",
+          "garrisonedOutpostId": null
+        },
+        {
+          "id": "commander",
+          "hp": 100,
+          "lifeState": "healthy",
+          "garrisonedOutpostId": null
+        },
+        {
+          "id": "sergeant",
+          "hp": 100,
+          "lifeState": "healthy",
+          "garrisonedOutpostId": null
+        },
+        {
+          "id": "guardJi",
+          "hp": 100,
+          "lifeState": "healthy",
+          "garrisonedOutpostId": null
+        },
+        {
+          "id": "guardChen",
+          "hp": 100,
+          "lifeState": "healthy",
+          "garrisonedOutpostId": null
+        },
+        {
+          "id": "guardJiang",
+          "hp": 100,
+          "lifeState": "healthy",
+          "garrisonedOutpostId": null
+        },
+        {
+          "id": "quartermaster",
+          "hp": 100,
+          "lifeState": "healthy",
+          "garrisonedOutpostId": null
+        },
+        {
+          "id": "cook",
+          "hp": 100,
+          "lifeState": "healthy",
+          "garrisonedOutpostId": null
+        }
+      ],
+      "eventSeq": 259,
+      "commandSeq": 512
+    },
+    "captureReceipt": {
+      "eventId": "evt-000263",
+      "seq": 263,
+      "type": "outpost.captured",
+      "actorId": "player-1",
+      "commandId": "qa-watchpost-day8-late-capture",
+      "causationId": null,
+      "tick": {
+        "world": 10780,
+        "phase": 0,
+        "schedule": 340
+      },
+      "payload": {
+        "outpostId": "watchPost",
+        "guardNpcIds": [
+          "guardJi"
+        ],
+        "guardSlots": 1,
+        "energyCost": 6,
+        "minutes": 30,
+        "population": {
+          "livingRoster": 10,
+          "workEligible": 9,
+          "campLocal": 9,
+          "garrisoned": 1
+        }
+      }
+    },
+    "afterPublicManual": {
+      "day": 8,
+      "hour": 11,
+      "minute": 40,
+      "world": {
+        "version": 1,
+        "totalMinutes": 10780,
+        "lastRationDay": 8,
+        "lastDailyUpkeepDay": 8,
+        "frontierExposure": 3,
+        "frontierClock": 10,
+        "frontierPackBucket": -1,
+        "frontierPackSeq": 0,
+        "dayCombatIntentSeq": 118,
+        "dayCombatSeq": 18
+      },
+      "energy": 49,
+      "hp": 64,
+      "food": 15,
+      "wood": 28,
+      "parts": 5,
+      "stone": 12,
+      "standing": {
+        "prestige": 0,
+        "merit": 3,
+        "fear": 0,
+        "legitimacy": 50,
+        "contribution": 3,
+        "domains": {
+          "rescue": 0,
+          "defense": 0,
+          "supply": 3,
+          "recon": 0
+        }
+      },
+      "meters": {
+        "campCollapse": 0,
+        "resonancePressure": 25,
+        "campTrust": 1.5
+      },
+      "flag": true,
+      "outpost": {
+        "status": "secured",
+        "guardNpcIds": [
+          "guardJi"
+        ],
+        "guardSlots": 1,
+        "securedAt": 10750,
+        "lastUpkeepDay": 0,
+        "lastUpkeepResult": null,
+        "vacancyReason": null
+      },
+      "active": null,
+      "completed": [
+        "watchpost-003"
+      ],
+      "applied": [
+        "camp:threat:threat-1-9-0-137",
+        "plan:1:plan-defend-core-001",
+        "qa-watchpost-day8-late-capture",
+        "watchpost-003:manual_preparation:manual"
+      ],
+      "forecast": {
+        "confidence": 18,
+        "leadMinutes": 60,
+        "routeId": "eastern-breach",
+        "source": "watchpost-manual",
+        "updatedAt": 10780,
+        "sourceOutpostId": "watchPost",
+        "guardNpcId": "guardJi"
+      },
+      "roster": [
+        {
+          "id": "carpenter",
+          "hp": 100,
+          "lifeState": "healthy",
+          "garrisonedOutpostId": null
+        },
+        {
+          "id": "doctor",
+          "hp": 100,
+          "lifeState": "healthy",
+          "garrisonedOutpostId": null
+        },
+        {
+          "id": "radio",
+          "hp": 100,
+          "lifeState": "healthy",
+          "garrisonedOutpostId": null
+        },
+        {
+          "id": "commander",
+          "hp": 100,
+          "lifeState": "healthy",
+          "garrisonedOutpostId": null
+        },
+        {
+          "id": "sergeant",
+          "hp": 100,
+          "lifeState": "healthy",
+          "garrisonedOutpostId": null
+        },
+        {
+          "id": "guardJi",
+          "hp": 100,
+          "lifeState": "healthy",
+          "garrisonedOutpostId": "watchPost"
+        },
+        {
+          "id": "guardChen",
+          "hp": 100,
+          "lifeState": "healthy",
+          "garrisonedOutpostId": null
+        },
+        {
+          "id": "guardJiang",
+          "hp": 100,
+          "lifeState": "healthy",
+          "garrisonedOutpostId": null
+        },
+        {
+          "id": "quartermaster",
+          "hp": 100,
+          "lifeState": "healthy",
+          "garrisonedOutpostId": null
+        },
+        {
+          "id": "cook",
+          "hp": 100,
+          "lifeState": "healthy",
+          "garrisonedOutpostId": null
+        }
+      ],
+      "eventSeq": 268,
+      "commandSeq": 513
+    }
+  },
+  "day9": {
+    "day": 9,
+    "hour": 12,
+    "minute": 0,
+    "world": {
+      "version": 1,
+      "totalMinutes": 12240,
+      "lastRationDay": 9,
+      "lastDailyUpkeepDay": 9,
+      "frontierExposure": 10,
+      "frontierClock": 0,
+      "frontierPackBucket": 72,
+      "frontierPackSeq": 0,
+      "dayCombatIntentSeq": 119,
+      "dayCombatSeq": 18
+    },
+    "energy": 47,
+    "hp": 64,
+    "food": 14,
+    "wood": 28,
+    "parts": 6,
+    "stone": 12,
+    "standing": {
+      "prestige": 2,
+      "merit": 7,
+      "fear": 0,
+      "legitimacy": 51,
+      "contribution": 4,
+      "domains": {
+        "rescue": 0,
+        "defense": 0,
+        "supply": 3,
+        "recon": 3
+      }
+    },
+    "meters": {
+      "campCollapse": 0,
+      "resonancePressure": 25,
+      "campTrust": 3
+    },
+    "flag": null,
+    "outpost": {
+      "status": "secured",
+      "guardNpcIds": [
+        "guardJi"
+      ],
+      "guardSlots": 1,
+      "securedAt": 2130,
+      "lastUpkeepDay": 9,
+      "lastUpkeepResult": "paid",
+      "vacancyReason": null
+    },
+    "active": null,
+    "completed": [
+      "watchpost-003"
+    ],
+    "applied": [
+      "camp:threat:threat-1-9-0-137",
+      "qa-watchpost-capture-positive",
+      "watchpost-003:fallback:ifExpired"
+    ],
+    "forecast": {
+      "confidence": 18,
+      "leadMinutes": 0,
+      "routeId": "eastern-breach",
+      "source": "camp-observation",
+      "updatedAt": 2160
+    },
+    "roster": [
+      {
+        "id": "carpenter",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": null
+      },
+      {
+        "id": "doctor",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": null
+      },
+      {
+        "id": "radio",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": null
+      },
+      {
+        "id": "commander",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": null
+      },
+      {
+        "id": "sergeant",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": null
+      },
+      {
+        "id": "guardJi",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": "watchPost"
+      },
+      {
+        "id": "guardChen",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": null
+      },
+      {
+        "id": "guardJiang",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": null
+      },
+      {
+        "id": "quartermaster",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": null
+      },
+      {
+        "id": "cook",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": null
+      }
+    ],
+    "eventSeq": 282,
+    "commandSeq": 514
+  },
+  "expiry": {
+    "eventId": "evt-000281",
+    "seq": 281,
+    "type": "content.chain.fallback",
+    "actorId": "camp-autonomy",
+    "commandId": null,
+    "causationId": null,
+    "tick": {
+      "world": 12240,
+      "phase": 0,
+      "schedule": 360
+    },
+    "payload": {
+      "chainId": "watchpost-003",
+      "reason": "ifExpired",
+      "fallbackId": "watchpost_damaged",
+      "active": true,
+      "results": [],
+      "outpostId": "watchPost",
+      "expiredWindow": [
+        2,
+        8
+      ],
+      "unavailableReason": "preparation-window-expired",
+      "instanceKey": "watchpost-003:once",
+      "nodeId": "manual_preparation"
+    },
+    "defId": "watchpost-003",
+    "definitionVersion": 1,
+    "instanceId": "content:watchpost-003:once",
+    "effects": []
+  },
+  "completedPastWindow": {
+    "day": 10,
+    "hour": 12,
+    "minute": 0,
+    "world": {
+      "version": 1,
+      "totalMinutes": 13680,
+      "lastRationDay": 10,
+      "lastDailyUpkeepDay": 10,
+      "frontierExposure": 10,
+      "frontierClock": 0,
+      "frontierPackBucket": 72,
+      "frontierPackSeq": 0,
+      "dayCombatIntentSeq": 119,
+      "dayCombatSeq": 18
+    },
+    "energy": 47,
+    "hp": 52,
+    "food": 14,
+    "wood": 28,
+    "parts": 6,
+    "stone": 12,
+    "standing": {
+      "prestige": 2,
+      "merit": 7,
+      "fear": 0,
+      "legitimacy": 51,
+      "contribution": 4,
+      "domains": {
+        "rescue": 0,
+        "defense": 0,
+        "supply": 3,
+        "recon": 3
+      }
+    },
+    "meters": {
+      "campCollapse": 0,
+      "resonancePressure": 25,
+      "campTrust": 3
+    },
+    "flag": true,
+    "outpost": {
+      "status": "secured",
+      "guardNpcIds": [
+        "guardJi"
+      ],
+      "guardSlots": 1,
+      "securedAt": 2130,
+      "lastUpkeepDay": 10,
+      "lastUpkeepResult": "paid",
+      "vacancyReason": null
+    },
+    "active": null,
+    "completed": [
+      "watchpost-003"
+    ],
+    "applied": [
+      "camp:threat:threat-1-9-0-137",
+      "qa-watchpost-capture-positive",
+      "watchpost-003:manual_preparation:manual"
+    ],
+    "forecast": {
+      "confidence": 18,
+      "leadMinutes": 60,
+      "routeId": "eastern-breach",
+      "source": "watchpost-manual",
+      "updatedAt": 13680,
+      "sourceOutpostId": "watchPost",
+      "guardNpcId": "guardJi"
+    },
+    "roster": [
+      {
+        "id": "carpenter",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": null
+      },
+      {
+        "id": "doctor",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": null
+      },
+      {
+        "id": "radio",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": null
+      },
+      {
+        "id": "commander",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": null
+      },
+      {
+        "id": "sergeant",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": null
+      },
+      {
+        "id": "guardJi",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": "watchPost"
+      },
+      {
+        "id": "guardChen",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": null
+      },
+      {
+        "id": "guardJiang",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": null
+      },
+      {
+        "id": "quartermaster",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": null
+      },
+      {
+        "id": "cook",
+        "hp": 100,
+        "lifeState": "healthy",
+        "garrisonedOutpostId": null
+      }
+    ],
+    "eventSeq": 282,
+    "commandSeq": 515
+  }
+}

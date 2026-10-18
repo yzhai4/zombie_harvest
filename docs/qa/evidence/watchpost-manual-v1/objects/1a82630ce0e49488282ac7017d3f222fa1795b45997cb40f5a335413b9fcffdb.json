@@ -1,0 +1,77 @@
+{
+  "schema": "WatchpostManualBrowserInputsV1",
+  "sourceHtmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a",
+  "saveKey": "zombie-harvest-progress-v12",
+  "chainId": "watchpost-003",
+  "nodeId": "manual_preparation",
+  "choiceId": "manual",
+  "flag": "watchpost-manual-prepared",
+  "guardIds": [
+    "guardJi"
+  ],
+  "scenes": [
+    {
+      "id": "manual-near",
+      "file": "manual-near-input-native.json",
+      "sha256": "cc1ba3c89cbc335f58e9a60a3ddd5c9c293e884de180a71fd54c574e61c4132d",
+      "bytes": 298469,
+      "kind": "TEST-ONLY-old-complete-writer-derived-preboot-with-real-discover-capture",
+      "expectedEnabled": true,
+      "changes": [
+        "Original writer loaded by real candidate boot; only initial calendar/player geometry derived offline.",
+        "Actual discover20 and capture30/gross6 executed in source VM before browser boot. All resulting resources, NPC states, enemies and receipts retained.",
+        "Actual normal writer captures the active watchpost lifecycle without a manual choice."
+      ]
+    },
+    {
+      "id": "manual-strained",
+      "file": "manual-strained-input-native.json",
+      "sha256": "dd6aaca5229f4ff819bdecd436538c192aaa0f761eb4e165430514c381f551be",
+      "bytes": 299109,
+      "kind": "TEST-ONLY-old-complete-writer-derived-preboot-with-real-discover-capture",
+      "expectedEnabled": false,
+      "changes": [
+        "Derived from complete actual discovered/captured source writer.",
+        "TEST-ONLY offline shared-food set to0, then actual applyOutpostUpkeep(2) produces strained/shortage receipt; not a browser-paid upkeep claim.",
+        "No manual choice; same real guard, geometry and active instance."
+      ]
+    }
+  ],
+  "provenanceFiles": [
+    {
+      "file": "producer-executed.mjs",
+      "sha256": "a7606df98911befb0dc36cd4be1ea346ca6903bfab53e91ae9f592a76ebbb340",
+      "bytes": 8932
+    },
+    {
+      "file": "mother-original-native.json",
+      "sha256": "5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4",
+      "bytes": 496785
+    },
+    {
+      "file": "io-adapter-executed.mjs",
+      "sha256": "6e0da555742e930b8bf926eeec0db0ee22f17240a4fa305978841f8ba862c0a3",
+      "bytes": 51172
+    },
+    {
+      "file": "source-runtime-fixture-executed.mjs",
+      "sha256": "e9872eeba85d49019d1bd806f3dd18357a5abc8f2f92922922f6a5324ec220dc",
+      "bytes": 2959
+    },
+    {
+      "file": "discover-capture-provenance.json",
+      "sha256": "1a36fcf8b1f155d0224c0d48a785796bdfc3f4e813bd3b3dcb4380d0826ca75c",
+      "bytes": 22118
+    },
+    {
+      "file": "strained-provenance.json",
+      "sha256": "9e37796dda743625f204a8f5da6abf052dbcb20727d734ed987a6e14bcca7dde",
+      "bytes": 1026
+    },
+    {
+      "file": "producer-report.json",
+      "sha256": "1ed95fd8fe760394fb798b02beafa054421b75936ef675605a6d4ffd8027bfb0",
+      "bytes": 2649
+    }
+  ]
+}

@@ -1,0 +1,225 @@
+{
+  "event": {
+    "eventId": "evt-000040",
+    "seq": 40,
+    "type": "building.repaired",
+    "actorId": "player-1",
+    "commandId": "cmd-000257",
+    "causationId": null,
+    "tick": {
+      "world": 401,
+      "phase": 0,
+      "schedule": 41
+    },
+    "payload": {
+      "ok": true,
+      "proofVersion": 1,
+      "buildingId": "bld-relay-station",
+      "buildingType": "relayStation",
+      "target": {
+        "id": "bld-relay-station",
+        "type": "relayStation",
+        "typeAtCompletion": "relayStation",
+        "hpBefore": 0,
+        "hpAfter": 1,
+        "maxHp": 8,
+        "presentAtCompletion": true,
+        "hpAtCompletion": 1
+      },
+      "payment": {
+        "cost": {
+          "wood": 2,
+          "energy": 14
+        },
+        "before": {
+          "wood": 14,
+          "energy": 76
+        },
+        "after": {
+          "wood": 12,
+          "energy": 62
+        }
+      },
+      "resources": {
+        "before": {
+          "wood": 14,
+          "stone": 8,
+          "food": 8,
+          "parts": 1,
+          "medicine": 0,
+          "seeds": 3,
+          "energy": 76
+        },
+        "afterPayment": {
+          "wood": 12,
+          "stone": 8,
+          "food": 8,
+          "parts": 1,
+          "medicine": 0,
+          "seeds": 3,
+          "energy": 62
+        },
+        "after": {
+          "wood": 12,
+          "stone": 8,
+          "food": 8,
+          "parts": 1,
+          "medicine": 0,
+          "seeds": 3,
+          "energy": 63
+        }
+      },
+      "delta": {
+        "wood": -2,
+        "stone": 0,
+        "food": 0,
+        "parts": 0,
+        "medicine": 0,
+        "seeds": 0,
+        "energy": -13
+      },
+      "clock": {
+        "before": {
+          "day": 1,
+          "hour": 6,
+          "minute": 21,
+          "world": 381
+        },
+        "after": {
+          "day": 1,
+          "hour": 6,
+          "minute": 41,
+          "world": 401
+        },
+        "requestedMinutes": 20,
+        "elapsedMinutes": 20
+      },
+      "standing": {
+        "before": {
+          "prestige": 7,
+          "merit": 12,
+          "fear": 0,
+          "legitimacy": 53,
+          "contribution": 6,
+          "domains": {
+            "rescue": 0,
+            "defense": 3,
+            "supply": 0,
+            "recon": 9
+          }
+        },
+        "afterRepair": {
+          "prestige": 7,
+          "merit": 12,
+          "fear": 0,
+          "legitimacy": 53,
+          "contribution": 6,
+          "domains": {
+            "rescue": 0,
+            "defense": 3,
+            "supply": 0,
+            "recon": 9
+          }
+        },
+        "after": {
+          "prestige": 7,
+          "merit": 12,
+          "fear": 0,
+          "legitimacy": 53,
+          "contribution": 6,
+          "domains": {
+            "rescue": 0,
+            "defense": 3,
+            "supply": 0,
+            "recon": 9
+          }
+        },
+        "trustBefore": 7.5,
+        "trustAfterRepair": 7.5,
+        "trustAfter": 7.5,
+        "eventIds": []
+      },
+      "advance": {
+        "ok": true,
+        "commandId": "cmd-000258",
+        "eventId": "evt-000039",
+        "causationId": "cmd-000257",
+        "minutes": 20,
+        "tick": {
+          "world": 401,
+          "phase": 0,
+          "schedule": 41
+        }
+      },
+      "advanceEffects": {
+        "resourceDelta": {
+          "wood": 0,
+          "stone": 0,
+          "food": 0,
+          "parts": 0,
+          "medicine": 0,
+          "seeds": 0,
+          "energy": 1
+        },
+        "events": [
+          {
+            "eventId": "evt-000037",
+            "type": "combat.damage.applied",
+            "actorId": "bld-1rhfvwb",
+            "commandId": null,
+            "causationId": "cmd-000258"
+          },
+          {
+            "eventId": "evt-000038",
+            "type": "combat.damage.applied",
+            "actorId": "bld-1rhfvwb",
+            "commandId": null,
+            "causationId": "cmd-000258"
+          },
+          {
+            "eventId": "evt-000039",
+            "type": "time.advanced",
+            "actorId": "system",
+            "commandId": "cmd-000258",
+            "causationId": "cmd-000257"
+          }
+        ],
+        "npcMeals": []
+      },
+      "outcome": {
+        "physicalRepairApplied": true,
+        "capabilityBefore": "destroyed",
+        "currentCapability": "operational",
+        "operationalAtCompletion": true,
+        "playerSurvived": true
+      }
+    }
+  },
+  "parent": {
+    "commandId": "cmd-000257",
+    "type": "building.repair",
+    "actorId": "player-1",
+    "payload": {
+      "buildingId": "bld-relay-station"
+    }
+  },
+  "advanceEvent": {
+    "eventId": "evt-000039",
+    "seq": 39,
+    "type": "time.advanced",
+    "actorId": "system",
+    "commandId": "cmd-000258",
+    "causationId": "cmd-000257",
+    "tick": {
+      "world": 401,
+      "phase": 0,
+      "schedule": 41
+    },
+    "payload": {
+      "minutes": 20,
+      "day": 1,
+      "hour": 6,
+      "minute": 41
+    }
+  }
+}

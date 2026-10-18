@@ -1,0 +1,65 @@
+{
+  "schema": "ExplicitOriginalFailureExcerptV1",
+  "isOriginalNativeReport": false,
+  "originalExternalRetained": true,
+  "original": {
+    "portableName": "report.json",
+    "sha256": "51d4c8a7e719184ae22022fbec2bc9a86123979061b578d42caff9e88de4d591",
+    "bytes": 6226
+  },
+  "omittedFieldsRetainedExternally": [
+    "schema",
+    "methodSha256",
+    "ioFactorySha256",
+    "motherSha256",
+    "scope",
+    "artifacts"
+  ],
+  "replacedStackPathSubstrings": [],
+  "resultCountAndFailedChecksUnchanged": true,
+  "reportExcerpt": {
+    "runner": "source-watchpost-old-report-close-repro-v1",
+    "mode": "candidate",
+    "sourceHtmlSha256": "9d2f91bae6ed96b27f64ab3c0c96cb5a9de196233b4d2e2205902207bda72380",
+    "ok": false,
+    "count": 2,
+    "passed": 0,
+    "checks": [
+      {
+        "name": "old4f-day2-report-close returns to actual DAY with pending manual choice",
+        "ok": false,
+        "error": "expected old REPORT→DAY reconciliation creates pending manual choice within day2–8",
+        "failure": {
+          "path": "report-artifacts/failures/group-1.json",
+          "bytes": 742,
+          "sha256": "0c15e5d36256f481529101bacbdaac1ac5cc8492013e813ccaa1ee4ac4c4ccae",
+          "kind": "original actual failure retained"
+        },
+        "artifacts": [
+          "report-artifacts/inputs/old4f-day2-report-close.json",
+          "report-artifacts/native/old4f-day2-report-close-closed-day.json",
+          "report-artifacts/observations/old4f-day2-report-close.json",
+          "report-artifacts/failures/group-1.json"
+        ]
+      },
+      {
+        "name": "old4f-day8-report-close returns to actual DAY with pending manual choice",
+        "ok": false,
+        "error": "expected old REPORT→DAY reconciliation creates pending manual choice within day2–8",
+        "failure": {
+          "path": "report-artifacts/failures/group-2.json",
+          "bytes": 742,
+          "sha256": "0c15e5d36256f481529101bacbdaac1ac5cc8492013e813ccaa1ee4ac4c4ccae",
+          "kind": "original actual failure retained"
+        },
+        "artifacts": [
+          "report-artifacts/inputs/old4f-day8-report-close.json",
+          "report-artifacts/native/old4f-day8-report-close-closed-day.json",
+          "report-artifacts/observations/old4f-day8-report-close.json",
+          "report-artifacts/failures/group-2.json"
+        ]
+      }
+    ]
+  },
+  "scope": "Selection of original failure checks and identity only; full repeated observations/fixtures/artifacts remain in unchanged external native report. Not a new execution or native pass row."
+}

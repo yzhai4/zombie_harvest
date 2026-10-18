@@ -1,0 +1,448 @@
+{
+  "runner": "source-relay-maintenance-v1",
+  "mode": "candidate",
+  "sourceHtmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a",
+  "checkerSha256": "df6f17b126bd0d9b47cb25e323128b6f392fee4753476e32607e301912f82775",
+  "inputs": {
+    "originalWriter": {
+      "repositoryPath": "docs/qa/runs/relay-effective-role-v1-20261018/selected/objects/4bb6aac0eb6b4f440aa60d7b58e13de5c33b8dd70ca4f073f4757d245735a6a8.json",
+      "sha256": "4bb6aac0eb6b4f440aa60d7b58e13de5c33b8dd70ca4f073f4757d245735a6a8",
+      "bytes": 99460
+    },
+    "ioAdapter": {
+      "repositoryPath": "scripts/check-report-recovery.mjs",
+      "sha256": "6e0da555742e930b8bf926eeec0db0ee22f17240a4fa305978841f8ba862c0a3",
+      "runtimeFactorySha256": "5dc89410d5f4a1ce303bbdb03370f6f08c646e38d426a39e7dacd3a3f4e2b89d"
+    }
+  },
+  "ok": true,
+  "count": 7,
+  "passed": 7,
+  "checks": [
+    {
+      "name": "real old online writer: enemy 8→2→0, Continue and next advance never reactivate current capability",
+      "ok": true,
+      "facts": {
+        "realDamageEvents": [
+          "evt-000036",
+          "evt-000037"
+        ],
+        "worldAdvance": 1,
+        "stationHp": 0,
+        "currentCapability": false,
+        "history": "online"
+      },
+      "artifactRefs": [
+        "relay-native-artifacts/inputs/real-damage-geometry-native.json",
+        "relay-native-artifacts/inputs/real-damage-geometry-provenance.json",
+        "relay-native-artifacts/native/01-real-destroyed.json",
+        "relay-native-artifacts/native/02-destroyed-Continue-next-minute.json",
+        "relay-native-artifacts/observations/01-real-damage-and-next-minute.json"
+      ]
+    },
+    {
+      "name": "legacy unknown station and pure current projection preserve the actual old writer without repair or migration",
+      "ok": true,
+      "facts": {
+        "legacyCases": 4,
+        "noBackfill": true
+      },
+      "artifactRefs": [
+        "relay-native-artifacts/inputs/legacy-missing-hp-native.json",
+        "relay-native-artifacts/native/legacy-missing-hp.json",
+        "relay-native-artifacts/inputs/legacy-missing-flags-native.json",
+        "relay-native-artifacts/native/legacy-missing-flags.json",
+        "relay-native-artifacts/inputs/legacy-explicit-inactive-native.json",
+        "relay-native-artifacts/native/legacy-explicit-inactive.json",
+        "relay-native-artifacts/inputs/legacy-missing-station-native.json",
+        "relay-native-artifacts/native/legacy-missing-station.json",
+        "relay-native-artifacts/observations/02-legacy-unknown-pure.json"
+      ]
+    },
+    {
+      "name": "bound station repair pays gross2wood14E, applies+1 then actual whole/carry child, duplicate and Continue preserve history",
+      "ok": true,
+      "facts": {
+        "grossCost": {
+          "wood": 2,
+          "energy": 14
+        },
+        "requested": 20,
+        "actualWhole": 16,
+        "remainder": "0.5",
+        "duplicate": true,
+        "history": "online"
+      },
+      "artifactRefs": [
+        "relay-native-artifacts/inputs/safe-repair-carry-native.json",
+        "relay-native-artifacts/native/03-paid-station.json",
+        "relay-native-artifacts/native/04-paid-station-reload.json",
+        "relay-native-artifacts/inputs/actual-camp-chain-repair-step-native.json",
+        "relay-native-artifacts/observations/03-paid-proof.json"
+      ]
+    },
+    {
+      "name": "station execution distance1 differs from view1.25; stale/identity/resources/session/number budget reject before cost or time",
+      "ok": true,
+      "facts": {
+        "preconditionCases": 11,
+        "executionRange": 1,
+        "viewRange": 1.25,
+        "noPaidFalseSuccess": true,
+        "lastSafeChildAccepted": true
+      },
+      "artifactRefs": [
+        "relay-native-artifacts/inputs/reject-view-band-1.018-native.json",
+        "relay-native-artifacts/inputs/reject-view-edge-1.25-native.json",
+        "relay-native-artifacts/inputs/reject-detached-native.json",
+        "relay-native-artifacts/inputs/reject-unknown-id-native.json",
+        "relay-native-artifacts/inputs/reject-wood-short-native.json",
+        "relay-native-artifacts/inputs/reject-energy-short-native.json",
+        "relay-native-artifacts/inputs/reject-paused-native.json",
+        "relay-native-artifacts/inputs/reject-max-safe-parent-native.json",
+        "relay-native-artifacts/inputs/stale-submission-native.json",
+        "relay-native-artifacts/inputs/submit-race-ambiguous-id-native.json",
+        "relay-native-artifacts/inputs/submit-race-type-changed-native.json",
+        "relay-native-artifacts/inputs/last-safe-child-native.json",
+        "relay-native-artifacts/observations/04-rejections.json"
+      ]
+    },
+    {
+      "name": "real20-minute repair consequences can destroy the+1 prefix again or kill the player, with durable final proof",
+      "ok": true,
+      "facts": {
+        "redestroyed": true,
+        "playerFatal": true,
+        "physicalPrefixRetained": true,
+        "noRefund": true
+      },
+      "artifactRefs": [
+        "relay-native-artifacts/inputs/repair-redestroy-native.json",
+        "relay-native-artifacts/native/05-repair-real-redestroy.json",
+        "relay-native-artifacts/inputs/repair-player-fatal-native.json",
+        "relay-native-artifacts/native/06-repair-player-fatal.json",
+        "relay-native-artifacts/observations/05-paid-consequence-prefixes.json"
+      ]
+    },
+    {
+      "name": "all current perception/frontier consumers lose station benefits while history stays online and new encounter locks current facts",
+      "ok": true,
+      "facts": {
+        "profileSightBonus": 2,
+        "pressureRelief": 12,
+        "actionExposureRatio": 0.5,
+        "sanDifference": 1,
+        "nextEnemyReduction": 1,
+        "currentStationDefense": 8,
+        "lockedHistoryUnchanged": true
+      },
+      "artifactRefs": [
+        "relay-native-artifacts/inputs/consumer-operational-native.json",
+        "relay-native-artifacts/inputs/consumer-destroyed-native.json",
+        "relay-native-artifacts/observations/06-current-consumers-and-locked-encounter.json"
+      ]
+    },
+    {
+      "name": "generic content damage synchronizes only after successful transaction; rollback cannot leak capability or forecast changes",
+      "ok": true,
+      "facts": {
+        "rollbackPreserved": true,
+        "successfulDamageDeactivates": true,
+        "history": "online"
+      },
+      "artifactRefs": [
+        "relay-native-artifacts/native/07-content-real-damage.json",
+        "relay-native-artifacts/observations/07-content-transaction.json"
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "relay-native-artifacts/inputs/source.html",
+      "sha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a",
+      "bytes": 984373,
+      "kind": "executed-source"
+    },
+    {
+      "path": "relay-native-artifacts/inputs/io-adapter.mjs",
+      "sha256": "6e0da555742e930b8bf926eeec0db0ee22f17240a4fa305978841f8ba862c0a3",
+      "bytes": 51172,
+      "kind": "actual-io"
+    },
+    {
+      "path": "relay-native-artifacts/inputs/checker-executed.mjs",
+      "sha256": "df6f17b126bd0d9b47cb25e323128b6f392fee4753476e32607e301912f82775",
+      "bytes": 29665,
+      "kind": "executed-method"
+    },
+    {
+      "path": "relay-native-artifacts/inputs/original-online-native.json",
+      "sha256": "4bb6aac0eb6b4f440aa60d7b58e13de5c33b8dd70ca4f073f4757d245735a6a8",
+      "bytes": 99460,
+      "kind": "original-complete-writer"
+    },
+    {
+      "path": "relay-native-artifacts/inputs/real-damage-geometry-native.json",
+      "sha256": "dd29c7b4464e2f8bcc53225eedd0444a55a5891bb90c5febbffde75bc63daad0",
+      "bytes": 99243,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "relay-native-artifacts/inputs/real-damage-geometry-provenance.json",
+      "sha256": "0ce16ca5dd54bf09006c5a1cd95ee6f3fd116c5f1bbd1f2469e946fca6f8fa70",
+      "bytes": 393,
+      "kind": "observation"
+    },
+    {
+      "path": "relay-native-artifacts/native/01-real-destroyed.json",
+      "sha256": "22ff4e8b642b09e1f49379823aa5673fad59a2f88fb776f9148dbde9917befb8",
+      "bytes": 108642,
+      "kind": "actual-source-writer"
+    },
+    {
+      "path": "relay-native-artifacts/native/02-destroyed-Continue-next-minute.json",
+      "sha256": "3ec725580fa27edec334eb7f9829576d456a9f617da4e6f5d85d8be9b27fb6d6",
+      "bytes": 109920,
+      "kind": "actual-source-writer"
+    },
+    {
+      "path": "relay-native-artifacts/observations/01-real-damage-and-next-minute.json",
+      "sha256": "13d537ec357b7807ca7672b2fae0671cc49eb219ef76fbbd1f960cb35af3097b",
+      "bytes": 17984,
+      "kind": "observation"
+    },
+    {
+      "path": "relay-native-artifacts/inputs/legacy-missing-hp-native.json",
+      "sha256": "77e4c872d3c3888201cfb4ab577604888f3bba9770e71f30cf84e6f4bc364d57",
+      "bytes": 99421,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "relay-native-artifacts/native/legacy-missing-hp.json",
+      "sha256": "4dfb2a0d0e18956e9d2c10f196fa26d2023b3117ed136911d2d97ddc57c385bf",
+      "bytes": 102632,
+      "kind": "actual-source-writer"
+    },
+    {
+      "path": "relay-native-artifacts/inputs/legacy-missing-flags-native.json",
+      "sha256": "6d4dc7b671ae4dac9058cbf5b34466a195faf18dd5114977a1398452906f7395",
+      "bytes": 99367,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "relay-native-artifacts/native/legacy-missing-flags.json",
+      "sha256": "b4139ed5d742cc4dbcf086de1ae4ee2560201fb502923637ce453090ca6cf6d2",
+      "bytes": 102576,
+      "kind": "actual-source-writer"
+    },
+    {
+      "path": "relay-native-artifacts/inputs/legacy-explicit-inactive-native.json",
+      "sha256": "d1a02ada3c944733a0ea9c56f679e260d4f0502de80527b85a04a2c5ef1ced78",
+      "bytes": 99439,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "relay-native-artifacts/native/legacy-explicit-inactive.json",
+      "sha256": "50d9b2e79f5865ae28a6e1514d476722ee8c1d5208699b942ebbabe42222db4e",
+      "bytes": 102650,
+      "kind": "actual-source-writer"
+    },
+    {
+      "path": "relay-native-artifacts/inputs/legacy-missing-station-native.json",
+      "sha256": "7507c2f1c905dfa124fc48fbfc9255a09bc3621c8280b8760237350c76f2b15a",
+      "bytes": 99155,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "relay-native-artifacts/native/legacy-missing-station.json",
+      "sha256": "c341bec3511bdc3100104beb68dc8756731fb55d084f95e273ff6d379847fa53",
+      "bytes": 102366,
+      "kind": "actual-source-writer"
+    },
+    {
+      "path": "relay-native-artifacts/observations/02-legacy-unknown-pure.json",
+      "sha256": "4611adfe57341cf45ea3cc097a01724df25f80d6d1fb4b341206ce5026702efe",
+      "bytes": 977,
+      "kind": "observation"
+    },
+    {
+      "path": "relay-native-artifacts/inputs/safe-repair-carry-native.json",
+      "sha256": "833648d3f83e976461f54c614776a2f4826a8cc662266b962b79dc1c026ae30c",
+      "bytes": 108799,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "relay-native-artifacts/native/03-paid-station.json",
+      "sha256": "d87bc555496c5c5ef67dd5b03d9eca14fa6f4ecc3cf62ec040e8dbcede7cdbb7",
+      "bytes": 118930,
+      "kind": "actual-source-writer"
+    },
+    {
+      "path": "relay-native-artifacts/native/04-paid-station-reload.json",
+      "sha256": "23463088e6a53a19ad0ea3d7269f69eff5e446d8f921ef671a91be510deef043",
+      "bytes": 118900,
+      "kind": "actual-source-writer"
+    },
+    {
+      "path": "relay-native-artifacts/inputs/actual-camp-chain-repair-step-native.json",
+      "sha256": "113979fa813c8a434104d3c61655d77a8bd7f2d34d9eb02d542da4ff6e87f367",
+      "bytes": 108759,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "relay-native-artifacts/observations/03-paid-proof.json",
+      "sha256": "6a4dfa17fc335761bbd3c82f7f84c38201740f9413fef875508c8e54667a0cfc",
+      "bytes": 15604,
+      "kind": "observation"
+    },
+    {
+      "path": "relay-native-artifacts/inputs/reject-view-band-1.018-native.json",
+      "sha256": "ffbd98da18a6f7746273e593745a304e6cbd18bcc60f941e13289d96c646043c",
+      "bytes": 108749,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "relay-native-artifacts/inputs/reject-view-edge-1.25-native.json",
+      "sha256": "0dd8b48a2d4961c3804aa6df6cc90e75641518121774ff03d4e1e5963c0c590a",
+      "bytes": 108747,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "relay-native-artifacts/inputs/reject-detached-native.json",
+      "sha256": "ab8836ae4dd7a3f9a2e68de63329b3d6394d6f1ea9c2a24490938b423a034dfa",
+      "bytes": 108741,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "relay-native-artifacts/inputs/reject-unknown-id-native.json",
+      "sha256": "ab8836ae4dd7a3f9a2e68de63329b3d6394d6f1ea9c2a24490938b423a034dfa",
+      "bytes": 108741,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "relay-native-artifacts/inputs/reject-wood-short-native.json",
+      "sha256": "1809a2b9b1ee3b0ef563debd4020be2aa95ba4bbaf970c3f94c4e94a3c5e1471",
+      "bytes": 108739,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "relay-native-artifacts/inputs/reject-energy-short-native.json",
+      "sha256": "3e13ff034e3c259463d7aee913fd3dc3149a21bba1fff97462222f62241624ab",
+      "bytes": 108741,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "relay-native-artifacts/inputs/reject-paused-native.json",
+      "sha256": "ce07012535b2c58076f634bb724354cb2a15dae317f5853fe2bfef90f2330bea",
+      "bytes": 108738,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "relay-native-artifacts/inputs/reject-max-safe-parent-native.json",
+      "sha256": "ab8836ae4dd7a3f9a2e68de63329b3d6394d6f1ea9c2a24490938b423a034dfa",
+      "bytes": 108741,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "relay-native-artifacts/inputs/stale-submission-native.json",
+      "sha256": "ab8836ae4dd7a3f9a2e68de63329b3d6394d6f1ea9c2a24490938b423a034dfa",
+      "bytes": 108741,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "relay-native-artifacts/inputs/submit-race-ambiguous-id-native.json",
+      "sha256": "ab8836ae4dd7a3f9a2e68de63329b3d6394d6f1ea9c2a24490938b423a034dfa",
+      "bytes": 108741,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "relay-native-artifacts/inputs/submit-race-type-changed-native.json",
+      "sha256": "ab8836ae4dd7a3f9a2e68de63329b3d6394d6f1ea9c2a24490938b423a034dfa",
+      "bytes": 108741,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "relay-native-artifacts/inputs/last-safe-child-native.json",
+      "sha256": "cd4e34a90aa6024a92a3bd239c49df140b69dfb6009574b468b8ccc0e7999bab",
+      "bytes": 108767,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "relay-native-artifacts/observations/04-rejections.json",
+      "sha256": "6c865fbfaecbf30bc307028dc0ad5c562188d5edbe990604769afdcd9bc3ac2a",
+      "bytes": 718,
+      "kind": "observation"
+    },
+    {
+      "path": "relay-native-artifacts/inputs/repair-redestroy-native.json",
+      "sha256": "82c8c285908bbda8a6e7eea5b6e22110a03faed99f74296c2bf32c3d6d6630a6",
+      "bytes": 108549,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "relay-native-artifacts/native/05-repair-real-redestroy.json",
+      "sha256": "e8f270068514e052dcb41d173f280f6d10ad4f9bba47cfea72bb9289a22f4e8e",
+      "bytes": 120070,
+      "kind": "actual-source-writer"
+    },
+    {
+      "path": "relay-native-artifacts/inputs/repair-player-fatal-native.json",
+      "sha256": "57e4ea2a22e212c02c89879687f8df2e3eaf700e844810fc8a567b5db480a48f",
+      "bytes": 108555,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "relay-native-artifacts/native/06-repair-player-fatal.json",
+      "sha256": "a6c853ead4daa483f91f1408404aa58a20cf88fa276cc6982d5da163c2e77d24",
+      "bytes": 119427,
+      "kind": "actual-source-fatal-writer"
+    },
+    {
+      "path": "relay-native-artifacts/observations/05-paid-consequence-prefixes.json",
+      "sha256": "0039cb9aa18c85ba4764002a6cb3d27925dcebf5eccb26aeaf36db136c8039c6",
+      "bytes": 10954,
+      "kind": "observation"
+    },
+    {
+      "path": "relay-native-artifacts/inputs/consumer-operational-native.json",
+      "sha256": "1fd8e8b6374f007ae6678f6929e0ebe64f1267765891081ddd5fd9479e44a62b",
+      "bytes": 99371,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "relay-native-artifacts/inputs/consumer-destroyed-native.json",
+      "sha256": "bb9d7b2c7b3dd9f642093bde844baa43e589a8fcd51764414d75ea637fb1d308",
+      "bytes": 99375,
+      "kind": "TEST-ONLY-complete-boot-input"
+    },
+    {
+      "path": "relay-native-artifacts/observations/06-current-consumers-and-locked-encounter.json",
+      "sha256": "5a75be96f13b9ab50acf18dd23e2c86d9e944b2e00aae20964e247f68682865a",
+      "bytes": 13413,
+      "kind": "observation"
+    },
+    {
+      "path": "relay-native-artifacts/native/07-content-real-damage.json",
+      "sha256": "e13b6dbfe6fc45b931d72373fd329021be8f42b946ae51663d2c909e624d7648",
+      "bytes": 104848,
+      "kind": "actual-source-writer"
+    },
+    {
+      "path": "relay-native-artifacts/observations/07-content-transaction.json",
+      "sha256": "d778c2b7c2fe1761f2da5aca2ffaa1b041495fd4569eea3f71f8b8bf32361327",
+      "bytes": 6219,
+      "kind": "observation"
+    }
+  ],
+  "scope": {
+    "fullInline": true,
+    "actualIO": true,
+    "actualBus": true,
+    "browser": false,
+    "naturalGameplay": false,
+    "testOnlyBootGeometry": true,
+    "noTargetGateOrDamageMock": true,
+    "noPixelClaim": true,
+    "completeMainline": false
+  }
+}

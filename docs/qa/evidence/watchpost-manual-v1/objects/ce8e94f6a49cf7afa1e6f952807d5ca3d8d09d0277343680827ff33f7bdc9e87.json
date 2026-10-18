@@ -1,0 +1,126 @@
+{
+  "schema": "IndependentWatchpostP2FixReviewV1",
+  "version": 1,
+  "reviewedAt": "2026-10-18",
+  "reviewer": "watchpost_runtime_review",
+  "mode": "read-only narrow follow-up; no game, Gate, VM, browser, or build-script execution",
+  "status": "two-prior-p2-findings-closed-in-reviewed-scope",
+  "summary": "Both requested narrow fixes are present and close their actual consumers. No additional blocking P1/P2 found within this follow-up. Independent source/browser reruns and the full release decision remain separate.",
+  "reviewedSource": {
+    "html": {
+      "path": "source/dist/index.html",
+      "bytes": 984373,
+      "sha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+    },
+    "pack": {
+      "path": "source/content/packs/watchpost-manual-v1.json",
+      "sha256": "b2d196a171d3a4e828d8486c36ea664992e51fd8df1223ea395172a511b869e3"
+    },
+    "buildScript": {
+      "path": "source/scripts/build-scenario-package.mjs",
+      "bytes": 4184,
+      "sha256": "3af884d9a0c314dba3abe8e592947dc2a5a22ca935def5941c2d8610b29d6905"
+    },
+    "handoff": {
+      "path": "p2-runtime-fix-01/runtime-handoff-ad7627.json",
+      "bytes": 5556,
+      "sha256": "c85f86905c23fc35759c0a0595e4ca458756b4e9157139463a23d0b5ddef577f"
+    },
+    "originalReview": {
+      "path": "independent-review/review-v1.json",
+      "sha256": "7918cae21190ca9bd92e78df6db6f8277e906c0519070436959242e32528a296",
+      "retained": true
+    },
+    "originalHtml": {
+      "path": "p2-runtime-fix-01/before-9d2f.html",
+      "sha256": "9d2f91bae6ed96b27f64ab3c0c96cb5a9de196233b4d2e2205902207bda72380",
+      "retained": true
+    }
+  },
+  "resolutions": [
+    {
+      "id": "WP-RUNTIME-001",
+      "priorPriority": "P2",
+      "status": "closed",
+      "file": "source/dist/index.html",
+      "lineStart": 9702,
+      "lineEnd": 9706,
+      "consumer": "Public threat.close -> continueMorningReducer -> legal DAY -> reconcileWatchpostManualBoot -> startWatchpostManualChain",
+      "sourceAssessment": "The new call occurs only after the original legal report-close guard succeeded and the reducer entered DAY. It reuses the idempotent pending-start path. The reconciliation helper does not charge rations, pay upkeep, replay onDayStart, run private day-8 autonomy, or resolve the encounter. The prior original close costs/recovery logic remains in its existing location.",
+      "actualArtifactObservation": "Read the owner-generated before/after normal writers for the same complete 4f day-2 and day-8 REPORT inputs. Day/world and lastRationDay/lastDailyUpkeepDay are equal before/after; food/energy/wood/parts/stone/HP/morale remain equal. Each new writer has exactly one new pending watchpost-003 instance, no prepared flag, and no new upkeep/ration/autonomy/reward event. Added event types are the original sanity.changed(+3), content.pack.loaded, content.chain.started, and threat.closed.",
+      "originalFailureRetained": {
+        "path": "contract-method/report-close-9d2f01/report.json",
+        "sha256": "51d4c8a7e719184ae22022fbec2bc9a86123979061b578d42caff9e88de4d591",
+        "count": 2,
+        "passed": 0
+      },
+      "ownerFixReport": {
+        "path": "p2-runtime-fix-01/owner-close-report.json",
+        "sha256": "e59624a61085789a5863e902d937e57138f0af784d4bac03f74e8e8df820f21d",
+        "count": 2,
+        "passed": 2,
+        "provenance": "Owner execution read by this reviewer; not this reviewer's execution."
+      },
+      "normalWriters": [
+        {
+          "path": "p2-runtime-fix-01/owner-close-report-artifacts/native/old4f-day2-report-close-closed-day.json",
+          "sha256": "6e9ac974f5f074e1f34a975e21bd8b856ad1031078e6282637c4eed0e1fd0c44"
+        },
+        {
+          "path": "p2-runtime-fix-01/owner-close-report-artifacts/native/old4f-day8-report-close-closed-day.json",
+          "sha256": "9ad93b8008a9cff76c019f86090796cca0f74dadca645c2ad1e5ede1272e348f"
+        }
+      ],
+      "correctionToPriorWording": "The original failure is a same-session REPORT-to-DAY pending reachability gap. Reloading/Continuing the resulting DAY save while still within day 2-8 can recover it. The prior wording about permanent loss is conditional on continuing through the window without that workaround, and must not be summarized as a permanent softlock."
+    },
+    {
+      "id": "WP-RUNTIME-002",
+      "priorPriority": "P2",
+      "status": "closed-for-manual-only-transitions",
+      "file": "source/dist/index.html",
+      "lineStart": 7626,
+      "lineEnd": 7633,
+      "consumer": "updateRelayForecast -> recordWorldEvent -> normal writer; relayLatestEventId -> relay handoff/construction CAS",
+      "sourceAssessment": "Pure camp-observation <-> watchpost-manual transitions now use defId=watchpost-003, definitionVersion=1, instanceId=content:watchpost-003:once and only the hordeForecast effect. recordWorldEvent retains the actual enclosing active command. relayLatestEventId filters both defId=relay-chain-001 and instanceId=the project ID, so these manual gain/loss events do not advance the relay CAS token.",
+      "actualArtifactObservation": "Read both owner normal writers. The manual gain receipt uses watchpost identity/forecast-only and causation cmd-000005; the TEST-ONLY health-input loss receipt uses the same watchpost identity/forecast-only and null causation, correctly reflecting no enclosing command. Both actual relayProject.status values remain unknown and neither writer has a matching relayLatestEventId.",
+      "ownerFixReport": {
+        "path": "p2-runtime-fix-01/owner-forecast-report.json",
+        "sha256": "06b644749c7d1c6d9848a85f7fe6862aace55dc499ab973b02cc60aa22491148",
+        "provenance": "Owner execution read by this reviewer; not this reviewer's execution."
+      },
+      "normalWriters": [
+        {
+          "path": "p2-runtime-fix-01/owner-manual-normal-native.json",
+          "bytes": 88672,
+          "sha256": "2c3787b8c669ce3b5f1072a4ca2eb5309e2a2278686ef28182955d87f2ff09fc"
+        },
+        {
+          "path": "p2-runtime-fix-01/owner-unavailable-normal-native.json",
+          "bytes": 90005,
+          "sha256": "32a9facce364820e2bf26744ae751c632e6a3b1738b6851c178f539fd9aff247"
+        }
+      ],
+      "realRelayTransitionBoundary": "When previous or next source is relay-station, the transition really includes relay entry/exit and keeps the original relay definition/project identity. In particular relay-station -> watchpost-manual must still advance relayLatestEventId so a stale relay CAS cannot ignore a real relay exit. Keeping that original relay identity is not the pure manual-attribution bug.",
+      "retainedLegacyMetadataBoundary": "Actual relay entry/exit still uses the existing relayEventMeta('online') descriptor, including its legacy online fact metadata even on exit. The 4f baseline already used that descriptor for relay -> camp-observation. This follow-up does not claim that all forecast effect metadata has been normalized. Changing that established relay convention is outside these two narrow P2 fixes and is not required to close pure manual-only attribution."
+    }
+  ],
+  "buildPipelineReview": {
+    "status": "no-blocker-found-in-added-bounded-sync",
+    "file": "source/scripts/build-scenario-package.mjs",
+    "lineStart": 31,
+    "lineEnd": 48,
+    "assessment": "The added block activates only for this built-in marker, checks one start/end/declaration and the supported package/definition versions, reads the authored JSON, escapes inline script-sensitive characters and replaces the single embedded declaration. It reuses the existing changed/--check/write decision and records the package SHA. Older HTML without the mount remains accepted. It does not modify the C2 grammar or claim a general content-graph compiler.",
+    "directReadCheck": "Parsed the actual embedded WATCHPOST_MANUAL_PACK and authored JSON as data and compared their complete JSON structures: equal. No build/game code was executed by this reviewer.",
+    "ownerCheckBoundary": "The parent reported an actual --check exit0/changed=false. That remains parent-owned execution evidence and is not counted as this reviewer's independent execution."
+  },
+  "findings": [],
+  "remainingBlockingFindingsInReviewedScope": [],
+  "scopeLimits": [
+    "Only the two P2 fixes, their specific consumers and the small build-script addition were re-reviewed.",
+    "No game, VM, Gate, browser or build process was executed by this reviewer.",
+    "Owner reports and exact normal writers were inspected read-only; their pass counts remain owner evidence.",
+    "Independent source8/Chrome24+28+20 rebind executions were in progress when assigned and are not pre-filled as passed here.",
+    "Original 9d2f report, counterexample and execution results remain unchanged.",
+    "No natural gameplay, public relay-mainline completion, balance, comprehension, production deployment or full-system approval is added."
+  ]
+}

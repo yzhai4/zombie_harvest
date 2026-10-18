@@ -7,6 +7,7 @@
 - UI设置走当前可见入口→安装→第一份正常writer→实际consumer→刷新。preboot设置被覆盖、隐藏后直接触发handler、只核checkbox或保存旗标都不能证明公开功能有效。只读表达probe不等于角色知识或真实对话接线。
 - fresh的seed/配置及initial digest绑定后不随偏好或随机推进改变。首存失败保留已安装且冻结的待重试状态；核无世界timer、相同初值、单一绑定收据与真实重试。不要将它描述为全内存回滚。
 - 完整旧writer不重算世界。明确区分原声明与真实已保存事实；新增来源字段忠实记录实际旧seed/RNG，保留原声明和一次迁移收据。legacy专用兼容不放宽fresh/bound，也不吞掉未知未来版本或坏实体。
+- 新内容的恢复可达性区分直接DAY继续与旧REPORT实际关闭后回DAY；只读旧报告不证明返回白天会出现当日待办，末日窗口尤其要核。入口接续不能靠重复onDayStart、配给或报告奖励补齐，也不能因此在过期或LOSS时免费授能力。
 - 固定方法跑旧版负控与候选正控，保留原失败。按原始HTML、boot前配置变体各自SHA标记证据，不能把变体绿色移到canonical。实际浏览器、source VM、纯核心、自然玩法和生产部署分别列明。
 
 修改JSON编译或目录安装时，按[内容绑定合同](../../../../docs/decisions/ADR-20261017-scenario-content-binding-v1.md)检查以下边界：
@@ -19,6 +20,6 @@
 
 只在上述边界相关时采用这些检查。角色观察权限、自然多日和生产发布各自保留出口；编译合同与源码/浏览器验收按实际状态报告，不因初始绑定通过而关闭完整Scenario。
 
-修改作者包或共享核心后运行 `node scripts/build-scenario-package.mjs` 同步独立HTML，再用 `--check` 确认部署字节一致。此构建检查不代替真实start、效果或保存验收；旧QA若直接写initial或手动install后再次fresh start，须先改为与产品相同的启动/context调用，保留原业务断言和原失败。
+修改作者包或共享核心后运行 `node scripts/build-scenario-package.mjs` 同步独立HTML，再用 `--check` 确认部署字节一致。单个内置旁包也应由同一构建流程同步作者JSON与嵌入值，并以check对账；这不扩大C2已支持语法。此构建检查不代替真实start、效果或保存验收；旧QA若直接写initial或手动install后再次fresh start，须先改为与产品相同的启动/context调用，保留原业务断言和原失败。
 
 大量源码VM夹具包含重复HTML时，可将原始子工件无损归档；先在独立空目录标准解压，逐原路径／bytes／SHA核对原报告引用闭合，保留主native报告与明确运输索引。通用manifest读取普通文件不代表已遍历压缩包：直接消费原子工件前须解压到声明根目录，外部既有原件以显式同SHA映射解决。归档不改变执行来源、测试结果或旧失败，也不计新游戏验证。

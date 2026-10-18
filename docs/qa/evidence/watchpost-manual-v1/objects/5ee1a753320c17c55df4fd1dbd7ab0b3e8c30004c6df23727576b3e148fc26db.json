@@ -1,0 +1,385 @@
+[
+  {
+    "id": "ready",
+    "condition": {
+      "type": "outpost_ready",
+      "id": "watchPost",
+      "healthyOnly": true,
+      "nearby": true
+    },
+    "result": {
+      "ok": true,
+      "gateVersion": 1,
+      "phase": [
+        "DAY"
+      ],
+      "checked": 1
+    },
+    "pack": {
+      "status": "bound",
+      "packId": "watchpost-manual-v1",
+      "version": 1,
+      "definitionVersion": 1,
+      "digest": "fnv1a-utf16-canonical-hex-v1:b8d8b128"
+    },
+    "bounds": {
+      "cols": 36,
+      "rows": 24
+    }
+  },
+  {
+    "id": "outside",
+    "condition": {
+      "type": "outpost_ready",
+      "id": "watchPost",
+      "healthyOnly": true,
+      "nearby": true
+    },
+    "result": {
+      "ok": false,
+      "reason": "event-precondition",
+      "failedGate": {
+        "type": "outpost_ready",
+        "condition": {
+          "type": "outpost_ready",
+          "id": "watchPost",
+          "healthyOnly": true,
+          "nearby": true
+        }
+      },
+      "details": {
+        "outpostId": "watchPost",
+        "reason": "too-far"
+      },
+      "gateVersion": 1,
+      "phase": [
+        "DAY"
+      ]
+    },
+    "pack": {
+      "status": "bound",
+      "packId": "watchpost-manual-v1",
+      "version": 1,
+      "definitionVersion": 1,
+      "digest": "fnv1a-utf16-canonical-hex-v1:b8d8b128"
+    },
+    "bounds": {
+      "cols": 36,
+      "rows": 24
+    }
+  },
+  {
+    "id": "strained",
+    "condition": {
+      "type": "outpost_ready",
+      "id": "watchPost",
+      "healthyOnly": true,
+      "nearby": true
+    },
+    "result": {
+      "ok": false,
+      "reason": "event-precondition",
+      "failedGate": {
+        "type": "outpost_ready",
+        "condition": {
+          "type": "outpost_ready",
+          "id": "watchPost",
+          "healthyOnly": true,
+          "nearby": true
+        }
+      },
+      "details": {
+        "outpostId": "watchPost",
+        "reason": "upkeep-shortage"
+      },
+      "gateVersion": 1,
+      "phase": [
+        "DAY"
+      ]
+    },
+    "pack": {
+      "status": "bound",
+      "packId": "watchpost-manual-v1",
+      "version": 1,
+      "definitionVersion": 1,
+      "digest": "fnv1a-utf16-canonical-hex-v1:b8d8b128"
+    },
+    "bounds": {
+      "cols": 36,
+      "rows": 24
+    }
+  },
+  {
+    "id": "injured",
+    "condition": {
+      "type": "outpost_ready",
+      "id": "watchPost",
+      "healthyOnly": true,
+      "nearby": true
+    },
+    "result": {
+      "ok": false,
+      "reason": "event-precondition",
+      "failedGate": {
+        "type": "outpost_ready",
+        "condition": {
+          "type": "outpost_ready",
+          "id": "watchPost",
+          "healthyOnly": true,
+          "nearby": true
+        }
+      },
+      "details": {
+        "outpostId": "watchPost",
+        "reason": "guard-not-healthy"
+      },
+      "gateVersion": 1,
+      "phase": [
+        "DAY"
+      ]
+    },
+    "pack": {
+      "status": "bound",
+      "packId": "watchpost-manual-v1",
+      "version": 1,
+      "definitionVersion": 1,
+      "digest": "fnv1a-utf16-canonical-hex-v1:b8d8b128"
+    },
+    "bounds": {
+      "cols": 36,
+      "rows": 24
+    }
+  },
+  {
+    "id": "contradictory",
+    "condition": {
+      "type": "outpost_ready",
+      "id": "watchPost",
+      "healthyOnly": true,
+      "nearby": true
+    },
+    "result": {
+      "ok": false,
+      "reason": "event-precondition",
+      "failedGate": {
+        "type": "outpost_ready",
+        "condition": {
+          "type": "outpost_ready",
+          "id": "watchPost",
+          "healthyOnly": true,
+          "nearby": true
+        }
+      },
+      "details": {
+        "outpostId": "watchPost",
+        "reason": "guard-presence-conflict"
+      },
+      "gateVersion": 1,
+      "phase": [
+        "DAY"
+      ]
+    },
+    "pack": {
+      "status": "bound",
+      "packId": "watchpost-manual-v1",
+      "version": 1,
+      "definitionVersion": 1,
+      "digest": "fnv1a-utf16-canonical-hex-v1:b8d8b128"
+    },
+    "bounds": {
+      "cols": 36,
+      "rows": 24
+    }
+  },
+  {
+    "id": "missing-pack",
+    "condition": {
+      "type": "outpost_ready",
+      "id": "watchPost",
+      "healthyOnly": true,
+      "nearby": true
+    },
+    "result": {
+      "ok": false,
+      "reason": "event-precondition",
+      "failedGate": {
+        "type": "outpost_ready",
+        "condition": {
+          "type": "outpost_ready",
+          "id": "watchPost",
+          "healthyOnly": true,
+          "nearby": true
+        }
+      },
+      "details": {
+        "outpostId": "watchPost",
+        "reason": "pack-unavailable"
+      },
+      "gateVersion": 1,
+      "phase": [
+        "DAY"
+      ]
+    },
+    "pack": {
+      "status": "unavailable",
+      "packId": "watchpost-manual-v1",
+      "version": 1,
+      "definitionVersion": 1,
+      "reason": "pack-not-mounted"
+    },
+    "bounds": {
+      "cols": 36,
+      "rows": 24
+    }
+  },
+  {
+    "id": "bad-id",
+    "condition": {
+      "type": "outpost_ready",
+      "id": "waterMill",
+      "healthyOnly": true,
+      "nearby": true
+    },
+    "result": {
+      "ok": false,
+      "reason": "event-precondition-invalid",
+      "failedGate": {
+        "type": "outpost_ready",
+        "condition": {
+          "type": "outpost_ready",
+          "id": "waterMill",
+          "healthyOnly": true,
+          "nearby": true
+        }
+      },
+      "gateVersion": 1,
+      "phase": [
+        "DAY"
+      ]
+    },
+    "pack": {
+      "status": "bound",
+      "packId": "watchpost-manual-v1",
+      "version": 1,
+      "definitionVersion": 1,
+      "digest": "fnv1a-utf16-canonical-hex-v1:b8d8b128"
+    },
+    "bounds": {
+      "cols": 36,
+      "rows": 24
+    }
+  },
+  {
+    "id": "bad-health",
+    "condition": {
+      "type": "outpost_ready",
+      "id": "watchPost",
+      "healthyOnly": false,
+      "nearby": true
+    },
+    "result": {
+      "ok": false,
+      "reason": "event-precondition-invalid",
+      "failedGate": {
+        "type": "outpost_ready",
+        "condition": {
+          "type": "outpost_ready",
+          "id": "watchPost",
+          "healthyOnly": false,
+          "nearby": true
+        }
+      },
+      "gateVersion": 1,
+      "phase": [
+        "DAY"
+      ]
+    },
+    "pack": {
+      "status": "bound",
+      "packId": "watchpost-manual-v1",
+      "version": 1,
+      "definitionVersion": 1,
+      "digest": "fnv1a-utf16-canonical-hex-v1:b8d8b128"
+    },
+    "bounds": {
+      "cols": 36,
+      "rows": 24
+    }
+  },
+  {
+    "id": "bad-distance-switch",
+    "condition": {
+      "type": "outpost_ready",
+      "id": "watchPost",
+      "healthyOnly": true,
+      "nearby": false
+    },
+    "result": {
+      "ok": false,
+      "reason": "event-precondition-invalid",
+      "failedGate": {
+        "type": "outpost_ready",
+        "condition": {
+          "type": "outpost_ready",
+          "id": "watchPost",
+          "healthyOnly": true,
+          "nearby": false
+        }
+      },
+      "gateVersion": 1,
+      "phase": [
+        "DAY"
+      ]
+    },
+    "pack": {
+      "status": "bound",
+      "packId": "watchpost-manual-v1",
+      "version": 1,
+      "definitionVersion": 1,
+      "digest": "fnv1a-utf16-canonical-hex-v1:b8d8b128"
+    },
+    "bounds": {
+      "cols": 36,
+      "rows": 24
+    }
+  },
+  {
+    "id": "unknown-key",
+    "condition": {
+      "type": "outpost_ready",
+      "id": "watchPost",
+      "healthyOnly": true,
+      "nearby": true,
+      "extra": true
+    },
+    "result": {
+      "ok": false,
+      "reason": "event-precondition-invalid",
+      "failedGate": {
+        "type": "outpost_ready",
+        "condition": {
+          "type": "outpost_ready",
+          "id": "watchPost",
+          "healthyOnly": true,
+          "nearby": true,
+          "extra": true
+        }
+      },
+      "gateVersion": 1,
+      "phase": [
+        "DAY"
+      ]
+    },
+    "pack": {
+      "status": "bound",
+      "packId": "watchpost-manual-v1",
+      "version": 1,
+      "definitionVersion": 1,
+      "digest": "fnv1a-utf16-canonical-hex-v1:b8d8b128"
+    },
+    "bounds": {
+      "cols": 36,
+      "rows": 24
+    }
+  }
+]

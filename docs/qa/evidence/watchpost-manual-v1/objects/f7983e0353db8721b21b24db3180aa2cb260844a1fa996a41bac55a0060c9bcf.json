@@ -1,0 +1,382 @@
+{
+  "runner": "browser-relay-maintenance-v2",
+  "sourceHtmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a",
+  "runnerSha256": "3a2941fb2ba1414dce993c3d7c128f41feafa8e41cb12d25791e53b495e6d52d",
+  "inputManifestSha256": "48f56bae87f255518f1953e27bbb070484c37831aa7451a42661d535459f0a1a",
+  "mode": "TEST-ONLY-complete-online-writer-derived-HP0-stale-flags-public-repair",
+  "naturalDamageClaim": false,
+  "naturalGameplay": false,
+  "humanExperience": false,
+  "stateWritesAfterBoot": false,
+  "hiddenAdvanceCalls": 0,
+  "hiddenRepairCalls": 0,
+  "forcedHiddenControls": false,
+  "budget": {
+    "overallMs": 100000,
+    "sceneMs": 45000,
+    "normalWriterWaitMs": 15000,
+    "newTickWaitMs": 4000,
+    "maximumRepairs": 1,
+    "maximumNavigationSegments": 6,
+    "maximumKeyHoldMs": 60,
+    "movementDirectionRule": "only visible station context; finite right then left UI-range refresh"
+  },
+  "scope": "One actual public repair/20-minute proof and normal-writer/selected/new-boot chain; one public 1.19 view-only range scenario. Typed stale submission and real damage/redestruction/fatal are source-contract scope, not synthesized browser actions.",
+  "checks": [
+    {
+      "name": "destroyed-near-repair: actual Continue is visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "destroyed-near-repair: true HP0 fixture survives Continue with completed history and no gifts",
+      "ok": true
+    },
+    {
+      "name": "destroyed-near-repair: public panel separates completed history destroyed station and HP0/8",
+      "ok": true
+    },
+    {
+      "name": "destroyed-near-repair: public repair is bound to this station",
+      "ok": true
+    },
+    {
+      "name": "destroyed-near-repair: close same station has a real enabled paid repair",
+      "ok": true
+    },
+    {
+      "name": "destroyed-near-repair: actual player1 parent and same unique station receive immediate +1",
+      "ok": true
+    },
+    {
+      "name": "destroyed-near-repair: gross two wood and fourteen energy are paid once",
+      "ok": true
+    },
+    {
+      "name": "destroyed-near-repair: real child advance20 is linked to same paid parent",
+      "ok": true
+    },
+    {
+      "name": "destroyed-near-repair: actual prefix and subsequent station outcome are distinct",
+      "ok": true
+    },
+    {
+      "name": "destroyed-near-repair: no second online receipt or completed-project replay",
+      "ok": true
+    },
+    {
+      "name": "destroyed-near-repair: a positive recovery is claimed only when current public UI is operational",
+      "ok": true
+    },
+    {
+      "name": "destroyed-near-repair: actual selected writer and new boot retain repair and actual station without re-award",
+      "ok": true
+    },
+    {
+      "name": "destroyed-near-repair: new tick does not replay repair or online award",
+      "ok": true
+    },
+    {
+      "name": "destroyed-near-repair: full input seeds exactly once through reload",
+      "ok": true
+    },
+    {
+      "name": "destroyed-view-only-range: actual Continue is visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "destroyed-view-only-range: true HP0 fixture survives Continue with completed history and no gifts",
+      "ok": true
+    },
+    {
+      "name": "destroyed-view-only-range: public panel separates completed history destroyed station and HP0/8",
+      "ok": true
+    },
+    {
+      "name": "destroyed-view-only-range: public repair is bound to this station",
+      "ok": true
+    },
+    {
+      "name": "destroyed-view-only-range: 1.19 public view is available while bound repair is disabled",
+      "ok": true
+    },
+    {
+      "name": "destroyed-view-only-range: disabled reason is persistently public outside the button",
+      "ok": true
+    },
+    {
+      "name": "destroyed-view-only-range: finite real public movement refreshes repair into valid range",
+      "ok": true
+    },
+    {
+      "name": "destroyed-view-only-range: leaving range cannot leave a usable old repair control",
+      "ok": true
+    },
+    {
+      "name": "destroyed-view-only-range: still-visible disabled control retains current coarse reason",
+      "ok": true
+    },
+    {
+      "name": "destroyed-view-only-range: range inspection/navigation never submits or pays a repair",
+      "ok": true
+    },
+    {
+      "name": "actual main response matches frozen maintenance source",
+      "ok": true
+    },
+    {
+      "name": "actual main response matches frozen maintenance source",
+      "ok": true
+    },
+    {
+      "name": "actual main response matches frozen maintenance source",
+      "ok": true
+    },
+    {
+      "name": "two scenes include actual reload main response for the paid repair",
+      "ok": true
+    }
+  ],
+  "errors": [],
+  "scenes": [
+    {
+      "id": "destroyed-near-repair",
+      "inputSha256": "cd92cdf6fccce25345e9633c32bd5abffaf13d132414690607c2a4026f89b0e2",
+      "stationId": "bld-relay-station",
+      "status": "VERIFIED",
+      "artifacts": [
+        {
+          "file": "destroyed-near-repair-boot-ledger.json",
+          "sha256": "3687df38ff434739ea621e0930c77a5579b8692f6831ea34373b1eb919dd1fb9",
+          "bytes": 3866
+        },
+        {
+          "file": "destroyed-near-repair-destroyed-panel-desktop-public-ui.json",
+          "sha256": "f3aefe1f44814670db80b0aa3c052cfb93cbb813e4db088d0df70535e5303788",
+          "bytes": 2127
+        },
+        {
+          "file": "destroyed-near-repair-destroyed-panel-desktop.png",
+          "sha256": "71a88a1c9473b36bc96823e0aafaa358c1036b8ec5d7f583af20776fdc9c84bc",
+          "bytes": 322810
+        },
+        {
+          "file": "destroyed-near-repair-destroyed-panel-390-public-ui.json",
+          "sha256": "193fce25fc36284858e23a8bf76308d7e4c7918eddf4eadeafc4212bc9361c14",
+          "bytes": 1869
+        },
+        {
+          "file": "destroyed-near-repair-destroyed-panel-390.png",
+          "sha256": "8f98f3da3a2fc633c433015f9745cb84869e72ca1e95d6ab796ba0b70efc239c",
+          "bytes": 176241
+        },
+        {
+          "file": "destroyed-near-repair-before-repair-ledger.json",
+          "sha256": "af3d3ef56387a06a62960072cfb39294710251bfeec89776906cec6f702c6121",
+          "bytes": 4396
+        },
+        {
+          "file": "destroyed-near-repair-actual-repair-receipt.json",
+          "sha256": "ec22d29b8ed65b6cb31c26312333a09343ed2bcd7ac89f4b96490397a1901b87",
+          "bytes": 4990
+        },
+        {
+          "file": "destroyed-near-repair-after-repair-ledger.json",
+          "sha256": "01a855cc955d4b8628e5c8f788c59937cfd717af3ca7f8f0e8db5efd1126958d",
+          "bytes": 9949
+        },
+        {
+          "file": "destroyed-near-repair-normal-repair-before-reload-native.json",
+          "sha256": "4c6b40f187864b8b93398f6f6a9b4b4b76dbed3aa0f821f67b02879447582574",
+          "bytes": 115198
+        },
+        {
+          "file": "destroyed-near-repair-normal-writer-watermark.json",
+          "sha256": "29ab4058fbeb143941d51522c554f8163a0e2b708cd6c5c5440a97cf92473000",
+          "bytes": 430
+        },
+        {
+          "file": "destroyed-near-repair-repaired-panel-390-public-ui.json",
+          "sha256": "028784694c203f70f2193deb387380ebb423fca1d322232dc5a92293e9c1dc58",
+          "bytes": 1836
+        },
+        {
+          "file": "destroyed-near-repair-repaired-panel-390.png",
+          "sha256": "558cac69bbbdcf263637e1c2a726566ae884bb8f2abe144a625fe499efbaaa15",
+          "bytes": 172848
+        },
+        {
+          "file": "destroyed-near-repair-live-before-reload-watermark.json",
+          "sha256": "29d5ab312e4f5cb649ccda9a8e3511be8824f9e626c62fd8c3400af29d260d2f",
+          "bytes": 10479
+        },
+        {
+          "file": "destroyed-near-repair-actual-reload-selected-primary-native.json",
+          "sha256": "1bbb17ab85f5f8f88377502de7bfbf26a59eefcbb6e904c6b026c34dde745624",
+          "bytes": 115179
+        },
+        {
+          "file": "destroyed-near-repair-new-boot-watermark.json",
+          "sha256": "5f8d4bdaacd31e88746bf66d076b5c031b76701b6d888207b0c97cb4c293d456",
+          "bytes": 10479
+        },
+        {
+          "file": "destroyed-near-repair-after-new-tick-ledger.json",
+          "sha256": "14cac574210e09be3cf758962164f8a0ad56484e7554f5ac5dedf6fea7288d92",
+          "bytes": 11009
+        },
+        {
+          "file": "destroyed-near-repair-restored-panel-390-public-ui.json",
+          "sha256": "e456c90d9de27d76294cabaa43de70fc1af77c2ec480fc05085482efd496949b",
+          "bytes": 1794
+        },
+        {
+          "file": "destroyed-near-repair-restored-panel-390.png",
+          "sha256": "206b7d9e882588fa558f546e319a2da4190ef156aa90d776a706c552c12a9928",
+          "bytes": 172969
+        }
+      ],
+      "repair": {
+        "commandId": "cmd-000257",
+        "eventId": "evt-000040",
+        "hpImmediate": 1,
+        "hpAtCompletion": 1,
+        "operationalAtCompletion": true,
+        "playerSurvived": true
+      },
+      "normalWriter": {
+        "savedAt": 402,
+        "eventSeq": 41,
+        "reason": "command:building.repair",
+        "repairCommandId": "cmd-000257"
+      }
+    },
+    {
+      "id": "destroyed-view-only-range",
+      "inputSha256": "b47807eeabd060a5225894a0b94409744c39738fec4d0edffaa89523e3dbb430",
+      "stationId": "bld-relay-station",
+      "status": "VERIFIED",
+      "artifacts": [
+        {
+          "file": "destroyed-view-only-range-boot-ledger.json",
+          "sha256": "64e4ae9ad6949e5f8ba5de6690ae76db77f5889bf06cd89c289efc128179039c",
+          "bytes": 3867
+        },
+        {
+          "file": "destroyed-view-only-range-destroyed-panel-desktop-public-ui.json",
+          "sha256": "651196201fad0c2653150513452e3166da58d53ca7ff93c17fbed3dde15570ab",
+          "bytes": 2088
+        },
+        {
+          "file": "destroyed-view-only-range-destroyed-panel-desktop.png",
+          "sha256": "b5a60ea81b81dd04d65c8415ce360654e6b75556e3c95248d5d482e495b3e06e",
+          "bytes": 322495
+        },
+        {
+          "file": "destroyed-view-only-range-destroyed-panel-390-public-ui.json",
+          "sha256": "86380151bc7f62d575fd2220304e834a6773aefe8fb961ab47d0318a6c3745e8",
+          "bytes": 1831
+        },
+        {
+          "file": "destroyed-view-only-range-destroyed-panel-390.png",
+          "sha256": "bc1f0c853d8f33666ffe0faafcfe9116b163a77a5e8f2568d6f67ed0b1f0df8d",
+          "bytes": 175456
+        },
+        {
+          "file": "destroyed-view-only-range-range-disabled-390-public-ui.json",
+          "sha256": "ac42be6c44336bdadd9c8194e6c563001ac9fac3eaaf400998c755b666e38d02",
+          "bytes": 1315
+        },
+        {
+          "file": "destroyed-view-only-range-range-disabled-390.png",
+          "sha256": "c8a88d2e5cba01aa317a0ba57366a6956964a7b844ff84144448dd896a12b1cf",
+          "bytes": 168166
+        },
+        {
+          "file": "destroyed-view-only-range-range-enabled-390-public-ui.json",
+          "sha256": "2533ab8b6a60e9e58f7d346fc73a9f8fca8ed52de6d9283e90eccbca1d94dc8e",
+          "bytes": 1353
+        },
+        {
+          "file": "destroyed-view-only-range-range-enabled-390.png",
+          "sha256": "55b0c8a2aa647601d82535f0e73db6c7ee3207bb2c1733e1b87fa561540ce056",
+          "bytes": 170447
+        },
+        {
+          "file": "destroyed-view-only-range-range-return-disabled-390-public-ui.json",
+          "sha256": "2be3009db1f09e8fbfcf2cdae78ab3c5db5bd4c68d76888d977480a16f6bce89",
+          "bytes": 1315
+        },
+        {
+          "file": "destroyed-view-only-range-range-return-disabled-390.png",
+          "sha256": "418cf62baa26cf9cd2e53f67c1befaaec6c6e3869277b0903fdde52194afc1d2",
+          "bytes": 168060
+        },
+        {
+          "file": "destroyed-view-only-range-range-observation-ledger.json",
+          "sha256": "6f19ed4dc01e7f83c8afe61183ab45e248fd5e3febe67a7f5ea7199c059a8a55",
+          "bytes": 2517
+        }
+      ],
+      "publicViewClicked": true,
+      "navigation": [
+        {
+          "key": "d",
+          "holdMs": 60,
+          "repairUi": {
+            "present": true,
+            "enabled": true
+          }
+        },
+        {
+          "key": "a",
+          "holdMs": 60,
+          "repairUi": {
+            "present": true,
+            "enabled": false
+          }
+        }
+      ],
+      "returnedPublicContext": {
+        "present": true,
+        "enabled": false
+      },
+      "staleSubmissionScope": "No synthetic stale click or detached callback invoked. Actual typed stale target/range rejection is source-contract coverage only."
+    }
+  ],
+  "documents": [
+    {
+      "scene": "destroyed-near-repair",
+      "status": 200,
+      "sha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a",
+      "bytes": 984373
+    },
+    {
+      "scene": "destroyed-near-repair",
+      "status": 200,
+      "sha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a",
+      "bytes": 984373
+    },
+    {
+      "scene": "destroyed-view-only-range",
+      "status": 200,
+      "sha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a",
+      "bytes": 984373
+    }
+  ],
+  "documentHashes": [
+    "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a",
+    "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a",
+    "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+  ],
+  "cleanup": {
+    "contextsClosed": true,
+    "browserClosed": true,
+    "serverClosed": true
+  },
+  "browserVersion": "155.0.8059.80",
+  "count": 28,
+  "passed": 28,
+  "elapsedMs": 9914,
+  "ok": true,
+  "status": "VERIFIED"
+}

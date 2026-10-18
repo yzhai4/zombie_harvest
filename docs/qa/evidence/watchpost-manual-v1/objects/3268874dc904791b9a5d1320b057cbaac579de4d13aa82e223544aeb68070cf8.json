@@ -1,0 +1,184 @@
+{
+  "cases": [
+    {
+      "id": "missing-token",
+      "reason": "content-instance-conflict",
+      "events": [
+        {
+          "eventId": "evt-000277",
+          "seq": 277,
+          "type": "command.rejected",
+          "actorId": "system",
+          "commandId": "qa-watch-missing",
+          "causationId": null,
+          "tick": {
+            "world": 2160,
+            "phase": 0,
+            "schedule": 360
+          },
+          "payload": {
+            "type": "content.chain.resolve",
+            "reason": "content-instance-conflict"
+          }
+        }
+      ]
+    },
+    {
+      "id": "stale-instance",
+      "reason": "content-instance-conflict",
+      "events": [
+        {
+          "eventId": "evt-000277",
+          "seq": 277,
+          "type": "command.rejected",
+          "actorId": "system",
+          "commandId": "qa-watch-stale",
+          "causationId": null,
+          "tick": {
+            "world": 2160,
+            "phase": 0,
+            "schedule": 360
+          },
+          "payload": {
+            "type": "content.chain.resolve",
+            "reason": "content-instance-conflict"
+          }
+        }
+      ]
+    },
+    {
+      "id": "version-mismatch",
+      "reason": "content-instance-conflict",
+      "events": [
+        {
+          "eventId": "evt-000277",
+          "seq": 277,
+          "type": "command.rejected",
+          "actorId": "system",
+          "commandId": "qa-watch-version",
+          "causationId": null,
+          "tick": {
+            "world": 2160,
+            "phase": 0,
+            "schedule": 360
+          },
+          "payload": {
+            "type": "content.chain.resolve",
+            "reason": "content-instance-conflict"
+          }
+        }
+      ]
+    },
+    {
+      "id": "outside-radius",
+      "reason": "choice-requirement",
+      "events": [
+        {
+          "eventId": "evt-000277",
+          "seq": 277,
+          "type": "command.rejected",
+          "actorId": "player-1",
+          "commandId": "qa-watch-far",
+          "causationId": null,
+          "tick": {
+            "world": 2160,
+            "phase": 0,
+            "schedule": 360
+          },
+          "payload": {
+            "type": "content.chain.resolve",
+            "reason": "choice-requirement"
+          }
+        }
+      ]
+    },
+    {
+      "id": "public-autonomy-far",
+      "reason": "watchpost-player-only",
+      "events": [
+        {
+          "eventId": "evt-000277",
+          "seq": 277,
+          "type": "command.rejected",
+          "actorId": "camp-autonomy",
+          "commandId": "qa-watch-forged-autonomy",
+          "causationId": null,
+          "tick": {
+            "world": 2160,
+            "phase": 0,
+            "schedule": 360
+          },
+          "payload": {
+            "type": "content.chain.resolve",
+            "reason": "watchpost-player-only"
+          }
+        }
+      ]
+    },
+    {
+      "id": "night",
+      "reason": "night-lock",
+      "events": []
+    },
+    {
+      "id": "battle-session-with-day-flag",
+      "reason": "phase-blocked",
+      "events": [
+        {
+          "eventId": "evt-000277",
+          "seq": 277,
+          "type": "command.rejected",
+          "actorId": "player-1",
+          "commandId": "qa-watch-battle",
+          "causationId": null,
+          "tick": {
+            "world": 2160,
+            "phase": 0,
+            "schedule": 360
+          },
+          "payload": {
+            "type": "content.chain.resolve",
+            "reason": "phase-blocked"
+          }
+        }
+      ]
+    },
+    {
+      "id": "game-over",
+      "reason": "game-over",
+      "events": []
+    },
+    {
+      "id": "exhausted-command-space",
+      "reason": "command-sequence-exhausted",
+      "events": []
+    }
+  ],
+  "duplicate": {
+    "ok": true,
+    "duplicate": true,
+    "commandId": "qa-watch-repeat"
+  },
+  "lastSafeParent": "cmd-9007199254740991",
+  "rollback": {
+    "ok": false,
+    "reason": "building-missing",
+    "results": [
+      {
+        "ok": true,
+        "op": "unlock",
+        "key": "watchpost-manual-prepared"
+      },
+      {
+        "ok": true,
+        "op": "recordHistory",
+        "key": "watchpost-003:manual"
+      },
+      {
+        "ok": false,
+        "reason": "building-missing"
+      }
+    ],
+    "rolledBack": true
+  }
+}

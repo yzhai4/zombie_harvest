@@ -1,0 +1,376 @@
+{
+  "schema": "WatchpostHistoricalSelectionV1",
+  "rows": [
+    {
+      "id": "old9d-report-close",
+      "kind": "failed-report",
+      "originalReport": {
+        "portableName": "report.json",
+        "sha256": "51d4c8a7e719184ae22022fbec2bc9a86123979061b578d42caff9e88de4d591",
+        "bytes": 6226
+      },
+      "currentPassedSelection": false,
+      "classification": "Actual old9d product gap: old day2/day8 REPORT closes into the same DAY session without a pending watchpost choice; within-window DAY reload could work around it. Original0/2 remains failed.",
+      "count": 2,
+      "passed": 0,
+      "sourceHtmlSha256": "9d2f91bae6ed96b27f64ab3c0c96cb5a9de196233b4d2e2205902207bda72380",
+      "artifact": {
+        "path": "docs/qa/evidence/watchpost-manual-v1/reports/history-old9d-report-close.original-failure-excerpt.json",
+        "sha256": "9caa84c191173d79ef8c8aa1539ee02518d2461e7f69839ea05a7d1e4388100a"
+      }
+    },
+    {
+      "id": "ad76-causation-method",
+      "kind": "failed-report",
+      "originalReport": {
+        "portableName": "report.json",
+        "sha256": "8ec1696c8c58870f5fd6be0ef5154a36458099d2e6a6ea9a60456581748098b2",
+        "bytes": 18859
+      },
+      "currentPassedSelection": false,
+      "classification": "Original ad76 method/oracle causation failure7/8 retained; the corrected final independent run is a separate identity.",
+      "count": 8,
+      "passed": 7,
+      "sourceHtmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a",
+      "artifact": {
+        "path": "docs/qa/evidence/watchpost-manual-v1/reports/history-ad76-causation-method.original-failure-excerpt.json",
+        "sha256": "e83898823757a5d745e7a7d2e0e353bdf7480a6035da2fb1219798fdccace573"
+      }
+    },
+    {
+      "id": "ad76-initial-matrix",
+      "kind": "matrix",
+      "originalReport": {
+        "portableName": "progress.json",
+        "sha256": "d438da4775ea7878b599d9d2f27908e7ab440ec1b78bbb3e38b69be6181c73ee",
+        "bytes": 262856
+      },
+      "currentPassedSelection": false,
+      "classification": "Original first ad76 full matrix38/48 retained with ten failing row outputs; partial-VM missing-helper/source adaptation is not rewritten into a green original.",
+      "count": 48,
+      "passed": 38,
+      "failed": 10,
+      "originalRows": [
+        {
+          "name": "inline-syntax",
+          "exitCode": 0,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "validate-content",
+          "exitCode": 0,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "check-night-guard",
+          "exitCode": 0,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "content-chain",
+          "exitCode": 1,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "plan-day",
+          "exitCode": 1,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "camp-area",
+          "exitCode": 0,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "plan-integrity",
+          "exitCode": 1,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "plan-integrity-ui",
+          "exitCode": 1,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "save-recovery",
+          "exitCode": 0,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "command-id-reservation",
+          "exitCode": 0,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "repair-proof",
+          "exitCode": 0,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "leader-llm-harness",
+          "exitCode": 0,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "leader-harness-replay",
+          "exitCode": 0,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "headless-leader-adapter",
+          "exitCode": 0,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "leader-command-bridge",
+          "exitCode": 0,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "leader-command-bridge-runtime",
+          "exitCode": 0,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "daytime-combat",
+          "exitCode": 0,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "combat-intent",
+          "exitCode": 0,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "npc-threat-attention",
+          "exitCode": 1,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "three-day-safety",
+          "exitCode": 0,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "outpost-presence",
+          "exitCode": 0,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "camp-rest",
+          "exitCode": 0,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "event-gate",
+          "exitCode": 0,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "event-gate-parity",
+          "exitCode": 0,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "relay-construction",
+          "exitCode": 0,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "relay-producer",
+          "exitCode": 0,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "relay-transaction",
+          "exitCode": 0,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "relay-runtime",
+          "exitCode": 0,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "scenario-package",
+          "exitCode": 0,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "observer-expression",
+          "exitCode": 0,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "scenario-c1",
+          "exitCode": 1,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "scenario-c2",
+          "exitCode": 1,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "gameplay-vertical-slice",
+          "exitCode": 0,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "content-episode",
+          "exitCode": 0,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "shortage-choice-v2",
+          "exitCode": 1,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "crop-target",
+          "exitCode": 0,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "npc-public-eligibility-v1",
+          "exitCode": 0,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "npc-self-observation-v1",
+          "exitCode": 0,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "npc-direct-sight-v1",
+          "exitCode": 0,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "npc-rest-work-v1",
+          "exitCode": 1,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "crop-method",
+          "exitCode": 0,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "replay-self-test",
+          "exitCode": 0,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "static-three-day-smoke",
+          "exitCode": 0,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "relay-handoff-memory-v1",
+          "exitCode": 1,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "player-day-attack-v1",
+          "exitCode": 0,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "world-clock-persistence-v1",
+          "exitCode": 0,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "day-fatal-outcome-v1",
+          "exitCode": 0,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        },
+        {
+          "name": "relay-maintenance-v1",
+          "exitCode": 0,
+          "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+        }
+      ],
+      "artifact": {
+        "path": "docs/qa/evidence/watchpost-manual-v1/history/ad76-initial-matrix.result-only-companion.json",
+        "sha256": "6625b940feb2f3f6c5eeb1efd7fabec2e384d134c4e6f08162a97514fec06141"
+      }
+    },
+    {
+      "id": "panel-method",
+      "kind": "failed-report",
+      "originalReport": {
+        "portableName": "report.json",
+        "sha256": "362f8729aaed81ed6e1fefd98c0709b81f525aaf3d16274e2da360272cdd4afc",
+        "bytes": 3270
+      },
+      "currentPassedSelection": false,
+      "classification": "Original9d panel method7/8 failure retained; actual later method and build rebind are separate executions.",
+      "count": 8,
+      "passed": 7,
+      "sourceHtmlSha256": "9d2f91bae6ed96b27f64ab3c0c96cb5a9de196233b4d2e2205902207bda72380",
+      "artifact": {
+        "path": "docs/qa/evidence/watchpost-manual-v1/reports/history-panel-method.original-failure-excerpt.json",
+        "sha256": "11ae7904434957149e3249c5116dcfce14d4e8d673e3514b184e0173d1c43b07"
+      }
+    },
+    {
+      "id": "public-A01",
+      "kind": "public-pilot",
+      "originalReport": {
+        "portableName": "report.json",
+        "sha256": "69593b40175d8ee52d937759a65b37c3fbe76382404f1dcbcdc0b32b1561b117",
+        "bytes": 98099
+      },
+      "currentPassedSelection": false,
+      "classification": "Older4f bounded public engineering pilot; no currentad762 pass coverage.",
+      "actualExitCode": 1,
+      "originalStatus": "INTERRUPTED_RISK",
+      "artifact": null,
+      "sourceHtmlSha256": "4f697787f6eb4a215a7eab4a483e7d11a65b23b6f1fcb55f175d9c4edfef3e21",
+      "currentAd762Coverage": false,
+      "naturalCompletionClaim": false,
+      "annotation": "Original INTERRUPTED_RISK / actual exit1. Finite action, food, HP, world-minute and wall-clock budgets were preserved. This did not complete the public relay mainline and does not show a manual-feature benefit.",
+      "terminal": {
+        "path": "docs/qa/evidence/watchpost-manual-v1/reports/public-A01-terminal.path-only-companion.json",
+        "sha256": "63c42e473b3a9766ab38c6c0c83438b12ab74ce29dd8c58357531dc4f80a149b"
+      }
+    },
+    {
+      "id": "public-A02",
+      "kind": "public-pilot",
+      "originalReport": {
+        "portableName": "report.json",
+        "sha256": "50931c5ccd14d98f4d17886999be020fcc3035f3a11f9f7dc1cbe75a32525f17",
+        "bytes": 426915
+      },
+      "currentPassedSelection": false,
+      "classification": "Older4f bounded public engineering pilot and explicit purposeful-wait-disabled stopping point; no currentad762 pass coverage.",
+      "actualExitCode": 1,
+      "originalStatus": "PURPOSEFUL_WAIT_DISABLED",
+      "artifact": null,
+      "sourceHtmlSha256": "4f697787f6eb4a215a7eab4a483e7d11a65b23b6f1fcb55f175d9c4edfef3e21",
+      "currentAd762Coverage": false,
+      "naturalCompletionClaim": false,
+      "annotation": "Original PURPOSEFUL_WAIT_DISABLED / actual exit1. Original helper majorActions=5 is unchanged. The separate derived postmortem counts the omitted eat: businessActions=6 and corrected majorActions=6, navigation=213, worldSpent=164, activeWallMs=146973. It remains budget-bounded and does not establish natural completion or a manual-feature benefit.",
+      "terminal": {
+        "path": "docs/qa/evidence/watchpost-manual-v1/reports/public-A02-terminal.path-only-companion.json",
+        "sha256": "7a024eb8d3e453501ec697ed2de32eb52da6520573ceaaa0b150c90610295b3a"
+      }
+    }
+  ],
+  "publicA02DerivedCorrection": {
+    "originalDerivedPostmortem": {
+      "portableName": "public-A02-postmortem.json",
+      "sha256": "f746f23c4f36d3c18e27defd0309a5f2a8eacea6cadf4b40e117f6507f288305",
+      "bytes": 20637
+    },
+    "isOriginalNativeReport": false,
+    "annotation": "Derived correction only, not an original native: original helper major5 remains5; independent accounting includes omitted eat and gives business6/major6, nav213/worldSpent164/activeWall146973ms. Original 4f failure and finite budget conclusion remain.",
+    "currentPassCoverage": false
+  },
+  "previousManifestSha256": "badc745cfc2fe6686cefbad8e79d52c78e558278dc3173d8658d55546c8f463f",
+  "originalFailuresPreserved": true,
+  "scope": "Old4f publicA01/A02 and required original failures only; none is current ad762 pass coverage or natural completion."
+}

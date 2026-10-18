@@ -1,0 +1,33 @@
+{
+  "schema": "ExplicitPathOnlyPublicCompanionV1",
+  "isOriginalNativeReport": false,
+  "originalExternalRetained": true,
+  "original": {
+    "portableName": "stdout.log",
+    "sha256": "28ec82b53eb6dabba603806fdbd9671dbc88eea60123beb9620efefe03646be0",
+    "bytes": 3433
+  },
+  "replacedMetadataFields": [
+    {
+      "field": "$.failures[0].error",
+      "originalSubstringSha256": "808dde6d26915e7916a166ebb5b76f58f98c52605c2dd1a5e05e332c4743349b",
+      "originalSubstringBytes": 127,
+      "occurrences": 3,
+      "replacement": "<repository-root>"
+    }
+  ],
+  "resultFactsUnchanged": true,
+  "report": {
+    "runner": "source-npc-rest-work-v1",
+    "ok": false,
+    "count": 16,
+    "passed": 15,
+    "sourceHtmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a",
+    "failures": [
+      {
+        "name": "normal40 preserves complete original business plus only the exact declared null-intent migration",
+        "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n... Skipped lines\n\n  {\n    areaFlags: {},\n    buildings: [\n      {\n        id: 'bld-4ep952',\n...\n      commandSeq: 1,\n+     eventSeq: 6,\n-     eventSeq: 5,\n      events: [\n        {\n          actorId: 'camp-autonomy',\n          causationId: null,\n          commandId: null,\n...\n        {\n+         actorId: 'system',\n+         causationId: null,\n+         commandId: null,\n+         defId: 'watchpost-003',\n+         definitionVersion: 1,\n+         effects: [],\n+         eventId: 'evt-000004',\n+         instanceId: 'event-initial',\n+         payload: {\n+           definitionVersion: 1,\n+           digest: 'fnv1a-utf16-canonical-hex-v1:b8d8b128',\n+           packId: 'watchpost-manual-v1',\n+           status: 'bound',\n+           version: 1\n+         },\n+         seq: 4,\n+         tick: {\n+           phase: 0,\n+           schedule: 180,\n+           world: 540\n+         },\n+         type: 'content.pack.loaded'\n+       },\n+       {\n          actorId: 'carpenter',\n          causationId: 'cmd-000001',\n          commandId: null,\n+         eventId: 'evt-000005',\n-         eventId: 'evt-000004',\n          payload: {\n            destination: 'workshop',\n            npcId: 'carpenter',\n            relayProjectId: null,\n            role: 'carpenter',\n...\n          },\n+         seq: 5,\n-         seq: 4,\n          tick: {\n            phase: 0,\n            schedule: 181,\n            world: 541\n          },\n...\n          commandId: 'cmd-000001',\n+         eventId: 'evt-000006',\n-         eventId: 'evt-000005',\n          payload: {\n            day: 1,\n            hour: 9,\n            minute: 1,\n            minutes: 1\n          },\n+         seq: 6,\n-         seq: 5,\n          tick: {\n            phase: 0,\n            schedule: 181,\n            world: 541\n          },\n...\n      lastCheckpointReason: 'session-start',\n+     lastEventId: 'evt-000006',\n-     lastEventId: 'evt-000005',\n      projections: {\n        threatZombies: []\n      },\n      replay: {\n        commands: [\n...\n        ],\n+       contentPacks: [\n+         {\n+           definitionVersion: 1,\n+           digest: 'fnv1a-utf16-canonical-hex-v1:b8d8b128',\n+           packId: 'watchpost-manual-v1',\n+           status: 'bound',\n+           version: 1\n+         }\n+       ],\n        seed: 1592639710\n      },\n      rngState: 1592639710,\n      schema: 1,\n      seed: 1592639710,\n\n    at <repository-root>/scripts/check-npc-rest-work-v1.mjs:64:2293\n    at test (<repository-root>/scripts/check-npc-rest-work-v1.mjs:50:188)\n    at <repository-root>/scripts/check-npc-rest-work-v1.mjs:64:1"
+      }
+    ]
+  }
+}
