@@ -155,7 +155,8 @@ for(const [kind,hp] of [['normal',100],['runner',100],['brute',150]]){
   s.worldZombies=[enemy];
   const beforeHp=s.hp;q.emit('attackBtn','click');
   attacks.push({kind,enemyHp:hp,playerLoss:beforeHp-s.hp,enemyAfter:enemy.hp,
-    worldBites:s.worldMeta.events.filter(e=>e.type==='combat.damage.applied'&&e.payload.targetId==='player-1').map(e=>e.payload.amount)});
+    worldBites:s.worldMeta.events.filter(e=>e.type==='combat.damage.applied'&&e.payload.targetId==='player-1'&&e.payload.damageType!=='attack-retaliation').map(e=>e.payload.amount),
+    directBites:s.worldMeta.events.filter(e=>e.type==='combat.damage.applied'&&e.payload.targetId==='player-1'&&e.payload.damageType==='attack-retaliation').map(e=>e.payload.amount)});
 }
 process.stdout.write(JSON.stringify({before,after,attacks}));
 '''
@@ -167,7 +168,9 @@ for row in actual["attacks"]:
     profile = budget({"kind": row["kind"], "hp": row["enemyHp"]})
     check(f"actual inline {row['kind']} public attack matches both registered damage components",
           lambda row=row, profile=profile: row["playerLoss"] == profile["worldBite"] + profile["directRetaliation"]
-          and row["worldBites"] == [profile["worldBite"]] and row["enemyAfter"] == row["enemyHp"] - 50)
+          and row["worldBites"] == [profile["worldBite"]]
+          and row["directBites"] == [profile["directRetaliation"]]
+          and row["enemyAfter"] == row["enemyHp"] - 50)
 check("actual inline public meal handler and full writer satisfy the method", lambda: meal(before, after) is not None)
 check("old saved receipt is not a new meal", lambda: meal(before, before) is None)
 

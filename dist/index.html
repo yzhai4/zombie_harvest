@@ -925,6 +925,10 @@
     .daily-summary-feed { margin-top: 9px; color: rgba(247,241,207,.72); font-size: 9px; line-height: 1.55; }
     #nightOverlay .wave-caption, #nightOverlay .wavebar, #nightOverlay .battle-route, #nightOverlay .battle-route-labels { display: none !important; }
     #nightOverlay.summary-mode .daily-summary { display: block; }
+    #nightOverlay.day-fatal-report .wave-caption, #nightOverlay.day-fatal-report .wavebar,
+    #nightOverlay.day-fatal-report .result-grid { display: none; }
+    #dayFatalSaveStatus { font-size: 13px; line-height: 1.5; }
+    #dayFatalSaveStatus[hidden], #dayFatalRetryBtn[hidden] { display: none !important; }
     #nightOverlay.summary-mode .night-map-wrap, #nightOverlay.summary-mode .battle-status, #nightOverlay.summary-mode .battle-lane, #nightOverlay.summary-mode .night-control-panel, #nightOverlay.summary-mode #nightAttackBtn { display: none; }
     @media (min-width: 900px) {
       .night-live-hud { left: auto; right: 18px; top: 122px; bottom: auto; width: min(330px, 25vw); }
@@ -1290,7 +1294,7 @@
       <p id="nightCopy">僵尸正从林子里涌出来。农场的每一块木板都会被算进防线。</p>
       <div class="daily-summary" id="dailySummary">
         <div class="daily-summary-head"><span>📋 每日总结</span><span id="summarySubtitle">第 1 天 · 尸潮已结束</span></div>
-        <div class="daily-summary-grid">
+        <div class="daily-summary-grid" id="summaryBattleMetrics">
           <div class="daily-summary-item"><b id="summaryKills">0</b><span>击杀僵尸</span></div>
           <div class="daily-summary-item"><b id="summaryBreaches">0</b><span>突破数量</span></div>
           <div class="daily-summary-item"><b id="summaryDamage">0</b><span>营地生命损失</span></div>
@@ -1313,6 +1317,8 @@
       <div class="result-grid"><div class="result-item"><b id="waveZombies">0</b><span>当前剩余</span></div><div class="result-item"><b id="waveDefense">0</b><span>防线强度</span></div><div class="result-item"><b id="waveDamage">0</b><span>本轮损失</span></div><div class="result-item"><b id="waveSupport">0</b><span>支援队员</span></div></div>
       <button class="continue-btn" id="nightAttackBtn" style="background:#e88a61;color:#27120f;margin-bottom:8px;">🪓 攻击附近目标</button>
       <button class="continue-btn" id="continueBtn">关闭报告，继续世界</button>
+      <p id="dayFatalSaveStatus" role="status" hidden></p>
+      <button class="continue-btn" id="dayFatalRetryBtn" hidden>重试保存本次结局</button>
       <button class="continue-btn" id="restartSessionBtn" style="background:#493a35;color:#f7dfc6;">重新开始一局</button>
     </div>
   </div>
@@ -3365,6 +3371,21 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
        return { ok: false, reason: `unhandled-effect:${op}` };
      }
      function applyContentEffects(effects = [], meta = {}) {
+      const outer = contentEffectDepth === 0, hpBefore = state.hp;
+      if (outer) contentHpFatalSource = null;
+      contentEffectDepth += 1;
+      let result;
+      try { result = applyContentEffectsTransaction(effects, meta); }
+      finally { contentEffectDepth -= 1; }
+      // Nested hooks are part of the enclosing successful effect transaction.
+      // A later heal or rollback wins before a death is ever latched.
+      if (outer) {
+        const source = contentHpFatalSource; contentHpFatalSource = null;
+        if (result?.ok && hpBefore > 0 && state.hp === 0 && source && latchDayFatal('content-effect', source.event, source.actorId) && !state.worldMeta.activeCommandId) finalizeDayFatalOutcome();
+      }
+      return result;
+    }
+    function applyContentEffectsTransaction(effects = [], meta = {}) {
        ensureContentState();
        const list = Array.isArray(effects) ? effects : [effects];
        const effectId = meta.effectId || meta.commandId || null;
@@ -3404,7 +3425,8 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
        }
        list.filter(effect => (effect?.op || effect?.type) === 'captureOutpost').forEach(effect => runContentHook('onOutpostSecured', { outpostId: effect.key || effect.id, actorId: meta.actorId || 'system' }));
        if (effectId) state.contentState.appliedEffects = [...state.contentState.appliedEffects, effectId].slice(-200);
-       if (meta.record !== false) recordWorldEvent('content.effects.applied', { effects: stableClone(list), results, ...(meta.instanceKey ? { effectId, instanceKey: meta.instanceKey } : {}) }, { actorId: meta.actorId || 'system', defId: meta.defId || null, effects: list, ...(meta.instanceId ? { instanceId: meta.instanceId, definitionVersion: meta.definitionVersion } : {}) });
+       const effectEvent = meta.record !== false ? recordWorldEvent('content.effects.applied', { effects: stableClone(list), results, ...(meta.instanceKey ? { effectId, instanceKey: meta.instanceKey } : {}) }, { actorId: meta.actorId || 'system', defId: meta.defId || null, effects: list, ...(meta.instanceId ? { instanceId: meta.instanceId, definitionVersion: meta.definitionVersion } : {}) }) : null;
+       if (rollback.scalars.hp > 0 && state.hp === 0 && results.some(result => result.ok && result.key === 'hp' && result.after === 0)) contentHpFatalSource = { event: effectEvent, actorId: meta.actorId || 'system' };
        return { ok: true, results };
      }
      function contentConditionMet(condition = {}) {
@@ -3661,6 +3683,46 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
     if (typeof window !== 'undefined') window.ZombieHarvestObserver = ObserverExpressionV1;
     const FeedbackRouter = { route(event) { if (!event) return; state.worldMeta.feedback.push({ eventId: event.eventId, type: event.type }); if (state.worldMeta.feedback.length > 40) state.worldMeta.feedback.shift(); } };
     function appendFeedbackEvent(type, payload = {}, meta = {}) { const event = recordWorldEvent(type, payload, meta); FeedbackRouter.route(event); return event; }
+    // DAY death is latched at the real source; persistence waits for the
+    // outer command receipt (including rest.step's confirmed minute).
+    let pendingDayFatal = null, dayFatalFinalizing = false, dayFatalSaveState = null;
+    let contentEffectDepth = 0, contentHpFatalSource = null;
+    function latchDayFatal(cause, sourceEvent = null, sourceId = null) {
+      if (pendingDayFatal || state.dayFatalOutcome || state.night || SessionController.mode !== 'DAY' || state.gameOver || state.hp !== 0) return false;
+      pendingDayFatal = { cause, sourceEventId: sourceEvent?.eventId || null, sourceId: typeof sourceId === 'string' && sourceId ? sourceId : null,
+        sourceCommandId: state.worldMeta.activeCommandId || null,
+        tick: { world: worldMinute(), phase: state.worldMeta.clock.phaseMinutes, schedule: state.worldMeta.clock.scheduleMinutes } };
+      state.gameOver = 'lose';
+      return true;
+    }
+    function finalizeDayFatalOutcome(commandId = null) {
+      if (!pendingDayFatal || dayFatalFinalizing || state.worldMeta.activeCommandId) return false;
+      dayFatalFinalizing = true;
+      try {
+        const source = pendingDayFatal;
+        clearTimeout(checkpointTimer); checkpointTimer = null;
+        SessionController.freeze('LOSS');
+        const fields = { version: 1, sourceEventId: source.sourceEventId, cause: source.cause, sourceId: source.sourceId,
+          commandId: commandId || source.sourceCommandId, tick: stableClone(source.tick) };
+        const event = recordWorldEvent('player.dayFatal', { ...fields, targetId: 'player-1' },
+          { actorId: 'player-1', commandId: fields.commandId, causationId: source.sourceCommandId });
+        state.dayFatalOutcome = { version: 1, eventId: event.eventId, sourceEventId: fields.sourceEventId,
+          cause: fields.cause, sourceId: fields.sourceId, commandId: fields.commandId, tick: fields.tick };
+        pendingDayFatal = null;
+        dayFatalSaveState = 'pending';
+      } finally { dayFatalFinalizing = false; }
+      dayFatalSaveState = saveProgress({ force: true, preserveBackup: true, dayFatalFinal: true, reason: 'player-day-fatal' }) ? 'saved' : 'failed';
+      renderResolvedReport(projectResolvedReport(state, null, true));
+      return true;
+    }
+    function retryDayFatalSave() {
+      if (!state.dayFatalOutcome || SessionController.mode !== 'LOSS' || pendingDayFatal || dayFatalFinalizing) return { ok: false, reason: 'no-day-fatal-outcome' };
+      if (dayFatalSaveState === 'saved') return { ok: true, duplicate: true };
+      const ok = saveProgress({ force: true, preserveBackup: true, dayFatalRetry: true, reason: 'player-day-fatal-retry' });
+      dayFatalSaveState = ok ? 'saved' : 'failed';
+      renderResolvedReport(projectResolvedReport(state, null, true));
+      return { ok, reason: ok ? null : 'day-fatal-save-failed' };
+    }
     const CommandBus = {
       nextAutomaticId(wm) {
         if (!Number.isSafeInteger(wm.commandSeq) || wm.commandSeq < 0) return { ok: false, reason: 'command-sequence-invalid' };
@@ -3717,12 +3779,14 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
         if (ephemeral) return { ok: false, commandId, reason: result.reason || 'reducer-rejected' };
         const rejected = recordWorldEvent('command.rejected', { type: command.type, reason: result.reason || 'reducer-rejected' }, { commandId, causationId: command.causationId || previous, actorId: command.actorId });
         FeedbackRouter.route(rejected);
+        if (!previous) finalizeDayFatalOutcome(commandId);
         return { ok: false, commandId, reason: result.reason || 'reducer-rejected' };
       }
       const data = result && typeof result === 'object' && (result.payload || result.eventType || Object.prototype.hasOwnProperty.call(result, 'result')) ? result : { result };
       const event = ephemeral ? null : recordWorldEvent(options.eventType || data.eventType || `command.${command.type}`, data.payload || { result: data.result }, { commandId, causationId: command.causationId || previous, actorId: command.actorId, defId: options.defId || data.defId || null, instanceId: options.instanceId || data.instanceId || null, definitionVersion: options.definitionVersion || data.definitionVersion || null, effects: options.effects || data.effects || null });
       if (event) FeedbackRouter.route(event);
-      if (!ephemeral && options.checkpoint !== false) requestCheckpoint(`command:${command.type}`);
+      const dayFatalFinalized = !previous && finalizeDayFatalOutcome(commandId);
+      if (!dayFatalFinalized && !state.dayFatalOutcome && !ephemeral && options.checkpoint !== false) requestCheckpoint(`command:${command.type}`);
       return { ok: true, commandId, event, result: data.result ?? result };
     } };
     function dispatchCommand(command, reducer, options) { return CommandBus.dispatch(command, reducer, options); }
@@ -4021,6 +4085,36 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       return value === '0' || typeof value === 'string' && value.length > 2 && value.length <= 326 &&
         value.startsWith('0.') && !/[^0-9]/.test(value.slice(2)) && value[value.length - 1] !== '0';
     }
+    function validateDayFatalOutcome(payload) {
+      if (!Object.prototype.hasOwnProperty.call(payload, 'dayFatalOutcome')) return true;
+      const value = payload.dayFatalOutcome;
+      if (value === null) return true;
+      if (!relayHandoffMemoryDataRecord(value, ['version','eventId','sourceEventId','cause','sourceId','commandId','tick']) || value.version !== 1 ||
+          !['day-combat','attack-retaliation','content-effect'].includes(value.cause) || payload.hp !== 0 || payload.gameOver !== 'lose' || payload.night !== false) return false;
+      const idSeq = id => { const match = typeof id === 'string' && /^evt-([0-9]+)$/.exec(id); const n = match ? Number(match[1]) : NaN; return Number.isSafeInteger(n) && n > 0 && id === `evt-${String(n).padStart(6,'0')}` ? n : null; };
+      const seq = idSeq(value.eventId), sourceSeq = value.sourceEventId === null ? null : idSeq(value.sourceEventId);
+      if (!seq || seq > payload.worldMeta?.eventSeq || value.sourceEventId !== null && (!sourceSeq || sourceSeq >= seq) || value.sourceEventId === null && value.cause !== 'content-effect') return false;
+      if ([value.sourceId,value.commandId].some(id => id !== null && (typeof id !== 'string' || !id || id.length > 256))) return false;
+      if (!relayHandoffMemoryDataRecord(value.tick, ['world','phase','schedule']) || !savedNumbers(value.tick,['world','phase','schedule']) ||
+          !Number.isSafeInteger(value.tick.world) || value.tick.world !== savedMinute(payload) || value.tick.phase > payload.worldMeta.clock.phaseMinutes || value.tick.schedule > payload.worldMeta.clock.scheduleMinutes) return false;
+      const events = payload.worldMeta.events, start = events[0]?.seq ?? Infinity;
+      const event = events.find(item => item.eventId === value.eventId);
+      const source = events.find(item => item.eventId === value.sourceEventId);
+      if (!event && seq >= start || sourceSeq && !source && sourceSeq >= start) return false;
+      const sameTick = tick => tick && ['world','phase','schedule'].every(key => tick[key] === value.tick[key]);
+      if (event && (event.type !== 'player.dayFatal' || event.actorId !== 'player-1' || event.commandId !== value.commandId || !sameTick(event.tick) ||
+          !relayHandoffMemoryDataRecord(event.payload,['version','sourceEventId','cause','sourceId','commandId','tick','targetId']) || event.payload.targetId !== 'player-1' ||
+          ['version','sourceEventId','cause','sourceId','commandId'].some(key => event.payload[key] !== value[key]) || !sameTick(event.payload.tick))) return false;
+      if (events.filter(item => item.type === 'player.dayFatal').some(item => item.eventId !== value.eventId)) return false;
+      if (source) {
+        if (!sameTick(source.tick)) return false;
+        if (value.cause === 'content-effect') {
+          if (source.type !== 'content.effects.applied' || source.actorId !== value.sourceId || !source.payload.results?.some(result => result.ok && result.key === 'hp' && result.after === 0)) return false;
+        } else if (source.type !== 'combat.damage.applied' || source.payload.targetId !== 'player-1' || source.payload.sourceId !== value.sourceId || source.payload.after !== 0 || !(source.payload.before > 0) || source.payload.phase !== 'DAY' ||
+            value.cause === 'attack-retaliation' && source.payload.damageType !== 'attack-retaliation') return false;
+      }
+      return true;
+    }
     function validateProgressPayload(payload, lookupContext = null) {
       const fail = reason => ({ ok: false, reason });
       if (!savedRecord(payload) || !savedTreeSafe(payload)) return fail('payload-shape');
@@ -4146,6 +4240,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       if (!savedNumbers(forecast,['confidence'],0,100) || !savedNumbers(forecast,['leadMinutes','updatedAt']) || forecast.updatedAt > savedMinute(payload) || typeof forecast.routeId !== 'string' || !forecast.routeId || typeof forecast.source !== 'string' || !forecast.source || !savedNumbers(payload.specialItems,['relayCore'],0,1) || !savedNumbers(payload.collection,['tape','blueprint','relic'])) return fail('forecast-or-collection-contract');
       for (const key of ['quests','npcEvents']) if (payload[key] !== undefined && (!Array.isArray(payload[key]) || payload[key].some(item => !savedRecord(item)))) return fail(`domain:${key}`);
       if (payload.quests?.some(item => typeof item.id !== 'string' || !Array.isArray(item.completedSteps)) || payload.version === SAVE_VERSION && !Array.isArray(payload.quests)) return fail('quest-contract');
+      if (!validateDayFatalOutcome(payload)) return fail('day-fatal-outcome');
       if (!savedRecord(payload.weapon) || !weaponInfo[payload.weapon.id] || payload.event != null && !savedRecord(payload.event) || payload.eventInstance != null && !savedRecord(payload.eventInstance)) return fail('event-or-weapon');
       return { ok: true };
     }
@@ -4210,6 +4305,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       return { ok: true, instanceId: id, legacy, resolved: resolved[0], closes, diagnostics: closes.length > 1 ? ['duplicate-identical-close'] : [] };
     }
     function projectResolvedReport(payload, identity = null, loss = false) {
+      if (payload.dayFatalOutcome) return { kind: 'DAY_FATAL', loss: true, resolved: true, date: savedDate(payload), reportMinute: payload.dayFatalOutcome.tick.world, cause: payload.dayFatalOutcome.cause, outcomeEventId: payload.dayFatalOutcome.eventId, currentFood: payload.food, currentHp: payload.hp, currentMorale: payload.morale, currentSanity: payload.sanity };
       const battle = savedRecord(payload.nightBattle) ? payload.nightBattle : {}, resolved = identity?.resolved;
       const number = (key, receiptKey = null) => Number.isFinite(battle[key]) ? battle[key] : receiptKey && Number.isFinite(resolved?.payload?.[receiptKey]) ? resolved.payload[receiptKey] : null;
       return { instanceId: identity?.instanceId || null, loss, resolved: battle.resolved === true, date: savedDate(payload), reportMinute: resolved?.tick?.world ?? savedMinute(payload), routeId: typeof battle.routeId === 'string' ? battle.routeId : resolved?.payload?.routeId || payload.campaign?.finalCrisisRoute || null,
@@ -4219,6 +4315,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
     function classifySavedRecovery(payload, lookupContext = null) {
       const valid = validateProgressPayload(payload, lookupContext); if (!valid.ok) return { classification: 'RECOVERY_REQUIRED', reason: valid.reason };
       if (Object.prototype.hasOwnProperty.call(payload, 'gameOver') && payload.gameOver !== null && payload.gameOver !== 'lose') return { classification: 'RECOVERY_REQUIRED', reason: 'unknown-game-over' };
+      if (payload.dayFatalOutcome) return { classification: 'LOSS_REPORT', reason: 'saved-day-fatal', identity: null, reportView: projectResolvedReport(payload, null, true), migrationReasons: [] };
       const battle = payload.nightBattle;
       if (battle != null && !savedRecord(battle)) return { classification: 'RECOVERY_REQUIRED', reason: 'battle-shape' };
       if (payload.gameOver === 'lose' && payload.hp > 0) return { classification: 'RECOVERY_REQUIRED', reason: 'loss-with-positive-hp' };
@@ -4407,7 +4504,8 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       candidate.player = { ...saved.player }; Object.defineProperty(candidate.player, 'id', { value: 'player-1', writable: true, configurable: true, enumerable: false });
       candidate.playerVisual = { x: candidate.player.x, y: candidate.player.y };
       candidate.zombies = []; candidate.combatTargetId = null; candidate.hoverTarget = null; candidate.interactionFocus = null; candidate.interactionRepeatTimer = null; candidate.moveTweenFrame = null; candidate.selectedNpc = null; candidate.selectedBuilding = null; candidate.selected = null; candidate.buildMode = false; candidate.selectedBuild = null; candidate.inventoryOpen = false; candidate.effects = []; candidate.noiseEvents = [];
-      if (['REPORT_PENDING','LOSS_REPORT'].includes(recovery.classification)) { candidate.night = true; if (recovery.identity?.ok) candidate.nightBattle.instanceId = recovery.identity.instanceId; }
+      if (candidate.dayFatalOutcome) { candidate.night = false; }
+      else if (['REPORT_PENDING','LOSS_REPORT'].includes(recovery.classification)) { candidate.night = true; if (recovery.identity?.ok) candidate.nightBattle.instanceId = recovery.identity.instanceId; }
       else { candidate.night = false; candidate.nightBattle = null; }
       const updates = prepareSavedRegistry(candidate);
       const episodeChanged = JSON.stringify(savedContent.activeChains || {}) !== JSON.stringify(candidate.contentState.activeChains || {}) || JSON.stringify(savedContent.episodeLegacyHolds || {}) !== JSON.stringify(candidate.contentState.episodeLegacyHolds || {});
@@ -4423,10 +4521,11 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       CONTENT_EXTENSIONS.eventChain = draft.scenarioContent.committedTable;
       Object.keys(state).forEach(key => { if (!Object.prototype.hasOwnProperty.call(draft.state, key)) delete state[key]; });
       Object.assign(state, draft.state); Object.assign(EVENT_DEFS, draft.registryUpdates);
+      pendingDayFatal = null; dayFatalFinalizing = false; dayFatalSaveState = state.dayFatalOutcome ? 'saved' : null;
     }
     const SessionController = {
       generation: 0, exiting: false, mode: 'START', restartError: null,
-      acceptsInput() { return gameStarted && !this.exiting && ['DAY','BATTLE'].includes(this.mode); },
+      acceptsInput() { return gameStarted && !this.exiting && !state.gameOver && ['DAY','BATTLE'].includes(this.mode); },
       isDay() { return gameStarted && !this.exiting && this.mode === 'DAY' && !state.night && !state.gameOver; },
       canSave() { return gameStarted && !this.exiting && !['RECOVERY','SAVING','EXITING'].includes(this.mode); },
       freeze(mode) {
@@ -4440,6 +4539,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       restart(options = {}) {
         if (this.exiting && !this.restartError) return { ok: true, duplicate: true };
         if (!this.exiting) {
+          pendingDayFatal = null; dayFatalSaveState = null;
           clearNpcSightReportUi();
           clearNpcHandoffMemoryUi();
           cancelCampRest('restart', { resume: false }); this.exiting = true; this.generation += 1; gameStarted = false; this.mode = 'EXITING';
@@ -4459,7 +4559,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
     };
     let checkpointTimer = null;
     function requestCheckpoint(reason = 'mutation', options = {}) {
-      if (!SessionController.canSave()) return false;
+      if (!SessionController.canSave() || pendingDayFatal || dayFatalFinalizing || state.dayFatalOutcome && dayFatalSaveState === 'failed') return false;
       const generation = SessionController.generation;
       state.worldMeta.lastCheckpointReason = reason;
       clearTimeout(checkpointTimer); checkpointTimer = null;
@@ -4472,10 +4572,12 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       return true;
     }
     function saveProgress(options = {}) {
+      if (pendingDayFatal || dayFatalFinalizing || state.dayFatalOutcome && dayFatalSaveState === 'failed' && !options.dayFatalRetry && !options.dayFatalFinal) return false;
       if (PLAYTEST_MODE || SessionController.exiting || !gameStarted || (!options.recovery && !SessionController.canSave()) || !progressSaveAllowed()) return false;
       try {
         ensureStableIds();
         const payload = {
+          ...(Object.prototype.hasOwnProperty.call(state, 'dayFatalOutcome') ? { dayFatalOutcome: state.dayFatalOutcome } : {}),
           version: SAVE_VERSION, day: state.day, hour: state.hour, minute: state.minute, energy: state.energy, sanity: state.sanity, sanityClock: state.sanityClock, sanityLastReason: state.sanityLastReason, staminaExhaustedDay: state.staminaExhaustedDay, staminaExhaustedAt: state.staminaExhaustedAt, hp: state.hp, gameOver: state.gameOver, campaign: state.campaign, scenarioSnapshot: normalizeScenarioSnapshot(state.scenarioSnapshot), campStanding: state.campStanding, specialItems: state.specialItems, relayProject: state.relayProject, hordeForecast: state.hordeForecast, contentState: state.contentState,
           wood: state.wood, stone: state.stone, food: state.food, seeds: state.seeds, parts: state.parts, medicine: state.medicine, morale: state.morale,
           collection: state.collection, weapon: state.weapon, event: state.event, eventInstance: state.eventInstance, npcEvents: state.npcEvents || [], eventThreat: state.eventThreat, eventShield: state.eventShield,
@@ -4484,7 +4586,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
           visitedRegions: state.visitedRegions, areaFlags: state.areaFlags, roleVacancies: state.roleVacancies, tempCoordination: !!state.tempCoordination,
           settings: state.settings, staminaRules: state.staminaRules, worldMeta: {...state.worldMeta, events: state.worldMeta.events.slice(-300), feedback: []}, quests: state.quests
         };
-        if (!validateRelayHandoffMemoryRoster(payload, true) ||
+        if (!validateDayFatalOutcome(payload) || !validateRelayHandoffMemoryRoster(payload, true) ||
             Object.prototype.hasOwnProperty.call(payload.worldMeta.clock, 'subMinuteRemainder') && !validWorldClockRemainder(payload.worldMeta.clock.subMinuteRemainder)) {
           toast('当前进度未能保存，已保留上次有效存档'); return false;
         }
@@ -4505,7 +4607,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       state.day = 1; state.hour = 7; state.minute = 0; state.energy = 100; state.sanity = 72; state.sanityClock = 0; state.sanityLastReason = '隔离试玩开始时，营地仍然安全'; state.staminaExhaustedDay = null; state.staminaExhaustedAt = null; state.hp = 100;
       state.wood = 24; state.stone = 12; state.food = 20; state.seeds = 3; state.parts = 8; state.medicine = 1; state.morale = 72;
       state.player = { x: 19, y: 3 }; Object.defineProperty(state.player, 'id', { value: 'player-1', writable: true, configurable: true, enumerable: false });
-      state.playerVisual = { ...state.player }; state.facing = 'left'; state.night = false; state.nightBattle = null; state.gameOver = null;
+      state.playerVisual = { ...state.player }; state.facing = 'left'; state.night = false; state.nightBattle = null; state.gameOver = null; delete state.dayFatalOutcome; pendingDayFatal = null; dayFatalSaveState = null;
       state.specialItems = { relayCore: 0 }; state.contentState = { contentVersion: 3, meters: { campCollapse: 0, resonancePressure: 25, campTrust: 0 }, unlockedTech: [], unlockedWeapons: ['rustAxe'], unlockedBlueprints: [], flags: {}, scheduledEvents: [], triggeredEvents: [], activeChains: {}, completedChains: [], appliedEffects: [], outposts: {}, history: [], npcRoster: { promotedNpcIds: [], promotionHistory: [] }, commandPoints: 0, commandPointsMax: 0, commandPointsGrantedDay: 0, autonomyWeights: { defense: 40, harvest: 25, logistics: 20, research: 10, diplomacy: 5 }, planMeeting: { version: 1, status: 'idle', meetingDay: 0, instanceId: null, source: 'summary', candidates: [], selectedId: null, playerAction: null, committedDay: null, resolvedDay: null, autonomyResult: null, history: [] } };
       state.relayProject = { id: 'camp-relay-001', status: 'unknown', coreItemId: null, handoffAt: null, materialNeed: { wood: 10, parts: 5, stone: 4 }, materialProgress: { wood: 0, parts: 0, stone: 0 }, materialClock: 0, workMinutes: 0, targetMinutes: 180, buildingId: 'bld-relay-station', assignedNpcIds: ['radio', 'carpenter', 'quartermaster'], sharedSightBonus: 2, sharedRangeBonus: 4, forecastLeadMinutes: 180, routeId: 'eastern-breach' };
       state.hordeForecast = { confidence: 0, leadMinutes: 0, routeId: 'eastern-breach', source: 'camp-observation', updatedAt: 0 };
@@ -5229,9 +5331,10 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       const damage = Math.max(0, Math.round(Number(amount))), before = state.hp;
       state.hp = Math.max(0, state.hp - damage);
       const payload = { schemaVersion: meta.schemaVersion || 'CombatIntentV1', phase: 'DAY', tick: state.world.dayCombatSeq, intentId: meta.intentId || null, attackSeq: meta.attackSeq || null, profileId: meta.profileId || null, sourceId: dayCombatId(source, 'event-enemy'), targetId: 'player-1', sourceKind: 'event-enemy', targetKind: 'player', amount: damage, before, after: state.hp, damageType: meta.damageType || 'bite', sourceEventId: source.sourceEventId || null };
-      recordWorldEvent('combat.damage.applied', payload, { actorId: payload.sourceId });
+      const event = recordWorldEvent('combat.damage.applied', payload, { actorId: payload.sourceId });
       adjustSanity('player', -Math.max(1, Math.round(damage * .12)), '白天敌袭造成的战斗冲击');
       pushFx('player-hit', `-${damage}`, state.player.x, state.player.y, 'danger');
+      if (before > 0 && state.hp === 0) latchDayFatal('day-combat', event, payload.sourceId);
       return { ok: true, payload };
     }
     function runDayCombat(minutes = 0) {
@@ -5718,7 +5821,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
         if (n.bond >= 1 && npcHasRole(n, 'sergeant')) { state.morale = Math.min(100, state.morale + 1); n.lastReport = '完成换防训练计划'; jobs.push(`${n.name}完成换防训练计划`); }
         if (n.bond >= 1 && ['guardJi','guardChen','guardJiang'].includes(n.id)) { n.lastReport = '完成外围巡检'; jobs.push(`${n.name}完成外围巡检`); }
       });
-      state.hp = Math.min(100, state.hp + 12); state.morale = Math.min(100, state.morale + 3);
+      if (!state.gameOver) state.hp = Math.min(100, state.hp + 12); state.morale = Math.min(100, state.morale + 3);
       // A single event slot is authoritative. Keep any unresolved event
       // across a day boundary instead of replacing it with a new daily event.
       const eventActive = state.event && !state.event.handled;
@@ -8452,7 +8555,8 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       z.hp -= weapon.damage; z.hitUntil = Date.now() + 420; z.lastDamage = weapon.damage; z.hit = true; pushFx('damage', `-${weapon.damage}`, z.x, z.y, 'hit');
       const afterHit = snapshot(), advancement = advance(10), afterAdvance = snapshot();
       let retaliationDamage = 0, salvage = 0;
-      if (z.hp <= 0) {
+      if (state.gameOver === 'lose') { /* Preserve the paid hit and child time; no later personal effects. */ }
+      else if (z.hp <= 0) {
         state.zombieKills += 1; state.morale = Math.min(100, state.morale+4); adjustSanity('player', 1, '成功击倒近身僵尸');
         salvage = state.weapon.id === 'hookBlade' && state.zombieKills % 2 === 0 ? 1 : 0; state.parts += salvage;
         pushFx('death', '💥', z.x, z.y, 'death'); state.combatTargetId = null;
@@ -8460,12 +8564,15 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       }
       else {
         const bite = z.kind === 'brute' ? 14 : z.kind === 'runner' ? 7 : 8;
+        const hpBeforeBite = state.hp;
         retaliationDamage = Math.min(state.hp, bite);
         state.hp = Math.max(0, state.hp - bite);
         adjustSanity('player', z.kind === 'brute' ? -5 : -3, `${z.kind === 'brute' ? '重型' : z.kind === 'runner' ? '快速' : '普通'}僵尸近身反咬`);
         pushFx('player-hit', `-${bite}`, state.player.x, state.player.y, 'danger');
         log(`${z.kind === 'brute' ? '装甲僵尸' : z.kind === 'runner' ? '快速' : '僵尸'}反咬了一口，生命值 -${bite}。`, 'danger');
         toast(`受伤了 · 生命 -${bite}`);
+        const retaliation = recordWorldEvent('combat.damage.applied', { phase: 'DAY', sourceId: z.id, targetId: 'player-1', sourceKind: 'event-enemy', targetKind: 'player', amount: retaliationDamage, before: hpBeforeBite, after: state.hp, damageType: 'attack-retaliation' }, { actorId: z.id });
+        if (hpBeforeBite > 0 && state.hp === 0) latchDayFatal('attack-retaliation', retaliation, z.id);
       }
       const clockAfter = calendar();
       const proof = {
@@ -8479,6 +8586,11 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
           minutes: advancement?.event?.payload?.minutes ?? (advancement?.paused ? 0 : null) },
         outcome: { killed: z.hp <= 0, retaliationDamage, salvage }
       };
+      if (pendingDayFatal) {
+        proof.outcome.interrupted = true; proof.outcome.reason = 'player-day-fatal';
+        recordWorldEvent('threat.attackInterrupted', proof, { actorId: 'player-1', commandId: state.worldMeta.activeCommandId });
+        return { ok: false, reason: 'player-day-fatal', proof };
+      }
       render(); return { result: proof, payload: proof };
     }
     function attackCommandReducer(command) { return attackReducer(command.payload?.targetId ?? null); }
@@ -8490,7 +8602,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       // actual Gate after the Bus has honored an existing duplicate ID.
       const targetId = explicit ? (typeof options.targetId === 'string' || options.targetId === null ? options.targetId : false) : selected.targetId || null;
       const result = actionCommand('threat.attack', 'threat.attacked', { targetId }, attackCommandReducer, options);
-      if (!result.ok) { toast(playerDayAttackReasonText(result.reason)); renderContext(); }
+      if (!result.ok && result.reason !== 'player-day-fatal') { toast(playerDayAttackReasonText(result.reason)); renderContext(); }
       return result;
     }
     function placeBuildingReducer(x,y) {
@@ -9429,7 +9541,29 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
         return startFromSave();
       } catch (error) { BootRecovery.diagnostics.push(error.message); showRecoveryStatus('这份备份未能通过完整性检查，尚未恢复；原存档仍保留，可重新开始。'); return { ok: false, reason: 'backup-prepare-failed' }; }
     }
+    function renderDayFatalReport(view) {
+      const saved = dayFatalSaveState === null || dayFatalSaveState === 'saved';
+      document.body.classList.remove('threat-map-active'); $('nightOverlay').classList.add('show','summary-mode','day-fatal-report');
+      $('nightTitle').textContent = '玩家在白天倒下'; $('nightIcon').textContent = '💀';
+      $('nightCopy').textContent = '你的生命已经耗尽，本局结束。已经发生的行动、消耗与伤害保留；这不表示营地或所有幸存者被消灭。重新开始会清除本局。';
+      $('summarySubtitle').textContent = `第 ${view.date.day} 天 · 白天行动结束`;
+      const cause = ({ 'day-combat': '白天敌袭', 'attack-retaliation': '近身攻击后的反咬', 'content-effect': '本次事项造成的生命损失' })[view.cause];
+      $('summaryFeed').textContent = `生命 ${view.currentHp} · 口粮 ${view.currentFood} · 士气 ${view.currentMorale} · SAN ${view.currentSanity}。结束来源：${cause}。`;
+      $('summaryBattleMetrics').style.display = 'none';
+      $('dayFatalSaveStatus').hidden = false; $('dayFatalSaveStatus').dataset.saveState = saved ? 'saved' : 'failed';
+      $('dayFatalSaveStatus').textContent = saved ? '本次结局已保存；继续存档会回到此处。' : '本次结局未能保存，旧安全存档仍保留。';
+      $('dayFatalRetryBtn').hidden = saved; $('dayFatalRetryBtn').disabled = saved;
+      $('continueBtn').disabled = false; $('continueBtn').style.opacity = '1'; $('continueBtn').textContent = '重新开始'; $('restartSessionBtn').hidden = false;
+      for (const id of ['nightAttackBtn','nightLiveAttackBtn','attackBtn','gatherBtn','buildBtn','cropBtn','eatBtn','eatBtnAction','endDayBtn']) { const button = $(id); if (button) button.disabled = true; }
+      $('dayLabel').textContent = `第 ${view.date.day} 天`; $('timeLabel').textContent = `${String(view.date.hour).padStart(2,'0')}:${String(view.date.minute).padStart(2,'0')} · 本局已结束`;
+      $('hpValue').textContent = view.currentHp; $('foodValue').textContent = view.currentFood;
+      $('waveBar').style.width = '0%'; $('waveProgressText').textContent = '不适用'; $('waveZombies').textContent = '不适用'; $('waveDamage').textContent = '不适用'; $('waveDefense').textContent = '不适用'; $('waveSupport').textContent = '不适用'; $('battleStage').textContent = '白天行动结束'; $('battleDetail').textContent = '未结算新的尸潮';
+    }
     function renderResolvedReport(view) {
+      if (view.kind === 'DAY_FATAL') { renderDayFatalReport(view); return; }
+      $('nightOverlay').classList.remove('day-fatal-report');
+      $('dayFatalSaveStatus').hidden = true; $('dayFatalRetryBtn').hidden = true;
+      $('summaryBattleMetrics').style.display = '';
       const value = number => Number.isFinite(number) ? String(number) : '未记录';
       const damage = Number.isFinite(view.damage) ? view.damage ? `-${view.damage}` : '0' : '未记录';
       document.body.classList.remove('threat-map-active'); $('nightOverlay').classList.add('show', 'summary-mode');
@@ -9811,6 +9945,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
     $('endDayBtn').addEventListener('click', startThreatEncounter);
     $('continueBtn').addEventListener('click', routeReportAction);
     $('restartSessionBtn').addEventListener('click', () => SessionController.restart());
+    $('dayFatalRetryBtn').addEventListener('click', retryDayFatalSave);
     $('restoreBackupBtn').addEventListener('click', restoreSelectedBackup);
     $('nightAttackBtn').addEventListener('click', nightAttack);
     $('nightLiveAttackBtn').addEventListener('click', nightAttack);

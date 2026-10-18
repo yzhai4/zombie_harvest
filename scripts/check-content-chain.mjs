@@ -21,6 +21,7 @@ function section(startMarker, endMarker) {
   return source.slice(start, end);
 }
 function sourceFunction(name) {
+  if (name === 'applyContentEffectsTransaction') return section('function applyContentEffectsTransaction(', 'function contentConditionMet(');
   const match = new RegExp(`^([ \\t]*)function ${name}\\(`, 'm').exec(source);
   assert.ok(match, `missing source function: ${name}`);
   const firstLineEnd = source.indexOf('\n', match.index);
@@ -37,6 +38,7 @@ const functionNames = [
   'contentRegistryBase', 'contentId', 'validateContentDefinition', 'registerContent',
   'contentDefinition', 'contentRequirementsMet', 'compare', 'contentPhaseAllows',
   'applyContentEffect', 'applyContentEffects', 'contentConditionMet', 'contentDefinitionUsesGateV1', 'contentGateConditions',
+  ...['applyContentEffectsTransaction'].filter(name => source.includes(`function ${name}(`)),
   'contentChainDefinitionGate', 'contentChainChoiceGateRuntime', 'runContentHook',
   'contentChainRuntimeGate', 'startContentChain', 'resolveContentChain',
   'contentEpisodeIdentity', 'normalizeContentEpisodes', 'contentEpisodeExpectedToken', 'contentEpisodeGate',
@@ -76,6 +78,7 @@ vm.runInContext(`
   // These fixtures remain idle; camp-rest-v1 separately exercises active time.
   ${source.includes('const CampRestController =') ? section('const CampRestController =', 'let worldRenderFrame =') : ''}
   ${section('const CommandBus =', 'function dispatchCommand(')}
+  ${source.includes('let pendingDayFatal =') ? section('let pendingDayFatal =', 'const CommandBus =') : ''}
   ${section('const ContentRegistry =', "if (typeof window !== 'undefined') window.ZombieHarvestContent")}
   globalThis.runtime = {
     registry: ContentRegistry,

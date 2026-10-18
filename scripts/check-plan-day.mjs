@@ -21,6 +21,7 @@ function section(startMarker, endMarker) {
   return source.slice(start, end);
 }
 function sourceFunction(name) {
+  if (name === 'applyContentEffectsTransaction') return section('function applyContentEffectsTransaction(', 'function contentConditionMet(');
   const match = new RegExp(`^([ \\t]*)function ${name}\\(`, 'm').exec(source);
   assert.ok(match, `missing source function: ${name}`);
   const firstLineEnd = source.indexOf('\n', match.index);
@@ -34,6 +35,7 @@ const functions = [
   'stableClone', 'worldMinute', 'eventDefinition', 'recordWorldEvent', 'applyQuestEvent',
   'migrateContentState', 'normalizeContentEpisodes', 'contentEpisodeIdentity', 'normalizeOutpostAssignments', 'ensureContentState',
   'contentRegistryBase', 'contentDefinition', 'applyContentEffect', 'applyContentEffects',
+  ...['applyContentEffectsTransaction'].filter(name => source.includes(`function ${name}(`)),
   'planMeetingState', 'campTrustValue', 'commandPointCap', 'refreshCommandPoints',
   'planNpcVoteWeight', 'planCandidateScore', 'generatePlanMeeting', 'commitPlanMeeting',
   // Older shipped HTML calculated candidates inline. Load actual transaction
@@ -102,6 +104,7 @@ vm.runInContext(`
   // These fixtures remain idle; camp-rest-v1 separately exercises active time.
   ${source.includes('const CampRestController =') ? section('const CampRestController =', 'let worldRenderFrame =') : ''}
   ${section('const CommandBus =', 'function dispatchCommand(')}
+  ${source.includes('let pendingDayFatal =') ? section('let pendingDayFatal =', 'const CommandBus =') : ''}
   globalThis.runtime = {
     getState: () => state, calls, checkpoints, action: actionCommand,
     execute: executePlanMeeting, refresh: refreshCommandPoints, dayStart: runPlanMeetingDayStart,

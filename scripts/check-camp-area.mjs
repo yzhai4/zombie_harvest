@@ -75,6 +75,7 @@ vm.runInContext(`
   // These fixtures remain idle; camp-rest-v1 separately exercises active time.
   ${source.includes('const CampRestController =') ? section('const CampRestController =', 'let worldRenderFrame =') : ''}
   ${section('const CommandBus =', 'function dispatchCommand(')}
+  ${source.includes('let pendingDayFatal =') ? section('let pendingDayFatal =', 'const CommandBus =') : ''}
   globalThis.runtime = {
     getState: () => state, areas: CAMP_AREAS, calls,
     nearby: nearbyContextItem, distance: contextDistance,

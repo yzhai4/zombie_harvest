@@ -164,6 +164,8 @@ jobs:
         run: node scripts/check-scenario-boot-c2.mjs --html dist/index.html --core-module scripts/lib/scenario-package-v1.mjs --repo-root . --out "$RUNNER_TEMP/scenario-boot-c2"
       - name: Execute source gameplay vertical slice
         run: node scripts/check-gameplay-vertical-slice.mjs
+      - name: Execute sourced daytime fatal outcomes and recovery
+        run: node scripts/check-day-fatal-outcome-v1.mjs --repo-root "$GITHUB_WORKSPACE" --html "$GITHUB_WORKSPACE/dist/index.html" --out "$RUNNER_TEMP/day-fatal-outcome-v1.json"
       - name: Execute repeatable episode migration and CAS contracts
         run: node scripts/check-content-episode-v1.mjs
       - name: Execute shortage choice v2 and historical writer migration contracts
