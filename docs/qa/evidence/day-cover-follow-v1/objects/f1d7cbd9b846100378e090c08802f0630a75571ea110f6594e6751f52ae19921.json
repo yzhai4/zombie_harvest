@@ -1,0 +1,952 @@
+{
+  "schema": "DayCoverCandidateControlledTrajectoryV1",
+  "status": "CONTROLLED_FOLLOW_VERIFIED",
+  "sourceHtmlSha256": "2fca005df63742164bd6f6e8e82fc0c2d3962b4678419b633482f8a54e09ef93",
+  "inputSha256": "0366a9a9da371eef38c37aead420d5c3b0b01bd29948e793bc5a3c7db55a42c0",
+  "scope": {
+    "schema": "CoverNarrowMethodV1",
+    "sourceHtmlSha256": "2fca005df63742164bd6f6e8e82fc0c2d3962b4678419b633482f8a54e09ef93",
+    "inputSha256": "0366a9a9da371eef38c37aead420d5c3b0b01bd29948e793bc5a3c7db55a42c0",
+    "subjectId": "guardChen",
+    "inputTable": [
+      {
+        "at": 100,
+        "type": "keydown",
+        "key": "ArrowDown"
+      },
+      {
+        "at": 1700,
+        "type": "keyup",
+        "key": "ArrowDown"
+      },
+      {
+        "at": 2200,
+        "type": "keydown",
+        "key": "ArrowRight"
+      },
+      {
+        "at": 3400,
+        "type": "keyup",
+        "key": "ArrowRight"
+      }
+    ],
+    "observationWorldMinutes": 16,
+    "virtualWallMs": 19200,
+    "rafHz": 60,
+    "tieOrder": [
+      "external registered inputs",
+      "due nonRAF tasks due/id",
+      "one snapshot of due RAF per60Hz frame"
+    ],
+    "renderer": "Exact HTML renderContext function copied into QA function only to call real renderer despite original IO render stubs; no Gate/command/motion/timer replacement",
+    "noPostBootBusinessStateOrStorageWrites": true,
+    "noTaskClear": true,
+    "noDirectMoveOrAdvance": true,
+    "notClaimed": [
+      "naturalGameplay",
+      "browser",
+      "public rescue usefulness",
+      "balance",
+      "general follow implementation",
+      "A04 result"
+    ]
+  },
+  "artifacts": [
+    {
+      "path": "source-executed.html",
+      "bytes": 993727,
+      "sha256": "2fca005df63742164bd6f6e8e82fc0c2d3962b4678419b633482f8a54e09ef93"
+    },
+    {
+      "path": "input-test-only-native.json",
+      "bytes": 128489,
+      "sha256": "0366a9a9da371eef38c37aead420d5c3b0b01bd29948e793bc5a3c7db55a42c0"
+    },
+    {
+      "path": "runner-executed.mjs",
+      "bytes": 15818,
+      "sha256": "540762069a067a7430f598b8c63c8d5eb1d2cbbf389e4549f129b78cf24d1aca"
+    },
+    {
+      "path": "factory-executed.mjs",
+      "bytes": 2959,
+      "sha256": "e9872eeba85d49019d1bd806f3dd18357a5abc8f2f92922922f6a5324ec220dc"
+    },
+    {
+      "path": "io-adapter-executed.mjs",
+      "bytes": 51172,
+      "sha256": "6e0da555742e930b8bf926eeec0db0ee22f17240a4fa305978841f8ba862c0a3"
+    },
+    {
+      "path": "actual-context-renderer.js",
+      "bytes": 16737,
+      "sha256": "a26b0016e9dbc50cea8f799bde5bcf98fde2dbf981c45003b2cb699d273a1282"
+    },
+    {
+      "path": "qa-alias.js",
+      "bytes": 17136,
+      "sha256": "fb2a2272702e8b798b25d570d718288cd3ecadd81d1c2d99a9faf20a438030fb"
+    },
+    {
+      "path": "frozen-plan.json",
+      "bytes": 1233,
+      "sha256": "7db065a9dd38b411732399a5d8948731f73c71251deef4644761d7d8fb9e1bb0"
+    },
+    {
+      "path": "initial-live.json",
+      "bytes": 6798,
+      "sha256": "10fb7a36bf32cadae0b80a3c478e7dc99cac6f59cdd7766a2d2d3c9abb90a3ef"
+    },
+    {
+      "path": "before-order-context.html",
+      "bytes": 1565,
+      "sha256": "26b9496d52c9e5c92c2d98d1b9c1a7e2e34eaeb280fd1b0b04ff79d08e964d8d"
+    },
+    {
+      "path": "after-order-live.json",
+      "bytes": 7032,
+      "sha256": "9288efef12f48315f0acb2900135ad09085f77db05b0157fad4b3059ec05aa4c"
+    },
+    {
+      "path": "order-events.json",
+      "bytes": 3633,
+      "sha256": "3bad089e492bf25881251bfdb2873d1119a03fa17ee7c820e008770aeacb9a2c"
+    },
+    {
+      "path": "endpoint-live.json",
+      "bytes": 7312,
+      "sha256": "38e80f0310bbbca70278f1f42101903885dc1ef5cac9752739516ac63178670d"
+    },
+    {
+      "path": "minute-trace.json",
+      "bytes": 275394,
+      "sha256": "7b1dc53dbfc51e82fcc90d8c4a06c5c8e0d33c86c5910c0d2b0f4dda5f7681c9"
+    },
+    {
+      "path": "input-trace.json",
+      "bytes": 68258,
+      "sha256": "0e90869ee73319b63a61d7bc79612e7454a19f6408ea0cf41e2a83ccefd5a9a8"
+    },
+    {
+      "path": "registered-callbacks.json",
+      "bytes": 37553,
+      "sha256": "8de4016acb6fb034632be87d0f2e9596a2d2d4b6cb38ad966606ffaed1f583ff"
+    },
+    {
+      "path": "registered-task-metadata.json",
+      "bytes": 49956,
+      "sha256": "13f4f3960513afa2c758329fd2c844d4800e548aa6ad66c7c4260deb798163a1"
+    },
+    {
+      "path": "observed-mechanism.json",
+      "bytes": 15239,
+      "sha256": "ac8493cb51833dcbfbc8db39ade6346b047e53c64bb559459fe9a2ff54bb055c"
+    },
+    {
+      "path": "automatic-normal-writer.json",
+      "bytes": 276795,
+      "sha256": "eb1a2d3616fa87da01c9981dec444ec66426b79f2274aed88d52ab89281db85c"
+    }
+  ],
+  "checks": [
+    {
+      "name": "Complete preboot TEST-ONLY input passes actual validator and actual Continue",
+      "ok": true
+    },
+    {
+      "name": "Actual public same-ID cover pays gross2 before actual15 minutes; order set after completion",
+      "ok": true
+    },
+    {
+      "name": "Actual registered keys/RAF/world callbacks preserve16-minute DAY window and original population/health",
+      "ok": true
+    },
+    {
+      "name": "Controlled same original input now follows the changed stationary player at original speed instead of routine destination",
+      "ok": true
+    },
+    {
+      "name": "Automatic normal writer and actual same raw loader preserve paid cover",
+      "ok": true
+    }
+  ],
+  "orderReceipt": {
+    "event": {
+      "eventId": "evt-000258",
+      "seq": 258,
+      "type": "npc.orderChanged",
+      "actorId": "player-1",
+      "commandId": "cmd-000513",
+      "causationId": null,
+      "tick": {
+        "world": 685,
+        "phase": 0,
+        "schedule": 325
+      },
+      "payload": {
+        "ok": true,
+        "proofVersion": 1,
+        "npcId": "guardChen",
+        "operation": "support-and-order",
+        "outcome": "completed",
+        "orderId": "cover",
+        "target": {
+          "id": "guardChen",
+          "before": {
+            "id": "guardChen",
+            "supportRequested": false,
+            "order": null,
+            "bond": 0,
+            "hp": 100,
+            "lifeState": "healthy",
+            "sanity": 80,
+            "helpedByPlayer": 0
+          },
+          "beforeAdvance": {
+            "id": "guardChen",
+            "supportRequested": true,
+            "order": null,
+            "bond": 1,
+            "hp": 100,
+            "lifeState": "healthy",
+            "sanity": 80,
+            "helpedByPlayer": 1
+          },
+          "afterAdvance": {
+            "id": "guardChen",
+            "supportRequested": true,
+            "order": null,
+            "bond": 1,
+            "hp": 100,
+            "lifeState": "healthy",
+            "sanity": 80,
+            "helpedByPlayer": 1
+          },
+          "atCompletion": {
+            "id": "guardChen",
+            "supportRequested": true,
+            "order": "cover",
+            "bond": 1,
+            "hp": 100,
+            "lifeState": "healthy",
+            "sanity": 80,
+            "helpedByPlayer": 1
+          },
+          "presentAtCompletion": true,
+          "snapshotStages": {
+            "before": "before-payment-and-own-effects",
+            "beforeAdvance": "after-pre-simulation-own-effects",
+            "afterAdvance": "after-world-simulation-before-post-effects",
+            "atCompletion": "reducer-final-state"
+          }
+        },
+        "payment": {
+          "cost": {
+            "energy": 2
+          },
+          "before": {
+            "energy": 53
+          },
+          "after": {
+            "energy": 51
+          }
+        },
+        "resources": {
+          "energyBefore": 53,
+          "energyAfterPayment": 51,
+          "energyAfter": 52
+        },
+        "clock": {
+          "before": {
+            "day": 1,
+            "hour": 11,
+            "minute": 10,
+            "world": 670
+          },
+          "after": {
+            "day": 1,
+            "hour": 11,
+            "minute": 25,
+            "world": 685
+          },
+          "requestedMinutes": 15,
+          "elapsedMinutes": 15
+        },
+        "advance": {
+          "commandId": "cmd-000514",
+          "eventId": "evt-000256",
+          "causationId": "cmd-000513",
+          "minutes": 15,
+          "tick": {
+            "world": 685,
+            "phase": 0,
+            "schedule": 325
+          }
+        }
+      }
+    },
+    "command": {
+      "commandId": "cmd-000513",
+      "type": "npc.order",
+      "actorId": "player-1",
+      "payload": {
+        "npcId": "guardChen",
+        "orderId": "cover"
+      }
+    },
+    "gross2": true
+  },
+  "findings": {
+    "schema": "CoverObservedMechanismV1",
+    "publicDescription": "<kbd class=\"action-index\">5</kbd>🎯 支援玩家<small>跟随玩家行动，降低其遭遇危险时的压力。 首次请求消耗2行动体力，并推进15分钟。</small>",
+    "acceptedAt": 685,
+    "endpointAt": 701,
+    "playerAfterOrder": {
+      "x": 11,
+      "y": 11,
+      "prevX": 11,
+      "prevY": 11,
+      "hp": 52,
+      "energy": 52
+    },
+    "playerAtEndpoint": {
+      "x": 13.399999999999991,
+      "y": 14.199999999999989,
+      "prevX": 11,
+      "prevY": 11,
+      "hp": 52,
+      "energy": 53
+    },
+    "npcAfterOrder": {
+      "x": 11.75,
+      "y": 11,
+      "target": null
+    },
+    "npcAtEndpoint": {
+      "x": 12.224518410392829,
+      "y": 12.065352241866684,
+      "target": {
+        "x": 13.399999999999991,
+        "y": 14.199999999999989
+      }
+    },
+    "observed": [
+      {
+        "worldMinute": 686,
+        "atMs": 1200,
+        "player": {
+          "x": 11,
+          "y": 13.199999999999992
+        },
+        "npc": {
+          "x": 11.725799455415864,
+          "y": 11.070988264113403
+        },
+        "motionTarget": {
+          "x": 11,
+          "y": 13.199999999999992
+        },
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 尝试靠近玩家",
+        "behavior": "cover",
+        "distance": 2.249327859833864,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 1,
+          "targetId": "player-1",
+          "targetAt": 685,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "guardChen",
+              "at": 685,
+              "expiresAt": 775
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 687,
+        "atMs": 2400,
+        "player": {
+          "x": 11.399999999999999,
+          "y": 14.199999999999989
+        },
+        "npc": {
+          "x": 11.718032283639658,
+          "y": 11.145584986847034
+        },
+        "motionTarget": {
+          "x": 11.399999999999999,
+          "y": 14.199999999999989
+        },
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 尝试靠近玩家",
+        "behavior": "cover",
+        "distance": 3.07092748302711,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 2,
+          "targetId": "player-1",
+          "targetAt": 685,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "guardChen",
+              "at": 685,
+              "expiresAt": 775
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 688,
+        "atMs": 3600,
+        "player": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "npc": {
+          "x": 11.754209864122053,
+          "y": 11.211282647919866
+        },
+        "motionTarget": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 尝试靠近玩家",
+        "behavior": "cover",
+        "distance": 3.4118992631638383,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 3,
+          "targetId": "player-1",
+          "targetAt": 685,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "guardChen",
+              "at": 685,
+              "expiresAt": 775
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 689,
+        "atMs": 4800,
+        "player": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "npc": {
+          "x": 11.790387444604448,
+          "y": 11.276980308992698
+        },
+        "motionTarget": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 尝试靠近玩家",
+        "behavior": "cover",
+        "distance": 3.3368992631638323,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 4,
+          "targetId": "player-1",
+          "targetAt": 685,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "guardChen",
+              "at": 685,
+              "expiresAt": 775
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 690,
+        "atMs": 6000,
+        "player": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "npc": {
+          "x": 11.826565025086826,
+          "y": 11.34267797006553
+        },
+        "motionTarget": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 尝试靠近玩家",
+        "behavior": "cover",
+        "distance": 3.261899263163835,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 5,
+          "targetId": "player-1",
+          "targetAt": 685,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "guardChen",
+              "at": 685,
+              "expiresAt": 775
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 691,
+        "atMs": 7200,
+        "player": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "npc": {
+          "x": 11.862742605569188,
+          "y": 11.408375631138362
+        },
+        "motionTarget": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 尝试靠近玩家",
+        "behavior": "cover",
+        "distance": 3.1868992631638444,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 0,
+          "targetId": "player-1",
+          "targetAt": 691,
+          "contacts": {
+            "player-1": {
+              "x": 13.399999999999991,
+              "y": 14.199999999999989,
+              "sourceId": "guardChen",
+              "at": 691,
+              "expiresAt": 746
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 692,
+        "atMs": 8400,
+        "player": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "npc": {
+          "x": 11.898920186051553,
+          "y": 11.474073292211195
+        },
+        "motionTarget": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 尝试靠近玩家",
+        "behavior": "cover",
+        "distance": 3.111899263163853,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 1,
+          "targetId": "player-1",
+          "targetAt": 691,
+          "contacts": {
+            "player-1": {
+              "x": 13.399999999999991,
+              "y": 14.199999999999989,
+              "sourceId": "guardChen",
+              "at": 691,
+              "expiresAt": 746
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 693,
+        "atMs": 9600,
+        "player": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "npc": {
+          "x": 11.935097766533916,
+          "y": 11.539770953284027
+        },
+        "motionTarget": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 尝试靠近玩家",
+        "behavior": "cover",
+        "distance": 3.0368992631638627,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 2,
+          "targetId": "player-1",
+          "targetAt": 691,
+          "contacts": {
+            "player-1": {
+              "x": 13.399999999999991,
+              "y": 14.199999999999989,
+              "sourceId": "guardChen",
+              "at": 691,
+              "expiresAt": 746
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 694,
+        "atMs": 10800,
+        "player": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "npc": {
+          "x": 11.971275347016281,
+          "y": 11.605468614356859
+        },
+        "motionTarget": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 尝试靠近玩家",
+        "behavior": "cover",
+        "distance": 2.961899263163871,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 3,
+          "targetId": "player-1",
+          "targetAt": 691,
+          "contacts": {
+            "player-1": {
+              "x": 13.399999999999991,
+              "y": 14.199999999999989,
+              "sourceId": "guardChen",
+              "at": 691,
+              "expiresAt": 746
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 695,
+        "atMs": 12000,
+        "player": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "npc": {
+          "x": 12.007452927498646,
+          "y": 11.671166275429691
+        },
+        "motionTarget": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 尝试靠近玩家",
+        "behavior": "cover",
+        "distance": 2.88689926316388,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 4,
+          "targetId": "player-1",
+          "targetAt": 691,
+          "contacts": {
+            "player-1": {
+              "x": 13.399999999999991,
+              "y": 14.199999999999989,
+              "sourceId": "guardChen",
+              "at": 691,
+              "expiresAt": 746
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 696,
+        "atMs": 13200,
+        "player": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "npc": {
+          "x": 12.043630507981009,
+          "y": 11.736863936502523
+        },
+        "motionTarget": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 尝试靠近玩家",
+        "behavior": "cover",
+        "distance": 2.8118992631638893,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 5,
+          "targetId": "player-1",
+          "targetAt": 691,
+          "contacts": {
+            "player-1": {
+              "x": 13.399999999999991,
+              "y": 14.199999999999989,
+              "sourceId": "guardChen",
+              "at": 691,
+              "expiresAt": 746
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 697,
+        "atMs": 14400,
+        "player": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "npc": {
+          "x": 12.079808088463373,
+          "y": 11.802561597575355
+        },
+        "motionTarget": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 尝试靠近玩家",
+        "behavior": "cover",
+        "distance": 2.7368992631638984,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 0,
+          "targetId": "player-1",
+          "targetAt": 697,
+          "contacts": {
+            "player-1": {
+              "x": 13.399999999999991,
+              "y": 14.199999999999989,
+              "sourceId": "guardChen",
+              "at": 697,
+              "expiresAt": 752
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 698,
+        "atMs": 15600,
+        "player": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "npc": {
+          "x": 12.115985668945736,
+          "y": 11.868259258648187
+        },
+        "motionTarget": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 尝试靠近玩家",
+        "behavior": "cover",
+        "distance": 2.661899263163907,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 1,
+          "targetId": "player-1",
+          "targetAt": 697,
+          "contacts": {
+            "player-1": {
+              "x": 13.399999999999991,
+              "y": 14.199999999999989,
+              "sourceId": "guardChen",
+              "at": 697,
+              "expiresAt": 752
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 699,
+        "atMs": 16800,
+        "player": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "npc": {
+          "x": 12.1521632494281,
+          "y": 11.93395691972102
+        },
+        "motionTarget": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 尝试靠近玩家",
+        "behavior": "cover",
+        "distance": 2.5868992631639167,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 2,
+          "targetId": "player-1",
+          "targetAt": 697,
+          "contacts": {
+            "player-1": {
+              "x": 13.399999999999991,
+              "y": 14.199999999999989,
+              "sourceId": "guardChen",
+              "at": 697,
+              "expiresAt": 752
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 700,
+        "atMs": 18000,
+        "player": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "npc": {
+          "x": 12.188340829910464,
+          "y": 11.999654580793852
+        },
+        "motionTarget": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 尝试靠近玩家",
+        "behavior": "cover",
+        "distance": 2.5118992631639254,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 3,
+          "targetId": "player-1",
+          "targetAt": 697,
+          "contacts": {
+            "player-1": {
+              "x": 13.399999999999991,
+              "y": 14.199999999999989,
+              "sourceId": "guardChen",
+              "at": 697,
+              "expiresAt": 752
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 701,
+        "atMs": 19200,
+        "player": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "npc": {
+          "x": 12.224518410392829,
+          "y": 12.065352241866684
+        },
+        "motionTarget": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 尝试靠近玩家",
+        "behavior": "cover",
+        "distance": 2.4368992631639346,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 4,
+          "targetId": "player-1",
+          "targetAt": 697,
+          "contacts": {
+            "player-1": {
+              "x": 13.399999999999991,
+              "y": 14.199999999999989,
+              "sourceId": "guardChen",
+              "at": 697,
+              "expiresAt": 752
+            }
+          },
+          "sharedUntil": 0
+        }
+      }
+    ],
+    "anyMotionTargetMatchesCurrentPlayer": true,
+    "sourceScope": "Static exact-source path plus this TEST-ONLY no-enemy/collision-isolated16-minute controlled trajectory; not natural rescue utility or universal no-follow claim"
+  },
+  "followEvidence": {
+    "firstSettledMinute": 688,
+    "firstSettledDistance": 3.4118992631638383,
+    "finalDistance": 2.4368992631639346,
+    "method": "Actual interval positions and fixed registered inputs; motionTarget text is diagnostic only, no requirement that implementation store exact live-player coordinates."
+  },
+  "automaticWriter": {
+    "worldMinute": 695,
+    "eventSeq": 268,
+    "sha256": "eb1a2d3616fa87da01c9981dec444ec66426b79f2274aed88d52ab89281db85c"
+  },
+  "recovery": {
+    "selectedChecksum": "cf49f5e4",
+    "writerMinute": 695,
+    "loadedMinute": 695,
+    "writerSha256": "eb1a2d3616fa87da01c9981dec444ec66426b79f2274aed88d52ab89281db85c",
+    "noPostReloadTick": true
+  },
+  "ok": true,
+  "naturalRescueValueClaimed": false,
+  "count": 5,
+  "passed": 5
+}

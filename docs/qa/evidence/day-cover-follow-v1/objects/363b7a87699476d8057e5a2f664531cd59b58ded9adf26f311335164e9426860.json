@@ -1,0 +1,229 @@
+{
+  "key": "zombie-harvest-progress-v12",
+  "sourceCategory": "primary",
+  "originalChecksum": "cd56227a",
+  "classification": "DAY",
+  "installed": false,
+  "savePending": false,
+  "started": false,
+  "mode": "START",
+  "exiting": false,
+  "overlayHidden": false,
+  "live": {
+    "world": 0,
+    "eventSeq": 1,
+    "npc": {
+      "id": "radio",
+      "name": "阿默",
+      "role": "广播员",
+      "icon": "📻",
+      "desc": "提前预警，尸潮少 1 只",
+      "homeZone": "command",
+      "workZone": "northGate",
+      "x": 15,
+      "y": 9,
+      "maxHp": 100,
+      "hp": 100,
+      "lifeState": "healthy",
+      "wounds": [],
+      "morale": 72,
+      "behaviorState": "work",
+      "currentOrder": null,
+      "fallbackPoint": {
+        "x": 2,
+        "y": 2
+      },
+      "inventory": {
+        "medicine": 0,
+        "ammo": 2
+      },
+      "appearance": {
+        "bodyType": "slim",
+        "skin": "#e0a47c",
+        "hair": "#3d3130",
+        "hairStyle": "hood",
+        "signature": "antenna",
+        "palette": {
+          "cloth": "#9168a7",
+          "clothDark": "#593d6b",
+          "accent": "#8ee2e5",
+          "tool": "#c9d0ca"
+        },
+        "equipment": {
+          "head": "hood",
+          "outer": "signalJacket",
+          "back": "radioPack",
+          "weapon": "none",
+          "offhand": "headset",
+          "tool": "radio"
+        }
+      },
+      "equipment": {
+        "head": "hood",
+        "outer": "signalJacket",
+        "back": "radioPack",
+        "weapon": "none",
+        "offhand": "headset",
+        "tool": "radio"
+      },
+      "personality": {
+        "courage": 52,
+        "duty": 64,
+        "compassion": 58,
+        "discipline": 62,
+        "riskTolerance": 65,
+        "loyalty": 60
+      },
+      "attributes": {
+        "production": 63,
+        "weaponSkill": 57,
+        "armorSkill": 63,
+        "turretSkill": 63,
+        "buildSkill": 62,
+        "medicalSkill": 60,
+        "researchSkill": 78,
+        "logisticsSkill": 63,
+        "commandSkill": 63
+      },
+      "hero": {
+        "tier": "hero",
+        "status": "promoted",
+        "progress": 100,
+        "activeSkill": "signal-triangulation",
+        "passiveSkill": "early-warning",
+        "promotedDay": 1
+      },
+      "relations": {
+        "trustToPlayer": 0,
+        "trustToCommander": 0,
+        "bondToPlayer": 0,
+        "respectToPlayer": 0,
+        "fearOfPlayer": 0,
+        "resentmentOfPlayer": 0,
+        "loyaltyToCamp": 60,
+        "loyaltyToCommander": 56,
+        "belongingToCamp": 52,
+        "allies": [],
+        "rivals": [],
+        "values": {
+          "safety": 50,
+          "order": 62,
+          "compassion": 58,
+          "autonomy": 50,
+          "truth": 50
+        },
+        "knowledgeOfPlayer": {
+          "facts": [],
+          "lastHeardAt": 0
+        },
+        "opinionFlags": {}
+      },
+      "memory": {
+        "helpedByPlayer": 0,
+        "witnessedDeaths": 0,
+        "failedOrders": 0,
+        "importantEvents": [],
+        "relayCoreHandoff": null
+      },
+      "needs": {
+        "hunger": 18,
+        "fatigue": 12,
+        "stress": 8,
+        "energy": 82,
+        "social": 28,
+        "safety": 18
+      },
+      "sanity": 72,
+      "sanityClock": 0,
+      "sanityLastReason": "营地仍然安全",
+      "scheduleState": "work",
+      "lastReport": "",
+      "actingRole": null,
+      "actingFor": null,
+      "eventChain": {
+        "step": 0,
+        "cooldown": 0,
+        "active": null,
+        "resolved": []
+      },
+      "perception": {
+        "clock": 0,
+        "targetId": null,
+        "targetAt": 0,
+        "contacts": {},
+        "sharedUntil": 0
+      },
+      "supportRequested": false,
+      "order": null,
+      "bond": 0,
+      "combatHp": 100,
+      "combatStatus": "ready",
+      "simMoveClock": 0,
+      "needClock": 0,
+      "workClock": 0,
+      "workPulseSeq": 0,
+      "workHistory": [],
+      "routineIntent": null,
+      "escapePressure": 0,
+      "perk": "羁绊 3：求救信标额外减少 1 只尸潮"
+    },
+    "relay": {
+      "id": "camp-relay-001",
+      "status": "unknown",
+      "coreItemId": null,
+      "handoffAt": null,
+      "materialNeed": {
+        "wood": 10,
+        "parts": 5,
+        "stone": 4
+      },
+      "materialProgress": {
+        "wood": 0,
+        "parts": 0,
+        "stone": 0
+      },
+      "materialClock": 0,
+      "workMinutes": 0,
+      "targetMinutes": 180,
+      "buildingId": "bld-relay-station",
+      "assignedNpcIds": [
+        "radio",
+        "carpenter",
+        "quartermaster"
+      ],
+      "sharedSightBonus": 2,
+      "sharedRangeBonus": 4,
+      "forecastLeadMinutes": 180,
+      "routeId": "eastern-breach"
+    },
+    "events": [
+      {
+        "eventId": "evt-000001",
+        "seq": 1,
+        "type": "plan.commandPoints.refreshed",
+        "actorId": "camp-autonomy",
+        "commandId": null,
+        "causationId": null,
+        "tick": {
+          "world": 360,
+          "phase": 0,
+          "schedule": 0
+        },
+        "payload": {
+          "day": 1,
+          "before": 0,
+          "after": 0,
+          "cap": 0,
+          "reason": "initial",
+          "campTrust": 0,
+          "campCollapse": 0
+        },
+        "defId": "camp-plan-meeting-001",
+        "definitionVersion": 1,
+        "instanceId": "event-initial",
+        "effects": []
+      }
+    ]
+  },
+  "rawSha256": "eaa2e07e4a5a4cfb221779ef567e4bd07508fcfed841730f250fc2fd7b04af18"
+}

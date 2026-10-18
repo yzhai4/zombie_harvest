@@ -1,0 +1,97 @@
+{
+  "event": {
+    "eventId": "evt-000034",
+    "seq": 34,
+    "type": "npc.orderChanged",
+    "actorId": "player-1",
+    "commandId": "cmd-000264",
+    "causationId": null,
+    "tick": {
+      "world": 401,
+      "phase": 0,
+      "schedule": 41
+    },
+    "payload": {
+      "ok": true,
+      "proofVersion": 1,
+      "npcId": "radio",
+      "operation": "order-change",
+      "outcome": "completed",
+      "orderId": "guard",
+      "target": {
+        "id": "radio",
+        "before": {
+          "id": "radio",
+          "supportRequested": true,
+          "order": "cover",
+          "bond": 1,
+          "hp": 100,
+          "lifeState": "healthy",
+          "sanity": 74,
+          "helpedByPlayer": 1
+        },
+        "beforeAdvance": null,
+        "afterAdvance": null,
+        "atCompletion": {
+          "id": "radio",
+          "supportRequested": true,
+          "order": "guard",
+          "bond": 1,
+          "hp": 100,
+          "lifeState": "healthy",
+          "sanity": 74,
+          "helpedByPlayer": 1
+        },
+        "presentAtCompletion": true,
+        "snapshotStages": {
+          "before": "before-payment-and-own-effects",
+          "beforeAdvance": null,
+          "afterAdvance": null,
+          "atCompletion": "reducer-final-state"
+        }
+      },
+      "payment": {
+        "cost": {
+          "energy": 0
+        },
+        "before": {
+          "energy": 75
+        },
+        "after": {
+          "energy": 75
+        }
+      },
+      "resources": {
+        "energyBefore": 75,
+        "energyAfterPayment": 75,
+        "energyAfter": 75
+      },
+      "clock": {
+        "before": {
+          "day": 1,
+          "hour": 6,
+          "minute": 41,
+          "world": 401
+        },
+        "after": {
+          "day": 1,
+          "hour": 6,
+          "minute": 41,
+          "world": 401
+        },
+        "requestedMinutes": 0,
+        "elapsedMinutes": 0
+      },
+      "advance": null
+    }
+  },
+  "command": {
+    "commandId": "cmd-000264",
+    "type": "npc.order",
+    "actorId": "player-1",
+    "payload": {
+      "npcId": "radio",
+      "orderId": "guard"
+    }
+  }
+}

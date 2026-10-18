@@ -1,0 +1,2673 @@
+{
+  "schema": "DayCoverCrewControlledSourceV1",
+  "status": "CONTROLLED_CREW_PAUSE_RESUME_VERIFIED",
+  "sourceHtmlSha256": "2fca005df63742164bd6f6e8e82fc0c2d3962b4678419b633482f8a54e09ef93",
+  "inputSha256": "3ccfb5cbee6b066ed7232bf2f828f422eaf2cab6aaea330b4c65c3e1a1a10b2a",
+  "scope": {
+    "schema": "CoverNarrowMethodV1",
+    "sourceHtmlSha256": "2fca005df63742164bd6f6e8e82fc0c2d3962b4678419b633482f8a54e09ef93",
+    "inputSha256": "3ccfb5cbee6b066ed7232bf2f828f422eaf2cab6aaea330b4c65c3e1a1a10b2a",
+    "subjectId": "quartermaster",
+    "inputTable": [],
+    "observationWorldMinutes": 60,
+    "virtualWallMs": 72000,
+    "rafHz": 60,
+    "tieOrder": [
+      "external registered inputs",
+      "due nonRAF tasks due/id",
+      "one snapshot of due RAF per60Hz frame"
+    ],
+    "renderer": "Exact HTML renderContext function copied into QA function only to call real renderer despite original IO render stubs; no Gate/command/motion/timer replacement",
+    "noPostBootBusinessStateOrStorageWrites": true,
+    "noTaskClear": true,
+    "noDirectMoveOrAdvance": true,
+    "notClaimed": [
+      "naturalGameplay",
+      "browser",
+      "public rescue usefulness",
+      "balance",
+      "general follow implementation",
+      "A04 result"
+    ]
+  },
+  "artifacts": [
+    {
+      "path": "source-executed.html",
+      "bytes": 993727,
+      "sha256": "2fca005df63742164bd6f6e8e82fc0c2d3962b4678419b633482f8a54e09ef93"
+    },
+    {
+      "path": "input-test-only-native.json",
+      "bytes": 39158,
+      "sha256": "3ccfb5cbee6b066ed7232bf2f828f422eaf2cab6aaea330b4c65c3e1a1a10b2a"
+    },
+    {
+      "path": "runner-executed.mjs",
+      "bytes": 19188,
+      "sha256": "7c68d1081cf55b3336c3a2ec6c828c56763955d4fb85f74ade81d3808445e2f7"
+    },
+    {
+      "path": "factory-executed.mjs",
+      "bytes": 2959,
+      "sha256": "e9872eeba85d49019d1bd806f3dd18357a5abc8f2f92922922f6a5324ec220dc"
+    },
+    {
+      "path": "io-adapter-executed.mjs",
+      "bytes": 51172,
+      "sha256": "6e0da555742e930b8bf926eeec0db0ee22f17240a4fa305978841f8ba862c0a3"
+    },
+    {
+      "path": "actual-context-renderer.js",
+      "bytes": 16737,
+      "sha256": "a26b0016e9dbc50cea8f799bde5bcf98fde2dbf981c45003b2cb699d273a1282"
+    },
+    {
+      "path": "qa-alias.js",
+      "bytes": 17257,
+      "sha256": "419225b021f7e9348864b8bdd753822a27cc3c1269fd7805a2b53aa6db6c2c84"
+    },
+    {
+      "path": "frozen-plan.json",
+      "bytes": 914,
+      "sha256": "5a1fc1963b63bc86fbcec4d3f806e1333cc1bb2685eb17fb7133081cf8649ee7"
+    },
+    {
+      "path": "initial-live.json",
+      "bytes": 6283,
+      "sha256": "13d4184df9017da54ead03a04e6177b74867a922819619aedb8ffef8420539e9"
+    },
+    {
+      "path": "before-order-context.html",
+      "bytes": 1720,
+      "sha256": "0c32088f45b440374bf7f818d4ef509e3e833505c6941469c5af294d6376a0c7"
+    },
+    {
+      "path": "after-order-live.json",
+      "bytes": 6645,
+      "sha256": "6a34ee7aa679d2d5d84f1dba232e9651777dc842d0ce10968396b02cbd6c2f5c"
+    },
+    {
+      "path": "order-events.json",
+      "bytes": 5007,
+      "sha256": "af63a575663ea88fba1b58928904572ebb976b2ed6f56486603b7549c3eba5e2"
+    },
+    {
+      "path": "paused-engineering-live.json",
+      "bytes": 6738,
+      "sha256": "262613e3841bd1a9b13cf402b0bd69961f416e58657ad9a40355d4a2c43ee070"
+    },
+    {
+      "path": "paused-normal-writer.json",
+      "bytes": 121577,
+      "sha256": "a278f0a9a02d86b32de30c72b08c624c021158a9d69efef222f530ca20c89fe4"
+    },
+    {
+      "path": "guard-return-context.html",
+      "bytes": 2287,
+      "sha256": "9964fc73db7cac3a6298e37c8601406eab67deae47b8c2297c821b1ec9a85892"
+    },
+    {
+      "path": "endpoint-live.json",
+      "bytes": 6885,
+      "sha256": "e3ab097d0ef6e564af8f0ab6795db8d2b252970770df571b0a3e6cb7397ac561"
+    },
+    {
+      "path": "minute-trace.json",
+      "bytes": 973986,
+      "sha256": "0e0c304738281f76bb7ce27ceacee9c3b08a364a00b8ceff710e96a179bde60c"
+    },
+    {
+      "path": "input-trace.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "registered-callbacks.json",
+      "bytes": 18846,
+      "sha256": "804d8c08049b3da1e2811451680397e3204797017c9693e474a00768b7e5770f"
+    },
+    {
+      "path": "registered-task-metadata.json",
+      "bytes": 14415,
+      "sha256": "a529d331901a6e10748bbc82fd029464a8d6ecb6d65dd7d4a1600b197691695b"
+    },
+    {
+      "path": "observed-mechanism.json",
+      "bytes": 46297,
+      "sha256": "64da84d07ac5ea48eefce4293f3d4f1d43a44fe573618bed017501e2b381144e"
+    },
+    {
+      "path": "automatic-normal-writer.json",
+      "bytes": 146763,
+      "sha256": "3c29e20405f023d635f530bcbee3e7fdfe5d08bdba5f3c913e0c93ee9d3bb846"
+    }
+  ],
+  "checks": [
+    {
+      "name": "Complete preboot TEST-ONLY input passes actual validator and actual Continue",
+      "ok": true
+    },
+    {
+      "name": "Actual public same-ID cover pays gross2 before actual15 minutes; order set after completion",
+      "ok": true
+    },
+    {
+      "name": "Cover reserves actual engineer and freezes clock/materials/work after legitimate paid15 prefix",
+      "ok": true
+    },
+    {
+      "name": "Actual automatic paused writer/loader preserves the busy cover duty and paid prefix",
+      "ok": true
+    },
+    {
+      "name": "Same-ID existing guard return is zero additional payment/time/bond/SAN and retains support",
+      "ok": true
+    },
+    {
+      "name": "Thirty real resumed minutes consume one finite material batch with no paused catch-up",
+      "ok": true
+    },
+    {
+      "name": "Automatic normal resumed writer and actual same raw loader preserve guard and real material consequences",
+      "ok": true
+    }
+  ],
+  "orderReceipt": {
+    "event": {
+      "eventId": "evt-000025",
+      "seq": 25,
+      "type": "npc.orderChanged",
+      "actorId": "player-1",
+      "commandId": "cmd-000256",
+      "causationId": null,
+      "tick": {
+        "world": 395,
+        "phase": 0,
+        "schedule": 35
+      },
+      "payload": {
+        "ok": true,
+        "proofVersion": 1,
+        "npcId": "quartermaster",
+        "operation": "support-and-order",
+        "outcome": "completed",
+        "orderId": "cover",
+        "target": {
+          "id": "quartermaster",
+          "before": {
+            "id": "quartermaster",
+            "supportRequested": false,
+            "order": null,
+            "bond": 0,
+            "hp": 100,
+            "lifeState": "healthy",
+            "sanity": 72,
+            "helpedByPlayer": 0
+          },
+          "beforeAdvance": {
+            "id": "quartermaster",
+            "supportRequested": true,
+            "order": null,
+            "bond": 1,
+            "hp": 100,
+            "lifeState": "healthy",
+            "sanity": 72,
+            "helpedByPlayer": 1
+          },
+          "afterAdvance": {
+            "id": "quartermaster",
+            "supportRequested": true,
+            "order": null,
+            "bond": 1,
+            "hp": 100,
+            "lifeState": "healthy",
+            "sanity": 74,
+            "helpedByPlayer": 1
+          },
+          "atCompletion": {
+            "id": "quartermaster",
+            "supportRequested": true,
+            "order": "cover",
+            "bond": 1,
+            "hp": 100,
+            "lifeState": "healthy",
+            "sanity": 74,
+            "helpedByPlayer": 1
+          },
+          "presentAtCompletion": true,
+          "snapshotStages": {
+            "before": "before-payment-and-own-effects",
+            "beforeAdvance": "after-pre-simulation-own-effects",
+            "afterAdvance": "after-world-simulation-before-post-effects",
+            "atCompletion": "reducer-final-state"
+          }
+        },
+        "payment": {
+          "cost": {
+            "energy": 2
+          },
+          "before": {
+            "energy": 76
+          },
+          "after": {
+            "energy": 74
+          }
+        },
+        "resources": {
+          "energyBefore": 76,
+          "energyAfterPayment": 74,
+          "energyAfter": 74
+        },
+        "clock": {
+          "before": {
+            "day": 1,
+            "hour": 6,
+            "minute": 20,
+            "world": 380
+          },
+          "after": {
+            "day": 1,
+            "hour": 6,
+            "minute": 35,
+            "world": 395
+          },
+          "requestedMinutes": 15,
+          "elapsedMinutes": 15
+        },
+        "advance": {
+          "commandId": "cmd-000257",
+          "eventId": "evt-000023",
+          "causationId": "cmd-000256",
+          "minutes": 15,
+          "tick": {
+            "world": 395,
+            "phase": 0,
+            "schedule": 35
+          }
+        }
+      }
+    },
+    "command": {
+      "commandId": "cmd-000256",
+      "type": "npc.order",
+      "actorId": "player-1",
+      "payload": {
+        "npcId": "quartermaster",
+        "orderId": "cover"
+      }
+    },
+    "gross2": true
+  },
+  "pausedWriter": {
+    "sha256": "a278f0a9a02d86b32de30c72b08c624c021158a9d69efef222f530ca20c89fe4",
+    "minute": 425,
+    "checksum": "e3861ad6",
+    "actualLoader": true
+  },
+  "guardReceipt": {
+    "eventId": "evt-000069",
+    "seq": 69,
+    "type": "npc.orderChanged",
+    "actorId": "player-1",
+    "commandId": "cmd-000288",
+    "causationId": null,
+    "tick": {
+      "world": 425,
+      "phase": 0,
+      "schedule": 65
+    },
+    "payload": {
+      "ok": true,
+      "proofVersion": 1,
+      "npcId": "quartermaster",
+      "operation": "order-change",
+      "outcome": "completed",
+      "orderId": "guard",
+      "target": {
+        "id": "quartermaster",
+        "before": {
+          "id": "quartermaster",
+          "supportRequested": true,
+          "order": "cover",
+          "bond": 1,
+          "hp": 100,
+          "lifeState": "healthy",
+          "sanity": 74,
+          "helpedByPlayer": 1
+        },
+        "beforeAdvance": null,
+        "afterAdvance": null,
+        "atCompletion": {
+          "id": "quartermaster",
+          "supportRequested": true,
+          "order": "guard",
+          "bond": 1,
+          "hp": 100,
+          "lifeState": "healthy",
+          "sanity": 74,
+          "helpedByPlayer": 1
+        },
+        "presentAtCompletion": true,
+        "snapshotStages": {
+          "before": "before-payment-and-own-effects",
+          "beforeAdvance": null,
+          "afterAdvance": null,
+          "atCompletion": "reducer-final-state"
+        }
+      },
+      "payment": {
+        "cost": {
+          "energy": 0
+        },
+        "before": {
+          "energy": 76
+        },
+        "after": {
+          "energy": 76
+        }
+      },
+      "resources": {
+        "energyBefore": 76,
+        "energyAfterPayment": 76,
+        "energyAfter": 76
+      },
+      "clock": {
+        "before": {
+          "day": 1,
+          "hour": 7,
+          "minute": 5,
+          "world": 425
+        },
+        "after": {
+          "day": 1,
+          "hour": 7,
+          "minute": 5,
+          "world": 425
+        },
+        "requestedMinutes": 0,
+        "elapsedMinutes": 0
+      },
+      "advance": null
+    }
+  },
+  "engineering": {
+    "afterPaid": {
+      "id": "camp-relay-001",
+      "status": "staging",
+      "coreItemId": "item-relayCore-001",
+      "handoffAt": null,
+      "materialNeed": {
+        "wood": 10,
+        "parts": 5,
+        "stone": 4
+      },
+      "materialProgress": {
+        "wood": 0,
+        "parts": 0,
+        "stone": 0
+      },
+      "workMinutes": 0,
+      "targetMinutes": 180,
+      "buildingId": "bld-relay-station",
+      "assignedNpcIds": [
+        "radio",
+        "carpenter",
+        "quartermaster"
+      ],
+      "sharedSightBonus": 2,
+      "sharedRangeBonus": 4,
+      "forecastLeadMinutes": 180,
+      "routeId": "eastern-breach",
+      "materialClock": 15,
+      "lastBlockedReason": null
+    },
+    "paused": {
+      "id": "camp-relay-001",
+      "status": "staging",
+      "coreItemId": "item-relayCore-001",
+      "handoffAt": null,
+      "materialNeed": {
+        "wood": 10,
+        "parts": 5,
+        "stone": 4
+      },
+      "materialProgress": {
+        "wood": 0,
+        "parts": 0,
+        "stone": 0
+      },
+      "workMinutes": 0,
+      "targetMinutes": 180,
+      "buildingId": "bld-relay-station",
+      "assignedNpcIds": [
+        "radio",
+        "carpenter",
+        "quartermaster"
+      ],
+      "sharedSightBonus": 2,
+      "sharedRangeBonus": 4,
+      "forecastLeadMinutes": 180,
+      "routeId": "eastern-breach",
+      "materialClock": 15,
+      "lastBlockedReason": "cover-duty"
+    },
+    "resumed": {
+      "id": "camp-relay-001",
+      "status": "staging",
+      "coreItemId": "item-relayCore-001",
+      "handoffAt": null,
+      "materialNeed": {
+        "wood": 10,
+        "parts": 5,
+        "stone": 4
+      },
+      "materialProgress": {
+        "wood": 2,
+        "parts": 2,
+        "stone": 0
+      },
+      "workMinutes": 0,
+      "targetMinutes": 180,
+      "buildingId": "bld-relay-station",
+      "assignedNpcIds": [
+        "radio",
+        "carpenter",
+        "quartermaster"
+      ],
+      "sharedSightBonus": 2,
+      "sharedRangeBonus": 4,
+      "forecastLeadMinutes": 180,
+      "routeId": "eastern-breach",
+      "materialClock": 15,
+      "lastBlockedReason": null,
+      "lastMaterialAt": 440
+    },
+    "pausedWorldMinutes": 30,
+    "resumedWorldMinutes": 30
+  },
+  "findings": {
+    "schema": "CoverObservedMechanismV1",
+    "publicDescription": "<kbd class=\"action-index\">5</kbd>🎯 支援玩家<small>跟随玩家行动，降低其遭遇危险时的压力。 首次请求消耗2行动体力，并推进15分钟。后勤官：周岚；随行会占用该岗位，使中继工程暂停；靠近本人改为守墙／巡逻后，满足条件时继续。</small>",
+    "acceptedAt": 395,
+    "endpointAt": 455,
+    "playerAfterOrder": {
+      "x": 11,
+      "y": 11,
+      "prevX": 11,
+      "prevY": 11,
+      "hp": 94,
+      "energy": 74
+    },
+    "playerAtEndpoint": {
+      "x": 11,
+      "y": 11,
+      "prevX": 11,
+      "prevY": 11,
+      "hp": 94,
+      "energy": 77
+    },
+    "npcAfterOrder": {
+      "x": 11.75,
+      "y": 11,
+      "target": null
+    },
+    "npcAtEndpoint": {
+      "x": 13.78584207995231,
+      "y": 10.041956668257924,
+      "target": {
+        "x": 16,
+        "y": 9
+      }
+    },
+    "observed": [
+      {
+        "worldMinute": 396,
+        "atMs": 1200,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 1,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 397,
+        "atMs": 2400,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 2,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 398,
+        "atMs": 3600,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 3,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 399,
+        "atMs": 4800,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 4,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 400,
+        "atMs": 6000,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 5,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 401,
+        "atMs": 7200,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 0,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 402,
+        "atMs": 8400,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 1,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 403,
+        "atMs": 9600,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 2,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 404,
+        "atMs": 10800,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 3,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 405,
+        "atMs": 12000,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 4,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 406,
+        "atMs": 13200,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 5,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 407,
+        "atMs": 14400,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 0,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 408,
+        "atMs": 15600,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 1,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 409,
+        "atMs": 16800,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 2,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 410,
+        "atMs": 18000,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 3,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 411,
+        "atMs": 19200,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 4,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 412,
+        "atMs": 20400,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 5,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 413,
+        "atMs": 21600,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 0,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 414,
+        "atMs": 22800,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 1,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 415,
+        "atMs": 24000,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 2,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 416,
+        "atMs": 25200,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 3,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 417,
+        "atMs": 26400,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 4,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 418,
+        "atMs": 27600,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 5,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 419,
+        "atMs": 28800,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 0,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 420,
+        "atMs": 30000,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 1,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 421,
+        "atMs": 31200,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 2,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 422,
+        "atMs": 32400,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 3,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 423,
+        "atMs": 33600,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 4,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 424,
+        "atMs": 34800,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 5,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 425,
+        "atMs": 36000,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 0,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 426,
+        "atMs": 37200,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.817861402665077,
+          "y": 10.968065222275264
+        },
+        "motionTarget": {
+          "x": 16,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.8184846388281306,
+        "simMoveClock": 0,
+        "perception": {
+          "clock": 1,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 427,
+        "atMs": 38400,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.885722805330154,
+          "y": 10.936130444550528
+        },
+        "motionTarget": {
+          "x": 16,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.8880226393483621,
+        "simMoveClock": 1,
+        "perception": {
+          "clock": 2,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 428,
+        "atMs": 39600,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.953584207995231,
+          "y": 10.904195666825792
+        },
+        "motionTarget": {
+          "x": 16,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.9583847411101902,
+        "simMoveClock": 2,
+        "perception": {
+          "clock": 3,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 429,
+        "atMs": 40800,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 12.021445610660308,
+          "y": 10.872260889101057
+        },
+        "motionTarget": {
+          "x": 16,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 1.0294019700731403,
+        "simMoveClock": 3,
+        "perception": {
+          "clock": 4,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 430,
+        "atMs": 42000,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 12.089307013325385,
+          "y": 10.84032611137632
+        },
+        "motionTarget": {
+          "x": 16,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 1.1009475555121044,
+        "simMoveClock": 4,
+        "perception": {
+          "clock": 5,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 431,
+        "atMs": 43200,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 12.157168415990462,
+          "y": 10.808391333651585
+        },
+        "motionTarget": {
+          "x": 16,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 1.1729248159987464,
+        "simMoveClock": 5,
+        "perception": {
+          "clock": 0,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 432,
+        "atMs": 44400,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 12.225029818655539,
+          "y": 10.776456555926849
+        },
+        "motionTarget": {
+          "x": 16,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 1.2452588999815697,
+        "simMoveClock": 6,
+        "perception": {
+          "clock": 1,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 433,
+        "atMs": 45600,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 12.292891221320616,
+          "y": 10.744521778202113
+        },
+        "motionTarget": {
+          "x": 16,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 1.3178910546706524,
+        "simMoveClock": 7,
+        "perception": {
+          "clock": 2,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 434,
+        "atMs": 46800,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 12.360752623985693,
+          "y": 10.712587000477377
+        },
+        "motionTarget": {
+          "x": 16,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 1.3907745812958117,
+        "simMoveClock": 8,
+        "perception": {
+          "clock": 3,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 435,
+        "atMs": 48000,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 12.42861402665077,
+          "y": 10.680652222752641
+        },
+        "motionTarget": {
+          "x": 16,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 1.463871934281191,
+        "simMoveClock": 9,
+        "perception": {
+          "clock": 4,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 436,
+        "atMs": 49200,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 12.496475429315847,
+          "y": 10.648717445027906
+        },
+        "motionTarget": {
+          "x": 16,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 1.537152609201107,
+        "simMoveClock": 10,
+        "perception": {
+          "clock": 5,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 437,
+        "atMs": 50400,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 12.564336831980924,
+          "y": 10.61678266730317
+        },
+        "motionTarget": {
+          "x": 16,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 1.6105915832300213,
+        "simMoveClock": 11,
+        "perception": {
+          "clock": 0,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 438,
+        "atMs": 51600,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 12.632198234646001,
+          "y": 10.584847889578434
+        },
+        "motionTarget": {
+          "x": 16,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 1.684168148365537,
+        "simMoveClock": 12,
+        "perception": {
+          "clock": 1,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 439,
+        "atMs": 52800,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 12.700059637311078,
+          "y": 10.552913111853698
+        },
+        "motionTarget": {
+          "x": 16,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 1.75786502780123,
+        "simMoveClock": 13,
+        "perception": {
+          "clock": 2,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 440,
+        "atMs": 54000,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 12.767921039976155,
+          "y": 10.520978334128962
+        },
+        "motionTarget": {
+          "x": 16,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 1.8316676991103584,
+        "simMoveClock": 14,
+        "perception": {
+          "clock": 3,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 441,
+        "atMs": 55200,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 12.835782442641232,
+          "y": 10.489043556404226
+        },
+        "motionTarget": {
+          "x": 16,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 1.9055638703443794,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 4,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 442,
+        "atMs": 56400,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 12.90364384530631,
+          "y": 10.45710877867949
+        },
+        "motionTarget": {
+          "x": 16,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 1.9795430704987111,
+        "simMoveClock": 0,
+        "perception": {
+          "clock": 5,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 443,
+        "atMs": 57600,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 12.971505247971386,
+          "y": 10.425174000954755
+        },
+        "motionTarget": {
+          "x": 16,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 2.0535963264373747,
+        "simMoveClock": 1,
+        "perception": {
+          "clock": 0,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 444,
+        "atMs": 58800,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 13.039366650636463,
+          "y": 10.393239223230019
+        },
+        "motionTarget": {
+          "x": 16,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 2.1277159058376887,
+        "simMoveClock": 2,
+        "perception": {
+          "clock": 1,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 445,
+        "atMs": 60000,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 13.10722805330154,
+          "y": 10.361304445505283
+        },
+        "motionTarget": {
+          "x": 16,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 2.2018951110242084,
+        "simMoveClock": 3,
+        "perception": {
+          "clock": 2,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 446,
+        "atMs": 61200,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 13.175089455966617,
+          "y": 10.329369667780547
+        },
+        "motionTarget": {
+          "x": 16,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 2.2761281123763504,
+        "simMoveClock": 4,
+        "perception": {
+          "clock": 3,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 447,
+        "atMs": 62400,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 13.242950858631694,
+          "y": 10.297434890055811
+        },
+        "motionTarget": {
+          "x": 16,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 2.3504098127661788,
+        "simMoveClock": 5,
+        "perception": {
+          "clock": 4,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 448,
+        "atMs": 63600,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 13.310812261296771,
+          "y": 10.265500112331075
+        },
+        "motionTarget": {
+          "x": 16,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 2.4247357365175204,
+        "simMoveClock": 6,
+        "perception": {
+          "clock": 5,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 449,
+        "atMs": 64800,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 13.378673663961848,
+          "y": 10.23356533460634
+        },
+        "motionTarget": {
+          "x": 16,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 2.4991019378854427,
+        "simMoveClock": 7,
+        "perception": {
+          "clock": 0,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 450,
+        "atMs": 66000,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 13.446535066626925,
+          "y": 10.201630556881604
+        },
+        "motionTarget": {
+          "x": 16,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 2.5735049251828515,
+        "simMoveClock": 8,
+        "perception": {
+          "clock": 1,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 451,
+        "atMs": 67200,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 13.514396469292002,
+          "y": 10.169695779156868
+        },
+        "motionTarget": {
+          "x": 16,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 2.647941597531563,
+        "simMoveClock": 9,
+        "perception": {
+          "clock": 2,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 452,
+        "atMs": 68400,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 13.58225787195708,
+          "y": 10.137761001432132
+        },
+        "motionTarget": {
+          "x": 16,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 2.722409191862168,
+        "simMoveClock": 10,
+        "perception": {
+          "clock": 3,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 453,
+        "atMs": 69600,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 13.650119274622156,
+          "y": 10.105826223707396
+        },
+        "motionTarget": {
+          "x": 16,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 2.796905238282706,
+        "simMoveClock": 11,
+        "perception": {
+          "clock": 4,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 454,
+        "atMs": 70800,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 13.717980677287233,
+          "y": 10.07389144598266
+        },
+        "motionTarget": {
+          "x": 16,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 2.871427522318969,
+        "simMoveClock": 12,
+        "perception": {
+          "clock": 5,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 455,
+        "atMs": 72000,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 13.78584207995231,
+          "y": 10.041956668257924
+        },
+        "motionTarget": {
+          "x": 16,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 2.9459740528267506,
+        "simMoveClock": 13,
+        "perception": {
+          "clock": 0,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "quartermaster",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      }
+    ],
+    "anyMotionTargetMatchesCurrentPlayer": false,
+    "sourceScope": "TEST-ONLY complete actual handoff writer derivative; paid15 then30 paused and30 resumed actual registered world minutes, plus normal checkpoint timeout windows; not natural engineering or rescue utility"
+  },
+  "automaticWriter": {
+    "worldMinute": 455,
+    "eventSeq": 101,
+    "sha256": "3c29e20405f023d635f530bcbee3e7fdfe5d08bdba5f3c913e0c93ee9d3bb846"
+  },
+  "recovery": {
+    "selectedChecksum": "2d023fb5",
+    "writerMinute": 455,
+    "loadedMinute": 455,
+    "writerSha256": "3c29e20405f023d635f530bcbee3e7fdfe5d08bdba5f3c913e0c93ee9d3bb846",
+    "noPostReloadTick": true
+  },
+  "ok": true,
+  "naturalEngineeringValueClaimed": false,
+  "count": 7,
+  "passed": 7
+}

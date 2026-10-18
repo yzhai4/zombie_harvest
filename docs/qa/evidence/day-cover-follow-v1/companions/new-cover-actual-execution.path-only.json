@@ -1,0 +1,64 @@
+{
+  "schema": "ExplicitPathOnlyPublicCompanionV1",
+  "isOriginalNativeReport": false,
+  "isOriginalExecutedMethod": false,
+  "original": {
+    "name": "execution.json",
+    "sha256": "0049ab40ff3eeebdbfdd74aa0d92e39b25ad547ca5328f6c59eb4e364c1b072e",
+    "bytes": 1161
+  },
+  "originalExternalRetained": true,
+  "replacedStringFields": [
+    {
+      "field": "$.command[0]",
+      "originalStringSha256": "c1f2d55c025bb763cd04596f58dd543bad16ef531c8148937241585c01b34a28",
+      "originalBytes": 88,
+      "replacement": "external-path-sha256:c1f2d55c025bb763cd04596f58dd543bad16ef531c8148937241585c01b34a28"
+    },
+    {
+      "field": "$.command[1]",
+      "originalStringSha256": "428d063fa3bf03fa36a2ce7650249b58944df3df1491d25afefe520a6609b5f0",
+      "originalBytes": 158,
+      "replacement": "<cover-round-root>\\ci-overlay\\scripts\\check-day-cover-follow-v1.mjs"
+    },
+    {
+      "field": "$.command[3]",
+      "originalStringSha256": "ffb14d7eca524082d2a91c03debbd3e0e932d267ca8bf0adf4876cb21b483321",
+      "originalBytes": 119,
+      "replacement": "<repository-root>"
+    },
+    {
+      "field": "$.command[5]",
+      "originalStringSha256": "e9bb5a5903ef4073c67e7d596852871d22543806199035e0e55552601396d6a0",
+      "originalBytes": 137,
+      "replacement": "<cover-round-root>\\candidate02\\dist\\index.html"
+    },
+    {
+      "field": "$.command[7]",
+      "originalStringSha256": "b81bf3e73fc7e790653cacb1c444c96a6912adb01a8c027c2a9f84a8a027d098",
+      "originalBytes": 159,
+      "replacement": "<cover-round-root>\\ci-overlay\\actual-execution-candidate02-01\\native"
+    }
+  ],
+  "report": {
+    "schema": "DayCoverCiOverlayActualExecutionV1",
+    "status": "TERMINAL",
+    "command": [
+      "external-path-sha256:c1f2d55c025bb763cd04596f58dd543bad16ef531c8148937241585c01b34a28",
+      "<cover-round-root>\\ci-overlay\\scripts\\check-day-cover-follow-v1.mjs",
+      "--repo-root",
+      "<repository-root>",
+      "--html",
+      "<cover-round-root>\\candidate02\\dist\\index.html",
+      "--out",
+      "<cover-round-root>\\ci-overlay\\actual-execution-candidate02-01\\native",
+      "--expect-html-sha256",
+      "2fca005df63742164bd6f6e8e82fc0c2d3962b4678419b633482f8a54e09ef93"
+    ],
+    "startedAt": "2026-10-18T05:49:47.255241+00:00",
+    "finishedAt": "2026-10-18T05:49:55.394594+00:00",
+    "exitCode": 0,
+    "elapsedSeconds": 8.14100000000144
+  },
+  "scope": "Only declared path strings changed. Result/status/count/error semantics retained; original raw bytes are external, not reconstructed by this companion."
+}

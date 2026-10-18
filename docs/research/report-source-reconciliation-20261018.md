@@ -6,7 +6,7 @@
 
 ## 当前代码与证据
 
-本次实查开发head `35d267513c57dcd6e686c666ef6c96f075ffb694`，运行时源 `29ca5f960508bd278b4e5486c1bf5d9123bd584b`，HTML `ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a`、SAVE21／CONTENT3；[CI308](https://github.com/yzhai4/zombie_harvest/actions/runs/39096232256)已核同head completed／success。[PR #4](https://github.com/yzhai4/zombie_harvest/pull/4)仍open／draft，main未合并、生产未部署。本次计划与Skill后续提交不继承该head精确CI；同字节游戏证据保其原来源。
+早先35d／[CI308](https://github.com/yzhai4/zombie_harvest/actions/runs/39096232256)与后续e62／CI309各有精确head成功；它们不是本轮新候选的CI。当前本地最终HTML2fca／源码对象97f2、SAVE21／CONTENT3和列明验收见[当前状态](../memory/current-state.md)与[随行QA](../qa/npc-day-cover-follow-v1-20261018.md)，本轮开发ref与精确新CI另核。[PR #4](https://github.com/yzhai4/zombie_harvest/pull/4)仍open／draft，main未合并、生产未部署。本次计划与Skill后续提交不继承该head精确CI；同字节游戏证据保其原来源。
 
 [岗亭人工哨报](../qa/watchpost-manual-v1-20261018.md)已在现有真实驻守与每日有限成本上接下一场弱预警；中继维护、DAY结局、整数时钟和本人交付记忆各有列明开发证据。源码合同、受控浏览器与自动CI不能代替自然主线、平衡或真人收益。
 

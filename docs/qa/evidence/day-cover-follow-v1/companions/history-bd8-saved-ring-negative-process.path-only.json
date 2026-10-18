@@ -1,0 +1,75 @@
+{
+  "schema": "ExplicitPathOnlyPublicCompanionV1",
+  "isOriginalNativeReport": false,
+  "isOriginalExecutedMethod": false,
+  "original": {
+    "name": "execution.json",
+    "sha256": "d001228360d3b1990baddb55f4be3046662a81447311c95f253f93200f81325c",
+    "bytes": 1623
+  },
+  "originalExternalRetained": true,
+  "replacedStringFields": [
+    {
+      "field": "$.command[0]",
+      "originalStringSha256": "c1f2d55c025bb763cd04596f58dd543bad16ef531c8148937241585c01b34a28",
+      "originalBytes": 88,
+      "replacement": "external-path-sha256:c1f2d55c025bb763cd04596f58dd543bad16ef531c8148937241585c01b34a28"
+    },
+    {
+      "field": "$.command[1]",
+      "originalStringSha256": "f1fbe7441ec8d23d8e0e67470e9a7a3f5d7c3c37c5918f1339a7624e24d9ec2d",
+      "originalBytes": 162,
+      "replacement": "<cover-round-root>\\ci-overlay\\scripts\\lib\\day-cover-epsilon-fixture.mjs"
+    },
+    {
+      "field": "$.command[3]",
+      "originalStringSha256": "ffb14d7eca524082d2a91c03debbd3e0e932d267ca8bf0adf4876cb21b483321",
+      "originalBytes": 119,
+      "replacement": "<repository-root>"
+    },
+    {
+      "field": "$.command[5]",
+      "originalStringSha256": "4f9c2f86998cca839002180c47d02dbb87b89be6319948e1055f88ca39e5a31a",
+      "originalBytes": 135,
+      "replacement": "<cover-round-root>\\candidate\\dist\\index.html"
+    },
+    {
+      "field": "$.command[7]",
+      "originalStringSha256": "3ce48b248be40589e8a851c23c9aa6479308a648672d2d49b1f41cdd776e4acc",
+      "originalBytes": 192,
+      "replacement": "<cover-round-root>\\ci-overlay\\scripts\\fixtures\\day-cover-follow-v1\\legacy-bd8-ring-normal-native.json"
+    },
+    {
+      "field": "$.command[9]",
+      "originalStringSha256": "e169ee0278ecfe13680b0bd6df157d4f6328f440a7062af1b4fc3eb9d23f201f",
+      "originalBytes": 167,
+      "replacement": "<cover-round-root>\\ci-overlay\\actual-execution-epsilon-bd8-negative01\\native"
+    }
+  ],
+  "report": {
+    "schema": "DayCoverSavedBoundaryNegativeExecutionV1",
+    "status": "TERMINAL",
+    "command": [
+      "external-path-sha256:c1f2d55c025bb763cd04596f58dd543bad16ef531c8148937241585c01b34a28",
+      "<cover-round-root>\\ci-overlay\\scripts\\lib\\day-cover-epsilon-fixture.mjs",
+      "--root",
+      "<repository-root>",
+      "--html",
+      "<cover-round-root>\\candidate\\dist\\index.html",
+      "--input",
+      "<cover-round-root>\\ci-overlay\\scripts\\fixtures\\day-cover-follow-v1\\legacy-bd8-ring-normal-native.json",
+      "--out",
+      "<cover-round-root>\\ci-overlay\\actual-execution-epsilon-bd8-negative01\\native",
+      "--expect-html-sha256",
+      "bd8a16700c6802093b772a5506bdaee52cd87365be8636e163895436a46e9883",
+      "--expect-input-sha256",
+      "03c22b6dec27460ba7be140a80300cc84d96e20d552c140681c4706b8cb7dd0c"
+    ],
+    "startedAt": "2026-10-18T05:50:21.040054+00:00",
+    "scope": "actual old bd8 expected product counterexample; native exit1/FAILED retained, not a candidate pass",
+    "exitCode": 1,
+    "elapsedSeconds": 0.26599999999962165,
+    "finishedAt": "2026-10-18T05:50:21.298376+00:00"
+  },
+  "scope": "Only declared path strings changed. Result/status/count/error semantics retained; original raw bytes are external, not reconstructed by this companion."
+}

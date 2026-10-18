@@ -1,13 +1,31 @@
 # 当前状态
-## 当前检查点：岗亭开发验收与公开反制诊断（2026-10-18）
+## 当前检查点：DAY随行与有限工程取舍（2026-10-18）
 
-开发head `35d267513c57dcd6e686c666ef6c96f075ffb694`／源码 `29ca5f960508bd278b4e5486c1bf5d9123bd584b`，HTMLad7627a9、984373B、SAVE21／CONTENT3。[CI308](https://github.com/yzhai4/zombie_harvest/actions/runs/39096232256)已核同head completed／success，48job steps成功、freshness21／21且源提交核验verified。后续文档head须另核精确CI；main未合并、生产未部署。
+本地最终HTML `2fca005df63742164bd6f6e8e82fc0c2d3962b4678419b633482f8a54e09ef93`、993727B，SAVE21／CONTENT3；实际源码对象 `97f2ccf9fa3d72083400b8524ad7eaac7459d02f`／tree3d7c，191项源码依赖逐Git API blob匹配。最后已核远端开发head仍为e62fa328／[CI309](https://github.com/yzhai4/zombie_harvest/actions/runs/39098244542)同head成功；本轮开发ref和精确新CI另核，不继承旧green。main未合并、生产未部署。
+
+[DAY随行](../qa/npc-day-cover-follow-v1-20261018.md)已从保存订单接到原速度／碰撞下的实际持续移动；带走三工程岗会暂停未完成中继新增材料和工时，近身改守墙／巡逻后按条件恢复。首次命令15分钟的合法前缀保留，已有支援换令无追加时间、体力或关系奖励。伤势、needs、撤退、接收核心和原感知战斗边界仍按合同；不承诺自动救援或追猎修复。
+
+最终同HTML的49个既有源码合同与新cover1个合同均实际exit0；新合同含5VM／29内部检查，不和独立重叠验证重复累加。真实Chrome跟随12、工程18、既有NPC112、关联episode12分别通过；工程仍为staging，未上线。选中证据94文件／290项绑定已安装，本地freshness21／21、方法self-test76／76实际exit0；本地Git ancestry不可用与Git API核对分列。受控夹具不称正常完整玩法、自然三日或真人理解。
+
+[岗亭manual](../qa/watchpost-manual-v1-20261018.md)、SAVE21、C1／C2、当前能力与中继维护、本人交付记忆均复用，不重建。原ad762跟随反例与bd8圈边界失败按原构建保留。[A03](../qa/pursuit-counterplay-20261018.md)仍是休整24／30后追踪中断，未完工；D0／D1只支持暂时反制，不证明永久追踪或软锁。
+
+A04原方法仍exit1且清理完成：无新增业务／休整／F／进食，HP86。实际选档和Continue到573／seq304后有新tick，但固定窗口内未见含新tick的正常writer；这是方法窗口不足，不是游戏不推进。原报告累计230分钟，晚于JSON的09:41截图支持至少231；后续继承已见费用下界、实际恢复回退与未证明持久的新批材料，不退款或重给预算。
+
+当前下一项唯一交付是用合法公开信息续接正常中继与生存循环，复用既有理解pilot；其后才让一名NPC的一个真实经历影响下一互动，再比较同权限表达。见[下一轮交付](../research/next-iteration-20261018.md)。原研究59069B／SHA940efac9不计新增实证；过载延期。受控布局→约束随机→局部离场演化→设置器第二类真实内容→角色跨副本沿[长期依赖](../long-term-plan.md#后续世界扩展的依赖与退出条件)，离线恶化政策未决。完整14天／最终尸潮、Actor／Planning／Memory／Social、Studio、大世界／多副本、特殊角色连续性、UI素材、GameCore／引擎及P0–P6保持开放。
+
+## 历史检查点：公开续跑前缀与DAY cover候选（2026-10-18）
+
+已核开发文档head `e62fa3283ed701dffefa16925b7fcfb2572cee71`／源码 `29ca5f960508bd278b4e5486c1bf5d9123bd584b`，HTMLad7627a9、984373B、SAVE21／CONTENT3。[CI309](https://github.com/yzhai4/zombie_harvest/actions/runs/39098244542)已核同head completed／success；本轮后续候选与文档须另核精确CI，不继承旧green。main未合并、生产未部署。
 
 [岗亭manual](../qa/watchpost-manual-v1-20261018.md)的实际驻守／每日成本、once身份、旧REPORT关闭、预警／遭遇锁定及正常保存已接线。49个不同源码合同和84项受控浏览器检查／9次main均按原范围验收；不称自然主线或真人收益。
 
 [新A03](../qa/pursuit-counterplay-20261018.md)保持exit1：公开退避后30分钟请求只完成24，追踪中断；无新增伤害、有限筹料有成本、未完工。恢复只证同水位／已测效果／新tick，selected原raw未捕获。D0／D1各实际exit0／6方法与恢复合同，原位与固定移动12分钟对照区分视觉与legacy距离追猎，支持暂时反制，不确认永久追踪／软锁；不增加49／84计数。
 
-原报告同59069B／SHA940efac9；下一复用现有UI做有限公开反制／完整中继和既有理解pilot，再选下一个NPC事实后果消费者，不重复加同义说明。见[下一轮交付](../research/next-iteration-20261018.md)。过载延期；完整14天／最终尸潮、Actor／Planning／Memory／Social、Studio、特殊角色连续性、大世界／多副本、UI素材、GameCore／引擎与P0–P6保持开放。
+A04在同ad762由真实正常writer553／seq284受控Continue，已实际终止exit1并完成清理：两次公开候选共4导航、无新增父业务／休整／F／进食，HP86且无新增伤害。实际selected和Continue到573／seq304后出现新tick；固定恢复窗口内最后正常writer仍573，方法据原规则停止，不构成游戏不推进或软锁。正常writer与实际选中raw不同，原件均已捕获；安装成功与全方法失败分列。原报告累计230世界分钟，晚于JSON的09:41截图支持至少231；后续不可退款或重给预算。579新增筹料使live到6木5件1石、工时0，最后捕获正常档仍4/4/0，未证新批持久、未工程上线。
+
+独立源码诊断在明确TEST-ONLY输入观察到paid cover命令、真实15分钟、保存／Continue均成立，而DAY仍未持续跟随；它是具体职责consumer反例，不能推成全部支援失效。当前DAY cover隔离候选正在实现，须把适用角色／继任、needs／逃离与三工程岗忙碌取舍一起验收；未冻结通过或发布，不宣布可救援、完整Planner或追猎修复。当前唯一交付先闭合此缺口，再续公开中继与既有理解pilot。
+
+原报告同59069B／SHA940efac9；本次新增交接只吸收与当前实现的delta，不增加研究／游戏通过。下一NPC事实后果与同权限表达仍按实际反馈顺序推进，不并开工程主线或重复同义说明。见[下一轮交付](../research/next-iteration-20261018.md)。过载延期；受控布局、约束随机、局部离场演化、设置器第二类真实内容与角色跨副本按[长期依赖](../long-term-plan.md#后续世界扩展的依赖与退出条件)递进，离线恶化政策未决；完整14天／最终尸潮、Actor／Planning／Memory／Social、Studio、特殊角色连续性、大世界／多副本、UI素材、GameCore／引擎与P0–P6保持开放。
 
 ## 历史检查点：中继物理能力与真实维修（2026-10-18）
 

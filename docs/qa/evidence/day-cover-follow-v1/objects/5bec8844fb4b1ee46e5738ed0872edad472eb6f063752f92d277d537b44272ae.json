@@ -1,0 +1,126 @@
+{
+  "schema": "DayCoverFollowBrowserV1",
+  "status": "VERIFIED",
+  "sourceHtmlSha256": "bd8a16700c6802093b772a5506bdaee52cd87365be8636e163895436a46e9883",
+  "inputSha256": "0366a9a9da371eef38c37aead420d5c3b0b01bd29948e793bc5a3c7db55a42c0",
+  "naturalGameplayClaim": false,
+  "humanExperience": false,
+  "productionDeployed": false,
+  "scope": "Actual Chrome regression of TEST-ONLY no-enemy corridor. Public paid cover, registered keys, physical response, normal writer and actual selected Continue. Does not establish natural rescue, engineering, balance or all-role coverage.",
+  "gameStateWritesAfterBoot": false,
+  "fixtureStorageWritesAfterBoot": false,
+  "hiddenBusinessCalls": 0,
+  "budget": {
+    "overallMs": 95000,
+    "holdWorldMinutes": 16,
+    "normalWriterMs": 16000,
+    "postReloadTickMs": 4500,
+    "publicOrders": 1,
+    "keyHoldMs": 2800
+  },
+  "checks": [
+    {
+      "name": "actual initial loader selects exact full TEST-ONLY input",
+      "ok": true
+    },
+    {
+      "name": "original same-ID public cover is visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "real cover pays gross2 and actual15 with original old-order prefix",
+      "ok": true
+    },
+    {
+      "name": "real keys move the player beyond the companion circle",
+      "ok": true
+    },
+    {
+      "name": "same healthy cover NPC physically closes the gap without player movement",
+      "ok": true
+    },
+    {
+      "name": "real original movement remains bounded by world-minute speed",
+      "ok": true
+    },
+    {
+      "name": "normal writer persists actual follow movement after the observed interval",
+      "ok": true
+    },
+    {
+      "name": "actual selected payload preserves cover, full payment receipt and a legal later position",
+      "ok": true
+    },
+    {
+      "name": "actual Continue installs selected same-ID state; any already elapsed tick is accounted",
+      "ok": true
+    },
+    {
+      "name": "new tick preserves paid cover without another support/order reward",
+      "ok": true
+    },
+    {
+      "name": "preboot fixture was installed only once through reload",
+      "ok": true
+    },
+    {
+      "name": "actual original and reload documents match frozen candidate",
+      "ok": true
+    }
+  ],
+  "errors": [],
+  "mainDocuments": [
+    {
+      "status": 200,
+      "sha256": "bd8a16700c6802093b772a5506bdaee52cd87365be8636e163895436a46e9883",
+      "bytes": 993869
+    },
+    {
+      "status": 200,
+      "sha256": "bd8a16700c6802093b772a5506bdaee52cd87365be8636e163895436a46e9883",
+      "bytes": 993869
+    }
+  ],
+  "cleanup": {
+    "context": true,
+    "browser": true,
+    "server": true
+  },
+  "captures": [
+    {
+      "label": "before-order-desktop",
+      "liveWorld": 670,
+      "uiAt": 1792301829372,
+      "screenshotTakenAfter": 1792301829670
+    },
+    {
+      "label": "after-hold-desktop",
+      "liveWorld": 704,
+      "uiAt": 1792301852100,
+      "screenshotTakenAfter": 1792301852331
+    },
+    {
+      "label": "after-hold-390",
+      "liveWorld": 704,
+      "uiAt": 1792301852400,
+      "screenshotTakenAfter": 1792301852667
+    },
+    {
+      "label": "restored-390",
+      "liveWorld": 706,
+      "uiAt": 1792301855453,
+      "screenshotTakenAfter": 1792301855588
+    }
+  ],
+  "browserVersion": "155.0.8059.80",
+  "recoveryRawComparison": {
+    "normalSha256": "03c22b6dec27460ba7be140a80300cc84d96e20d552c140681c4706b8cb7dd0c",
+    "selectedSha256": "d490126c013878f9d014783fb4f42a1b4572bbadab563a5186c891bd6d90bc60",
+    "sameRaw": false,
+    "claim": "Actual selected raw and payload independently captured; pagehide may produce a later legitimate checkpoint."
+  },
+  "count": 12,
+  "passed": 12,
+  "elapsedMs": 29626,
+  "ok": true
+}

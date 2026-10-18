@@ -1,0 +1,23 @@
+{
+  "schema": "PortableScanMethodCorrectionV1",
+  "status": "FAILED_SCAN_PREDICATE",
+  "newGameExecution": false,
+  "matches": [
+    {
+      "file": "scripts\\lib\\day-cover-crew-fixture.mjs",
+      "match": "d:/",
+      "near": "st b={dataset:{},disabled:/\\bdisabled(?:\\s|$|=)/.test(m[1])"
+    },
+    {
+      "file": "scripts\\lib\\day-cover-crew-fixture.mjs",
+      "match": "d:/",
+      "near": "st b={dataset:{},disabled:/\\bdisabled(?:\\s|$|=)/.test(m[1])"
+    },
+    {
+      "file": "scripts\\lib\\day-cover-trajectory-fixture.mjs",
+      "match": "d:/",
+      "near": "st b={dataset:{},disabled:/\\bdisabled(?:\\s|$|=)/.test(m[1])"
+    }
+  ],
+  "correction": "Reject drive literals with token boundary, not colon/slash sequences embedded in URLs."
+}

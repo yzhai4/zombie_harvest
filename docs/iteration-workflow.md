@@ -14,6 +14,8 @@
 
 NPC持续安排按[恢复／工作合同](decisions/ADR-20261018-npc-rest-work-v1.md)逐consumer核生理、日程、行为、真实目标、工作credit与SAN。计划退出和实际结算要消费同一本段事实，避免末端清状态后错误按工作结算，或整段休整后又补整段工时。成本估算、近完成定位、完整恢复与真人理解分别报告；原敌情／需求中断不能通过测试提速、补粮或删敌改成成功。具体规则只在policy／ADR维护，Skill保留[可复用执行检查](../.codex/skills/zombie-harvest-iteration/references/npc-routine-execution.md)。
 
+持续命令从实际赋值边界开始占用职责；显式换令与首次默认订单的advance顺序分别核，避免抹去合法劳动前缀。接入随行时，移动、生理和工程不能给同一人互斥credit；沿[随行合同](decisions/ADR-20261018-npc-day-cover-follow-v1.md)验证既有释放入口和有限恢复，不清支援标记制造重复收益。
+
 新增NPC持久字段时，将完整旧writer的计划会／计划会UI真实Continue回归前置到证据冻结前；精确核新增缺省与adapter水位、所有旧业务字段和第二次Continue不再迁移。CI294暴露两条历史预期遗漏，修复方法不能由当前normalizer生成expected或宽泛排除字段。隔离合同保留其实际schema依赖；缺依赖属于方法失败，补同字节输入后仅重跑失败合同，已通过执行保持原来源。
 
 改变选择语义按[定义v2适配](decisions/ADR-20261017-shortage-choice-v2.md)提升定义版本；纯候选校验／准备不写收据，实际boot安装记录一次，旧已结算历史与成本保留，未知版本拒绝。相同起点先比较立即确认、延期、先补粮；公开成功回执还须同目标资源／状态和真实时间旁证，近距离UI与执行器须共享目标范围。[农务合同](decisions/ADR-20261017-crop-target-v1.md)要求创建时分配唯一实体身份、查询不修补身份、支付时重验live目标；新建→立即操作不依赖刷新。业务成功event与父command的actor分别核实，不能推定默认值相同；时钟system事件保留真实因果关系。

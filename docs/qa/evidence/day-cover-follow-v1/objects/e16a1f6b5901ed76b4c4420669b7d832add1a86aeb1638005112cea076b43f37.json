@@ -1,0 +1,487 @@
+{
+  "runner": "source-watchpost-warning-v1",
+  "schema": "WatchpostWarningSourceV1",
+  "mode": "candidate",
+  "sourceHtmlSha256": "2fca005df63742164bd6f6e8e82fc0c2d3962b4678419b633482f8a54e09ef93",
+  "methodSha256": "ec2c89c2504708803084c8bd34e9f75cdce4bc9978042968a4d0fb77cc34093c",
+  "ioFactorySha256": "5dc89410d5f4a1ce303bbdb03370f6f08c646e38d426a39e7dacd3a3f4e2b89d",
+  "motherSha256": "5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4",
+  "scope": {
+    "fullActualInline": true,
+    "originalControlledIO": true,
+    "testOnlyBootDerivations": true,
+    "sourceVM": true,
+    "browser": false,
+    "naturalGameplay": false
+  },
+  "checks": [
+    {
+      "name": "real boot mount, old found Continue, public manual same-instance costs0 with fixed actual guard",
+      "ok": true,
+      "details": {
+        "capture": {
+          "energy": 6,
+          "minutes": 30,
+          "guard": "guardJi"
+        },
+        "manual": {
+          "extraResources": 0,
+          "minutes": 0
+        },
+        "writerBeforeReload": true,
+        "selectedFinalReceipt": true,
+        "forecastOnlyAttributionForGainAndLoss": true,
+        "onceCompletionKey": "watchpost-003"
+      },
+      "artifacts": [
+        "watchpost-native-artifacts/observations/positive-real-capture.json",
+        "watchpost-native-artifacts/native/captured-pending.json",
+        "watchpost-native-artifacts/native/manual-final-automatic.json",
+        "watchpost-native-artifacts/native/manual-reload-next-tick.json",
+        "watchpost-native-artifacts/inputs/old-found-unprepared.json",
+        "watchpost-native-artifacts/native/manual-source-lost-normal.json",
+        "watchpost-native-artifacts/observations/public-manual.json"
+      ]
+    },
+    {
+      "name": "pure current capability tracks actual healthy one-post guard, health/presence faults and preserved capture population gate",
+      "ok": true,
+      "details": {
+        "cases": 9,
+        "queryPure": true,
+        "newCapturePopulationGatePreserved": true
+      },
+      "artifacts": [
+        "watchpost-native-artifacts/observations/current-capability-matrix.json"
+      ]
+    },
+    {
+      "name": "real daily upkeep pays1 to zero without retroactive loss, same-day shortage refill waits for next real upkeep",
+      "ok": true,
+      "details": {
+        "dailyAdditionalFood": 1,
+        "sameDayFreeReactivation": false,
+        "nextUpkeepRestoresWithoutReconfirmation": true
+      },
+      "artifacts": [
+        "watchpost-native-artifacts/inputs/upkeep-paid-last-food.json",
+        "watchpost-native-artifacts/inputs/upkeep-strained.json",
+        "watchpost-native-artifacts/native/upkeep-restored.json",
+        "watchpost-native-artifacts/observations/upkeep.json"
+      ]
+    },
+    {
+      "name": "once identity, stale/missing tokens, public autonomy impersonation and session/distance gates deny before effect; duplicate and number boundary remain truthful",
+      "ok": true,
+      "details": {
+        "typedRejections": 9,
+        "duplicateBeforeReapplication": true,
+        "transactionRollback": true
+      },
+      "artifacts": [
+        "watchpost-native-artifacts/observations/gates-identity-rollback.json"
+      ]
+    },
+    {
+      "name": "day8 actual morning after upkeep can prepare at distance, while day9 only expires once and completed history never reopens",
+      "ok": true,
+      "details": {
+        "autonomyDay": 8,
+        "expiryDay": 9,
+        "day8DistanceWaivedOnlyForActualMorning": true,
+        "publicPseudoHookCannotGrant": true,
+        "lateCaptureRequiresPublicManual": true,
+        "noDay9FreeManual": true
+      },
+      "artifacts": [
+        "watchpost-native-artifacts/inputs/pending-day8-far.json",
+        "watchpost-native-artifacts/native/day8-autonomy.json",
+        "watchpost-native-artifacts/inputs/pending-day8-shortage.json",
+        "watchpost-native-artifacts/inputs/old-found-day8-before-late-capture.json",
+        "watchpost-native-artifacts/inputs/pending-day9-expiry.json",
+        "watchpost-native-artifacts/native/day9-expired.json",
+        "watchpost-native-artifacts/inputs/old-day9-never-opened.json",
+        "watchpost-native-artifacts/inputs/completed-past-window.json",
+        "watchpost-native-artifacts/observations/morning-expiry.json"
+      ]
+    },
+    {
+      "name": "outpost_ready shadow matches full inline result for actual bound snapshot cases and malformed conditions, with both readers pure",
+      "ok": true,
+      "details": {
+        "cases": 10,
+        "completeReturnCompared": true,
+        "scope": "Actual supplied pack binding, physical state and MAP bounds only; no arbitrary nil-context parity claim"
+      },
+      "artifacts": [
+        "watchpost-native-artifacts/observations/outpost-ready-parity.json"
+      ]
+    },
+    {
+      "name": "actual new encounters use ordinary3→manual1, preserve radio0 and relay priority, and lock source/input through a real resolved REPORT Continue",
+      "ok": true,
+      "details": {
+        "ordinary": [
+          3,
+          1
+        ],
+        "radio": [
+          0,
+          0
+        ],
+        "relayPriority": true,
+        "oldRelayMetadataPreserved": true,
+        "realReportContinue": true,
+        "activeBattleStillRejected": true
+      },
+      "artifacts": [
+        "watchpost-native-artifacts/inputs/encounter-unprepared.json",
+        "watchpost-native-artifacts/inputs/encounter-manual.json",
+        "watchpost-native-artifacts/inputs/encounter-radio-unprepared.json",
+        "watchpost-native-artifacts/inputs/encounter-radio-manual.json",
+        "watchpost-native-artifacts/inputs/old-real-online-mother.json",
+        "watchpost-native-artifacts/inputs/online-mother-day2-watchpost.json",
+        "watchpost-native-artifacts/observations/online-capture-real-capture.json",
+        "watchpost-native-artifacts/native/online-before-manual.json",
+        "watchpost-native-artifacts/native/online-manual.json",
+        "watchpost-native-artifacts/inputs/encounter-relay-unprepared.json",
+        "watchpost-native-artifacts/inputs/encounter-relay-manual.json",
+        "watchpost-native-artifacts/native/real-relay-transition-normal.json",
+        "watchpost-native-artifacts/native/manual-locked-real-report.json",
+        "watchpost-native-artifacts/observations/encounter-locks.json"
+      ]
+    },
+    {
+      "name": "explicit actual old-source day2/day8 REPORT writers preserve old battles, then public close enters DAY with pending manual choice and no grant",
+      "ok": true,
+      "details": {
+        "days": [
+          2,
+          8
+        ],
+        "oldBattleUnchanged": true,
+        "sameSessionPendingAfterPublicClose": true,
+        "normalWriterBeforeReload": true,
+        "noFreeManual": true
+      },
+      "artifacts": [
+        "watchpost-native-artifacts/inputs/old-source-real-report-day2.json",
+        "watchpost-native-artifacts/native/old-report-day2-closed-normal.json",
+        "watchpost-native-artifacts/inputs/old-source-real-report-day8.json",
+        "watchpost-native-artifacts/native/old-report-day8-closed-normal.json",
+        "watchpost-native-artifacts/observations/old-report-public-close.json"
+      ]
+    }
+  ],
+  "count": 8,
+  "passed": 8,
+  "artifacts": [
+    {
+      "path": "watchpost-native-artifacts/inputs/source.html",
+      "bytes": 993727,
+      "sha256": "2fca005df63742164bd6f6e8e82fc0c2d3962b4678419b633482f8a54e09ef93",
+      "kind": "actual executed HTML"
+    },
+    {
+      "path": "watchpost-native-artifacts/inputs/io-adapter.mjs",
+      "bytes": 51172,
+      "sha256": "6e0da555742e930b8bf926eeec0db0ee22f17240a4fa305978841f8ba862c0a3",
+      "kind": "original controlled IO"
+    },
+    {
+      "path": "watchpost-native-artifacts/inputs/mother-native.json",
+      "bytes": 496785,
+      "sha256": "5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4",
+      "kind": "original complete old browser writer"
+    },
+    {
+      "path": "watchpost-native-artifacts/inputs/mother-capture-meta.json",
+      "bytes": 1642,
+      "sha256": "a24e58af9364dc6a81b86a7fddf0b618fc19ca72c9823dcaff0756e4f32b25e5",
+      "kind": "original fixture provenance"
+    },
+    {
+      "path": "watchpost-native-artifacts/inputs/checker-executed.mjs",
+      "bytes": 45946,
+      "sha256": "ec2c89c2504708803084c8bd34e9f75cdce4bc9978042968a4d0fb77cc34093c",
+      "kind": "actual executed checker"
+    },
+    {
+      "path": "watchpost-native-artifacts/inputs/watchpost-manual-v1.json",
+      "bytes": 3264,
+      "sha256": "b2d196a171d3a4e828d8486c36ea664992e51fd8df1223ea395172a511b869e3",
+      "kind": "authoritative JSON pack"
+    },
+    {
+      "path": "watchpost-native-artifacts/inputs/shadow-event-gate-v1.mjs",
+      "bytes": 17225,
+      "sha256": "5320d244837f3ec12794d0969320f6b76955725292d3d6c5df00d3ef0ef17f9f",
+      "kind": "actual shadow Gate module"
+    },
+    {
+      "path": "watchpost-native-artifacts/inputs/day2-watchpost-isolation.json",
+      "bytes": 258480,
+      "sha256": "83dcdb954d71bf7933d0e9fb3ea3eb36459d7c731b0cdb01c6a639ed4c72d348",
+      "kind": "TEST-ONLY complete boot derivation"
+    },
+    {
+      "path": "watchpost-native-artifacts/inputs/derivation-contract.json",
+      "bytes": 560,
+      "sha256": "9f9e9e83854c8760ab6730e571371e624a3f333f31b90325a466c483d2e931df",
+      "kind": "observation"
+    },
+    {
+      "path": "watchpost-native-artifacts/observations/positive-real-capture.json",
+      "bytes": 9588,
+      "sha256": "ed99019ceccd5d9f5fac6aef8f78ff167d6efebd58eb9a2cd5af5abcffed5b8d",
+      "kind": "observation"
+    },
+    {
+      "path": "watchpost-native-artifacts/native/captured-pending.json",
+      "bytes": 284857,
+      "sha256": "f4c9afa5fa08872f14984afa20a6046501421df6a3746bea910068ced4aedc8c",
+      "kind": "actual source normal writer before reload"
+    },
+    {
+      "path": "watchpost-native-artifacts/native/manual-final-automatic.json",
+      "bytes": 292301,
+      "sha256": "9a51704bef72645a5d16362d4b0413b08e1c64b09cfce777d11cefc0b8a81741",
+      "kind": "actual source normal writer before reload"
+    },
+    {
+      "path": "watchpost-native-artifacts/native/manual-reload-next-tick.json",
+      "bytes": 292277,
+      "sha256": "7d566f1897c92dd7fc34c9c7b83522edaae8ae679f7c4d98fce6fe57d69e37ac",
+      "kind": "actual source normal writer before reload"
+    },
+    {
+      "path": "watchpost-native-artifacts/inputs/old-found-unprepared.json",
+      "bytes": 260424,
+      "sha256": "50f845b208fce0ef88ad57dea2d68476013a7617fbc7e259b180473332b7854b",
+      "kind": "TEST-ONLY complete boot derivation"
+    },
+    {
+      "path": "watchpost-native-artifacts/native/manual-source-lost-normal.json",
+      "bytes": 293651,
+      "sha256": "dc0eae40aa6ed366f59f2230c54e1333edcc3a94ed3585117a7399283ec82abb",
+      "kind": "actual source normal writer before reload"
+    },
+    {
+      "path": "watchpost-native-artifacts/observations/public-manual.json",
+      "bytes": 17426,
+      "sha256": "ec325aab7f04b63bbfbe529c51bfc41235485289821582d3670b669f3a0daede",
+      "kind": "observation"
+    },
+    {
+      "path": "watchpost-native-artifacts/observations/current-capability-matrix.json",
+      "bytes": 2242,
+      "sha256": "330f344bc9742329f07716c5627c86fe00af32b55ff0f5532290345e1a4e06f4",
+      "kind": "observation"
+    },
+    {
+      "path": "watchpost-native-artifacts/inputs/upkeep-paid-last-food.json",
+      "bytes": 292258,
+      "sha256": "1d95f788e21c0f977b414c3b468ea31a468fdd2a94fe5d4908bf8e7c78dffa75",
+      "kind": "TEST-ONLY complete boot derivation"
+    },
+    {
+      "path": "watchpost-native-artifacts/inputs/upkeep-strained.json",
+      "bytes": 292258,
+      "sha256": "8e0446e6dc524adf40412ef506759ceb77b13039c444442f71c5ab34d439e041",
+      "kind": "TEST-ONLY complete boot derivation"
+    },
+    {
+      "path": "watchpost-native-artifacts/native/upkeep-restored.json",
+      "bytes": 297427,
+      "sha256": "9dc7a76e2801bb28a6d1c82711449455d640de8f645ddfeab4d27a394c774172",
+      "kind": "actual source normal writer before reload"
+    },
+    {
+      "path": "watchpost-native-artifacts/observations/upkeep.json",
+      "bytes": 8660,
+      "sha256": "a1fbffbb939bf17cbd2d1fa65df615818067d77a265083a128e3a8f6b4cfb6ae",
+      "kind": "observation"
+    },
+    {
+      "path": "watchpost-native-artifacts/observations/gates-identity-rollback.json",
+      "bytes": 4291,
+      "sha256": "3268874dc904791b9a5d1320b057cbaac579de4d13aa82e223544aeb68070cf8",
+      "kind": "observation"
+    },
+    {
+      "path": "watchpost-native-artifacts/inputs/pending-day8-far.json",
+      "bytes": 284823,
+      "sha256": "6be17e45fb9e0e773d664961bb8e751f325fa8fea8a27b79a1137b96ebde976b",
+      "kind": "TEST-ONLY complete boot derivation"
+    },
+    {
+      "path": "watchpost-native-artifacts/native/day8-autonomy.json",
+      "bytes": 294880,
+      "sha256": "7cc4d7e0bddf9e78955033c4e4cf4fa1e351e74dd553a134e1edfde7e8ef6321",
+      "kind": "actual source normal writer before reload"
+    },
+    {
+      "path": "watchpost-native-artifacts/inputs/pending-day8-shortage.json",
+      "bytes": 284821,
+      "sha256": "098a60cfaccd57ba379e9e640e1a241e8c49111e91f04800d2b50d51d4ef0fb9",
+      "kind": "TEST-ONLY complete boot derivation"
+    },
+    {
+      "path": "watchpost-native-artifacts/inputs/old-found-day8-before-late-capture.json",
+      "bytes": 258485,
+      "sha256": "d98c110d506d6998cb6a2dbfc5ef8b9fb5261334cdca5075643221b37930a223",
+      "kind": "TEST-ONLY complete boot derivation"
+    },
+    {
+      "path": "watchpost-native-artifacts/inputs/pending-day9-expiry.json",
+      "bytes": 284825,
+      "sha256": "4b870d5ef21282b0feb28287abf32342c33970a2e73889544c6aa93aa451f82c",
+      "kind": "TEST-ONLY complete boot derivation"
+    },
+    {
+      "path": "watchpost-native-artifacts/native/day9-expired.json",
+      "bytes": 291032,
+      "sha256": "d498724516c26497fb94ec51f35691b269305c2bdabe9cc7d41daacf38cce778",
+      "kind": "actual source normal writer before reload"
+    },
+    {
+      "path": "watchpost-native-artifacts/inputs/old-day9-never-opened.json",
+      "bytes": 260429,
+      "sha256": "f7850f830a125f0f7fd47516a9d756a5197e0b46cc2a687c7143da1b3910d068",
+      "kind": "TEST-ONLY complete boot derivation"
+    },
+    {
+      "path": "watchpost-native-artifacts/inputs/completed-past-window.json",
+      "bytes": 292269,
+      "sha256": "8e31bb6513352a9890cfb59c19508e6d0579926bfddcda2e3372c0c163673fea",
+      "kind": "TEST-ONLY complete boot derivation"
+    },
+    {
+      "path": "watchpost-native-artifacts/observations/morning-expiry.json",
+      "bytes": 21504,
+      "sha256": "101ff13dd3ce8b2c64c813ce5b70eabf50e2d77858a8d4c21f32624a7634d56e",
+      "kind": "observation"
+    },
+    {
+      "path": "watchpost-native-artifacts/observations/outpost-ready-parity.json",
+      "bytes": 8035,
+      "sha256": "5ee1a753320c17c55df4fd1dbd7ab0b3e8c30004c6df23727576b3e148fc26db",
+      "kind": "observation"
+    },
+    {
+      "path": "watchpost-native-artifacts/inputs/encounter-unprepared.json",
+      "bytes": 284822,
+      "sha256": "ef49793e76b90f51d354ce14e53e625766962bb62c7a17f2bb87a86bae4acd41",
+      "kind": "TEST-ONLY complete boot derivation"
+    },
+    {
+      "path": "watchpost-native-artifacts/inputs/encounter-manual.json",
+      "bytes": 292260,
+      "sha256": "2af35552a2f399f6fbbb648b40e41071ff0e817ad98e6d5c3cf8aa954e9363ff",
+      "kind": "TEST-ONLY complete boot derivation"
+    },
+    {
+      "path": "watchpost-native-artifacts/inputs/encounter-radio-unprepared.json",
+      "bytes": 284831,
+      "sha256": "37862bb0c1279d810b0d5e90ea4af2a9d0063abee09fddb8615a3d38bcb56a65",
+      "kind": "TEST-ONLY complete boot derivation"
+    },
+    {
+      "path": "watchpost-native-artifacts/inputs/encounter-radio-manual.json",
+      "bytes": 292270,
+      "sha256": "b7547a722a481ab656565f9563fab9e6cafc716af32bc6585cf8829ee2f4958d",
+      "kind": "TEST-ONLY complete boot derivation"
+    },
+    {
+      "path": "watchpost-native-artifacts/inputs/old-real-online-mother.json",
+      "bytes": 99460,
+      "sha256": "4bb6aac0eb6b4f440aa60d7b58e13de5c33b8dd70ca4f073f4757d245735a6a8",
+      "kind": "original complete actual online writer"
+    },
+    {
+      "path": "watchpost-native-artifacts/inputs/online-mother-day2-watchpost.json",
+      "bytes": 96068,
+      "sha256": "e299ca6e03e9af9dd6f08fbf6861992ae66f2ea357b1c012c54d495b3e4a3e70",
+      "kind": "TEST-ONLY complete boot derivation"
+    },
+    {
+      "path": "watchpost-native-artifacts/observations/online-capture-real-capture.json",
+      "bytes": 9473,
+      "sha256": "d8bda13495b95f91f574afa1645a482e706f4f4f6a0ac6df56433318cbb34f39",
+      "kind": "observation"
+    },
+    {
+      "path": "watchpost-native-artifacts/native/online-before-manual.json",
+      "bytes": 119431,
+      "sha256": "ddf6153a7f177b7d0404c6761de00e4f978595563581150d46af6dc904a8adb3",
+      "kind": "actual source normal writer before reload"
+    },
+    {
+      "path": "watchpost-native-artifacts/native/online-manual.json",
+      "bytes": 125357,
+      "sha256": "f1cc5e2fca40be41b0d95a1d3d4fad4d95e0b1eb05714c9cfcb72a5ea8efa743",
+      "kind": "actual source normal writer before reload"
+    },
+    {
+      "path": "watchpost-native-artifacts/inputs/encounter-relay-unprepared.json",
+      "bytes": 119396,
+      "sha256": "02acf3bdb7cff677b086fec4ff87289317aa1743b151f120af9682c5bc806fcf",
+      "kind": "TEST-ONLY complete boot derivation"
+    },
+    {
+      "path": "watchpost-native-artifacts/inputs/encounter-relay-manual.json",
+      "bytes": 125316,
+      "sha256": "d2d8efacfcfcb720f8b7ccf8fee46908f86d5502f5ff51bf19ca3078eea6dea7",
+      "kind": "TEST-ONLY complete boot derivation"
+    },
+    {
+      "path": "watchpost-native-artifacts/native/real-relay-transition-normal.json",
+      "bytes": 128275,
+      "sha256": "41f7455c44968f88496d6da1396b3b37d2221665b6b1951c8fa9080d694151a2",
+      "kind": "actual source normal writer before reload"
+    },
+    {
+      "path": "watchpost-native-artifacts/native/manual-locked-real-report.json",
+      "bytes": 309177,
+      "sha256": "20e0e482e84ef72666ecd5dafca10630f01ef48a2e13c8f491d956354bc02292",
+      "kind": "actual source normal writer before reload"
+    },
+    {
+      "path": "watchpost-native-artifacts/observations/encounter-locks.json",
+      "bytes": 5257,
+      "sha256": "e13b09ce0215db9da53b61f87b8219a9ba35c1f2fc3eb3f28c535ecb1d7b2c63",
+      "kind": "observation"
+    },
+    {
+      "path": "watchpost-native-artifacts/inputs/old-source-real-report-day2.json",
+      "bytes": 296250,
+      "sha256": "bc9fab4fe9e904ec2a080311510bd3b4a05601331eff76148a287f1cb1c525e0",
+      "kind": "actual baseline4f source writer REPORT, not new-save field deletion"
+    },
+    {
+      "path": "watchpost-native-artifacts/native/old-report-day2-closed-normal.json",
+      "bytes": 294344,
+      "sha256": "d06185fbae7df64a011c96ab09c5860bd0e9a53b7c4fbca5dc6fc4c43374c6f6",
+      "kind": "actual source normal writer before reload"
+    },
+    {
+      "path": "watchpost-native-artifacts/inputs/old-source-real-report-day8.json",
+      "bytes": 302958,
+      "sha256": "d0c0caad7b9b0fd32b8a2907383fcadce62531cd8215479a714766ca61f8cc1a",
+      "kind": "actual baseline4f source writer REPORT, not new-save field deletion"
+    },
+    {
+      "path": "watchpost-native-artifacts/native/old-report-day8-closed-normal.json",
+      "bytes": 296815,
+      "sha256": "f6b63e02edbcd051602ae01c36c3d8e9694ce8943cd483bc60a5893b424784ac",
+      "kind": "actual source normal writer before reload"
+    },
+    {
+      "path": "watchpost-native-artifacts/observations/old-report-public-close.json",
+      "bytes": 16797,
+      "sha256": "7a5d0fb1ad50cd983d4540d7ec0be98392fa30a12322ddb4fe1a3337231fa5e3",
+      "kind": "observation"
+    }
+  ],
+  "ok": true
+}

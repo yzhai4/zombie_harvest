@@ -1,0 +1,53 @@
+{
+  "schema": "ExplicitPathOnlyPublicCompanionV1",
+  "isOriginalNativeReport": false,
+  "isOriginalExecutedMethod": false,
+  "original": {
+    "name": "attempt01-patch-receipt.json",
+    "sha256": "6770a9a7a52cf814a7a682ff1ef506708245da43f8d8ab007c546a2402cf7248",
+    "bytes": 1442
+  },
+  "originalExternalRetained": true,
+  "replacedStringFields": [
+    {
+      "field": "$.baseline.path",
+      "originalStringSha256": "4f9c2f86998cca839002180c47d02dbb87b89be6319948e1055f88ca39e5a31a",
+      "originalBytes": 135,
+      "replacement": "<cover-round-root>\\candidate\\dist\\index.html"
+    },
+    {
+      "field": "$.candidate.path",
+      "originalStringSha256": "e9bb5a5903ef4073c67e7d596852871d22543806199035e0e55552601396d6a0",
+      "originalBytes": 137,
+      "replacement": "<cover-round-root>\\candidate02\\dist\\index.html"
+    }
+  ],
+  "report": {
+    "schema": "DayCoverCandidate02PatchReceiptV1",
+    "baseline": {
+      "path": "<cover-round-root>\\candidate\\dist\\index.html",
+      "sha256": "bd8a16700c6802093b772a5506bdaee52cd87365be8636e163895436a46e9883",
+      "bytes": 993869
+    },
+    "candidate": {
+      "path": "<cover-round-root>\\candidate02\\dist\\index.html",
+      "sha256": "a455da66c0b9703862c28ed877ffa2dda624c7e275db90f4fcfe06cdea2ff906",
+      "bytes": 1004204
+    },
+    "changes": [
+      "1e-9 grid numerical tolerance for derived ring classification only",
+      "same numerical-circle decision stops residual substep; actual movement cap stays distance-2.2",
+      "new follow text and order hint use player language; preserve prices and crew opportunity cost",
+      "new pause labels use player language",
+      "new crew/task release wording uses player language",
+      "new release presentation uses player language"
+    ],
+    "toleranceGridUnits": 1e-09,
+    "movementLimitUnchanged": "Math.min(Math.max(0, distance - 2.2), CONTINUOUS_MOTION.npcSpeed * step)",
+    "sourceBd8Unchanged": true,
+    "canonicalHtmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a",
+    "originalBuilderAndReportsNotWritten": true,
+    "browserRunByThisPatch": false
+  },
+  "scope": "Only declared path strings changed. Result/status/count/error semantics retained; original raw bytes are external, not reconstructed by this companion."
+}

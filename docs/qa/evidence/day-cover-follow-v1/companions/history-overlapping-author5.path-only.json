@@ -1,0 +1,107 @@
+{
+  "schema": "ExplicitPathOnlyPublicCompanionV1",
+  "isOriginalNativeReport": false,
+  "isOriginalExecutedMethod": false,
+  "original": {
+    "name": "numeric-ui-precheck-report.json",
+    "sha256": "33c95c0f9f1d29c655c687a7c94a4b0c79203c3512c770558f08ede3e3b1ea09",
+    "bytes": 3468
+  },
+  "originalExternalRetained": true,
+  "replacedStringFields": [
+    {
+      "field": "$.observation.path",
+      "originalStringSha256": "8f0d551642c1ac7d04a2766f122ea8d91636c9715f42e313c6e2094296d39763",
+      "originalBytes": 163,
+      "replacement": "<cover-round-root>/browser/candidatebd8-execution01/after-hold-live.json"
+    }
+  ],
+  "report": {
+    "schema": "DayCoverCandidate02ActualCoordinatePrecheckV1",
+    "htmlSha256": "2fca005df63742164bd6f6e8e82fc0c2d3962b4678419b633482f8a54e09ef93",
+    "baselineHtmlSha256": "bd8a16700c6802093b772a5506bdaee52cd87365be8636e163895436a46e9883",
+    "observation": {
+      "path": "<cover-round-root>/browser/candidatebd8-execution01/after-hold-live.json",
+      "sha256": "f35db21a45712ba241918d5cb73677bdd635524bc9bdde54c69c940787ef47f3",
+      "world": 704,
+      "player": {
+        "x": 13.199999999999992,
+        "y": 13.99999999999999,
+        "prevX": 11,
+        "prevY": 11,
+        "id": "player-1"
+      },
+      "npc": {
+        "id": "guardChen",
+        "x": 12.205589431114348,
+        "y": 12.0375658939754
+      },
+      "distance": 2.2000000000000006
+    },
+    "scope": "Read exact original Chrome observation. Actual source runtime loads unchanged complete0366 through Continue, then TEST-ONLY unit setup copies observed player/NPC positions and existing cover/needs/health facts to the same live ID. Calls real candidate status/presentation/motion/advance. This is a narrow numeric/UI regression, not a new Chrome run or whole-session replay.",
+    "checks": [
+      {
+        "name": "Exact observed coordinate reproduces bd8 misleading approaching label",
+        "ok": true,
+        "evidence": {
+          "distance": 2.2000000000000006,
+          "reason": "following",
+          "schedule": "随行 · 尝试靠近玩家"
+        }
+      },
+      {
+        "name": "Candidate02 classifies observed floating tail as waiting and spends no residual substep",
+        "ok": true,
+        "evidence": {
+          "before": {
+            "x": 12.205589431114348,
+            "y": 12.0375658939754
+          },
+          "after": {
+            "x": 12.205589431114348,
+            "y": 12.0375658939754
+          },
+          "schedule": "随行 · 圈内待命",
+          "text": "随行安排：正在你附近待命。靠近本人可改为守墙或巡逻。"
+        }
+      },
+      {
+        "name": "One real advance after the observed coordinate keeps waiting label and original cover",
+        "ok": true,
+        "evidence": {
+          "schedule": "随行 · 圈内待命",
+          "reason": "within-ring"
+        }
+      },
+      {
+        "name": "Gap outside1e-9 tolerance still approaches with original movement cap",
+        "ok": true,
+        "evidence": {
+          "beforeGap": 2.2000010000000008,
+          "moved": 1.0000000009451896e-06,
+          "afterGap": 2.1999999999999997,
+          "unchangedSpeed": 0.075
+        }
+      },
+      {
+        "name": "New follow text and price hints use player language and keep actual costs",
+        "ok": true,
+        "evidence": {
+          "waiting": "随行安排：正在你附近待命。靠近本人可改为守墙或巡逻。",
+          "first": " 首次请求消耗2行动体力，并推进15分钟。",
+          "free": " 已有支援：换令消耗0体力／0分钟；巡逻可能被拒绝。",
+          "energy": "随行安排：精力低于24，正在原地休整；恢复后继续。靠近本人可改为守墙或巡逻。",
+          "phase": "随行安排：随行只在白天进行；夜间按防守安排执行。靠近本人可改为守墙或巡逻。"
+        }
+      }
+    ],
+    "ok": true,
+    "status": "NARROW_NUMERIC_UI_REGRESSION_PASSED",
+    "count": 5,
+    "passed": 5,
+    "candidateUnchanged": true,
+    "bd8Unchanged": true,
+    "canonicalHtmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+  },
+  "scope": "Only declared path strings changed. Result/status/count/error semantics retained; original raw bytes are external, not reconstructed by this companion."
+}

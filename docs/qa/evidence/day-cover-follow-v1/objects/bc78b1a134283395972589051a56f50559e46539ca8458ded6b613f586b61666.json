@@ -1,0 +1,58 @@
+{
+  "at": 1792302241942,
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "context": "\n      🔦陈野 · 士兵状态卡：健康 · HP 100/100 · 随行 · 圈内待命 · 稳定 · 精力 81 · 已锁定 player-1 · 戒备 · 信任 6 · 再按一次 E 确认请求支援 · 也可按 1-6 选择×−\n      \n      随行安排：正在你附近待命。靠近本人可改为守墙或巡逻。1🔎 查看陈野状态查看范围 1.25 格 · 不请求支援、不支付体力2✅ 已请求 · 支援玩家当前命令：支援玩家 · 羁绊 1/33🎯 守墙请靠近到 1 格内，再请求支援或下达命令4🎯 巡逻请靠近到 1 格内，再请求支援或下达命令5✅ 支援玩家请靠近到 1 格内，再请求支援或下达命令\n      \n    ",
+  "buttons": [
+    {
+      "text": "1🔎 查看陈野状态查看范围 1.25 格 · 不请求支援、不支付体力",
+      "disabled": false,
+      "dataset": {
+        "contextAction": "npcView",
+        "contextIndex": "0",
+        "npcId": "guardChen"
+      }
+    },
+    {
+      "text": "2✅ 已请求 · 支援玩家当前命令：支援玩家 · 羁绊 1/3",
+      "disabled": true,
+      "dataset": {
+        "contextAction": "npc",
+        "contextIndex": "1",
+        "npcId": "guardChen"
+      }
+    },
+    {
+      "text": "3🎯 守墙请靠近到 1 格内，再请求支援或下达命令",
+      "disabled": true,
+      "dataset": {
+        "contextAction": "npcOrder",
+        "contextIndex": "2",
+        "npcId": "guardChen",
+        "order": "guard"
+      }
+    },
+    {
+      "text": "4🎯 巡逻请靠近到 1 格内，再请求支援或下达命令",
+      "disabled": true,
+      "dataset": {
+        "contextAction": "npcOrder",
+        "contextIndex": "3",
+        "npcId": "guardChen",
+        "order": "patrol"
+      }
+    },
+    {
+      "text": "5✅ 支援玩家请靠近到 1 格内，再请求支援或下达命令",
+      "disabled": true,
+      "dataset": {
+        "contextAction": "npcOrder",
+        "contextIndex": "4",
+        "npcId": "guardChen",
+        "order": "cover"
+      }
+    }
+  ]
+}

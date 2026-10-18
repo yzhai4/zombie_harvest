@@ -1,0 +1,80 @@
+{
+  "schema": "DayCoverSavedRingBoundaryV1",
+  "status": "SAVED_RING_BOUNDARY_VERIFIED",
+  "sourceHtmlSha256": "2fca005df63742164bd6f6e8e82fc0c2d3962b4678419b633482f8a54e09ef93",
+  "inputSha256": "03c22b6dec27460ba7be140a80300cc84d96e20d552c140681c4706b8cb7dd0c",
+  "testOnly": true,
+  "naturalGameplay": false,
+  "browser": false,
+  "checks": [
+    {
+      "name": "Actual old complete writer validates and installs through real Continue",
+      "ok": true
+    },
+    {
+      "name": "Captured floating boundary is classified within-ring without changing the old writer",
+      "ok": true
+    },
+    {
+      "name": "Actual original motion step stays in place and creates no new payment or reward",
+      "ok": true
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "source-executed.html",
+      "sha256": "2fca005df63742164bd6f6e8e82fc0c2d3962b4678419b633482f8a54e09ef93",
+      "bytes": 993727
+    },
+    {
+      "path": "input-test-only-native.json",
+      "sha256": "03c22b6dec27460ba7be140a80300cc84d96e20d552c140681c4706b8cb7dd0c",
+      "bytes": 283407
+    },
+    {
+      "path": "runner-executed.mjs",
+      "sha256": "68d9cd61b3497d0d32df591032db3ccf5d5b7596c016e7c7e1e55ebea23739fe",
+      "bytes": 6216
+    },
+    {
+      "path": "factory-executed.mjs",
+      "sha256": "e9872eeba85d49019d1bd806f3dd18357a5abc8f2f92922922f6a5324ec220dc",
+      "bytes": 2959
+    },
+    {
+      "path": "io-adapter-executed.mjs",
+      "sha256": "6e0da555742e930b8bf926eeec0db0ee22f17240a4fa305978841f8ba862c0a3",
+      "bytes": 51172
+    },
+    {
+      "path": "qa-alias.js",
+      "sha256": "d70afefdc636c8d1f8409a3ab53b66fb5b4af2336d0fa5457d8a84fadf5b6b4e",
+      "bytes": 79
+    },
+    {
+      "path": "before-step-live.json",
+      "sha256": "05b74e6ce558d655a39cd4afa9c3658afaa7474b7ad7b28eda667ea5ceab9ed2",
+      "bytes": 5968
+    },
+    {
+      "path": "after-step-live.json",
+      "sha256": "a45848b4e4caf36e7ab4e97d1054d421579d3221f2ab30e893d13b25d1647de6",
+      "bytes": 5865
+    }
+  ],
+  "errors": [],
+  "distance": 2.2000000000000006,
+  "initialDuty": {
+    "assigned": true,
+    "busy": true,
+    "dayDuty": true,
+    "follow": true,
+    "resting": false,
+    "owner": "cover",
+    "reason": "within-ring"
+  },
+  "actualFunctionScope": "Unchanged full old writer -> actual loader/Continue; only original pure duty function and original one motion step are exposed. No postboot state/storage patch, no direct world advance or task clearing.",
+  "count": 3,
+  "passed": 3,
+  "ok": true
+}

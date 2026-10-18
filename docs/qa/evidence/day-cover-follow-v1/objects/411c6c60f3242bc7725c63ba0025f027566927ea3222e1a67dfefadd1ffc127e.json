@@ -1,0 +1,2673 @@
+{
+  "schema": "DayCoverCrewControlledSourceV1",
+  "status": "CONTROLLED_CREW_PAUSE_RESUME_VERIFIED",
+  "sourceHtmlSha256": "2fca005df63742164bd6f6e8e82fc0c2d3962b4678419b633482f8a54e09ef93",
+  "inputSha256": "e6116026c0c4c1036675f4c3ae1ef1f2896a78f1c215d19bc0b1d79c2d86b6db",
+  "scope": {
+    "schema": "CoverNarrowMethodV1",
+    "sourceHtmlSha256": "2fca005df63742164bd6f6e8e82fc0c2d3962b4678419b633482f8a54e09ef93",
+    "inputSha256": "e6116026c0c4c1036675f4c3ae1ef1f2896a78f1c215d19bc0b1d79c2d86b6db",
+    "subjectId": "carpenter",
+    "inputTable": [],
+    "observationWorldMinutes": 60,
+    "virtualWallMs": 72000,
+    "rafHz": 60,
+    "tieOrder": [
+      "external registered inputs",
+      "due nonRAF tasks due/id",
+      "one snapshot of due RAF per60Hz frame"
+    ],
+    "renderer": "Exact HTML renderContext function copied into QA function only to call real renderer despite original IO render stubs; no Gate/command/motion/timer replacement",
+    "noPostBootBusinessStateOrStorageWrites": true,
+    "noTaskClear": true,
+    "noDirectMoveOrAdvance": true,
+    "notClaimed": [
+      "naturalGameplay",
+      "browser",
+      "public rescue usefulness",
+      "balance",
+      "general follow implementation",
+      "A04 result"
+    ]
+  },
+  "artifacts": [
+    {
+      "path": "source-executed.html",
+      "bytes": 993727,
+      "sha256": "2fca005df63742164bd6f6e8e82fc0c2d3962b4678419b633482f8a54e09ef93"
+    },
+    {
+      "path": "input-test-only-native.json",
+      "bytes": 39157,
+      "sha256": "e6116026c0c4c1036675f4c3ae1ef1f2896a78f1c215d19bc0b1d79c2d86b6db"
+    },
+    {
+      "path": "runner-executed.mjs",
+      "bytes": 19188,
+      "sha256": "7c68d1081cf55b3336c3a2ec6c828c56763955d4fb85f74ade81d3808445e2f7"
+    },
+    {
+      "path": "factory-executed.mjs",
+      "bytes": 2959,
+      "sha256": "e9872eeba85d49019d1bd806f3dd18357a5abc8f2f92922922f6a5324ec220dc"
+    },
+    {
+      "path": "io-adapter-executed.mjs",
+      "bytes": 51172,
+      "sha256": "6e0da555742e930b8bf926eeec0db0ee22f17240a4fa305978841f8ba862c0a3"
+    },
+    {
+      "path": "actual-context-renderer.js",
+      "bytes": 16737,
+      "sha256": "a26b0016e9dbc50cea8f799bde5bcf98fde2dbf981c45003b2cb699d273a1282"
+    },
+    {
+      "path": "qa-alias.js",
+      "bytes": 17253,
+      "sha256": "14d4a615a498032d4a8f9cf51116fdebfad3af12ef31dc409a63273747576dd2"
+    },
+    {
+      "path": "frozen-plan.json",
+      "bytes": 910,
+      "sha256": "5c0b0c1db085825de5196296f53db826371842bde7b76ae2941cfc8cad4e8f40"
+    },
+    {
+      "path": "initial-live.json",
+      "bytes": 6249,
+      "sha256": "31805e80a229104f714da0a382638956d4d4187e6445bd379bda1cfd54e2375f"
+    },
+    {
+      "path": "before-order-context.html",
+      "bytes": 1673,
+      "sha256": "e64b8cee7f583a250cb76522276ba9c00f9378d900a7038dc858d0f2a3b45de0"
+    },
+    {
+      "path": "after-order-live.json",
+      "bytes": 6607,
+      "sha256": "e00c0a84dc4efeb9d4ee4428aa2963468b601e22518f4be9fa14365deee4768e"
+    },
+    {
+      "path": "order-events.json",
+      "bytes": 4965,
+      "sha256": "563ed997dd8f9d34bb1705047b65b08bacd2ce36618d8ca638bdfbc55eb9217d"
+    },
+    {
+      "path": "paused-engineering-live.json",
+      "bytes": 6700,
+      "sha256": "d566095a714c066177ae1504b87a0578ed565b6f23b6b8e06dca35be8c1e145b"
+    },
+    {
+      "path": "paused-normal-writer.json",
+      "bytes": 121533,
+      "sha256": "19d1f920f8ff70e51436f5b5b90d384b9ec408768220dbf4239a47eb6f66fea0"
+    },
+    {
+      "path": "guard-return-context.html",
+      "bytes": 2230,
+      "sha256": "3b9e8ae50c42fd6c7c0df898c9327727a37fe0567ac2138ca822094432794add"
+    },
+    {
+      "path": "endpoint-live.json",
+      "bytes": 6846,
+      "sha256": "d6cf57fd835df1e7c74a980822f43494bf799f76a118b41b86a74767355c6a7a"
+    },
+    {
+      "path": "minute-trace.json",
+      "bytes": 968387,
+      "sha256": "1e00e3406d7bf67fd4f3c01e559f9eac91aeaed52daca4932d5261f608f608e6"
+    },
+    {
+      "path": "input-trace.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "registered-callbacks.json",
+      "bytes": 18846,
+      "sha256": "804d8c08049b3da1e2811451680397e3204797017c9693e474a00768b7e5770f"
+    },
+    {
+      "path": "registered-task-metadata.json",
+      "bytes": 14415,
+      "sha256": "a529d331901a6e10748bbc82fd029464a8d6ecb6d65dd7d4a1600b197691695b"
+    },
+    {
+      "path": "observed-mechanism.json",
+      "bytes": 46038,
+      "sha256": "31e5709d126b07df7aa0f371008e6ed95700d374450d3ce585ed3655b49eb4ae"
+    },
+    {
+      "path": "automatic-normal-writer.json",
+      "bytes": 146609,
+      "sha256": "2d211695cb57c78d4fecc14e107d9e4d2b006e3e6254bfe203427eae6638d096"
+    }
+  ],
+  "checks": [
+    {
+      "name": "Complete preboot TEST-ONLY input passes actual validator and actual Continue",
+      "ok": true
+    },
+    {
+      "name": "Actual public same-ID cover pays gross2 before actual15 minutes; order set after completion",
+      "ok": true
+    },
+    {
+      "name": "Cover reserves actual engineer and freezes clock/materials/work after legitimate paid15 prefix",
+      "ok": true
+    },
+    {
+      "name": "Actual automatic paused writer/loader preserves the busy cover duty and paid prefix",
+      "ok": true
+    },
+    {
+      "name": "Same-ID existing guard return is zero additional payment/time/bond/SAN and retains support",
+      "ok": true
+    },
+    {
+      "name": "Thirty real resumed minutes consume one finite material batch with no paused catch-up",
+      "ok": true
+    },
+    {
+      "name": "Automatic normal resumed writer and actual same raw loader preserve guard and real material consequences",
+      "ok": true
+    }
+  ],
+  "orderReceipt": {
+    "event": {
+      "eventId": "evt-000025",
+      "seq": 25,
+      "type": "npc.orderChanged",
+      "actorId": "player-1",
+      "commandId": "cmd-000256",
+      "causationId": null,
+      "tick": {
+        "world": 395,
+        "phase": 0,
+        "schedule": 35
+      },
+      "payload": {
+        "ok": true,
+        "proofVersion": 1,
+        "npcId": "carpenter",
+        "operation": "support-and-order",
+        "outcome": "completed",
+        "orderId": "cover",
+        "target": {
+          "id": "carpenter",
+          "before": {
+            "id": "carpenter",
+            "supportRequested": false,
+            "order": null,
+            "bond": 0,
+            "hp": 100,
+            "lifeState": "healthy",
+            "sanity": 72,
+            "helpedByPlayer": 0
+          },
+          "beforeAdvance": {
+            "id": "carpenter",
+            "supportRequested": true,
+            "order": null,
+            "bond": 1,
+            "hp": 100,
+            "lifeState": "healthy",
+            "sanity": 72,
+            "helpedByPlayer": 1
+          },
+          "afterAdvance": {
+            "id": "carpenter",
+            "supportRequested": true,
+            "order": null,
+            "bond": 1,
+            "hp": 100,
+            "lifeState": "healthy",
+            "sanity": 74,
+            "helpedByPlayer": 1
+          },
+          "atCompletion": {
+            "id": "carpenter",
+            "supportRequested": true,
+            "order": "cover",
+            "bond": 1,
+            "hp": 100,
+            "lifeState": "healthy",
+            "sanity": 74,
+            "helpedByPlayer": 1
+          },
+          "presentAtCompletion": true,
+          "snapshotStages": {
+            "before": "before-payment-and-own-effects",
+            "beforeAdvance": "after-pre-simulation-own-effects",
+            "afterAdvance": "after-world-simulation-before-post-effects",
+            "atCompletion": "reducer-final-state"
+          }
+        },
+        "payment": {
+          "cost": {
+            "energy": 2
+          },
+          "before": {
+            "energy": 76
+          },
+          "after": {
+            "energy": 74
+          }
+        },
+        "resources": {
+          "energyBefore": 76,
+          "energyAfterPayment": 74,
+          "energyAfter": 74
+        },
+        "clock": {
+          "before": {
+            "day": 1,
+            "hour": 6,
+            "minute": 20,
+            "world": 380
+          },
+          "after": {
+            "day": 1,
+            "hour": 6,
+            "minute": 35,
+            "world": 395
+          },
+          "requestedMinutes": 15,
+          "elapsedMinutes": 15
+        },
+        "advance": {
+          "commandId": "cmd-000257",
+          "eventId": "evt-000023",
+          "causationId": "cmd-000256",
+          "minutes": 15,
+          "tick": {
+            "world": 395,
+            "phase": 0,
+            "schedule": 35
+          }
+        }
+      }
+    },
+    "command": {
+      "commandId": "cmd-000256",
+      "type": "npc.order",
+      "actorId": "player-1",
+      "payload": {
+        "npcId": "carpenter",
+        "orderId": "cover"
+      }
+    },
+    "gross2": true
+  },
+  "pausedWriter": {
+    "sha256": "19d1f920f8ff70e51436f5b5b90d384b9ec408768220dbf4239a47eb6f66fea0",
+    "minute": 425,
+    "checksum": "74daef3b",
+    "actualLoader": true
+  },
+  "guardReceipt": {
+    "eventId": "evt-000069",
+    "seq": 69,
+    "type": "npc.orderChanged",
+    "actorId": "player-1",
+    "commandId": "cmd-000288",
+    "causationId": null,
+    "tick": {
+      "world": 425,
+      "phase": 0,
+      "schedule": 65
+    },
+    "payload": {
+      "ok": true,
+      "proofVersion": 1,
+      "npcId": "carpenter",
+      "operation": "order-change",
+      "outcome": "completed",
+      "orderId": "guard",
+      "target": {
+        "id": "carpenter",
+        "before": {
+          "id": "carpenter",
+          "supportRequested": true,
+          "order": "cover",
+          "bond": 1,
+          "hp": 100,
+          "lifeState": "healthy",
+          "sanity": 74,
+          "helpedByPlayer": 1
+        },
+        "beforeAdvance": null,
+        "afterAdvance": null,
+        "atCompletion": {
+          "id": "carpenter",
+          "supportRequested": true,
+          "order": "guard",
+          "bond": 1,
+          "hp": 100,
+          "lifeState": "healthy",
+          "sanity": 74,
+          "helpedByPlayer": 1
+        },
+        "presentAtCompletion": true,
+        "snapshotStages": {
+          "before": "before-payment-and-own-effects",
+          "beforeAdvance": null,
+          "afterAdvance": null,
+          "atCompletion": "reducer-final-state"
+        }
+      },
+      "payment": {
+        "cost": {
+          "energy": 0
+        },
+        "before": {
+          "energy": 76
+        },
+        "after": {
+          "energy": 76
+        }
+      },
+      "resources": {
+        "energyBefore": 76,
+        "energyAfterPayment": 76,
+        "energyAfter": 76
+      },
+      "clock": {
+        "before": {
+          "day": 1,
+          "hour": 7,
+          "minute": 5,
+          "world": 425
+        },
+        "after": {
+          "day": 1,
+          "hour": 7,
+          "minute": 5,
+          "world": 425
+        },
+        "requestedMinutes": 0,
+        "elapsedMinutes": 0
+      },
+      "advance": null
+    }
+  },
+  "engineering": {
+    "afterPaid": {
+      "id": "camp-relay-001",
+      "status": "staging",
+      "coreItemId": "item-relayCore-001",
+      "handoffAt": null,
+      "materialNeed": {
+        "wood": 10,
+        "parts": 5,
+        "stone": 4
+      },
+      "materialProgress": {
+        "wood": 0,
+        "parts": 0,
+        "stone": 0
+      },
+      "workMinutes": 0,
+      "targetMinutes": 180,
+      "buildingId": "bld-relay-station",
+      "assignedNpcIds": [
+        "radio",
+        "carpenter",
+        "quartermaster"
+      ],
+      "sharedSightBonus": 2,
+      "sharedRangeBonus": 4,
+      "forecastLeadMinutes": 180,
+      "routeId": "eastern-breach",
+      "materialClock": 15,
+      "lastBlockedReason": null
+    },
+    "paused": {
+      "id": "camp-relay-001",
+      "status": "staging",
+      "coreItemId": "item-relayCore-001",
+      "handoffAt": null,
+      "materialNeed": {
+        "wood": 10,
+        "parts": 5,
+        "stone": 4
+      },
+      "materialProgress": {
+        "wood": 0,
+        "parts": 0,
+        "stone": 0
+      },
+      "workMinutes": 0,
+      "targetMinutes": 180,
+      "buildingId": "bld-relay-station",
+      "assignedNpcIds": [
+        "radio",
+        "carpenter",
+        "quartermaster"
+      ],
+      "sharedSightBonus": 2,
+      "sharedRangeBonus": 4,
+      "forecastLeadMinutes": 180,
+      "routeId": "eastern-breach",
+      "materialClock": 15,
+      "lastBlockedReason": "cover-duty"
+    },
+    "resumed": {
+      "id": "camp-relay-001",
+      "status": "staging",
+      "coreItemId": "item-relayCore-001",
+      "handoffAt": null,
+      "materialNeed": {
+        "wood": 10,
+        "parts": 5,
+        "stone": 4
+      },
+      "materialProgress": {
+        "wood": 2,
+        "parts": 2,
+        "stone": 0
+      },
+      "workMinutes": 0,
+      "targetMinutes": 180,
+      "buildingId": "bld-relay-station",
+      "assignedNpcIds": [
+        "radio",
+        "carpenter",
+        "quartermaster"
+      ],
+      "sharedSightBonus": 2,
+      "sharedRangeBonus": 4,
+      "forecastLeadMinutes": 180,
+      "routeId": "eastern-breach",
+      "materialClock": 15,
+      "lastBlockedReason": null,
+      "lastMaterialAt": 440
+    },
+    "pausedWorldMinutes": 30,
+    "resumedWorldMinutes": 30
+  },
+  "findings": {
+    "schema": "CoverObservedMechanismV1",
+    "publicDescription": "<kbd class=\"action-index\">5</kbd>🎯 支援玩家<small>为玩家标记目标，战斗支援伤害提升。 首次请求消耗2行动体力，并推进15分钟。木匠：阿梁；随行会占用该岗位，使中继工程暂停；靠近本人改为守墙／巡逻后，满足条件时继续。</small>",
+    "acceptedAt": 395,
+    "endpointAt": 455,
+    "playerAfterOrder": {
+      "x": 11,
+      "y": 11,
+      "prevX": 11,
+      "prevY": 11,
+      "hp": 94,
+      "energy": 74
+    },
+    "playerAtEndpoint": {
+      "x": 11,
+      "y": 11,
+      "prevX": 11,
+      "prevY": 11,
+      "hp": 94,
+      "energy": 77
+    },
+    "npcAfterOrder": {
+      "x": 11.75,
+      "y": 11,
+      "target": null
+    },
+    "npcAtEndpoint": {
+      "x": 10.637125284520373,
+      "y": 10.528512311108802,
+      "target": {
+        "x": 7,
+        "y": 9
+      }
+    },
+    "observed": [
+      {
+        "worldMinute": 396,
+        "atMs": 1200,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 1,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 397,
+        "atMs": 2400,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 2,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 398,
+        "atMs": 3600,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 3,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 399,
+        "atMs": 4800,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 4,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 400,
+        "atMs": 6000,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 5,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 401,
+        "atMs": 7200,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 0,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 402,
+        "atMs": 8400,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 1,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 403,
+        "atMs": 9600,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 2,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 404,
+        "atMs": 10800,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 3,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 405,
+        "atMs": 12000,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 4,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 406,
+        "atMs": 13200,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 5,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 407,
+        "atMs": 14400,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 0,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 408,
+        "atMs": 15600,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 1,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 409,
+        "atMs": 16800,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 2,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 410,
+        "atMs": 18000,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 3,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 411,
+        "atMs": 19200,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 4,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 412,
+        "atMs": 20400,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 5,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 413,
+        "atMs": 21600,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 0,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 414,
+        "atMs": 22800,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 1,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 415,
+        "atMs": 24000,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 2,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 416,
+        "atMs": 25200,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 3,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 417,
+        "atMs": 26400,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 4,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 418,
+        "atMs": 27600,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 5,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 419,
+        "atMs": 28800,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 0,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 420,
+        "atMs": 30000,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 1,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 421,
+        "atMs": 31200,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 2,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 422,
+        "atMs": 32400,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 3,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 423,
+        "atMs": 33600,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 4,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 424,
+        "atMs": 34800,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 5,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 425,
+        "atMs": 36000,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 0,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 426,
+        "atMs": 37200,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.68087734686462,
+          "y": 10.970895724995632
+        },
+        "motionTarget": {
+          "x": 7,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.6814990977961256,
+        "simMoveClock": 0,
+        "perception": {
+          "clock": 1,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 427,
+        "atMs": 38400,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.611754693729239,
+          "y": 10.941791449991264
+        },
+        "motionTarget": {
+          "x": 7,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.6145177300891117,
+        "simMoveClock": 1,
+        "perception": {
+          "clock": 2,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 428,
+        "atMs": 39600,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.542632040593858,
+          "y": 10.912687174986896
+        },
+        "motionTarget": {
+          "x": 7,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.5496117364929751,
+        "simMoveClock": 2,
+        "perception": {
+          "clock": 3,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 429,
+        "atMs": 40800,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.473509387458478,
+          "y": 10.883582899982528
+        },
+        "motionTarget": {
+          "x": 7,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.4876105835477536,
+        "simMoveClock": 3,
+        "perception": {
+          "clock": 4,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 430,
+        "atMs": 42000,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.404386734323097,
+          "y": 10.85447862497816
+        },
+        "motionTarget": {
+          "x": 7,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.42977331406771413,
+        "simMoveClock": 4,
+        "perception": {
+          "clock": 5,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 431,
+        "atMs": 43200,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.335264081187717,
+          "y": 10.825374349973792
+        },
+        "motionTarget": {
+          "x": 7,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.37801603376274845,
+        "simMoveClock": 5,
+        "perception": {
+          "clock": 0,
+          "targetId": "player-1",
+          "targetAt": 431,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 431,
+              "expiresAt": 521
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 432,
+        "atMs": 44400,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.266141428052336,
+          "y": 10.796270074969424
+        },
+        "motionTarget": {
+          "x": 7,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.3351673344446036,
+        "simMoveClock": 6,
+        "perception": {
+          "clock": 1,
+          "targetId": "player-1",
+          "targetAt": 431,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 431,
+              "expiresAt": 521
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 433,
+        "atMs": 45600,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.197018774916955,
+          "y": 10.767165799965056
+        },
+        "motionTarget": {
+          "x": 7,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.3050051841783843,
+        "simMoveClock": 7,
+        "perception": {
+          "clock": 2,
+          "targetId": "player-1",
+          "targetAt": 431,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 431,
+              "expiresAt": 521
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 434,
+        "atMs": 46800,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.127896121781575,
+          "y": 10.738061524960688
+        },
+        "motionTarget": {
+          "x": 7,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.29149473867067915,
+        "simMoveClock": 8,
+        "perception": {
+          "clock": 3,
+          "targetId": "player-1",
+          "targetAt": 431,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 431,
+              "expiresAt": 521
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 435,
+        "atMs": 48000,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.058773468646194,
+          "y": 10.70895724995632
+        },
+        "motionTarget": {
+          "x": 7,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.29691783875289973,
+        "simMoveClock": 9,
+        "perception": {
+          "clock": 4,
+          "targetId": "player-1",
+          "targetAt": 431,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 431,
+              "expiresAt": 521
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 436,
+        "atMs": 49200,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 10.989650815510814,
+          "y": 10.679852974951952
+        },
+        "motionTarget": {
+          "x": 7,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.32031425704564953,
+        "simMoveClock": 10,
+        "perception": {
+          "clock": 5,
+          "targetId": "player-1",
+          "targetAt": 431,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 431,
+              "expiresAt": 521
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 437,
+        "atMs": 50400,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 10.920528162375433,
+          "y": 10.650748699947584
+        },
+        "motionTarget": {
+          "x": 7,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.3581790663393492,
+        "simMoveClock": 11,
+        "perception": {
+          "clock": 0,
+          "targetId": "player-1",
+          "targetAt": 431,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 431,
+              "expiresAt": 521
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 438,
+        "atMs": 51600,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 10.851405509240053,
+          "y": 10.621644424943216
+        },
+        "motionTarget": {
+          "x": 7,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.4064889467879262,
+        "simMoveClock": 12,
+        "perception": {
+          "clock": 1,
+          "targetId": "player-1",
+          "targetAt": 431,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 431,
+              "expiresAt": 521
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 439,
+        "atMs": 52800,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 10.782282856104672,
+          "y": 10.592540149938849
+        },
+        "motionTarget": {
+          "x": 7,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.46197866201567694,
+        "simMoveClock": 13,
+        "perception": {
+          "clock": 2,
+          "targetId": "player-1",
+          "targetAt": 431,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 431,
+              "expiresAt": 521
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 440,
+        "atMs": 54000,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 10.713160202969291,
+          "y": 10.56343587493448
+        },
+        "motionTarget": {
+          "x": 7,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.5223651064675363,
+        "simMoveClock": 14,
+        "perception": {
+          "clock": 3,
+          "targetId": "player-1",
+          "targetAt": 431,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 431,
+              "expiresAt": 521
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 441,
+        "atMs": 55200,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 10.64403754983391,
+          "y": 10.534331599930113
+        },
+        "motionTarget": {
+          "x": 7,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.5861367799003013,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 4,
+          "targetId": "player-1",
+          "targetAt": 431,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 431,
+              "expiresAt": 521
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 442,
+        "atMs": 56400,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 10.637125284520373,
+          "y": 10.528512311108802
+        },
+        "motionTarget": {
+          "x": 7,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.5949610910894793,
+        "simMoveClock": 0,
+        "perception": {
+          "clock": 5,
+          "targetId": "player-1",
+          "targetAt": 431,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 431,
+              "expiresAt": 521
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 443,
+        "atMs": 57600,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 10.637125284520373,
+          "y": 10.528512311108802
+        },
+        "motionTarget": {
+          "x": 7,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.5949610910894793,
+        "simMoveClock": 1,
+        "perception": {
+          "clock": 0,
+          "targetId": "player-1",
+          "targetAt": 431,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 431,
+              "expiresAt": 521
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 444,
+        "atMs": 58800,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 10.637125284520373,
+          "y": 10.528512311108802
+        },
+        "motionTarget": {
+          "x": 7,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.5949610910894793,
+        "simMoveClock": 2,
+        "perception": {
+          "clock": 1,
+          "targetId": "player-1",
+          "targetAt": 431,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 431,
+              "expiresAt": 521
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 445,
+        "atMs": 60000,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 10.637125284520373,
+          "y": 10.528512311108802
+        },
+        "motionTarget": {
+          "x": 7,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.5949610910894793,
+        "simMoveClock": 3,
+        "perception": {
+          "clock": 2,
+          "targetId": "player-1",
+          "targetAt": 431,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 431,
+              "expiresAt": 521
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 446,
+        "atMs": 61200,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 10.637125284520373,
+          "y": 10.528512311108802
+        },
+        "motionTarget": {
+          "x": 7,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.5949610910894793,
+        "simMoveClock": 4,
+        "perception": {
+          "clock": 3,
+          "targetId": "player-1",
+          "targetAt": 431,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 431,
+              "expiresAt": 521
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 447,
+        "atMs": 62400,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 10.637125284520373,
+          "y": 10.528512311108802
+        },
+        "motionTarget": {
+          "x": 7,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.5949610910894793,
+        "simMoveClock": 5,
+        "perception": {
+          "clock": 4,
+          "targetId": "player-1",
+          "targetAt": 431,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 431,
+              "expiresAt": 521
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 448,
+        "atMs": 63600,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 10.637125284520373,
+          "y": 10.528512311108802
+        },
+        "motionTarget": {
+          "x": 7,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.5949610910894793,
+        "simMoveClock": 6,
+        "perception": {
+          "clock": 5,
+          "targetId": "player-1",
+          "targetAt": 431,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 431,
+              "expiresAt": 521
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 449,
+        "atMs": 64800,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 10.637125284520373,
+          "y": 10.528512311108802
+        },
+        "motionTarget": {
+          "x": 7,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.5949610910894793,
+        "simMoveClock": 7,
+        "perception": {
+          "clock": 0,
+          "targetId": "player-1",
+          "targetAt": 431,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 431,
+              "expiresAt": 521
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 450,
+        "atMs": 66000,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 10.637125284520373,
+          "y": 10.528512311108802
+        },
+        "motionTarget": {
+          "x": 7,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.5949610910894793,
+        "simMoveClock": 8,
+        "perception": {
+          "clock": 1,
+          "targetId": "player-1",
+          "targetAt": 431,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 431,
+              "expiresAt": 521
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 451,
+        "atMs": 67200,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 10.637125284520373,
+          "y": 10.528512311108802
+        },
+        "motionTarget": {
+          "x": 7,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.5949610910894793,
+        "simMoveClock": 9,
+        "perception": {
+          "clock": 2,
+          "targetId": "player-1",
+          "targetAt": 431,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 431,
+              "expiresAt": 521
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 452,
+        "atMs": 68400,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 10.637125284520373,
+          "y": 10.528512311108802
+        },
+        "motionTarget": {
+          "x": 7,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.5949610910894793,
+        "simMoveClock": 10,
+        "perception": {
+          "clock": 3,
+          "targetId": "player-1",
+          "targetAt": 431,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 431,
+              "expiresAt": 521
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 453,
+        "atMs": 69600,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 10.637125284520373,
+          "y": 10.528512311108802
+        },
+        "motionTarget": {
+          "x": 7,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.5949610910894793,
+        "simMoveClock": 11,
+        "perception": {
+          "clock": 4,
+          "targetId": "player-1",
+          "targetAt": 431,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 431,
+              "expiresAt": 521
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 454,
+        "atMs": 70800,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 10.637125284520373,
+          "y": 10.528512311108802
+        },
+        "motionTarget": {
+          "x": 7,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.5949610910894793,
+        "simMoveClock": 12,
+        "perception": {
+          "clock": 5,
+          "targetId": "player-1",
+          "targetAt": 431,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 431,
+              "expiresAt": 521
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 455,
+        "atMs": 72000,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 10.637125284520373,
+          "y": 10.528512311108802
+        },
+        "motionTarget": {
+          "x": 7,
+          "y": 9
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.5949610910894793,
+        "simMoveClock": 13,
+        "perception": {
+          "clock": 0,
+          "targetId": "player-1",
+          "targetAt": 431,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "carpenter",
+              "at": 431,
+              "expiresAt": 521
+            }
+          },
+          "sharedUntil": 0
+        }
+      }
+    ],
+    "anyMotionTargetMatchesCurrentPlayer": false,
+    "sourceScope": "TEST-ONLY complete actual handoff writer derivative; paid15 then30 paused and30 resumed actual registered world minutes, plus normal checkpoint timeout windows; not natural engineering or rescue utility"
+  },
+  "automaticWriter": {
+    "worldMinute": 455,
+    "eventSeq": 101,
+    "sha256": "2d211695cb57c78d4fecc14e107d9e4d2b006e3e6254bfe203427eae6638d096"
+  },
+  "recovery": {
+    "selectedChecksum": "ac66f803",
+    "writerMinute": 455,
+    "loadedMinute": 455,
+    "writerSha256": "2d211695cb57c78d4fecc14e107d9e4d2b006e3e6254bfe203427eae6638d096",
+    "noPostReloadTick": true
+  },
+  "ok": true,
+  "naturalEngineeringValueClaimed": false,
+  "count": 7,
+  "passed": 7
+}
