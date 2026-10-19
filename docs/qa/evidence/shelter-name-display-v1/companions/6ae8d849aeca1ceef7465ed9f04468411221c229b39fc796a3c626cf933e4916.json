@@ -1,0 +1,778 @@
+{
+  "schema": "DeclaredPathOnlyCompanionV1",
+  "role": "historical A08 audit",
+  "original": {
+    "originKey": "next-public-A08-audit/postmortem.json",
+    "sha256": "6ae8d849aeca1ceef7465ed9f04468411221c229b39fc796a3c626cf933e4916",
+    "bytes": 22333,
+    "outsideRetained": true
+  },
+  "derivation": "Only declared private path strings replaced. All containers, nonpath strings, numbers, booleans and nulls unchanged. This is not raw native evidence.",
+  "replacements": [
+    {
+      "pointer": "/execution/path",
+      "originalStringSha256": "4ba0ed6cd052cf4b1d02384b15aab1fbc600a1e5069366b6dfa0dc6a9a50ccc8",
+      "replacement": "outside-retained/next-public-A08-execution01/execution.json"
+    },
+    {
+      "pointer": "/publicLayer/uiArtifacts/0/path",
+      "originalStringSha256": "e752d11ec9ecc781a5022f59d27755c121d3756c0acb6ec0e6da6a3ed5cf06db",
+      "replacement": "outside-retained/next-public-A08-execution01/business/000-current-boot-public-map-ui.json"
+    },
+    {
+      "pointer": "/publicLayer/uiArtifacts/1/path",
+      "originalStringSha256": "4134e861664577a345d5cb41a853ebf3bfd63c7bc09e9e43a67e102e8f59a1ba",
+      "replacement": "outside-retained/next-public-A08-execution01/business/001-normal-writer-prefix-ui.json"
+    },
+    {
+      "pointer": "/publicLayer/uiArtifacts/2/path",
+      "originalStringSha256": "38b85db773207a98aee8f32f559ed9e9aed23d1e1f9df66dc4d4c733cace83b3",
+      "replacement": "outside-retained/next-public-A08-execution01/business/002-final-ui.json"
+    },
+    {
+      "pointer": "/publicLayer/screenshotReadback/boot/path",
+      "originalStringSha256": "af03582994a45fa4d43cd152a408e6362f2ed731faa10034ab852ef1ed86c10d",
+      "replacement": "outside-retained/next-public-A08-execution01/business/000-current-boot-public-map.png"
+    },
+    {
+      "pointer": "/publicLayer/screenshotReadback/final/path",
+      "originalStringSha256": "73b1e52f7914d1de8df9ab916342d0615185ea4cd8fdc7f2ffd38a35e99f798b",
+      "replacement": "outside-retained/next-public-A08-execution01/business/002-final.png"
+    },
+    {
+      "pointer": "/preflightBoundary/original/path",
+      "originalStringSha256": "1c55ae40e9032aa673402897d0671706bc9532714290d503c52e167dfa421870",
+      "replacement": "outside-retained/next-public-A08-preflight-review/report.json"
+    },
+    {
+      "pointer": "/persistence/natives/0/path",
+      "originalStringSha256": "c2cb65dd8112ee081a19fa2dc7d817483887ef005e1490b74e5a9f7272bd1b90",
+      "replacement": "outside-retained/next-public-A08-execution01/business/input-native.json"
+    },
+    {
+      "pointer": "/persistence/natives/1/path",
+      "originalStringSha256": "a6f1e9edfa3cf1773fe5ed766627fa1852f615c9f8f91b346120eb8150d73358",
+      "replacement": "outside-retained/next-public-A08-execution01/business/initial-selected-raw.json"
+    },
+    {
+      "pointer": "/persistence/natives/2/path",
+      "originalStringSha256": "23b5724f23977107b71b647c5ee8a246f02429e116fb20e31d79a17c6ef1f80a",
+      "replacement": "outside-retained/next-public-A08-execution01/business/000-current-boot-public-map-native.json"
+    },
+    {
+      "pointer": "/persistence/natives/3/path",
+      "originalStringSha256": "c9264b45f88e2d31105b5f6415d682d873e338e1fa8552baac06c61b01e76eba",
+      "replacement": "outside-retained/next-public-A08-execution01/business/normal-writer-prefix-native.json"
+    },
+    {
+      "pointer": "/persistence/natives/4/path",
+      "originalStringSha256": "88f16b1a24d93fdfc8e8d31d3f14d04c3aa2bd0e44e9dd3b71c2b13302e48715",
+      "replacement": "outside-retained/next-public-A08-execution01/business/001-normal-writer-prefix-native.json"
+    },
+    {
+      "pointer": "/persistence/natives/5/path",
+      "originalStringSha256": "1828f574a877b4ce0ab86bbe50221eb9f391450f4792add3f658062247603b73",
+      "replacement": "outside-retained/next-public-A08-execution01/business/002-final-native.json"
+    },
+    {
+      "pointer": "/persistence/initialSelected/metadata/path",
+      "originalStringSha256": "cd5adfba9e5579429ca692556dbf7c410bbddb02eb94abd0e857dc3eb92e1771",
+      "replacement": "outside-retained/next-public-A08-execution01/business/initial-selected-metadata.json"
+    },
+    {
+      "pointer": "/persistence/initialInstallation/receipt/path",
+      "originalStringSha256": "c57f818342261fe75dc3c19e5d4a6d207de3954fd562036a18bea8cf8029aa9c",
+      "replacement": "outside-retained/next-public-A08-execution01/business/initial-continue-installation.json"
+    },
+    {
+      "pointer": "/persistence/newNormal/path",
+      "originalStringSha256": "c9264b45f88e2d31105b5f6415d682d873e338e1fa8552baac06c61b01e76eba",
+      "replacement": "outside-retained/next-public-A08-execution01/business/normal-writer-prefix-native.json"
+    },
+    {
+      "pointer": "/persistence/latestFullLive/path",
+      "originalStringSha256": "b6dd745c6c82a03c5e9e93875598366fada60e99fb0c0d3b2b7b0421791427c7",
+      "replacement": "outside-retained/next-public-A08-execution01/business/002-final-live.json"
+    }
+  ],
+  "value": {
+    "schema": "PublicA08NarrowPostmortemV1",
+    "createdAt": "2026-10-18T08:14:41.228911+00:00",
+    "status": "NORMAL_WRITER_PREFIX_CONFIRMED_SELF_DEFENSE_NOT_EXECUTED",
+    "scope": "Read-only originals/text/images. No game/browser/sourceVM/Gate/rerun or canonical/original edit. Native terminal0 retained only for single-main normal-writer prefix.",
+    "execution": {
+      "path": "outside-retained/next-public-A08-execution01/execution.json",
+      "sha256": "41eb63988457c2835cae103b80f62d31dc3707ab8ad07c025251323c002ae479",
+      "bytes": 2449,
+      "pid": 30996,
+      "terminalExitCode": 0,
+      "processSeconds": 19.610000000000582,
+      "inputsUnchanged": true,
+      "mainDocuments": [
+        {
+          "at": 1792310876483,
+          "sha256": "2fca005df63742164bd6f6e8e82fc0c2d3962b4678419b633482f8a54e09ef93",
+          "status": 200
+        }
+      ],
+      "errors": [],
+      "cleanup": {
+        "contextClosed": true,
+        "browserClosed": true,
+        "serverClosed": true
+      },
+      "executedCopiesMatchFrozen": true,
+      "manifestInputCount": 29
+    },
+    "publicLayer": {
+      "branch": {
+        "kind": "deferred-public-prefix",
+        "reason": "public player marker unavailable or occluded",
+        "attackSubmitted": false,
+        "attackSafetyCalled": false,
+        "rest": 0,
+        "eat": 0,
+        "support": 0,
+        "engineeringPanel": 0,
+        "inputMaterials": {
+          "wood": 8,
+          "parts": 5,
+          "stone": 2
+        },
+        "observedEngineering": {
+          "materials": {
+            "wood": 8,
+            "parts": 5,
+            "stone": 2
+          },
+          "workMinutes": 0
+        },
+        "engineeringNotActionReward": true
+      },
+      "actions": [
+        {
+          "kind": "click",
+          "label": "initial-public-continue",
+          "category": "ui"
+        }
+      ],
+      "delta": {
+        "major": 0,
+        "business": 0,
+        "ui": 1,
+        "navigation": 0,
+        "keyMs": 0,
+        "restAccepted": 0,
+        "attackAttempts": 0,
+        "eatAttempts": 0
+      },
+      "privilegedSafetyCalls": 0,
+      "publicPlayerUnmoved": true,
+      "context": "Building management/rest service exists; rest30/60 disabled with nearby-threat reason. Main attackBtn disabled with approach-target text.",
+      "uiArtifacts": [
+        {
+          "path": "outside-retained/next-public-A08-execution01/business/000-current-boot-public-map-ui.json",
+          "sha256": "d415364bdde57a7415f041fdce2b3403d714de23a4eca46e9a8129ebb1f97ed5",
+          "bytes": 108622
+        },
+        {
+          "path": "outside-retained/next-public-A08-execution01/business/001-normal-writer-prefix-ui.json",
+          "sha256": "652a39db03c34bd3b8654610dbf0e2473fd743b34076871c55e65bd1bcefa25b",
+          "bytes": 108554
+        },
+        {
+          "path": "outside-retained/next-public-A08-execution01/business/002-final-ui.json",
+          "sha256": "5ba608b4d75db415d67cdf89b00c91c94e4cc18f241006435014aba15518b839",
+          "bytes": 108554
+        }
+      ],
+      "screenshotReadback": {
+        "boot": {
+          "path": "outside-retained/next-public-A08-execution01/business/000-current-boot-public-map.png",
+          "sha256": "7ace89f7fabff3a873b335101e58a8aee27d7f7dbd4377ee7724a82817e924cd",
+          "bytes": 536327
+        },
+        "final": {
+          "path": "outside-retained/next-public-A08-execution01/business/002-final.png",
+          "sha256": "917b484703d8eace70b313da1cdfb2625995e9097a04f054b83f94322eff3b1e",
+          "bytes": 530835
+        },
+        "bootBothHud": "10:33",
+        "finalBothHud": "10:45",
+        "playerSpriteVisible": true,
+        "enemyIconVisible": true,
+        "noHiddenRouteDerived": true
+      },
+      "notEstablished": [
+        "F after approach or safety true/false gameplay branch",
+        "navigation/collision feasibility",
+        "player absent from picture",
+        "no public route or attack unreachable",
+        "rest accepted/completed",
+        "human/mainline/cover benefit"
+      ]
+    },
+    "methodLimits": [
+      {
+        "priority": "P2",
+        "kind": "observation-producer-mismatch",
+        "locations": [
+          "business/method-executed.mjs:64",
+          "business/source.html:6658",
+          "business/source.html:6729-6732",
+          "business/source.html:6786-6787"
+        ],
+        "finding": "Enemy selector #world .continuous-entity.zombie depends on a layer whose producer is only defined, never called in exact2fca. Current render creates canvas+tiles and calls renderActorsCanvas/renderPlayerMarker. Empty DOM enemy list is not no visible enemy.",
+        "scope": "Method limitation; native terminal0 unchanged, no game targeting failure inferred."
+      },
+      {
+        "priority": "P2",
+        "kind": "player-hit-filter-rejects-map-buttons",
+        "locations": [
+          "business/method-executed.mjs:63-64",
+          "business/source.html:155",
+          "business/source.html:6735-6736"
+        ],
+        "finding": "Player marker pointer-events:none needs an underlying public world hit, but predicate rejects any ancestor button while public map tiles are buttons. Legitimate tile hits are rejected. Actual hit element/rect/computed values were not captured, so exact null subcondition is unknown.",
+        "scope": "Static explanation only; no new browser, hidden navigation or gameplay claim."
+      }
+    ],
+    "preflightBoundary": {
+      "original": {
+        "path": "outside-retained/next-public-A08-preflight-review/report.json",
+        "sha256": "0deb7f6a15aa2e7598a1ead98c09d15cc9629c30fcbe21a3a0dbecbf58272f35",
+        "bytes": 22390
+      },
+      "notRewritten": true,
+      "reviewerAcknowledgment": "Preflight did not fully trace actual actor rendering producer. Pure consumer controls and static no-blocker do not establish successful visual driving or self-defense."
+    },
+    "persistence": {
+      "natives": [
+        {
+          "name": "input-native.json",
+          "path": "outside-retained/next-public-A08-execution01/business/input-native.json",
+          "sha256": "2fb0b33204fab65a0af64163d9d09d8c1be8febb5649cd228b25a2507fc7b66a",
+          "bytes": 325551,
+          "checksum": "e99ca997",
+          "independentReadOnlyNodeFNVMatched": true,
+          "worldMinute": 633,
+          "eventSeq": 398,
+          "commandSeq": 994,
+          "reason": "world-tick"
+        },
+        {
+          "name": "initial-selected-raw.json",
+          "path": "outside-retained/next-public-A08-execution01/business/initial-selected-raw.json",
+          "sha256": "2fb0b33204fab65a0af64163d9d09d8c1be8febb5649cd228b25a2507fc7b66a",
+          "bytes": 325551,
+          "checksum": "e99ca997",
+          "independentReadOnlyNodeFNVMatched": true,
+          "worldMinute": 633,
+          "eventSeq": 398,
+          "commandSeq": 994,
+          "reason": "world-tick"
+        },
+        {
+          "name": "000-current-boot-public-map-native.json",
+          "path": "outside-retained/next-public-A08-execution01/business/000-current-boot-public-map-native.json",
+          "sha256": "2fb0b33204fab65a0af64163d9d09d8c1be8febb5649cd228b25a2507fc7b66a",
+          "bytes": 325551,
+          "checksum": "e99ca997",
+          "independentReadOnlyNodeFNVMatched": true,
+          "worldMinute": 633,
+          "eventSeq": 398,
+          "commandSeq": 994,
+          "reason": "world-tick"
+        },
+        {
+          "name": "normal-writer-prefix-native.json",
+          "path": "outside-retained/next-public-A08-execution01/business/normal-writer-prefix-native.json",
+          "sha256": "7c54ea074c60fe25cfff5bba39300aa85d07fd96fe57b49af88f082077f2b42a",
+          "bytes": 328537,
+          "checksum": "5bdae344",
+          "independentReadOnlyNodeFNVMatched": true,
+          "worldMinute": 643,
+          "eventSeq": 413,
+          "commandSeq": 1004,
+          "reason": "world-tick"
+        },
+        {
+          "name": "001-normal-writer-prefix-native.json",
+          "path": "outside-retained/next-public-A08-execution01/business/001-normal-writer-prefix-native.json",
+          "sha256": "7c54ea074c60fe25cfff5bba39300aa85d07fd96fe57b49af88f082077f2b42a",
+          "bytes": 328537,
+          "checksum": "5bdae344",
+          "independentReadOnlyNodeFNVMatched": true,
+          "worldMinute": 643,
+          "eventSeq": 413,
+          "commandSeq": 1004,
+          "reason": "world-tick"
+        },
+        {
+          "name": "002-final-native.json",
+          "path": "outside-retained/next-public-A08-execution01/business/002-final-native.json",
+          "sha256": "7c54ea074c60fe25cfff5bba39300aa85d07fd96fe57b49af88f082077f2b42a",
+          "bytes": 328537,
+          "checksum": "5bdae344",
+          "independentReadOnlyNodeFNVMatched": true,
+          "worldMinute": 643,
+          "eventSeq": 413,
+          "commandSeq": 1004,
+          "reason": "world-tick"
+        }
+      ],
+      "initialSelected": {
+        "metadata": {
+          "path": "outside-retained/next-public-A08-execution01/business/initial-selected-metadata.json",
+          "sha256": "7587df77eadcd8a0975bd2df3188717bdfcd69f9724bb41f215f944227f08fb6",
+          "bytes": 1073
+        },
+        "sourceCategory": "primary",
+        "rawEqualsFrozenInput": true,
+        "payloadEqualsFrozenInput": true,
+        "worldMinute": 633,
+        "eventSeq": 398,
+        "commandSeq": 994,
+        "checksum": "e99ca997"
+      },
+      "initialInstallation": {
+        "receipt": {
+          "path": "outside-retained/next-public-A08-execution01/business/initial-continue-installation.json",
+          "sha256": "fee5c15dbe55cb7847662bdbfb5905c3d73d996e280566155f27068c588f6b99",
+          "bytes": 1457
+        },
+        "installed": true,
+        "mode": "DAY",
+        "sameActualSelection": true
+      },
+      "newNormal": {
+        "name": "normal-writer-prefix-native.json",
+        "path": "outside-retained/next-public-A08-execution01/business/normal-writer-prefix-native.json",
+        "sha256": "7c54ea074c60fe25cfff5bba39300aa85d07fd96fe57b49af88f082077f2b42a",
+        "bytes": 328537,
+        "checksum": "5bdae344",
+        "independentReadOnlyNodeFNVMatched": true,
+        "worldMinute": 643,
+        "eventSeq": 413,
+        "commandSeq": 1004,
+        "reason": "world-tick",
+        "fixedPrefixTarget": {
+          "worldMinute": 634,
+          "eventSeq": 399
+        },
+        "containsNewTick": true,
+        "newTickEvents": [
+          {
+            "eventId": "evt-000399",
+            "world": 634,
+            "commandId": "cmd-000995"
+          },
+          {
+            "eventId": "evt-000400",
+            "world": 635,
+            "commandId": "cmd-000996"
+          },
+          {
+            "eventId": "evt-000401",
+            "world": 636,
+            "commandId": "cmd-000997"
+          },
+          {
+            "eventId": "evt-000402",
+            "world": 637,
+            "commandId": "cmd-000998"
+          },
+          {
+            "eventId": "evt-000403",
+            "world": 638,
+            "commandId": "cmd-000999"
+          },
+          {
+            "eventId": "evt-000405",
+            "world": 639,
+            "commandId": "cmd-001000"
+          },
+          {
+            "eventId": "evt-000406",
+            "world": 640,
+            "commandId": "cmd-001001"
+          },
+          {
+            "eventId": "evt-000407",
+            "world": 641,
+            "commandId": "cmd-001002"
+          },
+          {
+            "eventId": "evt-000408",
+            "world": 642,
+            "commandId": "cmd-001003"
+          },
+          {
+            "eventId": "evt-000413",
+            "world": 643,
+            "commandId": "cmd-001004"
+          }
+        ]
+      },
+      "noReload": true,
+      "newNormalSelectedContinueNotTested": true,
+      "latestFullLive": {
+        "path": "outside-retained/next-public-A08-execution01/business/002-final-live.json",
+        "sha256": "17c19136ff4141e71df88e69dbb1354cbd5fb2c95daeddfcd42261b16bc1285b",
+        "bytes": 233385,
+        "worldMinute": 644,
+        "eventSeq": 414,
+        "commandSeq": 1005
+      },
+      "latestPublicWatermark": 645,
+      "normalLagsLatestObservedMinutesAtLeast": 2,
+      "postCloseExactStateUnknown": true
+    },
+    "engineeringAudit": {
+      "knowledge": "QA/native audit only, no public engineering panel opened",
+      "observationWindow": {
+        "startWorld": 634,
+        "latestWorld": 645
+      },
+      "policyObservedEngineeringBeforeObservation": true,
+      "policyBefore": {
+        "materials": {
+          "wood": 8,
+          "parts": 5,
+          "stone": 2
+        },
+        "workMinutes": 0
+      },
+      "input": {
+        "materials": {
+          "wood": 8,
+          "parts": 5,
+          "stone": 2
+        },
+        "stock": {
+          "wood": 16,
+          "parts": 0,
+          "stone": 10
+        },
+        "workMinutes": 0,
+        "lastMaterialAt": 609,
+        "materialClock": 24
+      },
+      "newBatch": {
+        "eventId": "evt-000404",
+        "seq": 404,
+        "type": "relay.materialsGathered",
+        "actorId": "system",
+        "commandId": null,
+        "causationId": "cmd-001000",
+        "tick": {
+          "world": 639,
+          "phase": 0,
+          "schedule": 279
+        },
+        "payload": {
+          "projectId": "camp-relay-001",
+          "at": 639,
+          "progress": {
+            "wood": 10,
+            "parts": 5,
+            "stone": 3
+          },
+          "reports": [
+            "阿梁筹到木材 2",
+            "阿默找到基座石料 1"
+          ],
+          "sources": [
+            {
+              "resourceId": "stock.wood",
+              "sourceType": "inventory",
+              "amount": 2
+            },
+            {
+              "resourceId": "stock.stone",
+              "sourceType": "inventory",
+              "amount": 1
+            }
+          ]
+        },
+        "defId": "relay-chain-001",
+        "definitionVersion": 1,
+        "instanceId": "camp-relay-001",
+        "effects": [
+          {
+            "type": "fact",
+            "key": "construction",
+            "eventType": "relay.constructionStarted",
+            "amount": 0,
+            "payload": {}
+          },
+          {
+            "type": "resource",
+            "key": "materials",
+            "eventType": null,
+            "amount": 0,
+            "payload": {}
+          }
+        ]
+      },
+      "finalNormal": {
+        "materials": {
+          "wood": 10,
+          "parts": 5,
+          "stone": 3
+        },
+        "stock": {
+          "wood": 14,
+          "parts": 0,
+          "stone": 9
+        },
+        "status": "staging",
+        "workMinutes": 0,
+        "lastMaterialAt": 639,
+        "materialClock": 4
+      },
+      "finalCapturedLive": {
+        "worldMinute": 644,
+        "materials": {
+          "wood": 10,
+          "parts": 5,
+          "stone": 3
+        },
+        "status": "staging",
+        "workMinutes": 0,
+        "materialClock": 5
+      },
+      "grossStockCost": {
+        "wood": 2,
+        "parts": 0,
+        "stone": 1
+      },
+      "passiveObservationConsequence": true,
+      "notAttackRewardOrPreObservationBatch": true,
+      "noCompletionOrOnline": true
+    },
+    "combatAndHealth": {
+      "reportDamage": [],
+      "playerHp": {
+        "input": 86,
+        "normal": 86,
+        "finalPublic": 86
+      },
+      "energy": {
+        "input": 100,
+        "normal": 100,
+        "finalPublic": 100
+      },
+      "food": {
+        "input": 7,
+        "normal": 7,
+        "finalPublic": 7
+      },
+      "allTenNpcHp100Healthy": true,
+      "newPlayerNpcBuildingTowerDamage": [],
+      "enemyDamageEvents": [
+        {
+          "eventId": "evt-000409",
+          "seq": 409,
+          "type": "combat.damage.applied",
+          "actorId": "commander",
+          "commandId": null,
+          "causationId": "cmd-001004",
+          "tick": {
+            "world": 643,
+            "phase": 0,
+            "schedule": 283
+          },
+          "payload": {
+            "schemaVersion": "CombatIntentV1",
+            "phase": "DAY",
+            "tick": 34,
+            "intentId": "day-246-1",
+            "attackSeq": 1,
+            "profileId": "npc.guard.day",
+            "sourceId": "commander",
+            "targetId": "wz-4",
+            "sourceKind": "npc",
+            "targetKind": "event-enemy",
+            "amount": 10,
+            "before": 80,
+            "after": 70,
+            "damageType": "physical",
+            "sourceEventId": null
+          }
+        },
+        {
+          "eventId": "evt-000410",
+          "seq": 410,
+          "type": "combat.damage.applied",
+          "actorId": "guardChen",
+          "commandId": null,
+          "causationId": "cmd-001004",
+          "tick": {
+            "world": 643,
+            "phase": 0,
+            "schedule": 283
+          },
+          "payload": {
+            "schemaVersion": "CombatIntentV1",
+            "phase": "DAY",
+            "tick": 35,
+            "intentId": "day-246-2",
+            "attackSeq": 2,
+            "profileId": "npc.guard.day",
+            "sourceId": "guardChen",
+            "targetId": "wz-4",
+            "sourceKind": "npc",
+            "targetKind": "event-enemy",
+            "amount": 7,
+            "before": 70,
+            "after": 63,
+            "damageType": "physical",
+            "sourceEventId": null
+          }
+        },
+        {
+          "eventId": "evt-000411",
+          "seq": 411,
+          "type": "combat.damage.applied",
+          "actorId": "guardJi",
+          "commandId": null,
+          "causationId": "cmd-001004",
+          "tick": {
+            "world": 643,
+            "phase": 0,
+            "schedule": 283
+          },
+          "payload": {
+            "schemaVersion": "CombatIntentV1",
+            "phase": "DAY",
+            "tick": 36,
+            "intentId": "day-246-3",
+            "attackSeq": 3,
+            "profileId": "npc.guard.day",
+            "sourceId": "guardJi",
+            "targetId": "wz-4",
+            "sourceKind": "npc",
+            "targetKind": "event-enemy",
+            "amount": 9,
+            "before": 63,
+            "after": 54,
+            "damageType": "physical",
+            "sourceEventId": null
+          }
+        },
+        {
+          "eventId": "evt-000412",
+          "seq": 412,
+          "type": "combat.damage.applied",
+          "actorId": "sergeant",
+          "commandId": null,
+          "causationId": "cmd-001004",
+          "tick": {
+            "world": 643,
+            "phase": 0,
+            "schedule": 283
+          },
+          "payload": {
+            "schemaVersion": "CombatIntentV1",
+            "phase": "DAY",
+            "tick": 37,
+            "intentId": "day-246-4",
+            "attackSeq": 4,
+            "profileId": "npc.guard.day",
+            "sourceId": "sergeant",
+            "targetId": "wz-4",
+            "sourceKind": "npc",
+            "targetKind": "event-enemy",
+            "amount": 11,
+            "before": 54,
+            "after": 43,
+            "damageType": "physical",
+            "sourceEventId": null
+          }
+        }
+      ],
+      "enemyDamageTotal": 37,
+      "enemyHpChain": {
+        "before": 80,
+        "after": 43
+      },
+      "noNewSupportOrBond": true,
+      "notPlayerAttackOrRequestedSupportBenefit": true,
+      "notProofOfBidirectionalOrTowerCombat": true
+    },
+    "accounting": {
+      "inherited": {
+        "worldFloor": 294,
+        "activeWallMs": 294382,
+        "counts": {
+          "major": 7,
+          "business": 7,
+          "ui": 79,
+          "navigation": 238,
+          "keyMs": 36971,
+          "restAccepted": 2,
+          "attackAttempts": 2,
+          "eatAttempts": 1
+        }
+      },
+      "slice": {
+        "worldMinutes": 12,
+        "activeWallMs": 15363
+      },
+      "normalObservation": {
+        "startedAt": 1792310878343,
+        "startWorldMinute": 634,
+        "worldCap": 16,
+        "wallCapMs": 20000,
+        "scope": "entire normal-writer-only observation/final-evidence/cleanup segment; no reload or recovery proof",
+        "actual": {
+          "worldMinutes": 11,
+          "wallMs": 13774,
+          "within": true
+        }
+      },
+      "cumulative": {
+        "worldFloor": 306,
+        "worldIsLowerBound": true,
+        "activeWallMs": 309745,
+        "counts": {
+          "major": 7,
+          "business": 7,
+          "ui": 80,
+          "navigation": 238,
+          "keyMs": 36971,
+          "restAccepted": 2,
+          "attackAttempts": 2,
+          "eatAttempts": 1
+        }
+      },
+      "latestScreenshotAndPreClose": 645,
+      "unknownOlderAndPostCloseTail": true,
+      "noRefundForRollback": true,
+      "remainingAtMost": {
+        "worldMinutes": 414,
+        "activeWallMs": 590255,
+        "major": 11,
+        "business": 23,
+        "ui": 0,
+        "navigation": 2,
+        "keyMs": 53029,
+        "restAccepted": 6,
+        "attackAttempts": 2,
+        "eatAttempts": 1
+      },
+      "noNewBudgetOrRerun": true
+    },
+    "reviewMethodNotes": [
+      {
+        "kind": "ToolObservedReadOnlyExit1",
+        "detail": "Inspection hit KeyError food on WorldSnapshot projection; later used native/HUD. No original writes/game."
+      },
+      {
+        "kind": "ToolObservedAuditWriterPreparationExit1",
+        "detail": "PowerShell piped UTF8 script generation failed encoding; subsequent Node helper missing. No report or original created by that failed command; no original stdout/stderr file fabricated."
+      }
+    ]
+  }
+}

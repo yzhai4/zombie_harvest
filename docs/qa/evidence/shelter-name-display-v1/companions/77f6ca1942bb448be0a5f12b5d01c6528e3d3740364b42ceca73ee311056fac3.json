@@ -1,0 +1,148 @@
+{
+  "schema": "DeclaredPathOnlyCompanionV1",
+  "role": "current primary browser actual execution",
+  "original": {
+    "originKey": "shelter-name-display-v1/episode-browser-execution01/execution.json",
+    "sha256": "77f6ca1942bb448be0a5f12b5d01c6528e3d3740364b42ceca73ee311056fac3",
+    "bytes": 4197,
+    "outsideRetained": true
+  },
+  "derivation": "Only declared private path strings replaced. All containers, nonpath strings, numbers, booleans and nulls unchanged. This is not raw native evidence.",
+  "replacements": [
+    {
+      "pointer": "/command/0",
+      "originalStringSha256": "c1f2d55c025bb763cd04596f58dd543bad16ef531c8148937241585c01b34a28",
+      "replacement": "runtime/node.exe"
+    },
+    {
+      "pointer": "/command/1",
+      "originalStringSha256": "793329bf3e6358d8e1c8dfab802d910c9a1ad410dbae2d493382e645235e1ec2",
+      "replacement": "source-root/scripts/browser-content-episode-v1.mjs"
+    },
+    {
+      "pointer": "/command/3",
+      "originalStringSha256": "eeee41c34d4ecdac226b1437e33168c8b5edc3d02d8be5bee244542d60b51b5e",
+      "replacement": "outside-retained/shelter-name-display-v1/episode-browser-execution01/native"
+    },
+    {
+      "pointer": "/environment/ZH_PLAYWRIGHT_MODULE",
+      "originalStringSha256": "687aec101332132dbd1477ac12b8f9d305275afdb441aa93d1e44183034d16c4",
+      "replacement": "runtime/playwright-module"
+    }
+  ],
+  "value": {
+    "schema": "ActualExistingEpisodeBrowserExecutionV1",
+    "status": "TERMINAL",
+    "startedAt": "2026-10-19T03:45:25.941089+00:00",
+    "command": [
+      "runtime/node.exe",
+      "source-root/scripts/browser-content-episode-v1.mjs",
+      "--out",
+      "outside-retained/shelter-name-display-v1/episode-browser-execution01/native"
+    ],
+    "environment": {
+      "ZH_PLAYWRIGHT_MODULE": "runtime/playwright-module",
+      "ZH_BROWSER_CHANNEL": "chrome"
+    },
+    "preparedSha256": "e2b3262686b7f8f035f992b284646446cd3fc21f65d18715ec05225292c281e3",
+    "rootBeforeSha256": "2fca005df63742164bd6f6e8e82fc0c2d3962b4678419b633482f8a54e09ef93",
+    "scope": "Unmodified existing episode browser contract at its physical isolated source-root; not A08/online/natural route",
+    "pid": 34160,
+    "ownedDuring": {
+      "at": "2026-10-19T03:45:31.219328+00:00",
+      "processes": [
+        {
+          "ProcessId": 34160,
+          "ParentProcessId": 26832,
+          "Name": "node.exe"
+        },
+        {
+          "ProcessId": 19904,
+          "ParentProcessId": 34160,
+          "Name": "chrome.exe"
+        },
+        {
+          "ProcessId": 24400,
+          "ParentProcessId": 19904,
+          "Name": "chrome.exe"
+        },
+        {
+          "ProcessId": 8380,
+          "ParentProcessId": 19904,
+          "Name": "chrome.exe"
+        },
+        {
+          "ProcessId": 6884,
+          "ParentProcessId": 19904,
+          "Name": "chrome.exe"
+        },
+        {
+          "ProcessId": 1192,
+          "ParentProcessId": 19904,
+          "Name": "chrome.exe"
+        },
+        {
+          "ProcessId": 26292,
+          "ParentProcessId": 19904,
+          "Name": "chrome.exe"
+        },
+        {
+          "ProcessId": 4004,
+          "ParentProcessId": 19904,
+          "Name": "chrome.exe"
+        },
+        {
+          "ProcessId": 33884,
+          "ParentProcessId": 19904,
+          "Name": "chrome.exe"
+        }
+      ],
+      "listeners": [],
+      "probeExitCode": 0
+    },
+    "exitCode": 0,
+    "elapsedSeconds": 5.2810000000026776,
+    "finishedAt": "2026-10-19T03:45:31.219328+00:00",
+    "dependenciesBeforeAfter": [
+      {
+        "relativePath": "dist/index.html",
+        "beforeSha256": "dfe75870c66c2fdf4c6834a62debfd47723d9cdfa6bdff9d638cbddd82c3942b",
+        "afterSha256": "dfe75870c66c2fdf4c6834a62debfd47723d9cdfa6bdff9d638cbddd82c3942b"
+      },
+      {
+        "relativePath": "dist/actor-sprites.js",
+        "beforeSha256": "257f4b38760813c21c723bbb9f934f1198e742fd1223db48705f34787e0f71b7",
+        "afterSha256": "257f4b38760813c21c723bbb9f934f1198e742fd1223db48705f34787e0f71b7"
+      },
+      {
+        "relativePath": "scripts/browser-content-episode-v1.mjs",
+        "beforeSha256": "a91f58668aae7f0d5e2132fc5712bb4fca1f30cee403cadf7949bccea20f5be5",
+        "afterSha256": "a91f58668aae7f0d5e2132fc5712bb4fca1f30cee403cadf7949bccea20f5be5"
+      },
+      {
+        "relativePath": "scripts/lib/source-runtime-fixture.mjs",
+        "beforeSha256": "e9872eeba85d49019d1bd806f3dd18357a5abc8f2f92922922f6a5324ec220dc",
+        "afterSha256": "e9872eeba85d49019d1bd806f3dd18357a5abc8f2f92922922f6a5324ec220dc"
+      },
+      {
+        "relativePath": "scripts/check-report-recovery.mjs",
+        "beforeSha256": "6e0da555742e930b8bf926eeec0db0ee22f17240a4fa305978841f8ba862c0a3",
+        "afterSha256": "6e0da555742e930b8bf926eeec0db0ee22f17240a4fa305978841f8ba862c0a3"
+      },
+      {
+        "relativePath": "scripts/fixtures/content-episode-v1/save21-pre-identity-active.json",
+        "beforeSha256": "eb3b163e5b55e17f356b3ec95a4f9e5e55147bb78b8250ba0fac6ec3b6a0096d",
+        "afterSha256": "eb3b163e5b55e17f356b3ec95a4f9e5e55147bb78b8250ba0fac6ec3b6a0096d"
+      }
+    ],
+    "rootAfterSha256": "2fca005df63742164bd6f6e8e82fc0c2d3962b4678419b633482f8a54e09ef93",
+    "inputsUnchanged": true,
+    "ownedAfter": {
+      "at": "2026-10-19T03:45:32.828407+00:00",
+      "processes": [],
+      "listeners": [],
+      "probeExitCode": 0
+    },
+    "ownedListenerAfterConnect": []
+  }
+}

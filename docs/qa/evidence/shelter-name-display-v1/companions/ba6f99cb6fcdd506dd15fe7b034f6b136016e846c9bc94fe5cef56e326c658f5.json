@@ -1,0 +1,85 @@
+{
+  "schema": "DeclaredPathOnlyCompanionV1",
+  "role": "current name browser actual execution",
+  "original": {
+    "originKey": "shelter-name-display-v1/browser-launch01/execution.json",
+    "sha256": "ba6f99cb6fcdd506dd15fe7b034f6b136016e846c9bc94fe5cef56e326c658f5",
+    "bytes": 1918,
+    "outsideRetained": true
+  },
+  "derivation": "Only declared private path strings replaced. All containers, nonpath strings, numbers, booleans and nulls unchanged. This is not raw native evidence.",
+  "replacements": [
+    {
+      "pointer": "/command/0",
+      "originalStringSha256": "c1f2d55c025bb763cd04596f58dd543bad16ef531c8148937241585c01b34a28",
+      "replacement": "runtime/node.exe"
+    },
+    {
+      "pointer": "/command/1",
+      "originalStringSha256": "1124bff34583c90cb72d17a51f6be5f238538be195e280d7aa375782b717d65b",
+      "replacement": "outside-retained/shelter-name-display-v1/browser-method/browser-shelter-name-display-v1.mjs"
+    },
+    {
+      "pointer": "/command/3",
+      "originalStringSha256": "ffb14d7eca524082d2a91c03debbd3e0e932d267ca8bf0adf4876cb21b483321",
+      "replacement": "source-root"
+    },
+    {
+      "pointer": "/command/5",
+      "originalStringSha256": "7b03c093644189b0c5ade295f70128f99a3a51a6dfc8eac04b2f02befd347317",
+      "replacement": "outside-retained/shelter-name-display-v1/source/dist/index.html"
+    },
+    {
+      "pointer": "/command/7",
+      "originalStringSha256": "09a93a797e11bb6c59c6efd57971e0d25229cd832f8ab8ac33e6c9e0a7e4d174",
+      "replacement": "outside-retained/shelter-name-display-v1/browser-method/inputs01"
+    },
+    {
+      "pointer": "/command/9",
+      "originalStringSha256": "38ba4360c8795ff16d29c5e9275b508126a66e814a87083187422fa9dad8d47c",
+      "replacement": "outside-retained/shelter-name-display-v1/browser-execution01"
+    },
+    {
+      "pointer": "/command/13",
+      "originalStringSha256": "687aec101332132dbd1477ac12b8f9d305275afdb441aa93d1e44183034d16c4",
+      "replacement": "runtime/playwright-module"
+    },
+    {
+      "pointer": "/command/15",
+      "originalStringSha256": "1a3b8380e5a6be5f50644d38caa496f4ba3ee5954434abd3a6c69ebb9d007282",
+      "replacement": "runtime/chrome.exe"
+    }
+  ],
+  "value": {
+    "schema": "ActualShelterNameDisplayExecutionV1",
+    "status": "TERMINAL",
+    "startedAt": "2026-10-19T03:17:15.594938+00:00",
+    "command": [
+      "runtime/node.exe",
+      "outside-retained/shelter-name-display-v1/browser-method/browser-shelter-name-display-v1.mjs",
+      "--root",
+      "source-root",
+      "--html",
+      "outside-retained/shelter-name-display-v1/source/dist/index.html",
+      "--inputs",
+      "outside-retained/shelter-name-display-v1/browser-method/inputs01",
+      "--out",
+      "outside-retained/shelter-name-display-v1/browser-execution01",
+      "--expect-html-sha256",
+      "dfe75870c66c2fdf4c6834a62debfd47723d9cdfa6bdff9d638cbddd82c3942b",
+      "--playwright-module",
+      "runtime/playwright-module",
+      "--chrome-executable",
+      "runtime/chrome.exe"
+    ],
+    "preparedSha256": "4723f635283916ae9a306def52f2f2952568c516b6387e933523ae7ce07a6ba4",
+    "rootBeforeSha256": "2fca005df63742164bd6f6e8e82fc0c2d3962b4678419b633482f8a54e09ef93",
+    "scope": "Independent TEST-ONLY Chrome presentation fixtures; no A08 continuation or budget reset",
+    "pid": 34480,
+    "exitCode": 0,
+    "elapsedSeconds": 8.09299999999348,
+    "finishedAt": "2026-10-19T03:17:23.683315+00:00",
+    "inputsUnchanged": true,
+    "rootAfterSha256": "2fca005df63742164bd6f6e8e82fc0c2d3962b4678419b633482f8a54e09ef93"
+  }
+}

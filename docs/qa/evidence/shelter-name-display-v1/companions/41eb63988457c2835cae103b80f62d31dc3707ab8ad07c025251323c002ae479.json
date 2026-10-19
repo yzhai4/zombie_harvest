@@ -1,0 +1,109 @@
+{
+  "schema": "DeclaredPathOnlyCompanionV1",
+  "role": "historical A08 execution",
+  "original": {
+    "originKey": "next-public-A08-execution01/execution.json",
+    "sha256": "41eb63988457c2835cae103b80f62d31dc3707ab8ad07c025251323c002ae479",
+    "bytes": 2449,
+    "outsideRetained": true
+  },
+  "derivation": "Only declared private path strings replaced. All containers, nonpath strings, numbers, booleans and nulls unchanged. This is not raw native evidence.",
+  "replacements": [
+    {
+      "pointer": "/command/0",
+      "originalStringSha256": "c1f2d55c025bb763cd04596f58dd543bad16ef531c8148937241585c01b34a28",
+      "replacement": "runtime/node.exe"
+    },
+    {
+      "pointer": "/command/1",
+      "originalStringSha256": "2e5ed068503ad4376f28f3cb75a05a8a5023578cdd0c4b351380b18ddfc6879b",
+      "replacement": "outside-retained/next-public-A08-method/run-public-A08.mjs"
+    },
+    {
+      "pointer": "/command/3",
+      "originalStringSha256": "ffb14d7eca524082d2a91c03debbd3e0e932d267ca8bf0adf4876cb21b483321",
+      "replacement": "source-root"
+    },
+    {
+      "pointer": "/command/5",
+      "originalStringSha256": "869d728cc61284caff60311afb3e1fde2bd5b31bb74c649a7fd667b5a58fd027",
+      "replacement": "outside-retained/next-public-A08-method/input-normal-A07-native.json"
+    },
+    {
+      "pointer": "/command/7",
+      "originalStringSha256": "4b65ef7bb1c9baa4bfcb3c8fe0f90a6165c066f6f85e5b3778ecd07c24bc361c",
+      "replacement": "outside-retained/next-public-A08-method/method-contract.md"
+    },
+    {
+      "pointer": "/command/9",
+      "originalStringSha256": "543ff0b99848383405d143ecfa0fcd5f6183e467680a1abeb3282db31fab01d1",
+      "replacement": "outside-retained/next-public-A08-execution01/business"
+    },
+    {
+      "pointer": "/command/11",
+      "originalStringSha256": "687aec101332132dbd1477ac12b8f9d305275afdb441aa93d1e44183034d16c4",
+      "replacement": "runtime/playwright-module"
+    },
+    {
+      "pointer": "/command/13",
+      "originalStringSha256": "1a3b8380e5a6be5f50644d38caa496f4ba3ee5954434abd3a6c69ebb9d007282",
+      "replacement": "runtime/chrome.exe"
+    },
+    {
+      "pointer": "/command/15",
+      "originalStringSha256": "769913fb6fa4e98d50704da78b19917f4f4ff7c5d6444c893d4f3d1ea7aac63c",
+      "replacement": "outside-retained/next-public-A08-method/carry.json"
+    },
+    {
+      "pointer": "/command/17",
+      "originalStringSha256": "4ba9ff3e9c38be5565b70ce664739bfda7d5f17faa363a40a0d618def1d6b847",
+      "replacement": "outside-retained/next-public-A08-method/A07-last-public-ui.json"
+    },
+    {
+      "pointer": "/command/23",
+      "originalStringSha256": "a41c38c41a6f47acf8035c08393533e2b0e58be9c092b3164de32d7affe01312",
+      "replacement": "outside-retained/next-public-A08-method/manifest.json"
+    }
+  ],
+  "value": {
+    "schema": "ActualPublicA08ExecutionV1",
+    "status": "TERMINAL",
+    "startedAt": "2026-10-18T08:07:54.998218+00:00",
+    "command": [
+      "runtime/node.exe",
+      "outside-retained/next-public-A08-method/run-public-A08.mjs",
+      "--root",
+      "source-root",
+      "--input",
+      "outside-retained/next-public-A08-method/input-normal-A07-native.json",
+      "--protocol",
+      "outside-retained/next-public-A08-method/method-contract.md",
+      "--out",
+      "outside-retained/next-public-A08-execution01/business",
+      "--playwright-module",
+      "runtime/playwright-module",
+      "--chrome-executable",
+      "runtime/chrome.exe",
+      "--carry",
+      "outside-retained/next-public-A08-method/carry.json",
+      "--prior-public-ui",
+      "outside-retained/next-public-A08-method/A07-last-public-ui.json",
+      "--arm",
+      "A",
+      "--expect-html-sha256",
+      "2fca005df63742164bd6f6e8e82fc0c2d3962b4678419b633482f8a54e09ef93",
+      "--manifest",
+      "outside-retained/next-public-A08-method/manifest.json",
+      "--mode",
+      "run"
+    ],
+    "manifestSha256": "38b3033e0034451b519f339365501f17c03d82c90236d2d98d9a53f7cffa33d4",
+    "scope": "Controlled continuation from normal633; charged floor294 and rollback1 not refunded. One main normal-writer prefix only; no reload/full recovery or mainline pass.",
+    "browserEvidence": "actual terminal; inspect native session, branch and relay outcomes separately",
+    "pid": 30996,
+    "exitCode": 0,
+    "elapsedSeconds": 19.610000000000582,
+    "finishedAt": "2026-10-18T08:08:14.620712+00:00",
+    "inputsUnchanged": true
+  }
+}
