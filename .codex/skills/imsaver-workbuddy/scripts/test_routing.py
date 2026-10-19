@@ -44,6 +44,36 @@ class Routing(unittest.TestCase):
     def test_wrong_actual_model_is_not_success(self):
         self.assertEqual(cli_result(model='hy4-preview')['status'], 'model_mismatch')
 
+    def test_stream_uses_actual_model_not_init_declaration(self):
+        rows = [{'type': 'system', 'subtype': 'init', 'model': wb.PRIMARY},
+                {'type': 'stream_event', 'event': {'type': 'message_start', 'message': {'model': wb.PRIMARY}}},
+                {'type': 'result', 'subtype': 'success', 'is_error': False, 'result': 'ready'}]
+        result, text = wb.parse_attempt(json.dumps(rows), '', 0, wb.PRIMARY)
+        self.assertEqual((result['status'], text), ('success', 'ready'))
+        self.assertEqual(result['rawUsage'], [])
+        result, _ = wb.parse_attempt(json.dumps([rows[0], rows[2]]), '', 0, wb.PRIMARY)
+        self.assertEqual(result['status'], 'model_mismatch')
+
+    def test_stream_error_array_can_supply_actual_quota_failure(self):
+        rows = [{'type': 'result', 'subtype': 'error_during_execution', 'is_error': True,
+                 'errors': ['API Error: 429 Too Many Requests']}]
+        result, _ = wb.parse_attempt(json.dumps(rows), '', 1, wb.PRIMARY)
+        self.assertTrue(wb.usage_limit(result))
+
+    def test_incomplete_stream_preserves_observed_identity_without_success_or_usage(self):
+        rows = [{'type': 'stream_event', 'event': {'type': 'message_start', 'message': {'model': wb.PRIMARY}}}]
+        result, text = wb.parse_attempt(json.dumps(rows), '', 1, wb.PRIMARY)
+        self.assertEqual(result['status'], 'missing_result')
+        self.assertEqual(result['modelIds'], [wb.PRIMARY])
+        self.assertIsNone(result['usage'])
+        self.assertEqual(text, '')
+
+    def test_terminal_success_requires_explicit_success_metadata(self):
+        rows = [{'providerData': {'model': wb.PRIMARY}}, {'type': 'result', 'result': 'draft'}]
+        result, text = wb.parse_attempt(json.dumps(rows), '', 0, wb.PRIMARY)
+        self.assertEqual(result['status'], 'unconfirmed_result')
+        self.assertEqual(text, '')
+
     def test_missing_or_broken_response_is_not_quota(self):
         a, _ = wb.parse_attempt('invalid', '429', 1, wb.PRIMARY)
         self.assertEqual(a['status'], 'process_error')
@@ -81,7 +111,8 @@ class Routing(unittest.TestCase):
                 value = dict(first if len(calls) == 1 else second)
                 value['requestedModel'] = model
                 return value, 'draft' if value['status'] == 'success' else ''
-            args = argparse.Namespace(root=tmp, out=str(local / 'output'), summary_chars=20, timeout=1, effort='low', output_tokens=4096)
+            args = argparse.Namespace(root=tmp, out=str(local / 'output'), summary_chars=20, timeout=1, effort='low', output_tokens=4096,
+                                      first_output_timeout=1, idle_timeout=1)
             with patch.object(wb, 'home', return_value=local), \
                  patch.object(wb, 'runtime', return_value=({'version': 'test'}, 'node', 'cli')), \
                  patch.object(wb, 'credential', return_value='test-only-key'), \

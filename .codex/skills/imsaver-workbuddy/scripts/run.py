@@ -135,22 +135,31 @@ def parse_attempt(stdout, stderr, code, requested, key=''):
     except (ValueError, TypeError):
         return dict(base, status='process_error', error=redact(stderr, key)[-1200:]), ''
     finals = [x for x in rows if x.get('type') == 'result']
-    if not finals:
-        return dict(base, status='missing_result', error='No terminal CLI result'), ''
-    final = finals[-1]
+    final = finals[-1] if finals else {}
     providers = [x.get('providerData') or {} for x in rows]
-    models = sorted({p['model'] for p in providers if isinstance(p.get('model'), str)})
+    messages = [x.get('message') or {} for x in rows if x.get('type') == 'assistant']
+    starts = [x.get('event', {}).get('message') or {} for x in rows
+              if x.get('type') == 'stream_event' and x.get('event', {}).get('type') == 'message_start']
+    providers += [m.get('providerData') or {} for m in messages]
+    models = sorted({p['model'] for p in providers + messages + starts if isinstance(p.get('model'), str)})
     raw_usage = [p['rawUsage'] for p in providers if isinstance(p.get('rawUsage'), dict)]
     base.update(modelIds=models, usage=final.get('usage'), rawUsage=raw_usage,
                 subtype=final.get('subtype'), isError=final.get('is_error'),
-                toolCalls=sum(x.get('type') in ('function_call', 'tool_use', 'tool_call') for x in rows))
+                toolCalls=sum(x.get('type') in ('function_call', 'tool_use', 'tool_call') for x in rows) +
+                          sum(c.get('type') == 'tool_use' for m in messages for c in m.get('content', []) if isinstance(c, dict)))
+    if not finals:
+        return dict(base, status='missing_result', error='No terminal CLI result'), ''
     text = final.get('result', '')
     if not isinstance(text, str):
         text = json.dumps(text, ensure_ascii=False)
     if final.get('is_error') or str(final.get('subtype', '')).startswith('error'):
-        return dict(base, status='api_error', error=redact(text, key)[-1600:]), ''
+        errors = [text, final.get('errors'), final.get('errors_info')]
+        error_text = '\n'.join(x if isinstance(x, str) else json.dumps(x, ensure_ascii=False) for x in errors if x)
+        return dict(base, status='api_error', error=redact(error_text, key)[-1600:]), ''
     if code != 0:
         return dict(base, status='process_error', error='Nonzero process exit'), ''
+    if final.get('subtype') != 'success' or final.get('is_error') is not False:
+        return dict(base, status='unconfirmed_result', error='No explicit successful terminal result'), ''
     if models != [requested]:
         return dict(base, status='model_mismatch', error='Actual model does not match requested model'), ''
     if base['toolCalls']:
@@ -175,7 +184,9 @@ def selected_route(state, timestamp):
     return [PRIMARY, FALLBACK], 'primary_default'
 
 
-def invoke(model, prompt, timeout, key, config, node, cli, effort='low', output_tokens=4096):
+def invoke(model, prompt, timeout, key, config, node, cli, effort='low', output_tokens=4096,
+           first_output_timeout=90, idle_timeout=60, progress_path=None):
+    from streaming import collect_process
     # Fresh private cwd/config: no project settings, plugins, MCP or repository tools.
     sandbox = Path(tempfile.mkdtemp(prefix='task-', dir=home() / 'runs'))
     cwd = sandbox / 'empty'
@@ -188,33 +199,44 @@ def invoke(model, prompt, timeout, key, config, node, cli, effort='low', output_
                CODEBUDDY_CONFIG_DIR=str(sandbox / 'config'), CODEBUDDY_DISABLE_COMPILE_CACHE='1',
                CODEBUDDY_NONINTERACTIVE='1', CODEBUDDY_MAX_RETRIES='0',
                CODEBUDDY_CODE_MAX_OUTPUT_TOKENS=str(output_tokens),
-               MAX_THINKING_TOKENS=str(min(1024 if effort == 'low' else 2048, output_tokens // 2)))
+               MAX_THINKING_TOKENS=str(min(1024 if effort == 'low' else 2048, output_tokens // 2)),
+               CODEBUDDY_FIRST_TOKEN_TIMEOUT_MS=str(int(first_output_timeout * 1000)),
+               CODEBUDDY_STREAM_TIMEOUT_MS=str(int(idle_timeout * 1000)),
+               CODEBUDDY_REASONING_KEEPALIVE_INTERVAL_MS='10000',
+               CODEBUDDY_CODE_DISABLE_BACKGROUND_TASKS='1', CODEBUDDY_DISABLE_SHELL_SNAPSHOT='1')
     argv = [node, str(cli), '-p', '--model', model, '--tools', '', '--strict-mcp-config',
-            '--no-session-persistence', '--max-turns', '1', '--output-format', 'json',
+            '--no-session-persistence', '--max-turns', '1', '--output-format', 'stream-json',
+            '--include-partial-messages', '--verbose',
             '--setting-sources', '', '--settings', json.dumps({'disableAllHooks': True, 'alwaysThinkingEnabled': effort == 'high'}),
             '--effort', effort, '--system-prompt', SYSTEM]
     started = time.monotonic()
-    proc = subprocess.Popen(argv, cwd=cwd, env=env, stdin=subprocess.PIPE,
-                            stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                            encoding='utf-8', errors='replace',
-                            creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0))
-    try:
-        # Prompt goes through stdin, keeping long material off the Windows command line.
-        stdout, stderr = proc.communicate(input=prompt, timeout=timeout)
-        result, text = parse_attempt(stdout, stderr, proc.returncode, model, key)
-    except subprocess.TimeoutExpired:
-        if os.name == 'nt':
-            subprocess.run(['taskkill', '/PID', str(proc.pid), '/T', '/F'],
-                           capture_output=True, timeout=10,
-                           creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0))
-        if proc.poll() is None:
-            proc.kill()
-        proc.communicate(timeout=10)
-        result, text = {'requestedModel': model, 'status': 'timeout', 'billingUnknown': True}, ''
+    observed = collect_process(argv=argv, cwd=cwd, env=env, prompt=prompt,
+                               total_timeout=timeout, first_output_timeout=first_output_timeout,
+                               idle_timeout=idle_timeout, progress_path=progress_path or sandbox / 'progress.json',
+                               requested_model=model, redact=lambda s: redact(s, key))
+    result, text = parse_attempt(json.dumps(observed['rows'], ensure_ascii=False),
+                                 observed.get('stderrTail', ''), observed['exitCode'], model, key)
+    if observed.get('timeoutReason'):
+        result.update(status='timeout', billingUnknown=True, timeoutReason=observed['timeoutReason'])
+        text = ''
+    elif observed.get('protocolErrors'):
+        result, text = {'requestedModel': model, 'status': 'process_error',
+                        'error': 'Malformed stream JSON; inspect compact progress', 'billingUnknown': True}, ''
+    elif not observed.get('processTerminated') or not observed.get('readersStopped'):
+        result, text = {'requestedModel': model, 'status': 'process_error',
+                        'error': 'Process/stream cleanup not confirmed', 'billingUnknown': True}, ''
+    result['stdoutSha256'] = observed.get('stdoutSha256')
+    result['stderrSha256'] = observed.get('stderrSha256')
+    result['stream'] = {k: v for k, v in observed.items() if k not in
+                        {'rows', 'stderrTail', 'stdoutSha256', 'stderrSha256'}}
+    if not any(u.get('credit') is not None for u in result.get('rawUsage', [])):
+        result['billingUnknown'] = True
     result.update(elapsedSeconds=round(time.monotonic() - started, 2), localRunDirectory=str(sandbox),
                   requestedEffort=effort, requestedOutputTokens=output_tokens,
                   requestedThinkingTokens=int(env['MAX_THINKING_TOKENS']),
-                  processId=proc.pid, processTerminated=proc.poll() is not None)
+                  processId=observed.get('processId'), processTerminated=observed.get('processTerminated'),
+                  timeouts={'total': timeout, 'firstModelOutput': first_output_timeout, 'modelIdle': idle_timeout},
+                  transport='one_shot_stream_json')
     # The official CLI keeps diagnostic logs even with no transcript persistence.
     # Check local files without printing the credential or raw model reasoning.
     hits = []
@@ -253,11 +275,13 @@ def run_task(args, invoke_fn=invoke):
     receipt = {'schema': 'IMSAVERWorkBuddyTaskV1', 'startedAt': now(), 'routeReason': reason,
                'primary': PRIMARY, 'fallback': FALLBACK, 'cliVersion': config['version'],
                'runnerSha256': sha(Path(__file__).read_bytes()), 'inputs': inputs,
+               'collectorSha256': sha(Path(__file__).with_name('streaming.py').read_bytes()),
                'attempts': [], 'classification': 'model_assistance_not_acceptance'}
     (home() / 'runs').mkdir(exist_ok=True)
     text = ''
     for model in route:
-        attempt, text = invoke_fn(model, prompt, args.timeout, key, config, node, cli, args.effort, args.output_tokens)
+        attempt, text = invoke_fn(model, prompt, args.timeout, key, config, node, cli, args.effort, args.output_tokens,
+                                  args.first_output_timeout, args.idle_timeout, out / 'progress.json')
         receipt['attempts'].append(attempt)
         if attempt['status'] == 'success':
             if model == PRIMARY:
@@ -285,7 +309,9 @@ def run_task(args, invoke_fn=invoke):
 def task_status(out):
     path = Path(out) / 'receipt.json'
     if not path.is_file():
-        return {'status': 'pending_receipt', 'processLiveness': 'not_checked'}
+        progress = Path(out) / 'progress.json'
+        return {'status': 'pending_receipt', 'processLiveness': 'not_checked',
+                'progress': json.loads(progress.read_text(encoding='utf-8')) if progress.is_file() else None}
     receipt = json.loads(path.read_text(encoding='utf-8'))
     attempts = receipt.get('attempts', [])
     last = attempts[-1] if attempts else {}
@@ -293,6 +319,7 @@ def task_status(out):
              for attempt in attempts for row in attempt.get('rawUsage', [])]
     return {'status': receipt.get('status'), 'model': receipt.get('selectedModel'),
             'attempts': len(attempts), 'modelIds': last.get('modelIds'),
+            'tokenUsage': [{'model': a.get('requestedModel'), 'usage': a.get('usage')} for a in attempts],
             'usage': usage, 'billingUnknown': any(a.get('billingUnknown') for a in attempts),
             'observedProviderRequestCount': last.get('observedProviderRequestCount'),
             'truncationObserved': last.get('truncationObserved'),
@@ -312,6 +339,8 @@ def main():
     run.add_argument('--range', action='append', default=[], help='relative/path:start:end')
     run.add_argument('--out', required=True, help='New private output directory, outside the repository')
     run.add_argument('--timeout', type=int, default=180, help='Per-attempt seconds; at most two attempts')
+    run.add_argument('--first-output-timeout', type=int, default=90, help='Seconds to actual model activity; init is not a token')
+    run.add_argument('--idle-timeout', type=int, default=60, help='Seconds without model output or vendor reasoning keepalive')
     run.add_argument('--effort', choices=['low', 'high'], default='low', help='Low for extraction/drafts, high for focused complex reasoning')
     run.add_argument('--output-tokens', type=int, default=4096, help='Requested provider output cap, 512..16384; not a billing guarantee')
     run.add_argument('--max-input-chars', type=int, default=160000)
@@ -326,7 +355,8 @@ def main():
                           'credentialAvailable': bool(credential()), 'primary': PRIMARY,
                           'fallback': FALLBACK, 'localDirectory': str(home())}, ensure_ascii=False))
         return 0
-    if not 1 <= args.timeout <= 600 or not 0 <= args.summary_chars <= 4000 or not 512 <= args.output_tokens <= 16384:
+    if (not 1 <= args.timeout <= 600 or not 1 <= args.first_output_timeout <= 600 or
+        not 1 <= args.idle_timeout <= 600 or not 0 <= args.summary_chars <= 4000 or not 512 <= args.output_tokens <= 16384):
         raise ValueError('Invalid bounded timeout/summary size')
     root, out = Path(args.root).resolve(), Path(args.out).resolve()
     if out == root or root in out.parents:

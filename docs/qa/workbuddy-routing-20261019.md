@@ -2,6 +2,8 @@
 
 本轮将长材料阅读、六视角剧本推演、实现草案、日志分析和首轮审查默认交给 WorkBuddy；固定检查项后的状态轮询交给低推理只读子代理。主代理接收短摘要与定位，负责源线、关键规则、真实执行与最终验收。入口是 [Skill](../../.codex/skills/imsaver-workbuddy/SKILL.md)、[调用器](../../.codex/skills/imsaver-workbuddy/scripts/run.py)与[工作流](../iteration-workflow.md)。这项分工服务现有玩法主线。
 
+本文保存原 JSON 聚合模式及四次材料失败的历史范围。后续官方文档调研、流式协议与新任务验证见[流式交互增量](workbuddy-streaming-20261019.md)，不回写原回执或把旧失败改成新模式通过。
+
 ## 模型和成本边界
 
 - 默认请求 `step-5-preview`；只有真实失败回执明确限流、用量或额度耗尽，才切换一次 `deepseek-v4.1-flash`。本机记录 30 分钟避让期，到期下一任务重试 Step。

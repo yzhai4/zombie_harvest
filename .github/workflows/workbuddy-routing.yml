@@ -22,3 +22,5 @@ jobs:
       - uses: actions/checkout@v4
       - name: Verify fallback boundaries without API credentials
         run: python3 .codex/skills/imsaver-workbuddy/scripts/test_routing.py
+      - name: Verify streaming deadlines and terminal-result boundaries offline
+        run: python3 .codex/skills/imsaver-workbuddy/scripts/test_streaming.py
