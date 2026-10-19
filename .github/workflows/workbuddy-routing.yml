@@ -1,0 +1,24 @@
+name: Validate WorkBuddy routing
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.codex/skills/imsaver-workbuddy/**'
+      - '.github/workflows/workbuddy-routing.yml'
+  push:
+    branches: [main]
+    paths:
+      - '.codex/skills/imsaver-workbuddy/**'
+      - '.github/workflows/workbuddy-routing.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  offline-routing:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify fallback boundaries without API credentials
+        run: python3 .codex/skills/imsaver-workbuddy/scripts/test_routing.py
