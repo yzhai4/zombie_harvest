@@ -33,3 +33,5 @@ Windows 日志显示两类差异：默认临时路径使用 `RUNNER~1` 短别名
 本次仅将 CI 临时目录固定到 `runner.temp`，并在 Windows checkout 前关闭 `core.autocrlf`，保留原路径边界、86项断言和旧调用器原字节要求。修正后的 CI 结果需按新提交单独核验；本段不宣称新运行已通过。
 
 第二次提交 `8090d0585848f98d152e088b07f433989c49a3a3` 的[WorkBuddy 运行39216972054](https://github.com/yzhai4/zombie_harvest/actions/runs/39216972054)在启动前失败、没有 jobs，两个平台的测试均未执行。该修正错误地在 job env 引用了 `runner.temp`；按[GitHub 上下文可用性](https://docs.github.com/en/actions/reference/workflows-and-actions/contexts#context-availability)，`runner` 在 step env 可用，job env 不可用。后续修正将三个临时目录变量移到实际测试步骤，原失败记录保留。
+
+最终功能提交 `021e25a2b4537742b17cc668d8095e75de534e5e` 的[WorkBuddy CI39217434420](https://github.com/yzhai4/zombie_harvest/actions/runs/39217434420)通过：Windows 86项、0跳过；Ubuntu 86项中4项Windows专属进程/Job语义检查按平台跳过，其余通过。[游戏 CI39217434439](https://github.com/yzhai4/zombie_harvest/actions/runs/39217434439)同head成功，freshness15/15、commitVerification=verified，源码2205632与HTML082e一致。[精确提交证据](evidence/workbuddy-project-agents-v1/exact-head-ci-021e25a.json)保留run、job和原失败。自然玩法声明仍为false；这次工具工作没有修改、合并或部署游戏运行时。此记录只回写已发生的021e验收，不预填后续文档提交的CI。

@@ -2,7 +2,7 @@
 
 本文件只保留最近已核检查点、本轮执行和唯一下一交付。此前完整状态按原字节保存在[58ea426历史快照](current-state-through-58ea426-20261019.md)，其中“下一步”和剩余预算只属于当时；不得覆盖这里的新事实。
 
-## 最近已验证开发检查点（2026-10-19）
+## 最近已验证游戏运行时检查点（2026-10-19）
 
 开发分支为`codex/v82-npc-succession`，draft [PR4](https://github.com/yzhai4/zombie_harvest/pull/4)。最新实际核验检查点为[935edf5](https://github.com/yzhai4/zombie_harvest/commit/935edf5934c91c8498b07c79cde94f572c98a6bd)，源码2205632d4f396e5fd8847020f9fb0086a2ca5bab，HTML SHA256 `082e8e2e6233351155fb560d4afd0af930b72af1997907733efb936d2654df46`，SAVE21／CONTENT3；manifest42c5d733绑定该源码。本次状态回写记录已发生的935edf5验收，不预填后续文档提交的CI。
 
@@ -26,7 +26,9 @@ WorkBuddy辅助工作流并行改进：已核官方交互模式和2.169.0实际�
 
 ## 开发分工增量（2026-10-19）
 
-已接入项目只读MCP与有界DeepSeek子代理：资料读取、剧本六视角和规则审查按需分派，主代理核验并执行补丁。86项离线通过；真实随机证据探针通过，真实两子代理游戏审查完成。审查支持先保持当前文案、完善理解pilot；其中遗漏任务菜单和错误二选一已纠正，模型不等于验收。成本/原失败/限制见[代理模式QA](../qa/workbuddy-project-agents-20261019.md)。本次只更新开发工作流、Skill与工具，游戏HTML仍082e；新提交/CI尚不预填。
+已接入项目只读MCP与有界DeepSeek子代理：资料读取、剧本六视角和规则审查按需分派，主代理核验并执行补丁。86项本机离线通过；真实随机证据探针通过，真实两子代理游戏审查完成。审查支持先保持当前文案、完善理解pilot；其中遗漏任务菜单和错误二选一已纠正，模型不等于验收。成本/原失败/限制见[代理模式QA](../qa/workbuddy-project-agents-20261019.md)。
+
+开发工具最新已验证功能检查点为`021e25a2b4537742b17cc668d8095e75de534e5e`：[WorkBuddy CI39217434420](https://github.com/yzhai4/zombie_harvest/actions/runs/39217434420)双平台通过（Windows86项无跳过，Ubuntu仅跳过4项Windows专属检查）；[游戏CI39217434439](https://github.com/yzhai4/zombie_harvest/actions/runs/39217434439)同head成功、freshness15/15且Git verified。[紧凑证据](../qa/evidence/workbuddy-project-agents-v1/exact-head-ci-021e25a.json)保留0c4的Windows失败和8090的工作流启动前失败，均由新提交修正。021e只改变开发工作流、Skill与工具，游戏源码仍2205632、HTML仍082e，前述935的运行时验收范围不扩大；main未合并、生产未部署。此段登记021e已发生的检查，不预填后续文档提交的CI。
 
 ## A08预算与未证明范围
 
