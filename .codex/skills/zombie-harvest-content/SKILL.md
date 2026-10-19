@@ -7,6 +7,8 @@ description: 为尸潮农场创建或修改主线、支线、NPC、势力、科�
 
 先读 `docs/overall-iteration-plan.md` 和 `docs/handoff/尸潮农场-开发交接包.md`，只加载本次内容对应的 `剧本/尸潮农场/01–09` 设计源与 `11–16` 模板。已评审剧本卡保存在 `docs/scripts/<stable-id>.md`，不能只添加对白或按钮逻辑。
 
+剧本推演按 [WorkBuddy 分工](../imsaver-workbuddy/SKILL.md)交给 script-designer，自行读取相关设计卡、成本规则和真实 UI 文案；涉及状态后果时由 runtime-auditor 追实际消费者。六视角不机械拆成六次调用，未受影响的视角说明范围即可。主代理核对候选意见，缺少局部材料或遗漏公开入口不自动成为产品缺陷；模型意见不能代替实际玩法或真人回答。
+
 ## 创建内容
 
 1. 选择稳定 ID、`contentVersion`、时间窗、触发/终止条件和可选挂载包；显示名称可改，ID 不复用。

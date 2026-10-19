@@ -5,7 +5,7 @@ description: 维护尸潮农场的跨内容、规则、AI、实验和发布迭�
 
 # 尸潮农场整轮迭代
 
-大段阅读、六视角剧本推演、实现草案、日志分析和首轮审查默认交给 [imsaver-workbuddy](../imsaver-workbuddy/SKILL.md)，模型选择与用户明确指定的 DeepSeek 分工按该 Skill 执行。主代理先固定目标与必要输入，读取短摘要和证据定位后负责补丁接受、真实验证、源线与发布；不在两端重复全文分析，不把辅助模型意见记作验收。小编辑及机械校验直接完成。
+大段阅读、六视角剧本推演、实现草案、日志分析和首轮审查默认交给 [imsaver-workbuddy](../imsaver-workbuddy/SKILL.md)，模型选择与用户明确指定的 DeepSeek 分工按该 Skill 执行。跨文件任务由 DeepSeek 通过项目只读网关自取证据，并按需选择资料、剧本和规则子代理；同一轮最多两个、各司具体问题。主代理先固定目标、权威源码根与预算，读取短摘要和证据定位后负责补丁接受、真实验证、源线与发布；不在两端重复全文分析，不把辅助模型意见记作验收。小编辑及机械校验直接完成。
 
 当前优先级先读 `docs/research/research-adoption-plan-20261017.md`，构建与完成状态只从 `docs/memory/current-state.md` 和 QA/manifest 取得。涉及 repeatable/SAVE21 增量适配时读 `docs/scripts/zh-food-shortage-001.md` 与 episode身份ADR；涉及驻守时读 outpost-presence-v1 ADR。不要在Skill中累积每轮计数、构建hash或把历史绿色推定为当前通过。
 

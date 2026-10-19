@@ -1,0 +1,66 @@
+{
+  "protocol": "success",
+  "proofMatched": true,
+  "constraintMatched": true,
+  "codeBinding": "verified",
+  "codesEqual": true,
+  "sourceBinding": "verified_at_run_end",
+  "roles": [
+    "evidence-reader"
+  ],
+  "agentOptions": "complete",
+  "spawns": 1,
+  "reads": 5,
+  "denyCodes": [
+    "credential_signature_denied",
+    "traversal_or_ambiguous_path_denied"
+  ],
+  "registry": [
+    [
+      "mcp__imsaver_project__project_list",
+      "mcp__imsaver_project__project_read",
+      "mcp__imsaver_project__project_search",
+      "Agent"
+    ],
+    [
+      "mcp__imsaver_project__project_list",
+      "mcp__imsaver_project__project_read",
+      "mcp__imsaver_project__project_search"
+    ],
+    [
+      "mcp__imsaver_project__project_list",
+      "mcp__imsaver_project__project_read",
+      "mcp__imsaver_project__project_search"
+    ],
+    [
+      "mcp__imsaver_project__project_list",
+      "mcp__imsaver_project__project_read",
+      "mcp__imsaver_project__project_search",
+      "Agent"
+    ]
+  ],
+  "childTools": [
+    "mcp__imsaver_project__project_list",
+    "mcp__imsaver_project__project_search",
+    "mcp__imsaver_project__project_read"
+  ],
+  "jobObjectBound": true,
+  "jobCleanup": {
+    "terminateRequested": true,
+    "closed": true,
+    "activeProcessesRemaining": 0
+  },
+  "elapsed": 23.92,
+  "usage": {
+    "input_tokens": 28421,
+    "output_tokens": 1250,
+    "cache_creation_input_tokens": 3956,
+    "cache_read_input_tokens": 10240,
+    "cache_creation": null,
+    "server_tool_use": null,
+    "service_tier": null
+  },
+  "providerRequestsLowerBound": 5,
+  "billingUnknown": true,
+  "capabilityProbe": "PASS"
+}

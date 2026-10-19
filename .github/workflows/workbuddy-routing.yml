@@ -1,4 +1,4 @@
-name: Validate WorkBuddy routing
+name: Validate WorkBuddy routing and project agents
 
 on:
   pull_request:
@@ -17,10 +17,16 @@ permissions:
 
 jobs:
   offline-routing:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
-      - name: Verify fallback boundaries without API credentials
-        run: python3 .codex/skills/imsaver-workbuddy/scripts/test_routing.py
-      - name: Verify streaming deadlines and terminal-result boundaries offline
-        run: python3 .codex/skills/imsaver-workbuddy/scripts/test_streaming.py
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify routing, streams, project scope and agents without credentials
+        working-directory: .codex/skills/imsaver-workbuddy/scripts
+        run: python -X utf8 -B -m unittest test_routing test_streaming test_agent_streaming test_project_gateway test_project_agents
