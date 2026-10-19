@@ -1,0 +1,37 @@
+test_cli_parser_accepts_explicit_deepseek_and_rejects_other_models (test_routing.Routing) ... ok
+test_context_limit_wins_over_generic_limit_phrase (test_routing.Routing) ... ok
+test_cooldown_requires_real_limit_marker_and_expires (test_routing.Routing) ... ok
+test_default_route_still_respects_active_cooldown (test_routing.Routing) ... ok
+test_explicit_limit_is_eligible (test_routing.Routing) ... ok
+test_explicit_models_never_switch_retry_or_modify_cooldown (test_routing.Routing) ... ok
+test_incomplete_stream_preserves_observed_identity_without_success_or_usage (test_routing.Routing) ... ok
+test_missing_or_broken_response_is_not_quota (test_routing.Routing) ... ok
+test_orchestration_does_not_switch_on_timeout_or_auth (test_routing.Routing) ... ok
+test_orchestration_never_retries_failed_fallback (test_routing.Routing) ... ok
+test_parse_retains_terminal_metadata_without_thinking_content (test_routing.Routing) ... ok
+test_real_orchestration_switches_once_and_records_primary_failure (test_routing.Routing) ... ok
+test_status_preserves_zero_credit_and_does_not_invent_missing_usage (test_routing.Routing) ... ok
+test_status_returns_bounded_diagnostics_and_request_lower_bound (test_routing.Routing) ... ok
+test_stream_error_array_can_supply_actual_quota_failure (test_routing.Routing) ... ok
+test_stream_uses_actual_model_not_init_declaration (test_routing.Routing) ... ok
+test_success_discussing_quota_does_not_fallback (test_routing.Routing) ... ok
+test_terminal_success_requires_explicit_success_metadata (test_routing.Routing) ... ok
+test_unrelated_failures_do_not_fallback (test_routing.Routing) ... ok
+test_wrong_actual_model_is_not_success (test_routing.Routing) ... ok
+test_eof_without_result (test_streaming.CollectorTests) ... ok
+test_idle (test_streaming.CollectorTests) ... ok
+test_init_is_not_model_activity (test_streaming.CollectorTests) ... ok
+test_malformed_message (test_streaming.CollectorTests) ... ok
+test_result_does_not_bypass_deadline (test_streaming.CollectorTests) ... ok
+test_success (test_streaming.CollectorTests) ... ok
+test_thinking_total_and_no_leak (test_streaming.CollectorTests) ... ok
+test_tool_metadata (test_streaming.CollectorTests) ... ok
+test_child_controls_and_receipt_use_inner_deadlines_without_expanding_outer_budget (test_streaming.InvocationTests) ... ok
+test_explicit_model_real_child_quota_failure_does_not_switch_or_write_cooldown (test_streaming.InvocationTests) ... ok
+test_internal_failure_can_finish_before_outer_first_activity_deadline (test_streaming.InvocationTests) ... ok
+test_positive_millisecond_deadlines_for_tiny_inputs_and_invalid_values (test_streaming.InvocationTests) ... ok
+
+----------------------------------------------------------------------
+Ran 32 tests in 5.693s
+
+OK

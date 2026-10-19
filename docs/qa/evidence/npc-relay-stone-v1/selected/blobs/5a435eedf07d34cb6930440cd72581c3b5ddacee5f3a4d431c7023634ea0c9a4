@@ -1,0 +1,40 @@
+from pathlib import Path
+import subprocess,json,hashlib,datetime,time,shutil
+HERE=Path(__file__).resolve().parent; SOURCE=HERE/'source'; OUT=HERE/'affected-regression02'; OUT.mkdir(exist_ok=False)
+NODE=r'C:/Users/DELL/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe'
+EXPECTED='082e8e2e6233351155fb560d4afd0af930b72af1997907733efb936d2654df46'
+HTML=str(SOURCE/'dist/index.html');CORE=str(SOURCE/'scripts/lib/scenario-package-v1.mjs')
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def ref(p):return {'path':str(p),'sha256':sha(p),'bytes':p.stat().st_size}
+assert sha(Path(HTML))==EXPECTED
+method=OUT/'method-executed.py';shutil.copyfile(Path(__file__),method)
+dependency_paths=[SOURCE/r['path'] for r in json.loads((HERE/'affected-regression01/inputs-before.json').read_text(encoding='utf-8'))]
+dependency_paths.append(HERE/'check-v2-compatibility-boundaries.mjs')
+def inventory():return [ref(p) for p in dependency_paths]
+before=inventory();(OUT/'inputs-before.json').write_text(json.dumps(before,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+commands=[
+ ('01-scenario-c1',['scripts/check-scenario-boot-c1.mjs','--html',HTML,'--core-module',CORE,'--input-manifest',str(SOURCE/'scripts/fixtures/scenario-boot-c1/frozen-input-manifest.json'),'--out',str(OUT/'01-scenario-c1/native')]),
+ ('02-scenario-c2',['scripts/check-scenario-boot-c2.mjs','--html',HTML,'--core-module',CORE,'--repo-root',str(SOURCE),'--out',str(OUT/'02-scenario-c2/native')]),
+ ('03-content-chain',['scripts/check-content-chain.mjs']),
+ ('04-report-recovery',['scripts/check-report-recovery.mjs']),
+ ('05-compatibility-boundaries',[str(HERE/'check-v2-compatibility-boundaries.mjs')]),
+]
+records=[]
+for name,args in commands:
+    assert sha(Path(HTML))==EXPECTED
+    directory=OUT/name;directory.mkdir();argv=[NODE,*args];start=datetime.datetime.now(datetime.timezone.utc).isoformat();t=time.monotonic()
+    with (directory/'stdout.txt').open('wb') as stdout,(directory/'stderr.txt').open('wb') as stderr:
+        p=subprocess.Popen(argv,cwd=str(SOURCE),stdout=stdout,stderr=stderr);pid=p.pid;code=p.wait()
+    raw=(directory/'stdout.txt').read_bytes();native=None
+    try:json.loads(raw);native=directory/'native-stdout.json';native.write_bytes(raw)
+    except ValueError:pass
+    record={'schema':'NpcRelayStoneAffectedV2ActualExecutionV1','name':name,'argv':argv,'cwd':str(SOURCE),'pid':pid,'terminal':True,'exitCode':code,'startedAt':start,'endedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'elapsedSeconds':round(time.monotonic()-t,6),'sourceHtmlSha256':EXPECTED,'method':ref(method),'stdout':ref(directory/'stdout.txt'),'stderr':ref(directory/'stderr.txt'),'nativeStdout':ref(native) if native else None}
+    (directory/'execution.json').write_text(json.dumps(record,ensure_ascii=False,indent=2)+'\n',encoding='utf-8');records.append(record)
+    (OUT/'execution-index-in-progress.json').write_text(json.dumps(records,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+    print(json.dumps({'name':name,'pid':pid,'exitCode':code,'elapsedSeconds':record['elapsedSeconds']}),flush=True)
+after=inventory();(OUT/'inputs-after.json').write_text(json.dumps(after,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+drift=[{'before':a,'after':b} for a,b in zip(before,after) if a!=b]
+closure={'schema':'NpcRelayStoneAffectedV2RegressionClosureV1','status':'TERMINAL','sourceHtmlSha256':EXPECTED,'scope':'Only four actually failed previous consumers plus observed compatibility boundaries; old passing 595551 results retain original build identity','ok':all(r['exitCode']==0 for r in records) and not drift,'executions':records,'passedExecutions':sum(r['exitCode']==0 for r in records),'failedExecutions':sum(r['exitCode']!=0 for r in records),'dependenciesBefore':ref(OUT/'inputs-before.json'),'dependenciesAfter':ref(OUT/'inputs-after.json'),'dependencyCount':len(before),'inputsUnchanged':not drift,'drift':drift,'previousFailedClosure':ref(HERE/'affected-regression01/closure.json'),'candidateInstallation':ref(HERE/'runtime-v2-patch/installation-receipt.json'),'newStoryAcceptanceClaim':False,'browser':False,'naturalGameplay':False}
+(OUT/'closure.json').write_text(json.dumps(closure,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+print(json.dumps({'closure':ref(OUT/'closure.json'),'passed':closure['passedExecutions'],'failed':closure['failedExecutions'],'inputsUnchanged':not drift}),flush=True)
+raise SystemExit(0 if closure['ok'] else 1)

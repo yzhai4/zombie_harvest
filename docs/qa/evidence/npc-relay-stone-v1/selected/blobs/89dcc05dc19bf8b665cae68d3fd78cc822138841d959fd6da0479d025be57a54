@@ -1,0 +1,49 @@
+import argparse, datetime, hashlib, json, pathlib, subprocess, time
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--node', required=True)
+parser.add_argument('--repo-root', required=True)
+parser.add_argument('--expect-html-sha256', required=True)
+args = parser.parse_args()
+here = pathlib.Path(__file__).resolve().parent
+root = pathlib.Path(args.repo_root).resolve()
+html = root / 'dist/index.html'
+report_path = here / 'report.json'
+assert not report_path.exists() and not (here / 'execution.json').exists()
+def pin(p):
+    data = p.read_bytes()
+    return {'path':str(p),'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest()}
+assert pin(html)['sha256'] == args.expect_html_sha256
+fixture = root / 'scripts/fixtures/npc-relay-stone-v1'
+assert pin(fixture / 'a08-normal-writer643-save21.json')['sha256'] == '7c54ea074c60fe25cfff5bba39300aa85d07fd96fe57b49af88f082077f2b42a'
+assert pin(fixture / 'baseline-contract.json')['sha256'] == '4c6090705fab3bb509c34c2cf56c12af3fb3c3d61a14e3babc6b772192d325af'
+assert pin(root / 'scripts/check-npc-relay-stone-v1.mjs')['sha256'] == 'abf6fd0bf66d5c85f7d80d3b76abba859f0f02618461518ab621d30e7b434d33'
+baseline = json.loads((fixture / 'baseline-contract.json').read_text(encoding='utf8'))
+text = html.read_text(encoding='utf8')
+for key in ['SCENARIO_BOOT_PACKAGE','WATCHPOST_MANUAL_PACK']:
+    line = next(line for line in text.splitlines() if 'const '+key+' =' in line)
+    assert hashlib.sha256(line.encode('utf8')).hexdigest() == baseline[key]['rawDeclarationSha256']
+assert pin(root / 'scripts/lib/scenario-package-v1.mjs')['sha256'] == baseline['scripts/lib/scenario-package-v1.mjs']['sha256']
+paths = [html,root/'scripts/check-npc-relay-stone-v1.mjs',fixture/'a08-normal-writer643-save21.json',fixture/'origin.json',fixture/'baseline-contract.json',root/'scripts/lib/source-runtime-fixture.mjs',root/'scripts/check-report-recovery.mjs',root/'scripts/lib/scenario-package-v1.mjs',root/'content/packs/npc-relay-stone-v1.json']
+before = [pin(p) for p in paths]
+argv = [args.node,str(root/'scripts/check-npc-relay-stone-v1.mjs'),'--repo-root',str(root),'--html',str(html),'--out',str(report_path),'--expect-html-sha256',args.expect_html_sha256]
+(here/'command.json').write_text(json.dumps({'argv':argv,'launcher':pin(pathlib.Path(__file__).resolve()),'preflight':'exact HTML/input/checker plus external C2 declaration and core hashes','before':before},indent=2)+'\n',encoding='utf8')
+started = datetime.datetime.now(datetime.timezone.utc).isoformat()
+begin = time.perf_counter()
+with (here/'stdout.txt').open('wb') as stdout, (here/'stderr.txt').open('wb') as stderr:
+    process = subprocess.Popen(argv,stdout=stdout,stderr=stderr,cwd=root)
+    running = {'status':'RUNNING','pid':process.pid,'startedAt':started,'argv':argv,'sourceHtmlSha256':args.expect_html_sha256}
+    (here/'execution.json').write_text(json.dumps(running,indent=2)+'\n',encoding='utf8')
+    try:
+        code = process.wait(timeout=120)
+        timeout = False
+    except subprocess.TimeoutExpired:
+        process.kill()
+        code = process.wait()
+        timeout = True
+after = [pin(p) for p in paths]
+native = json.loads(report_path.read_text(encoding='utf8')) if report_path.exists() else None
+terminal = {**running,'status':'TERMINAL','exitCode':code,'timeout':timeout,'elapsedMs':round((time.perf_counter()-begin)*1000),'endedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'before':before,'after':after,'inputsUnchanged':before==after,'report':pin(report_path) if report_path.exists() else None,'nativeSummary':{'ok':native['ok'],'count':native['count'],'passed':native['passed'],'sourceHtmlSha256':native['sourceHtmlSha256']} if native else None,'stdout':pin(here/'stdout.txt'),'stderr':pin(here/'stderr.txt'),'ownedProcessTerminal':True,'scope':'controlled source VM; no browser/server or old A08 continuation; new HTML is independently executed'}
+(here/'execution.json').write_text(json.dumps(terminal,indent=2)+'\n',encoding='utf8')
+print(json.dumps({k:terminal[k] for k in ['status','pid','exitCode','elapsedMs','inputsUnchanged','nativeSummary','report']},indent=2))
+raise SystemExit(code if before==after else 2)

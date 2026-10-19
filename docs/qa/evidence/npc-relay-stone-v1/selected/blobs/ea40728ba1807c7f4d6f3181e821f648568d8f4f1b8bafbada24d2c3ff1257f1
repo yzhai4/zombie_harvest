@@ -1,0 +1,41 @@
+import argparse, hashlib, json, os, pathlib, subprocess, sys, time
+ap=argparse.ArgumentParser()
+for n in ['node','runner','root','html','manifest','html-sha','manifest-sha','playwright','chrome','out']:
+    ap.add_argument('--'+n,required=True)
+ap.add_argument('--preflight-only',action='store_true')
+a=ap.parse_args()
+out=pathlib.Path(a.out)
+if out.exists(): raise SystemExit('fresh immutable output required')
+out.mkdir(parents=True)
+argv=[a.node,a.runner,'--root',a.root,'--html',a.html,'--input-manifest',a.manifest,'--out',str(out/'business'),'--expect-html-sha256',a.html_sha,'--expect-input-manifest-sha256',a.manifest_sha,'--playwright-module',a.playwright,'--chrome-executable',a.chrome]
+if a.preflight_only: argv+=['--preflight-only','yes']
+def digest(p):
+    b=pathlib.Path(p).read_bytes()
+    return {'path':str(p),'sha256':hashlib.sha256(b).hexdigest(),'bytes':len(b)}
+paths=[a.node,a.runner,a.html,a.manifest,str(pathlib.Path(__file__).resolve())]
+im=json.loads(pathlib.Path(a.manifest).read_text(encoding='utf-8-sig'))
+paths.extend(x['path'] for x in im['inputs'])
+before=[digest(p) for p in paths]
+record={'schema':'NpcRelayStoneBrowserExecutionV1','startedUtc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),'argv':argv,'cwd':os.getcwd(),'before':before,'preflightOnly':a.preflight_only,'terminal':False}
+(out/'execution.json').write_text(json.dumps(record,ensure_ascii=False,indent=2),encoding='utf-8')
+t0=time.monotonic()
+with (out/'stdout.txt').open('wb') as so,(out/'stderr.txt').open('wb') as se:
+    p=subprocess.Popen(argv,stdout=so,stderr=se)
+    record['pid']=p.pid
+    (out/'execution.json').write_text(json.dumps(record,ensure_ascii=False,indent=2),encoding='utf-8')
+    print(json.dumps({'pid':p.pid,'out':str(out),'preflightOnly':a.preflight_only}),flush=True)
+    try:
+        code=p.wait(timeout=165)
+        record['terminal']=True
+        record['exitCode']=code
+    except subprocess.TimeoutExpired:
+        p.kill(); p.wait()
+        record.update(terminal=True,exitCode=p.returncode,wrapperTimeout=True)
+record['elapsedSeconds']=time.monotonic()-t0
+record['finishedUtc']=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())
+record['after']=[digest(p) for p in paths]
+record['bindingsUnchanged']=record['before']==record['after']
+record['logs']=[digest(out/'stdout.txt'),digest(out/'stderr.txt')]
+(out/'execution.json').write_text(json.dumps(record,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+print(json.dumps({'terminal':record['terminal'],'pid':record['pid'],'exitCode':record['exitCode'],'elapsedSeconds':record['elapsedSeconds'],'bindingsUnchanged':record['bindingsUnchanged']}),flush=True)
+sys.exit(record['exitCode'] if record['bindingsUnchanged'] else 1)

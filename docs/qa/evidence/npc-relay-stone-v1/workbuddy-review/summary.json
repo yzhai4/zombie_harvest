@@ -1,0 +1,91 @@
+{
+  "schema": "WorkBuddyNPCStoneReviewV1",
+  "status": "success",
+  "routeReason": "user_requested_model",
+  "modelIds": [
+    "deepseek-v4.1-flash"
+  ],
+  "runnerSha256": "b9c9eaafb4e075e9b39156c42bf04f906a8d20996ef0f8c080ee1e876eec4c7f",
+  "cliVersion": "2.169.0",
+  "usage": {
+    "input_tokens": 9375,
+    "output_tokens": 995,
+    "cache_creation_input_tokens": 9375,
+    "cache_read_input_tokens": 0,
+    "cache_creation": null,
+    "server_tool_use": null,
+    "service_tier": null
+  },
+  "rawUsage": [],
+  "billingUnknown": true,
+  "elapsedSeconds": 11.97,
+  "observedProviderRequestCount": 1,
+  "requestObservation": "private_cli_log_lower_bound",
+  "num_turns": 2,
+  "timeouts": {
+    "total": 120,
+    "firstModelOutput": 60,
+    "modelIdle": 40
+  },
+  "cliTimeoutsMs": {
+    "firstToken": 55000,
+    "streamIdle": 35000,
+    "recoveryFirstToken": 35000,
+    "emptyStreamRetryMaxElapsed": 55000
+  },
+  "processTerminated": true,
+  "readersStopped": true,
+  "processKilled": false,
+  "truncationObserved": false,
+  "nativeReceiptSha256": "e0e454e83d2106f21bbe5cacd9163a69714cd9cfb86634172e20123dabc7080d",
+  "artifacts": [
+    {
+      "path": "response.md",
+      "bytes": 4047,
+      "sha256": "51e2d6b164b1fdf09c70af1e27781f65a5c8147a54678d6781d4630f5e44b903"
+    },
+    {
+      "path": "input-index.json",
+      "bytes": 794,
+      "sha256": "6cb388db7b8ad2af4dcac598670d1b5cb33f7474d66b4e4089fcf69d47bcb916"
+    },
+    {
+      "path": "task.md",
+      "bytes": 1094,
+      "sha256": "dbc270af9cc34951931693929b5a9d8d3a4795c556db09e80eae9ae66e97063e"
+    },
+    {
+      "path": "design-card-input.md",
+      "bytes": 7776,
+      "sha256": "306914d38976a75b3768fcb61eff2e91f81b1bdf541a42075efc235f22efe555"
+    }
+  ],
+  "length": {
+    "requestedMaxHanCharacters": 600,
+    "observedHanCharacters": 874
+  },
+  "maintainerResolution": [
+    {
+      "topic": "personal source identity",
+      "classification": "input_scope_gap_not_product_defect",
+      "evidence": [
+        "dist/index.html:2173",
+        "dist/index.html:2177"
+      ],
+      "reason": "The supplied range started at 2180; the omitted helper validates the roster and the nonnull personal capsule against recipient commander."
+    },
+    {
+      "topic": "terminal protection in effect",
+      "classification": "false_positive_call_graph",
+      "evidence": [
+        "dist/index.html:2225",
+        "dist/index.html:2271",
+        "dist/index.html:2272"
+      ],
+      "reason": "The effect calls the episode identity guard and the offer Gate; the latter explicitly rejects the durable terminal flag."
+    }
+  ],
+  "runtimeChangedForModelFindings": false,
+  "modelReviewIsAcceptance": false,
+  "inputCardIsHistoricalDataNotCurrentProjectStatus": true
+}

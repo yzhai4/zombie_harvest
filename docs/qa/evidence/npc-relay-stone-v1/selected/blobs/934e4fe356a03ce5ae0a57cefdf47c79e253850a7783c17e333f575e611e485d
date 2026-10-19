@@ -1,0 +1,803 @@
+{
+  "schema": "NpcRelayStoneBrowserV1",
+  "methodRevision": 2,
+  "methodCorrection": "Original generic 10px choice text is recorded without an invented 12px rule; actual visibility, CSS bounds and center hit-target required; external feedback retains >=12px.",
+  "status": "FAILED",
+  "sourceHtmlSha256": "082e8e2e6233351155fb560d4afd0af930b72af1997907733efb936d2654df46",
+  "runnerSha256": "ac87b6cce649314a2569180c94ad0c65eed6b7de8e7a78c5e6b33a1ba21d3736",
+  "inputManifestSha256": "e261ae069ec0619e301768acb56101a4814263a4b4d2eae61c86460e72d54506",
+  "naturalGameplayClaim": false,
+  "humanUnderstanding": false,
+  "sourceVmExecuted": false,
+  "gameStateWritesAfterBoot": false,
+  "fixtureStorageWritesAfterBoot": false,
+  "hiddenBusinessCalls": 0,
+  "forceClicks": 0,
+  "scope": "Four independent TEST-ONLY full-writer Chrome scenes; public nearby NPC story, close/reopen, two real choices, bounded refusal, actual normal writer/selected/Continue/new tick. No A08 continuation, natural outcome, all-NPC/Actor or balance claim.",
+  "budget": {
+    "overallMs": 135000,
+    "choiceSceneMs": 40000,
+    "refusalSceneMs": 20000,
+    "controlsPerScene": 14,
+    "navigation": 0,
+    "attack": 0,
+    "rest": 0,
+    "eat": 0,
+    "support": 0,
+    "minimumHp": 35,
+    "maximumHpLoss": 12
+  },
+  "checks": [
+    {
+      "name": "accept-close-reopen: actual initial loader raw equals complete fixture",
+      "ok": true
+    },
+    {
+      "name": "accept-close-reopen: AI-OFF fixed-template route and real personal source",
+      "ok": true
+    },
+    {
+      "name": "accept-close-reopen: public entry selects exact chain",
+      "ok": true
+    },
+    {
+      "name": "accept-close-reopen: two actual public bound choices and readable external feedback",
+      "ok": true
+    },
+    {
+      "name": "accept-close-reopen: both actual choices enabled near eligible holder with explicit cost and alternatives",
+      "ok": true
+    },
+    {
+      "name": "accept-close-reopen: closing unanswered restores visible main controls",
+      "ok": true
+    },
+    {
+      "name": "accept-close-reopen: close leaves pending unresolved without material or relationship cost",
+      "ok": true
+    },
+    {
+      "name": "accept-close-reopen: public entry selects exact chain",
+      "ok": true
+    },
+    {
+      "name": "accept-close-reopen: real same-ID command and completion include exact public choice",
+      "ok": false
+    },
+    {
+      "name": "defer: actual initial loader raw equals complete fixture",
+      "ok": true
+    },
+    {
+      "name": "defer: AI-OFF fixed-template route and real personal source",
+      "ok": true
+    },
+    {
+      "name": "defer: public entry selects exact chain",
+      "ok": true
+    },
+    {
+      "name": "defer: two actual public bound choices and readable external feedback",
+      "ok": true
+    },
+    {
+      "name": "defer: both actual choices enabled near eligible holder with explicit cost and alternatives",
+      "ok": true
+    },
+    {
+      "name": "defer: real same-ID command and completion include exact public choice",
+      "ok": false
+    },
+    {
+      "name": "range-band: actual initial loader raw equals complete fixture",
+      "ok": true
+    },
+    {
+      "name": "range-band: AI-OFF fixed-template route and real personal source",
+      "ok": true
+    },
+    {
+      "name": "range-band: public 1.25 view stays enabled while 1.0 action is disabled",
+      "ok": true
+    },
+    {
+      "name": "range-band: view-desktop external 1.0 vs1.25 reason and personal view are actually readable",
+      "ok": true
+    },
+    {
+      "name": "range-band: view-390 external 1.0 vs1.25 reason and personal view are actually readable",
+      "ok": true
+    },
+    {
+      "name": "range-band: view never pays or starts/resolves the stone action",
+      "ok": true
+    },
+    {
+      "name": "range-band: only one preboot seed",
+      "ok": true
+    },
+    {
+      "name": "stone-zero: actual initial loader raw equals complete fixture",
+      "ok": true
+    },
+    {
+      "name": "stone-zero: AI-OFF fixed-template route and real personal source",
+      "ok": true
+    },
+    {
+      "name": "stone-zero: public entry selects exact chain",
+      "ok": true
+    },
+    {
+      "name": "stone-zero: two actual public bound choices and readable external feedback",
+      "ok": true
+    },
+    {
+      "name": "stone-zero: actual accept disabled and reason readable outside disabled button",
+      "ok": true
+    },
+    {
+      "name": "stone-zero: unavailable case did not pay or resolve",
+      "ok": true
+    },
+    {
+      "name": "stone-zero: zero-stone has explicit resource reason",
+      "ok": true
+    },
+    {
+      "name": "stone-zero: only one preboot storage seed",
+      "ok": true
+    },
+    {
+      "name": "immutable method browser-npc-relay-stone-v1.mjs",
+      "ok": true
+    },
+    {
+      "name": "immutable html index.html",
+      "ok": true
+    },
+    {
+      "name": "immutable input-manifest input-manifest-v2.json",
+      "ok": true
+    },
+    {
+      "name": "immutable input near-writer.json",
+      "ok": true
+    },
+    {
+      "name": "immutable input range-band-writer.json",
+      "ok": true
+    },
+    {
+      "name": "immutable input stone-zero-writer.json",
+      "ok": true
+    },
+    {
+      "name": "immutable asset /actor-sprites.js",
+      "ok": true
+    },
+    {
+      "name": "immutable asset /content/packs/watchpost-manual-v1.json",
+      "ok": true
+    },
+    {
+      "name": "immutable asset /content/packs/npc-relay-stone-v1.json",
+      "ok": true
+    },
+    {
+      "name": "actual main document accept-close-reopen matches candidate",
+      "ok": true
+    },
+    {
+      "name": "actual main document defer matches candidate",
+      "ok": true
+    },
+    {
+      "name": "actual main document range-band matches candidate",
+      "ok": true
+    },
+    {
+      "name": "actual main document stone-zero matches candidate",
+      "ok": true
+    },
+    {
+      "name": "accept-close-reopen actual load/reload document count",
+      "ok": false,
+      "detail": 1
+    },
+    {
+      "name": "defer actual load/reload document count",
+      "ok": false,
+      "detail": 1
+    },
+    {
+      "name": "range-band actual load/reload document count",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "stone-zero actual load/reload document count",
+      "ok": true,
+      "detail": 1
+    }
+  ],
+  "errors": [
+    {
+      "scene": "accept-close-reopen",
+      "type": "AssertionError",
+      "message": "accept-close-reopen: real same-ID command and completion include exact public choice"
+    },
+    {
+      "scene": "defer",
+      "type": "AssertionError",
+      "message": "defer: real same-ID command and completion include exact public choice"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "accept-close-reopen",
+      "inputId": "near",
+      "inputSha256": "df08b55ad5f2a1c6efcd933ba03f75adf7de3571a99801c596030dc1658bd13f",
+      "actions": [
+        {
+          "selector": "#continueSaveBtn",
+          "label": "continue-fixture",
+          "at": 1792385573258
+        },
+        {
+          "selector": "[data-context-action=\"npcRelayStone\"][data-npc-id=\"commander\"]",
+          "label": "nearby-owned-fact-story",
+          "at": 1792385573460
+        },
+        {
+          "selector": "#infoModalClose",
+          "label": "close-unanswered",
+          "at": 1792385575120
+        },
+        {
+          "selector": "[data-context-action=\"npcRelayStone\"][data-npc-id=\"commander\"]",
+          "label": "nearby-owned-fact-story",
+          "at": 1792385575226
+        },
+        {
+          "selector": "#eventChoiceA",
+          "label": "submit-supply",
+          "at": 1792385575444
+        }
+      ],
+      "captures": [
+        {
+          "file": "accept-close-reopen-choices-390.png",
+          "uiAt": 1792385573772,
+          "liveAt": 1792385573894,
+          "screenshotAfter": 1792385574120,
+          "atomic": false
+        },
+        {
+          "file": "accept-close-reopen-buttons-390.png",
+          "uiAt": 1792385574161,
+          "liveAt": 1792385574235,
+          "screenshotAfter": 1792385574409,
+          "atomic": false
+        },
+        {
+          "file": "accept-close-reopen-choices-desktop.png",
+          "uiAt": 1792385574536,
+          "liveAt": 1792385574679,
+          "screenshotAfter": 1792385574992,
+          "atomic": false
+        }
+      ],
+      "status": "FAILED",
+      "lastPublicSafety": {
+        "label": "actual story resolution",
+        "started": true,
+        "hp": 86,
+        "phase": "DAY"
+      }
+    },
+    {
+      "id": "defer",
+      "inputId": "near",
+      "inputSha256": "df08b55ad5f2a1c6efcd933ba03f75adf7de3571a99801c596030dc1658bd13f",
+      "actions": [
+        {
+          "selector": "#continueSaveBtn",
+          "label": "continue-fixture",
+          "at": 1792385577552
+        },
+        {
+          "selector": "[data-context-action=\"npcRelayStone\"][data-npc-id=\"commander\"]",
+          "label": "nearby-owned-fact-story",
+          "at": 1792385577839
+        },
+        {
+          "selector": "#eventChoiceB",
+          "label": "submit-later",
+          "at": 1792385579891
+        }
+      ],
+      "captures": [
+        {
+          "file": "defer-choices-390.png",
+          "uiAt": 1792385578194,
+          "liveAt": 1792385578311,
+          "screenshotAfter": 1792385578566,
+          "atomic": false
+        },
+        {
+          "file": "defer-buttons-390.png",
+          "uiAt": 1792385578635,
+          "liveAt": 1792385578712,
+          "screenshotAfter": 1792385578923,
+          "atomic": false
+        },
+        {
+          "file": "defer-choices-desktop.png",
+          "uiAt": 1792385579032,
+          "liveAt": 1792385579213,
+          "screenshotAfter": 1792385579611,
+          "atomic": false
+        }
+      ],
+      "status": "FAILED",
+      "lastPublicSafety": {
+        "label": "actual story resolution",
+        "started": true,
+        "hp": 86,
+        "phase": "DAY"
+      }
+    },
+    {
+      "id": "range-band",
+      "inputId": "range-band",
+      "inputSha256": "8f864ee94f0091f624752dd30e6442b7a4e7e057a7cfb0df7da26d28ab8103b2",
+      "actions": [
+        {
+          "selector": "#continueSaveBtn",
+          "label": "continue-fixture",
+          "at": 1792385581745
+        },
+        {
+          "selector": "[data-context-action=\"npcView\"][data-npc-id=\"commander\"]",
+          "label": "legal-view-only",
+          "at": 1792385582039
+        }
+      ],
+      "captures": [
+        {
+          "file": "range-band-view-desktop.png",
+          "uiAt": 1792385582074,
+          "screenshotAfter": 1792385582442,
+          "atomic": false
+        },
+        {
+          "file": "range-band-view-390.png",
+          "uiAt": 1792385582599,
+          "screenshotAfter": 1792385582832,
+          "atomic": false
+        }
+      ],
+      "status": "VERIFIED",
+      "lastPublicSafety": {
+        "label": "after-legal-view-only",
+        "started": true,
+        "hp": 86,
+        "phase": "DAY"
+      }
+    },
+    {
+      "id": "stone-zero",
+      "inputId": "stone-zero",
+      "inputSha256": "5a903306e752c005ed6e50856ff5158bc4daff5c9ee645085940c026c083bc07",
+      "actions": [
+        {
+          "selector": "#continueSaveBtn",
+          "label": "continue-fixture",
+          "at": 1792385583896
+        },
+        {
+          "selector": "[data-context-action=\"npcRelayStone\"][data-npc-id=\"commander\"]",
+          "label": "nearby-owned-fact-story",
+          "at": 1792385584119
+        },
+        {
+          "selector": "#infoModalClose",
+          "label": "close-disabled",
+          "at": 1792385585131
+        }
+      ],
+      "captures": [
+        {
+          "file": "stone-zero-choices-390.png",
+          "uiAt": 1792385584307,
+          "liveAt": 1792385584368,
+          "screenshotAfter": 1792385584494,
+          "atomic": false
+        },
+        {
+          "file": "stone-zero-disabled-desktop.png",
+          "uiAt": 1792385584602,
+          "liveAt": 1792385584769,
+          "screenshotAfter": 1792385585073,
+          "atomic": false
+        }
+      ],
+      "status": "VERIFIED",
+      "lastPublicSafety": {
+        "label": "after-close-disabled",
+        "started": true,
+        "hp": 86,
+        "phase": "DAY"
+      }
+    }
+  ],
+  "documents": [
+    {
+      "scene": "accept-close-reopen",
+      "status": 200,
+      "sha256": "082e8e2e6233351155fb560d4afd0af930b72af1997907733efb936d2654df46",
+      "bytes": 1019498
+    },
+    {
+      "scene": "defer",
+      "status": 200,
+      "sha256": "082e8e2e6233351155fb560d4afd0af930b72af1997907733efb936d2654df46",
+      "bytes": 1019498
+    },
+    {
+      "scene": "range-band",
+      "status": 200,
+      "sha256": "082e8e2e6233351155fb560d4afd0af930b72af1997907733efb936d2654df46",
+      "bytes": 1019498
+    },
+    {
+      "scene": "stone-zero",
+      "status": 200,
+      "sha256": "082e8e2e6233351155fb560d4afd0af930b72af1997907733efb936d2654df46",
+      "bytes": 1019498
+    }
+  ],
+  "cleanup": {
+    "contextsClosed": true,
+    "browserClosed": true,
+    "serverClosed": true
+  },
+  "browserVersion": "155.0.8059.80",
+  "count": 47,
+  "passed": 43,
+  "elapsedMs": 14182,
+  "ok": false,
+  "artifacts": [
+    {
+      "file": "accept-close-reopen-actual-choice-receipt.json",
+      "sha256": "2d13b24d2df57d08a01c9f383df5027bb87f6bf69875bc1ac502af8e2d68ee29",
+      "bytes": 1805
+    },
+    {
+      "file": "accept-close-reopen-baseline-live.json",
+      "sha256": "d4f57cebd17648d210a5cbd4f846650b52ebc80625132676066076536cd63e82",
+      "bytes": 150293
+    },
+    {
+      "file": "accept-close-reopen-before-choice-live.json",
+      "sha256": "8860500497439d2183698a88152d288642811ed13f008a37746ef978754a916d",
+      "bytes": 155620
+    },
+    {
+      "file": "accept-close-reopen-buttons-390-live.json",
+      "sha256": "92427fbc55795359f0a64feace1053f4bc28c3ebaab1605538b78caef96b0fb7",
+      "bytes": 153852
+    },
+    {
+      "file": "accept-close-reopen-buttons-390-ui.json",
+      "sha256": "aa22464a30d002d224ec24028a072953c624b79722545c7d5a3c56e192baec46",
+      "bytes": 3800
+    },
+    {
+      "file": "accept-close-reopen-buttons-390.png",
+      "sha256": "fb0ce79f721fe6a7b78f9f2a034977943f4b415a89c0292b3218de29373f61e4",
+      "bytes": 155044
+    },
+    {
+      "file": "accept-close-reopen-choices-390-live.json",
+      "sha256": "d325b82cce4b01c202569dd937a8b6eff9e078e89adf6ca8c0f3cef2247eb985",
+      "bytes": 153852
+    },
+    {
+      "file": "accept-close-reopen-choices-390-ui.json",
+      "sha256": "b5238d17eab898afb9cc30cf9bc179bd339d88be76f1ec6bf77a7cb53c384e47",
+      "bytes": 3383
+    },
+    {
+      "file": "accept-close-reopen-choices-390.png",
+      "sha256": "411eeebd208dc7101fa66132bcdf6a72233aabc48254f01a26e0764677709084",
+      "bytes": 155041
+    },
+    {
+      "file": "accept-close-reopen-choices-desktop-live.json",
+      "sha256": "bbe1829e2d4e394d8b98bccdd2a6121be09374ecaaeb91a2712caa056de7fb1f",
+      "bytes": 153979
+    },
+    {
+      "file": "accept-close-reopen-choices-desktop-ui.json",
+      "sha256": "cf9347d106668dc20ea9c8b7add272e0c1657dde0aac6171a3be5b416e5d48fd",
+      "bytes": 3313
+    },
+    {
+      "file": "accept-close-reopen-choices-desktop.png",
+      "sha256": "e408ab40fbf51863bb50065919bc63edfb3f533c5eecb90ce5132b45cd37733f",
+      "bytes": 342849
+    },
+    {
+      "file": "accept-close-reopen-closed-unanswered-live.json",
+      "sha256": "7439e8d5d32268301e3ba52b7c2674a837bd648efe42c0fe58fdb8f903159670",
+      "bytes": 153979
+    },
+    {
+      "file": "accept-close-reopen-failure-last-writer-native.json",
+      "sha256": "2fed731f1679f9a9c2335891a4086a1bc3acd607a08618e905ad799eb7c53c51",
+      "bytes": 330625
+    },
+    {
+      "file": "accept-close-reopen-failure-live-read.json",
+      "sha256": "db78779e24a7511bba265f85ababdd2972a65b4f98a50bd045a58bb9c45c71ed",
+      "bytes": 261632
+    },
+    {
+      "file": "accept-close-reopen-failure.png",
+      "sha256": "4dd87dcc61e5c0c38138efcf89a648b2d7fc6ece095324690815ece71443acad",
+      "bytes": 321704
+    },
+    {
+      "file": "accept-close-reopen-initial-selected-metadata.json",
+      "sha256": "8891b020922a4782bdcdf3a3b78c03135fbe8e171590731f9819feaf2767a781",
+      "bytes": 295
+    },
+    {
+      "file": "accept-close-reopen-initial-selected-native.json",
+      "sha256": "df08b55ad5f2a1c6efcd933ba03f75adf7de3571a99801c596030dc1658bd13f",
+      "bytes": 325891
+    },
+    {
+      "file": "asset-actor-sprites.js",
+      "sha256": "257f4b38760813c21c723bbb9f934f1198e742fd1223db48705f34787e0f71b7",
+      "bytes": 19246
+    },
+    {
+      "file": "asset-npc-relay-stone-v1.json",
+      "sha256": "cca7e6712418c1f1512f19413a8c3f9823df8a5424c4b41e0432d088cad4e1ec",
+      "bytes": 1912
+    },
+    {
+      "file": "asset-watchpost-manual-v1.json",
+      "sha256": "b2d196a171d3a4e828d8486c36ea664992e51fd8df1223ea395172a511b869e3",
+      "bytes": 3264
+    },
+    {
+      "file": "bindings-after.json",
+      "sha256": "3c74df51f81893958e9f7121159ecb6d1cceefa282a4d093a1dd265b08883896",
+      "bytes": 3750
+    },
+    {
+      "file": "bindings-before.json",
+      "sha256": "560bfb9c348cd58e2c8c0dc5a0e32e75580117a870d1744b17d32e084c1291a8",
+      "bytes": 2958
+    },
+    {
+      "file": "defer-actual-choice-receipt.json",
+      "sha256": "a9696ae7dba06a5a1a7c5f0e3b21c0569878502fb62e3645e788a17356e8669b",
+      "bytes": 1802
+    },
+    {
+      "file": "defer-baseline-live.json",
+      "sha256": "c15b9195dfdb2d3ef35b3f20ed97484df6b334a74f061ebc3511149be334532a",
+      "bytes": 150293
+    },
+    {
+      "file": "defer-before-choice-live.json",
+      "sha256": "48fd9aae5d01d1f3665a5d5bbd13fd9f17639a96aa7b593a66f654356a48a51e",
+      "bytes": 153979
+    },
+    {
+      "file": "defer-buttons-390-live.json",
+      "sha256": "1359a8b5355af741c8336190ac931d491e38d6ca56f01928717585ef4e6f15ca",
+      "bytes": 153979
+    },
+    {
+      "file": "defer-buttons-390-ui.json",
+      "sha256": "dd6c1b08fdd3c3b420cb9368013f20647d73668cc6542b935507e997542ffebb",
+      "bytes": 3800
+    },
+    {
+      "file": "defer-buttons-390.png",
+      "sha256": "5a49be15f2aa380a012511d1d5d37c2f58bf0bf9097d23a4a3e8f1ccc7890de3",
+      "bytes": 155041
+    },
+    {
+      "file": "defer-choices-390-live.json",
+      "sha256": "529db712134836bed0c8506bd78f27f58b08619352f5be72cbfc97e3c33c0842",
+      "bytes": 153852
+    },
+    {
+      "file": "defer-choices-390-ui.json",
+      "sha256": "ec79a8b1074583947c9c28fde7ecfd563d833a5c5c77610457e6e2032a6256df",
+      "bytes": 3383
+    },
+    {
+      "file": "defer-choices-390.png",
+      "sha256": "b52058fc6e931fde5f5e0e6253eda89e4e595311b73a45b3939c411376518f09",
+      "bytes": 155040
+    },
+    {
+      "file": "defer-choices-desktop-live.json",
+      "sha256": "4a708200f077160e6a45f34787de655790d7e60cfd223063d7d2c8d1a20ebc3e",
+      "bytes": 153979
+    },
+    {
+      "file": "defer-choices-desktop-ui.json",
+      "sha256": "4ad0e178d7920eac3b7f429fbbbff93eb6b700b94c32cb8c3b14b03a2bda52e6",
+      "bytes": 3313
+    },
+    {
+      "file": "defer-choices-desktop.png",
+      "sha256": "4932fe523896eb7263027d345404e1f39a129baa2bc463017887b1132766d4ff",
+      "bytes": 342225
+    },
+    {
+      "file": "defer-failure-last-writer-native.json",
+      "sha256": "2fed731f1679f9a9c2335891a4086a1bc3acd607a08618e905ad799eb7c53c51",
+      "bytes": 330625
+    },
+    {
+      "file": "defer-failure-live-read.json",
+      "sha256": "1eea7c61e26e8c86814d684e0cdb713653f293201495a649bd07677ba4be9382",
+      "bytes": 260162
+    },
+    {
+      "file": "defer-failure.png",
+      "sha256": "deca0545cd615f9306ec3e70d4028d54245b58ade6cbed5be5998df189069838",
+      "bytes": 318985
+    },
+    {
+      "file": "defer-initial-selected-metadata.json",
+      "sha256": "8891b020922a4782bdcdf3a3b78c03135fbe8e171590731f9819feaf2767a781",
+      "bytes": 295
+    },
+    {
+      "file": "defer-initial-selected-native.json",
+      "sha256": "df08b55ad5f2a1c6efcd933ba03f75adf7de3571a99801c596030dc1658bd13f",
+      "bytes": 325891
+    },
+    {
+      "file": "input-manifest.json",
+      "sha256": "e261ae069ec0619e301768acb56101a4814263a4b4d2eae61c86460e72d54506",
+      "bytes": 4241
+    },
+    {
+      "file": "invocation.json",
+      "sha256": "15f45df9d6e24511bc57a174a1f15dd66d1ce31867ad1cb24ea62d1c7625c09b",
+      "bytes": 1568
+    },
+    {
+      "file": "near-input-native.json",
+      "sha256": "df08b55ad5f2a1c6efcd933ba03f75adf7de3571a99801c596030dc1658bd13f",
+      "bytes": 325891
+    },
+    {
+      "file": "range-band-baseline-live.json",
+      "sha256": "be2fb99a551aee58955e90658301ab22590ab6b7225a5028808b5969d7119202",
+      "bytes": 150293
+    },
+    {
+      "file": "range-band-endpoint-live.json",
+      "sha256": "e00b342c21874f85b20ab7eaa9f7850c77cbf1a34ac013422426c1bfbf00cc7f",
+      "bytes": 150293
+    },
+    {
+      "file": "range-band-initial-selected-metadata.json",
+      "sha256": "239763ac1aa1d4bcbb58ba9fc6c7fde194c26b00d94f2715a9f287667f01570f",
+      "bytes": 295
+    },
+    {
+      "file": "range-band-initial-selected-native.json",
+      "sha256": "8f864ee94f0091f624752dd30e6442b7a4e7e057a7cfb0df7da26d28ab8103b2",
+      "bytes": 325892
+    },
+    {
+      "file": "range-band-input-native.json",
+      "sha256": "8f864ee94f0091f624752dd30e6442b7a4e7e057a7cfb0df7da26d28ab8103b2",
+      "bytes": 325892
+    },
+    {
+      "file": "range-band-view-390-live.json",
+      "sha256": "9b2b63973398b48d02be60387f755cc6f1657acd8b18fb31019b6711e2a05219",
+      "bytes": 150293
+    },
+    {
+      "file": "range-band-view-390-ui.json",
+      "sha256": "0035a4861d833fcb141a21435f6a35df84d3a8fbb37fc62e1d5643044569545e",
+      "bytes": 2341
+    },
+    {
+      "file": "range-band-view-390.png",
+      "sha256": "6b10f48a2d5e608e17f3ec6af6d3a20d0d52a255bb490077350974cf4d9765c0",
+      "bytes": 159335
+    },
+    {
+      "file": "range-band-view-desktop-live.json",
+      "sha256": "06c7736767ca3e00366f10248f3e4e239273121a3283ca74969aeed3a1ea7a54",
+      "bytes": 150293
+    },
+    {
+      "file": "range-band-view-desktop-ui.json",
+      "sha256": "c762be1702b109db9d67bba0d97024ef760ab4deb0bd685b0572f8adfe24a251",
+      "bytes": 2412
+    },
+    {
+      "file": "range-band-view-desktop.png",
+      "sha256": "1497f71d249e099120ed466eb9a271ad66213f7de269ebe3e539751d72593e9a",
+      "bytes": 544884
+    },
+    {
+      "file": "runner-executed.mjs",
+      "sha256": "ac87b6cce649314a2569180c94ad0c65eed6b7de8e7a78c5e6b33a1ba21d3736",
+      "bytes": 26269
+    },
+    {
+      "file": "source-executed.html",
+      "sha256": "082e8e2e6233351155fb560d4afd0af930b72af1997907733efb936d2654df46",
+      "bytes": 1019498
+    },
+    {
+      "file": "stone-zero-baseline-live.json",
+      "sha256": "b78c2b5b3010ba193aefd51e17895c7da8eb99ad5abac9809061307a1895f63f",
+      "bytes": 150293
+    },
+    {
+      "file": "stone-zero-choices-390-live.json",
+      "sha256": "0a2aadb05c57cd3c654371cc6e663a90453e04ba132dbac5b8b5029a2e503618",
+      "bytes": 153852
+    },
+    {
+      "file": "stone-zero-choices-390-ui.json",
+      "sha256": "4ec56fdc685f1bbaaeaf5e001f98df072a2d8ed8da3e51ae426857c0c31e97f5",
+      "bytes": 3101
+    },
+    {
+      "file": "stone-zero-choices-390.png",
+      "sha256": "cbad91532b491af0197d15d9a79b173644acb4511bb9c6067aa3ff6ddbea0ada",
+      "bytes": 145954
+    },
+    {
+      "file": "stone-zero-disabled-desktop-live.json",
+      "sha256": "74d5e62578189b4a266bcaa6f5e49682bd9a72c3cfb037a0b1b3f8aa5b70d29c",
+      "bytes": 153852
+    },
+    {
+      "file": "stone-zero-disabled-desktop-ui.json",
+      "sha256": "cba25af32ddbea1816fd66add5535ef80badcbc1c59f89fcedb35a5028fe8d90",
+      "bytes": 3031
+    },
+    {
+      "file": "stone-zero-disabled-desktop.png",
+      "sha256": "d8cb4af3f00f31e6324b853adb731476b4edbdb40ab6214099328b20779786c5",
+      "bytes": 335382
+    },
+    {
+      "file": "stone-zero-initial-selected-metadata.json",
+      "sha256": "e80316be8d60bae3b7942d8ce84b028428635811fd3a03f28ae5dbf0204c3caf",
+      "bytes": 295
+    },
+    {
+      "file": "stone-zero-initial-selected-native.json",
+      "sha256": "5a903306e752c005ed6e50856ff5158bc4daff5c9ee645085940c026c083bc07",
+      "bytes": 325897
+    },
+    {
+      "file": "stone-zero-input-native.json",
+      "sha256": "5a903306e752c005ed6e50856ff5158bc4daff5c9ee645085940c026c083bc07",
+      "bytes": 325897
+    }
+  ]
+}

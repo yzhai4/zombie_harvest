@@ -1,0 +1,35 @@
+--- frozen-595551/dist/index.html
++++ runtime-v2-patch/dist/index.html
+@@ -2200,7 +2200,10 @@
+     function validateNpcRelayStoneSaved(payload, lookupContext = null) {
+       try {
+         const content = payload?.contentState, active = content?.activeChains?.['npc-relay-stone-001'];
+-        if (!content) return false;
++        // SAVE18 legitimately has no content domain; an explicitly present
++        // null/undefined/malformed container is not that historical absence.
++        if (!Object.hasOwn(payload, 'contentState')) return payload.version === 18;
++        if (!content || typeof content !== 'object' || Array.isArray(content)) return false;
+         const flag = content.flags?.[NPC_RELAY_STONE_TERMINAL_FLAG], hasReply = Object.hasOwn(content, 'npcRelayStoneReply');
+         if (flag !== undefined && flag !== false && flag !== true) return false;
+         if (!hasReply) return flag !== true && !content.completedChains?.includes('npc-relay-stone-001') && !content.appliedEffects?.some(id => typeof id === 'string' && id.startsWith('npc-relay-stone-001:once:')) && (!active || npcRelayStonePackStatus(lookupContext).status === 'bound' && npcRelayStoneActiveValid(active, payload));
+@@ -3676,7 +3679,9 @@
+        if (invalid) return { ok: false, reason: `unknown-effect:${invalid?.op || invalid?.type}` };
+        const rollback = {
+          contentState: stableClone(state.contentState),
+-         relayProject: stableClone(state.relayProject),
++         relayProject: Object.hasOwn(state, 'relayProject')
++           ? { present: true, value: state.relayProject === undefined ? undefined : stableClone(state.relayProject) }
++           : { present: false },
+          npcs: stableClone(state.npcs || []),
+          presenceUi: { event: stableClone(state.event), eventInstance: stableClone(state.eventInstance), npcEvents: stableClone(state.npcEvents || []), selectedNpc: state.selectedNpc, npcTalkOpen: state.npcTalkOpen, interactionFocus: stableClone(state.interactionFocus), logs: stableClone(state.logs || []) },
+          buildings: stableClone(state.buildings || []),
+@@ -3703,7 +3708,8 @@
+        } catch (error) { failed = { ok: false, reason: 'content-effect-exception' }; }
+        if (failed) {
+          state.contentState = rollback.contentState;
+-         state.relayProject = rollback.relayProject;
++         if (rollback.relayProject.present) state.relayProject = rollback.relayProject.value;
++         else delete state.relayProject;
+          state.npcs = rollback.npcs;
+          Object.assign(state, rollback.presenceUi);
+          state.buildings = rollback.buildings;

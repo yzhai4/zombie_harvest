@@ -1,0 +1,94 @@
+[
+  {
+    "label": "null capsule",
+    "result": {
+      "ok": false,
+      "reason": "npc-relay-stone-source"
+    }
+  },
+  {
+    "label": "wrong source recipient",
+    "result": {
+      "ok": false,
+      "reason": "npc-relay-stone-source"
+    }
+  },
+  {
+    "label": "successor has no original source",
+    "result": {
+      "ok": false,
+      "reason": "npc-dead"
+    }
+  },
+  {
+    "label": "role replaced",
+    "result": {
+      "ok": false,
+      "reason": "npc-relay-stone-role"
+    }
+  },
+  {
+    "label": "garrison",
+    "result": {
+      "ok": false,
+      "reason": "npc-not-in-camp"
+    }
+  },
+  {
+    "label": "dead",
+    "result": {
+      "ok": false,
+      "reason": "npc-dead"
+    }
+  },
+  {
+    "label": "critical",
+    "result": {
+      "ok": false,
+      "reason": "npc-relay-stone-critical"
+    }
+  },
+  {
+    "label": "fleeing",
+    "result": {
+      "ok": false,
+      "reason": "npc-relay-stone-fleeing"
+    }
+  },
+  {
+    "label": "injured noncritical remains legal",
+    "result": {
+      "ok": true,
+      "npcId": "commander",
+      "source": {
+        "version": 1,
+        "eventId": "evt-000173",
+        "eventSeq": 173,
+        "commandId": "cmd-000622",
+        "causationId": null,
+        "tick": {
+          "world": 489,
+          "phase": 0,
+          "schedule": 129
+        },
+        "actorId": "player-1",
+        "recipientId": "commander",
+        "projectId": "camp-relay-001",
+        "itemId": "relayCore",
+        "itemInstanceId": "item-relayCore-001",
+        "defId": "relay-chain-001",
+        "definitionVersion": 1,
+        "instanceId": "camp-relay-001",
+        "expectedEventId": "evt-000129"
+      },
+      "choiceId": "supply"
+    }
+  },
+  {
+    "label": "outside new one-unit Gate",
+    "result": {
+      "ok": false,
+      "reason": "npc-relay-stone-range"
+    }
+  }
+]

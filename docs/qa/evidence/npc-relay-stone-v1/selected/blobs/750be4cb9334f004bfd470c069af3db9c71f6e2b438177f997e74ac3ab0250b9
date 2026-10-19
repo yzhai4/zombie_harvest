@@ -1,0 +1,186 @@
+[
+  {
+    "eventType": "content.effects.applied",
+    "result": {
+      "ok": false,
+      "commandId": "TEST-ONLY-fault-content.effects.applied",
+      "reason": "content-effect-exception"
+    },
+    "faultHit": {
+      "type": "content.effects.applied",
+      "stone": 0,
+      "progress": 4,
+      "terminal": false,
+      "event": {
+        "eventId": "evt-000416",
+        "seq": 416,
+        "type": "content.effects.applied",
+        "actorId": "player-1",
+        "commandId": null,
+        "causationId": "TEST-ONLY-fault-content.effects.applied",
+        "tick": {
+          "world": 643,
+          "phase": 0,
+          "schedule": 283
+        },
+        "payload": {
+          "effects": [
+            {
+              "op": "npcRelayStoneReply",
+              "choiceId": "supply",
+              "amount": 1
+            }
+          ],
+          "results": [
+            {
+              "ok": true,
+              "op": "npcRelayStoneReply",
+              "choiceId": "supply",
+              "key": "stone",
+              "before": 1,
+              "after": 0,
+              "materialBefore": 3,
+              "materialAfter": 4,
+              "projectId": "camp-relay-001",
+              "amount": 1
+            }
+          ],
+          "effectId": "npc-relay-stone-001:once:commander:evt-000173:camp-relay-001:item-relayCore-001:stone_offer:supply",
+          "instanceKey": "npc-relay-stone-001:once:commander:evt-000173:camp-relay-001:item-relayCore-001"
+        },
+        "defId": "npc-relay-stone-001",
+        "definitionVersion": 1,
+        "instanceId": "content:npc-relay-stone-001:once:commander:evt-000173:camp-relay-001:item-relayCore-001",
+        "effects": [
+          {
+            "op": "npcRelayStoneReply",
+            "choiceId": "supply",
+            "amount": 1
+          }
+        ]
+      }
+    },
+    "beforeCommandSeq": 1004,
+    "afterCommandSeq": 1004,
+    "appended": [
+      {
+        "eventId": "evt-000416",
+        "seq": 416,
+        "type": "command.rejected",
+        "actorId": "player-1",
+        "commandId": "TEST-ONLY-fault-content.effects.applied",
+        "causationId": null,
+        "tick": {
+          "world": 643,
+          "phase": 0,
+          "schedule": 283
+        },
+        "payload": {
+          "type": "content.chain.resolve",
+          "reason": "content-effect-exception"
+        }
+      }
+    ]
+  },
+  {
+    "eventType": "content.chain.resolved",
+    "result": {
+      "ok": false,
+      "commandId": "TEST-ONLY-fault-content.chain.resolved",
+      "reason": "npc-relay-stone-transaction-failed"
+    },
+    "faultHit": {
+      "type": "content.chain.resolved",
+      "stone": 0,
+      "progress": 4,
+      "terminal": true,
+      "event": {
+        "eventId": "evt-000417",
+        "seq": 417,
+        "type": "content.chain.resolved",
+        "actorId": "player-1",
+        "commandId": null,
+        "causationId": "TEST-ONLY-fault-content.chain.resolved",
+        "tick": {
+          "world": 643,
+          "phase": 0,
+          "schedule": 283
+        },
+        "payload": {
+          "chainId": "npc-relay-stone-001",
+          "nodeId": "stone_offer",
+          "choiceId": "supply",
+          "instanceKey": "npc-relay-stone-001:once:commander:evt-000173:camp-relay-001:item-relayCore-001",
+          "recipientId": "commander",
+          "source": {
+            "version": 1,
+            "eventId": "evt-000173",
+            "eventSeq": 173,
+            "commandId": "cmd-000622",
+            "causationId": null,
+            "tick": {
+              "world": 489,
+              "phase": 0,
+              "schedule": 129
+            },
+            "actorId": "player-1",
+            "recipientId": "commander",
+            "projectId": "camp-relay-001",
+            "itemId": "relayCore",
+            "itemInstanceId": "item-relayCore-001",
+            "defId": "relay-chain-001",
+            "definitionVersion": 1,
+            "instanceId": "camp-relay-001",
+            "expectedEventId": "evt-000129"
+          },
+          "projectId": "camp-relay-001",
+          "results": [
+            {
+              "ok": true,
+              "op": "npcRelayStoneReply",
+              "choiceId": "supply",
+              "key": "stone",
+              "before": 1,
+              "after": 0,
+              "materialBefore": 3,
+              "materialAfter": 4,
+              "projectId": "camp-relay-001",
+              "amount": 1
+            }
+          ]
+        },
+        "defId": "npc-relay-stone-001",
+        "definitionVersion": 1,
+        "instanceId": "content:npc-relay-stone-001:once:commander:evt-000173:camp-relay-001:item-relayCore-001",
+        "effects": [
+          {
+            "op": "npcRelayStoneReply",
+            "choiceId": "supply",
+            "amount": 1
+          }
+        ]
+      }
+    },
+    "beforeCommandSeq": 1004,
+    "afterCommandSeq": 1004,
+    "appended": [
+      {
+        "eventId": "evt-000416",
+        "seq": 416,
+        "type": "command.rejected",
+        "actorId": "player-1",
+        "commandId": "TEST-ONLY-fault-content.chain.resolved",
+        "causationId": null,
+        "tick": {
+          "world": 643,
+          "phase": 0,
+          "schedule": 283
+        },
+        "payload": {
+          "type": "content.chain.resolve",
+          "reason": "npc-relay-stone-transaction-failed"
+        }
+      }
+    ]
+  }
+]
