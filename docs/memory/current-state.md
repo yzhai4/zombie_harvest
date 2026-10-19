@@ -1,45 +1,25 @@
 # 当前状态
 
-本文件只保留最近已核检查点、本轮执行和唯一下一交付。此前完整状态按原字节保存在[58ea426历史快照](current-state-through-58ea426-20261019.md)，其中“下一步”和剩余预算只属于当时；不得覆盖这里的新事实。
+本页只保当前结果、限制与唯一下一交付。上一已同步状态可按原字节查[018e70a历史版本](https://github.com/yzhai4/zombie_harvest/blob/018e70a02569722ea946830b8f4a33d1fc108176/docs/memory/current-state.md)；更早原失败不改。旧计划中的下一步不能覆盖本页。
 
-## 最近已验证游戏运行时检查点（2026-10-19）
+## 当前交付：桌面操作和选择说明（2026-10-19）
 
-开发分支为`codex/v82-npc-succession`，draft [PR4](https://github.com/yzhai4/zombie_harvest/pull/4)。最新实际核验检查点为[935edf5](https://github.com/yzhai4/zombie_harvest/commit/935edf5934c91c8498b07c79cde94f572c98a6bd)，源码2205632d4f396e5fd8847020f9fb0086a2ca5bab，HTML SHA256 `082e8e2e6233351155fb560d4afd0af930b72af1997907733efb936d2654df46`，SAVE21／CONTENT3；manifest42c5d733绑定该源码。本次状态回写记录已发生的935edf5验收，不预填后续文档提交的CI。
+开发线仍为`codex/v82-npc-succession`、draft [PR4](https://github.com/yzhai4/zombie_harvest/pull/4)。新源码对象为2970d9b3c24e00e677880c39de9ed6e4639ae91d，父018e70a；HTML `86ca99869d174f56287309229cd36017ef69aa92122809c62dd998c16497446f`，SAVE21/CONTENT3。只增加7行桌面CSS，markup/脚本与082e相同，当前只优化电脑端；手机端优化暂停。
 
-[游戏CI39206525504](https://github.com/yzhai4/zombie_harvest/actions/runs/39206525504)与[路由CI39206525502](https://github.com/yzhai4/zombie_harvest/actions/runs/39206525502)均为935edf5同head completed／success。游戏job117910462746的step45日志实际确认freshness15／15、commitVerification=verified、源码2205632与HTML082e精确匹配；[紧凑CI证据](../qa/evidence/npc-relay-stone-v1/exact-head-ci-935edf5.json)保留实际run／job／step。本地无.git的unavailable另列，不冒称Git证明。main未合并、生产未部署。58ea426及其旧CI是前一检查点，见原字节历史快照。
+附近动作和事件选项的费用说明8→12px、按钮正文10→13px、标题12→14px，绿色/攻击按钮费用采用深色。主主题仍是正常界面下可理解的真实玩法后果。这是可见呈现改善，不是新NPC智能、内容或规则成果。
 
-[名称修复](../qa/shelter-name-display-v1-20261019.md)已接两处既有消费者：附近标题与公开选择后的地图标签显示“临时营地”；未focus标签仍按原CSS隐藏，可建目录未加shelter。受影响源码7合同、名称Chrome15检查、episode主浏览器12检查分别实际通过，均是受控范围；不把旧50／142、90工件引用或这些夹具称为自然全链／真人体验。390px原因可读，但原60分钟按钮部分超屏仍是UI积压。
+详见[本轮QA](../qa/desktop-readability-v1-20261019.md)：最终构建required204/204、content71、night guard、inline通过，既有episode浏览器12/12；1440/1280/1024桌面受控林岑答复可见可点击、真实交料/延期；正常桌面新局等候→取消→writer→Continue通过。公开新分钟与旧writer水位明确分列，没有声称完整正常链或真人理解。本地freshness结果与无.git限制照实保留，后续CI按实际提交核验，不预填。
 
-## 本轮执行：林岑的最后一块石料
+此前已核远端018e70a的游戏CI39218596528和WorkBuddy CI39218596600同head成功。它们只证明旧检查点，不能代替本轮同步后CI。main未合并，生产未部署。
 
-[实施卡npc-relay-stone-001](../scripts/npc-relay-stone-001.md)已按8项白名单整合回本归档，当前HTML为`082e8e2e6233351155fb560d4afd0af930b72af1997907733efb936d2654df46`。真实源码Git对象2205632d4f396e5fd8847020f9fb0086a2ca5bab／tree2e38551b6096bedf32b11b79bef477b3fa5e4e10的父为58ea426；其QA子提交935edf5已用expected58ea／force=false更新分支，并由新GET核实际head及上述同headCI。采用独立内置包服务既有zombie-farm中继内容，保SCENARIO_BOOT_PACKAGE.events／C2编译器／已保存binding与digest原身份；不声明C2任意自定义事件已支持新Gate／Effect。
+## 工作流和已有基础
 
-正常来源已核：原公开交核心动作cmd-000622→evt-000173，第1天08:09；A08正常writer643仍由本人commander林岑持合法胶囊并对应同一事件。该路线由受控旧档Continue后经真实公开UI发生，不是新局自然全链；不是从briefed状态回填经历。新补料答复只在明确TEST-ONLY派生近距／范围／零库存档中受控发生，未续跑A08。
+复用已实现SAVE21/C1/C2、有效岗位、中继维护、岗亭与本人交付记忆。原A08保持80/80关闭；中间1a6截图问题、方法异常与旧90秒视觉观察终态均保留，不重置预算或补写成功。上一24文件试玩入口/协议/归档批次留在本地冻结，本轮不继续上传；可按需复用其中事实，不能当本轮新玩法。
 
-目标是只让同一在营、可受理的林岑提出一次邀请。木／件齐、石恰缺1时，玩家可现在从有限库存交入1石，或本次不提前交、由原自治继续；后续自治仍可能扣库存。交料不直接加工时／关系／上线收益；关闭未答和明确答复分开。纯Gate、提交重核、来源tuple、持久terminal与库存／工程／完成／成功业务收据同一事务必须一起实现。旧null／继任者不补经历，来源滚出短账本不否定合法胶囊；AI OFF可玩。
+按[工作流](../iteration-workflow.md)分开玩法、工具、证据。固定执行/哈希/运输/轮询交给有界子代理，广泛阅读和首审交给DeepSeek。本轮一次有限片段调用6455/537 tokens、费用未知；复用已有工具，不再扩平台。每轮生成独立进度报告并按用户要求暂停。
 
-固定082e源码合同实跑8／8（1个合同），四项原受影响失败回归及额外兼容边界均exit0；原5955的SAVE18和可选项目快照真实失败已修，原失败不改。受控Chrome完成交料、延期、范围分界、零库存4场，实际normal writer→reload→Continue→新tick可恢复且不重复扣料；关闭可重开、无库存仍可延期。390图已目视，仍不代替真人理解。三次浏览器方法错误（任意字号门槛、事件父因果字段、dataset字段映射）原件保留，第四次实际通过；四次合计46.813秒未超原135秒。当前7项必需原生合同与原primary Chrome12也已在082e补齐。selected归档只存所需原字节与公共引用，不称完整80工件导出；新manifest与935edf5精确Git CI已收口，详见[本轮QA](../qa/npc-relay-stone-v1-20261019.md)。
+## 未证明与唯一下一交付
 
-新manifest42c5d733已安装；本地原freshness checker实际15／15、PID26824、exit0，无.git归档的commitVerification仍为unavailable。另有源码92项和QA148项Git blob API对账；分支更新后真实Git CI实际verified，三层证据分别列示。selected包不是完整80工件浏览器导出。
+尚未证明正常中继/生存全链、自然三日、真人理解或乐趣、表达收益；受控近距存档不能代替自然发现林岑邀请。下一项只做电脑正常界面下邀请可达性与代价理解：能否自然遇到、为何提前交料、是否误以为延期锁定库存或交料即上线。复用既有问题与真实原话记录，不新建研究流程；之后才接完整短循环与少量真实玩家。
 
-WorkBuddy辅助工作流并行改进：已核官方交互模式和2.169.0实际配置，新增用户显式DeepSeek单模型路由、两层截止及短诊断，安装后的32项离线检查通过。[真实小范围样例](../qa/workbuddy-timeout-followup-20261019.md)以deepseek-v4.1-flash约9秒返回、CLI报告4295／455 tokens、费用未知；静态事实可用但323汉字略超300字要求，与长审查失败分别记账。尚不宣称总体节约比例或复杂审查稳定；规则、事务、旧档与浏览器验收继续由真实执行负责。
-
-## 开发分工增量（2026-10-19）
-
-已接入项目只读MCP与有界DeepSeek子代理：资料读取、剧本六视角和规则审查按需分派，主代理核验并执行补丁。86项本机离线通过；真实随机证据探针通过，真实两子代理游戏审查完成。审查支持先保持当前文案、完善理解pilot；其中遗漏任务菜单和错误二选一已纠正，模型不等于验收。成本/原失败/限制见[代理模式QA](../qa/workbuddy-project-agents-20261019.md)。
-
-开发工具最新已验证功能检查点为`021e25a2b4537742b17cc668d8095e75de534e5e`：[WorkBuddy CI39217434420](https://github.com/yzhai4/zombie_harvest/actions/runs/39217434420)双平台通过（Windows86项无跳过，Ubuntu仅跳过4项Windows专属检查）；[游戏CI39217434439](https://github.com/yzhai4/zombie_harvest/actions/runs/39217434439)同head成功、freshness15/15且Git verified。[紧凑证据](../qa/evidence/workbuddy-project-agents-v1/exact-head-ci-021e25a.json)保留0c4的Windows失败和8090的工作流启动前失败，均由新提交修正。021e只改变开发工作流、Skill与工具，游戏源码仍2205632、HTML仍082e，前述935的运行时验收范围不扩大；main未合并、生产未部署。此段登记021e已发生的检查，不预填后续文档提交的CI。
-
-## A08预算与未证明范围
-
-[A08](../qa/public-self-defence-prefix-a08-20261019.md)保持原HTML2fca和原终态：0导航／F／休整／进食／支援／新业务，0自卫safety调用；exit0仅证单main正常writer前缀。正常档643／seq413／cmd1004，末份live644、末图／pre-close645；无第二reload，不能称643再次Continue。累计至少306世界分钟、wall309745ms、UI80／80耗尽、导航238／240；费用不退款，不另开A09重置此比较。
-
-639筹料真实扣库存2木1石，材料达10木5件3石；仍staging、工时0、未online。643四名NPC对同一敌人合计37伤，只支持本段NPC真实扣血，未证明双向、塔防或支援收益。默认canvas与旧DOM驾驶生产者不匹配、地图button hit过滤冲突是方法限制；现场hit／rect／computed未捕获，不能据此断言游戏不可达或永久软锁。新功能受控夹具不借A08恢复预算或改绿原失败。
-
-完整正常中继／生存循环、真人理解、自然三日、下一NPC实际后果与表达收益仍未证明。研究原文、设计、源码存在、受控执行、正常玩法、真人反馈和生产部署持续分层。
-
-## 下一项唯一交付与长期边界
-
-下一项只接正常界面下这次邀请的可达性与后果理解：沿既有中继／生存路径及理解pilot，检查玩家能否区分交料、施工与上线，并知道延期只免本次即时扣料。先明确合法目标、真实画面输入方法和新任务边界；不续跑A08、不重置原80／80比较预算，不注入自然路线。真人回答留空，受控成功不能补填自然中继全链；之后才比较同权限模板／低频表达。
-
-14天／最终尸潮、完整Actor／Planning／Memory／Social、Scenario Studio、受控布局→约束随机→局部持续演化→设置器复用→角色跨副本、特殊角色连续性、UI素材与GameCore／可替换引擎仍是完整目标。离线恶化政策未决，不新开并行平台；当前人数／地图不是产品上限。LLM只提意图或表达，规则、资源、事实与确定性fallback仍由代码负责。无新增全局记忆。
+14天危机、UI素材、受控布局→约束随机→局部持续世界→剧本设置器→跨副本身份/记忆、GameCore/可替换引擎继续保留路线，按实际需求进入。离线恶化政策未定，不并行扩张；当前人数/地图不是产品上限。LLM只给受授权意图/表达，规则、世界事实与fallback由代码负责。无新增全局记忆。
