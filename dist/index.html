@@ -6749,7 +6749,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
             const fp = buildingFootprint(building); const anchor = building.x === x && building.y === y;
             const partX = Math.max(0, x - building.x), partY = Math.max(0, y - building.y);
             cell.classList.add('building-footprint'); if (fp.w > 1 || fp.h > 1) cell.classList.add('large-building'); if (anchor) cell.classList.add('is-building-anchor');
-            cell.innerHTML += `<span class="entity">${pixelBuildingCell(building.type, partX, partY, fp, building)}</span>${anchor ? `<span class="tag">${buildInfo[building.type]?.name || '建筑'}${fp.w > 1 ? ` · ${fp.w}×${fp.h}` : ''}</span>` : ''}`;
+            cell.innerHTML += `<span class="entity">${pixelBuildingCell(building.type, partX, partY, fp, building)}</span>${anchor ? `<span class="tag">${building.type === 'shelter' ? '临时营地' : (buildInfo[building.type]?.name || '建筑')}${fp.w > 1 ? ` · ${fp.w}×${fp.h}` : ''}</span>` : ''}`;
             if (anchor && building.hp) cell.innerHTML += `<span class="hp"><i style="width:${Math.min(100,building.hp/(building.type === 'spikeWall' ? 4 : building.type === 'bunker' ? 12 : 10)*100)}%"></i></span>`;
           } else if (showTileActors && zombie && !battleEnemy) {
             cell.classList.add('zombie');
@@ -7194,7 +7194,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       } else if (resources.length) {
         const r = resources[0]; const names = {tree:'树林',rock:'碎石堆',berry:'野莓丛',scrap:'废车堆',herb:'药草地'}; icon = ({tree:'🌲',rock:'🪨',berry:'🫐',scrap:'🔩',herb:'🌿'})[r.type] || '🧺'; title = `${names[r.type] || '资源'} · 可采集`; hint = '按 E 采集附近资源。';
       } else if (buildings.length && !buildings.some(b => b.type === 'garden' || b.type === 'greenhouse')) {
-        const b = buildings[0]; icon = b.type === 'shelter' ? '🏚️' : buildInfo[b.type].icon; title = `${buildInfo[b.type]?.name || '建筑'} · 可管理`; hint = '建筑靠近时显示播种、进化或武器配置。';
+        const b = buildings[0]; icon = b.type === 'shelter' ? '🏚️' : buildInfo[b.type].icon; title = `${b.type === 'shelter' ? '临时营地' : (buildInfo[b.type]?.name || '建筑')} · 可管理`; hint = '建筑靠近时显示播种、进化或武器配置。';
       } else if (outposts.length) {
         const outpost = outposts[0]; const def = outpostDefinitionFor(outpost); icon = outpost.icon || '🏕️'; title = `${def?.name || outpost.name} · 据点`; hint = describeInteraction({ kind: 'outpost', item: outpost });
       } else if (landmarks.length) {
