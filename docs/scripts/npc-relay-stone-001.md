@@ -1,6 +1,6 @@
 # npc-relay-stone-001：林岑的最后一块石料
 
-2026-10-19。**已整合并完成受控验收／待分支CI**；当前HTML082e8e2e、源码对象2205632。设计起点为源码5b797256／HTMLdfe75870、开发检查点58ea426；以下保留其来源事实。SAVE21／CONTENT3兼容性已由本轮实际旧档和新活动／完成档恢复合同核验，不由版本号不变推定。仅一名现有NPC、一份已有本人事实、一次后续选择；旧A08的UI80预算已关闭，不据此再跑或重置。
+2026-10-19。**已整合并完成受控验收／935edf5精确CI通过**；当前HTML082e8e2e、源码对象2205632。设计起点为源码5b797256／HTMLdfe75870、开发检查点58ea426；以下保留其来源事实。SAVE21／CONTENT3兼容性已由本轮实际旧档和新活动／完成档恢复合同核验，不由版本号不变推定。仅一名现有NPC、一份已有本人事实、一次后续选择；旧A08的UI80预算已关闭，不据此再跑或重置。
 
 ## 已有来源与本轮新增
 
@@ -25,7 +25,7 @@
 
 - **身份／知识：** 只给稳定ID`commander`，用`validateRelayHandoffMemoryV1`／现有本人投影核原胶囊；当前仍须唯一、在营、可亲自受理并担任commander。旧无槽／null、继任者、其它接收者不借头衔继承经历；保留原免费记忆查询，原工程不被支线锁住。重伤、逃离、驻守、死亡或夜间只拒绝新受理，历史不删除。
 - **入口／Gate：** 现有近身NPC事项，沿公开阶段／live身份基础Gate，动作范围1格；查看范围1.25不自动变成执行资格。费用、当前工程缺口及拒绝原因同一Gate投影，提交再次核本人来源、角色、项目／物品实例、石料缺口与库存。
-- **命令／效果：** 新单节点`npc-relay-stone-001`的Choice经现有CommandBus／事务reducer结算；一处窄交料adapter负责`库存石−1 + materialProgress.stone+1 + 一次完成`原子提交。本人来源Gate和手动入工程consumer已接线并按白名单整合，源码对象2205632已建立，分支与CI待收口。不直接改按钮里的state，不改原`updateRelayProject`节拍、工时或危险。
+- **命令／效果：** 新单节点`npc-relay-stone-001`的Choice经现有CommandBus／事务reducer结算；一处窄交料adapter负责`库存石−1 + materialProgress.stone+1 + 一次完成`原子提交。本人来源Gate和手动入工程consumer已接线并按白名单整合，源码对象2205632与QA子提交935edf5已入开发分支，精确CI实际通过。不直接改按钮里的state，不改原`updateRelayProject`节拍、工时或危险。
 - **来源／幂等：** 新片实例绑定`recipientId + sourceEventId + projectId/itemInstanceId`，提交保现有实例／版本／event CAS；源ID从本局胶囊取，不硬编码173。仅用本片一次完成键，接收／保留答复分别记新收据；一项目一份胶囊，完成后不重开。现有原胶囊不覆写、不添通用Memory字段；可用既有contentState完成槽，新增定义按正常内容挂载注册。
 - **恢复／降级：** 正常writer保存答复与实际材料后果；重复提交、reload／Continue不重扣、不重奖。未知／旧档不回填本人事实；材料已齐／缺岗等资格变化显示真实状态，主线继续原自治。AI OFF提供上述固定两项，LLM不是执行前置，也不生成效果。
 
@@ -49,4 +49,4 @@
 
 实例绑定本人来源tuple并使用本片持久terminal标志，两项答复都终结本次邀请；关闭未答不写terminal。来源已滚出事件保留窗口但胶囊仍合法时可受理，null只表示无经历。交料的资源资格不套给later。事务边界必须覆盖库存、项目、完成标志与本片成功业务收据；失败attempt审计和commandId预约沿原规则，不退款编号。
 
-082e8e2e已完成实际源码合同及四场TEST-ONLY Chrome验收，含真实交料／延期、关闭重开、范围／库存拒绝、正常writer→reload→Continue→下一tick和两层晚故障回滚。原SAVE18及无relayProject局部运行时兼容问题已最小修复并重验；原失败均保留。已按8项白名单整合canonical，源码对象2205632已建立；选中证据、新manifest与分支CI按[本轮QA](../qa/npc-relay-stone-v1-20261019.md)继续收口，自然主线、真人理解与生产仍未证明。来源复用[本人交付记忆QA](../qa/relay-handoff-memory-v1-20261018.md)、[A08实际前缀](../qa/public-self-defence-prefix-a08-20261019.md)及本轮完整writer夹具；原cmd-000622→evt-000173仅是已观察例，不硬编码进运行时。
+082e8e2e已完成实际源码合同及四场TEST-ONLY Chrome验收，含真实交料／延期、关闭重开、范围／库存拒绝、正常writer→reload→Continue→下一tick和两层晚故障回滚。原SAVE18及无relayProject局部运行时兼容问题已最小修复并重验；原失败均保留。已按8项白名单整合canonical，源码对象2205632已建立；选中证据、新manifest与935edf5精确分支CI已按[本轮QA](../qa/npc-relay-stone-v1-20261019.md)收口，自然主线、真人理解与生产仍未证明。来源复用[本人交付记忆QA](../qa/relay-handoff-memory-v1-20261018.md)、[A08实际前缀](../qa/public-self-defence-prefix-a08-20261019.md)及本轮完整writer夹具；原cmd-000622→evt-000173仅是已观察例，不硬编码进运行时。

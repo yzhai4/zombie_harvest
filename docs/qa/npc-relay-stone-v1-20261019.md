@@ -4,7 +4,7 @@
 
 ## 源码与实际验收
 
-已整合 HTML SHA256 `082e8e2e6233351155fb560d4afd0af930b72af1997907733efb936d2654df46`，SAVE21／CONTENT3。源码 Git 对象为[2205632](https://github.com/yzhai4/zombie_harvest/commit/2205632d4f396e5fd8847020f9fb0086a2ca5bab)，父提交58ea426；源对象、tree与92项源码／既有引用字节已通过[Git blob对账](evidence/npc-relay-stone-v1/source-artifact-proof.json)。本文建立时分支推送与新CI尚待执行；源码对象存在不等于已发布。
+已整合 HTML SHA256 `082e8e2e6233351155fb560d4afd0af930b72af1997907733efb936d2654df46`，SAVE21／CONTENT3。源码 Git 对象为[2205632](https://github.com/yzhai4/zombie_harvest/commit/2205632d4f396e5fd8847020f9fb0086a2ca5bab)，父提交58ea426；源对象、tree与92项源码／既有引用字节已通过[Git blob对账](evidence/npc-relay-stone-v1/source-artifact-proof.json)。QA子提交[935edf5](https://github.com/yzhai4/zombie_harvest/commit/935edf5934c91c8498b07c79cde94f572c98a6bd)已更新开发分支；[游戏CI39206525504](https://github.com/yzhai4/zombie_harvest/actions/runs/39206525504)与[路由CI39206525502](https://github.com/yzhai4/zombie_harvest/actions/runs/39206525502)均为此精确head的completed／success。游戏freshness实际15／15、commitVerification=verified，见[run／job／step记录](evidence/npc-relay-stone-v1/exact-head-ci-935edf5.json)。main未合并、生产未部署。
 
 | 证据层 | 实际结果 | 不代表 |
 | --- | --- | --- |
@@ -31,4 +31,4 @@
 
 [selected包](evidence/npc-relay-stone-v1/selected/manifest.json)保存选中原生字节、三张390px图、实际输入、normal／selected与关键故障前缀；[独立路径解析](evidence/npc-relay-stone-v1/selected/reference-resolution-companion.json)标明publicRef、历史leaf与未重复归档项。它不是完整80工件浏览器归档，未选children仍在原执行目录；不能从本包声称所有子工件都已跨机独立复验。
 
-A08仍保持原80／80预算耗尽；本轮只使用标明TEST-ONLY的派生输入，没有续跑A08、注入新自然路线或补成三日。尚未证明正常中继／生存全链、真人理解与在意程度、自然三日或生产部署。下一项唯一交付是收口本片源码与证据提交、精确head CI，然后继续正常玩法路径与已有理解测试。无新增全局记忆。
+A08仍保持原80／80预算耗尽；本轮只使用标明TEST-ONLY的派生输入，没有续跑A08、注入新自然路线或补成三日。尚未证明正常中继／生存全链、真人理解与在意程度、自然三日或生产部署。本片源码、证据与精确head CI已收口；下一项唯一交付为正常界面下邀请的可达性与代价理解，复用既有玩法路径及理解测试，不代填真人答案。无新增全局记忆。
