@@ -22,11 +22,6 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
-    env:
-      # The gateway requires canonical launcher paths; Windows TEMP may use RUNNER~1.
-      TMPDIR: ${{ runner.temp }}
-      TEMP: ${{ runner.temp }}
-      TMP: ${{ runner.temp }}
     steps:
       - name: Preserve tracked bytes on Windows checkout
         if: runner.os == 'Windows'
@@ -37,4 +32,9 @@ jobs:
           python-version: '3.11'
       - name: Verify routing, streams, project scope and agents without credentials
         working-directory: .codex/skills/imsaver-workbuddy/scripts
+        env:
+          # runner is available in step env, not job env; avoid Windows RUNNER~1.
+          TMPDIR: ${{ runner.temp }}
+          TEMP: ${{ runner.temp }}
+          TMP: ${{ runner.temp }}
         run: python -X utf8 -B -m unittest test_routing test_streaming test_agent_streaming test_project_gateway test_project_agents

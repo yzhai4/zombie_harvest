@@ -31,3 +31,5 @@ usage是根汇总，不再与子级/缓存字段相加。真实项目任务覆�
 Windows 日志显示两类差异：默认临时路径使用 `RUNNER~1` 短别名，触发网关启动路径身份校验和测试路径断言；Git checkout 自动转换 CRLF，导致原 `run.py` 的字节校验失败。其 CRLF 文件 SHA 为 `046103ac5c2241b2f3e06f8d97888e027e668cbea0fe8e1b7e87ee5ea16c50e6`，与本机对原 LF 文件作换行转换所得 SHA 一致。
 
 本次仅将 CI 临时目录固定到 `runner.temp`，并在 Windows checkout 前关闭 `core.autocrlf`，保留原路径边界、86项断言和旧调用器原字节要求。修正后的 CI 结果需按新提交单独核验；本段不宣称新运行已通过。
+
+第二次提交 `8090d0585848f98d152e088b07f433989c49a3a3` 的[WorkBuddy 运行39216972054](https://github.com/yzhai4/zombie_harvest/actions/runs/39216972054)在启动前失败、没有 jobs，两个平台的测试均未执行。该修正错误地在 job env 引用了 `runner.temp`；按[GitHub 上下文可用性](https://docs.github.com/en/actions/reference/workflows-and-actions/contexts#context-availability)，`runner` 在 step env 可用，job env 不可用。后续修正将三个临时目录变量移到实际测试步骤，原失败记录保留。
