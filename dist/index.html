@@ -1097,6 +1097,7 @@
       <label class="event-source" id="eventSourceRow" hidden>处理事项<select id="eventSourceSelect" aria-label="选择处理事项"></select></label>
       <div class="event-head"><div class="event-icon" id="eventIcon">📦</div><div class="event-copy"><b id="eventTitle">今日异动：废弃补给箱</b><span id="eventText">围栏外有一个被雨水泡过的补给箱。声音会把东西引过来，但里面可能有能救命的物资。</span></div><div class="event-state" id="eventState">待处理</div></div>
       <p id="watchpostChoiceFeedback" class="camp-rest-feedback" role="status" aria-live="polite" hidden></p>
+      <p id="npcRelayStoneChoiceFeedback" class="camp-rest-feedback" role="status" aria-live="polite" hidden></p>
       <div class="event-actions"><button class="event-choice" id="eventChoiceA">🔎 搜索补给箱<small>消耗 6 体力，获得食物和零件</small></button><button class="event-choice" id="eventChoiceB">🚶 安静绕开<small>不消耗体力，士气 +2</small></button></div>
       <div class="event-actions" id="eventExtraChoices" hidden></div>
     </section>
@@ -2142,6 +2143,172 @@ function createScenarioSnapshot(p,o={}) {
     /* WATCHPOST_MANUAL_PACK_BEGIN */
     const WATCHPOST_MANUAL_PACK = observerDeepFreeze({"schemaVersion":1,"id":"watchpost-manual-v1","version":1,"definition":{"id":"watchpost-003","chainId":"watchpost-003","definitionVersion":1,"instancePolicy":"once-v1","title":"岗亭人工哨报","description":"让已驻守的健康守卫提供独立于中继的较弱预警准备。","category":"defense","phase":["day_2","day_8"],"priority":74,"repeatable":false,"optional":true,"gateVersion":1,"evaluatePreconditions":true,"gate":{"version":1,"phase":"DAY","nightAllowed":false,"preconditions":[{"type":"landmark_exists","id":"watchPost"}]},"preconditions":[{"type":"landmark_exists","id":"watchPost"}],"startConditions":[{"type":"landmark_exists","id":"watchPost"}],"nodes":[{"nodeId":"manual_preparation","title":"岗亭哨报准备","text":"现有守卫可在岗亭轮班传回人工哨报。先探索并接管同一岗亭，再靠近确认；也可关闭事项、先补粮或继续中继。确认追加0物资、0分钟，不是新的安装劳动。原接管支付6体力、30分钟并占用固定守军；据点维护额外1粮/日，守军仍按原规则配给，不参加本营援防。普通人工准备只降低下一场的起始接近，弱于中继，不保证安全。","choices":[{"id":"manual","label":"确认低噪人工哨报","hint":"追加0物资／0分钟 · 需同站健康守军、维护有效且在1.25格内 · 可暂不处理","requires":[{"type":"outpost_ready","id":"watchPost","healthyOnly":true,"nearby":true}],"effects":[{"op":"unlock","key":"watchpost-manual-prepared"},{"op":"recordHistory","key":"watchpost-003:manual","payload":{"route":"manual","outpostId":"watchPost","definitionVersion":1}}]}]}],"autonomy":{"resultId":"watchpost_manual_autonomous","effects":[{"op":"unlock","key":"watchpost-manual-prepared"},{"op":"recordHistory","key":"watchpost-003:manual-autonomy","payload":{"route":"autonomy:manual","outpostId":"watchPost","definitionVersion":1}}]},"fallback":{"ifMissingNpc":"ledger_only","ifInsufficientPopulation":"ledger_only","ifExpired":"watchpost_damaged","ifSkipped":"ledger_only"},"hooks":["onDayStart","onOutpostSecured"]}});
     /* WATCHPOST_MANUAL_PACK_END */
+
+    // This named built-in pack does not extend the C2 authored event catalog.
+    /* NPC_RELAY_STONE_PACK_BEGIN */
+    const NPC_RELAY_STONE_PACK = observerDeepFreeze({"schemaVersion":1,"id":"npc-relay-stone-v1","version":1,"scope":"zombie-farm-built-in-relay-only","definition":{"id":"npc-relay-stone-001","chainId":"npc-relay-stone-001","definitionVersion":1,"instancePolicy":"source-once-v1","title":"最后一块石料","description":"林岑记得你亲手交来的核心，中继站还缺最后一块石料。","category":"camp","phase":["DAY"],"priority":76,"repeatable":false,"optional":true,"gateVersion":1,"evaluatePreconditions":true,"gate":{"version":1,"phase":"DAY","nightAllowed":false,"preconditions":[]},"preconditions":[],"startConditions":[],"nodes":[{"nodeId":"stone_offer","title":"补齐站基","text":"林岑：你把核心交给过我。还愿意自愿拿出一块石料，补齐站基吗？也可以本次先不交，按原节拍筹料。交料只补材料，施工仍需时间；本次先不交也不会保留库存，营地之后仍可能自行取料。关闭面板表示尚未答复。","choices":[{"id":"supply","label":"交出1石料，补齐站基","hint":"库存石料 −1 · 工程石料 +1 · 不额外支付体力或分钟 · 不立即施工或完工","requires":[],"effects":[{"op":"npcRelayStoneReply","choiceId":"supply","amount":1}]},{"id":"later","label":"本次先不交，按原节拍筹料","hint":"本次不扣物资 · 答复后不再询问 · 营地之后仍可能自行取用库存","requires":[],"effects":[{"op":"npcRelayStoneReply","choiceId":"later","amount":0}]}]}],"fallback":{"ifMissingNpc":"ledger_only","ifInsufficientPopulation":"ledger_only","ifExpired":"ledger_only","ifSkipped":"ledger_only"},"hooks":[]}});
+    /* NPC_RELAY_STONE_PACK_END */
+    const NPC_RELAY_STONE_BINDING = Symbol('npc-relay-stone-v1');
+    const NPC_RELAY_STONE_EFFECT_AUTHORITY = Symbol('npc-relay-stone-effect');
+    const NPC_RELAY_STONE_TERMINAL_FLAG = 'npc-relay-stone-001:terminal';
+    function prepareNpcRelayStonePack(table) {
+      const pack = NPC_RELAY_STONE_PACK, definition = pack?.definition;
+      if (!pack || pack.schemaVersion !== 1 || pack.id !== 'npc-relay-stone-v1' || pack.version !== 1 || pack.scope !== 'zombie-farm-built-in-relay-only') throw new Error('npc-relay-stone-pack-version');
+      const check = validateContentDefinition('eventChain', definition);
+      if (!check.ok || definition.chainId !== 'npc-relay-stone-001' || definition.definitionVersion !== 1 || definition.instancePolicy !== 'source-once-v1' || definition.repeatable !== false || definition.nodes.length !== 1 || definition.nodes[0].nodeId !== 'stone_offer' || definition.nodes[0].choices.length !== 2 || definition.hooks?.length || definition.autonomy) throw new Error('npc-relay-stone-pack-contract');
+      for (const [index, id] of ['supply', 'later'].entries()) {
+        const choice = definition.nodes[0].choices[index], effect = choice.effects?.[0];
+        if (choice.id !== id || choice.next || choice.requires?.length || choice.effects?.length !== 1 || !effect || Object.keys(effect).sort().join(',') !== 'amount,choiceId,op' || effect.op !== 'npcRelayStoneReply' || effect.choiceId !== id || effect.amount !== (id === 'supply' ? 1 : 0)) throw new Error('npc-relay-stone-choice-contract');
+      }
+      if (Object.hasOwn(contentRegistryBase('eventChain'), check.id) || Object.hasOwn(table, check.id)) throw new Error('npc-relay-stone-definition-conflict');
+      table[check.id] = observerDeepFreeze(stableClone({ ...definition, id: check.id }));
+      return Object.freeze({ status: 'bound', packId: pack.id, version: 1, definitionVersion: 1, digest: scenarioDigest(pack) });
+    }
+    function npcRelayStonePackStatus(lookupContext = null) {
+      const binding = lookupContext ? lookupContext.npcRelayStonePack : CONTENT_EXTENSIONS.eventChain[NPC_RELAY_STONE_BINDING];
+      const definition = contentDefinition('eventChain', 'npc-relay-stone-001', lookupContext);
+      return binding?.status === 'bound' && binding.packId === 'npc-relay-stone-v1' && binding.version === 1 && binding.definitionVersion === 1 && definition?.definitionVersion === 1 && definition.instancePolicy === 'source-once-v1'
+        ? binding : Object.freeze({ status: 'unavailable', reason: 'npc-relay-stone-pack-unavailable' });
+    }
+    function npcRelayStoneSource(payload = state) {
+      if (!validateRelayHandoffMemoryRoster(payload, true)) return null;
+      const matches = payload.npcs.filter(npc => npc.id === 'commander');
+      const source = matches.length === 1 ? matches[0].memory?.relayCoreHandoff : null;
+      return source && validateRelayHandoffMemoryV1(source, 'commander', payload) ? source : null;
+    }
+    function npcRelayStoneInstanceKey(source) {
+      return source ? `npc-relay-stone-001:once:${source.recipientId}:${source.eventId}:${source.projectId}:${source.itemInstanceId}` : null;
+    }
+    function npcRelayStoneSourceMatches(source, payload = state) {
+      const actual = npcRelayStoneSource(payload);
+      return !!actual && !!source && scenarioCanonical(source) === scenarioCanonical(actual);
+    }
+    function npcRelayStoneActiveValid(active, payload = state) {
+      try {
+        const keys = ['chainId','nodeId','status','startedAt','actorId','resolvedNodeIds','episodeSchemaVersion','instanceKey','instanceId','defId','definitionVersion','source','latestEventId'];
+        if (!relayHandoffMemoryDataRecord(active, keys) || active.chainId !== 'npc-relay-stone-001' || active.nodeId !== 'stone_offer' || active.status !== 'active' || active.actorId !== 'player-1' || active.episodeSchemaVersion !== 1 || active.defId !== active.chainId || active.definitionVersion !== 1 || !Number.isFinite(active.startedAt) || active.startedAt < 0 || active.startedAt > payload.world?.totalMinutes || !Array.isArray(active.resolvedNodeIds) || active.resolvedNodeIds.length || !npcRelayStoneSourceMatches(active.source, payload)) return false;
+        const key = npcRelayStoneInstanceKey(active.source);
+        if (active.instanceKey !== key || active.instanceId !== `content:${key}` || !/^evt-\d{6,}$/.test(active.latestEventId)) return false;
+        const seq = Number(active.latestEventId.slice(4)), wm = payload.worldMeta;
+        if (!Number.isSafeInteger(seq) || seq < 1 || seq > wm.eventSeq || active.latestEventId !== `evt-${String(seq).padStart(6, '0')}`) return false;
+        if (seq < wm.events[0].seq) return true;
+        const receipts = wm.events.filter(event => event.seq === seq || event.eventId === active.latestEventId);
+        const event = receipts[0];
+        return receipts.length === 1 && event.type === 'content.chain.started' && event.actorId === 'player-1' && event.defId === active.defId && event.definitionVersion === 1 && event.instanceId === active.instanceId && event.tick?.world === active.startedAt && event.payload?.chainId === active.chainId && event.payload.nodeId === active.nodeId && event.payload.instanceKey === key && scenarioCanonical(event.payload.source) === scenarioCanonical(active.source);
+      } catch { return false; }
+    }
+    function validateNpcRelayStoneSaved(payload, lookupContext = null) {
+      try {
+        const content = payload?.contentState, active = content?.activeChains?.['npc-relay-stone-001'];
+        // SAVE18 legitimately has no content domain; an explicitly present
+        // null/undefined/malformed container is not that historical absence.
+        if (!Object.hasOwn(payload, 'contentState')) return payload.version === 18;
+        if (!content || typeof content !== 'object' || Array.isArray(content)) return false;
+        const flag = content.flags?.[NPC_RELAY_STONE_TERMINAL_FLAG], hasReply = Object.hasOwn(content, 'npcRelayStoneReply');
+        if (flag !== undefined && flag !== false && flag !== true) return false;
+        if (!hasReply) return flag !== true && !content.completedChains?.includes('npc-relay-stone-001') && !content.appliedEffects?.some(id => typeof id === 'string' && id.startsWith('npc-relay-stone-001:once:')) && (!active || npcRelayStonePackStatus(lookupContext).status === 'bound' && npcRelayStoneActiveValid(active, payload));
+        const reply = content.npcRelayStoneReply;
+        if (flag !== true || active || !relayHandoffMemoryDataRecord(reply, ['version','choiceId','source','instanceKey','instanceId','defId','definitionVersion','at']) || reply.version !== 1 || !['supply','later'].includes(reply.choiceId) || reply.defId !== 'npc-relay-stone-001' || reply.definitionVersion !== 1 || !Number.isFinite(reply.at) || reply.at < 0 || reply.at > payload.world?.totalMinutes || !npcRelayStoneSourceMatches(reply.source, payload)) return false;
+        const key = npcRelayStoneInstanceKey(reply.source);
+        return reply.instanceKey === key && reply.instanceId === `content:${key}`;
+      } catch { return false; }
+    }
+    function npcRelayStoneWindow(project = state.relayProject) {
+      return project?.status === 'staging' && project.materialNeed?.wood === 10 && project.materialNeed.parts === 5 && project.materialNeed.stone === 4
+        && project.materialProgress?.wood === 10 && project.materialProgress.parts === 5 && project.materialProgress.stone === 3;
+    }
+    function npcRelayStoneOfferGate(npcId = 'commander', choiceId = null, boundSource = null) {
+      if (npcRelayStonePackStatus().status !== 'bound') return { ok: false, reason: 'npc-relay-stone-pack-unavailable' };
+      if (!SessionController.isDay() || !contentChainRuntimeGate().ok || !Number.isFinite(state.hp) || state.hp <= 0) return { ok: false, reason: 'phase-blocked' };
+      if (npcId !== 'commander' || choiceId !== null && !['supply','later'].includes(choiceId)) return { ok: false, reason: 'npc-relay-stone-target' };
+      if (!validateNpcRelayStoneSaved(state)) return { ok: false, reason: 'npc-relay-stone-state-invalid' };
+      if (state.contentState?.flags?.[NPC_RELAY_STONE_TERMINAL_FLAG] === true) return { ok: false, reason: 'chain-completed' };
+      const source = npcRelayStoneSource();
+      if (!source || boundSource && !npcRelayStoneSourceMatches(boundSource)) return { ok: false, reason: 'npc-relay-stone-source' };
+      const target = resolveNpcPublicTarget(npcId);
+      if (!target.ok) return { ok: false, reason: target.reason };
+      const npc = target.npc, holders = state.npcs.filter(item => npcFulfillsRole(item, 'commander'));
+      if (!npcFulfillsRole(npc, 'commander') || holders.length !== 1 || holders[0] !== npc) return { ok: false, reason: 'npc-relay-stone-role' };
+      if (npc.lifeState === 'critical' || npc.hp < 30) return { ok: false, reason: 'npc-relay-stone-critical' };
+      if (npc.combatStatus === 'fleeing' || npc.combatStatus === 'fled') return { ok: false, reason: 'npc-relay-stone-fleeing' };
+      if (!Number.isFinite(state.player?.x) || !Number.isFinite(state.player?.y) || Math.hypot(npc.x - state.player.x, npc.y - state.player.y) > 1) return { ok: false, reason: 'npc-relay-stone-range' };
+      if (!npcRelayStoneWindow() || source.projectId !== state.relayProject.id || source.itemInstanceId !== state.relayProject.coreItemId) return { ok: false, reason: 'npc-relay-stone-no-longer-needed' };
+      if (choiceId === 'supply' && (!Number.isFinite(state.stone) || state.stone < 1)) return { ok: false, reason: 'npc-relay-stone-stock' };
+      return { ok: true, npcId, source, choiceId };
+    }
+    function npcRelayStoneReasonText(reason) {
+      return ({ 'phase-blocked': '只有可操作的白天才能答复', 'chain-completed': '你已经答复过这件事', 'npc-relay-stone-source': '林岑没有可确认的本人交付经历', 'npc-relay-stone-range': '需要靠近林岑到1格内；查看范围为1.25格', 'npc-relay-stone-role': '林岑当前没有担任营地长官', 'npc-relay-stone-critical': '林岑伤势过重，暂时无法受理', 'npc-relay-stone-fleeing': '林岑正在撤退，暂时无法受理', 'npc-relay-stone-no-longer-needed': '当前工程已经不再缺这最后一块石料', 'npc-relay-stone-stock': '库存不足1石料；仍可选择本次先不交', 'npc-not-in-camp': '林岑当前不在营地', 'npc-inactive': '林岑当前无法受理', 'npc-relay-stone-state-invalid': '这件事项的记录暂时无法确认', 'npc-relay-stone-pack-unavailable': '这件事项暂时不可用' })[reason] || '林岑当前无法受理这件事项';
+    }
+    function npcRelayStoneTransactionSnapshot() {
+      return { contentState: stableClone(state.contentState), relayProject: stableClone(state.relayProject), stone: state.stone, npcs: stableClone(state.npcs), hordeForecast: stableClone(state.hordeForecast), campaign: stableClone(state.campaign), events: stableClone(state.worldMeta.events), eventSeq: state.worldMeta.eventSeq, lastEventId: state.worldMeta.lastEventId };
+    }
+    function restoreNpcRelayStoneTransaction(previous) {
+      state.contentState = previous.contentState; state.relayProject = previous.relayProject; state.stone = previous.stone; state.npcs = previous.npcs;
+      state.hordeForecast = previous.hordeForecast; state.campaign = previous.campaign;
+      state.worldMeta.events = previous.events; state.worldMeta.eventSeq = previous.eventSeq; state.worldMeta.lastEventId = previous.lastEventId;
+      // commandSeq / seenCommands / replay / activeCommandId belong to the Bus.
+      // A rejected attempt keeps its reservation and receives the normal receipt.
+    }
+    function startNpcRelayStoneChain(meta = {}) {
+      if ((meta.actorId || 'player-1') !== 'player-1' || !state.worldMeta.activeCommandId) return { ok: false, reason: 'npc-relay-stone-command-required' };
+      const gate = npcRelayStoneOfferGate(); if (!gate.ok) return gate;
+      const existing = state.contentState?.activeChains?.['npc-relay-stone-001'];
+      if (existing) return npcRelayStoneActiveValid(existing) ? { ok: true, duplicate: true, active: existing } : { ok: false, reason: 'npc-relay-stone-state-invalid' };
+      const previous = npcRelayStoneTransactionSnapshot();
+      try {
+        ensureContentState();
+        const source = stableClone(gate.source), instanceKey = npcRelayStoneInstanceKey(source);
+        const active = { chainId: 'npc-relay-stone-001', nodeId: 'stone_offer', status: 'active', startedAt: worldMinute(), actorId: 'player-1', resolvedNodeIds: [], episodeSchemaVersion: 1, instanceKey, instanceId: `content:${instanceKey}`, defId: 'npc-relay-stone-001', definitionVersion: 1, source, latestEventId: null };
+        state.contentState.activeChains[active.chainId] = active;
+        const event = recordWorldEvent('content.chain.started', { chainId: active.chainId, nodeId: active.nodeId, instanceKey, source: stableClone(source) }, { actorId: 'player-1', defId: active.defId, instanceId: active.instanceId, definitionVersion: 1 });
+        active.latestEventId = event.eventId;
+        return { ok: true, active };
+      } catch (error) { restoreNpcRelayStoneTransaction(previous); return { ok: false, reason: 'npc-relay-stone-transaction-failed' }; }
+    }
+    function applyNpcRelayStoneReplyEffect(effect, meta) {
+      if (meta[NPC_RELAY_STONE_EFFECT_AUTHORITY] !== true || meta.defId !== 'npc-relay-stone-001' || meta.actorId !== 'player-1' || !state.worldMeta.activeCommandId || Object.keys(effect).sort().join(',') !== 'amount,choiceId,op' || effect.op !== 'npcRelayStoneReply' || !['supply','later'].includes(effect.choiceId) || effect.amount !== (effect.choiceId === 'supply' ? 1 : 0)) return { ok: false, reason: 'npc-relay-stone-effect-contract' };
+      const active = state.contentState.activeChains['npc-relay-stone-001'];
+      const identity = contentEpisodeGate('npc-relay-stone-001', 'stone_offer', meta); if (!identity.ok) return identity;
+      const gate = npcRelayStoneOfferGate('commander', effect.choiceId, active?.source); if (!gate.ok) return gate;
+      const before = state.stone, materialBefore = state.relayProject.materialProgress.stone;
+      if (effect.choiceId === 'supply') { state.stone -= 1; state.relayProject.materialProgress.stone += 1; }
+      return { ok: true, op: 'npcRelayStoneReply', choiceId: effect.choiceId, key: 'stone', before, after: state.stone, materialBefore, materialAfter: state.relayProject.materialProgress.stone, projectId: gate.source.projectId, amount: effect.amount };
+    }
+    function resolveNpcRelayStoneChoice(nodeId, choiceId, meta = {}) {
+      if ((meta.actorId || 'player-1') !== 'player-1' || !state.worldMeta.activeCommandId) return { ok: false, reason: 'npc-relay-stone-command-required' };
+      const identity = contentEpisodeGate('npc-relay-stone-001', nodeId, meta); if (!identity.ok) return identity;
+      const active = state.contentState?.activeChains?.['npc-relay-stone-001'];
+      const definition = contentDefinition('eventChain', 'npc-relay-stone-001');
+      const choice = definition?.nodes?.find(node => node.nodeId === nodeId)?.choices?.find(item => item.id === choiceId);
+      if (!choice) return { ok: false, reason: 'chain-choice-missing' };
+      const gate = contentChainChoiceGateRuntime(definition, choice, { actorId: 'player-1' }); if (!gate.ok) return gate;
+      const previous = npcRelayStoneTransactionSnapshot();
+      try {
+        const result = applyContentEffects(choice.effects, { ...meta, actorId: 'player-1', defId: active.defId, instanceKey: active.instanceKey, instanceId: active.instanceId, definitionVersion: 1, effectId: `${active.instanceKey}:${nodeId}:${choiceId}`, [NPC_RELAY_STONE_EFFECT_AUTHORITY]: true });
+        if (!result.ok || result.duplicate) { restoreNpcRelayStoneTransaction(previous); return result.duplicate ? { ok: false, reason: 'chain-choice-already-applied' } : result; }
+        // Complete only after the effect succeeded. The outer transaction also
+        // owns this terminal record and the final business receipt.
+        state.contentState.npcRelayStoneReply = { version: 1, choiceId, source: stableClone(active.source), instanceKey: active.instanceKey, instanceId: active.instanceId, defId: active.defId, definitionVersion: 1, at: worldMinute() };
+        state.contentState.flags[NPC_RELAY_STONE_TERMINAL_FLAG] = true;
+        delete state.contentState.activeChains[active.chainId];
+        state.contentState.completedChains = [...new Set([...state.contentState.completedChains, active.chainId])].slice(-100);
+        const payload = { chainId: active.chainId, nodeId, choiceId, instanceKey: active.instanceKey, recipientId: active.source.recipientId, source: stableClone(active.source), projectId: active.source.projectId, results: result.results };
+        recordWorldEvent('content.chain.resolved', payload, { actorId: 'player-1', defId: active.defId, instanceId: active.instanceId, definitionVersion: 1, effects: choice.effects });
+        if (!validateNpcRelayStoneSaved(state)) throw new Error('npc-relay-stone-final-state');
+        return { ok: true, ...payload };
+      } catch (error) { restoreNpcRelayStoneTransaction(previous); return { ok: false, reason: 'npc-relay-stone-transaction-failed' }; }
+    }
+    function openNpcRelayStoneOffer(npcId = 'commander', options = {}) {
+      const result = dispatchCommand({ type: 'content.chain.open', commandId: options.commandId, actorId: 'player-1', payload: { chainId: 'npc-relay-stone-001', npcId } }, () => {
+        const gate = npcRelayStoneOfferGate(npcId); if (!gate.ok) return gate;
+        const opened = startContentChain('npc-relay-stone-001', { actorId: 'player-1' });
+        return opened.ok ? { result: opened } : opened;
+      }, { eventType: 'content.chain.opened', defId: 'npc-relay-stone-001', validate: () => npcRelayStoneOfferGate(npcId) });
+      if (result.ok) { eventPanelSelection = 'chain:npc-relay-stone-001'; eventPanelReceipt = null; openInfoModal('events'); renderEvent(); }
+      else toast(npcRelayStoneReasonText(result.reason));
+      return result;
+    }
+
     const WATCHPOST_MANUAL_BINDING = Symbol('watchpost-manual-v1');
     const WATCHPOST_DAY_START_AUTHORITY = Symbol('watchpost-day-start-authority');
     function prepareWatchpostManualPack(table) {
@@ -3142,7 +3309,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
      const CONTENT_KINDS = Object.freeze(['weapon', 'eventChain', 'npcStory', 'techNode', 'building', 'faction', 'outpost', 'npcRole']);
      const CONTENT_EXTENSIONS = Object.fromEntries(CONTENT_KINDS.map(kind => [kind, Object.create(null)]));
      const SCENARIO_SOURCE_FLAGS = Symbol('scenario-source-flags');
-     const CONTENT_EFFECT_OPS = Object.freeze(['addResource', 'adjust_resource', 'adjustMeter', 'adjust_meter', 'modifyRelation', 'unlockTech', 'unlockWeapon', 'unlock', 'scheduleEvent', 'assignJob', 'damageBuilding', 'captureOutpost', 'recordHistory']);
+     const CONTENT_EFFECT_OPS = Object.freeze(['addResource', 'adjust_resource', 'adjustMeter', 'adjust_meter', 'modifyRelation', 'unlockTech', 'unlockWeapon', 'unlock', 'scheduleEvent', 'assignJob', 'damageBuilding', 'captureOutpost', 'recordHistory', 'npcRelayStoneReply']);
     const CONTENT_SCHEMA_VERSION = 3;
      function migrateContentState(raw = {}, context = {}) {
        const next = stableClone(raw || {}); const fromVersion = Number(next.contentVersion) || 0;
@@ -3453,6 +3620,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
        ensureContentState();
        const op = effect.op || effect.type; const key = effect.key || effect.id; const value = Number(effect.value ?? effect.amount ?? 0);
        if (!CONTENT_EFFECT_OPS.includes(op)) return { ok: false, reason: `unknown-effect:${op}` };
+       if (op === 'npcRelayStoneReply') return applyNpcRelayStoneReplyEffect(effect, meta);
        if (op === 'addResource' || op === 'adjust_resource') { const resourceKey = key === 'scrap' ? 'parts' : key; if (!Object.prototype.hasOwnProperty.call(state, resourceKey) || !Number.isFinite(Number(state[resourceKey]))) return { ok: false, reason: `unknown-resource:${key}` }; const before = Number(state[resourceKey]); state[resourceKey] = Math.max(0, before + value); return { ok: true, op, key: resourceKey, value, before, after: state[resourceKey] }; }
        if (op === 'adjustMeter' || op === 'adjust_meter') { const meter = key || 'campCollapse'; if (!Object.prototype.hasOwnProperty.call(state.contentState.meters, meter)) return { ok: false, reason: `meter-missing:${meter}` }; const before = Number(state.contentState.meters[meter]) || 0; state.contentState.meters[meter] = Math.max(0, Math.min(100, before + value)); return { ok: true, op, key: meter, before, after: state.contentState.meters[meter] }; }
        if (op === 'modifyRelation') { const npc = state.npcs?.find(item => item.id === (effect.npcId || effect.targetId)); if (!npc) return { ok: false, reason: 'npc-missing' }; updateNpcRelation(npc, effect.delta || { [key]: value }, effect.reason || '内容事件'); return { ok: true, op, npcId: npc.id }; }
@@ -3511,6 +3679,9 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
        if (invalid) return { ok: false, reason: `unknown-effect:${invalid?.op || invalid?.type}` };
        const rollback = {
          contentState: stableClone(state.contentState),
+         relayProject: Object.hasOwn(state, 'relayProject')
+           ? { present: true, value: state.relayProject === undefined ? undefined : stableClone(state.relayProject) }
+           : { present: false },
          npcs: stableClone(state.npcs || []),
          presenceUi: { event: stableClone(state.event), eventInstance: stableClone(state.eventInstance), npcEvents: stableClone(state.npcEvents || []), selectedNpc: state.selectedNpc, npcTalkOpen: state.npcTalkOpen, interactionFocus: stableClone(state.interactionFocus), logs: stableClone(state.logs || []) },
          buildings: stableClone(state.buildings || []),
@@ -3524,10 +3695,21 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
          worldLastEventId: state.worldMeta?.lastEventId || null,
          scalars: Object.fromEntries(['wood', 'stone', 'food', 'seeds', 'medicine', 'parts', 'tapes', 'morale', 'hp'].map(key => [key, state[key]]))
        };
-       const results = list.map(effect => applyContentEffect(effect, meta));
-       const failed = results.find(result => !result.ok);
+       const results = [];
+       let failed = null;
+       try {
+         for (const effect of list) { const result = applyContentEffect(effect, meta); results.push(result); if (!result.ok) { failed = result; break; } }
+         if (!failed) {
+           list.filter(effect => (effect?.op || effect?.type) === 'captureOutpost').forEach(effect => runContentHook('onOutpostSecured', { outpostId: effect.key || effect.id, actorId: meta.actorId || 'system' }));
+           if (effectId) state.contentState.appliedEffects = [...state.contentState.appliedEffects, effectId].slice(-200);
+           const effectEvent = meta.record !== false ? recordWorldEvent('content.effects.applied', { effects: stableClone(list), results, ...(meta.instanceKey ? { effectId, instanceKey: meta.instanceKey } : {}) }, { actorId: meta.actorId || 'system', defId: meta.defId || null, effects: list, ...(meta.instanceId ? { instanceId: meta.instanceId, definitionVersion: meta.definitionVersion } : {}) }) : null;
+           if (rollback.scalars.hp > 0 && state.hp === 0 && results.some(result => result.ok && result.key === 'hp' && result.after === 0)) contentHpFatalSource = { event: effectEvent, actorId: meta.actorId || 'system' };
+         }
+       } catch (error) { failed = { ok: false, reason: 'content-effect-exception' }; }
        if (failed) {
          state.contentState = rollback.contentState;
+         if (rollback.relayProject.present) state.relayProject = rollback.relayProject.value;
+         else delete state.relayProject;
          state.npcs = rollback.npcs;
          Object.assign(state, rollback.presenceUi);
          state.buildings = rollback.buildings;
@@ -3540,10 +3722,6 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
          Object.entries(rollback.scalars).forEach(([key, value]) => { state[key] = value; });
          return { ok: false, reason: failed.reason, results, rolledBack: true };
        }
-       list.filter(effect => (effect?.op || effect?.type) === 'captureOutpost').forEach(effect => runContentHook('onOutpostSecured', { outpostId: effect.key || effect.id, actorId: meta.actorId || 'system' }));
-       if (effectId) state.contentState.appliedEffects = [...state.contentState.appliedEffects, effectId].slice(-200);
-       const effectEvent = meta.record !== false ? recordWorldEvent('content.effects.applied', { effects: stableClone(list), results, ...(meta.instanceKey ? { effectId, instanceKey: meta.instanceKey } : {}) }, { actorId: meta.actorId || 'system', defId: meta.defId || null, effects: list, ...(meta.instanceId ? { instanceId: meta.instanceId, definitionVersion: meta.definitionVersion } : {}) }) : null;
-       if (rollback.scalars.hp > 0 && state.hp === 0 && results.some(result => result.ok && result.key === 'hp' && result.after === 0)) contentHpFatalSource = { event: effectEvent, actorId: meta.actorId || 'system' };
        return { ok: true, results };
      }
      function contentConditionMet(condition = {}) {
@@ -3578,6 +3756,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
        return merged;
      }
      function contentChainDefinitionGate(definition, context = {}) {
+       if (definition?.chainId === 'npc-relay-stone-001') return context.actorId && context.actorId !== 'player-1' ? { ok: false, reason: 'npc-relay-stone-player-only' } : npcRelayStoneOfferGate();
        if (!contentDefinitionUsesGateV1(definition)) return { ok: true, gateVersion: 0, checked: 0 };
        const gate = definition?.gate && typeof definition.gate === 'object' && !Array.isArray(definition.gate) ? definition.gate : {};
        const preconditions = contentGateConditions(definition, gate);
@@ -3590,6 +3769,11 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
         // interpreting a missing choice as an empty, automatically-passing
         // requirement list.
         if (!definition || typeof definition !== 'object' || Array.isArray(definition)) return { ok: false, reason: 'choice-contract' };
+       if (definition.chainId === 'npc-relay-stone-001') {
+         if (context.actorId && context.actorId !== 'player-1') return { ok: false, reason: 'npc-relay-stone-player-only' };
+         if (!choice || !definition.nodes?.[0]?.choices?.some(item => item === choice)) return { ok: false, reason: 'choice-contract' };
+         return npcRelayStoneOfferGate('commander', choice.id, state.contentState?.activeChains?.['npc-relay-stone-001']?.source || null);
+       }
        if (definition.chainId === 'watchpost-003' && !SessionController.isDay()) return { ok: false, reason: 'phase-blocked' };
         if (!choice || typeof choice !== 'object' || Array.isArray(choice)) return { ok: false, reason: 'choice-contract' };
        const requirements = choice?.requires !== undefined ? choice.requires : choice?.requirements === undefined ? [] : choice.requirements;
@@ -3642,7 +3826,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
 
      // EventInstance identity for opt-in repeatable content. Legacy chains keep
      // their original projection and receipts; episode fields are additive.
-     function contentChainUsesInstanceToken(definition) { return definition?.repeatable === true || definition?.chainId === 'watchpost-003' && definition.instancePolicy === 'once-v1'; }
+     function contentChainUsesInstanceToken(definition) { return definition?.repeatable === true || definition?.chainId === 'watchpost-003' && definition.instancePolicy === 'once-v1' || definition?.chainId === 'npc-relay-stone-001' && definition.instancePolicy === 'source-once-v1'; }
      function contentChainCompletionKey(definition, active, chainId) { return definition?.repeatable === true ? active?.instanceKey || chainId : chainId; }
      function contentEpisodeIdentity(definition, active) {
        const episodeDay = Math.floor(Number(active.startedAt) / 1440) + 1;
@@ -3672,9 +3856,10 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
      }
      function contentEpisodeExpectedToken(active = {}) {
        return { expectedInstanceKey: active.instanceKey ?? null, expectedInstanceId: active.instanceId ?? null,
-         expectedDefId: active.defId ?? null, expectedDefinitionVersion: active.definitionVersion ?? null, expectedNodeId: active.nodeId ?? null };
+         expectedDefId: active.defId ?? null, expectedDefinitionVersion: active.definitionVersion ?? null, expectedNodeId: active.nodeId ?? null, ...(active.chainId === 'npc-relay-stone-001' ? { expectedEventId: active.latestEventId ?? null } : {}) };
      }
      function contentEpisodeGate(chainId, nodeId, expected = {}) {
+       if (chainId === 'npc-relay-stone-001' && (npcRelayStonePackStatus().status !== 'bound' || !npcRelayStoneActiveValid(state.contentState?.activeChains?.[chainId]))) return { ok: false, reason: 'npc-relay-stone-state-invalid' };
        if (chainId === 'watchpost-003' && watchpostManualPackStatus().status !== 'bound') return { ok: false, reason: 'watchpost-pack-unavailable' };
        const definition = contentDefinition('eventChain', chainId);
        if (!contentChainUsesInstanceToken(definition)) return { ok: true };
@@ -3688,8 +3873,10 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
        return nodeId === active.nodeId ? { ok: true } : { ok: false, reason: 'content-node-conflict' };
      }
      function startContentChain(chainId, meta = {}) {
+       if (chainId === 'npc-relay-stone-001') return startNpcRelayStoneChain(meta);
        const gate = contentChainRuntimeGate(); if (!gate.ok) return gate;
        if (chainId === 'watchpost-003' && !SessionController.isDay()) return { ok: false, reason: 'phase-blocked' };
+       if (chainId === 'npc-relay-stone-001' && (npcRelayStonePackStatus().status !== 'bound' || !npcRelayStoneActiveValid(state.contentState?.activeChains?.[chainId]))) return { ok: false, reason: 'npc-relay-stone-state-invalid' };
        if (chainId === 'watchpost-003' && watchpostManualPackStatus().status !== 'bound') return { ok: false, reason: 'watchpost-pack-unavailable' };
        ensureContentState();
        const definition = contentDefinition('eventChain', chainId);
@@ -3716,6 +3903,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
        return { ok: true, active };
      }
      function resolveContentChain(chainId, nodeId, choiceId, meta = {}) {
+       if (chainId === 'npc-relay-stone-001') return resolveNpcRelayStoneChoice(nodeId, choiceId, meta);
        const gate = contentChainRuntimeGate(); if (!gate.ok) return gate;
        if (chainId === 'watchpost-003' && (meta.actorId || 'player-1') !== 'player-1') return { ok: false, reason: 'watchpost-player-only' };
        const identity = contentEpisodeGate(chainId, nodeId, meta); if (!identity.ok) return identity;
@@ -3758,6 +3946,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
        return { ok: true, chainId, nodeId, choiceId, results: result.results };
      }
      function resolveContentFallback(chainId, reason = 'ifSkipped', meta = {}) {
+       if (chainId === 'npc-relay-stone-001') return { ok: false, reason: 'npc-relay-stone-player-choice-only' };
        const gate = contentChainRuntimeGate(); if (!gate.ok) return gate;
        // A retry may refer to a settled episode only when the original receipt
        // proves all five token fields and the same fallback reason. Never
@@ -3787,6 +3976,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
        return { ok: true, ...payload };
      }
      function resolveContentAutonomy(chainId, meta = {}) {
+       if (chainId === 'npc-relay-stone-001') return { ok: false, reason: 'npc-relay-stone-player-choice-only' };
        const gate = contentChainRuntimeGate(); if (!gate.ok) return gate;
        const prior = !state.contentState?.activeChains?.[chainId] && contentDefinition('eventChain', chainId)?.repeatable && state.contentState?.completedChains?.includes(meta.expectedInstanceKey) && state.worldMeta?.events?.find(event => event.type === 'content.chain.autonomy' && event.payload?.chainId === chainId && event.payload.instanceKey === meta.expectedInstanceKey && event.instanceId === meta.expectedInstanceId && event.defId === meta.expectedDefId && event.definitionVersion === meta.expectedDefinitionVersion && event.payload.nodeId === meta.expectedNodeId);
        if (prior) return { ok: true, duplicate: true, chainId, episodeKey: meta.expectedInstanceKey };
@@ -4328,7 +4518,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       for (const [id,chain] of Object.entries(cs.activeChains)) if (!savedRecord(chain) || chain.chainId !== id || typeof chain.nodeId !== 'string' || !chain.nodeId || chain.status !== 'active' || !savedNumbers(chain,['startedAt']) || chain.startedAt > savedMinute(payload) || typeof chain.actorId !== 'string' || !chain.actorId || chain.resolvedNodeIds !== undefined && !savedStringIds(chain.resolvedNodeIds) || chain.history !== undefined && (!Array.isArray(chain.history) || chain.history.some(item => !savedRecord(item) || typeof item.nodeId !== 'string' || typeof item.choiceId !== 'string' || !savedNumbers(item,['at']) || item.at > savedMinute(payload)))) return fail('content-active-chain');
 
       for (const [id, chain] of Object.entries(cs.activeChains)) {
-        const episodeDay = Math.floor(chain.startedAt / 1440) + 1, expectedKey = id === 'watchpost-003' ? 'watchpost-003:once' : `${id}:${episodeDay}`;
+        const episodeDay = Math.floor(chain.startedAt / 1440) + 1, expectedKey = id === 'watchpost-003' ? 'watchpost-003:once' : id === 'npc-relay-stone-001' ? npcRelayStoneInstanceKey(chain.source) : `${id}:${episodeDay}`;
         if (chain.instanceKey !== undefined && chain.instanceKey !== expectedKey ||
             chain.instanceId !== undefined && chain.instanceId !== `content:${expectedKey}` ||
             chain.defId !== undefined && chain.defId !== id ||
@@ -4348,6 +4538,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
         if (chain.definitionVersion !== undefined && chain.definitionVersion !== (Number(definition.definitionVersion) || 1) && !shortageAdapter) return fail('content-episode-definition-version');
         if (chain.instanceKey && cs.completedChains.includes(chain.instanceKey)) return fail('content-episode-completed-active');
       }
+      if (!validateNpcRelayStoneSaved(payload, lookupContext)) return fail('content-npc-relay-stone');
       if (cs.episodeLegacyHolds !== undefined && (!savedRecord(cs.episodeLegacyHolds) || Object.values(cs.episodeLegacyHolds).some(day => !Number.isSafeInteger(day) || day < 1 || day > payload.day))) return fail('content-episode-legacy-hold');
       for (const key of ['commandPoints', 'commandPointsMax', 'commandPointsGrantedDay']) if (cs[key] !== undefined && (!Number.isInteger(cs[key]) || cs[key] < 0)) return fail(`content:${key}`);
       if (payload.version === SAVE_VERSION && ['commandPoints','commandPointsMax','commandPointsGrantedDay','planMeeting','outposts','npcRoster'].some(key => !Object.prototype.hasOwnProperty.call(cs, key))) return fail('current-content-incomplete');
@@ -4512,6 +4703,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
         eventChainTable[check.id] = observerDeepFreeze(stableClone(raw));
       }
       const watchpostPack = prepareWatchpostManualPack(eventChainTable);
+      const npcRelayStonePack = prepareNpcRelayStonePack(eventChainTable);
       for (const ref of compiled.registry) {
         if (ref.kind === 'eventDef' ? !eventDefinition(ref.id) : ref.kind !== 'eventChain' || !eventChainTable[ref.id]) throw new Error('scenario-reference-missing:' + ref.kind + ':' + ref.id);
       }
@@ -4521,12 +4713,14 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       const committedTable = Object.assign(Object.create(null), eventChainTable);
       Object.defineProperty(committedTable, SCENARIO_SOURCE_FLAGS, { value: protectedFlags, enumerable: false });
       Object.defineProperty(committedTable, WATCHPOST_MANUAL_BINDING, { value: watchpostPack, enumerable: false });
-      return Object.freeze({ compiled: observerDeepFreeze(stableClone(compiled)), eventChainTable: Object.freeze(eventChainTable), committedTable, protectedFlags, watchpostPack, originalTable, originalProjection: scenarioCanonical(originalTable) });
+      Object.defineProperty(committedTable, NPC_RELAY_STONE_BINDING, { value: npcRelayStonePack, enumerable: false });
+      return Object.freeze({ compiled: observerDeepFreeze(stableClone(compiled)), eventChainTable: Object.freeze(eventChainTable), committedTable, protectedFlags, watchpostPack, npcRelayStonePack, originalTable, originalProjection: scenarioCanonical(originalTable) });
     }
     function validatePreparedScenarioContent(context, committed = false) {
       if (!context || !Object.isFrozen(context) || !Object.isFrozen(context.eventChainTable) || !Object.isFrozen(context.compiled)) throw new Error('scenario-content-draft');
       if (committed ? CONTENT_EXTENSIONS.eventChain !== context.committedTable : CONTENT_EXTENSIONS.eventChain !== context.originalTable || scenarioCanonical(CONTENT_EXTENSIONS.eventChain) !== context.originalProjection || scenarioCanonical(context.committedTable) !== scenarioCanonical(context.eventChainTable)) throw new Error('scenario-content-directory-changed');
       const compiled = context.compiled;
+      if (!Object.isFrozen(context.npcRelayStonePack) || context.committedTable[NPC_RELAY_STONE_BINDING] !== context.npcRelayStonePack || context.npcRelayStonePack.digest !== scenarioDigest(NPC_RELAY_STONE_PACK) || scenarioCanonical(context.eventChainTable['npc-relay-stone-001']) !== scenarioCanonical({ ...NPC_RELAY_STONE_PACK.definition, id: 'npc-relay-stone-001' }) || scenarioCanonical(context.committedTable['npc-relay-stone-001']) !== scenarioCanonical(context.eventChainTable['npc-relay-stone-001'])) throw new Error('npc-relay-stone-content-binding');
       if (!Object.isFrozen(context.watchpostPack) || context.committedTable[WATCHPOST_MANUAL_BINDING] !== context.watchpostPack) throw new Error('watchpost-content-binding');
       if (context.watchpostPack.status === 'bound' && (context.watchpostPack.digest !== scenarioDigest(WATCHPOST_MANUAL_PACK) || scenarioCanonical(context.eventChainTable['watchpost-003']) !== scenarioCanonical({ ...WATCHPOST_MANUAL_PACK.definition, id: 'watchpost-003' }) || scenarioCanonical(context.committedTable['watchpost-003']) !== scenarioCanonical(context.eventChainTable['watchpost-003']))) throw new Error('watchpost-content-definition');
       if (!Object.isFrozen(context.protectedFlags) || context.committedTable[SCENARIO_SOURCE_FLAGS] !== context.protectedFlags || scenarioCanonical(context.protectedFlags) !== scenarioCanonical(SCENARIO_BOOT_PACKAGE.events.storylets.map(story => story.source.flag)) || context.protectedFlags.some(flag => contentDefinition('weapon', flag))) throw new Error('scenario-source-flag-conflict');
@@ -4729,7 +4923,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
           visitedRegions: state.visitedRegions, areaFlags: state.areaFlags, roleVacancies: state.roleVacancies, tempCoordination: !!state.tempCoordination,
           settings: state.settings, staminaRules: state.staminaRules, worldMeta: {...state.worldMeta, events: state.worldMeta.events.slice(-300), feedback: []}, quests: state.quests
         };
-        if (!validateDayFatalOutcome(payload) || !validateRelayHandoffMemoryRoster(payload, true) ||
+        if (!validateDayFatalOutcome(payload) || !validateRelayHandoffMemoryRoster(payload, true) || !validateNpcRelayStoneSaved(payload) ||
             Object.prototype.hasOwnProperty.call(payload.worldMeta.clock, 'subMinuteRemainder') && !validWorldClockRemainder(payload.worldMeta.clock.subMinuteRemainder)) {
           toast('当前进度未能保存，已保留上次有效存档'); return false;
         }
@@ -6829,6 +7023,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       if (chain?.active.chainId === 'watchpost-003' && !SessionController.isDay()) return { ok: false, reason: 'phase-blocked', label: '只有可操作白天才能确认岗亭准备' };
       const gate = contentChainChoiceGateRuntime(chain?.definition || null, choice, { actorId: chain?.active?.actorId || 'player-1' });
       if (!gate.ok) {
+        if (chain?.active.chainId === 'npc-relay-stone-001') return { ...gate, label: npcRelayStoneReasonText(gate.reason) };
         if (chain?.active.chainId === 'watchpost-003') return { ...gate, label: watchpostWarningReasonText(gate.details?.reason) };
         const requirements = choice?.requires !== undefined ? choice.requires : choice?.requirements === undefined ? [] : choice.requirements;
         if (gate.reason === 'choice-contract' || gate.reason === 'choice-requirement-invalid') return { ...gate, label: '这条路线暂时不可用' };
@@ -6842,7 +7037,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
     function resolveContentChainCommand(chainId, nodeId, choiceId, options = {}) {
       const gate = contentChainRuntimeGate(); if (!gate.ok) return gate;
       const repeatable = contentChainUsesInstanceToken(contentDefinition('eventChain', chainId));
-      const expected = repeatable ? Object.fromEntries(Object.keys(contentEpisodeExpectedToken()).map(key => [key, options[key] ?? null])) : {};
+      const expected = repeatable ? Object.fromEntries(Object.keys(contentEpisodeExpectedToken(state.contentState?.activeChains?.[chainId] || {})).map(key => [key, options[key] ?? null])) : {};
       return dispatchCommand({ type: 'content.chain.resolve', commandId: options.commandId, actorId: options.actorId || 'player-1', payload: { chainId, nodeId, choiceId, ...expected } }, () => {
         const result = resolveContentChain(chainId, nodeId, choiceId, { actorId: options.actorId || 'player-1', ...expected });
         return result.ok ? { result } : result;
@@ -6853,6 +7048,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       const meters = { campCollapse: '营地崩溃压力', resonancePressure: '共振压力', campTrust: '营地信任' };
       const signed = value => `${value >= 0 ? '+' : ''}${value}`;
       return (result?.results || []).map(effect => {
+        if (effect.op === 'npcRelayStoneReply') return effect.choiceId === 'supply' ? '库存石料 −1，站基石料 +1；施工仍按营地安排进行' : '本次没有交料；之后营地仍可能自行取用库存';
         if (effect.op === 'addResource' || effect.op === 'adjust_resource') return `${resources[effect.key] || '物资'} ${signed(Number.isFinite(effect.before) && Number.isFinite(effect.after) ? effect.after - effect.before : effect.value)}`;
         if (effect.op === 'adjustMeter' || effect.op === 'adjust_meter') return `${meters[effect.key] || '营地状态'} ${signed(effect.after - effect.before)}`;
       if (effect.op === 'unlock' && effect.key === 'watchpost-manual-prepared') return '人工哨报准备已记录 · 追加0物资／0分钟 · 当前能力随守军与维护变化';
@@ -6881,12 +7077,13 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
         if (active?.episodeSchemaVersion === 1) {
           button.dataset.eventInstanceId = active.instanceId; button.dataset.eventInstanceKey = active.instanceKey;
           button.dataset.eventDefId = active.defId; button.dataset.eventDefinitionVersion = String(active.definitionVersion);
+          if (active.chainId === 'npc-relay-stone-001') button.dataset.eventId = active.latestEventId;
         }
       }
     }
     function eventChoiceExpectedToken(displayed = {}) {
       if (!displayed) return {};
-      if (typeof displayed.eventSource === 'string' && displayed.eventSource.startsWith('chain:')) return { expectedInstanceId: displayed.eventInstanceId || null, expectedInstanceKey: displayed.eventInstanceKey || null, expectedDefId: displayed.eventDefId || null, expectedDefinitionVersion: displayed.eventDefinitionVersion ? Number(displayed.eventDefinitionVersion) : null, expectedNodeId: displayed.eventNodeId || null };
+      if (typeof displayed.eventSource === 'string' && displayed.eventSource.startsWith('chain:')) return { expectedInstanceId: displayed.eventInstanceId || null, expectedInstanceKey: displayed.eventInstanceKey || null, expectedDefId: displayed.eventDefId || null, expectedDefinitionVersion: displayed.eventDefinitionVersion ? Number(displayed.eventDefinitionVersion) : null, expectedNodeId: displayed.eventNodeId || null, ...(displayed.eventDefId === 'npc-relay-stone-001' ? { expectedEventId: displayed.eventId || null } : {}) };
       if (displayed.eventSource !== 'daily') return {};
       const token = {};
       if (displayed.eventInstanceId) token.expectedInstanceId = displayed.eventInstanceId;
@@ -6926,6 +7123,8 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       const views = eventContentChainViews();
       const chain = activeContentChainView(views);
       renderEventSources(views, chain);
+      const stoneFeedback = $('npcRelayStoneChoiceFeedback');
+      if (stoneFeedback) { stoneFeedback.hidden = true; stoneFeedback.textContent = ''; }
       const watchpostFeedback = $('watchpostChoiceFeedback');
       if (watchpostFeedback) { watchpostFeedback.hidden = true; watchpostFeedback.textContent = ''; }
       $('eventChoiceB').hidden = false; $('eventChoiceB').style.display = '';
@@ -6959,6 +7158,10 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
           const current = food.ratio > 1 ? '当前基础供给已缓解；这是原预警，仍可确认并保留备用粮。' : '结算时若库存不足，原配给缺口与人物需求后果照常发生。';
           $('eventText').textContent = `${storyText} 当前库存 ${state.food} 份，基础日需 ${food.dailyNeed} 份；下次午夜配给为第 ${nextRationDay} 天 00:00（约 ${Math.ceil(untilMidnight)} 分钟后）。个人用餐与据点维护另计，库存会继续变化。${current}`;
         } else $('eventText').textContent = storyText;
+        if (chain.active.chainId === 'npc-relay-stone-001' && stoneFeedback) {
+          const gate = contentChainChoiceGate(choices[0]);
+          stoneFeedback.hidden = false; stoneFeedback.textContent = gate.ok ? '当前木材、零件已齐，站基还缺1石料。交料不额外支付体力或分钟；施工仍需时间。也可以本次先不交，或关闭面板暂不回答。' : gate.label;
+        }
         if (chain.active.chainId === 'watchpost-003') {
           const publicGate = contentChainChoiceGate(choices[0]);
           if (watchpostFeedback) { watchpostFeedback.hidden = false; watchpostFeedback.textContent = publicGate.ok ? '当前可确认 · 追加0物资／0分钟；据点维护额外1粮/日，守军仍按原规则配给。' : publicGate.label + '。确认追加0物资／0分钟；据点维护额外1粮/日，守军仍按原规则配给。'; }
@@ -7122,6 +7325,13 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
           const orderGate = npcPublicActionGate(npc, { action: 'order', orderId: order.id });
           actions.push(`<button class="context-action ${selected ? 'primary' : ''}" data-context-action="npcOrder" data-context-index="${index}" data-npc-id="${eventUiText(npc.id)}" data-order="${eventUiText(order.id)}" ${!orderGate.ok ? 'disabled' : ''}><kbd class="action-index">${index + 1}</kbd>${selected ? '✅ ' : '🎯 '}${order.name}<small>${orderGate.ok ? eventUiText(order.desc + dayCoverOrderHint(npc, order)) : npcPublicActionLabel(orderGate)}</small></button>`);
         });
+      }
+      const stoneNpc = npcs.find(npc => npc.id === 'commander');
+      if (stoneNpc && npcRelayStoneSource() && npcRelayStoneWindow() && !state.contentState?.flags?.[NPC_RELAY_STONE_TERMINAL_FLAG]) {
+        const gate = npcRelayStoneOfferGate(stoneNpc.id);
+        actions.push(`<p id="npcRelayStoneFeedback" class="camp-rest-feedback" role="status">${eventUiText(gate.ok ? '林岑：中继站还缺最后1石料。你可以交料，也可以本次先不交；施工仍需时间。' : npcRelayStoneReasonText(gate.reason))}</p>`);
+        const index = actionIndex++;
+        actions.push(`<button class="context-action primary" data-context-action="npcRelayStone" data-context-index="${index}" data-npc-id="commander" aria-describedby="npcRelayStoneFeedback" ${gate.ok ? '' : 'disabled'}><kbd class="action-index">${index + 1}</kbd>🪨 与林岑商议最后一块石料<small>答复范围1格 · 交料需1石料 · 不额外支付体力或分钟</small></button>`);
       }
       if (resources.length) {
         const r = resources[0];
@@ -10305,6 +10515,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       const nearbyShelter = nearbyContextItem(state.buildings, b => b.type === 'shelter');
       if (action === 'campRest30' || action === 'campRest60') { const result = requestCampRest(action === 'campRest30' ? 30 : 60); if (!result.ok) toast('当前不可等候：' + campRestReasonText(result.reason)); renderContext(); }
       else if (action === 'attack') attackNearestThreat({ targetId: button.dataset.enemyId || '' });
+      else if (action === 'npcRelayStone') openNpcRelayStoneOffer(button.dataset.npcId || '');
       else if (action === 'npcView') viewNpc(button.dataset.npcId || '');
       else if (action === 'npc') interactNpc(button.dataset.npcId || '');
       else if (action === 'npcOrder') setNpcOrder(button.dataset.npcId, button.dataset.order);

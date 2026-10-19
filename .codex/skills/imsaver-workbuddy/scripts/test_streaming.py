@@ -1,9 +1,13 @@
 import json
+import argparse
+import contextlib
+import io
 import os
 import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 from streaming import collect_process
 import run as wb
 
@@ -96,6 +100,119 @@ emit({'type':'result','subtype':'success','is_error':False,'result':'done'})
         attempt, _ = wb.parse_attempt(json.dumps(r['rows']), '', r['exitCode'], 'test-model')
         self.assertEqual(attempt['status'], 'unexpected_tools')
         self.assertEqual(attempt['toolCalls'], 2)
+
+
+class InvocationTests(unittest.TestCase):
+    def fake_cli(self, directory):
+        """A real offline child process; no official runtime or credentials."""
+        script = Path(directory) / 'fake-cli.py'
+        invocation_log = Path(directory) / 'fake-invocations.jsonl'
+        script.write_text('''import sys,time,json,os
+from pathlib import Path
+prompt=sys.stdin.read()
+model=sys.argv[sys.argv.index('--model')+1]
+names=('CODEBUDDY_FIRST_TOKEN_TIMEOUT_MS','CODEBUDDY_STREAM_TIMEOUT_MS',
+       'CODEBUDDY_RECOVERY_FIRST_TOKEN_TIMEOUT_MS','CODEBUDDY_EMPTY_STREAM_RETRY_MAX_ELAPSED_MS',
+       'CODEBUDDY_MAX_RETRIES','CODEBUDDY_RETRY_WATCHDOG','CODEBUDDY_MODEL_401_MAX_RETRIES')
+controls={name:os.environ[name] for name in names}
+Path('child-controls.json').write_text(json.dumps({'argv':sys.argv[1:],'controls':controls,
+                                                'stdinReachedEof':True}),encoding='utf-8')
+with open(INVOCATION_LOG,'a',encoding='utf-8') as log: log.write(json.dumps({'model':model})+'\\n')
+def emit(row): print(json.dumps(row),flush=True)
+emit({'type':'system','subtype':'init'})
+emit({'type':'stream_event','event':{'type':'message_start','message':{'model':model}}})
+if prompt=='wait_for_internal_deadline':
+ time.sleep(int(controls['CODEBUDDY_FIRST_TOKEN_TIMEOUT_MS'])/1000)
+ emit({'type':'result','subtype':'error_api','is_error':True,'errors':['fake internal first-token timeout'],
+       'num_turns':1,'duration_api_ms':int(controls['CODEBUDDY_FIRST_TOKEN_TIMEOUT_MS'])})
+elif prompt=='quota_failure':
+ emit({'type':'result','subtype':'error_api','is_error':True,'errors':['API Error: 429 quota exhausted']})
+else:
+ emit({'type':'assistant','message':{'model':model,'stop_reason':'end_turn','content':[{'type':'text','text':'OK'}]}})
+ emit({'type':'result','subtype':'success','is_error':False,'result':'OK','num_turns':1,'duration_api_ms':7})
+'''.replace('INVOCATION_LOG', repr(str(invocation_log))), encoding='utf-8')
+        return script, invocation_log
+
+    def test_child_controls_and_receipt_use_inner_deadlines_without_expanding_outer_budget(self):
+        with tempfile.TemporaryDirectory() as directory:
+            local = Path(directory)
+            (local / 'runs').mkdir()
+            script, _ = self.fake_cli(directory)
+            with patch.object(wb, 'home', return_value=local):
+                result, answer = wb.invoke(wb.FALLBACK, 'success', 180, 'offline-fixture-key', {},
+                                           sys.executable, script, first_output_timeout=90, idle_timeout=60)
+            child = json.loads((Path(result['localRunDirectory']) / 'empty' / 'child-controls.json').read_text())
+            self.assertEqual((result['status'], answer), ('success', 'OK'))
+            self.assertTrue(child['stdinReachedEof'])
+            self.assertEqual(result['timeouts'], {'total': 180, 'firstModelOutput': 90, 'modelIdle': 60})
+            self.assertEqual(result['cliTimeoutsMs'], {'firstToken': 85000, 'streamIdle': 55000,
+                             'recoveryFirstToken': 55000, 'emptyStreamRetryMaxElapsed': 85000})
+            self.assertEqual(result['cliRecoveryGraceMs'], {'firstToken': 5000, 'streamIdle': 5000})
+            self.assertEqual(child['controls'], {
+                'CODEBUDDY_FIRST_TOKEN_TIMEOUT_MS': '85000', 'CODEBUDDY_STREAM_TIMEOUT_MS': '55000',
+                'CODEBUDDY_RECOVERY_FIRST_TOKEN_TIMEOUT_MS': '55000',
+                'CODEBUDDY_EMPTY_STREAM_RETRY_MAX_ELAPSED_MS': '85000',
+                'CODEBUDDY_MAX_RETRIES': '0', 'CODEBUDDY_RETRY_WATCHDOG': '0',
+                'CODEBUDDY_MODEL_401_MAX_RETRIES': '0'})
+            self.assertTrue(result['cliRetryPolicy']['otherInternalRetriesMayOccur'])
+            self.assertFalse(result['requestedThinkingEnabled'])
+            self.assertEqual(result['thinkingSettingsScope'], 'client_requests_not_provider_token_guarantees')
+            self.assertEqual((result['num_turns'], result['duration_api_ms'], result['stop_reason']), (1, 7, 'end_turn'))
+
+    def test_internal_failure_can_finish_before_outer_first_activity_deadline(self):
+        with tempfile.TemporaryDirectory() as directory:
+            local = Path(directory)
+            (local / 'runs').mkdir()
+            script, _ = self.fake_cli(directory)
+            with patch.object(wb, 'home', return_value=local):
+                result, answer = wb.invoke(wb.FALLBACK, 'wait_for_internal_deadline', 3,
+                                           'offline-fixture-key', {}, sys.executable, script,
+                                           first_output_timeout=1, idle_timeout=1)
+            self.assertEqual(result['status'], 'api_error')
+            self.assertNotIn('timeoutReason', result)
+            self.assertEqual(result['duration_api_ms'], 800)
+            self.assertTrue(result['processTerminated'])
+            self.assertFalse(result['stream']['processKilled'])
+            self.assertEqual(answer, '')
+
+    def test_explicit_model_real_child_quota_failure_does_not_switch_or_write_cooldown(self):
+        for model in (wb.PRIMARY, wb.FALLBACK):
+            with self.subTest(model=model), tempfile.TemporaryDirectory() as directory:
+                local = Path(directory)
+                script, invocation_log = self.fake_cli(directory)
+                state_path = local / 'route-state.json'
+                state_path.write_text('{"reason":"observed_primary_usage_limit","untilEpoch":9999999999}', encoding='utf-8')
+                before = state_path.read_bytes()
+                args = argparse.Namespace(root=directory, out=str(local / 'output'), summary_chars=20,
+                                          timeout=3, effort='low', output_tokens=4096,
+                                          first_output_timeout=1, idle_timeout=1, model=model)
+                with patch.object(wb, 'home', return_value=local), \
+                     patch.object(wb, 'runtime', return_value=({'version': 'offline-fixture'}, sys.executable, script)), \
+                     patch.object(wb, 'credential', return_value='offline-fixture-key'), \
+                     patch.object(wb, 'bundle', return_value=('quota_failure', {'sources': []})), \
+                     contextlib.redirect_stdout(io.StringIO()):
+                    exit_code = wb.run_task(args)
+                receipt = json.loads((local / 'output' / 'receipt.json').read_text())
+                self.assertEqual(exit_code, 1)
+                self.assertEqual(receipt['routeReason'], 'user_requested_model')
+                self.assertEqual(receipt['status'], 'api_error')
+                self.assertEqual([a['requestedModel'] for a in receipt['attempts']], [model])
+                self.assertEqual([json.loads(row)['model'] for row in invocation_log.read_text().splitlines()], [model])
+                self.assertEqual(state_path.read_bytes(), before)
+
+    def test_positive_millisecond_deadlines_for_tiny_inputs_and_invalid_values(self):
+        for seconds in (1, .005, .001, .000001):
+            with self.subTest(seconds=seconds):
+                policy = wb.cli_deadlines(seconds, seconds, seconds)
+                self.assertTrue(all(isinstance(value, int) and value >= 1 for value in policy.values()))
+                self.assertEqual(policy['recoveryFirstToken'], min(policy['firstToken'], policy['streamIdle']))
+                self.assertLessEqual(policy['emptyStreamRetryMaxElapsed'], max(1, int(seconds * 1000)))
+                if seconds >= .005:
+                    self.assertLess(policy['firstToken'], seconds * 1000)
+        self.assertEqual(wb.cli_deadlines(1, 90, 60)['emptyStreamRetryMaxElapsed'], 1000)
+        for value in (0, -1, float('inf'), float('nan')):
+            with self.subTest(invalid=value), self.assertRaises(ValueError):
+                wb.cli_deadlines(value, 1, 1)
 
 
 if __name__ == '__main__':

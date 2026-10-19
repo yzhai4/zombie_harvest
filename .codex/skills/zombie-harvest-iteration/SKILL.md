@@ -5,11 +5,13 @@ description: 维护尸潮农场的跨内容、规则、AI、实验和发布迭�
 
 # 尸潮农场整轮迭代
 
-大段阅读、六视角剧本推演、实现草案、日志分析和首轮审查默认交给 [imsaver-workbuddy](../imsaver-workbuddy/SKILL.md)，优先 Step 5 preview，仅实际用量受限后切 DeepSeek v4.1 flash。主代理先固定目标与必要输入，读取短摘要和证据定位后负责补丁接受、真实验证、源线与发布；不在两端重复全文分析，不把辅助模型意见记作验收。小编辑及机械校验直接完成。
+大段阅读、六视角剧本推演、实现草案、日志分析和首轮审查默认交给 [imsaver-workbuddy](../imsaver-workbuddy/SKILL.md)，模型选择与用户明确指定的 DeepSeek 分工按该 Skill 执行。主代理先固定目标与必要输入，读取短摘要和证据定位后负责补丁接受、真实验证、源线与发布；不在两端重复全文分析，不把辅助模型意见记作验收。小编辑及机械校验直接完成。
 
 当前优先级先读 `docs/research/research-adoption-plan-20261017.md`，构建与完成状态只从 `docs/memory/current-state.md` 和 QA/manifest 取得。涉及 repeatable/SAVE21 增量适配时读 `docs/scripts/zh-food-shortage-001.md` 与 episode身份ADR；涉及驻守时读 outpost-presence-v1 ADR。不要在Skill中累积每轮计数、构建hash或把历史绿色推定为当前通过。
 
-先读取 `docs/memory/current-state.md`、`docs/memory/open-risks.md`、`docs/project-memory.md`、`docs/long-term-plan.md` 和 `docs/iteration-workflow.md`，再按任务加载 `剧本/尸潮农场/01–09`、`11–16` 和相关 `docs/scripts`。不要把聊天内容当作规则真相。
+`current-state`只保最近已核检查点、本轮执行、未证明范围和唯一下一交付；历史长段按原字节另存同目录带日期／检查点的快照，保相对链接与原SHA，不改原失败。最新文件明确旧“下一步”和预算不再生效；需要历史问题时再按链接读取，不每轮把全部日志重新装入主上下文。新提交的CI只在实际终态后记录，不预填未来自身哈希或green。
+
+首次接手或切换主题时读取 `docs/memory/current-state.md`、`docs/memory/open-risks.md`、`docs/project-memory.md`、`docs/long-term-plan.md` 和 `docs/iteration-workflow.md`，再按任务加载 `剧本/尸潮农场/01–09`、`11–16` 和相关 `docs/scripts`。接续同一主题时先核当前状态、源码和所需合同的变化；已读且字节未变的长材料按原定位复用，不每轮全文重载。不要把聊天内容当作规则真相。
 
 ## 选择迭代模式
 

@@ -153,6 +153,11 @@ jobs:
         run: node scripts/check-relay-construction-runtime.mjs
       - name: Execute sourced personal handoff memory and legacy save contracts
         run: node scripts/check-relay-handoff-memory-v1.mjs --repo-root "$GITHUB_WORKSPACE" --html "$GITHUB_WORKSPACE/dist/index.html" --out "$RUNNER_TEMP/relay-handoff-memory-v1.json"
+      - name: Execute sourced NPC stone offer, transactional reply and legacy save contracts
+        run: |
+          NPC_RELAY_STONE_HTML_SHA=$(sha256sum dist/index.html | cut -d' ' -f1)
+          node scripts/check-npc-relay-stone-v1.mjs --repo-root "$GITHUB_WORKSPACE" --html "$GITHUB_WORKSPACE/dist/index.html" --out "$RUNNER_TEMP/npc-relay-stone-v1.json" --expect-html-sha256 "$NPC_RELAY_STONE_HTML_SHA"
+          node --check scripts/browser-npc-relay-stone-v1.mjs
       - name: Execute current relay capability, paid repair and recovery contracts
         run: |
           RELAY_MAINTENANCE_HTML_SHA=$(sha256sum dist/index.html | cut -d' ' -f1)

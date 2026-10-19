@@ -3,6 +3,7 @@
 import argparse
 import hashlib
 import json
+import math
 import os
 from pathlib import Path
 import re
@@ -143,8 +144,11 @@ def parse_attempt(stdout, stderr, code, requested, key=''):
     providers += [m.get('providerData') or {} for m in messages]
     models = sorted({p['model'] for p in providers + messages + starts if isinstance(p.get('model'), str)})
     raw_usage = [p['rawUsage'] for p in providers if isinstance(p.get('rawUsage'), dict)]
+    stop_reasons = [m['stop_reason'] for m in messages if isinstance(m.get('stop_reason'), str)]
     base.update(modelIds=models, usage=final.get('usage'), rawUsage=raw_usage,
                 subtype=final.get('subtype'), isError=final.get('is_error'),
+                num_turns=final.get('num_turns'), duration_api_ms=final.get('duration_api_ms'),
+                stop_reason=redact(stop_reasons[-1], key)[:80] if stop_reasons else None,
                 toolCalls=sum(x.get('type') in ('function_call', 'tool_use', 'tool_call') for x in rows) +
                           sum(c.get('type') == 'tool_use' for m in messages for c in m.get('content', []) if isinstance(c, dict)))
     if not finals:
@@ -184,9 +188,30 @@ def selected_route(state, timestamp):
     return [PRIMARY, FALLBACK], 'primary_default'
 
 
+def cli_deadlines(total_timeout, first_output_timeout, idle_timeout):
+    """Leave a small diagnostic grace inside the unchanged outer deadlines.
+
+    CLI timeout knobs accept positive integer milliseconds. Sub-millisecond
+    direct callers therefore get the minimum 1ms knob, without moving the
+    collector's outer deadline or claiming a grace that cannot be represented.
+    """
+    if any(not math.isfinite(value) or value <= 0
+           for value in (total_timeout, first_output_timeout, idle_timeout)):
+        raise ValueError('Timeouts must be finite positive seconds')
+
+    def earlier(outer):
+        return max(1, int((outer - min(5, outer / 5)) * 1000))
+
+    first, idle = earlier(first_output_timeout), earlier(idle_timeout)
+    return {'firstToken': first, 'streamIdle': idle,
+            'recoveryFirstToken': min(first, idle),
+            'emptyStreamRetryMaxElapsed': min(first, max(1, int(total_timeout * 1000)))}
+
+
 def invoke(model, prompt, timeout, key, config, node, cli, effort='low', output_tokens=4096,
            first_output_timeout=90, idle_timeout=60, progress_path=None):
     from streaming import collect_process
+    deadlines = cli_deadlines(timeout, first_output_timeout, idle_timeout)
     # Fresh private cwd/config: no project settings, plugins, MCP or repository tools.
     sandbox = Path(tempfile.mkdtemp(prefix='task-', dir=home() / 'runs'))
     cwd = sandbox / 'empty'
@@ -198,10 +223,13 @@ def invoke(model, prompt, timeout, key, config, node, cli, effort='low', output_
     env.update(CODEBUDDY_API_KEY=key, CODEBUDDY_INTERNET_ENVIRONMENT='internal',
                CODEBUDDY_CONFIG_DIR=str(sandbox / 'config'), CODEBUDDY_DISABLE_COMPILE_CACHE='1',
                CODEBUDDY_NONINTERACTIVE='1', CODEBUDDY_MAX_RETRIES='0',
+               CODEBUDDY_RETRY_WATCHDOG='0', CODEBUDDY_MODEL_401_MAX_RETRIES='0',
                CODEBUDDY_CODE_MAX_OUTPUT_TOKENS=str(output_tokens),
                MAX_THINKING_TOKENS=str(min(1024 if effort == 'low' else 2048, output_tokens // 2)),
-               CODEBUDDY_FIRST_TOKEN_TIMEOUT_MS=str(int(first_output_timeout * 1000)),
-               CODEBUDDY_STREAM_TIMEOUT_MS=str(int(idle_timeout * 1000)),
+               CODEBUDDY_FIRST_TOKEN_TIMEOUT_MS=str(deadlines['firstToken']),
+               CODEBUDDY_STREAM_TIMEOUT_MS=str(deadlines['streamIdle']),
+               CODEBUDDY_RECOVERY_FIRST_TOKEN_TIMEOUT_MS=str(deadlines['recoveryFirstToken']),
+               CODEBUDDY_EMPTY_STREAM_RETRY_MAX_ELAPSED_MS=str(deadlines['emptyStreamRetryMaxElapsed']),
                CODEBUDDY_REASONING_KEEPALIVE_INTERVAL_MS='10000',
                CODEBUDDY_CODE_DISABLE_BACKGROUND_TASKS='1', CODEBUDDY_DISABLE_SHELL_SNAPSHOT='1')
     argv = [node, str(cli), '-p', '--model', model, '--tools', '', '--strict-mcp-config',
@@ -233,9 +261,16 @@ def invoke(model, prompt, timeout, key, config, node, cli, effort='low', output_
         result['billingUnknown'] = True
     result.update(elapsedSeconds=round(time.monotonic() - started, 2), localRunDirectory=str(sandbox),
                   requestedEffort=effort, requestedOutputTokens=output_tokens,
+                  requestedThinkingEnabled=effort == 'high',
                   requestedThinkingTokens=int(env['MAX_THINKING_TOKENS']),
+                  thinkingSettingsScope='client_requests_not_provider_token_guarantees',
                   processId=observed.get('processId'), processTerminated=observed.get('processTerminated'),
                   timeouts={'total': timeout, 'firstModelOutput': first_output_timeout, 'modelIdle': idle_timeout},
+                  cliTimeoutsMs=deadlines,
+                  cliRecoveryGraceMs={'firstToken': max(0, round(first_output_timeout * 1000 - deadlines['firstToken'], 3)),
+                                      'streamIdle': max(0, round(idle_timeout * 1000 - deadlines['streamIdle'], 3))},
+                  cliRetryPolicy={'requestMaxRetries': 0, 'watchdogEnabled': False,
+                                  'model401MaxRetries': 0, 'otherInternalRetriesMayOccur': True},
                   transport='one_shot_stream_json')
     # The official CLI keeps diagnostic logs even with no transcript persistence.
     # Check local files without printing the credential or raw model reasoning.
@@ -270,10 +305,17 @@ def run_task(args, invoke_fn=invoke):
     out.mkdir(parents=True, exist_ok=False)
     write_json(out / 'input-index.json', inputs)
     state_path = home() / 'route-state.json'
-    state = json.loads(state_path.read_text()) if state_path.exists() else {}
-    route, reason = selected_route(state, time.time())
+    requested_model = getattr(args, 'model', None)
+    if requested_model is not None:
+        if requested_model not in (PRIMARY, FALLBACK):
+            raise ValueError('Unsupported requested model')
+        route, reason = [requested_model], 'user_requested_model'
+    else:
+        state = json.loads(state_path.read_text()) if state_path.exists() else {}
+        route, reason = selected_route(state, time.time())
     receipt = {'schema': 'IMSAVERWorkBuddyTaskV1', 'startedAt': now(), 'routeReason': reason,
                'primary': PRIMARY, 'fallback': FALLBACK, 'cliVersion': config['version'],
+               'requestedModel': requested_model,
                'runnerSha256': sha(Path(__file__).read_bytes()), 'inputs': inputs,
                'collectorSha256': sha(Path(__file__).with_name('streaming.py').read_bytes()),
                'attempts': [], 'classification': 'model_assistance_not_acceptance'}
@@ -284,10 +326,10 @@ def run_task(args, invoke_fn=invoke):
                                   args.first_output_timeout, args.idle_timeout, out / 'progress.json')
         receipt['attempts'].append(attempt)
         if attempt['status'] == 'success':
-            if model == PRIMARY:
+            if requested_model is None and model == PRIMARY:
                 write_json(state_path, {})
             break
-        if model == PRIMARY and usage_limit(attempt):
+        if requested_model is None and model == PRIMARY and usage_limit(attempt):
             state = {'reason': 'observed_primary_usage_limit', 'observedAt': now(),
                      'untilEpoch': time.time() + 1800,
                      'evidenceReceipt': str(out / 'receipt.json')}
@@ -317,11 +359,23 @@ def task_status(out):
     last = attempts[-1] if attempts else {}
     usage = [{k: row[k] for k in ('prompt_tokens', 'completion_tokens', 'total_tokens', 'credit') if k in row}
              for attempt in attempts for row in attempt.get('rawUsage', [])]
+    stream = last.get('stream') or {}
+    stream_summary = {k: stream[k] for k in (
+        'eventCount', 'partialCount', 'textCharacters', 'thinkingCharacters', 'protocolErrors',
+        'firstEventSeconds', 'firstModelActivitySeconds', 'resultSeen') if k in stream}
     return {'status': receipt.get('status'), 'model': receipt.get('selectedModel'),
+            'routeReason': receipt.get('routeReason'), 'requestedModel': receipt.get('requestedModel'),
             'attempts': len(attempts), 'modelIds': last.get('modelIds'),
             'tokenUsage': [{'model': a.get('requestedModel'), 'usage': a.get('usage')} for a in attempts],
             'usage': usage, 'billingUnknown': any(a.get('billingUnknown') for a in attempts),
             'observedProviderRequestCount': last.get('observedProviderRequestCount'),
+            'requestObservation': last.get('requestObservation'),
+            'timeoutReason': last.get('timeoutReason'), 'stream': stream_summary,
+            'num_turns': last.get('num_turns'), 'duration_api_ms': last.get('duration_api_ms'),
+            'stop_reason': last.get('stop_reason'),
+            'requestedThinkingEnabled': last.get('requestedThinkingEnabled'),
+            'requestedThinkingTokens': last.get('requestedThinkingTokens'),
+            'thinkingSettingsScope': last.get('thinkingSettingsScope'),
             'truncationObserved': last.get('truncationObserved'),
             'processTerminated': last.get('processTerminated'), 'receipt': str(path.resolve())}
 
@@ -338,6 +392,8 @@ def main():
     run.add_argument('--file', action='append', default=[])
     run.add_argument('--range', action='append', default=[], help='relative/path:start:end')
     run.add_argument('--out', required=True, help='New private output directory, outside the repository')
+    run.add_argument('--model', choices=[PRIMARY, FALLBACK],
+                     help='Use only this model, without changing automatic quota cooldown state')
     run.add_argument('--timeout', type=int, default=180, help='Per-attempt seconds; at most two attempts')
     run.add_argument('--first-output-timeout', type=int, default=90, help='Seconds to actual model activity; init is not a token')
     run.add_argument('--idle-timeout', type=int, default=60, help='Seconds without model output or vendor reasoning keepalive')

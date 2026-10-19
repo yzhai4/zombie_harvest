@@ -42,9 +42,25 @@ if (result.includes('/* WATCHPOST_MANUAL_PACK_BEGIN */') || result.includes('/* 
   const watchpostJson=JSON.stringify(watchpost).replace(/</g,'\\u003c').replace(/\u2028/g,'\\u2028').replace(/\u2029/g,'\\u2029');
   result=result.replace(watchpostDeclaration,()=> '    const WATCHPOST_MANUAL_PACK = observerDeepFreeze('+watchpostJson+');');
 }
+// A named built-in relay pack; this leaves the C2 authored catalog unchanged.
+let npcRelayStonePackageBytes = null;
+if (result.includes('/* NPC_RELAY_STONE_PACK_BEGIN */') || result.includes('/* NPC_RELAY_STONE_PACK_END */')) {
+  assert.equal(result.split('/* NPC_RELAY_STONE_PACK_BEGIN */').length,2,'one NPC relay stone package start');
+  assert.equal(result.split('/* NPC_RELAY_STONE_PACK_END */').length,2,'one NPC relay stone package end');
+  npcRelayStonePackageBytes=fs.readFileSync(path.join(root,'content/packs/npc-relay-stone-v1.json'));
+  const npcPack=JSON.parse(npcRelayStonePackageBytes), definition=npcPack.definition;
+  assert.ok(npcPack.schemaVersion===1&&npcPack.id==='npc-relay-stone-v1'&&npcPack.version===1&&npcPack.scope==='zombie-farm-built-in-relay-only'&&definition?.chainId==='npc-relay-stone-001'&&definition.definitionVersion===1&&definition.instancePolicy==='source-once-v1'&&definition.repeatable===false,'supported built-in NPC relay stone package');
+  assert.equal(definition.nodes.length,1); assert.equal(definition.nodes[0].nodeId,'stone_offer');
+  assert.deepEqual(definition.nodes[0].choices.map(choice=>choice.id),['supply','later']);
+  for (const choice of definition.nodes[0].choices) assert.deepEqual(choice.effects,[{op:'npcRelayStoneReply',choiceId:choice.id,amount:choice.id==='supply'?1:0}],'one bounded reply effect');
+  const npcDeclaration=/^    const NPC_RELAY_STONE_PACK = observerDeepFreeze\((\{[^\r\n]*\})\);/gm;
+  assert.equal([...result.matchAll(npcDeclaration)].length,1,'one NPC relay stone declaration');
+  const npcJson=JSON.stringify(npcPack).replace(/</g,'\\u003c').replace(/\u2028/g,'\\u2028').replace(/\u2029/g,'\\u2029');
+  result=result.replace(npcDeclaration,()=> '    const NPC_RELAY_STONE_PACK = observerDeepFreeze('+npcJson+');');
+}
 const changed=result!==html;
 if(!checkOnly && changed) fs.writeFileSync(htmlPath,result,'utf8');
 const sha=value=>createHash('sha256').update(value).digest('hex');
-console.log(JSON.stringify({runner:'scenario-package-build-v1',ok:!checkOnly||!changed,mode:checkOnly?'check':'sync',changed,sourceHtmlSha256:sha(checkOnly?html:result),coreModuleSha256:sha(core),authoredPackageSha256:sha(packageBytes),...(watchpostPackageBytes?{watchpostPackageSha256:sha(watchpostPackageBytes)}:{}),compilerVersion:compiled.compilerVersion,catalogDigest:compiled.catalogDigest,scope:'validated inline build parity only; no runtime or browser acceptance'}));
+console.log(JSON.stringify({runner:'scenario-package-build-v1',ok:!checkOnly||!changed,mode:checkOnly?'check':'sync',changed,sourceHtmlSha256:sha(checkOnly?html:result),coreModuleSha256:sha(core),authoredPackageSha256:sha(packageBytes),...(watchpostPackageBytes?{watchpostPackageSha256:sha(watchpostPackageBytes)}:{}),...(npcRelayStonePackageBytes?{npcRelayStonePackageSha256:sha(npcRelayStonePackageBytes)}:{}),compilerVersion:compiled.compilerVersion,catalogDigest:compiled.catalogDigest,scope:'validated inline build parity only; no runtime or browser acceptance'}));
 if(checkOnly && changed)process.exitCode=1;
 
