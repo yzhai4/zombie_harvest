@@ -996,6 +996,13 @@
     .status-terminal .panel-top { margin-bottom:8px; }
     body.status-terminal-open { overflow:hidden; }
     @media (min-width:900px) {
+      /* Desktop action costs and story choices must be readable at normal zoom. */
+      .context-copy b, .event-copy b { font-size:14px; line-height:1.4; }
+      .context-copy span, .event-copy span, .event-source { font-size:12px; line-height:1.55; }
+      .context-action, .event-choice { min-height:48px; padding:10px 11px; font-size:13px; line-height:1.4; }
+      .context-action small, .event-choice small { font-size:12px; line-height:1.45; }
+      .context-action.primary small, .context-action.attack small { color:inherit; }
+      .context-actions, .event-actions { gap:8px; }
       .basic-status-strip { position:fixed; z-index:11; top:72px; right:18px; left:auto; transform:none; width:min(430px,34vw); margin:0; }
       .basic-status-chip { background:rgba(6,18,20,.64); backdrop-filter:blur(10px); box-shadow:0 8px 24px rgba(0,0,0,.18); }
       .status-terminal-trigger { min-width:76px; }
