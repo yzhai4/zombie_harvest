@@ -23,3 +23,11 @@
 usage是根汇总，不再与子级/缓存字段相加。真实项目任务覆盖面更大，不能与短片段调用直接比较成本或质量；六视角与引用更完整，但仍出现遗漏公开菜单、错误二选一、证据定位不足等问题，已由主代理纠正。更多token本身不保证质量，也未测量主代理节约比例。
 
 工作流已将复杂跨文件任务、角色分工、局部证据复用、低推理协调、实际事实取舍、私有日志与短监测纳入[Skill](../../.codex/skills/imsaver-workbuddy/SKILL.md)。CI新增Ubuntu与Windows离线矩阵；本记录仅报告已运行的本机及真实API证据，CI结果另按精确提交核验。
+
+## CI 环境核对
+
+首个集成提交 `0c4ed501b7f07ca0894230c90707a7885dc17029` 的[游戏 CI](https://github.com/yzhai4/zombie_harvest/actions/runs/39215777550)成功；[WorkBuddy CI](https://github.com/yzhai4/zombie_harvest/actions/runs/39215777547)中 Ubuntu 成功，Windows 运行86项、15项失败。原失败保留，不改写为通过。
+
+Windows 日志显示两类差异：默认临时路径使用 `RUNNER~1` 短别名，触发网关启动路径身份校验和测试路径断言；Git checkout 自动转换 CRLF，导致原 `run.py` 的字节校验失败。其 CRLF 文件 SHA 为 `046103ac5c2241b2f3e06f8d97888e027e668cbea0fe8e1b7e87ee5ea16c50e6`，与本机对原 LF 文件作换行转换所得 SHA 一致。
+
+本次仅将 CI 临时目录固定到 `runner.temp`，并在 Windows checkout 前关闭 `core.autocrlf`，保留原路径边界、86项断言和旧调用器原字节要求。修正后的 CI 结果需按新提交单独核验；本段不宣称新运行已通过。
