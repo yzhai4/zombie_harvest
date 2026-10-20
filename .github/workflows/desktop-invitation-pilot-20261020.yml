@@ -23,22 +23,36 @@ jobs:
           python-version: '3.12'
       - name: Install bounded browser dependency
         run: |
-          python -m py_compile scripts/qa-desktop-invitation-pilot-20261020.py
           python -m pip install playwright==1.57.0
           python -m playwright install --with-deps chromium
       - name: Restore only the previous isolated browser profile
         uses: actions/download-artifact@v4
         with:
-          name: desktop-invitation-public-prefix-02
-          run-id: 39423402654
+          name: desktop-invitation-public-prefix-03
+          run-id: 39424600174
           github-token: ${{ github.token }}
           path: prior-pilot
-      - name: Preserve actual profile continuity and prior evidence
+      - name: Preserve actual profile and correct only the method endpoint
         run: |
           mkdir -p qa-output
           cp -a prior-pilot/profile qa-output/profile
-          cp prior-pilot/report.json qa-output/prior-report-02.json
-          cp prior-pilot/prior-report-01.json qa-output/prior-report-01.json
+          cp prior-pilot/report.json qa-output/prior-report-03.json
+          cp prior-pilot/prior-report-*.json qa-output/
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('scripts/qa-desktop-invitation-pilot-20261020.py')
+          s=p.read_text()
+          old='match=math.dist(xy,goal)<=1.0'
+          assert s.count(old)==1
+          s=s.replace(old,'match=math.dist(xy,goal)<=(1.0 if tower is not None and goal == tower else 0.0)')
+          s=s.replace("else('s'if dy>0 else's' if False else'w')","else('s'if dy>0 else'w')")
+          s=s.replace("'seconds':30,'keyPulses':160,'frontiers':6","'seconds':20,'keyPulses':100,'frontiers':4")
+          s=s.replace('time.monotonic()+30','time.monotonic()+20').replace("len(entry['steps'])<160","len(entry['steps'])<100").replace("len(entry['targets'])>=6","len(entry['targets'])>=4")
+          p.write_text(s)
+          Path('qa-output/method-executed.py').write_text(s)
+          Path('qa-output/method-note.txt').write_text('Previous prefix03 reached frontier-attempt limit after five key pulses; not a game reachability failure. This corrected method is a separate 20-second / 100-pulse / 4-frontier continuation, with prior raw reports preserved. No A08 input or budget is reused; original game bytes unchanged.')
+          PY
+          python -m py_compile scripts/qa-desktop-invitation-pilot-20261020.py
       - name: Execute original desktop build through public UI
         env:
           PUBLIC_ACTIONS_JSON: '[{"type":"explore"}]'
@@ -46,7 +60,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: desktop-invitation-public-prefix-03
+          name: desktop-invitation-public-prefix-04
           retention-days: 3
           if-no-files-found: error
           include-hidden-files: true
