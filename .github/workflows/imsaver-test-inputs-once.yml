@@ -1,0 +1,37 @@
+name: One-off existing regression inputs
+on:
+  push:
+    branches: [codex/imsaver-transfer-20261020-r1]
+    paths: [.github/workflows/imsaver-test-inputs-once.yml]
+permissions:
+  contents: read
+jobs:
+  transfer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 2b9e52274fafea55f6db0142b2bcd01ba2e8a392
+          persist-credentials: false
+      - name: Package existing bounded test inputs only
+        shell: python
+        run: |
+          import pathlib,subprocess,zipfile,hashlib,json,os
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'existing-inputs';out.mkdir()
+          names=subprocess.check_output(['git','ls-files','-z']).decode().split('\0')
+          extra={'docs/qa/runs/relay-effective-role-v1-20261018/selected/objects/4bb6aac0eb6b4f440aa60d7b58e13de5c33b8dd70ca4f073f4757d245735a6a8.json','docs/experiments/runs/food-shortage-strategies-32f911-20261017/report.json'}
+          selected=[n for n in names if n and (n.startswith('scripts/fixtures/') or n in extra)]
+          assert extra.issubset(set(selected))
+          assert sum(pathlib.Path(n).stat().st_size for n in selected)<12_000_000
+          with zipfile.ZipFile(out/'inputs.zip','w',compression=zipfile.ZIP_DEFLATED) as z:
+            for n in selected:z.write(n,n)
+          manifest=[{'path':n,'sha256':hashlib.sha256(pathlib.Path(n).read_bytes()).hexdigest()} for n in selected]
+          (out/'selection.json').write_text(json.dumps(manifest,ensure_ascii=False))
+          print(len(selected),'existing files; no game execution')
+      - uses: actions/upload-artifact@v4
+        with:
+          name: imsaver-existing-inputs-2b9e5227
+          path: ${{ runner.temp }}/existing-inputs
+          retention-days: 1
+          if-no-files-found: error
