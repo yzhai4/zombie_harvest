@@ -23,28 +23,30 @@ jobs:
           python-version: '3.12'
       - name: Install bounded browser dependency
         run: |
+          python -m py_compile scripts/qa-desktop-invitation-pilot-20261020.py
           python -m pip install playwright==1.57.0
           python -m playwright install --with-deps chromium
       - name: Restore only the previous isolated browser profile
         uses: actions/download-artifact@v4
         with:
-          name: desktop-invitation-public-prefix-01
-          run-id: 39422999021
+          name: desktop-invitation-public-prefix-02
+          run-id: 39423402654
           github-token: ${{ github.token }}
           path: prior-pilot
       - name: Preserve actual profile continuity and prior evidence
         run: |
           mkdir -p qa-output
           cp -a prior-pilot/profile qa-output/profile
-          cp prior-pilot/report.json qa-output/prior-report-01.json
+          cp prior-pilot/report.json qa-output/prior-report-02.json
+          cp prior-pilot/prior-report-01.json qa-output/prior-report-01.json
       - name: Execute original desktop build through public UI
         env:
-          PUBLIC_ACTIONS_JSON: '[{"type":"click","selector":"#relayToggle"}]'
+          PUBLIC_ACTIONS_JSON: '[{"type":"explore"}]'
         run: python scripts/qa-desktop-invitation-pilot-20261020.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: desktop-invitation-public-prefix-02
+          name: desktop-invitation-public-prefix-03
           retention-days: 3
           if-no-files-found: error
           include-hidden-files: true
