@@ -1,4 +1,4 @@
-name: One-off pinned source transfer (no execution)
+name: One-off selected source transfer (no execution)
 on:
   push:
     branches: [codex/imsaver-transfer-20261020-r1]
@@ -14,18 +14,38 @@ jobs:
         with:
           ref: 2b9e52274fafea55f6db0142b2bcd01ba2e8a392
           persist-credentials: false
-      - name: Archive exact tracked source without running game or tests
+      - name: Archive selected exact source; exclude historical evidence
+        shell: python
         run: |
-          test "$(git rev-parse HEAD)" = 2b9e52274fafea55f6db0142b2bcd01ba2e8a392
-          mkdir -p "$RUNNER_TEMP/imsaver-pinned-source"
-          git archive --format=tar HEAD | gzip -1 > "$RUNNER_TEMP/imsaver-pinned-source/source.tar.gz"
-          git ls-tree -r --full-tree HEAD > "$RUNNER_TEMP/imsaver-pinned-source/git-tree.txt"
-          git cat-file commit HEAD > "$RUNNER_TEMP/imsaver-pinned-source/git-commit.txt"
-          sha256sum dist/index.html "$RUNNER_TEMP/imsaver-pinned-source/source.tar.gz"
+          import pathlib, subprocess, hashlib, json, zipfile, os
+          assert subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip() == '2b9e52274fafea55f6db0142b2bcd01ba2e8a392'
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'imsaver-selected'
+          out.mkdir()
+          tree=subprocess.check_output(['git','ls-tree','-r','-l','--full-tree','HEAD'])
+          (out/'git-tree.txt').write_bytes(tree)
+          (out/'git-commit.txt').write_bytes(subprocess.check_output(['git','cat-file','commit','HEAD']))
+          exact={'dist/index.html','dist/actor-sprites.js','prototype/mobile-zombie-game/game.js','docs/memory/current-state.md','docs/memory/open-risks.md','docs/project-memory.md','docs/long-term-plan.md','docs/iteration-workflow.md','docs/simulation-boundaries.md','docs/research/research-adoption-plan-20261017.md','docs/research/next-iteration-20261018.md','docs/qa/iteration-manifest-v1.json','.github/workflows/validate.yml'}
+          prefixes=('.codex/','content/','scripts/lib/','docs/decisions/','docs/scripts/','scripts/fixtures/npc-relay-stone-v1/','scripts/fixtures/relay-maintenance-v1/','scripts/fixtures/watchpost-manual-v1/','scripts/fixtures/day-cover-follow-v1/','剧本/尸潮农场/')
+          entries=[]
+          for line in tree.decode().splitlines():
+            meta,name=line.split('\t',1); mode,kind,oid,size=meta.split()
+            p=pathlib.PurePosixPath(name)
+            wanted=name in exact or (name.startswith(prefixes) and p.suffix in {'.md','.json','.mjs','.js','.py','.ps1','.toml'}) or (p.parent.as_posix()=='scripts' and p.suffix in {'.mjs','.py','.ps1'})
+            if kind=='blob' and wanted:
+              assert mode in {'100644','100755'}
+              b=pathlib.Path(name).read_bytes()
+              assert hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()==oid
+              entries.append({'path':name,'gitSha':oid,'sha256':hashlib.sha256(b).hexdigest(),'bytes':len(b)})
+          assert sum(e['bytes'] for e in entries)<30_000_000, 'Selected source exceeded bounded transport budget'
+          assert next(e for e in entries if e['path']=='dist/index.html')['sha256']=='86ca99869d174f56287309229cd36017ef69aa92122809c62dd998c16497446f'
+          with zipfile.ZipFile(out/'source.zip','w',compression=zipfile.ZIP_DEFLATED) as z:
+            for e in entries:z.write(e['path'],e['path'])
+          (out/'selection.json').write_text(json.dumps({'base':'2b9e52274fafea55f6db0142b2bcd01ba2e8a392','files':entries},ensure_ascii=False,indent=2))
+          print(json.dumps({'files':len(entries),'uncompressedBytes':sum(e['bytes'] for e in entries),'zipBytes':(out/'source.zip').stat().st_size,'browserExecuted':False,'gameExecuted':False}))
       - uses: actions/upload-artifact@v4
         with:
-          name: imsaver-source-2b9e5227
-          path: ${{ runner.temp }}/imsaver-pinned-source
+          name: imsaver-selected-2b9e5227
+          path: ${{ runner.temp }}/imsaver-selected
           retention-days: 1
           compression-level: 0
           if-no-files-found: error
