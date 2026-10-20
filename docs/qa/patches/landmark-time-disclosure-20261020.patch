@@ -1,0 +1,11 @@
+--- a/dist/index.html
++++ b/dist/index.html
+@@ -7383,7 +7383,7 @@
+       }
+       if (landmarks.length) {
+         const l = landmarks[0]; icon = l.icon; title = `${l.name} · 地标`; hint = '探索会消耗体力，但可能找到收藏品、蓝图和零件。';
+-        add(`🔎 探索${l.name}`, '消耗 3 行动体力 · 记录到收藏册', 'landmark', 'primary', state.energy < 3);
++        add(`🔎 探索${l.name}`, '消耗 3 行动体力 · 推进 20 分钟 · 记录到收藏册', 'landmark', 'primary', state.energy < 3);
+       }
+       if (outposts.length) {
+         const outpost = outposts[0];
