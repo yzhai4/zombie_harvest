@@ -1,0 +1,92 @@
+name: Food recovery candidate - source only
+on:
+  push:
+    branches: [codex/imsaver-transfer-20261020-r1]
+    paths: [.github/workflows/imsaver-food-candidate-once.yml]
+permissions:
+  contents: write
+jobs:
+  candidate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 2b9e52274fafea55f6db0142b2bcd01ba2e8a392
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Reproduce exact local patch and test method
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: python
+        run: |
+          import pathlib,os,urllib.request,json,base64,hashlib,subprocess
+          api='https://api.github.com/repos/yzhai4/zombie_harvest'
+          def blob(oid):
+            req=urllib.request.Request(api+'/git/blobs/'+oid,headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json'})
+            with urllib.request.urlopen(req,timeout=30) as res:data=json.load(res)
+            b=base64.b64decode(data['content'])
+            assert hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()==oid
+            return b
+          assert subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()=='2b9e52274fafea55f6db0142b2bcd01ba2e8a392'
+          patch=blob('0eba27f06139001bd9cfc4291863c09bfdc9ab1d')
+          exec(compile(patch,'fixed-food-patch.py','exec'))
+          checker=blob('18113d4f96c02900d2cfb0b451e01cc9d9a2a5cb')
+          assert hashlib.sha256(checker).hexdigest()=='73263306bf599e9e14ffdcb64543def7c815fbe95ef747b15b671424545a071f'
+          p=pathlib.Path('scripts/check-player-food-recovery-v1.mjs');assert not p.exists();p.write_bytes(checker)
+      - name: Run source contracts only; preserve browser deferral
+        shell: python
+        run: |
+          import pathlib,os,subprocess,json,hashlib,time
+          root=pathlib.Path.cwd();out=pathlib.Path(os.environ['RUNNER_TEMP'])/'food-source-results';out.mkdir()
+          html=root/'dist/index.html';h=hashlib.sha256(html.read_bytes()).hexdigest()
+          assert h=='41926fba6f4170011de3f225714a449104b9255235daabd18ab53054214daf28'
+          venv=pathlib.Path(os.environ['RUNNER_TEMP'])/'no-browser-python'
+          subprocess.run(['python3','-m','venv',str(venv)],check=True,timeout=30)
+          py=str(venv/'bin/python')
+          assert subprocess.run([py,'-c','import playwright.sync_api'],capture_output=True).returncode!=0
+          tests=[
+            ('syntax',['node','scripts/check-inline-syntax.mjs']),
+            ('content',['node','scripts/validate-content.mjs']),
+            ('night-guard',['node','scripts/check-night-guard.mjs']),
+            ('content-chain',['node','scripts/check-content-chain.mjs']),
+            ('event-gate-parity',['node','scripts/check-event-gate-parity.mjs']),
+            ('observer-expression',['node','scripts/check-observer-expression-v1.mjs']),
+            ('gameplay-vertical-slice',['node','scripts/check-gameplay-vertical-slice.mjs']),
+            ('content-episode',['node','scripts/check-content-episode-v1.mjs']),
+            ('replay-self-test',['node','scripts/replay-harness.mjs','--self-test']),
+            ('static-three-day-smoke',['node','scripts/smoke-three-days.mjs','--python',py,'--report',str(out/'static-three-day-smoke.json')]),
+            ('report-recovery',['node','scripts/check-report-recovery.mjs']),
+            ('food-recovery',['node','scripts/check-player-food-recovery-v1.mjs','--html',str(html),'--out',str(out/'food-recovery.json'),'--expect-html-sha256',h]),
+            ('relay-maintenance',['node','scripts/check-relay-maintenance-v1.mjs','--repo-root',str(root),'--html',str(html),'--out',str(out/'relay-maintenance.json'),'--expect-html-sha256',h])]
+          rows=[]
+          for name,cmd in tests:
+            t=time.monotonic();r=subprocess.run(cmd,capture_output=True,text=True,timeout=90)
+            (out/(name+'.log')).write_text(r.stdout);(out/(name+'.err')).write_text(r.stderr)
+            rows.append({'name':name,'exitCode':r.returncode,'elapsedSeconds':time.monotonic()-t,'command':cmd})
+            print(name,r.returncode,flush=True)
+          summary={'sourceHtmlSha256':h,'baseCommit':'2b9e52274fafea55f6db0142b2bcd01ba2e8a392','browserExecuted':False,'naturalGameplay':False,'humanUnderstandingMeasured':False,'fullAcceptance':False,'browserGateDeferred':True,'tests':rows,'ok':all(r['exitCode']==0 for r in rows)}
+          (out/'source-summary.json').write_text(json.dumps(summary,indent=2))
+          print(json.dumps(summary));assert summary['ok']
+      - name: Create exact candidate HTML blob only - no ref writes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: python
+        run: |
+          import pathlib,urllib.request,json,os,base64,hashlib
+          b=pathlib.Path('dist/index.html').read_bytes()
+          assert hashlib.sha256(b).hexdigest()=='41926fba6f4170011de3f225714a449104b9255235daabd18ab53054214daf28'
+          req=urllib.request.Request('https://api.github.com/repos/yzhai4/zombie_harvest/git/blobs',data=json.dumps({'content':base64.b64encode(b).decode(),'encoding':'base64'}).encode(),headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Content-Type':'application/json','Accept':'application/vnd.github+json'},method='POST')
+          with urllib.request.urlopen(req,timeout=30) as res:r=json.load(res)
+          expected=hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest();assert r['sha']==expected
+          receipt={'htmlBlobSha':expected,'htmlSha256':hashlib.sha256(b).hexdigest(),'bytes':len(b),'developmentRefUpdated':False,'browserExecuted':False,'fullAcceptance':False}
+          (pathlib.Path(os.environ['RUNNER_TEMP'])/'food-source-results'/'html-blob.json').write_text(json.dumps(receipt,indent=2));print(json.dumps(receipt))
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: imsaver-food-source-only
+          path: ${{ runner.temp }}/food-source-results
+          retention-days: 7
+          if-no-files-found: error
