@@ -1,0 +1,41 @@
+name: Desktop invitation pinned snapshot
+
+on:
+  push:
+    branches: [qa/desktop-invitation-20261020]
+    paths: [.github/workflows/desktop-invitation-snapshot-20261020.yml]
+
+permissions:
+  contents: read
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 140d71918fab9ad8c536f7189dc088f6a934a025
+          fetch-depth: 1
+          persist-credentials: false
+          sparse-checkout: |
+            dist
+            scripts
+            content
+            docs/scripts
+            .codex/skills/zombie-harvest-iteration
+      - name: Verify pinned playable bytes
+        run: |
+          echo '86ca99869d174f56287309229cd36017ef69aa92122809c62dd998c16497446f  dist/index.html' | sha256sum --check
+          printf '%s\n' 'Source: 140d71918fab9ad8c536f7189dc088f6a934a025' 'Scope: transport of pinned code only; no gameplay result.' > SNAPSHOT.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: desktop-invitation-baseline-86ca
+          retention-days: 3
+          if-no-files-found: error
+          path: |
+            SNAPSHOT.txt
+            dist
+            scripts
+            content
+            docs/scripts
