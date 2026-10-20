@@ -1,0 +1,32 @@
+name: Diagnose relay invitation window (no browser)
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/probe-relay-invitation-window-v1.mjs
+      - .github/workflows/relay-invitation-window.yml
+permissions:
+  contents: read
+jobs:
+  source-window:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Check diagnostic syntax
+        run: node --check scripts/probe-relay-invitation-window-v1.mjs
+      - name: Probe actual source with bounded TEST-ONLY inputs
+        run: |
+          HTML_SHA=$(sha256sum dist/index.html | cut -d' ' -f1)
+          node scripts/probe-relay-invitation-window-v1.mjs --html "$GITHUB_WORKSPACE/dist/index.html" --out "$RUNNER_TEMP/relay-invitation-window.json" --expect-html-sha256 "$HTML_SHA"
+      - name: Preserve diagnostic output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: relay-invitation-window-${{ github.event.pull_request.head.sha }}
+          path: ${{ runner.temp }}/relay-invitation-window.json
+          if-no-files-found: warn
+          retention-days: 7
