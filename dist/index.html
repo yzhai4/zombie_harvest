@@ -6711,12 +6711,13 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       const eatButtons = [$('eatBtn'), $('eatBtnAction')].filter(Boolean);
       const staminaDepleted = state.energy <= 0;
       const staminaMax = Number(state.staminaRules?.max) || 100;
-      const eatDisabled = !!state.gameOver;
+      const eatGate = playerEatGate();
       eatButtons.forEach((eatBtn) => {
-        eatBtn.disabled = eatDisabled || state.food <= 0;
-        eatBtn.innerHTML = staminaDepleted
-          ? `🍲 立即进食 · 回复体力<small>食物 ${state.food} · +${Number(state.staminaRules?.foodRestore) || 24}；共享营地口粮</small>`
-          : `🍲 吃饭 · 回复体力<small>食物 ${state.food} · +${Number(state.staminaRules?.foodRestore) || 24}；共享营地口粮</small>`;
+        eatBtn.disabled = !eatGate.ok;
+        const hint = eatGate.ok
+          ? `消耗1食物 · 体力 +${eatGate.energyGain} · 生命 +${eatGate.hpGain}；共享营地口粮`
+          : playerEatReasonText(eatGate.reason);
+        eatBtn.innerHTML = `${staminaDepleted ? '🍲 立即进食 · 回复体力' : '🍲 吃饭 · 恢复'}<small>${hint}</small>`;
       });
       const weapon = weaponInfo[state.weapon.id] || weaponInfo.rustAxe;
       $('weaponName').textContent = weapon.name;
@@ -8468,24 +8469,49 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
       toast(`采集完成 +${gain}`); render();
     }
     function gather(preferred = null, options = {}) { if (!guardNightAction(options)) return nightActionResult(); return dispatchCommand({ type: 'resource.collect', commandId: options.commandId, payload: { resourceId: preferred?.id || null } }, () => { const before = { wood: state.wood, stone: state.stone, food: state.food, parts: state.parts }; const result = gatherReducer(preferred); return { result, payload: { resourceId: preferred?.id || null, delta: { wood: state.wood - before.wood, stone: state.stone - before.stone, food: state.food - before.food, parts: state.parts - before.parts } } }; }, { eventType: 'resource.collected' }); }
+    function playerEatGate() {
+      if (state.gameOver || state.hp <= 0) return { ok: false, reason: 'game-over' };
+      if (!SessionController.isDay() || state.night) return { ok: false, reason: state.night ? 'night-lock' : 'day-only' };
+      const staminaMax = Number(state.staminaRules?.max) || 100;
+      const foodRestore = Number(state.staminaRules?.foodRestore) || 24;
+      if (![state.food, state.energy, state.hp, staminaMax, foodRestore].every(Number.isFinite)
+        || state.food < 0 || state.energy < 0 || state.hp > 100 || staminaMax <= 0 || foodRestore <= 0) return { ok: false, reason: 'eat-state-invalid' };
+      if (state.food < 1) return { ok: false, reason: 'eat-food-empty' };
+      // Preserve the authored doctor perk; this slice does not redefine roles.
+      const doctorBonus = state.npcs.some(n => npcHasRole(n, 'doctor') && n.bond >= 3) ? 6 : 0;
+      const energyGain = Math.min(foodRestore, Math.max(0, staminaMax - state.energy));
+      const hpGain = Math.min(6 + doctorBonus, 100 - state.hp);
+      if (energyGain <= 0 && hpGain <= 0) return { ok: false, reason: 'eat-not-needed' };
+      return { ok: true, foodCost: 1, energyGain, hpGain, doctorBonus };
+    }
+    function playerEatReasonText(reason) {
+      return ({ 'eat-food-empty': '需要1份食物；当前口粮不足', 'eat-not-needed': '生命和行动体力均无需恢复',
+        'eat-state-invalid': '当前补给或人物状态无法确认', 'game-over': '本局已结束，无法进食',
+        'night-lock': '尸潮进行中，白天才能进食', 'day-only': '回到可操作白天后才能进食' })[reason] || '当前无法进食';
+    }
     function eatFoodReducer() {
       if (!guardNightAction()) return nightActionResult();
+      const gate = playerEatGate();
+      if (!gate.ok) { toast(playerEatReasonText(gate.reason)); return gate; }
+      const before = { food: state.food, energy: state.energy, hp: state.hp };
+      const minute = worldMinute();
       setPlayerAction('rest', 680);
-      if (state.gameOver) return;
-      if (state.food <= 0) { toast('没有食物了'); return; }
-      if (state.energy >= 100 && state.hp >= 100) { toast('现在不需要补给'); return; }
-      state.food -= 1;
-      const foodRestore = Number(state.staminaRules?.foodRestore) || 24;
-      const staminaMax = Number(state.staminaRules?.max) || 100;
-      const energyGain = Math.min(foodRestore, staminaMax - state.energy);
-      state.energy = Math.min(staminaMax, state.energy + foodRestore);
-      const doctorBonus = state.npcs.some(n => npcHasRole(n, 'doctor') && n.bond >= 3) ? 6 : 0;
-      const hpGain = 6 + doctorBonus;
-      state.hp = Math.min(100, state.hp + hpGain);
-      log(`你吃了一份食物，体力 +${energyGain}，生命值 +${hpGain}${doctorBonus ? '（苏禾的营养配方）' : ''}。`);
-      toast(`补给完成：体力 +${energyGain}，生命 +${hpGain}`); render();
+      state.food -= gate.foodCost;
+      state.energy += gate.energyGain;
+      state.hp += gate.hpGain;
+      const after = { food: state.food, energy: state.energy, hp: state.hp };
+      const delta = { food: after.food - before.food, energy: after.energy - before.energy, hp: after.hp - before.hp };
+      const proof = { proofVersion: 1, targetId: 'player-1', before, after, delta,
+        cost: { food: gate.foodCost }, doctorBonus: gate.doctorBonus,
+        clock: { before: minute, after: worldMinute(), requestedMinutes: 0, elapsedMinutes: worldMinute() - minute } };
+      log(`你吃了一份食物，体力 +${delta.energy}，生命值 +${delta.hp}${gate.doctorBonus ? '（苏禾的营养配方）' : ''}。`);
+      toast(`补给完成：体力 +${delta.energy}，生命 +${delta.hp}`); render();
+      return { payload: proof, result: proof };
     }
-    function eatFood(options = {}) { return actionCommand('player.eat','player.ate',{},()=>eatFoodReducer(),options); }
+    function eatFood(options = {}) {
+      if (options.actorId && options.actorId !== 'player-1') return { ok: false, reason: 'eat-actor' };
+      return actionCommand('player.eat','player.ate',{},()=>eatFoodReducer(),options);
+    }
     function resolveCropTarget(preferred = null) {
       const list = state.buildings;
       let garden;
