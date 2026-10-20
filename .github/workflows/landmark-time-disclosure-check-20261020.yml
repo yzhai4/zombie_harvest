@@ -1,0 +1,104 @@
+name: Landmark time disclosure candidate check
+on:
+  push:
+    branches: [qa/desktop-invitation-20261020]
+    paths: [.github/workflows/landmark-time-disclosure-check-20261020.yml]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  candidate-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          sparse-checkout: |
+            dist
+            scripts
+            content
+            docs/qa/patches
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser
+        run: |
+          python -m pip install playwright==1.57.0
+          python -m playwright install --with-deps chromium
+      - uses: actions/download-artifact@v4
+        with:
+          name: desktop-invitation-public-prefix-05
+          run-id: 39425473524
+          github-token: ${{ github.token }}
+          path: prior-pilot
+      - name: Apply exact one-literal patch and check syntax and existing content boundary
+        run: |
+          mkdir candidate-results
+          cp dist/index.html candidate-results/baseline.html
+          echo '86ca99869d174f56287309229cd36017ef69aa92122809c62dd998c16497446f  dist/index.html' | sha256sum --check
+          git apply --check docs/qa/patches/landmark-time-disclosure-20261020.patch
+          git apply docs/qa/patches/landmark-time-disclosure-20261020.patch
+          echo '29752c9f93e70d8ea90ecc8c9c372badb88b33a4a635060764f30f912f23718d  dist/index.html' | sha256sum --check
+          cp dist/index.html candidate-results/candidate.html
+          cp dist/actor-sprites.js candidate-results/actor-sprites.js
+          node scripts/check-inline-syntax.mjs | tee candidate-results/syntax.log
+          node scripts/check-night-guard.mjs | tee candidate-results/night-guard.log
+          node scripts/check-content-chain.mjs > candidate-results/content-chain.log
+      - name: Revisit the recorded public approach in baseline and candidate
+        run: |
+          python - <<'PY'
+          import pathlib,json,hashlib,os,shutil,subprocess,sys
+          root=pathlib.Path.cwd();out=root/'candidate-results';prior=root/'prior-pilot'
+          old=(out/'baseline.html').read_bytes();new=(out/'candidate.html').read_bytes()
+          assert new.replace('消耗 3 行动体力 · 推进 20 分钟 · 记录到收藏册'.encode(),'消耗 3 行动体力 · 记录到收藏册'.encode())==old
+          previous=json.loads((prior/'report.json').read_text());saved=json.loads((prior/'normal-writer.json').read_text())['payload'];pos=saved['player']
+          steps=next(a['steps'] for a in previous['actions'] if a.get('request',{}).get('type')=='explore')
+          begin=next(i for i,s in enumerate(steps) if abs(s['from'][0]-pos['x'])<.05 and abs(s['from'][1]-pos['y'])<.05)
+          actions=[{'type':'key','key':s['key'],'ms':s['ms']}for s in steps[begin:]]+[{'type':'wait','ms':2000}]
+          (out/'recorded-public-actions.json').write_text(json.dumps(actions))
+          (out/'input-normal-writer.json').write_bytes((prior/'normal-writer.json').read_bytes())
+          source=(root/'scripts/qa-desktop-invitation-pilot-20261020.py').read_text()
+          marker="  report['finalUi']=page.evaluate(READ);page.screenshot(path=str(OUT/'final.png'))"
+          assert source.count(marker)==1
+          insertion="""  report['landmarkReadability']=[]
+            for width,height in [(1440,900),(1280,720),(1024,768)]:
+             page.set_viewport_size({'width':width,'height':height});page.wait_for_timeout(120)
+             loc=page.locator('#contextActions button[data-context-action="landmark"]')
+             assert loc.count()==1 and loc.is_visible() and loc.is_enabled(),'recorded approach must reach a visible enabled exploration entry'
+             text=loc.inner_text();assert '废弃广播塔'in text
+             assert ('推进 20 分钟'in text)==(os.environ['CHECK_VARIANT']=='candidate'),'cost text must match the declared variant'
+             metric=loc.evaluate('(e)=>{const r=e.getBoundingClientRect();const h=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);return {x:r.x,y:r.y,width:r.width,height:r.height,inside:r.x>=0&&r.y>=0&&r.right<=innerWidth&&r.bottom<=innerHeight,hit:e===h||e.contains(h)}}')
+             assert metric['inside'] and metric['hit'],'button must be inside viewport and center-hit visible'
+             report['landmarkReadability'].append({'width':width,'height':height,'text':text,'metrics':metric})
+             page.screenshot(path=str(OUT/f'landmark-{width}.png'))
+            page.set_viewport_size({'width':1440,'height':900})
+            report['finalUi']=page.evaluate(READ);page.screenshot(path=str(OUT/'final.png'))"""
+          # Preserve the driver's two-space indentation under its existing with block.
+          insertion='\n'.join(line[2:] if i>0 else line for i,line in enumerate(insertion.splitlines()))
+          checks=[]
+          for mode in ['baseline','candidate']:
+           data=(out/(mode+'.html')).read_bytes();(root/'dist/index.html').write_bytes(data)
+           run=root/'qa-output';run.mkdir();shutil.copytree(prior/'profile',run/'profile')
+           script=source.replace('86ca99869d174f56287309229cd36017ef69aa92122809c62dd998c16497446f',hashlib.sha256(data).hexdigest()).replace(marker,insertion)
+           script=script.replace("'sourceCommit':'140d71918fab9ad8c536f7189dc088f6a934a025'","'baseSourceCommit':'140d71918fab9ad8c536f7189dc088f6a934a025','variant':os.environ['CHECK_VARIANT']")
+           file=root/'scripts/qa-cost-method-executed.py';file.write_text(script);(run/'method-executed.py').write_text(script)
+           subprocess.run([sys.executable,'-m','py_compile',str(file)],check=True)
+           env=dict(os.environ,PUBLIC_ACTIONS_JSON=json.dumps(actions),CHECK_VARIANT=mode)
+           with (out/(mode+'-execution.log')).open('w')as log:result=subprocess.run([sys.executable,str(file)],env=env,stdout=log,stderr=subprocess.STDOUT)
+           report=json.loads((run/'report.json').read_text());checks.append({'variant':mode,'exit':result.returncode,'status':report['status'],'htmlSha256':hashlib.sha256(data).hexdigest(),'elapsedMs':report['elapsedMs'],'metrics':report.get('landmarkReadability',[])})
+           shutil.move(str(run),str(out/mode));(out/'summary.json').write_text(json.dumps(checks,ensure_ascii=False,indent=2))
+           if result.returncode:raise SystemExit(result.returncode)
+          (out/'scope.txt').write_text('Controlled presentation regression using the actual saved public-profile checkpoint and a previously observed public-input suffix. No new natural exploration, no material grant or direct game-state injection, no discovery action submitted. Does not certify invitation, 20-minute settlement, complete mainline, human understanding, or deployment. Candidate differs by one display literal only. Existing regressions retain their own scope.')
+          print(json.dumps(checks,ensure_ascii=False))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: landmark-time-disclosure-candidate
+          retention-days: 3
+          include-hidden-files: true
+          path: candidate-results
