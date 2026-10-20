@@ -1,0 +1,31 @@
+name: One-off pinned source transfer (no execution)
+on:
+  push:
+    branches: [codex/imsaver-transfer-20261020-r1]
+    paths: [.github/workflows/imsaver-source-transfer-once.yml]
+permissions:
+  contents: read
+jobs:
+  transfer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 2b9e52274fafea55f6db0142b2bcd01ba2e8a392
+          persist-credentials: false
+      - name: Archive exact tracked source without running game or tests
+        run: |
+          test "$(git rev-parse HEAD)" = 2b9e52274fafea55f6db0142b2bcd01ba2e8a392
+          mkdir -p "$RUNNER_TEMP/imsaver-pinned-source"
+          git archive --format=tar HEAD | gzip -1 > "$RUNNER_TEMP/imsaver-pinned-source/source.tar.gz"
+          git ls-tree -r --full-tree HEAD > "$RUNNER_TEMP/imsaver-pinned-source/git-tree.txt"
+          git cat-file commit HEAD > "$RUNNER_TEMP/imsaver-pinned-source/git-commit.txt"
+          sha256sum dist/index.html "$RUNNER_TEMP/imsaver-pinned-source/source.tar.gz"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: imsaver-source-2b9e5227
+          path: ${{ runner.temp }}/imsaver-pinned-source
+          retention-days: 1
+          compression-level: 0
+          if-no-files-found: error
