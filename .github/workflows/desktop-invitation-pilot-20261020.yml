@@ -25,42 +25,41 @@ jobs:
         run: |
           python -m pip install playwright==1.57.0
           python -m playwright install --with-deps chromium
-      - name: Restore only the previous isolated browser profile
+      - name: Restore the actual isolated profile
         uses: actions/download-artifact@v4
         with:
-          name: desktop-invitation-public-prefix-03
-          run-id: 39424600174
+          name: desktop-invitation-public-prefix-04
+          run-id: 39425030349
           github-token: ${{ github.token }}
           path: prior-pilot
-      - name: Preserve actual profile and correct only the method endpoint
+      - name: Freeze final bounded method and preserve all prior reports
         run: |
           mkdir -p qa-output
           cp -a prior-pilot/profile qa-output/profile
-          cp prior-pilot/report.json qa-output/prior-report-03.json
+          cp prior-pilot/report.json qa-output/prior-report-04.json
           cp prior-pilot/prior-report-*.json qa-output/
           python - <<'PY'
           from pathlib import Path
           p=Path('scripts/qa-desktop-invitation-pilot-20261020.py')
           s=p.read_text()
-          old='match=math.dist(xy,goal)<=1.0'
-          assert s.count(old)==1
+          old='match=math.dist(xy,goal)<=1.0';assert s.count(old)==1
           s=s.replace(old,'match=math.dist(xy,goal)<=(1.0 if tower is not None and goal == tower else 0.0)')
           s=s.replace("else('s'if dy>0 else's' if False else'w')","else('s'if dy>0 else'w')")
-          s=s.replace("'seconds':30,'keyPulses':160,'frontiers':6","'seconds':20,'keyPulses':100,'frontiers':4")
-          s=s.replace('time.monotonic()+30','time.monotonic()+20').replace("len(entry['steps'])<160","len(entry['steps'])<100").replace("len(entry['targets'])>=6","len(entry['targets'])>=4")
-          p.write_text(s)
-          Path('qa-output/method-executed.py').write_text(s)
-          Path('qa-output/method-note.txt').write_text('Previous prefix03 reached frontier-attempt limit after five key pulses; not a game reachability failure. This corrected method is a separate 20-second / 100-pulse / 4-frontier continuation, with prior raw reports preserved. No A08 input or budget is reused; original game bytes unchanged.')
+          s=s.replace("'seconds':30,'keyPulses':160,'frontiers':6","'seconds':70,'keyPulses':320,'frontiers':40")
+          s=s.replace('time.monotonic()+30','time.monotonic()+70').replace("len(entry['steps'])<160","len(entry['steps'])<320").replace("len(entry['targets'])>=6","len(entry['targets'])>=40")
+          s=s.replace('time.monotonic()-at>35','time.monotonic()-at>85').replace('per-segment 35-second limit','per-segment 85-second limit').replace('entry,at+33','entry,at+78')
+          p.write_text(s);Path('qa-output/method-executed.py').write_text(s)
+          Path('qa-output/method-note.txt').write_text('Final bounded approach: 70s / 320 key pulses / 40 disclosed frontiers, plus at most 2.5s for ordinary writer debounce. Earlier four prefixes remain incomplete with their actual costs and checkpoint rollbacks; this does not relabel them as successful or revive A08. Profile starts from actual saved state, not late live position. No more exploration continuations in this iteration.')
           PY
           python -m py_compile scripts/qa-desktop-invitation-pilot-20261020.py
       - name: Execute original desktop build through public UI
         env:
-          PUBLIC_ACTIONS_JSON: '[{"type":"explore"}]'
+          PUBLIC_ACTIONS_JSON: '[{"type":"explore"},{"type":"wait","ms":2500}]'
         run: python scripts/qa-desktop-invitation-pilot-20261020.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: desktop-invitation-public-prefix-04
+          name: desktop-invitation-public-prefix-05
           retention-days: 3
           if-no-files-found: error
           include-hidden-files: true
