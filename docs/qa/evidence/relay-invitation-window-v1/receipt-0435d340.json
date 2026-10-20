@@ -1,0 +1,41 @@
+{
+  "kind": "derived receipt; not an original API response",
+  "date": "2026-10-20",
+  "validatedCommit": "0435d34016fd0f7f368d7ac2d338e6252f99c66f",
+  "runtimeSourceCommit": "2970d9b3c24e00e677880c39de9ed6e4639ae91d",
+  "htmlSha256": "86ca99869d174f56287309229cd36017ef69aa92122809c62dd998c16497446f",
+  "runnerSha256": "9e037f9ab35aacd526dfe9a845747d290426d9b6503ec317630be7baff557606",
+  "sourceInputSha256": "7c54ea074c60fe25cfff5bba39300aa85d07fd96fe57b49af88f082077f2b42a",
+  "runId": 39432297998,
+  "jobId": 118660162864,
+  "checkoutMergeSha": "62614656e65ae583cf6500a7bb416bdc35f2d260",
+  "artifactId": 12269080794,
+  "archive": "report-0435d340.zip",
+  "archiveBytes": 2541,
+  "archiveSha256": "3043a3d7ba6f319ca26804d92053cba7e53e8557d31c36072259682ccaeeb701",
+  "reportEntry": "relay-invitation-window.json",
+  "reportSha256": "297dbbeb7b87e13c4833735eedfec1ae46e782e7dcc3a6543eba83fdc7901228",
+  "scenarioResults": [
+    {"id":"consumer-clock-0","ok":true,"firstMaterialWindowClosedStep":30,"firstOfferRefusedStep":30,"initialWorldMinute":643,"finalWorldMinute":643,"stockStoneBefore":9,"stockStoneAfter":8,"finalReason":"npc-relay-stone-no-longer-needed"},
+    {"id":"consumer-clock-29","ok":true,"firstMaterialWindowClosedStep":1,"firstOfferRefusedStep":1,"initialWorldMinute":643,"finalWorldMinute":643,"stockStoneBefore":9,"stockStoneAfter":8,"finalReason":"npc-relay-stone-no-longer-needed"},
+    {"id":"actual-heartbeat-clock-0","ok":true,"firstMaterialWindowClosedStep":30,"firstOfferRefusedStep":30,"initialWorldMinute":643,"finalWorldMinute":673,"stockStoneBefore":9,"stockStoneAfter":8,"finalReason":"npc-relay-stone-no-longer-needed"}
+  ],
+  "observedWorkflowResults": [
+    {"id":39432297998,"name":"invitation-window","status":"completed","conclusion":"success"},
+    {"id":39432297634,"name":"game","status":"completed","conclusion":"success"},
+    {"id":39432297483,"name":"workbuddy","status":"completed","conclusion":"success"}
+  ],
+  "browserExecuted": false,
+  "humanStudyExecuted": false,
+  "naturalRouteValidated": false,
+  "originalA08BudgetReopened": false,
+  "gameplayRulesChanged": false,
+  "sourceAndInputUnchanged": true,
+  "notes": [
+    "Consumer-only calls do not advance the full world clock.",
+    "Heartbeat scene uses selected original interval in TEST-ONLY VM IO, not browser scheduling or player navigation.",
+    "Three scenes and 64 snapshots are not 64 independent tests or participants.",
+    "No new post-diagnostic save/reload claim.",
+    "Workflow success belongs to 0435d340, not a later evidence-only commit."
+  ]
+}
