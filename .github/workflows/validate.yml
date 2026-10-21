@@ -179,8 +179,12 @@ jobs:
         run: node scripts/check-scenario-boot-c1.mjs --html dist/index.html --core-module scripts/lib/scenario-package-v1.mjs --input-manifest scripts/fixtures/scenario-boot-c1/frozen-input-manifest.json --out "$RUNNER_TEMP/scenario-boot-c1"
       - name: Execute Scenario C2 compilation, atomic catalog and content binding
         run: node scripts/check-scenario-boot-c2.mjs --html dist/index.html --core-module scripts/lib/scenario-package-v1.mjs --repo-root . --out "$RUNNER_TEMP/scenario-boot-c2"
-      - name: Execute source gameplay vertical slice
-        run: node scripts/check-gameplay-vertical-slice.mjs
+      - name: Execute source gameplay vertical slice and finite resource recovery
+        run: |
+          node scripts/check-gameplay-vertical-slice.mjs
+          HTML_SHA=$(sha256sum dist/index.html | cut -d' ' -f1)
+          node scripts/check-player-food-recovery-v1.mjs --html "$GITHUB_WORKSPACE/dist/index.html" --out "$RUNNER_TEMP/player-food-recovery-v1.json" --expect-html-sha256 "$HTML_SHA"
+          node scripts/check-resource-gather-v1.mjs --html "$GITHUB_WORKSPACE/dist/index.html" --out "$RUNNER_TEMP/resource-gather-v1.json" --expect-html-sha256 "$HTML_SHA"
       - name: Execute sourced daytime fatal outcomes and recovery
         run: node scripts/check-day-fatal-outcome-v1.mjs --repo-root "$GITHUB_WORKSPACE" --html "$GITHUB_WORKSPACE/dist/index.html" --out "$RUNNER_TEMP/day-fatal-outcome-v1.json"
       - name: Execute repeatable episode migration and CAS contracts

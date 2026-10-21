@@ -6719,6 +6719,12 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
           : playerEatReasonText(eatGate.reason);
         eatBtn.innerHTML = `${staminaDepleted ? '🍲 立即进食 · 回复体力' : '🍲 吃饭 · 恢复'}<small>${hint}</small>`;
       });
+      const gatherButton = $('gatherBtn'), gatherGate = resourceGatherGate();
+      if (gatherButton) {
+        // Keep the generic DAY action available to explain rejection; submit rechecks.
+        const hint = gatherGate.ok ? `消耗8行动体力 · 推进30分钟 · ${gatherGate.rule.unit} +${gatherGate.rule.gain}` : resourceGatherReasonText(gatherGate.reason);
+        gatherButton.innerHTML = `🧺 采集<small>${eventUiText(hint)}</small>`;
+      }
       const weapon = weaponInfo[state.weapon.id] || weaponInfo.rustAxe;
       $('weaponName').textContent = weapon.name;
       $('weaponDamage').textContent = `伤害 ${weapon.damage}${state.weapon.id === 'pulseAxe' ? ' · 一次命中 2只' : ''}`;
@@ -8444,31 +8450,78 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
         return { payload: { moved: true, x: state.player.x, y: state.player.y } };
       }, { eventType: 'movement.applied', ephemeral: true, checkpoint: false });
     }
+    const RESOURCE_GATHER_RULES = Object.freeze({
+      tree: { key: 'wood', gain: 4, name: '树林', unit: '木材' },
+      rock: { key: 'stone', gain: 3, name: '碎石堆', unit: '石材' },
+      berry: { key: 'food', gain: 2, name: '野莓丛', unit: '食物' },
+      scrap: { key: 'parts', gain: 2, name: '废车堆', unit: '零件' },
+      herb: { key: 'medicine', gain: 2, name: '药草地', unit: '药草' }
+    });
+    function resourceGatherGate(preferred = null) {
+      if (state.gameOver || state.hp <= 0) return { ok: false, reason: 'game-over' };
+      if (!SessionController.isDay() || state.night) return { ok: false, reason: state.night ? 'night-lock' : 'day-only' };
+      if (state.worldMeta?.clock?.paused) return { ok: false, reason: 'clock-paused' };
+      if (!Array.isArray(state.resources) || ![state.player?.x, state.player?.y, state.hp].every(Number.isFinite)) return { ok: false, reason: 'gather-state-invalid' };
+      let target;
+      if (preferred === null) target = getResourceNear(state.player.x, state.player.y, CONTEXT_INTERACTION_RADIUS);
+      else if (typeof preferred === 'string' && preferred) target = state.resources.find(item => item.id === preferred);
+      else if (preferred && typeof preferred === 'object' && state.resources.includes(preferred)) target = preferred;
+      else return { ok: false, reason: 'gather-target-unknown' };
+      if (!target) return { ok: false, reason: preferred === null ? 'gather-target-missing' : 'gather-target-unknown' };
+      if (typeof target.id !== 'string' || !target.id || state.resources.filter(item => item.id === target.id).length !== 1) return { ok: false, reason: 'gather-target-identity' };
+      if (!Object.hasOwn(RESOURCE_GATHER_RULES, target.type)) return { ok: false, reason: 'gather-target-type' };
+      if (!Number.isSafeInteger(target.amount) || target.amount < 1) return { ok: false, reason: 'gather-target-depleted' };
+      if (![target.x, target.y].every(Number.isFinite) || !inBounds(target.x, target.y) || distanceBetween(target, state.player) > CONTEXT_INTERACTION_RADIUS) return { ok: false, reason: 'gather-too-far' };
+      if (!Number.isFinite(state.energy) || state.energy < 8) return { ok: false, reason: 'gather-energy' };
+      const rule = RESOURCE_GATHER_RULES[target.type];
+      if (!['wood', 'stone', 'food', 'parts', 'medicine', 'seeds'].every(key => Number.isFinite(state[key]) && state[key] >= 0) || !Number.isFinite(state[rule.key] + rule.gain)) return { ok: false, reason: 'gather-state-invalid' };
+      const clock = planWorldAdvance(30);
+      if (!clock.ok) return clock;
+      return { ok: true, target, rule };
+    }
+    function resourceGatherReasonText(reason) {
+      return ({ 'gather-target-missing': '附近没有可采集的资源', 'gather-target-unknown': '原资源已不存在，请重新选择',
+        'gather-target-identity': '资源身份无法确认', 'gather-target-type': '这不是可采集的资源',
+        'gather-target-depleted': '这处资源已经耗尽或余量无法确认', 'gather-too-far': '靠近资源到1.25格内再采集',
+        'gather-energy': '需要8行动体力，先休息或进食', 'gather-state-invalid': '当前资源或人物状态无法确认',
+        'clock-paused': '世界时钟暂停，暂时无法采集', 'game-over': '本局已结束，无法采集',
+        'night-lock': '尸潮进行中，白天才能采集', 'day-only': '回到可操作白天后才能采集' })[reason] || '当前无法安全结算采集';
+    }
     function gatherReducer(preferred = null) {
       if (!guardNightAction()) return nightActionResult();
+      const gate = resourceGatherGate(preferred);
+      if (!gate.ok) { toast(resourceGatherReasonText(gate.reason)); return gate; }
+      const budget = CommandBus.nextAutomaticId(state.worldMeta);
+      if (!budget.ok) return { ok: false, reason: budget.reason };
+      const { target, rule } = gate;
+      const snapshot = () => Object.fromEntries(['wood', 'stone', 'food', 'parts', 'medicine', 'seeds', 'energy'].map(key => [key, state[key]]));
+      const before = snapshot(), minute = worldMinute(), amountBefore = target.amount;
       setPlayerAction('work', 760);
-      if (state.gameOver) return;
-      const spots = [[state.player.x,state.player.y],[state.player.x+1,state.player.y],[state.player.x-1,state.player.y],[state.player.x,state.player.y+1],[state.player.x,state.player.y-1]];
-      const target = preferred || getResourceNear(state.player.x, state.player.y, 1.25);
-      if (!target) { toast('附近没有可采集的资源'); return; }
-      if (!spendEnergy(8)) return;
-      const gain = target.type === 'tree' ? 4 : target.type === 'rock' ? 3 : target.type === 'scrap' ? 2 : 2;
+      if (!spendEnergy(8)) return { ok: false, reason: 'gather-energy' };
       target.amount -= 1;
-      if (target.type === 'tree') state.wood += gain;
-      if (target.type === 'rock') state.stone += gain;
-      if (target.type === 'berry') state.food += gain;
-      if (target.type === 'scrap') state.parts += gain;
-      if (target.type === 'herb') state.medicine += gain;
+      state[rule.key] += rule.gain;
+      const amountAfterCollection = target.amount, afterCollection = snapshot();
       recordFrontierExposure(4, '采集');
       if (frontierTier(frontierRegionKeyAt()) > 0) adjustSanity('player', -1, '外围采集中的持续暴露');
       applyStandingDelta({ merit: 1, contribution: 1, domains: { supply: 1 } }, { reason: `采集${target.type}`, visibility: 'witnessed' });
-      advance(30);
-      const resourceName = { tree:'树林', rock:'碎石堆', berry:'野莓丛', scrap:'废车堆', herb:'药草地' }[target.type] || '地面';
-      const resourceUnit = { tree:'木材', rock:'石材', berry:'食物', scrap:'零件', herb:'药草' }[target.type] || '资源';
-      log(`你从${resourceName}带回了 ${gain} 份${resourceUnit}。`);
-      toast(`采集完成 +${gain}`); render();
+      const advancement = advance(30), after = snapshot();
+      const proof = { proofVersion: 1, resourceId: target.id, resourceType: target.type,
+        source: { amountBefore, amountAfterCollection, amountAtCompletion: state.resources.includes(target) ? target.amount : null },
+        gain: { key: rule.key, amount: rule.gain }, payment: { cost: { energy: 8 }, energyBefore: before.energy, energyAfterPayment: afterCollection.energy },
+        resources: { before, afterCollection, after },
+        delta: Object.fromEntries(Object.keys(before).map(key => [key, after[key] - before[key]])),
+        advanceEffects: { resourceDelta: Object.fromEntries(Object.keys(before).map(key => [key, after[key] - afterCollection[key]])) },
+        clock: { before: minute, after: worldMinute(), requestedMinutes: 30, elapsedMinutes: worldMinute() - minute },
+        advance: { commandId: advancement.commandId, eventId: advancement.event?.eventId || null, causationId: advancement.event?.causationId || null, ok: advancement.ok === true } };
+      log(`你从${rule.name}采得了 ${rule.gain} 份${rule.unit}；期间配给、工程与危险照常结算。`);
+      toast(`采集结算：${rule.unit} +${rule.gain}`); render();
+      return { payload: proof, result: proof };
     }
-    function gather(preferred = null, options = {}) { if (!guardNightAction(options)) return nightActionResult(); return dispatchCommand({ type: 'resource.collect', commandId: options.commandId, payload: { resourceId: preferred?.id || null } }, () => { const before = { wood: state.wood, stone: state.stone, food: state.food, parts: state.parts }; const result = gatherReducer(preferred); return { result, payload: { resourceId: preferred?.id || null, delta: { wood: state.wood - before.wood, stone: state.stone - before.stone, food: state.food - before.food, parts: state.parts - before.parts } } }; }, { eventType: 'resource.collected' }); }
+    function gather(preferred = null, options = {}) {
+      if (!guardNightAction(options)) return nightActionResult();
+      if (options.actorId && options.actorId !== 'player-1') return { ok: false, reason: 'gather-actor' };
+      return actionCommand('resource.collect', 'resource.collected', { resourceId: typeof preferred === 'string' ? preferred : preferred?.id || null }, () => gatherReducer(preferred), options);
+    }
     function playerEatGate() {
       if (state.gameOver || state.hp <= 0) return { ok: false, reason: 'game-over' };
       if (!SessionController.isDay() || state.night) return { ok: false, reason: state.night ? 'night-lock' : 'day-only' };
@@ -10576,7 +10629,7 @@ function resolveNpcDirectSightReportV1(observation, relationTrust, enabled = fal
     $('relayToggle').addEventListener('click', () => toggleRelayPanel());
     $('relayPanelClose').addEventListener('click', () => toggleRelayPanel(false));
     document.querySelectorAll('[data-hud-action]').forEach(button => button.addEventListener('click', () => runHudAction(button.dataset.hudAction)));
-    $('gatherBtn').addEventListener('click', gather);
+    $('gatherBtn').addEventListener('click', () => gather());
     $('buildBtn').addEventListener('click', toggleBuild);
     $('attackBtn').addEventListener('click', () => attackNearestThreat());
     $('cropBtn').addEventListener('click', () => plantOrHarvest());
