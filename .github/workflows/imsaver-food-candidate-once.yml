@@ -1,4 +1,4 @@
-name: Food recovery candidate - source only
+name: Finite gathering candidate - source only
 on:
   push:
     branches: [codex/imsaver-transfer-20261020-r1]
@@ -12,81 +12,96 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: 2b9e52274fafea55f6db0142b2bcd01ba2e8a392
+          ref: f7e83d9abd12930f411df75149ca0c5748158178
           persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Reproduce exact local patch and test method
+      - name: Apply exact tested patch and register focused regression
         env:
           GH_TOKEN: ${{ github.token }}
         shell: python
         run: |
           import pathlib,os,urllib.request,json,base64,hashlib,subprocess
           api='https://api.github.com/repos/yzhai4/zombie_harvest'
+          def git_sha(b):return hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
           def blob(oid):
             req=urllib.request.Request(api+'/git/blobs/'+oid,headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json'})
             with urllib.request.urlopen(req,timeout=30) as res:data=json.load(res)
-            b=base64.b64decode(data['content'])
-            assert hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()==oid
-            return b
-          assert subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()=='2b9e52274fafea55f6db0142b2bcd01ba2e8a392'
-          patch=blob('0eba27f06139001bd9cfc4291863c09bfdc9ab1d')
-          exec(compile(patch,'fixed-food-patch.py','exec'))
-          checker=blob('18113d4f96c02900d2cfb0b451e01cc9d9a2a5cb')
-          assert hashlib.sha256(checker).hexdigest()=='73263306bf599e9e14ffdcb64543def7c815fbe95ef747b15b671424545a071f'
-          p=pathlib.Path('scripts/check-player-food-recovery-v1.mjs');assert not p.exists();p.write_bytes(checker)
-      - name: Run source contracts only; preserve browser deferral
+            b=base64.b64decode(data['content']);assert git_sha(b)==oid;return b
+          assert subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()=='f7e83d9abd12930f411df75149ca0c5748158178'
+          html=pathlib.Path('dist/index.html')
+          assert hashlib.sha256(html.read_bytes()).hexdigest()=='41926fba6f4170011de3f225714a449104b9255235daabd18ab53054214daf28'
+          patch=blob('c09190ce9196289c92add9687a780a7ea8f586a8')
+          assert hashlib.sha256(patch).hexdigest()=='d6beb2892d465cc3f8b74b77ca9942e6aab104eb837671f333f4f4d2afe0c597'
+          pp=pathlib.Path(os.environ['RUNNER_TEMP'])/'gather.patch';pp.write_bytes(patch)
+          subprocess.run(['git','apply','--check',str(pp)],check=True)
+          subprocess.run(['git','apply',str(pp)],check=True)
+          assert hashlib.sha256(html.read_bytes()).hexdigest()=='e0b9301ff227d65697efd348af99c34f8bb12a3a6eb0ed0f255df2de997de75b'
+          checker=blob('1e88c60ba5e9ffe772b8c5c2d3bd9718314cb331')
+          assert hashlib.sha256(checker).hexdigest()=='3f234dd6ee7a8e9f3e01ac0b9816433574ac195f2b549c6ee9ac16dc7c984e90'
+          p=pathlib.Path('scripts/check-resource-gather-v1.mjs');assert not p.exists();p.write_bytes(checker)
+          p=pathlib.Path('.github/workflows/validate.yml');b=p.read_bytes();assert git_sha(b)=='bad419866d33abd58452dc2361e1ecca9642f9a5'
+          old='      - name: Execute source gameplay vertical slice\n        run: node scripts/check-gameplay-vertical-slice.mjs\n'
+          new='      - name: Execute source gameplay vertical slice and finite resource recovery\n        run: |\n          node scripts/check-gameplay-vertical-slice.mjs\n          HTML_SHA=$(sha256sum dist/index.html | cut -d\' \' -f1)\n          node scripts/check-player-food-recovery-v1.mjs --html "$GITHUB_WORKSPACE/dist/index.html" --out "$RUNNER_TEMP/player-food-recovery-v1.json" --expect-html-sha256 "$HTML_SHA"\n          node scripts/check-resource-gather-v1.mjs --html "$GITHUB_WORKSPACE/dist/index.html" --out "$RUNNER_TEMP/resource-gather-v1.json" --expect-html-sha256 "$HTML_SHA"\n'
+          s=b.decode();assert s.count(old)==1;p.write_text(s.replace(old,new),encoding='utf-8')
+      - name: Run bounded source contracts with browser deferral
         shell: python
         run: |
           import pathlib,os,subprocess,json,hashlib,time
-          root=pathlib.Path.cwd();out=pathlib.Path(os.environ['RUNNER_TEMP'])/'food-source-results';out.mkdir()
-          html=root/'dist/index.html';h=hashlib.sha256(html.read_bytes()).hexdigest()
-          assert h=='41926fba6f4170011de3f225714a449104b9255235daabd18ab53054214daf28'
-          venv=pathlib.Path(os.environ['RUNNER_TEMP'])/'no-browser-python'
-          subprocess.run(['python3','-m','venv',str(venv)],check=True,timeout=30)
-          py=str(venv/'bin/python')
+          root=pathlib.Path.cwd();out=pathlib.Path(os.environ['RUNNER_TEMP'])/'gather-source-results';out.mkdir()
+          html=root/'dist/index.html';h=hashlib.sha256(html.read_bytes()).hexdigest();io=root/'scripts/check-report-recovery.mjs'
+          assert h=='e0b9301ff227d65697efd348af99c34f8bb12a3a6eb0ed0f255df2de997de75b'
+          venv=pathlib.Path(os.environ['RUNNER_TEMP'])/'no-browser-python';subprocess.run(['python3','-m','venv',str(venv)],check=True,timeout=30);py=str(venv/'bin/python')
           assert subprocess.run([py,'-c','import playwright.sync_api'],capture_output=True).returncode!=0
           tests=[
             ('syntax',['node','scripts/check-inline-syntax.mjs']),
             ('content',['node','scripts/validate-content.mjs']),
             ('night-guard',['node','scripts/check-night-guard.mjs']),
+            ('gather',['node','scripts/check-resource-gather-v1.mjs','--html',str(html),'--out',str(out/'gather.json'),'--expect-html-sha256',h]),
+            ('food',['node','scripts/check-player-food-recovery-v1.mjs','--html',str(html),'--out',str(out/'food.json'),'--expect-html-sha256',h]),
+            ('repair',['node','scripts/check-repair-proof.mjs','--html',str(html),'--io-adapter',str(io),'--out',str(out/'repair.json'),'--legacy-repair-fixture',str(root/'scripts/fixtures/repair-proof/repair-legacy-basewriter.json')]),
+            ('relay-maintenance',['node','scripts/check-relay-maintenance-v1.mjs','--repo-root',str(root),'--html',str(html),'--out',str(out/'relay-maintenance.json'),'--expect-html-sha256',h]),
+            ('recovery',['node','scripts/check-report-recovery.mjs']),
             ('content-chain',['node','scripts/check-content-chain.mjs']),
-            ('event-gate-parity',['node','scripts/check-event-gate-parity.mjs']),
-            ('observer-expression',['node','scripts/check-observer-expression-v1.mjs']),
-            ('gameplay-vertical-slice',['node','scripts/check-gameplay-vertical-slice.mjs']),
-            ('content-episode',['node','scripts/check-content-episode-v1.mjs']),
-            ('replay-self-test',['node','scripts/replay-harness.mjs','--self-test']),
-            ('static-three-day-smoke',['node','scripts/smoke-three-days.mjs','--python',py,'--report',str(out/'static-three-day-smoke.json')]),
-            ('report-recovery',['node','scripts/check-report-recovery.mjs']),
-            ('food-recovery',['node','scripts/check-player-food-recovery-v1.mjs','--html',str(html),'--out',str(out/'food-recovery.json'),'--expect-html-sha256',h]),
-            ('relay-maintenance',['node','scripts/check-relay-maintenance-v1.mjs','--repo-root',str(root),'--html',str(html),'--out',str(out/'relay-maintenance.json'),'--expect-html-sha256',h])]
+            ('vertical-slice',['node','scripts/check-gameplay-vertical-slice.mjs']),
+            ('scenario-build',['node','scripts/build-scenario-package.mjs','--check']),
+            ('replay',['node','scripts/replay-harness.mjs','--self-test']),
+            ('static-smoke',['node','scripts/smoke-three-days.mjs','--python',py,'--report',str(out/'static-smoke.json')]),
+            ('fatal',['node','scripts/check-day-fatal-outcome-v1.mjs','--repo-root',str(root),'--html',str(html),'--out',str(out/'fatal.json'),'--expect-html-sha256',h])]
           rows=[]
           for name,cmd in tests:
-            t=time.monotonic();r=subprocess.run(cmd,capture_output=True,text=True,timeout=90)
-            (out/(name+'.log')).write_text(r.stdout);(out/(name+'.err')).write_text(r.stderr)
-            rows.append({'name':name,'exitCode':r.returncode,'elapsedSeconds':time.monotonic()-t,'command':cmd})
-            print(name,r.returncode,flush=True)
-          summary={'sourceHtmlSha256':h,'baseCommit':'2b9e52274fafea55f6db0142b2bcd01ba2e8a392','browserExecuted':False,'naturalGameplay':False,'humanUnderstandingMeasured':False,'fullAcceptance':False,'browserGateDeferred':True,'tests':rows,'ok':all(r['exitCode']==0 for r in rows)}
-          (out/'source-summary.json').write_text(json.dumps(summary,indent=2))
+            t=time.monotonic()
+            try:
+              r=subprocess.run(cmd,capture_output=True,text=True,timeout=90)
+              (out/(name+'.log')).write_text(r.stdout);(out/(name+'.err')).write_text(r.stderr)
+              row={'name':name,'exitCode':r.returncode,'elapsedSeconds':time.monotonic()-t,'command':cmd}
+            except subprocess.TimeoutExpired as e:
+              row={'name':name,'exitCode':None,'timeout':True,'elapsedSeconds':time.monotonic()-t,'command':cmd}
+              (out/(name+'.timeout')).write_text(str(e))
+            rows.append(row);print(json.dumps(row),flush=True)
+            summary={'sourceHtmlSha256':h,'baseCommit':'f7e83d9abd12930f411df75149ca0c5748158178','toolHead':os.environ['GITHUB_SHA'],'browserExecuted':False,'naturalGameplay':False,'humanUnderstandingMeasured':False,'fullAcceptance':False,'browserGateDeferred':True,'tests':rows,'ok':all(x['exitCode']==0 for x in rows)}
+            (out/'source-summary.json').write_text(json.dumps(summary,indent=2))
+          (out/'validate.yml').write_bytes((root/'.github/workflows/validate.yml').read_bytes())
           print(json.dumps(summary));assert summary['ok']
-      - name: Create exact candidate HTML blob only - no ref writes
+      - name: Publish exact candidate blobs without updating any ref
         env:
           GH_TOKEN: ${{ github.token }}
         shell: python
         run: |
           import pathlib,urllib.request,json,os,base64,hashlib
-          b=pathlib.Path('dist/index.html').read_bytes()
-          assert hashlib.sha256(b).hexdigest()=='41926fba6f4170011de3f225714a449104b9255235daabd18ab53054214daf28'
-          req=urllib.request.Request('https://api.github.com/repos/yzhai4/zombie_harvest/git/blobs',data=json.dumps({'content':base64.b64encode(b).decode(),'encoding':'base64'}).encode(),headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Content-Type':'application/json','Accept':'application/vnd.github+json'},method='POST')
-          with urllib.request.urlopen(req,timeout=30) as res:r=json.load(res)
-          expected=hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest();assert r['sha']==expected
-          receipt={'htmlBlobSha':expected,'htmlSha256':hashlib.sha256(b).hexdigest(),'bytes':len(b),'developmentRefUpdated':False,'browserExecuted':False,'fullAcceptance':False}
-          (pathlib.Path(os.environ['RUNNER_TEMP'])/'food-source-results'/'html-blob.json').write_text(json.dumps(receipt,indent=2));print(json.dumps(receipt))
+          receipt={'baseCommit':'f7e83d9abd12930f411df75149ca0c5748158178','developmentRefUpdated':False,'browserExecuted':False,'fullAcceptance':False,'files':[]}
+          for name in ['dist/index.html','.github/workflows/validate.yml','scripts/check-resource-gather-v1.mjs']:
+            b=pathlib.Path(name).read_bytes()
+            req=urllib.request.Request('https://api.github.com/repos/yzhai4/zombie_harvest/git/blobs',data=json.dumps({'content':base64.b64encode(b).decode(),'encoding':'base64'}).encode(),headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Content-Type':'application/json','Accept':'application/vnd.github+json'},method='POST')
+            with urllib.request.urlopen(req,timeout=30) as res:r=json.load(res)
+            expected=hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest();assert r['sha']==expected
+            receipt['files'].append({'path':name,'gitBlobSha':expected,'sha256':hashlib.sha256(b).hexdigest(),'bytes':len(b)})
+          (pathlib.Path(os.environ['RUNNER_TEMP'])/'gather-source-results'/'blobs.json').write_text(json.dumps(receipt,indent=2));print(json.dumps(receipt))
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: imsaver-food-source-only
-          path: ${{ runner.temp }}/food-source-results
+          name: imsaver-gather-source-only
+          path: ${{ runner.temp }}/gather-source-results
           retention-days: 7
           if-no-files-found: error
