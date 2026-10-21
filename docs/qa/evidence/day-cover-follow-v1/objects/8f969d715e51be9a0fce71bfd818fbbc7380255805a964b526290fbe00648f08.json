@@ -1,0 +1,125 @@
+{
+  "event": {
+    "eventId": "evt-000025",
+    "seq": 25,
+    "type": "npc.orderChanged",
+    "actorId": "player-1",
+    "commandId": "cmd-000256",
+    "causationId": null,
+    "tick": {
+      "world": 395,
+      "phase": 0,
+      "schedule": 35
+    },
+    "payload": {
+      "ok": true,
+      "proofVersion": 1,
+      "npcId": "radio",
+      "operation": "support-and-order",
+      "outcome": "completed",
+      "orderId": "cover",
+      "target": {
+        "id": "radio",
+        "before": {
+          "id": "radio",
+          "supportRequested": false,
+          "order": null,
+          "bond": 0,
+          "hp": 100,
+          "lifeState": "healthy",
+          "sanity": 72,
+          "helpedByPlayer": 0
+        },
+        "beforeAdvance": {
+          "id": "radio",
+          "supportRequested": true,
+          "order": null,
+          "bond": 1,
+          "hp": 100,
+          "lifeState": "healthy",
+          "sanity": 72,
+          "helpedByPlayer": 1
+        },
+        "afterAdvance": {
+          "id": "radio",
+          "supportRequested": true,
+          "order": null,
+          "bond": 1,
+          "hp": 100,
+          "lifeState": "healthy",
+          "sanity": 74,
+          "helpedByPlayer": 1
+        },
+        "atCompletion": {
+          "id": "radio",
+          "supportRequested": true,
+          "order": "cover",
+          "bond": 1,
+          "hp": 100,
+          "lifeState": "healthy",
+          "sanity": 74,
+          "helpedByPlayer": 1
+        },
+        "presentAtCompletion": true,
+        "snapshotStages": {
+          "before": "before-payment-and-own-effects",
+          "beforeAdvance": "after-pre-simulation-own-effects",
+          "afterAdvance": "after-world-simulation-before-post-effects",
+          "atCompletion": "reducer-final-state"
+        }
+      },
+      "payment": {
+        "cost": {
+          "energy": 2
+        },
+        "before": {
+          "energy": 76
+        },
+        "after": {
+          "energy": 74
+        }
+      },
+      "resources": {
+        "energyBefore": 76,
+        "energyAfterPayment": 74,
+        "energyAfter": 74
+      },
+      "clock": {
+        "before": {
+          "day": 1,
+          "hour": 6,
+          "minute": 20,
+          "world": 380
+        },
+        "after": {
+          "day": 1,
+          "hour": 6,
+          "minute": 35,
+          "world": 395
+        },
+        "requestedMinutes": 15,
+        "elapsedMinutes": 15
+      },
+      "advance": {
+        "commandId": "cmd-000257",
+        "eventId": "evt-000023",
+        "causationId": "cmd-000256",
+        "minutes": 15,
+        "tick": {
+          "world": 395,
+          "phase": 0,
+          "schedule": 35
+        }
+      }
+    }
+  },
+  "command": {
+    "commandId": "cmd-000256",
+    "type": "npc.order",
+    "actorId": "player-1",
+    "payload": {
+      "npcId": "radio",
+      "orderId": "cover"
+    }
+  }
+}

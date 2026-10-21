@@ -1,0 +1,194 @@
+{
+  "runner": "source-world-clock-persistence-v1",
+  "mode": "baseline",
+  "sourceHtmlSha256": "3545adb19fc8e75256013a50ce9885e051aa4170757a0c33095cc682cfcb7aa1",
+  "sourceHash": "3545adb19fc8e75256013a50ce9885e051aa4170757a0c33095cc682cfcb7aa1",
+  "ok": false,
+  "count": 1,
+  "passed": 0,
+  "checks": [
+    {
+      "name": "Actual registered .5 world callback keeps normal writer and Continue recoverable",
+      "ok": false,
+      "error": "actual calendar must remain persistable\n\nfalse !== true\n"
+    }
+  ],
+  "observations": [
+    {
+      "fixture": {
+        "name": "half-rate-original-callback",
+        "input": {
+          "path": "report.json.artifacts/half-rate-original-callback-input.json",
+          "bytes": 31776,
+          "sha256": "ec2ba9363f28dfb0fb0328e3d001836d9354b5245344dffb2cdd26d87aa8fd34"
+        },
+        "changes": [
+          {
+            "path": "payload.worldMeta.clock.rate",
+            "before": 1,
+            "after": 0.5
+          }
+        ],
+        "testOnly": true
+      },
+      "beforeWriter": {
+        "returned": true,
+        "validation": {
+          "ok": true,
+          "reason": null,
+          "sourceCategory": "primary"
+        },
+        "artifact": {
+          "path": "report.json.artifacts/before-tick-actual-writer.json",
+          "bytes": 65584,
+          "sha256": "d7536b8957e4198cfb69759a6611feefa04a87e647f79747f1bf9fea578218e0"
+        }
+      },
+      "actualTick": {
+        "before": {
+          "world": 360,
+          "day": 1,
+          "hour": 6,
+          "minute": 0,
+          "clock": {
+            "paused": false,
+            "rate": 0.5,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 0
+          },
+          "eventSeq": 3,
+          "commandSeq": 0,
+          "session": "DAY",
+          "timer": {
+            "handle": 1,
+            "lastTickAt": 1700000000000,
+            "tickCounter": 0,
+            "epoch": 2,
+            "generation": 0
+          },
+          "now": 1700000000000
+        },
+        "after": {
+          "world": 360.5,
+          "day": 1,
+          "hour": 6,
+          "minute": 0.5,
+          "clock": {
+            "paused": false,
+            "rate": 0.5,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 0.5
+          },
+          "eventSeq": 4,
+          "commandSeq": 1,
+          "session": "DAY",
+          "timer": {
+            "handle": 1,
+            "lastTickAt": 1700000001200,
+            "tickCounter": 1,
+            "epoch": 2,
+            "generation": 0
+          },
+          "now": 1700000001200
+        },
+        "events": [
+          {
+            "eventId": "evt-000004",
+            "seq": 4,
+            "type": "time.advanced",
+            "actorId": "system",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 360.5,
+              "phase": 0,
+              "schedule": 0.5
+            },
+            "payload": {
+              "minutes": 0.5,
+              "day": 1,
+              "hour": 6,
+              "minute": 0.5
+            }
+          }
+        ],
+        "handle": 1,
+        "callbackSha256": "332376a64bedde482969b9c1eac2813ab81e9470274e5344bf102a81c5409f9b"
+      },
+      "afterWriter": {
+        "returned": true,
+        "validation": {
+          "ok": false,
+          "reason": "calendar",
+          "sourceCategory": "primary"
+        },
+        "artifact": {
+          "path": "report.json.artifacts/after-tick-actual-writer.json",
+          "bytes": 68146,
+          "sha256": "6359a8aa1a34f95e3c03c086d5d31fa753007fc9411a254995d15c248a864142"
+        }
+      },
+      "actualContinue": {
+        "result": {
+          "ok": false,
+          "reason": "no-valid-primary"
+        },
+        "started": false,
+        "mode": "RECOVERY",
+        "world": 0
+      }
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "report.json.artifacts/original-old-writer.json",
+      "bytes": 63429,
+      "sha256": "ebd2c2a6f1ab12b0e62dc6ba235231b4a229916759cdf1662c2594ed9ac4c7e6"
+    },
+    {
+      "path": "report.json.artifacts/half-rate-original-callback-input.json",
+      "bytes": 31776,
+      "sha256": "ec2ba9363f28dfb0fb0328e3d001836d9354b5245344dffb2cdd26d87aa8fd34"
+    },
+    {
+      "path": "report.json.artifacts/before-tick-actual-writer.json",
+      "bytes": 65584,
+      "sha256": "d7536b8957e4198cfb69759a6611feefa04a87e647f79747f1bf9fea578218e0"
+    },
+    {
+      "path": "report.json.artifacts/after-tick-actual-writer.json",
+      "bytes": 68146,
+      "sha256": "6359a8aa1a34f95e3c03c086d5d31fa753007fc9411a254995d15c248a864142"
+    }
+  ],
+  "inputs": {
+    "checker": {
+      "sha256": "b67464d7d92f80484f78728f5bd66a60deabf853f52615400987abb559f939db",
+      "bytes": 29193
+    },
+    "io": {
+      "sha256": "6e0da555742e930b8bf926eeec0db0ee22f17240a4fa305978841f8ba862c0a3",
+      "bytes": 51172
+    },
+    "ioRuntimeFactory": {
+      "sha256": "5dc89410d5f4a1ce303bbdb03370f6f08c646e38d426a39e7dacd3a3f4e2b89d",
+      "bytes": 7955
+    },
+    "originalWriter": {
+      "path": "report.json.artifacts/original-old-writer.json",
+      "bytes": 63429,
+      "sha256": "ebd2c2a6f1ab12b0e62dc6ba235231b4a229916759cdf1662c2594ed9ac4c7e6"
+    }
+  },
+  "scope": {
+    "sourceVM": true,
+    "actualRegisteredCallbacks": true,
+    "directAdvanceSubstitutesForTimer": false,
+    "candidatePreparationIncomplete": false,
+    "browser": false,
+    "naturalGameplay": false,
+    "productFixAcceptance": false,
+    "calendarBoundaryScope": "Three independent TEST-ONLY day1/2/3 midnight boundaries; no continuous three-day survival or full-world chunk equivalence claim",
+    "note": "Eight grouped persistence contracts, including actual midnight consumers and global normal-writer compatibility. Baseline uses one original public-consumer countercontrol; no missing-new-API product negative."
+  }
+}

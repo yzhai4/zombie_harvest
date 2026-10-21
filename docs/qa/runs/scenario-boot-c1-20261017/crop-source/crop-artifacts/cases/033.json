@@ -1,0 +1,63 @@
+{
+  "name": "real target Gate rejects duplicate-id-live without fallback",
+  "inputClassification": "TEST-ONLY-derived-from-original-writer",
+  "derivations": [
+    "duplicate-id-live"
+  ],
+  "observations": [
+    {
+      "events": [
+        {
+          "eventId": "evt-000115",
+          "seq": 115,
+          "type": "command.rejected",
+          "actorId": "player-1",
+          "commandId": "crop-invalid-duplicate-id-live",
+          "causationId": null,
+          "tick": {
+            "world": 469,
+            "phase": 0,
+            "schedule": 109
+          },
+          "payload": {
+            "type": "crop.change",
+            "reason": "crop-target-identity"
+          }
+        }
+      ],
+      "commands": [
+        {
+          "commandId": "crop-invalid-duplicate-id-live",
+          "type": "crop.change",
+          "actorId": "player-1",
+          "payload": {
+            "buildingId": "bld-mazjx8"
+          }
+        }
+      ],
+      "resources": {
+        "wood": 28,
+        "stone": 12,
+        "food": 13,
+        "parts": 5,
+        "medicine": 0,
+        "seeds": 4,
+        "energy": 66,
+        "hp": 100,
+        "sanity": 76,
+        "morale": 72
+      },
+      "minute": 469,
+      "plot": {
+        "x": 7,
+        "y": 14,
+        "type": "garden",
+        "planted": false,
+        "growth": 0,
+        "ready": false,
+        "id": "bld-mazjx8"
+      },
+      "toast": "当前无法对这块田进行农务"
+    }
+  ]
+}

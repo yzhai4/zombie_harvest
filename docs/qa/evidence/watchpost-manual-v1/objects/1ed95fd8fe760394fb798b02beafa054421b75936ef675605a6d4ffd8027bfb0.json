@@ -1,0 +1,77 @@
+{
+  "schema": "WatchpostManualBrowserInputProductionV1",
+  "status": "PREPARATION_VERIFIED",
+  "sourceHtmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a",
+  "motherSha256": "5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4",
+  "mode": "TEST-ONLY-old-complete-writer-derived-preboot-with-real-discover-capture",
+  "browserExecuted": false,
+  "manualChoiceExecuted": false,
+  "naturalGameplay": false,
+  "productionCapture": false,
+  "humanExperience": false,
+  "scenes": [
+    {
+      "id": "manual-near",
+      "file": "manual-near-input-native.json",
+      "sha256": "cc1ba3c89cbc335f58e9a60a3ddd5c9c293e884de180a71fd54c574e61c4132d",
+      "bytes": 298469,
+      "kind": "TEST-ONLY-old-complete-writer-derived-preboot-with-real-discover-capture",
+      "expectedEnabled": true,
+      "changes": [
+        "Original writer loaded by real candidate boot; only initial calendar/player geometry derived offline.",
+        "Actual discover20 and capture30/gross6 executed in source VM before browser boot. All resulting resources, NPC states, enemies and receipts retained.",
+        "Actual normal writer captures the active watchpost lifecycle without a manual choice."
+      ]
+    },
+    {
+      "id": "manual-strained",
+      "file": "manual-strained-input-native.json",
+      "sha256": "dd6aaca5229f4ff819bdecd436538c192aaa0f761eb4e165430514c381f551be",
+      "bytes": 299109,
+      "kind": "TEST-ONLY-old-complete-writer-derived-preboot-with-real-discover-capture",
+      "expectedEnabled": false,
+      "changes": [
+        "Derived from complete actual discovered/captured source writer.",
+        "TEST-ONLY offline shared-food set to0, then actual applyOutpostUpkeep(2) produces strained/shortage receipt; not a browser-paid upkeep claim.",
+        "No manual choice; same real guard, geometry and active instance."
+      ]
+    }
+  ],
+  "changes": [
+    {
+      "kind": "TEST-ONLY-pre-command-derivation",
+      "calendar": {
+        "before": {
+          "day": 1,
+          "hour": 11,
+          "minute": 10
+        },
+        "after": {
+          "day": 2,
+          "hour": 6,
+          "minute": 0
+        }
+      },
+      "player": {
+        "before": {
+          "x": 9.200000000000006,
+          "y": 11.899999999999999,
+          "prevX": 10.9,
+          "prevY": 11
+        },
+        "after": {
+          "x": 13.2,
+          "y": 1,
+          "prevX": 13.2,
+          "prevY": 1
+        }
+      },
+      "dailyWatermarks": {
+        "lastRationDay": 2,
+        "lastDailyUpkeepDay": 2
+      },
+      "resourcesOrEnemiesEdited": false,
+      "npcHealthOrNeedsEdited": false
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+{
+  "schema": "WorkBuddyTimeoutFollowupV2",
+  "generatedAt": "2026-10-19T05:07:20.129173+00:00",
+  "cliVersion": "2.169.0",
+  "runnerSha256": "b9c9eaafb4e075e9b39156c42bf04f906a8d20996ef0f8c080ee1e876eec4c7f",
+  "collectorSha256": "ae2bd97a02f61d436a4bbd3907639fc1a07472c0df3ba9cf02850d01b80959b0",
+  "installedOfflineTests": {
+    "count": 32,
+    "exitCode": 0,
+    "pid": 6072,
+    "elapsedSeconds": 5.938,
+    "reportSha256": "884e7d4f534e2111ac5b264f535b4d69d1c11e9316bb1972f37a809dacec4d73"
+  },
+  "liveSample": {
+    "status": "success",
+    "requestedModel": "deepseek-v4.1-flash",
+    "routeReason": "user_requested_model",
+    "modelIds": [
+      "deepseek-v4.1-flash"
+    ],
+    "cliAttempts": 1,
+    "num_turns": 2,
+    "inputCharacters": 3276,
+    "usage": {
+      "input_tokens": 4295,
+      "output_tokens": 455,
+      "cache_creation_input_tokens": 4295,
+      "cache_read_input_tokens": 0,
+      "cache_creation": null,
+      "server_tool_use": null,
+      "service_tier": null
+    },
+    "rawUsage": [],
+    "billingUnknown": true,
+    "observedProviderRequestCount": 1,
+    "requestObservation": "private_cli_log_lower_bound",
+    "truncationObserved": false,
+    "timeouts": {
+      "total": 90,
+      "firstModelOutput": 45,
+      "modelIdle": 30
+    },
+    "cliTimeoutsMs": {
+      "firstToken": 40000,
+      "streamIdle": 25000,
+      "recoveryFirstToken": 25000,
+      "emptyStreamRetryMaxElapsed": 40000
+    },
+    "cliRetryPolicy": {
+      "requestMaxRetries": 0,
+      "watchdogEnabled": false,
+      "model401MaxRetries": 0,
+      "otherInternalRetriesMayOccur": true
+    },
+    "requestedThinkingEnabled": false,
+    "thinkingSettingsScope": "client_requests_not_provider_token_guarantees",
+    "elapsedSeconds": 8.27,
+    "launcherElapsedSeconds": 8.735,
+    "exitCode": 0,
+    "inputsUnchanged": true,
+    "stream": {
+      "firstEventSeconds": 3.391,
+      "firstModelActivitySeconds": 5.329,
+      "eventCount": 469,
+      "partialCount": 464,
+      "thinkingCharacters": 0,
+      "textCharacters": 875,
+      "protocolErrors": 0,
+      "processTerminated": true,
+      "readersStopped": true,
+      "processKilled": false
+    },
+    "nativeReceiptSha256": "095e0dc37e8d9451ddc50bfcc265a260d295dfcd5ad253e14c009b52895957a7",
+    "rootReview": {
+      "factualCitationsChecked": true,
+      "executionClaimsNotMade": true,
+      "maxHanCharactersRequested": 300,
+      "actualHanCharacters": 323,
+      "lengthTargetMet": false,
+      "usableAsLimitedStaticAssistance": true,
+      "runtimeAcceptance": false
+    }
+  },
+  "artifacts": [
+    {
+      "path": "official-source-index.json",
+      "bytes": 1949,
+      "sha256": "986bc552eac1da0276e5224de0410340c3b3570b905ea721aae55c1cfd4798fe"
+    },
+    {
+      "path": "offline-tests.stderr.txt",
+      "bytes": 2787,
+      "sha256": "884e7d4f534e2111ac5b264f535b4d69d1c11e9316bb1972f37a809dacec4d73"
+    },
+    {
+      "path": "sample-task.md",
+      "bytes": 503,
+      "sha256": "fdf33f244e2c87b69862ba10e07d5aa9651a891df595b1ac8bb4d5daccf67590"
+    },
+    {
+      "path": "sample-contract.md",
+      "bytes": 956,
+      "sha256": "1e07cd1e59be050d68f77abc3637a46c0afe20c6cceac9eba52345b061cb4d06"
+    },
+    {
+      "path": "sample-response.md",
+      "bytes": 1708,
+      "sha256": "83aa448157e99237336978c202b0c483e5467edd371ad9727e63f051e0a5b1e9"
+    },
+    {
+      "path": "sample-input-index.json",
+      "bytes": 611,
+      "sha256": "722a9507a0440565bb476e4e8d285014f87d88feb19a2adebf080f59e66fd83b"
+    }
+  ],
+  "modelCallsInOfflineTests": 0,
+  "longReviewValidated": false,
+  "quantifiedTokenSavingsEstablished": false,
+  "gameStateOrProductionChangedByThisWork": false
+}

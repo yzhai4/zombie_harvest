@@ -1,0 +1,147 @@
+{
+  "receipt": {
+    "eventId": "evt-000418",
+    "seq": 418,
+    "type": "content.chain.resolved",
+    "actorId": "player-1",
+    "commandId": null,
+    "causationId": "cmd-001007",
+    "tick": {
+      "world": 644,
+      "phase": 0,
+      "schedule": 284
+    },
+    "payload": {
+      "chainId": "npc-relay-stone-001",
+      "nodeId": "stone_offer",
+      "choiceId": "later",
+      "instanceKey": "npc-relay-stone-001:once:commander:evt-000173:camp-relay-001:item-relayCore-001",
+      "recipientId": "commander",
+      "source": {
+        "version": 1,
+        "eventId": "evt-000173",
+        "eventSeq": 173,
+        "commandId": "cmd-000622",
+        "causationId": null,
+        "tick": {
+          "world": 489,
+          "phase": 0,
+          "schedule": 129
+        },
+        "actorId": "player-1",
+        "recipientId": "commander",
+        "projectId": "camp-relay-001",
+        "itemId": "relayCore",
+        "itemInstanceId": "item-relayCore-001",
+        "defId": "relay-chain-001",
+        "definitionVersion": 1,
+        "instanceId": "camp-relay-001",
+        "expectedEventId": "evt-000129"
+      },
+      "projectId": "camp-relay-001",
+      "results": [
+        {
+          "ok": true,
+          "op": "npcRelayStoneReply",
+          "choiceId": "later",
+          "key": "stone",
+          "before": 1,
+          "after": 1,
+          "materialBefore": 3,
+          "materialAfter": 3,
+          "projectId": "camp-relay-001",
+          "amount": 0
+        }
+      ]
+    },
+    "defId": "npc-relay-stone-001",
+    "definitionVersion": 1,
+    "instanceId": "content:npc-relay-stone-001:once:commander:evt-000173:camp-relay-001:item-relayCore-001",
+    "effects": [
+      {
+        "op": "npcRelayStoneReply",
+        "choiceId": "later",
+        "amount": 0
+      }
+    ]
+  },
+  "command": {
+    "commandId": "cmd-001007",
+    "type": "content.chain.resolve",
+    "actorId": "player-1",
+    "payload": {
+      "chainId": "npc-relay-stone-001",
+      "nodeId": "stone_offer",
+      "choiceId": "later",
+      "expectedInstanceKey": "npc-relay-stone-001:once:commander:evt-000173:camp-relay-001:item-relayCore-001",
+      "expectedInstanceId": "content:npc-relay-stone-001:once:commander:evt-000173:camp-relay-001:item-relayCore-001",
+      "expectedDefId": "npc-relay-stone-001",
+      "expectedDefinitionVersion": 1,
+      "expectedNodeId": "stone_offer",
+      "expectedEventId": "evt-000414"
+    }
+  },
+  "outer": {
+    "eventId": "evt-000419",
+    "seq": 419,
+    "type": "content.chain.command",
+    "actorId": "player-1",
+    "commandId": "cmd-001007",
+    "causationId": null,
+    "tick": {
+      "world": 644,
+      "phase": 0,
+      "schedule": 284
+    },
+    "payload": {
+      "result": {
+        "ok": true,
+        "chainId": "npc-relay-stone-001",
+        "nodeId": "stone_offer",
+        "choiceId": "later",
+        "instanceKey": "npc-relay-stone-001:once:commander:evt-000173:camp-relay-001:item-relayCore-001",
+        "recipientId": "commander",
+        "source": {
+          "version": 1,
+          "eventId": "evt-000173",
+          "eventSeq": 173,
+          "commandId": "cmd-000622",
+          "causationId": null,
+          "tick": {
+            "world": 489,
+            "phase": 0,
+            "schedule": 129
+          },
+          "actorId": "player-1",
+          "recipientId": "commander",
+          "projectId": "camp-relay-001",
+          "itemId": "relayCore",
+          "itemInstanceId": "item-relayCore-001",
+          "defId": "relay-chain-001",
+          "definitionVersion": 1,
+          "instanceId": "camp-relay-001",
+          "expectedEventId": "evt-000129"
+        },
+        "projectId": "camp-relay-001",
+        "results": [
+          {
+            "ok": true,
+            "op": "npcRelayStoneReply",
+            "choiceId": "later",
+            "key": "stone",
+            "before": 1,
+            "after": 1,
+            "materialBefore": 3,
+            "materialAfter": 3,
+            "projectId": "camp-relay-001",
+            "amount": 0
+          }
+        ]
+      }
+    },
+    "defId": "npc-relay-stone-001",
+    "definitionVersion": 1,
+    "instanceId": "content:npc-relay-stone-001:once:commander:evt-000173:camp-relay-001:item-relayCore-001",
+    "effects": []
+  }
+}

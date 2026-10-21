@@ -1,0 +1,65 @@
+{
+  "name": "unknown or unsupported clock rejects before payment unknown-current-minute",
+  "inputClassification": "TEST-ONLY-derived-from-original-writer",
+  "derivations": [
+    {
+      "invalidClockControl": "unknown-current-minute"
+    }
+  ],
+  "observations": [
+    {
+      "events": [
+        {
+          "eventId": "evt-000115",
+          "seq": 115,
+          "type": "command.rejected",
+          "actorId": "player-1",
+          "commandId": "crop-clock-unknown-current-minute",
+          "causationId": null,
+          "tick": {
+            "world": 420,
+            "phase": 0,
+            "schedule": 109
+          },
+          "payload": {
+            "type": "crop.change",
+            "reason": "crop-clock-invalid"
+          }
+        }
+      ],
+      "commands": [
+        {
+          "commandId": "crop-clock-unknown-current-minute",
+          "type": "crop.change",
+          "actorId": "player-1",
+          "payload": {
+            "buildingId": "bld-mazjx8"
+          }
+        }
+      ],
+      "resources": {
+        "wood": 28,
+        "stone": 12,
+        "food": 13,
+        "parts": 5,
+        "medicine": 0,
+        "seeds": 4,
+        "energy": 66,
+        "hp": 100,
+        "sanity": 76,
+        "morale": 72
+      },
+      "minute": 420,
+      "plot": {
+        "x": 7,
+        "y": 14,
+        "type": "garden",
+        "planted": false,
+        "growth": 0,
+        "ready": false,
+        "id": "bld-mazjx8"
+      },
+      "toast": "当前无法对这块田进行农务"
+    }
+  ]
+}

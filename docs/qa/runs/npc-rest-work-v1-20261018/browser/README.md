@@ -1,0 +1,13 @@
+# NPC rest / work browser evidence
+
+Original raw reports, terminal receipts, runner bytes, full HTML/native inputs and PNGs are preserved through transport-map.json. Map paths restore each original run/artifacts layout; exact same-SHA objects in source/legacy/older evidence or current dependency scripts are reused. Private launch scripts/arguments/logs and browser profiles are not published. Explicit redacted companions, if any, carry original SHA/length and are never presented as native originals.
+
+3218:125/125 assertions, three business-route contexts over two native input purposes, four actual main HTTP bodies. c21:41/41 assertions, one CSS-only responsive-UI context and one actual main body. Do not combine them as a single c21 business166 run. The actual inline business script is byte-identical between these two HTMLs; exactly one mobile CSS line changed. Two earlier method failures remain raw and add three separately identified main bodies.
+
+The low route crossed24, genuinely saved/reloaded the same intent, and stopped its player wait as pursued at10:12 after72 observed minutes, NPC energy26.74 and original intent still active. Original wall-duty new-matter stop remains; one later enabled public wait was deliberately selected after disclosure. There is no full278-minute recovery or physical work-arrival claim. The near-threshold input explicitly positions energy35.5 before boot; it proves release/later routine and independent original2E/15min support takeover boundaries only.
+
+Root visually inspected original c21 390/1440 PNGs. The390 report is now300.625px wide and90.375px high at12px, with the original sight row alongside; old3218 was84.875px wide and294.90625px high. Desktop1440 preserves its actual original two columns, medium768 preserves three. This verifies the concrete new report layout, not complete mobile polish or player enjoyment.
+
+No game was replayed for transport. Every mapped original byte and every raw report artifact reference was checked. No ZIP, production deployment, natural gameplay or natural three-day claim is included.
+
+The unchanged existing browser-content-episode-v1 was additionally executed once on c21 for the current release gate:12/12, actual first navigation plus reload both c21, terminal0. Its native report remains unmodified and has no artifact/cleanup fields; a separate episode-evidence-index and terminal preserve frozen dependencies and the successful unaltered finally return. This adds two current-build main bodies, giving c21 UI1+episode2 separately from3218 business4. It does not rerun the125 NPC business assertions.

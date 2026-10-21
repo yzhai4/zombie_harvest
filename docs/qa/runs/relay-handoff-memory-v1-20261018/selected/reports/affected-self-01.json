@@ -1,0 +1,4810 @@
+{
+  "schema": "NpcSelfObservationBrowserV1",
+  "runner": "browser-npc-self-observation-v1",
+  "runnerSha256": "83ad1873814ab1e0af1a98f6a7db97ca74819c1d594a735d0298b425be8a0dac",
+  "sourceHtmlSha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+  "mode": "TEST-ONLY complete source-native preboot fixtures and actual public Chrome actions",
+  "naturalGameplay": false,
+  "naturalGameplayClaim": false,
+  "injectionBeforeLoader": true,
+  "gameStateMutationAfterBoot": false,
+  "hiddenGameActionsAfterBoot": false,
+  "forceClicks": false,
+  "policyVersion": "npc-first-talk-self-v1",
+  "designId": "npc-self-observation-v1",
+  "budgetSeconds": 180,
+  "parameters": {
+    "source": "artifact:source.html",
+    "inputManifest": "artifact:input-manifest.json",
+    "output": "artifact:./",
+    "repoRoot": "explicit dependency root"
+  },
+  "scope": {
+    "selfDialogue": true,
+    "fullPerception": false,
+    "contacts": false,
+    "LLM": false,
+    "statusInquiryBrowser": false,
+    "combatInterruptionBrowser": false,
+    "layoutViewports": [
+      {
+        "width": 1440,
+        "height": 1000
+      },
+      {
+        "width": 390,
+        "height": 844
+      }
+    ],
+    "durationScope": "same self toast remains beyond the original 1800ms; full 12-second expiry is not claimed",
+    "sourceValidation": "separate actual inline loader/validator in an isolated IO-adapter VM; no browser game hook calls",
+    "purity": "this runner checks visible integration and original typed outcomes; component purity is a separate source contract"
+  },
+  "checks": [
+    {
+      "name": "HTML bytes match explicit expected SHA",
+      "ok": true
+    },
+    {
+      "name": "private Windows ACL verified",
+      "ok": true
+    },
+    {
+      "name": "input manifest exact SHA",
+      "ok": true
+    },
+    {
+      "name": "actual source-native manifest schema",
+      "ok": true
+    },
+    {
+      "name": "input capture belongs to this exact HTML",
+      "ok": true
+    },
+    {
+      "name": "four unique declared native scenes",
+      "ok": true
+    },
+    {
+      "name": "unchanged actual old writer source is exact",
+      "ok": true
+    },
+    {
+      "name": "normal-support: complete input bytes exact",
+      "ok": true
+    },
+    {
+      "name": "normal-support-input: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "normal-support: declared target is original carpenter and fixed roster retained",
+      "ok": true
+    },
+    {
+      "name": "normal-support: independent injury/trust/needs input vector",
+      "ok": true
+    },
+    {
+      "name": "normal-support: no fabricated prior support",
+      "ok": true
+    },
+    {
+      "name": "normal-support: declared original player and public tile geometry",
+      "ok": true
+    },
+    {
+      "name": "normal-support: enemy population and inventory were not removed or supplemented",
+      "ok": true
+    },
+    {
+      "name": "normal-support: critical zero-energy paused admission or original clock preserved",
+      "ok": true
+    },
+    {
+      "name": "normal-support: offline changes and non-natural provenance declared",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: complete input bytes exact",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold-input: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: declared target is original carpenter and fixed roster retained",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: independent injury/trust/needs input vector",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: no fabricated prior support",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: declared original player and public tile geometry",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: enemy population and inventory were not removed or supplemented",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: critical zero-energy paused admission or original clock preserved",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: offline changes and non-natural provenance declared",
+      "ok": true
+    },
+    {
+      "name": "low-trust: complete input bytes exact",
+      "ok": true
+    },
+    {
+      "name": "low-trust-input: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "low-trust: declared target is original carpenter and fixed roster retained",
+      "ok": true
+    },
+    {
+      "name": "low-trust: independent injury/trust/needs input vector",
+      "ok": true
+    },
+    {
+      "name": "low-trust: no fabricated prior support",
+      "ok": true
+    },
+    {
+      "name": "low-trust: declared original player and public tile geometry",
+      "ok": true
+    },
+    {
+      "name": "low-trust: enemy population and inventory were not removed or supplemented",
+      "ok": true
+    },
+    {
+      "name": "low-trust: critical zero-energy paused admission or original clock preserved",
+      "ok": true
+    },
+    {
+      "name": "low-trust: offline changes and non-natural provenance declared",
+      "ok": true
+    },
+    {
+      "name": "critical-free: complete input bytes exact",
+      "ok": true
+    },
+    {
+      "name": "critical-free-input: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "critical-free: declared target is original carpenter and fixed roster retained",
+      "ok": true
+    },
+    {
+      "name": "critical-free: independent injury/trust/needs input vector",
+      "ok": true
+    },
+    {
+      "name": "critical-free: no fabricated prior support",
+      "ok": true
+    },
+    {
+      "name": "critical-free: declared original player and public tile geometry",
+      "ok": true
+    },
+    {
+      "name": "critical-free: enemy population and inventory were not removed or supplemented",
+      "ok": true
+    },
+    {
+      "name": "critical-free: critical zero-energy paused admission or original clock preserved",
+      "ok": true
+    },
+    {
+      "name": "critical-free: offline changes and non-natural provenance declared",
+      "ok": true
+    },
+    {
+      "name": "normal-support: boot HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "normal-support: actual continue control visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "normal-support: initial-real-pagehide-baseline HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "normal-support-actual-pagehide-before-public-action: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "normal-support: actual continue control visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "normal-support: same public target identity and label",
+      "ok": true
+    },
+    {
+      "name": "normal-support: original public view remains usable",
+      "ok": true
+    },
+    {
+      "name": "normal-support: existing view retains injury/HP detail",
+      "ok": true
+    },
+    {
+      "name": "normal-support: public first-talk button available",
+      "ok": true
+    },
+    {
+      "name": "normal-support: first-talk-visible whole authored sentence has visible layout without clipping",
+      "ok": true,
+      "detail": {
+        "text": "阿梁：我目前没有受伤。我的生命余量接近完整。 再次按 E 或点击确认请求支援",
+        "classes": [
+          "toast",
+          "show",
+          "npc-self-dialogue"
+        ],
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "clientWidth": 445,
+        "scrollWidth": 445,
+        "clientHeight": 58,
+        "scrollHeight": 58,
+        "whiteSpace": "normal",
+        "overflow": "visible",
+        "textOverflow": "clip",
+        "borderRadius": "630.635px",
+        "rect": {
+          "x": 497.5625,
+          "y": 917.625,
+          "width": 444.875,
+          "height": 58.375
+        },
+        "withinViewport": true
+      }
+    },
+    {
+      "name": "normal-support: actual authored self dialogue from the same public label",
+      "ok": true
+    },
+    {
+      "name": "normal-support: self line has no mechanical lock/trust or safety promise",
+      "ok": true
+    },
+    {
+      "name": "normal-support-automatic-first-talk: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "normal-support: dialogue-open exact same NPC/player typed receipt",
+      "ok": true
+    },
+    {
+      "name": "normal-support: dialogue-open gross payment and actual clock",
+      "ok": true
+    },
+    {
+      "name": "normal-support: free talk has no owned time child",
+      "ok": true
+    },
+    {
+      "name": "normal-support: actual first-talk phase HP/life matches saved before basis",
+      "ok": true
+    },
+    {
+      "name": "normal-support: free first talk did not grant support, bond or help memory",
+      "ok": true
+    },
+    {
+      "name": "normal-support: first-talk writer introduces no new save domain or extra business outcome",
+      "ok": true
+    },
+    {
+      "name": "normal-support: same-talk-after-two-seconds whole authored sentence has visible layout without clipping",
+      "ok": true,
+      "detail": {
+        "text": "阿梁：我目前没有受伤。我的生命余量接近完整。 再次按 E 或点击确认请求支援",
+        "classes": [
+          "toast",
+          "show",
+          "npc-self-dialogue"
+        ],
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "clientWidth": 454,
+        "scrollWidth": 454,
+        "clientHeight": 39,
+        "scrollHeight": 39,
+        "whiteSpace": "normal",
+        "overflow": "visible",
+        "textOverflow": "clip",
+        "borderRadius": "14px",
+        "rect": {
+          "x": 493.203125,
+          "y": 936.8125,
+          "width": 453.59375,
+          "height": 39.1875
+        },
+        "withinViewport": true
+      }
+    },
+    {
+      "name": "normal-support: same saved first-talk sentence outlives ordinary 1800ms toast",
+      "ok": true
+    },
+    {
+      "name": "normal-support: same-talk-mobile-390 whole authored sentence has visible layout without clipping",
+      "ok": true,
+      "detail": {
+        "text": "阿梁：我目前没有受伤。我的生命余量接近完整。 再次按 E 或点击确认请求支援",
+        "classes": [
+          "toast",
+          "show",
+          "npc-self-dialogue"
+        ],
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "clientWidth": 351,
+        "scrollWidth": 351,
+        "clientHeight": 58,
+        "scrollHeight": 58,
+        "whiteSpace": "normal",
+        "overflow": "visible",
+        "textOverflow": "clip",
+        "borderRadius": "14px",
+        "rect": {
+          "x": 19.5,
+          "y": 761.625,
+          "width": 351,
+          "height": 58.375
+        },
+        "withinViewport": true
+      }
+    },
+    {
+      "name": "normal-support: actual 390-wide same dialogue stays fully readable",
+      "ok": true
+    },
+    {
+      "name": "normal-support: ordinary later toast restores original class and single-line style",
+      "ok": true
+    },
+    {
+      "name": "normal-support: next public confirmation keeps original same target",
+      "ok": true
+    },
+    {
+      "name": "normal-support-automatic-paid-support: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "normal-support: support-requested exact same NPC/player typed receipt",
+      "ok": true
+    },
+    {
+      "name": "normal-support: support-requested gross payment and actual clock",
+      "ok": true
+    },
+    {
+      "name": "normal-support: support actual 15-minute child causal join",
+      "ok": true
+    },
+    {
+      "name": "normal-support: actual same NPC support/bond/help effect",
+      "ok": true
+    },
+    {
+      "name": "normal-support-before-reload: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "normal-support: reload HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "normal-support-reload-before-continue: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "normal-support: pagehide retains committed support/identity and no new support receipt",
+      "ok": true
+    },
+    {
+      "name": "normal-support: actual continue control visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "normal-support-reloaded-actual-native-prefix: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "normal-support: reload does not replay talk/support or grant help",
+      "ok": true
+    },
+    {
+      "name": "normal-support-terminal: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "normal-support: all actual main response bodies match frozen HTML",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: boot HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: actual continue control visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: initial-real-pagehide-baseline HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold-actual-pagehide-before-public-action: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: actual continue control visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: same public target identity and label",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: original public view remains usable",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: existing view retains injury/HP detail",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: public first-talk button available",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: first-talk-visible whole authored sentence has visible layout without clipping",
+      "ok": true,
+      "detail": {
+        "text": "阿梁：我受伤了。我的生命余量大约还剩一半。我饿得厉害，得找点吃的。 再次按 E 或点击确认请求支援",
+        "classes": [
+          "toast",
+          "show",
+          "npc-self-dialogue"
+        ],
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "clientWidth": 520,
+        "scrollWidth": 520,
+        "clientHeight": 58,
+        "scrollHeight": 58,
+        "whiteSpace": "normal",
+        "overflow": "visible",
+        "textOverflow": "clip",
+        "borderRadius": "14px",
+        "rect": {
+          "x": 460,
+          "y": 917.625,
+          "width": 520,
+          "height": 58.375
+        },
+        "withinViewport": true
+      }
+    },
+    {
+      "name": "needs-threshold: actual authored self dialogue from the same public label",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: self line has no mechanical lock/trust or safety promise",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold-automatic-first-talk: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: dialogue-open exact same NPC/player typed receipt",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: dialogue-open gross payment and actual clock",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: free talk has no owned time child",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: actual first-talk phase HP/life matches saved before basis",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: free first talk did not grant support, bond or help memory",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: first-talk writer introduces no new save domain or extra business outcome",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: same-talk-after-two-seconds whole authored sentence has visible layout without clipping",
+      "ok": true,
+      "detail": {
+        "text": "阿梁：我受伤了。我的生命余量大约还剩一半。我饿得厉害，得找点吃的。 再次按 E 或点击确认请求支援",
+        "classes": [
+          "toast",
+          "show",
+          "npc-self-dialogue"
+        ],
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "clientWidth": 520,
+        "scrollWidth": 520,
+        "clientHeight": 58,
+        "scrollHeight": 58,
+        "whiteSpace": "normal",
+        "overflow": "visible",
+        "textOverflow": "clip",
+        "borderRadius": "14px",
+        "rect": {
+          "x": 460,
+          "y": 917.625,
+          "width": 520,
+          "height": 58.375
+        },
+        "withinViewport": true
+      }
+    },
+    {
+      "name": "needs-threshold: same saved first-talk sentence outlives ordinary 1800ms toast",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: same-talk-mobile-390 whole authored sentence has visible layout without clipping",
+      "ok": true,
+      "detail": {
+        "text": "阿梁：我受伤了。我的生命余量大约还剩一半。我饿得厉害，得找点吃的。 再次按 E 或点击确认请求支援",
+        "classes": [
+          "toast",
+          "show",
+          "npc-self-dialogue"
+        ],
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "clientWidth": 351,
+        "scrollWidth": 351,
+        "clientHeight": 58,
+        "scrollHeight": 58,
+        "whiteSpace": "normal",
+        "overflow": "visible",
+        "textOverflow": "clip",
+        "borderRadius": "14px",
+        "rect": {
+          "x": 19.5,
+          "y": 761.625,
+          "width": 351,
+          "height": 58.375
+        },
+        "withinViewport": true
+      }
+    },
+    {
+      "name": "needs-threshold: actual 390-wide same dialogue stays fully readable",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: ordinary later toast restores original class and single-line style",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold-before-reload: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: reload HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold-reload-before-continue: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: pagehide retains committed support/identity and no new support receipt",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: actual continue control visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold-reloaded-actual-native-prefix: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: reload does not replay talk/support or grant help",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: declared target tile visible and not fogged",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: after-reload-first-talk whole authored sentence has visible layout without clipping",
+      "ok": true,
+      "detail": {
+        "text": "阿梁：我受伤了。我的生命余量大约还剩一半。我饿得厉害，得找点吃的。 再次按 E 或点击确认请求支援",
+        "classes": [
+          "toast",
+          "show",
+          "npc-self-dialogue"
+        ],
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "clientWidth": 406,
+        "scrollWidth": 406,
+        "clientHeight": 58,
+        "scrollHeight": 58,
+        "whiteSpace": "normal",
+        "overflow": "visible",
+        "textOverflow": "clip",
+        "borderRadius": "948.956px",
+        "rect": {
+          "x": 516.953125,
+          "y": 917.625,
+          "width": 406.09375,
+          "height": 58.375
+        },
+        "withinViewport": true
+      }
+    },
+    {
+      "name": "needs-threshold: refreshed talk is authored free first talk, not armed support",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold-after-reload-free-talk: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: dialogue-open exact same NPC/player typed receipt",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: dialogue-open gross payment and actual clock",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: free talk has no owned time child",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: refreshed first talk still not supported",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold-terminal: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "needs-threshold: all actual main response bodies match frozen HTML",
+      "ok": true
+    },
+    {
+      "name": "low-trust: boot HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "low-trust: actual continue control visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "low-trust: initial-real-pagehide-baseline HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "low-trust-actual-pagehide-before-public-action: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "low-trust: actual continue control visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "low-trust: same public target identity and label",
+      "ok": true
+    },
+    {
+      "name": "low-trust: original public view remains usable",
+      "ok": true
+    },
+    {
+      "name": "low-trust: existing view retains injury/HP detail",
+      "ok": true
+    },
+    {
+      "name": "low-trust: public first-talk button available",
+      "ok": true
+    },
+    {
+      "name": "low-trust: first-talk-visible whole authored sentence has visible layout without clipping",
+      "ok": true,
+      "detail": {
+        "text": "阿梁：我受伤了。具体情况，我暂时不想多谈。 再次按 E 或点击确认请求支援",
+        "classes": [
+          "toast",
+          "show",
+          "npc-self-dialogue"
+        ],
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "clientWidth": 442,
+        "scrollWidth": 442,
+        "clientHeight": 39,
+        "scrollHeight": 39,
+        "whiteSpace": "normal",
+        "overflow": "visible",
+        "textOverflow": "clip",
+        "borderRadius": "431.757px",
+        "rect": {
+          "x": 499.203125,
+          "y": 936.8125,
+          "width": 441.59375,
+          "height": 39.1875
+        },
+        "withinViewport": true
+      }
+    },
+    {
+      "name": "low-trust: actual authored self dialogue from the same public label",
+      "ok": true
+    },
+    {
+      "name": "low-trust: self line has no mechanical lock/trust or safety promise",
+      "ok": true
+    },
+    {
+      "name": "low-trust-automatic-first-talk: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "low-trust: dialogue-open exact same NPC/player typed receipt",
+      "ok": true
+    },
+    {
+      "name": "low-trust: dialogue-open gross payment and actual clock",
+      "ok": true
+    },
+    {
+      "name": "low-trust: free talk has no owned time child",
+      "ok": true
+    },
+    {
+      "name": "low-trust: actual first-talk phase HP/life matches saved before basis",
+      "ok": true
+    },
+    {
+      "name": "low-trust: free first talk did not grant support, bond or help memory",
+      "ok": true
+    },
+    {
+      "name": "low-trust: first-talk writer introduces no new save domain or extra business outcome",
+      "ok": true
+    },
+    {
+      "name": "low-trust: same-talk-after-two-seconds whole authored sentence has visible layout without clipping",
+      "ok": true,
+      "detail": {
+        "text": "阿梁：我受伤了。具体情况，我暂时不想多谈。 再次按 E 或点击确认请求支援",
+        "classes": [
+          "toast",
+          "show",
+          "npc-self-dialogue"
+        ],
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "clientWidth": 442,
+        "scrollWidth": 442,
+        "clientHeight": 39,
+        "scrollHeight": 39,
+        "whiteSpace": "normal",
+        "overflow": "visible",
+        "textOverflow": "clip",
+        "borderRadius": "14px",
+        "rect": {
+          "x": 499.203125,
+          "y": 936.8125,
+          "width": 441.59375,
+          "height": 39.1875
+        },
+        "withinViewport": true
+      }
+    },
+    {
+      "name": "low-trust: same saved first-talk sentence outlives ordinary 1800ms toast",
+      "ok": true
+    },
+    {
+      "name": "low-trust: same-talk-mobile-390 whole authored sentence has visible layout without clipping",
+      "ok": true,
+      "detail": {
+        "text": "阿梁：我受伤了。具体情况，我暂时不想多谈。 再次按 E 或点击确认请求支援",
+        "classes": [
+          "toast",
+          "show",
+          "npc-self-dialogue"
+        ],
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "clientWidth": 351,
+        "scrollWidth": 351,
+        "clientHeight": 58,
+        "scrollHeight": 58,
+        "whiteSpace": "normal",
+        "overflow": "visible",
+        "textOverflow": "clip",
+        "borderRadius": "14px",
+        "rect": {
+          "x": 19.5,
+          "y": 761.625,
+          "width": 351,
+          "height": 58.375
+        },
+        "withinViewport": true
+      }
+    },
+    {
+      "name": "low-trust: actual 390-wide same dialogue stays fully readable",
+      "ok": true
+    },
+    {
+      "name": "low-trust: ordinary later toast restores original class and single-line style",
+      "ok": true
+    },
+    {
+      "name": "low-trust-before-reload: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "low-trust: reload HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "low-trust-reload-before-continue: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "low-trust: pagehide retains committed support/identity and no new support receipt",
+      "ok": true
+    },
+    {
+      "name": "low-trust: actual continue control visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "low-trust-reloaded-actual-native-prefix: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "low-trust: reload does not replay talk/support or grant help",
+      "ok": true
+    },
+    {
+      "name": "low-trust: declared target tile visible and not fogged",
+      "ok": true
+    },
+    {
+      "name": "low-trust: after-reload-first-talk whole authored sentence has visible layout without clipping",
+      "ok": true,
+      "detail": {
+        "text": "阿梁：我受伤了。具体情况，我暂时不想多谈。 再次按 E 或点击确认请求支援",
+        "classes": [
+          "toast",
+          "show",
+          "npc-self-dialogue"
+        ],
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "clientWidth": 406,
+        "scrollWidth": 406,
+        "clientHeight": 58,
+        "scrollHeight": 58,
+        "whiteSpace": "normal",
+        "overflow": "visible",
+        "textOverflow": "clip",
+        "borderRadius": "949.557px",
+        "rect": {
+          "x": 516.9921875,
+          "y": 917.6361083984375,
+          "width": 406.015625,
+          "height": 58.375
+        },
+        "withinViewport": true
+      }
+    },
+    {
+      "name": "low-trust: refreshed talk is authored free first talk, not armed support",
+      "ok": true
+    },
+    {
+      "name": "low-trust-after-reload-free-talk: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "low-trust: dialogue-open exact same NPC/player typed receipt",
+      "ok": true
+    },
+    {
+      "name": "low-trust: dialogue-open gross payment and actual clock",
+      "ok": true
+    },
+    {
+      "name": "low-trust: free talk has no owned time child",
+      "ok": true
+    },
+    {
+      "name": "low-trust: refreshed first talk still not supported",
+      "ok": true
+    },
+    {
+      "name": "low-trust-terminal: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "low-trust: all actual main response bodies match frozen HTML",
+      "ok": true
+    },
+    {
+      "name": "critical-free: boot HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "critical-free: actual continue control visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "critical-free: initial-real-pagehide-baseline HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "critical-free-actual-pagehide-before-public-action: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "critical-free: actual continue control visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "critical-free: same public target identity and label",
+      "ok": true
+    },
+    {
+      "name": "critical-free: original public view remains usable",
+      "ok": true
+    },
+    {
+      "name": "critical-free: existing view retains injury/HP detail",
+      "ok": true
+    },
+    {
+      "name": "critical-free: paid button stays disabled at E0",
+      "ok": true
+    },
+    {
+      "name": "critical-free: declared target tile visible and not fogged",
+      "ok": true
+    },
+    {
+      "name": "critical-free: first-talk-visible whole authored sentence has visible layout without clipping",
+      "ok": true,
+      "detail": {
+        "text": "阿梁：我伤得很重。我的生命余量大约还剩四分之一。我累得厉害，需要休息。 再次按 E 或点击确认请求支援",
+        "classes": [
+          "toast",
+          "show",
+          "npc-self-dialogue"
+        ],
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "clientWidth": 406,
+        "scrollWidth": 406,
+        "clientHeight": 58,
+        "scrollHeight": 58,
+        "whiteSpace": "normal",
+        "overflow": "visible",
+        "textOverflow": "clip",
+        "borderRadius": "949.557px",
+        "rect": {
+          "x": 516.9921875,
+          "y": 917.625,
+          "width": 406.015625,
+          "height": 58.375
+        },
+        "withinViewport": true
+      }
+    },
+    {
+      "name": "critical-free: actual authored self dialogue from the same public label",
+      "ok": true
+    },
+    {
+      "name": "critical-free: self line has no mechanical lock/trust or safety promise",
+      "ok": true
+    },
+    {
+      "name": "critical-free-automatic-first-talk: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "critical-free: dialogue-open exact same NPC/player typed receipt",
+      "ok": true
+    },
+    {
+      "name": "critical-free: dialogue-open gross payment and actual clock",
+      "ok": true
+    },
+    {
+      "name": "critical-free: free talk has no owned time child",
+      "ok": true
+    },
+    {
+      "name": "critical-free: actual first-talk phase HP/life matches saved before basis",
+      "ok": true
+    },
+    {
+      "name": "critical-free: free first talk did not grant support, bond or help memory",
+      "ok": true
+    },
+    {
+      "name": "critical-free: first-talk writer introduces no new save domain or extra business outcome",
+      "ok": true
+    },
+    {
+      "name": "critical-free: same-talk-after-two-seconds whole authored sentence has visible layout without clipping",
+      "ok": true,
+      "detail": {
+        "text": "阿梁：我伤得很重。我的生命余量大约还剩四分之一。我累得厉害，需要休息。 再次按 E 或点击确认请求支援",
+        "classes": [
+          "toast",
+          "show",
+          "npc-self-dialogue"
+        ],
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "clientWidth": 520,
+        "scrollWidth": 520,
+        "clientHeight": 58,
+        "scrollHeight": 58,
+        "whiteSpace": "normal",
+        "overflow": "visible",
+        "textOverflow": "clip",
+        "borderRadius": "14px",
+        "rect": {
+          "x": 460,
+          "y": 917.625,
+          "width": 520,
+          "height": 58.375
+        },
+        "withinViewport": true
+      }
+    },
+    {
+      "name": "critical-free: same saved first-talk sentence outlives ordinary 1800ms toast",
+      "ok": true
+    },
+    {
+      "name": "critical-free: same-talk-mobile-390 whole authored sentence has visible layout without clipping",
+      "ok": true,
+      "detail": {
+        "text": "阿梁：我伤得很重。我的生命余量大约还剩四分之一。我累得厉害，需要休息。 再次按 E 或点击确认请求支援",
+        "classes": [
+          "toast",
+          "show",
+          "npc-self-dialogue"
+        ],
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "clientWidth": 351,
+        "scrollWidth": 351,
+        "clientHeight": 58,
+        "scrollHeight": 58,
+        "whiteSpace": "normal",
+        "overflow": "visible",
+        "textOverflow": "clip",
+        "borderRadius": "14px",
+        "rect": {
+          "x": 19.5,
+          "y": 761.625,
+          "width": 351,
+          "height": 58.375
+        },
+        "withinViewport": true
+      }
+    },
+    {
+      "name": "critical-free: actual 390-wide same dialogue stays fully readable",
+      "ok": true
+    },
+    {
+      "name": "critical-free: ordinary later toast restores original class and single-line style",
+      "ok": true
+    },
+    {
+      "name": "critical-free: ordinary later toast returns to short lifetime",
+      "ok": true
+    },
+    {
+      "name": "critical-free: declared target tile visible and not fogged",
+      "ok": true
+    },
+    {
+      "name": "critical-free: rule-rejection-pagehide HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "critical-free-paid-rejected-via-real-pagehide: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "critical-free: second E rejects original target/player without fake support or advance",
+      "ok": true
+    },
+    {
+      "name": "critical-free: actual continue control visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "critical-free-before-reload: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "critical-free: reload HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "critical-free-reload-before-continue: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "critical-free: pagehide retains committed support/identity and no new support receipt",
+      "ok": true
+    },
+    {
+      "name": "critical-free: actual continue control visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "critical-free-reloaded-actual-native-prefix: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "critical-free: reload does not replay talk/support or grant help",
+      "ok": true
+    },
+    {
+      "name": "critical-free: declared target tile visible and not fogged",
+      "ok": true
+    },
+    {
+      "name": "critical-free: after-reload-first-talk whole authored sentence has visible layout without clipping",
+      "ok": true,
+      "detail": {
+        "text": "阿梁：我伤得很重。我的生命余量大约还剩四分之一。我累得厉害，需要休息。 再次按 E 或点击确认请求支援",
+        "classes": [
+          "toast",
+          "show",
+          "npc-self-dialogue"
+        ],
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "clientWidth": 418,
+        "scrollWidth": 418,
+        "clientHeight": 58,
+        "scrollHeight": 58,
+        "whiteSpace": "normal",
+        "overflow": "visible",
+        "textOverflow": "clip",
+        "borderRadius": "849.113px",
+        "rect": {
+          "x": 510.875,
+          "y": 918.6928100585938,
+          "width": 418.25,
+          "height": 58.375
+        },
+        "withinViewport": true
+      }
+    },
+    {
+      "name": "critical-free: refreshed talk is authored free first talk, not armed support",
+      "ok": true
+    },
+    {
+      "name": "critical-free-after-reload-free-talk: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "critical-free: dialogue-open exact same NPC/player typed receipt",
+      "ok": true
+    },
+    {
+      "name": "critical-free: dialogue-open gross payment and actual clock",
+      "ok": true
+    },
+    {
+      "name": "critical-free: free talk has no owned time child",
+      "ok": true
+    },
+    {
+      "name": "critical-free: refreshed first talk still not supported",
+      "ok": true
+    },
+    {
+      "name": "critical-free-terminal: actual source native validator",
+      "ok": true
+    },
+    {
+      "name": "critical-free: all actual main response bodies match frozen HTML",
+      "ok": true
+    }
+  ],
+  "errors": [],
+  "scenes": [
+    {
+      "id": "normal-support",
+      "npcId": "carpenter",
+      "inputSha256": "4fb758e499bca2881741d44f9e1a83807a641c502c36bd5c73815b4c56bb1fef",
+      "changes": [
+        "TEST-ONLY carpenter position .75 east of original player",
+        "TEST-ONLY self HP/life/three needs/actual trust per scene",
+        "carpenter motion target cleared; all enemies and resources retained"
+      ],
+      "fixtureSourceCategory": "TEST-ONLY complete native-writer offline derivative; not natural gameplay",
+      "verified": true,
+      "receipts": [
+        {
+          "event": {
+            "eventId": "evt-000003",
+            "seq": 3,
+            "type": "npc.dialogueOpened",
+            "actorId": "player-1",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "ok": true,
+              "proofVersion": 1,
+              "npcId": "carpenter",
+              "operation": "dialogue-open",
+              "outcome": "completed",
+              "target": {
+                "id": "carpenter",
+                "before": {
+                  "id": "carpenter",
+                  "supportRequested": false,
+                  "order": null,
+                  "bond": 0,
+                  "hp": 100,
+                  "lifeState": "healthy",
+                  "sanity": 72,
+                  "helpedByPlayer": 0
+                },
+                "beforeAdvance": null,
+                "afterAdvance": null,
+                "atCompletion": {
+                  "id": "carpenter",
+                  "supportRequested": false,
+                  "order": null,
+                  "bond": 0,
+                  "hp": 100,
+                  "lifeState": "healthy",
+                  "sanity": 72,
+                  "helpedByPlayer": 0
+                },
+                "presentAtCompletion": true,
+                "snapshotStages": {
+                  "before": "before-payment-and-own-effects",
+                  "beforeAdvance": null,
+                  "afterAdvance": null,
+                  "atCompletion": "reducer-final-state"
+                }
+              },
+              "payment": {
+                "cost": {
+                  "energy": 0
+                },
+                "before": {
+                  "energy": 78
+                },
+                "after": {
+                  "energy": 78
+                }
+              },
+              "resources": {
+                "energyBefore": 78,
+                "energyAfterPayment": 78,
+                "energyAfter": 78
+              },
+              "clock": {
+                "before": {
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 0,
+                  "world": 360
+                },
+                "after": {
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 0,
+                  "world": 360
+                },
+                "requestedMinutes": 0,
+                "elapsedMinutes": 0
+              },
+              "advance": null
+            }
+          },
+          "parent": {
+            "commandId": "cmd-000001",
+            "type": "npc.interact",
+            "actorId": "player-1",
+            "payload": {
+              "npcId": "carpenter"
+            }
+          }
+        },
+        {
+          "event": {
+            "eventId": "evt-000012",
+            "seq": 12,
+            "type": "npc.interacted",
+            "actorId": "player-1",
+            "commandId": "cmd-000006",
+            "causationId": null,
+            "tick": {
+              "world": 379,
+              "phase": 0,
+              "schedule": 19
+            },
+            "payload": {
+              "ok": true,
+              "proofVersion": 1,
+              "npcId": "carpenter",
+              "operation": "support-requested",
+              "outcome": "completed",
+              "target": {
+                "id": "carpenter",
+                "before": {
+                  "id": "carpenter",
+                  "supportRequested": false,
+                  "order": null,
+                  "bond": 0,
+                  "hp": 100,
+                  "lifeState": "healthy",
+                  "sanity": 72,
+                  "helpedByPlayer": 0
+                },
+                "beforeAdvance": {
+                  "id": "carpenter",
+                  "supportRequested": true,
+                  "order": "guard",
+                  "bond": 1,
+                  "hp": 100,
+                  "lifeState": "healthy",
+                  "sanity": 72,
+                  "helpedByPlayer": 0
+                },
+                "afterAdvance": {
+                  "id": "carpenter",
+                  "supportRequested": true,
+                  "order": "guard",
+                  "bond": 1,
+                  "hp": 100,
+                  "lifeState": "healthy",
+                  "sanity": 72,
+                  "helpedByPlayer": 0
+                },
+                "atCompletion": {
+                  "id": "carpenter",
+                  "supportRequested": true,
+                  "order": "guard",
+                  "bond": 1,
+                  "hp": 100,
+                  "lifeState": "healthy",
+                  "sanity": 74,
+                  "helpedByPlayer": 1
+                },
+                "presentAtCompletion": true,
+                "snapshotStages": {
+                  "before": "before-payment-and-own-effects",
+                  "beforeAdvance": "after-pre-simulation-own-effects",
+                  "afterAdvance": "after-world-simulation-before-post-effects",
+                  "atCompletion": "reducer-final-state"
+                }
+              },
+              "payment": {
+                "cost": {
+                  "energy": 2
+                },
+                "before": {
+                  "energy": 78
+                },
+                "after": {
+                  "energy": 76
+                }
+              },
+              "resources": {
+                "energyBefore": 78,
+                "energyAfterPayment": 76,
+                "energyAfter": 76
+              },
+              "clock": {
+                "before": {
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 4,
+                  "world": 364
+                },
+                "after": {
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 19,
+                  "world": 379
+                },
+                "requestedMinutes": 15,
+                "elapsedMinutes": 15
+              },
+              "advance": {
+                "commandId": "cmd-000007",
+                "eventId": "evt-000009",
+                "causationId": "cmd-000006",
+                "minutes": 15,
+                "tick": {
+                  "world": 379,
+                  "phase": 0,
+                  "schedule": 19
+                }
+              }
+            }
+          },
+          "parent": {
+            "commandId": "cmd-000006",
+            "type": "npc.interact",
+            "actorId": "player-1",
+            "payload": {
+              "npcId": "carpenter"
+            }
+          },
+          "child": {
+            "commandId": "cmd-000007",
+            "type": "world.advance",
+            "actorId": "player-1",
+            "payload": {
+              "minutes": 15
+            }
+          },
+          "advance": {
+            "eventId": "evt-000009",
+            "seq": 9,
+            "type": "time.advanced",
+            "actorId": "system",
+            "commandId": "cmd-000007",
+            "causationId": "cmd-000006",
+            "tick": {
+              "world": 379,
+              "phase": 0,
+              "schedule": 19
+            },
+            "payload": {
+              "minutes": 15,
+              "day": 1,
+              "hour": 6,
+              "minute": 19
+            }
+          }
+        }
+      ],
+      "snapshots": [
+        {
+          "label": "actual-pagehide-before-public-action",
+          "file": "normal-support-actual-pagehide-before-public-action-save.json",
+          "sha256": "74d924289b8c5f3f645a6656691c848843ce24911e76b730342f5328bd68a6a6"
+        },
+        {
+          "label": "automatic-first-talk",
+          "file": "normal-support-automatic-first-talk-save.json",
+          "sha256": "5604dde5add8fc37210d9330879131e101574720ec74c40593c23d2a4ebfe1bf"
+        },
+        {
+          "label": "automatic-paid-support",
+          "file": "normal-support-automatic-paid-support-save.json",
+          "sha256": "285d60ba383de8ae9345e8d7d71dc6f4c3ec7f7d5825fd63a43d694c6c7807a8"
+        },
+        {
+          "label": "before-reload",
+          "file": "normal-support-before-reload-save.json",
+          "sha256": "285d60ba383de8ae9345e8d7d71dc6f4c3ec7f7d5825fd63a43d694c6c7807a8"
+        },
+        {
+          "label": "reload-before-continue",
+          "file": "normal-support-reload-before-continue-save.json",
+          "sha256": "273456de4e5fa69167cb756bee752e8ac019f9fb7ff01753ffc0b65da7e8c29f"
+        },
+        {
+          "label": "reloaded-actual-native-prefix",
+          "file": "normal-support-reloaded-actual-native-prefix-save.json",
+          "sha256": "273456de4e5fa69167cb756bee752e8ac019f9fb7ff01753ffc0b65da7e8c29f"
+        },
+        {
+          "label": "terminal",
+          "file": "normal-support-terminal-save.json",
+          "sha256": "273456de4e5fa69167cb756bee752e8ac019f9fb7ff01753ffc0b65da7e8c29f"
+        }
+      ],
+      "beforeMethod": "actual initial public reload/pagehide native writer; already-bound continue does not require an immediate rewritten save",
+      "publicContext": {
+        "title": "阿梁 · 木匠",
+        "text": "🧑‍🔧\n阿梁 · 木匠\n木墙 +6 防线，额外挡住 1 只 · 也可按 1-6 选择\n×\n−\n1🔎 查看阿梁状态\n查看范围 1.25 格 · 不请求支援、不支付体力\n2💬 交谈并请求阿梁支援\n确认消耗 2 行动体力 · 推进 15 分钟 · 羁绊 0/3\n3🎯 守墙\n加固一段防线，增加防线余量。\n4🎯 巡逻\n巡逻队会在尸群接触前自动拦截。\n5🎯 支援玩家\n为玩家标记目标，战斗支援伤害提升。\n6✦ 营地核心\n预演：营地核心的功能交互，不会改变位置",
+        "buttons": [
+          {
+            "action": "npcView",
+            "npcId": "carpenter",
+            "disabled": false,
+            "text": "1🔎 查看阿梁状态\n查看范围 1.25 格 · 不请求支援、不支付体力"
+          },
+          {
+            "action": "npc",
+            "npcId": "carpenter",
+            "disabled": false,
+            "text": "2💬 交谈并请求阿梁支援\n确认消耗 2 行动体力 · 推进 15 分钟 · 羁绊 0/3"
+          },
+          {
+            "action": "npcOrder",
+            "npcId": "carpenter",
+            "disabled": false,
+            "text": "3🎯 守墙\n加固一段防线，增加防线余量。"
+          },
+          {
+            "action": "npcOrder",
+            "npcId": "carpenter",
+            "disabled": false,
+            "text": "4🎯 巡逻\n巡逻队会在尸群接触前自动拦截。"
+          },
+          {
+            "action": "npcOrder",
+            "npcId": "carpenter",
+            "disabled": false,
+            "text": "5🎯 支援玩家\n为玩家标记目标，战斗支援伤害提升。"
+          },
+          {
+            "action": "area",
+            "disabled": false,
+            "text": "6✦ 营地核心\n预演：营地核心的功能交互，不会改变位置"
+          }
+        ]
+      },
+      "toastObservations": [
+        {
+          "label": "public-view",
+          "text": "阿梁：健康 · HP 100/100 · work · 尚未请求支援；请求或命令需靠近到 1 格内",
+          "classes": [
+            "toast",
+            "show"
+          ],
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "clientWidth": 400,
+          "scrollWidth": 458,
+          "clientHeight": 36,
+          "scrollHeight": 36,
+          "whiteSpace": "nowrap",
+          "overflow": "hidden",
+          "textOverflow": "ellipsis",
+          "borderRadius": "999px",
+          "rect": {
+            "x": 520,
+            "y": 940.8218383789062,
+            "width": 400,
+            "height": 36
+          },
+          "withinViewport": true
+        },
+        {
+          "label": "first-talk-visible",
+          "text": "阿梁：我目前没有受伤。我的生命余量接近完整。 再次按 E 或点击确认请求支援",
+          "classes": [
+            "toast",
+            "show",
+            "npc-self-dialogue"
+          ],
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "clientWidth": 445,
+          "scrollWidth": 445,
+          "clientHeight": 58,
+          "scrollHeight": 58,
+          "whiteSpace": "normal",
+          "overflow": "visible",
+          "textOverflow": "clip",
+          "borderRadius": "630.635px",
+          "rect": {
+            "x": 497.5625,
+            "y": 917.625,
+            "width": 444.875,
+            "height": 58.375
+          },
+          "withinViewport": true
+        },
+        {
+          "label": "same-talk-after-two-seconds",
+          "text": "阿梁：我目前没有受伤。我的生命余量接近完整。 再次按 E 或点击确认请求支援",
+          "classes": [
+            "toast",
+            "show",
+            "npc-self-dialogue"
+          ],
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "clientWidth": 454,
+          "scrollWidth": 454,
+          "clientHeight": 39,
+          "scrollHeight": 39,
+          "whiteSpace": "normal",
+          "overflow": "visible",
+          "textOverflow": "clip",
+          "borderRadius": "14px",
+          "rect": {
+            "x": 493.203125,
+            "y": 936.8125,
+            "width": 453.59375,
+            "height": 39.1875
+          },
+          "withinViewport": true
+        },
+        {
+          "label": "same-talk-mobile-390",
+          "text": "阿梁：我目前没有受伤。我的生命余量接近完整。 再次按 E 或点击确认请求支援",
+          "classes": [
+            "toast",
+            "show",
+            "npc-self-dialogue"
+          ],
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "clientWidth": 351,
+          "scrollWidth": 351,
+          "clientHeight": 58,
+          "scrollHeight": 58,
+          "whiteSpace": "normal",
+          "overflow": "visible",
+          "textOverflow": "clip",
+          "borderRadius": "14px",
+          "rect": {
+            "x": 19.5,
+            "y": 761.625,
+            "width": 351,
+            "height": 58.375
+          },
+          "withinViewport": true
+        },
+        {
+          "label": "ordinary-view-after-self",
+          "text": "阿梁：健康 · HP 100/100 · 休整 · 尚未请求支援；请求或命令需靠近到 1 格内",
+          "classes": [
+            "toast",
+            "show"
+          ],
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "clientWidth": 451,
+          "scrollWidth": 451,
+          "clientHeight": 36,
+          "scrollHeight": 36,
+          "whiteSpace": "nowrap",
+          "overflow": "hidden",
+          "textOverflow": "ellipsis",
+          "borderRadius": "63.1483px",
+          "rect": {
+            "x": 494.390625,
+            "y": 940,
+            "width": 451.21875,
+            "height": 36
+          },
+          "withinViewport": true
+        },
+        {
+          "label": "paid-support",
+          "text": "阿梁已请求支援",
+          "classes": [
+            "toast",
+            "show"
+          ],
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "clientWidth": 112,
+          "scrollWidth": 112,
+          "clientHeight": 36,
+          "scrollHeight": 36,
+          "whiteSpace": "nowrap",
+          "overflow": "hidden",
+          "textOverflow": "ellipsis",
+          "borderRadius": "999px",
+          "rect": {
+            "x": 664,
+            "y": 940,
+            "width": 112,
+            "height": 36
+          },
+          "withinViewport": true
+        }
+      ],
+      "viewToast": "阿梁：健康 · HP 100/100 · work · 尚未请求支援；请求或命令需靠近到 1 格内",
+      "firstTalkToast": "阿梁：我目前没有受伤。我的生命余量接近完整。 再次按 E 或点击确认请求支援",
+      "firstTalkExpectedBasis": {
+        "nativeBeforeRef": {
+          "label": "actual-pagehide-before-public-action",
+          "file": "normal-support-actual-pagehide-before-public-action-save.json",
+          "sha256": "74d924289b8c5f3f645a6656691c848843ce24911e76b730342f5328bd68a6a6"
+        },
+        "worldMinute": 360,
+        "npc": {
+          "hp": 100,
+          "maxHp": 100,
+          "lifeState": "healthy",
+          "relationTrust": 0,
+          "needs": {
+            "hunger": 0,
+            "fatigue": 0,
+            "stress": 8,
+            "energy": 100,
+            "social": 28,
+            "safety": 18
+          }
+        },
+        "source": "actual native before, not original preboot vector or later retention state"
+      },
+      "firstTalkCheckpointMethod": "automatic native writer observed before any reload/pagehide",
+      "retentionProbe": {
+        "proofEventId": "evt-000003",
+        "proofTick": {
+          "world": 360,
+          "phase": 0,
+          "schedule": 0
+        },
+        "waitAfterProofMs": 2769,
+        "sameCurrentText": true,
+        "laterWorldStateUsedToReconstructFirstTalk": false
+      },
+      "supportToast": "阿梁已请求支援",
+      "finalAction": {
+        "kind": "support",
+        "eventCount": 1
+      },
+      "terminal": {
+        "day": 1,
+        "hour": 6,
+        "minute": 20,
+        "energy": 77,
+        "npc": {
+          "id": "carpenter",
+          "x": 10.740546745395523,
+          "y": 10.534963117575863,
+          "maxHp": 100,
+          "hp": 100,
+          "lifeState": "healthy",
+          "wounds": [],
+          "morale": 72,
+          "behaviorState": "work",
+          "currentOrder": null,
+          "fallbackPoint": {
+            "x": 2,
+            "y": 2
+          },
+          "homeZone": "workshop",
+          "workZone": "eastGate",
+          "inventory": {
+            "medicine": 0,
+            "ammo": 2
+          },
+          "appearance": {
+            "bodyType": "broad",
+            "skin": "#d99a74",
+            "hair": "#51382d",
+            "hairStyle": "messy",
+            "signature": "toolbelt",
+            "palette": {
+              "cloth": "#b87743",
+              "clothDark": "#70422b",
+              "accent": "#f0c85b",
+              "tool": "#c4cbd0"
+            },
+            "equipment": {
+              "head": "none",
+              "outer": "workVest",
+              "back": "toolRoll",
+              "weapon": "hammer",
+              "offhand": "none",
+              "tool": "hammer"
+            }
+          },
+          "equipment": {
+            "head": "none",
+            "outer": "workVest",
+            "back": "toolRoll",
+            "weapon": "hammer",
+            "offhand": "none",
+            "tool": "hammer"
+          },
+          "personality": {
+            "courage": 58,
+            "duty": 72,
+            "compassion": 65,
+            "discipline": 68,
+            "riskTolerance": 52,
+            "loyalty": 70
+          },
+          "relations": {
+            "trustToPlayer": 3,
+            "trustToCommander": 0,
+            "bondToPlayer": 2.0999999999999996,
+            "respectToPlayer": 0.75,
+            "fearOfPlayer": 0,
+            "resentmentOfPlayer": 0,
+            "loyaltyToCamp": 70,
+            "loyaltyToCommander": 66,
+            "belongingToCamp": 62,
+            "allies": [],
+            "rivals": [],
+            "values": {
+              "safety": 50,
+              "order": 68,
+              "compassion": 65,
+              "autonomy": 50,
+              "truth": 50
+            },
+            "knowledgeOfPlayer": {
+              "facts": [],
+              "lastHeardAt": 0
+            },
+            "opinionFlags": {}
+          },
+          "memory": {
+            "helpedByPlayer": 1,
+            "witnessedDeaths": 0,
+            "failedOrders": 0,
+            "importantEvents": [
+              "第1天：玩家请求支援"
+            ],
+            "relayCoreHandoff": null
+          },
+          "attributes": {
+            "production": 70,
+            "weaponSkill": 56,
+            "armorSkill": 70,
+            "turretSkill": 69,
+            "buildSkill": 78,
+            "medicalSkill": 66,
+            "researchSkill": 60,
+            "logisticsSkill": 71,
+            "commandSkill": 70
+          },
+          "hero": {
+            "tier": "ordinary",
+            "status": "locked",
+            "progress": 4,
+            "activeSkill": null,
+            "passiveSkill": null,
+            "promotedDay": null
+          },
+          "bond": 1,
+          "supportRequested": true,
+          "order": "guard",
+          "simMoveClock": 1,
+          "needClock": 20,
+          "workClock": 20,
+          "routineIntent": null,
+          "workPulseSeq": 0,
+          "workHistory": [],
+          "motionTarget": {
+            "x": 7,
+            "y": 9
+          },
+          "needs": {
+            "hunger": 0.36,
+            "fatigue": 0,
+            "stress": 7.879999999999999,
+            "energy": 100,
+            "social": 27.88,
+            "safety": 17.840000000000003
+          },
+          "sanity": 74,
+          "sanityClock": 20,
+          "sanityLastReason": "接受玩家支援请求（+2）",
+          "scheduleState": "休整",
+          "lastReport": "等待执行守墙",
+          "actingRole": null,
+          "actingFor": null,
+          "garrisonedOutpostId": null,
+          "eventChain": {
+            "step": 0,
+            "cooldown": 0,
+            "active": null,
+            "resolved": []
+          },
+          "perception": {
+            "clock": 1,
+            "targetId": "player-1",
+            "targetAt": 379,
+            "contacts": {
+              "player-1": {
+                "x": 11,
+                "y": 11,
+                "sourceId": "carpenter",
+                "at": 379,
+                "expiresAt": 469
+              }
+            },
+            "sharedUntil": 0
+          }
+        }
+      }
+    },
+    {
+      "id": "needs-threshold",
+      "npcId": "carpenter",
+      "inputSha256": "0e9428aaa676dd57db2de734e8676a30c9acb51a43a1a641fd37bdae8b590514",
+      "changes": [
+        "TEST-ONLY carpenter position .75 east of original player",
+        "TEST-ONLY self HP/life/three needs/actual trust per scene",
+        "carpenter motion target cleared; all enemies and resources retained"
+      ],
+      "fixtureSourceCategory": "TEST-ONLY complete native-writer offline derivative; not natural gameplay",
+      "verified": true,
+      "receipts": [
+        {
+          "event": {
+            "eventId": "evt-000004",
+            "seq": 4,
+            "type": "npc.dialogueOpened",
+            "actorId": "player-1",
+            "commandId": "cmd-000002",
+            "causationId": null,
+            "tick": {
+              "world": 361,
+              "phase": 0,
+              "schedule": 1
+            },
+            "payload": {
+              "ok": true,
+              "proofVersion": 1,
+              "npcId": "carpenter",
+              "operation": "dialogue-open",
+              "outcome": "completed",
+              "target": {
+                "id": "carpenter",
+                "before": {
+                  "id": "carpenter",
+                  "supportRequested": false,
+                  "order": null,
+                  "bond": 0,
+                  "hp": 50,
+                  "lifeState": "injured",
+                  "sanity": 72,
+                  "helpedByPlayer": 0
+                },
+                "beforeAdvance": null,
+                "afterAdvance": null,
+                "atCompletion": {
+                  "id": "carpenter",
+                  "supportRequested": false,
+                  "order": null,
+                  "bond": 0,
+                  "hp": 50,
+                  "lifeState": "injured",
+                  "sanity": 72,
+                  "helpedByPlayer": 0
+                },
+                "presentAtCompletion": true,
+                "snapshotStages": {
+                  "before": "before-payment-and-own-effects",
+                  "beforeAdvance": null,
+                  "afterAdvance": null,
+                  "atCompletion": "reducer-final-state"
+                }
+              },
+              "payment": {
+                "cost": {
+                  "energy": 0
+                },
+                "before": {
+                  "energy": 78
+                },
+                "after": {
+                  "energy": 78
+                }
+              },
+              "resources": {
+                "energyBefore": 78,
+                "energyAfterPayment": 78,
+                "energyAfter": 78
+              },
+              "clock": {
+                "before": {
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 1,
+                  "world": 361
+                },
+                "after": {
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 1,
+                  "world": 361
+                },
+                "requestedMinutes": 0,
+                "elapsedMinutes": 0
+              },
+              "advance": null
+            }
+          },
+          "parent": {
+            "commandId": "cmd-000002",
+            "type": "npc.interact",
+            "actorId": "player-1",
+            "payload": {
+              "npcId": "carpenter"
+            }
+          }
+        },
+        {
+          "event": {
+            "eventId": "evt-000011",
+            "seq": 11,
+            "type": "npc.dialogueOpened",
+            "actorId": "player-1",
+            "commandId": "cmd-000009",
+            "causationId": null,
+            "tick": {
+              "world": 367,
+              "phase": 0,
+              "schedule": 7
+            },
+            "payload": {
+              "ok": true,
+              "proofVersion": 1,
+              "npcId": "carpenter",
+              "operation": "dialogue-open",
+              "outcome": "completed",
+              "target": {
+                "id": "carpenter",
+                "before": {
+                  "id": "carpenter",
+                  "supportRequested": false,
+                  "order": null,
+                  "bond": 0,
+                  "hp": 50,
+                  "lifeState": "injured",
+                  "sanity": 72,
+                  "helpedByPlayer": 0
+                },
+                "beforeAdvance": null,
+                "afterAdvance": null,
+                "atCompletion": {
+                  "id": "carpenter",
+                  "supportRequested": false,
+                  "order": null,
+                  "bond": 0,
+                  "hp": 50,
+                  "lifeState": "injured",
+                  "sanity": 72,
+                  "helpedByPlayer": 0
+                },
+                "presentAtCompletion": true,
+                "snapshotStages": {
+                  "before": "before-payment-and-own-effects",
+                  "beforeAdvance": null,
+                  "afterAdvance": null,
+                  "atCompletion": "reducer-final-state"
+                }
+              },
+              "payment": {
+                "cost": {
+                  "energy": 0
+                },
+                "before": {
+                  "energy": 78
+                },
+                "after": {
+                  "energy": 78
+                }
+              },
+              "resources": {
+                "energyBefore": 78,
+                "energyAfterPayment": 78,
+                "energyAfter": 78
+              },
+              "clock": {
+                "before": {
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 7,
+                  "world": 367
+                },
+                "after": {
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 7,
+                  "world": 367
+                },
+                "requestedMinutes": 0,
+                "elapsedMinutes": 0
+              },
+              "advance": null
+            }
+          },
+          "parent": {
+            "commandId": "cmd-000009",
+            "type": "npc.interact",
+            "actorId": "player-1",
+            "payload": {
+              "npcId": "carpenter"
+            }
+          }
+        }
+      ],
+      "snapshots": [
+        {
+          "label": "actual-pagehide-before-public-action",
+          "file": "needs-threshold-actual-pagehide-before-public-action-save.json",
+          "sha256": "b96a359d68840a5b97b0a6bc09b14970b4444e9005e86019b80c96d82ef84ab1"
+        },
+        {
+          "label": "automatic-first-talk",
+          "file": "needs-threshold-automatic-first-talk-save.json",
+          "sha256": "5d858465b78edeb081238b348e88365448ca71a3032239fb7f0777b7f9de7597"
+        },
+        {
+          "label": "before-reload",
+          "file": "needs-threshold-before-reload-save.json",
+          "sha256": "5d858465b78edeb081238b348e88365448ca71a3032239fb7f0777b7f9de7597"
+        },
+        {
+          "label": "reload-before-continue",
+          "file": "needs-threshold-reload-before-continue-save.json",
+          "sha256": "21ef36ea145330e4d3d5e3ccfc4332630a75e7a435ca37626258478d4a7dc0a5"
+        },
+        {
+          "label": "reloaded-actual-native-prefix",
+          "file": "needs-threshold-reloaded-actual-native-prefix-save.json",
+          "sha256": "21ef36ea145330e4d3d5e3ccfc4332630a75e7a435ca37626258478d4a7dc0a5"
+        },
+        {
+          "label": "after-reload-free-talk",
+          "file": "needs-threshold-after-reload-free-talk-save.json",
+          "sha256": "8875bd434d4a9f65de893ccbcfb89037f091666adfcb9d251a03c6814ac09fb8"
+        },
+        {
+          "label": "terminal",
+          "file": "needs-threshold-terminal-save.json",
+          "sha256": "8875bd434d4a9f65de893ccbcfb89037f091666adfcb9d251a03c6814ac09fb8"
+        }
+      ],
+      "beforeMethod": "actual initial public reload/pagehide native writer; already-bound continue does not require an immediate rewritten save",
+      "publicContext": {
+        "title": "阿梁 · 木匠",
+        "text": "🧑‍🔧\n阿梁 · 木匠\n木墙 +6 防线，额外挡住 1 只 · 也可按 1-6 选择\n×\n−\n1🔎 查看阿梁状态\n查看范围 1.25 格 · 不请求支援、不支付体力\n2💬 交谈并请求阿梁支援\n确认消耗 2 行动体力 · 推进 15 分钟 · 羁绊 0/3\n3🎯 守墙\n加固一段防线，增加防线余量。\n4🎯 巡逻\n巡逻队会在尸群接触前自动拦截。\n5🎯 支援玩家\n为玩家标记目标，战斗支援伤害提升。\n6✦ 营地核心\n预演：营地核心的功能交互，不会改变位置",
+        "buttons": [
+          {
+            "action": "npcView",
+            "npcId": "carpenter",
+            "disabled": false,
+            "text": "1🔎 查看阿梁状态\n查看范围 1.25 格 · 不请求支援、不支付体力"
+          },
+          {
+            "action": "npc",
+            "npcId": "carpenter",
+            "disabled": false,
+            "text": "2💬 交谈并请求阿梁支援\n确认消耗 2 行动体力 · 推进 15 分钟 · 羁绊 0/3"
+          },
+          {
+            "action": "npcOrder",
+            "npcId": "carpenter",
+            "disabled": false,
+            "text": "3🎯 守墙\n加固一段防线，增加防线余量。"
+          },
+          {
+            "action": "npcOrder",
+            "npcId": "carpenter",
+            "disabled": false,
+            "text": "4🎯 巡逻\n巡逻队会在尸群接触前自动拦截。"
+          },
+          {
+            "action": "npcOrder",
+            "npcId": "carpenter",
+            "disabled": false,
+            "text": "5🎯 支援玩家\n为玩家标记目标，战斗支援伤害提升。"
+          },
+          {
+            "action": "area",
+            "disabled": false,
+            "text": "6✦ 营地核心\n预演：营地核心的功能交互，不会改变位置"
+          }
+        ]
+      },
+      "toastObservations": [
+        {
+          "label": "public-view",
+          "text": "阿梁：受伤 · HP 50/100 · work · 尚未请求支援；请求或命令需靠近到 1 格内",
+          "classes": [
+            "toast",
+            "show"
+          ],
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "clientWidth": 400,
+          "scrollWidth": 450,
+          "clientHeight": 36,
+          "scrollHeight": 36,
+          "whiteSpace": "nowrap",
+          "overflow": "hidden",
+          "textOverflow": "ellipsis",
+          "borderRadius": "999px",
+          "rect": {
+            "x": 520,
+            "y": 940,
+            "width": 400,
+            "height": 36
+          },
+          "withinViewport": true
+        },
+        {
+          "label": "first-talk-visible",
+          "text": "阿梁：我受伤了。我的生命余量大约还剩一半。我饿得厉害，得找点吃的。 再次按 E 或点击确认请求支援",
+          "classes": [
+            "toast",
+            "show",
+            "npc-self-dialogue"
+          ],
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "clientWidth": 520,
+          "scrollWidth": 520,
+          "clientHeight": 58,
+          "scrollHeight": 58,
+          "whiteSpace": "normal",
+          "overflow": "visible",
+          "textOverflow": "clip",
+          "borderRadius": "14px",
+          "rect": {
+            "x": 460,
+            "y": 917.625,
+            "width": 520,
+            "height": 58.375
+          },
+          "withinViewport": true
+        },
+        {
+          "label": "same-talk-after-two-seconds",
+          "text": "阿梁：我受伤了。我的生命余量大约还剩一半。我饿得厉害，得找点吃的。 再次按 E 或点击确认请求支援",
+          "classes": [
+            "toast",
+            "show",
+            "npc-self-dialogue"
+          ],
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "clientWidth": 520,
+          "scrollWidth": 520,
+          "clientHeight": 58,
+          "scrollHeight": 58,
+          "whiteSpace": "normal",
+          "overflow": "visible",
+          "textOverflow": "clip",
+          "borderRadius": "14px",
+          "rect": {
+            "x": 460,
+            "y": 917.625,
+            "width": 520,
+            "height": 58.375
+          },
+          "withinViewport": true
+        },
+        {
+          "label": "same-talk-mobile-390",
+          "text": "阿梁：我受伤了。我的生命余量大约还剩一半。我饿得厉害，得找点吃的。 再次按 E 或点击确认请求支援",
+          "classes": [
+            "toast",
+            "show",
+            "npc-self-dialogue"
+          ],
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "clientWidth": 351,
+          "scrollWidth": 351,
+          "clientHeight": 58,
+          "scrollHeight": 58,
+          "whiteSpace": "normal",
+          "overflow": "visible",
+          "textOverflow": "clip",
+          "borderRadius": "14px",
+          "rect": {
+            "x": 19.5,
+            "y": 761.625,
+            "width": 351,
+            "height": 58.375
+          },
+          "withinViewport": true
+        },
+        {
+          "label": "ordinary-view-after-self",
+          "text": "阿梁：受伤 · HP 50/100 · 休整 · 精力恢复 · 尚未请求支援；请求或命令需靠近到 1 格内",
+          "classes": [
+            "toast",
+            "show"
+          ],
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "clientWidth": 475,
+          "scrollWidth": 504,
+          "clientHeight": 36,
+          "scrollHeight": 36,
+          "whiteSpace": "nowrap",
+          "overflow": "hidden",
+          "textOverflow": "ellipsis",
+          "borderRadius": "380.284px",
+          "rect": {
+            "x": 482.3125,
+            "y": 940,
+            "width": 475.375,
+            "height": 36
+          },
+          "withinViewport": true
+        },
+        {
+          "label": "after-reload-first-talk",
+          "text": "阿梁：我受伤了。我的生命余量大约还剩一半。我饿得厉害，得找点吃的。 再次按 E 或点击确认请求支援",
+          "classes": [
+            "toast",
+            "show",
+            "npc-self-dialogue"
+          ],
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "clientWidth": 406,
+          "scrollWidth": 406,
+          "clientHeight": 58,
+          "scrollHeight": 58,
+          "whiteSpace": "normal",
+          "overflow": "visible",
+          "textOverflow": "clip",
+          "borderRadius": "948.956px",
+          "rect": {
+            "x": 516.953125,
+            "y": 917.625,
+            "width": 406.09375,
+            "height": 58.375
+          },
+          "withinViewport": true
+        }
+      ],
+      "viewToast": "阿梁：受伤 · HP 50/100 · work · 尚未请求支援；请求或命令需靠近到 1 格内",
+      "firstTalkToast": "阿梁：我受伤了。我的生命余量大约还剩一半。我饿得厉害，得找点吃的。 再次按 E 或点击确认请求支援",
+      "firstTalkExpectedBasis": {
+        "nativeBeforeRef": {
+          "label": "actual-pagehide-before-public-action",
+          "file": "needs-threshold-actual-pagehide-before-public-action-save.json",
+          "sha256": "b96a359d68840a5b97b0a6bc09b14970b4444e9005e86019b80c96d82ef84ab1"
+        },
+        "worldMinute": 360,
+        "npc": {
+          "hp": 50,
+          "maxHp": 100,
+          "lifeState": "injured",
+          "relationTrust": -10,
+          "needs": {
+            "hunger": 70,
+            "fatigue": 70,
+            "stress": 8,
+            "energy": 25,
+            "social": 28,
+            "safety": 18
+          }
+        },
+        "source": "actual native before, not original preboot vector or later retention state"
+      },
+      "firstTalkCheckpointMethod": "automatic native writer observed before any reload/pagehide",
+      "retentionProbe": {
+        "proofEventId": "evt-000004",
+        "proofTick": {
+          "world": 361,
+          "phase": 0,
+          "schedule": 1
+        },
+        "waitAfterProofMs": 2606,
+        "sameCurrentText": true,
+        "laterWorldStateUsedToReconstructFirstTalk": false
+      },
+      "afterReloadTalkToast": "阿梁：我受伤了。我的生命余量大约还剩一半。我饿得厉害，得找点吃的。 再次按 E 或点击确认请求支援",
+      "terminal": {
+        "day": 1,
+        "hour": 6,
+        "minute": 8,
+        "energy": 78,
+        "npc": {
+          "id": "carpenter",
+          "x": 11.75,
+          "y": 11,
+          "maxHp": 100,
+          "hp": 50,
+          "lifeState": "injured",
+          "wounds": [],
+          "morale": 72,
+          "behaviorState": "work",
+          "currentOrder": null,
+          "fallbackPoint": {
+            "x": 2,
+            "y": 2
+          },
+          "homeZone": "workshop",
+          "workZone": "eastGate",
+          "inventory": {
+            "medicine": 0,
+            "ammo": 2
+          },
+          "appearance": {
+            "bodyType": "broad",
+            "skin": "#d99a74",
+            "hair": "#51382d",
+            "hairStyle": "messy",
+            "signature": "toolbelt",
+            "palette": {
+              "cloth": "#b87743",
+              "clothDark": "#70422b",
+              "accent": "#f0c85b",
+              "tool": "#c4cbd0"
+            },
+            "equipment": {
+              "head": "none",
+              "outer": "workVest",
+              "back": "toolRoll",
+              "weapon": "hammer",
+              "offhand": "none",
+              "tool": "hammer"
+            }
+          },
+          "equipment": {
+            "head": "none",
+            "outer": "workVest",
+            "back": "toolRoll",
+            "weapon": "hammer",
+            "offhand": "none",
+            "tool": "hammer"
+          },
+          "personality": {
+            "courage": 58,
+            "duty": 72,
+            "compassion": 65,
+            "discipline": 68,
+            "riskTolerance": 52,
+            "loyalty": 70
+          },
+          "relations": {
+            "trustToPlayer": -10,
+            "trustToCommander": 0,
+            "bondToPlayer": 0,
+            "respectToPlayer": 0,
+            "fearOfPlayer": 0,
+            "resentmentOfPlayer": 0,
+            "loyaltyToCamp": 70,
+            "loyaltyToCommander": 66,
+            "belongingToCamp": 62,
+            "allies": [],
+            "rivals": [],
+            "values": {
+              "safety": 50,
+              "order": 68,
+              "compassion": 65,
+              "autonomy": 50,
+              "truth": 50
+            },
+            "knowledgeOfPlayer": {
+              "facts": [],
+              "lastHeardAt": 0
+            },
+            "opinionFlags": {}
+          },
+          "memory": {
+            "helpedByPlayer": 0,
+            "witnessedDeaths": 0,
+            "failedOrders": 0,
+            "importantEvents": [],
+            "relayCoreHandoff": null
+          },
+          "attributes": {
+            "production": 70,
+            "weaponSkill": 56,
+            "armorSkill": 70,
+            "turretSkill": 69,
+            "buildSkill": 78,
+            "medicalSkill": 66,
+            "researchSkill": 60,
+            "logisticsSkill": 71,
+            "commandSkill": 70
+          },
+          "hero": {
+            "tier": "ordinary",
+            "status": "locked",
+            "progress": 0,
+            "activeSkill": null,
+            "passiveSkill": null,
+            "promotedDay": null
+          },
+          "bond": 0,
+          "supportRequested": false,
+          "order": null,
+          "simMoveClock": 8,
+          "needClock": 8,
+          "workClock": 8,
+          "routineIntent": null,
+          "workPulseSeq": 0,
+          "workHistory": [],
+          "motionTarget": null,
+          "needs": {
+            "hunger": 70.144,
+            "fatigue": 69.77599999999995,
+            "stress": 7.951999999999998,
+            "energy": 25.360000000000014,
+            "social": 27.951999999999998,
+            "safety": 17.936000000000007
+          },
+          "sanity": 72,
+          "sanityClock": 8,
+          "sanityLastReason": "营地仍然安全",
+          "scheduleState": "休整 · 精力恢复",
+          "lastReport": "",
+          "actingRole": null,
+          "actingFor": null,
+          "garrisonedOutpostId": null,
+          "eventChain": {
+            "step": 0,
+            "cooldown": 0,
+            "active": {
+              "id": "npc.carpenter.wall-duty.0",
+              "step": 0,
+              "openedAt": 361,
+              "status": "queued"
+            },
+            "resolved": []
+          },
+          "perception": {
+            "clock": 2,
+            "targetId": null,
+            "targetAt": 0,
+            "contacts": {},
+            "sharedUntil": 0
+          }
+        }
+      }
+    },
+    {
+      "id": "low-trust",
+      "npcId": "carpenter",
+      "inputSha256": "b251635db40e2ffaad578d4e011efb95a0737c51ab375176ad7d5ef8d7a06562",
+      "changes": [
+        "TEST-ONLY carpenter position .75 east of original player",
+        "TEST-ONLY self HP/life/three needs/actual trust per scene",
+        "carpenter motion target cleared; all enemies and resources retained"
+      ],
+      "fixtureSourceCategory": "TEST-ONLY complete native-writer offline derivative; not natural gameplay",
+      "verified": true,
+      "receipts": [
+        {
+          "event": {
+            "eventId": "evt-000003",
+            "seq": 3,
+            "type": "npc.dialogueOpened",
+            "actorId": "player-1",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "ok": true,
+              "proofVersion": 1,
+              "npcId": "carpenter",
+              "operation": "dialogue-open",
+              "outcome": "completed",
+              "target": {
+                "id": "carpenter",
+                "before": {
+                  "id": "carpenter",
+                  "supportRequested": false,
+                  "order": null,
+                  "bond": 0,
+                  "hp": 50,
+                  "lifeState": "injured",
+                  "sanity": 72,
+                  "helpedByPlayer": 0
+                },
+                "beforeAdvance": null,
+                "afterAdvance": null,
+                "atCompletion": {
+                  "id": "carpenter",
+                  "supportRequested": false,
+                  "order": null,
+                  "bond": 0,
+                  "hp": 50,
+                  "lifeState": "injured",
+                  "sanity": 72,
+                  "helpedByPlayer": 0
+                },
+                "presentAtCompletion": true,
+                "snapshotStages": {
+                  "before": "before-payment-and-own-effects",
+                  "beforeAdvance": null,
+                  "afterAdvance": null,
+                  "atCompletion": "reducer-final-state"
+                }
+              },
+              "payment": {
+                "cost": {
+                  "energy": 0
+                },
+                "before": {
+                  "energy": 78
+                },
+                "after": {
+                  "energy": 78
+                }
+              },
+              "resources": {
+                "energyBefore": 78,
+                "energyAfterPayment": 78,
+                "energyAfter": 78
+              },
+              "clock": {
+                "before": {
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 0,
+                  "world": 360
+                },
+                "after": {
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 0,
+                  "world": 360
+                },
+                "requestedMinutes": 0,
+                "elapsedMinutes": 0
+              },
+              "advance": null
+            }
+          },
+          "parent": {
+            "commandId": "cmd-000001",
+            "type": "npc.interact",
+            "actorId": "player-1",
+            "payload": {
+              "npcId": "carpenter"
+            }
+          }
+        },
+        {
+          "event": {
+            "eventId": "evt-000008",
+            "seq": 8,
+            "type": "npc.dialogueOpened",
+            "actorId": "player-1",
+            "commandId": "cmd-000006",
+            "causationId": null,
+            "tick": {
+              "world": 364,
+              "phase": 0,
+              "schedule": 4
+            },
+            "payload": {
+              "ok": true,
+              "proofVersion": 1,
+              "npcId": "carpenter",
+              "operation": "dialogue-open",
+              "outcome": "completed",
+              "target": {
+                "id": "carpenter",
+                "before": {
+                  "id": "carpenter",
+                  "supportRequested": false,
+                  "order": null,
+                  "bond": 0,
+                  "hp": 50,
+                  "lifeState": "injured",
+                  "sanity": 72,
+                  "helpedByPlayer": 0
+                },
+                "beforeAdvance": null,
+                "afterAdvance": null,
+                "atCompletion": {
+                  "id": "carpenter",
+                  "supportRequested": false,
+                  "order": null,
+                  "bond": 0,
+                  "hp": 50,
+                  "lifeState": "injured",
+                  "sanity": 72,
+                  "helpedByPlayer": 0
+                },
+                "presentAtCompletion": true,
+                "snapshotStages": {
+                  "before": "before-payment-and-own-effects",
+                  "beforeAdvance": null,
+                  "afterAdvance": null,
+                  "atCompletion": "reducer-final-state"
+                }
+              },
+              "payment": {
+                "cost": {
+                  "energy": 0
+                },
+                "before": {
+                  "energy": 78
+                },
+                "after": {
+                  "energy": 78
+                }
+              },
+              "resources": {
+                "energyBefore": 78,
+                "energyAfterPayment": 78,
+                "energyAfter": 78
+              },
+              "clock": {
+                "before": {
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 4,
+                  "world": 364
+                },
+                "after": {
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 4,
+                  "world": 364
+                },
+                "requestedMinutes": 0,
+                "elapsedMinutes": 0
+              },
+              "advance": null
+            }
+          },
+          "parent": {
+            "commandId": "cmd-000006",
+            "type": "npc.interact",
+            "actorId": "player-1",
+            "payload": {
+              "npcId": "carpenter"
+            }
+          }
+        }
+      ],
+      "snapshots": [
+        {
+          "label": "actual-pagehide-before-public-action",
+          "file": "low-trust-actual-pagehide-before-public-action-save.json",
+          "sha256": "19d4de48ef6e912ff09926960a6ca76dd15b1297b91c35b1868e6d290401defe"
+        },
+        {
+          "label": "automatic-first-talk",
+          "file": "low-trust-automatic-first-talk-save.json",
+          "sha256": "cb2579fa04cc7a0155f7afe50419f9cc7abc1e56d4e70c51663eec34ced46829"
+        },
+        {
+          "label": "before-reload",
+          "file": "low-trust-before-reload-save.json",
+          "sha256": "cb2579fa04cc7a0155f7afe50419f9cc7abc1e56d4e70c51663eec34ced46829"
+        },
+        {
+          "label": "reload-before-continue",
+          "file": "low-trust-reload-before-continue-save.json",
+          "sha256": "4734a161dce6653e882b3fea2d38e479d6c557ce23866fe56762b9d70f554350"
+        },
+        {
+          "label": "reloaded-actual-native-prefix",
+          "file": "low-trust-reloaded-actual-native-prefix-save.json",
+          "sha256": "4734a161dce6653e882b3fea2d38e479d6c557ce23866fe56762b9d70f554350"
+        },
+        {
+          "label": "after-reload-free-talk",
+          "file": "low-trust-after-reload-free-talk-save.json",
+          "sha256": "1afa14f77f1d6dc1e4ee41873c3acc702c992301fdfb784da6dd6f8a6ef8e7a1"
+        },
+        {
+          "label": "terminal",
+          "file": "low-trust-terminal-save.json",
+          "sha256": "1afa14f77f1d6dc1e4ee41873c3acc702c992301fdfb784da6dd6f8a6ef8e7a1"
+        }
+      ],
+      "beforeMethod": "actual initial public reload/pagehide native writer; already-bound continue does not require an immediate rewritten save",
+      "publicContext": {
+        "title": "阿梁 · 木匠",
+        "text": "🧑‍🔧\n阿梁 · 木匠\n木墙 +6 防线，额外挡住 1 只 · 也可按 1-6 选择\n×\n−\n1🔎 查看阿梁状态\n查看范围 1.25 格 · 不请求支援、不支付体力\n2💬 交谈并请求阿梁支援\n确认消耗 2 行动体力 · 推进 15 分钟 · 羁绊 0/3\n3🎯 守墙\n加固一段防线，增加防线余量。\n4🎯 巡逻\n巡逻队会在尸群接触前自动拦截。\n5🎯 支援玩家\n为玩家标记目标，战斗支援伤害提升。\n6✦ 营地核心\n预演：营地核心的功能交互，不会改变位置",
+        "buttons": [
+          {
+            "action": "npcView",
+            "npcId": "carpenter",
+            "disabled": false,
+            "text": "1🔎 查看阿梁状态\n查看范围 1.25 格 · 不请求支援、不支付体力"
+          },
+          {
+            "action": "npc",
+            "npcId": "carpenter",
+            "disabled": false,
+            "text": "2💬 交谈并请求阿梁支援\n确认消耗 2 行动体力 · 推进 15 分钟 · 羁绊 0/3"
+          },
+          {
+            "action": "npcOrder",
+            "npcId": "carpenter",
+            "disabled": false,
+            "text": "3🎯 守墙\n加固一段防线，增加防线余量。"
+          },
+          {
+            "action": "npcOrder",
+            "npcId": "carpenter",
+            "disabled": false,
+            "text": "4🎯 巡逻\n巡逻队会在尸群接触前自动拦截。"
+          },
+          {
+            "action": "npcOrder",
+            "npcId": "carpenter",
+            "disabled": false,
+            "text": "5🎯 支援玩家\n为玩家标记目标，战斗支援伤害提升。"
+          },
+          {
+            "action": "area",
+            "disabled": false,
+            "text": "6✦ 营地核心\n预演：营地核心的功能交互，不会改变位置"
+          }
+        ]
+      },
+      "toastObservations": [
+        {
+          "label": "public-view",
+          "text": "阿梁：受伤 · HP 50/100 · work · 尚未请求支援；请求或命令需靠近到 1 格内",
+          "classes": [
+            "toast",
+            "show"
+          ],
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "clientWidth": 400,
+          "scrollWidth": 450,
+          "clientHeight": 36,
+          "scrollHeight": 36,
+          "whiteSpace": "nowrap",
+          "overflow": "hidden",
+          "textOverflow": "ellipsis",
+          "borderRadius": "999px",
+          "rect": {
+            "x": 520,
+            "y": 940,
+            "width": 400,
+            "height": 36
+          },
+          "withinViewport": true
+        },
+        {
+          "label": "first-talk-visible",
+          "text": "阿梁：我受伤了。具体情况，我暂时不想多谈。 再次按 E 或点击确认请求支援",
+          "classes": [
+            "toast",
+            "show",
+            "npc-self-dialogue"
+          ],
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "clientWidth": 442,
+          "scrollWidth": 442,
+          "clientHeight": 39,
+          "scrollHeight": 39,
+          "whiteSpace": "normal",
+          "overflow": "visible",
+          "textOverflow": "clip",
+          "borderRadius": "431.757px",
+          "rect": {
+            "x": 499.203125,
+            "y": 936.8125,
+            "width": 441.59375,
+            "height": 39.1875
+          },
+          "withinViewport": true
+        },
+        {
+          "label": "same-talk-after-two-seconds",
+          "text": "阿梁：我受伤了。具体情况，我暂时不想多谈。 再次按 E 或点击确认请求支援",
+          "classes": [
+            "toast",
+            "show",
+            "npc-self-dialogue"
+          ],
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "clientWidth": 442,
+          "scrollWidth": 442,
+          "clientHeight": 39,
+          "scrollHeight": 39,
+          "whiteSpace": "normal",
+          "overflow": "visible",
+          "textOverflow": "clip",
+          "borderRadius": "14px",
+          "rect": {
+            "x": 499.203125,
+            "y": 936.8125,
+            "width": 441.59375,
+            "height": 39.1875
+          },
+          "withinViewport": true
+        },
+        {
+          "label": "same-talk-mobile-390",
+          "text": "阿梁：我受伤了。具体情况，我暂时不想多谈。 再次按 E 或点击确认请求支援",
+          "classes": [
+            "toast",
+            "show",
+            "npc-self-dialogue"
+          ],
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "clientWidth": 351,
+          "scrollWidth": 351,
+          "clientHeight": 58,
+          "scrollHeight": 58,
+          "whiteSpace": "normal",
+          "overflow": "visible",
+          "textOverflow": "clip",
+          "borderRadius": "14px",
+          "rect": {
+            "x": 19.5,
+            "y": 761.625,
+            "width": 351,
+            "height": 58.375
+          },
+          "withinViewport": true
+        },
+        {
+          "label": "ordinary-view-after-self",
+          "text": "阿梁：受伤 · HP 50/100 · 休整 · 精力恢复 · 尚未请求支援；请求或命令需靠近到 1 格内",
+          "classes": [
+            "toast",
+            "show"
+          ],
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "clientWidth": 504,
+          "scrollWidth": 504,
+          "clientHeight": 36,
+          "scrollHeight": 36,
+          "whiteSpace": "nowrap",
+          "overflow": "hidden",
+          "textOverflow": "ellipsis",
+          "borderRadius": "107.374px",
+          "rect": {
+            "x": 467.8828125,
+            "y": 940,
+            "width": 504.234375,
+            "height": 36
+          },
+          "withinViewport": true
+        },
+        {
+          "label": "after-reload-first-talk",
+          "text": "阿梁：我受伤了。具体情况，我暂时不想多谈。 再次按 E 或点击确认请求支援",
+          "classes": [
+            "toast",
+            "show",
+            "npc-self-dialogue"
+          ],
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "clientWidth": 406,
+          "scrollWidth": 406,
+          "clientHeight": 58,
+          "scrollHeight": 58,
+          "whiteSpace": "normal",
+          "overflow": "visible",
+          "textOverflow": "clip",
+          "borderRadius": "949.557px",
+          "rect": {
+            "x": 516.9921875,
+            "y": 917.6361083984375,
+            "width": 406.015625,
+            "height": 58.375
+          },
+          "withinViewport": true
+        }
+      ],
+      "viewToast": "阿梁：受伤 · HP 50/100 · work · 尚未请求支援；请求或命令需靠近到 1 格内",
+      "firstTalkToast": "阿梁：我受伤了。具体情况，我暂时不想多谈。 再次按 E 或点击确认请求支援",
+      "firstTalkExpectedBasis": {
+        "nativeBeforeRef": {
+          "label": "actual-pagehide-before-public-action",
+          "file": "low-trust-actual-pagehide-before-public-action-save.json",
+          "sha256": "19d4de48ef6e912ff09926960a6ca76dd15b1297b91c35b1868e6d290401defe"
+        },
+        "worldMinute": 360,
+        "npc": {
+          "hp": 50,
+          "maxHp": 100,
+          "lifeState": "injured",
+          "relationTrust": -11,
+          "needs": {
+            "hunger": 70,
+            "fatigue": 70,
+            "stress": 8,
+            "energy": 25,
+            "social": 28,
+            "safety": 18
+          }
+        },
+        "source": "actual native before, not original preboot vector or later retention state"
+      },
+      "firstTalkCheckpointMethod": "automatic native writer observed before any reload/pagehide",
+      "retentionProbe": {
+        "proofEventId": "evt-000003",
+        "proofTick": {
+          "world": 360,
+          "phase": 0,
+          "schedule": 0
+        },
+        "waitAfterProofMs": 2262,
+        "sameCurrentText": true,
+        "laterWorldStateUsedToReconstructFirstTalk": false
+      },
+      "afterReloadTalkToast": "阿梁：我受伤了。具体情况，我暂时不想多谈。 再次按 E 或点击确认请求支援",
+      "terminal": {
+        "day": 1,
+        "hour": 6,
+        "minute": 4,
+        "energy": 78,
+        "npc": {
+          "id": "carpenter",
+          "x": 11.75,
+          "y": 11,
+          "maxHp": 100,
+          "hp": 50,
+          "lifeState": "injured",
+          "wounds": [],
+          "morale": 72,
+          "behaviorState": "work",
+          "currentOrder": null,
+          "fallbackPoint": {
+            "x": 2,
+            "y": 2
+          },
+          "homeZone": "workshop",
+          "workZone": "eastGate",
+          "inventory": {
+            "medicine": 0,
+            "ammo": 2
+          },
+          "appearance": {
+            "bodyType": "broad",
+            "skin": "#d99a74",
+            "hair": "#51382d",
+            "hairStyle": "messy",
+            "signature": "toolbelt",
+            "palette": {
+              "cloth": "#b87743",
+              "clothDark": "#70422b",
+              "accent": "#f0c85b",
+              "tool": "#c4cbd0"
+            },
+            "equipment": {
+              "head": "none",
+              "outer": "workVest",
+              "back": "toolRoll",
+              "weapon": "hammer",
+              "offhand": "none",
+              "tool": "hammer"
+            }
+          },
+          "equipment": {
+            "head": "none",
+            "outer": "workVest",
+            "back": "toolRoll",
+            "weapon": "hammer",
+            "offhand": "none",
+            "tool": "hammer"
+          },
+          "personality": {
+            "courage": 58,
+            "duty": 72,
+            "compassion": 65,
+            "discipline": 68,
+            "riskTolerance": 52,
+            "loyalty": 70
+          },
+          "relations": {
+            "trustToPlayer": -11,
+            "trustToCommander": 0,
+            "bondToPlayer": 0,
+            "respectToPlayer": 0,
+            "fearOfPlayer": 0,
+            "resentmentOfPlayer": 0,
+            "loyaltyToCamp": 70,
+            "loyaltyToCommander": 66,
+            "belongingToCamp": 62,
+            "allies": [],
+            "rivals": [],
+            "values": {
+              "safety": 50,
+              "order": 68,
+              "compassion": 65,
+              "autonomy": 50,
+              "truth": 50
+            },
+            "knowledgeOfPlayer": {
+              "facts": [],
+              "lastHeardAt": 0
+            },
+            "opinionFlags": {}
+          },
+          "memory": {
+            "helpedByPlayer": 0,
+            "witnessedDeaths": 0,
+            "failedOrders": 0,
+            "importantEvents": [],
+            "relayCoreHandoff": null
+          },
+          "attributes": {
+            "production": 70,
+            "weaponSkill": 56,
+            "armorSkill": 70,
+            "turretSkill": 69,
+            "buildSkill": 78,
+            "medicalSkill": 66,
+            "researchSkill": 60,
+            "logisticsSkill": 71,
+            "commandSkill": 70
+          },
+          "hero": {
+            "tier": "ordinary",
+            "status": "locked",
+            "progress": 0,
+            "activeSkill": null,
+            "passiveSkill": null,
+            "promotedDay": null
+          },
+          "bond": 0,
+          "supportRequested": false,
+          "order": null,
+          "simMoveClock": 4,
+          "needClock": 4,
+          "workClock": 4,
+          "routineIntent": null,
+          "workPulseSeq": 0,
+          "workHistory": [],
+          "motionTarget": null,
+          "needs": {
+            "hunger": 70.072,
+            "fatigue": 69.88799999999998,
+            "stress": 7.975999999999999,
+            "energy": 25.180000000000007,
+            "social": 27.976,
+            "safety": 17.968000000000004
+          },
+          "sanity": 72,
+          "sanityClock": 4,
+          "sanityLastReason": "营地仍然安全",
+          "scheduleState": "休整 · 精力恢复",
+          "lastReport": "",
+          "actingRole": null,
+          "actingFor": null,
+          "garrisonedOutpostId": null,
+          "eventChain": {
+            "step": 0,
+            "cooldown": 0,
+            "active": {
+              "id": "npc.carpenter.wall-duty.0",
+              "step": 0,
+              "openedAt": 361,
+              "status": "queued"
+            },
+            "resolved": []
+          },
+          "perception": {
+            "clock": 4,
+            "targetId": null,
+            "targetAt": 0,
+            "contacts": {},
+            "sharedUntil": 0
+          }
+        }
+      }
+    },
+    {
+      "id": "critical-free",
+      "npcId": "carpenter",
+      "inputSha256": "5a663e44e6e85be737e117103e6b1a138c37f87ea57607558bbf00def1e12cde",
+      "changes": [
+        "TEST-ONLY carpenter position .75 east of original player",
+        "TEST-ONLY self HP/life/three needs/actual trust per scene",
+        "carpenter motion target cleared; all enemies and resources retained",
+        "TEST-ONLY player energy0 and clock pausedtrue"
+      ],
+      "fixtureSourceCategory": "TEST-ONLY complete native-writer offline derivative; not natural gameplay",
+      "verified": true,
+      "receipts": [
+        {
+          "event": {
+            "eventId": "evt-000003",
+            "seq": 3,
+            "type": "npc.dialogueOpened",
+            "actorId": "player-1",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "ok": true,
+              "proofVersion": 1,
+              "npcId": "carpenter",
+              "operation": "dialogue-open",
+              "outcome": "completed",
+              "target": {
+                "id": "carpenter",
+                "before": {
+                  "id": "carpenter",
+                  "supportRequested": false,
+                  "order": null,
+                  "bond": 0,
+                  "hp": 20,
+                  "lifeState": "critical",
+                  "sanity": 72,
+                  "helpedByPlayer": 0
+                },
+                "beforeAdvance": null,
+                "afterAdvance": null,
+                "atCompletion": {
+                  "id": "carpenter",
+                  "supportRequested": false,
+                  "order": null,
+                  "bond": 0,
+                  "hp": 20,
+                  "lifeState": "critical",
+                  "sanity": 72,
+                  "helpedByPlayer": 0
+                },
+                "presentAtCompletion": true,
+                "snapshotStages": {
+                  "before": "before-payment-and-own-effects",
+                  "beforeAdvance": null,
+                  "afterAdvance": null,
+                  "atCompletion": "reducer-final-state"
+                }
+              },
+              "payment": {
+                "cost": {
+                  "energy": 0
+                },
+                "before": {
+                  "energy": 0
+                },
+                "after": {
+                  "energy": 0
+                }
+              },
+              "resources": {
+                "energyBefore": 0,
+                "energyAfterPayment": 0,
+                "energyAfter": 0
+              },
+              "clock": {
+                "before": {
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 0,
+                  "world": 360
+                },
+                "after": {
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 0,
+                  "world": 360
+                },
+                "requestedMinutes": 0,
+                "elapsedMinutes": 0
+              },
+              "advance": null
+            }
+          },
+          "parent": {
+            "commandId": "cmd-000001",
+            "type": "npc.interact",
+            "actorId": "player-1",
+            "payload": {
+              "npcId": "carpenter"
+            }
+          }
+        },
+        {
+          "event": {
+            "eventId": "evt-000004",
+            "seq": 4,
+            "type": "command.rejected",
+            "actorId": "player-1",
+            "commandId": "cmd-000002",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "type": "npc.interact",
+              "reason": "npc-energy"
+            }
+          },
+          "parent": {
+            "commandId": "cmd-000002",
+            "type": "npc.interact",
+            "actorId": "player-1",
+            "payload": {
+              "npcId": "carpenter"
+            }
+          }
+        },
+        {
+          "event": {
+            "eventId": "evt-000005",
+            "seq": 5,
+            "type": "npc.dialogueOpened",
+            "actorId": "player-1",
+            "commandId": "cmd-000003",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "ok": true,
+              "proofVersion": 1,
+              "npcId": "carpenter",
+              "operation": "dialogue-open",
+              "outcome": "completed",
+              "target": {
+                "id": "carpenter",
+                "before": {
+                  "id": "carpenter",
+                  "supportRequested": false,
+                  "order": null,
+                  "bond": 0,
+                  "hp": 20,
+                  "lifeState": "critical",
+                  "sanity": 72,
+                  "helpedByPlayer": 0
+                },
+                "beforeAdvance": null,
+                "afterAdvance": null,
+                "atCompletion": {
+                  "id": "carpenter",
+                  "supportRequested": false,
+                  "order": null,
+                  "bond": 0,
+                  "hp": 20,
+                  "lifeState": "critical",
+                  "sanity": 72,
+                  "helpedByPlayer": 0
+                },
+                "presentAtCompletion": true,
+                "snapshotStages": {
+                  "before": "before-payment-and-own-effects",
+                  "beforeAdvance": null,
+                  "afterAdvance": null,
+                  "atCompletion": "reducer-final-state"
+                }
+              },
+              "payment": {
+                "cost": {
+                  "energy": 0
+                },
+                "before": {
+                  "energy": 0
+                },
+                "after": {
+                  "energy": 0
+                }
+              },
+              "resources": {
+                "energyBefore": 0,
+                "energyAfterPayment": 0,
+                "energyAfter": 0
+              },
+              "clock": {
+                "before": {
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 0,
+                  "world": 360
+                },
+                "after": {
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 0,
+                  "world": 360
+                },
+                "requestedMinutes": 0,
+                "elapsedMinutes": 0
+              },
+              "advance": null
+            }
+          },
+          "parent": {
+            "commandId": "cmd-000003",
+            "type": "npc.interact",
+            "actorId": "player-1",
+            "payload": {
+              "npcId": "carpenter"
+            }
+          }
+        }
+      ],
+      "snapshots": [
+        {
+          "label": "actual-pagehide-before-public-action",
+          "file": "critical-free-actual-pagehide-before-public-action-save.json",
+          "sha256": "b7d9a6f52594a0dd27d747934de6b632dcda37cb1f8c80574714acdd9929a47d"
+        },
+        {
+          "label": "automatic-first-talk",
+          "file": "critical-free-automatic-first-talk-save.json",
+          "sha256": "4ffa87c32f71f0849977db6505d3180ff78c4528cb069d5b6befef9adae6ed38"
+        },
+        {
+          "label": "paid-rejected-via-real-pagehide",
+          "file": "critical-free-paid-rejected-via-real-pagehide-save.json",
+          "sha256": "3cd407a903833d85b8845bf1eed0dc24d4e6936c8250d7c133a55c8eaf0fc81a"
+        },
+        {
+          "label": "before-reload",
+          "file": "critical-free-before-reload-save.json",
+          "sha256": "3cd407a903833d85b8845bf1eed0dc24d4e6936c8250d7c133a55c8eaf0fc81a"
+        },
+        {
+          "label": "reload-before-continue",
+          "file": "critical-free-reload-before-continue-save.json",
+          "sha256": "d87fabc6b668193277d25820870dfb9f67f3e11e58c9a84f0e69891df4c9ca33"
+        },
+        {
+          "label": "reloaded-actual-native-prefix",
+          "file": "critical-free-reloaded-actual-native-prefix-save.json",
+          "sha256": "d87fabc6b668193277d25820870dfb9f67f3e11e58c9a84f0e69891df4c9ca33"
+        },
+        {
+          "label": "after-reload-free-talk",
+          "file": "critical-free-after-reload-free-talk-save.json",
+          "sha256": "cee7078f88848437a2b90904f58a908774d82c3025bad777af79434e34c1f2a3"
+        },
+        {
+          "label": "terminal",
+          "file": "critical-free-terminal-save.json",
+          "sha256": "cee7078f88848437a2b90904f58a908774d82c3025bad777af79434e34c1f2a3"
+        }
+      ],
+      "beforeMethod": "actual initial public reload/pagehide native writer; already-bound continue does not require an immediate rewritten save",
+      "publicContext": {
+        "title": "阿梁 · 木匠",
+        "text": "🧑‍🔧\n阿梁 · 木匠\n木墙 +6 防线，额外挡住 1 只 · 也可按 1-6 选择\n×\n−\n1🔎 查看阿梁状态\n查看范围 1.25 格 · 不请求支援、不支付体力\n2💬 交谈并请求阿梁支援\n需要 2 行动体力；仍可查看状态\n3🎯 守墙\n需要 2 行动体力；仍可查看状态\n4🎯 巡逻\n需要 2 行动体力；仍可查看状态\n5🎯 支援玩家\n需要 2 行动体力；仍可查看状态\n6✦ 营地核心\n预演：营地核心的功能交互，不会改变位置",
+        "buttons": [
+          {
+            "action": "npcView",
+            "npcId": "carpenter",
+            "disabled": false,
+            "text": "1🔎 查看阿梁状态\n查看范围 1.25 格 · 不请求支援、不支付体力"
+          },
+          {
+            "action": "npc",
+            "npcId": "carpenter",
+            "disabled": true,
+            "text": "2💬 交谈并请求阿梁支援\n需要 2 行动体力；仍可查看状态"
+          },
+          {
+            "action": "npcOrder",
+            "npcId": "carpenter",
+            "disabled": true,
+            "text": "3🎯 守墙\n需要 2 行动体力；仍可查看状态"
+          },
+          {
+            "action": "npcOrder",
+            "npcId": "carpenter",
+            "disabled": true,
+            "text": "4🎯 巡逻\n需要 2 行动体力；仍可查看状态"
+          },
+          {
+            "action": "npcOrder",
+            "npcId": "carpenter",
+            "disabled": true,
+            "text": "5🎯 支援玩家\n需要 2 行动体力；仍可查看状态"
+          },
+          {
+            "action": "area",
+            "disabled": false,
+            "text": "6✦ 营地核心\n预演：营地核心的功能交互，不会改变位置"
+          }
+        ]
+      },
+      "toastObservations": [
+        {
+          "label": "public-view",
+          "text": "阿梁：重伤 · HP 20/100 · work · 尚未请求支援；请求或命令需靠近到 1 格内",
+          "classes": [
+            "toast",
+            "show"
+          ],
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "clientWidth": 400,
+          "scrollWidth": 450,
+          "clientHeight": 36,
+          "scrollHeight": 36,
+          "whiteSpace": "nowrap",
+          "overflow": "hidden",
+          "textOverflow": "ellipsis",
+          "borderRadius": "999px",
+          "rect": {
+            "x": 520,
+            "y": 941.3523559570312,
+            "width": 400,
+            "height": 36
+          },
+          "withinViewport": true
+        },
+        {
+          "label": "first-talk-visible",
+          "text": "阿梁：我伤得很重。我的生命余量大约还剩四分之一。我累得厉害，需要休息。 再次按 E 或点击确认请求支援",
+          "classes": [
+            "toast",
+            "show",
+            "npc-self-dialogue"
+          ],
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "clientWidth": 406,
+          "scrollWidth": 406,
+          "clientHeight": 58,
+          "scrollHeight": 58,
+          "whiteSpace": "normal",
+          "overflow": "visible",
+          "textOverflow": "clip",
+          "borderRadius": "949.557px",
+          "rect": {
+            "x": 516.9921875,
+            "y": 917.625,
+            "width": 406.015625,
+            "height": 58.375
+          },
+          "withinViewport": true
+        },
+        {
+          "label": "same-talk-after-two-seconds",
+          "text": "阿梁：我伤得很重。我的生命余量大约还剩四分之一。我累得厉害，需要休息。 再次按 E 或点击确认请求支援",
+          "classes": [
+            "toast",
+            "show",
+            "npc-self-dialogue"
+          ],
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "clientWidth": 520,
+          "scrollWidth": 520,
+          "clientHeight": 58,
+          "scrollHeight": 58,
+          "whiteSpace": "normal",
+          "overflow": "visible",
+          "textOverflow": "clip",
+          "borderRadius": "14px",
+          "rect": {
+            "x": 460,
+            "y": 917.625,
+            "width": 520,
+            "height": 58.375
+          },
+          "withinViewport": true
+        },
+        {
+          "label": "same-talk-mobile-390",
+          "text": "阿梁：我伤得很重。我的生命余量大约还剩四分之一。我累得厉害，需要休息。 再次按 E 或点击确认请求支援",
+          "classes": [
+            "toast",
+            "show",
+            "npc-self-dialogue"
+          ],
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "clientWidth": 351,
+          "scrollWidth": 351,
+          "clientHeight": 58,
+          "scrollHeight": 58,
+          "whiteSpace": "normal",
+          "overflow": "visible",
+          "textOverflow": "clip",
+          "borderRadius": "14px",
+          "rect": {
+            "x": 19.5,
+            "y": 761.625,
+            "width": 351,
+            "height": 58.375
+          },
+          "withinViewport": true
+        },
+        {
+          "label": "ordinary-view-after-self",
+          "text": "阿梁：重伤 · HP 20/100 · work · 尚未请求支援；请求或命令需靠近到 1 格内",
+          "classes": [
+            "toast",
+            "show"
+          ],
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "clientWidth": 450,
+          "scrollWidth": 450,
+          "clientHeight": 36,
+          "scrollHeight": 36,
+          "whiteSpace": "nowrap",
+          "overflow": "hidden",
+          "textOverflow": "ellipsis",
+          "borderRadius": "63.5951px",
+          "rect": {
+            "x": 494.953125,
+            "y": 940,
+            "width": 450.09375,
+            "height": 36
+          },
+          "withinViewport": true
+        },
+        {
+          "label": "paid-rejected",
+          "text": "需要 2 行动体力；仍可查看状态",
+          "classes": [
+            "toast",
+            "show"
+          ],
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "clientWidth": 199,
+          "scrollWidth": 199,
+          "clientHeight": 36,
+          "scrollHeight": 36,
+          "whiteSpace": "nowrap",
+          "overflow": "hidden",
+          "textOverflow": "ellipsis",
+          "borderRadius": "999px",
+          "rect": {
+            "x": 620.71875,
+            "y": 941.6847534179688,
+            "width": 198.5625,
+            "height": 36
+          },
+          "withinViewport": true
+        },
+        {
+          "label": "after-reload-first-talk",
+          "text": "阿梁：我伤得很重。我的生命余量大约还剩四分之一。我累得厉害，需要休息。 再次按 E 或点击确认请求支援",
+          "classes": [
+            "toast",
+            "show",
+            "npc-self-dialogue"
+          ],
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "clientWidth": 418,
+          "scrollWidth": 418,
+          "clientHeight": 58,
+          "scrollHeight": 58,
+          "whiteSpace": "normal",
+          "overflow": "visible",
+          "textOverflow": "clip",
+          "borderRadius": "849.113px",
+          "rect": {
+            "x": 510.875,
+            "y": 918.6928100585938,
+            "width": 418.25,
+            "height": 58.375
+          },
+          "withinViewport": true
+        }
+      ],
+      "viewToast": "阿梁：重伤 · HP 20/100 · work · 尚未请求支援；请求或命令需靠近到 1 格内",
+      "firstTalkToast": "阿梁：我伤得很重。我的生命余量大约还剩四分之一。我累得厉害，需要休息。 再次按 E 或点击确认请求支援",
+      "firstTalkExpectedBasis": {
+        "nativeBeforeRef": {
+          "label": "actual-pagehide-before-public-action",
+          "file": "critical-free-actual-pagehide-before-public-action-save.json",
+          "sha256": "b7d9a6f52594a0dd27d747934de6b632dcda37cb1f8c80574714acdd9929a47d"
+        },
+        "worldMinute": 360,
+        "npc": {
+          "hp": 20,
+          "maxHp": 100,
+          "lifeState": "critical",
+          "relationTrust": 0,
+          "needs": {
+            "hunger": 5,
+            "fatigue": 70,
+            "stress": 8,
+            "energy": 25,
+            "social": 28,
+            "safety": 18
+          }
+        },
+        "source": "actual native before, not original preboot vector or later retention state"
+      },
+      "firstTalkCheckpointMethod": "automatic native writer observed before any reload/pagehide",
+      "retentionProbe": {
+        "proofEventId": "evt-000003",
+        "proofTick": {
+          "world": 360,
+          "phase": 0,
+          "schedule": 0
+        },
+        "waitAfterProofMs": 2223,
+        "sameCurrentText": true,
+        "laterWorldStateUsedToReconstructFirstTalk": false
+      },
+      "ordinaryToastExpiryProbe": {
+        "observedAfterMs": 2112,
+        "actualHiddenClass": true,
+        "clockPaused": true,
+        "method": "real browser timeout, not patched clock"
+      },
+      "paidRejectionToast": "需要 2 行动体力；仍可查看状态",
+      "paidRejectionCheckpointMethod": "actual public reload/pagehide; not an automatic rule-rejection checkpoint",
+      "afterReloadTalkToast": "阿梁：我伤得很重。我的生命余量大约还剩四分之一。我累得厉害，需要休息。 再次按 E 或点击确认请求支援",
+      "terminal": {
+        "day": 1,
+        "hour": 6,
+        "minute": 0,
+        "energy": 0,
+        "npc": {
+          "id": "carpenter",
+          "x": 11.75,
+          "y": 11,
+          "maxHp": 100,
+          "hp": 20,
+          "lifeState": "critical",
+          "wounds": [],
+          "morale": 72,
+          "behaviorState": "work",
+          "currentOrder": null,
+          "fallbackPoint": {
+            "x": 2,
+            "y": 2
+          },
+          "homeZone": "workshop",
+          "workZone": "eastGate",
+          "inventory": {
+            "medicine": 0,
+            "ammo": 2
+          },
+          "appearance": {
+            "bodyType": "broad",
+            "skin": "#d99a74",
+            "hair": "#51382d",
+            "hairStyle": "messy",
+            "signature": "toolbelt",
+            "palette": {
+              "cloth": "#b87743",
+              "clothDark": "#70422b",
+              "accent": "#f0c85b",
+              "tool": "#c4cbd0"
+            },
+            "equipment": {
+              "head": "none",
+              "outer": "workVest",
+              "back": "toolRoll",
+              "weapon": "hammer",
+              "offhand": "none",
+              "tool": "hammer"
+            }
+          },
+          "equipment": {
+            "head": "none",
+            "outer": "workVest",
+            "back": "toolRoll",
+            "weapon": "hammer",
+            "offhand": "none",
+            "tool": "hammer"
+          },
+          "personality": {
+            "courage": 58,
+            "duty": 72,
+            "compassion": 65,
+            "discipline": 68,
+            "riskTolerance": 52,
+            "loyalty": 70
+          },
+          "relations": {
+            "trustToPlayer": 0,
+            "trustToCommander": 0,
+            "bondToPlayer": 0,
+            "respectToPlayer": 0,
+            "fearOfPlayer": 0,
+            "resentmentOfPlayer": 0,
+            "loyaltyToCamp": 70,
+            "loyaltyToCommander": 66,
+            "belongingToCamp": 62,
+            "allies": [],
+            "rivals": [],
+            "values": {
+              "safety": 50,
+              "order": 68,
+              "compassion": 65,
+              "autonomy": 50,
+              "truth": 50
+            },
+            "knowledgeOfPlayer": {
+              "facts": [],
+              "lastHeardAt": 0
+            },
+            "opinionFlags": {}
+          },
+          "memory": {
+            "helpedByPlayer": 0,
+            "witnessedDeaths": 0,
+            "failedOrders": 0,
+            "importantEvents": [],
+            "relayCoreHandoff": null
+          },
+          "attributes": {
+            "production": 70,
+            "weaponSkill": 56,
+            "armorSkill": 70,
+            "turretSkill": 69,
+            "buildSkill": 78,
+            "medicalSkill": 66,
+            "researchSkill": 60,
+            "logisticsSkill": 71,
+            "commandSkill": 70
+          },
+          "hero": {
+            "tier": "ordinary",
+            "status": "locked",
+            "progress": 0,
+            "activeSkill": null,
+            "passiveSkill": null,
+            "promotedDay": null
+          },
+          "bond": 0,
+          "supportRequested": false,
+          "order": null,
+          "simMoveClock": 0,
+          "needClock": 0,
+          "workClock": 0,
+          "routineIntent": null,
+          "workPulseSeq": 0,
+          "workHistory": [],
+          "motionTarget": null,
+          "needs": {
+            "hunger": 5,
+            "fatigue": 70,
+            "stress": 8,
+            "energy": 25,
+            "social": 28,
+            "safety": 18
+          },
+          "sanity": 72,
+          "sanityClock": 0,
+          "sanityLastReason": "营地仍然安全",
+          "scheduleState": "work",
+          "lastReport": "",
+          "actingRole": null,
+          "actingFor": null,
+          "garrisonedOutpostId": null,
+          "eventChain": {
+            "step": 0,
+            "cooldown": 0,
+            "active": null,
+            "resolved": []
+          },
+          "perception": {
+            "clock": 0,
+            "targetId": null,
+            "targetAt": 0,
+            "contacts": {},
+            "sharedUntil": 0
+          }
+        }
+      }
+    }
+  ],
+  "allMainDocuments": [
+    {
+      "scene": "normal-support",
+      "sequence": 1,
+      "status": 200,
+      "url": "http://127.0.0.1:53951/",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "sourceRef": "artifact:source.html"
+    },
+    {
+      "scene": "normal-support",
+      "sequence": 2,
+      "status": 200,
+      "url": "http://127.0.0.1:53951/",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "sourceRef": "artifact:source.html"
+    },
+    {
+      "scene": "normal-support",
+      "sequence": 3,
+      "status": 200,
+      "url": "http://127.0.0.1:53951/",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "sourceRef": "artifact:source.html"
+    },
+    {
+      "scene": "needs-threshold",
+      "sequence": 1,
+      "status": 200,
+      "url": "http://127.0.0.1:53951/",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "sourceRef": "artifact:source.html"
+    },
+    {
+      "scene": "needs-threshold",
+      "sequence": 2,
+      "status": 200,
+      "url": "http://127.0.0.1:53951/",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "sourceRef": "artifact:source.html"
+    },
+    {
+      "scene": "needs-threshold",
+      "sequence": 3,
+      "status": 200,
+      "url": "http://127.0.0.1:53951/",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "sourceRef": "artifact:source.html"
+    },
+    {
+      "scene": "low-trust",
+      "sequence": 1,
+      "status": 200,
+      "url": "http://127.0.0.1:53951/",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "sourceRef": "artifact:source.html"
+    },
+    {
+      "scene": "low-trust",
+      "sequence": 2,
+      "status": 200,
+      "url": "http://127.0.0.1:53951/",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "sourceRef": "artifact:source.html"
+    },
+    {
+      "scene": "low-trust",
+      "sequence": 3,
+      "status": 200,
+      "url": "http://127.0.0.1:53951/",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "sourceRef": "artifact:source.html"
+    },
+    {
+      "scene": "critical-free",
+      "sequence": 1,
+      "status": 200,
+      "url": "http://127.0.0.1:53951/",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "sourceRef": "artifact:source.html"
+    },
+    {
+      "scene": "critical-free",
+      "sequence": 2,
+      "status": 200,
+      "url": "http://127.0.0.1:53951/",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "sourceRef": "artifact:source.html"
+    },
+    {
+      "scene": "critical-free",
+      "sequence": 3,
+      "status": 200,
+      "url": "http://127.0.0.1:53951/",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "sourceRef": "artifact:source.html"
+    },
+    {
+      "scene": "critical-free",
+      "sequence": 4,
+      "status": 200,
+      "url": "http://127.0.0.1:53951/",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+      "sourceRef": "artifact:source.html"
+    }
+  ],
+  "documentHashes": [
+    {
+      "scene": "normal-support",
+      "stage": "boot",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "normal-support",
+      "stage": "initial-real-pagehide-baseline",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "normal-support",
+      "stage": "reload",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "needs-threshold",
+      "stage": "boot",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "needs-threshold",
+      "stage": "initial-real-pagehide-baseline",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "needs-threshold",
+      "stage": "reload",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "low-trust",
+      "stage": "boot",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "low-trust",
+      "stage": "initial-real-pagehide-baseline",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "low-trust",
+      "stage": "reload",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "critical-free",
+      "stage": "boot",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "critical-free",
+      "stage": "initial-real-pagehide-baseline",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "critical-free",
+      "stage": "rule-rejection-pagehide",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "critical-free",
+      "stage": "reload",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    }
+  ],
+  "nativeValidations": [
+    {
+      "label": "normal-support-input",
+      "sha256": "4fb758e499bca2881741d44f9e1a83807a641c502c36bd5c73815b4c56bb1fef",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "needs-threshold-input",
+      "sha256": "0e9428aaa676dd57db2de734e8676a30c9acb51a43a1a641fd37bdae8b590514",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "low-trust-input",
+      "sha256": "b251635db40e2ffaad578d4e011efb95a0737c51ab375176ad7d5ef8d7a06562",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "critical-free-input",
+      "sha256": "5a663e44e6e85be737e117103e6b1a138c37f87ea57607558bbf00def1e12cde",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "normal-support-actual-pagehide-before-public-action",
+      "sha256": "74d924289b8c5f3f645a6656691c848843ce24911e76b730342f5328bd68a6a6",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "normal-support-automatic-first-talk",
+      "sha256": "5604dde5add8fc37210d9330879131e101574720ec74c40593c23d2a4ebfe1bf",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "normal-support-automatic-paid-support",
+      "sha256": "285d60ba383de8ae9345e8d7d71dc6f4c3ec7f7d5825fd63a43d694c6c7807a8",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "normal-support-before-reload",
+      "sha256": "285d60ba383de8ae9345e8d7d71dc6f4c3ec7f7d5825fd63a43d694c6c7807a8",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "normal-support-reload-before-continue",
+      "sha256": "273456de4e5fa69167cb756bee752e8ac019f9fb7ff01753ffc0b65da7e8c29f",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "normal-support-reloaded-actual-native-prefix",
+      "sha256": "273456de4e5fa69167cb756bee752e8ac019f9fb7ff01753ffc0b65da7e8c29f",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "normal-support-terminal",
+      "sha256": "273456de4e5fa69167cb756bee752e8ac019f9fb7ff01753ffc0b65da7e8c29f",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "needs-threshold-actual-pagehide-before-public-action",
+      "sha256": "b96a359d68840a5b97b0a6bc09b14970b4444e9005e86019b80c96d82ef84ab1",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "needs-threshold-automatic-first-talk",
+      "sha256": "5d858465b78edeb081238b348e88365448ca71a3032239fb7f0777b7f9de7597",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "needs-threshold-before-reload",
+      "sha256": "5d858465b78edeb081238b348e88365448ca71a3032239fb7f0777b7f9de7597",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "needs-threshold-reload-before-continue",
+      "sha256": "21ef36ea145330e4d3d5e3ccfc4332630a75e7a435ca37626258478d4a7dc0a5",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "needs-threshold-reloaded-actual-native-prefix",
+      "sha256": "21ef36ea145330e4d3d5e3ccfc4332630a75e7a435ca37626258478d4a7dc0a5",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "needs-threshold-after-reload-free-talk",
+      "sha256": "8875bd434d4a9f65de893ccbcfb89037f091666adfcb9d251a03c6814ac09fb8",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "needs-threshold-terminal",
+      "sha256": "8875bd434d4a9f65de893ccbcfb89037f091666adfcb9d251a03c6814ac09fb8",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "low-trust-actual-pagehide-before-public-action",
+      "sha256": "19d4de48ef6e912ff09926960a6ca76dd15b1297b91c35b1868e6d290401defe",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "low-trust-automatic-first-talk",
+      "sha256": "cb2579fa04cc7a0155f7afe50419f9cc7abc1e56d4e70c51663eec34ced46829",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "low-trust-before-reload",
+      "sha256": "cb2579fa04cc7a0155f7afe50419f9cc7abc1e56d4e70c51663eec34ced46829",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "low-trust-reload-before-continue",
+      "sha256": "4734a161dce6653e882b3fea2d38e479d6c557ce23866fe56762b9d70f554350",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "low-trust-reloaded-actual-native-prefix",
+      "sha256": "4734a161dce6653e882b3fea2d38e479d6c557ce23866fe56762b9d70f554350",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "low-trust-after-reload-free-talk",
+      "sha256": "1afa14f77f1d6dc1e4ee41873c3acc702c992301fdfb784da6dd6f8a6ef8e7a1",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "low-trust-terminal",
+      "sha256": "1afa14f77f1d6dc1e4ee41873c3acc702c992301fdfb784da6dd6f8a6ef8e7a1",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "critical-free-actual-pagehide-before-public-action",
+      "sha256": "b7d9a6f52594a0dd27d747934de6b632dcda37cb1f8c80574714acdd9929a47d",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "critical-free-automatic-first-talk",
+      "sha256": "4ffa87c32f71f0849977db6505d3180ff78c4528cb069d5b6befef9adae6ed38",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "critical-free-paid-rejected-via-real-pagehide",
+      "sha256": "3cd407a903833d85b8845bf1eed0dc24d4e6936c8250d7c133a55c8eaf0fc81a",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "critical-free-before-reload",
+      "sha256": "3cd407a903833d85b8845bf1eed0dc24d4e6936c8250d7c133a55c8eaf0fc81a",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "critical-free-reload-before-continue",
+      "sha256": "d87fabc6b668193277d25820870dfb9f67f3e11e58c9a84f0e69891df4c9ca33",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "critical-free-reloaded-actual-native-prefix",
+      "sha256": "d87fabc6b668193277d25820870dfb9f67f3e11e58c9a84f0e69891df4c9ca33",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "critical-free-after-reload-free-talk",
+      "sha256": "cee7078f88848437a2b90904f58a908774d82c3025bad777af79434e34c1f2a3",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "label": "critical-free-terminal",
+      "sha256": "cee7078f88848437a2b90904f58a908774d82c3025bad777af79434e34c1f2a3",
+      "ok": true,
+      "reason": null
+    }
+  ],
+  "privateOutput": {
+    "aclVerified": true,
+    "inheritanceDisabled": true,
+    "allowedPrincipal": "current-user-only"
+  },
+  "dependencies": [
+    {
+      "file": "scripts/lib/source-runtime-fixture.mjs",
+      "bytes": 2959,
+      "sha256": "e9872eeba85d49019d1bd806f3dd18357a5abc8f2f92922922f6a5324ec220dc"
+    },
+    {
+      "file": "scripts/check-report-recovery.mjs",
+      "bytes": 51157,
+      "sha256": "e0b467f2b9ee75b941f72c6338ed5376f4e6d0a8c7a1d1a7c210fa630efc63e7"
+    },
+    {
+      "file": "scripts/lib/npc-self-observation-v1.mjs",
+      "bytes": 7134,
+      "sha256": "715fca749327bc1302aa4869adda94044e5dfa9c6dd24cac733f1b98a7575868"
+    },
+    {
+      "file": "scripts/lib/observer-expression-v1.mjs",
+      "bytes": 7421,
+      "sha256": "fe78c38954227d4a93318badac915032a943a5bd008a061c0682758a61912f27"
+    },
+    {
+      "file": "scripts/lib/scenario-package-v1.mjs",
+      "bytes": 15465,
+      "sha256": "343e52025cbda33ace694a4e281cfdb7fa66a2052370d67275c13a7a543004ce"
+    },
+    {
+      "file": "dist/actor-sprites.js",
+      "bytes": 19246,
+      "sha256": "257f4b38760813c21c723bbb9f934f1198e742fd1223db48705f34787e0f71b7"
+    }
+  ],
+  "inputManifestSha256": "16f21b24ed43e8c5a6a09d78571840f0137d8820df30b8ca9a58329fea3ffa02",
+  "inputCaptureMethod": "TEST-ONLY actual loader plus explicit offline derivation plus real context renderer plus actual native writer; no source/Gate/AI modification, no resource addition, no worldZombie removal; no browser afterboot state changes",
+  "browserVersion": "155.0.8059.80",
+  "cleanup": {
+    "contextsClosed": true,
+    "browserClosed": true,
+    "httpServerClosed": true
+  },
+  "elapsedWallMs": 49109,
+  "count": 212,
+  "passed": 212,
+  "ok": true,
+  "artifacts": [
+    {
+      "file": "critical-free-actual-pagehide-before-public-action-save.json",
+      "bytes": 65054,
+      "sha256": "b7d9a6f52594a0dd27d747934de6b632dcda37cb1f8c80574714acdd9929a47d"
+    },
+    {
+      "file": "critical-free-after-reload-first-talk.png",
+      "bytes": 514272,
+      "sha256": "8193dc9c99c2640fa4bc011c6bf66884375cbdfc40c996c502a2d78508d9c611"
+    },
+    {
+      "file": "critical-free-after-reload-free-talk-save.json",
+      "bytes": 70617,
+      "sha256": "cee7078f88848437a2b90904f58a908774d82c3025bad777af79434e34c1f2a3"
+    },
+    {
+      "file": "critical-free-automatic-first-talk-save.json",
+      "bytes": 67499,
+      "sha256": "4ffa87c32f71f0849977db6505d3180ff78c4528cb069d5b6befef9adae6ed38"
+    },
+    {
+      "file": "critical-free-before-reload-save.json",
+      "bytes": 68168,
+      "sha256": "3cd407a903833d85b8845bf1eed0dc24d4e6936c8250d7c133a55c8eaf0fc81a"
+    },
+    {
+      "file": "critical-free-first-talk-visible.png",
+      "bytes": 502931,
+      "sha256": "1a040cd35f6a98f8b8ead8f8aa1a7e67ce56ccd51472ca7cea8312f752cc8cef"
+    },
+    {
+      "file": "critical-free-input-save.json",
+      "bytes": 65042,
+      "sha256": "5a663e44e6e85be737e117103e6b1a138c37f87ea57607558bbf00def1e12cde"
+    },
+    {
+      "file": "critical-free-ordinary-view-after-self.png",
+      "bytes": 501920,
+      "sha256": "eae75961c8ecde8488be0f35bfe9670161f1af117fc0b0f60c7a9cadfb2340da"
+    },
+    {
+      "file": "critical-free-paid-rejected-via-real-pagehide-save.json",
+      "bytes": 68168,
+      "sha256": "3cd407a903833d85b8845bf1eed0dc24d4e6936c8250d7c133a55c8eaf0fc81a"
+    },
+    {
+      "file": "critical-free-paid-rejected.png",
+      "bytes": 506458,
+      "sha256": "c3c86c6e2b93ff1d82798c49f2e0250d7cf2c61d3e0d1b6e0b256e5767f1a908"
+    },
+    {
+      "file": "critical-free-public-view.png",
+      "bytes": 508039,
+      "sha256": "464a4a2019f6624ec035e1183a8d81aa7f06167922ad166821a6bb2070f361d8"
+    },
+    {
+      "file": "critical-free-reload-before-continue-save.json",
+      "bytes": 68168,
+      "sha256": "d87fabc6b668193277d25820870dfb9f67f3e11e58c9a84f0e69891df4c9ca33"
+    },
+    {
+      "file": "critical-free-reloaded-actual-native-prefix-save.json",
+      "bytes": 68168,
+      "sha256": "d87fabc6b668193277d25820870dfb9f67f3e11e58c9a84f0e69891df4c9ca33"
+    },
+    {
+      "file": "critical-free-same-talk-after-two-seconds.png",
+      "bytes": 503945,
+      "sha256": "24ba8819d7599c612431912cba17106ba87ef857cfc75d99a04265c5e9fba4b8"
+    },
+    {
+      "file": "critical-free-same-talk-mobile-390.png",
+      "bytes": 157306,
+      "sha256": "5716422b924862a02b8a10d683c4a51e73983e3553f311a82ebab3383833730d"
+    },
+    {
+      "file": "critical-free-terminal-save.json",
+      "bytes": 70617,
+      "sha256": "cee7078f88848437a2b90904f58a908774d82c3025bad777af79434e34c1f2a3"
+    },
+    {
+      "file": "critical-free-terminal.png",
+      "bytes": 505654,
+      "sha256": "ac7acafff579f3c0c816831be38413a8d0a5c33520f06d44426060c6be50bff1"
+    },
+    {
+      "file": "frozen/dist/actor-sprites.js",
+      "bytes": 19246,
+      "sha256": "257f4b38760813c21c723bbb9f934f1198e742fd1223db48705f34787e0f71b7"
+    },
+    {
+      "file": "frozen/scripts/check-report-recovery.mjs",
+      "bytes": 51157,
+      "sha256": "e0b467f2b9ee75b941f72c6338ed5376f4e6d0a8c7a1d1a7c210fa630efc63e7"
+    },
+    {
+      "file": "frozen/scripts/lib/npc-self-observation-v1.mjs",
+      "bytes": 7134,
+      "sha256": "715fca749327bc1302aa4869adda94044e5dfa9c6dd24cac733f1b98a7575868"
+    },
+    {
+      "file": "frozen/scripts/lib/observer-expression-v1.mjs",
+      "bytes": 7421,
+      "sha256": "fe78c38954227d4a93318badac915032a943a5bd008a061c0682758a61912f27"
+    },
+    {
+      "file": "frozen/scripts/lib/scenario-package-v1.mjs",
+      "bytes": 15465,
+      "sha256": "343e52025cbda33ace694a4e281cfdb7fa66a2052370d67275c13a7a543004ce"
+    },
+    {
+      "file": "frozen/scripts/lib/source-runtime-fixture.mjs",
+      "bytes": 2959,
+      "sha256": "e9872eeba85d49019d1bd806f3dd18357a5abc8f2f92922922f6a5324ec220dc"
+    },
+    {
+      "file": "input-manifest.json",
+      "bytes": 9857,
+      "sha256": "16f21b24ed43e8c5a6a09d78571840f0137d8820df30b8ca9a58329fea3ffa02"
+    },
+    {
+      "file": "low-trust-actual-pagehide-before-public-action-save.json",
+      "bytes": 65062,
+      "sha256": "19d4de48ef6e912ff09926960a6ca76dd15b1297b91c35b1868e6d290401defe"
+    },
+    {
+      "file": "low-trust-after-reload-first-talk.png",
+      "bytes": 503355,
+      "sha256": "466e239ef47b71e8cbb05d3550c0ed0b0111ab00d05ba075cc830c55c55449ca"
+    },
+    {
+      "file": "low-trust-after-reload-free-talk-save.json",
+      "bytes": 76429,
+      "sha256": "1afa14f77f1d6dc1e4ee41873c3acc702c992301fdfb784da6dd6f8a6ef8e7a1"
+    },
+    {
+      "file": "low-trust-automatic-first-talk-save.json",
+      "bytes": 71147,
+      "sha256": "cb2579fa04cc7a0155f7afe50419f9cc7abc1e56d4e70c51663eec34ced46829"
+    },
+    {
+      "file": "low-trust-before-reload-save.json",
+      "bytes": 71147,
+      "sha256": "cb2579fa04cc7a0155f7afe50419f9cc7abc1e56d4e70c51663eec34ced46829"
+    },
+    {
+      "file": "low-trust-first-talk-visible.png",
+      "bytes": 501653,
+      "sha256": "2388246763f5deaacc0b459108b95e2cd2b0aa36eef04bcc0550371b3382d9af"
+    },
+    {
+      "file": "low-trust-input-save.json",
+      "bytes": 65050,
+      "sha256": "b251635db40e2ffaad578d4e011efb95a0737c51ab375176ad7d5ef8d7a06562"
+    },
+    {
+      "file": "low-trust-ordinary-view-after-self.png",
+      "bytes": 502012,
+      "sha256": "056e1a631043d63ea6de7f964d2865f5e07552521cf1e0a1838c42b7a41e2e51"
+    },
+    {
+      "file": "low-trust-public-view.png",
+      "bytes": 502234,
+      "sha256": "3a8602704e5062e1a7e12cb7bd0f4b75d200927b5120d53d08745549c1d53ace"
+    },
+    {
+      "file": "low-trust-reload-before-continue-save.json",
+      "bytes": 74014,
+      "sha256": "4734a161dce6653e882b3fea2d38e479d6c557ce23866fe56762b9d70f554350"
+    },
+    {
+      "file": "low-trust-reloaded-actual-native-prefix-save.json",
+      "bytes": 74014,
+      "sha256": "4734a161dce6653e882b3fea2d38e479d6c557ce23866fe56762b9d70f554350"
+    },
+    {
+      "file": "low-trust-same-talk-after-two-seconds.png",
+      "bytes": 501395,
+      "sha256": "23765cd18ce3d48d43263a695274e57dfad28ce5a6998cf76af4eb1a854a7a58"
+    },
+    {
+      "file": "low-trust-same-talk-mobile-390.png",
+      "bytes": 155614,
+      "sha256": "366d93b7ad561295ccefd79648c0c3fe9af8d0d791c79afa4a8e833c4bd01f2a"
+    },
+    {
+      "file": "low-trust-terminal-save.json",
+      "bytes": 76429,
+      "sha256": "1afa14f77f1d6dc1e4ee41873c3acc702c992301fdfb784da6dd6f8a6ef8e7a1"
+    },
+    {
+      "file": "low-trust-terminal.png",
+      "bytes": 503382,
+      "sha256": "9f7af0ef7f3c74951c24e65d84e47e3e2ac664be494e56d653b1fc4af5e7c437"
+    },
+    {
+      "file": "needs-threshold-actual-pagehide-before-public-action-save.json",
+      "bytes": 65062,
+      "sha256": "b96a359d68840a5b97b0a6bc09b14970b4444e9005e86019b80c96d82ef84ab1"
+    },
+    {
+      "file": "needs-threshold-after-reload-first-talk.png",
+      "bytes": 504241,
+      "sha256": "ed7871537f2baa5dce5d155f93ccd9328040227b6ccb70b39210e45432d1e8e7"
+    },
+    {
+      "file": "needs-threshold-after-reload-free-talk-save.json",
+      "bytes": 79844,
+      "sha256": "8875bd434d4a9f65de893ccbcfb89037f091666adfcb9d251a03c6814ac09fb8"
+    },
+    {
+      "file": "needs-threshold-automatic-first-talk-save.json",
+      "bytes": 72297,
+      "sha256": "5d858465b78edeb081238b348e88365448ca71a3032239fb7f0777b7f9de7597"
+    },
+    {
+      "file": "needs-threshold-before-reload-save.json",
+      "bytes": 72297,
+      "sha256": "5d858465b78edeb081238b348e88365448ca71a3032239fb7f0777b7f9de7597"
+    },
+    {
+      "file": "needs-threshold-first-talk-visible.png",
+      "bytes": 503426,
+      "sha256": "5995d8ab9a5b3fc46693e93091bda64800012138545773e6f842f3dbd0db49b0"
+    },
+    {
+      "file": "needs-threshold-input-save.json",
+      "bytes": 65050,
+      "sha256": "0e9428aaa676dd57db2de734e8676a30c9acb51a43a1a641fd37bdae8b590514"
+    },
+    {
+      "file": "needs-threshold-ordinary-view-after-self.png",
+      "bytes": 501844,
+      "sha256": "becf65eeb46303c342ec7a74d55780403e7276206e24fee8a678f88e0eeee81d"
+    },
+    {
+      "file": "needs-threshold-public-view.png",
+      "bytes": 502117,
+      "sha256": "ab71aec8233b1a8e6e669d12b65e074a2e6ab6617affb588d128064a3950fa38"
+    },
+    {
+      "file": "needs-threshold-reload-before-continue-save.json",
+      "bytes": 76498,
+      "sha256": "21ef36ea145330e4d3d5e3ccfc4332630a75e7a435ca37626258478d4a7dc0a5"
+    },
+    {
+      "file": "needs-threshold-reloaded-actual-native-prefix-save.json",
+      "bytes": 76498,
+      "sha256": "21ef36ea145330e4d3d5e3ccfc4332630a75e7a435ca37626258478d4a7dc0a5"
+    },
+    {
+      "file": "needs-threshold-same-talk-after-two-seconds.png",
+      "bytes": 503476,
+      "sha256": "c21455bba8332b68291a5cccd207630dff0ec6cfd3b621fa304913f7d563d9a0"
+    },
+    {
+      "file": "needs-threshold-same-talk-mobile-390.png",
+      "bytes": 156704,
+      "sha256": "8527f97f132a67208e79cdef5c3d0fc59f9a9d58ecfeb0b94b68ba66e00fd566"
+    },
+    {
+      "file": "needs-threshold-terminal-save.json",
+      "bytes": 79844,
+      "sha256": "8875bd434d4a9f65de893ccbcfb89037f091666adfcb9d251a03c6814ac09fb8"
+    },
+    {
+      "file": "needs-threshold-terminal.png",
+      "bytes": 505587,
+      "sha256": "e06053d2e6f8143aef51e398cece1e915640f88a84f348072894138200707637"
+    },
+    {
+      "file": "normal-support-actual-pagehide-before-public-action-save.json",
+      "bytes": 65058,
+      "sha256": "74d924289b8c5f3f645a6656691c848843ce24911e76b730342f5328bd68a6a6"
+    },
+    {
+      "file": "normal-support-automatic-first-talk-save.json",
+      "bytes": 69747,
+      "sha256": "5604dde5add8fc37210d9330879131e101574720ec74c40593c23d2a4ebfe1bf"
+    },
+    {
+      "file": "normal-support-automatic-paid-support-save.json",
+      "bytes": 81101,
+      "sha256": "285d60ba383de8ae9345e8d7d71dc6f4c3ec7f7d5825fd63a43d694c6c7807a8"
+    },
+    {
+      "file": "normal-support-before-reload-save.json",
+      "bytes": 81101,
+      "sha256": "285d60ba383de8ae9345e8d7d71dc6f4c3ec7f7d5825fd63a43d694c6c7807a8"
+    },
+    {
+      "file": "normal-support-first-talk-visible.png",
+      "bytes": 501445,
+      "sha256": "bae9b7341c1141df3608cc8c04a963509ba54f560393dd9d076ea52de295c668"
+    },
+    {
+      "file": "normal-support-input-save.json",
+      "bytes": 65046,
+      "sha256": "4fb758e499bca2881741d44f9e1a83807a641c502c36bd5c73815b4c56bb1fef"
+    },
+    {
+      "file": "normal-support-ordinary-view-after-self.png",
+      "bytes": 501679,
+      "sha256": "f780cd2501683d205fdbf86d3a2fd578bcf653abba78056bb9a4b23d9f1792ad"
+    },
+    {
+      "file": "normal-support-paid-support.png",
+      "bytes": 504295,
+      "sha256": "9d7b56a76b061e717e5cf4f1a68682e7dcab46850001c7bdad31453c88824a4c"
+    },
+    {
+      "file": "normal-support-public-view.png",
+      "bytes": 505741,
+      "sha256": "9f68465005da14fb5fe9ce7d53f9c8711e1e3f308b51fec68e12015b157f12e1"
+    },
+    {
+      "file": "normal-support-reload-before-continue-save.json",
+      "bytes": 81092,
+      "sha256": "273456de4e5fa69167cb756bee752e8ac019f9fb7ff01753ffc0b65da7e8c29f"
+    },
+    {
+      "file": "normal-support-reloaded-actual-native-prefix-save.json",
+      "bytes": 81092,
+      "sha256": "273456de4e5fa69167cb756bee752e8ac019f9fb7ff01753ffc0b65da7e8c29f"
+    },
+    {
+      "file": "normal-support-same-talk-after-two-seconds.png",
+      "bytes": 501376,
+      "sha256": "56ae9e69a098542de775c46b58ec93218729ddc686ba0db9d187b360c39f852a"
+    },
+    {
+      "file": "normal-support-same-talk-mobile-390.png",
+      "bytes": 155658,
+      "sha256": "ccde82067e8fcca37e31e95e1f25a093b19aeaff4ab93e989c600e350423de16"
+    },
+    {
+      "file": "normal-support-terminal-save.json",
+      "bytes": 81092,
+      "sha256": "273456de4e5fa69167cb756bee752e8ac019f9fb7ff01753ffc0b65da7e8c29f"
+    },
+    {
+      "file": "normal-support-terminal.png",
+      "bytes": 506234,
+      "sha256": "84e8ade407473e4d9ef0195f8e9b318053199fde123c9d69e29adac3e371fbb7"
+    },
+    {
+      "file": "original-writer.json",
+      "bytes": 58992,
+      "sha256": "1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f"
+    },
+    {
+      "file": "runner-executed.mjs",
+      "bytes": 34652,
+      "sha256": "83ad1873814ab1e0af1a98f6a7db97ca74819c1d594a735d0298b425be8a0dac"
+    },
+    {
+      "file": "source.html",
+      "bytes": 917189,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    }
+  ]
+}

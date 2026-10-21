@@ -1,4 +1,26 @@
 # 尸潮农场开发路线
+## 当前出口：独立岗亭预警后的公开链（2026-10-18）
+
+当前冻结来源与已完成范围见[岗亭QA](qa/watchpost-manual-v1-20261018.md)及[当前状态](memory/current-state.md)，不从下方历史版本移用通过。新manual只覆盖同一健康实驻守与维护→当前预警→新遭遇起始输入。下一诊断旧公开pilot危险停止，再继续完整中继与理解pilot；自然三日、真人体验、过载、最终尸潮、完整Actor／Planning／Memory／Social、Studio／大世界／多副本、UI素材与GameCore／引擎仍开放。
+
+
+当前优先级由[调研落地计划](research/research-adoption-plan-20261017.md)统一：P0–P6是能力依赖，v82–v90是交付包；下方历史“P1可重复竖切片”属于旧命名，不能当成报告P1 Scenario已完成。当前地图/人口只限定首副本验证，后续规模和跨副本连续世界目标保留。
+
+## 历史出口与下一闸门（2026-10-17）
+
+最新开发HTML32f911f6／源码25d315ae已实现真实营地等候与被动恢复分片修复：source74/74、原30+补充6条命令exit0，真实Chrome六场93/93；hidden尝试unavailable，原失败保留。驻守37和episode12已在同新构建重跑。下一P0是自然混合路线及断粮选择激励，随后真实Scenario boot与actor知识边界；生产尚未部署。见[QA](qa/camp-rest-20261017.md)。
+
+下列efe039／51f段落是上一切片与历史日历证据，不能据其旧“无休整／proposed”描述否定当前已接线入口，也不能继承其三日结论。
+
+当前开发HTML为`efe03977`、来源`68028d07`：完整presence consumer、世界需求/共享配给、派后本地人口、assignJob、延期实例与计划提交前纯校验已落地。本地30条命令全exit0，presence41/41（旧71657负控14/41）、attention29、方法76/安全28、static55与旧goldens保持；真实Chrome驻守37/37、episode12/12，零errors，主文档4+2次同字节，root目视5+2图。驻守browser包含公开捕获、名册8本地/2驻守/10存活、Canvas/E/刷新和独立午夜配给3+upkeep1；仍不是自然三日或平衡。当前PR来源CI另核，Sites未发布；见[QA](qa/outpost-presence-20261017.md)。
+
+旧A第1天13:01玩家HP0、B在900.578秒预算耗尽exit1，均保留FAILED；原campHp为玩家HP误标，不推定新存档根因。C已在旧冻结source38c7e9d6 / HTML51f / runnerbc16789f终态exit0：1642.125秒、1488/1488、93次训练，到day4 06:35/evt2740，玩家100HP/food6/10healthy/collapse0。原strict Gate270/270，2方法负控另列；终态251保存/29截图/0unmapped导出后自包含同Gate270/270。见[公开摘要](qa/runs/daytime-attention-20261017/completed-calendar-summary.json)。这不是当前efe039的三日、自然玩法或平衡证据。
+
+v2合并preflight、真实反击预算和unknown-kind拒绝，方法28/28不代替终态browser。训练会改SAN/士气，日历回归不能冒充自然玩法或平衡。[自然混合协议](qa/natural-play-protocol-20261017.md)已核N只开遭遇不跳日，无公开睡眠/倍速；协议及休整出口是proposed，尚未执行或接线。自然三日仍open。
+
+下一P0保持presence已验合同，先验证有意义自然玩法/节奏和断粮激励，再依次Scenario真实boot → actor projection → 内容扩展。[Scenario ADR](decisions/ADR-20261017-scenario-boot-contract.md)/[问题](problems/PROB-20261017-scenario-stored-not-bound.md)与[ActorObservation ADR](decisions/ADR-20261017-actor-observation-v1.md)/[问题](problems/PROB-20261017-observer-trusted-input-boundary.md)均为proposed/未接线；需分别证明seed/config真正消费、旧writer不重算，以及角色知识权限。保持[调研P0–P6](qa/deep-research-baseline-20261017.md)顺序与exact simulator优先，不以metadata、表达白名单或某个browser回归替代这些门槛，当前不增加引擎迁移任务。
+
+下方阶段编号和逐次 checkpoint 是保留的长期路线与历史记录；旧“一次性断粮”“只有存活门”“尚无 episode/browser”描述已被本节限定范围内的新进展取代，不能反向改写旧失败。
 
 这份路线把玩法目标、性能验收和引擎迁移条件写在仓库里，避免依赖某次对话的上下文。
 
@@ -65,7 +87,19 @@ SAN 数值、阶段、最近变化原因和全体 NPC 心智排序都放在状�
 4. **P3 表现与素材**：在规则接口冻结后再统一像素素材、序列帧、音效、粒子、加载和移动端布局，素材变更不得改变碰撞锚点或事件语义。
 5. **引擎评估**：只有当性能、实体规模、编辑器/素材需求、原生发布/多人需求、规则冻结这五类中至少两类同时满足，且 P1 有完整存档夹具时，才比较 Cocos/Phaser/Pixi 并做小型迁移验证。
 
-历史阶段已以广播中继链三日竖切片完成样板验证；v80 设计冻结与状态边界已落地，v81 计划会 runtime 已接入，当前下一阶段是 v82 NPC 属性、英雄晋升与岗位替代。
+历史阶段已以广播中继链三日竖切片完成样板验证；v80 设计冻结与状态边界已落地，v81 计划会 runtime 已接入，v82 已完成 SAVE21/CONTENT3、NPC 属性默认值、英雄晋升入口、岗位替代投影和五日 NPC 回放夹具；v83 前置切片已完成据点守军人口账本、每日 upkeep 和死亡释放回放夹具。
+
+## v86–v90 长期扩展
+
+v85 完成后，路线进入“游戏系统 + AI/Agent 基础设施 + 科研实验”双主线。详细出口见 `docs/long-term-plan.md`，记忆和实验规则见 `docs/project-memory.md` 与 `docs/experiments/README.md`。
+
+- **v86 GameCore：** 从单文件渲染入口抽离 GameState、CommandBus、reducer、事件账本、内容注册表和回放运行器；先保持 Web/Canvas，不同时迁移引擎。
+- **v87 RolePlanner：** 计划会先接一个可替换规划器，再接母巢首脑；LLM 只输出受 Gate 校验的 `Intent`，规则 AI 是无模型 fallback。
+- **v88 Evaluation Lab：** headless 多 seed 运行、事件链覆盖、节奏和成本指标、JSON/CSV/Markdown 报告。
+- **v89 Design Optimization：** 在 held-out seed 和人工剧情评审保护下搜索数值、冷却、波次、事件权重和有限 prompt 变体。
+- **v90 Open Source：** 抽出 `event-chain-core`、`role-agent-runtime` 和 `gameplay-eval-lab`，同时保留尸潮农场作为完整示例。
+
+Colab T4 只作为可恢复的批量实验 worker；稳定线上服务、常驻 API 和玩家连接使用受控 VM 或其他托管运行时。所有远程任务必须有 manifest、checkpoint、run idempotency 和可下载结果。
 
 ## v80–v85 整体路线（尸潮农场）
 
@@ -73,3 +107,66 @@ SAN 数值、阶段、最近变化原因和全体 NPC 心智排序都放在状�
 
 新增内容必须经 `剧本/尸潮农场/01–09` 设计源、`11–16` 接口模板和 `docs/scripts` 剧本卡三层映射；固定人口、`resonancePressure`、存档迁移、回放哈希、夜间保护和实体上限是所有阶段的共同验收项。当前 UI 卡片仍有硬编码，动态渲染属于 v85，不把注册表存在误认为功能已完成。
 
+## 2026-10-16 v82 GateV1 交付检查点
+
+- 已完成：水车支线启动/选择 GateV1 入口迁移（旧效果 reducer 保留）、纯 shadow evaluator、schema/fixture/checker、inline/shadow parity runner。
+- 已验证：权威源码 hash `bc85cbeab7f00236e7bde84f01d05596676b359fb66b077645103011810fb23d`；CI #210 的 GateV1 7/7、fixture parity 11/11、内容链 54/54、白天战斗 23/23、static smoke 55/55。
+- 边界：未接线 GameCore、未完成内容 EventInstance/CAS/EventEffect 迁移，未部署 Sites v81，未新增浏览器多日证据。
+- 下一步：先做 relay handoff 的显式 EventInstance 四元 CAS adapter，再评估 Gate 词汇与自治阶段的接线；保留六视角账本和未知/畸形条件 fail-closed 规则。
+
+## 2026-10-16 v82 relay handoff CAS 检查点
+
+- 已完成：handoff 的 EventInstance 四元 CAS adapter；stale instance/definition/version/event 在统一 CommandBus 前置校验中拒绝，成功 receipt 带 token。
+- 已验证：权威 dist hash `f018d6639d415426960add45220389535aa4010d58c1c631a055b8da62461f71`；CI #217 的 source-daytime-combat 24/24、GateV1 7/7、完整 parity 11/11、内容链 54/54、static smoke 55/55。
+- 仍未完成：relay 的施工/上线 Choice resolver、完整内容 EventInstance/CAS/EventEffect 事务、浏览器多日回归和 Sites 发布。
+- 下一步：把施工节点独立建成正式 ContentChain，先固定状态迁移、效果回滚、幂等和六视角验收，再考虑 UI/LLM 入口。
+
+## 2026-10-16 relay construction shadow checkpoint
+
+The current v82 slice has three distinct levels: daytime mutual damage and relay handoff CAS are runtime-wired; watermill GateV1 is a content-entry migration; RelayConstructionV1 is shadow-only. The shadow contract passed 11/11 in CI #231 and is deliberately not called by the browser reducer. The next gate is a real producer plus transactional runtime adapter, followed by save/reload and browser fixtures; no construction choice metadata is promoted to a live Gate until that path exists.
+
+
+## 2026-10-16 relay construction shadow refinement
+
+RelayConstructionV1 is frozen at 13/13: four-part CAS, participant and resource prechecks, explicit source provenance, rollback-safe rejection, idempotent command replay, save/reload token stability, and terminal re-entry rejection. This checkpoint does not change Sites v81. The next gate is a producer trace followed by a runtime transaction adapter and browser fixtures; no construction migration or natural multi-day browser claim is made yet.
+
+## 2026-10-16 relay transaction shadow checkpoint
+
+RelayConstructionTransactionV1 已在开发分支以 shadow adapter 形式落地，CI #253 通过 11/11。它验证了 relay instance 与 inventory、building occupancy、NPC participant snapshot 的原子 prepare/apply/rollback 结果，并拒绝材料/扣除不一致、资源来源替换、占位冲突和快照竞态。
+状态仍是 shadow-only：生产链仍为 `world.advance → advanceReducer → updateRelayProject`，没有施工 CommandBus producer、EventLedger、SAVE21 迁移或 Sites 发布。下一闸门是把该 wrapper 接入一个真实 reducer adapter，并用同 tick CombatIntent、存档迁移和 browser save/reload 夹具验证；在完成前不添加未执行的 choice Gate。
+
+## 2026-10-16 relay runtime stage adapter checkpoint
+
+- 已完成：真实 `world.advance → updateRelayProject` 的 feature-gated `briefed → staging` adapter；child command 进入 replay/idempotency，四元 CAS、岗位缺失/stale 拒绝、成功后 station occupancy 与 SAVE token round-trip 均由八项 VM checks 守护。
+- 已保持：flag-off 旧路径、两个 EventDef `relay.projectAdvance` metadata count、同 tick relay→zombie→combat 顺序；Sites v81 不变。
+- 未完成：材料/资源来源与扣除、building→online、standing/forecast、完整 SAVE migration、browser natural multi-day evidence。
+- 下一闸门：先接资源 ledger + online terminal transaction，再补六视角 browser save/reload 与战斗顺序 fixture。
+
+## v82 中继施工最小运行时切片（已完成）
+
+已在真实 `world.advance` producer 上接入一个默认关闭的 stage-only adapter。开发/夹具只需显式注入 `state.worldMeta.flags.relayConstructionTransactionV1 === true`；它不提供 UI/URL 开关，也未启用 Sites。
+
+CI #259（run `38921110774`，job `117040949418`）通过 runtime 8/8、producer 9/9、基础合同 13/13、事务 11/11、replay 15/hash `4aec7a31`、static smoke 55/55；源码 SHA-256 `9e8ee79f07ba0c204631ff13270e1e7a40292375e4a0e2a93cd0cd86a033227c`。施工事实顶层已保留 child commandId 与 world.advance causationId。
+
+下一路线仍不跨越生产边界：先接材料/来源账本和 building footprint，再接 online/standing/forecast 与 scheduler，最后做 SAVE/EventLedger 迁移和真实浏览器夹具；未完成前不得把 registry metadata choice 或 shadow contract 当作完整 EventChain。
+
+
+## v82.1 当前竖切片出口（2026-10-17）
+
+本轮以“中继 + 断粮/缺岗”为锚点，先完成版本化场景包合同而不引入编辑器。JSON 包固定 scenarioVersion、seed、worldConfig、AI 开关和 storylet fallback；CI 通过 schema/validator、观察者 deterministic stub、源码三日推进夹具与 relay 合同。scenarioSnapshot 进入 SAVE21 兼容存档并默认 AI-OFF，设置面板只切换表达，不改变规则事实。
+
+出口仍是 source-VM 证据：自然多日 browser、真实 loader 执行和缺岗生产 reducer 尚未通过。下一步接入一个 EventDef/Gate/Effect storylet，加入失败回退、人口守恒和六视角审计，再补 fresh browser save/reload。
+
+## v82.1 runtime storylet checkpoint（2026-10-17）
+
+断粮 storylet 已接入真实 ContentRegistry/CommandBus 路径，source gameplay 夹具 3/3 通过。它目前是首轮一次性节点：food ratio ≤ 1 触发，ration 增加营地压力，forage 在后勤官存活时补回食物；后续重复危机、完整缺岗/继任和 fresh browser 仍未覆盖。
+
+
+## v82.1 role availability checkpoint（2026-10-17）
+
+断粮 forage 分支已从“NPC 存活”收紧为“岗位可履职”，GateV1 通过 outpost ledger、actingRole 和恢复三类夹具。source gameplay 4/4；重复危机实例和 browser 仍是下一闸门。
+
+
+## v82.1 repeatable episode checkpoint（2026-10-17）
+
+断粮 storylet 已具备最小可重复 episode：按日生成稳定 instanceKey，同日幂等、跨日重开，且旧链回放 golden 不变。source gameplay 4/4；统一 EventInstance/SAVE 迁移与 browser 仍待开发。

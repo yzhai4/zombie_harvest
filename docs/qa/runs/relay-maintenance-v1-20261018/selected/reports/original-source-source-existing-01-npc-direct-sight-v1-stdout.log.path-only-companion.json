@@ -1,0 +1,55 @@
+{
+  "schema": "ExplicitPathOnlyPublicCompanionV1",
+  "isOriginalNativeReport": false,
+  "originalExternalRetained": true,
+  "original": {
+    "portableName": "stdout.log",
+    "sha256": "1ffb81580d0833b0c3b05905eb42c93ae64a99699f5641e9002e979e982e4ff6",
+    "bytes": 2920
+  },
+  "replacedMetadataFields": [
+    {
+      "field": "$.failures[0].error",
+      "originalSubstringSha256": "808dde6d26915e7916a166ebb5b76f58f98c52605c2dd1a5e05e332c4743349b",
+      "originalSubstringBytes": 127,
+      "occurrences": 3,
+      "replacement": "<repository-root>"
+    },
+    {
+      "field": "$.failures[1].error",
+      "originalSubstringSha256": "808dde6d26915e7916a166ebb5b76f58f98c52605c2dd1a5e05e332c4743349b",
+      "originalSubstringBytes": 127,
+      "occurrences": 5,
+      "replacement": "<repository-root>"
+    },
+    {
+      "field": "$.failures[2].error",
+      "originalSubstringSha256": "808dde6d26915e7916a166ebb5b76f58f98c52605c2dd1a5e05e332c4743349b",
+      "originalSubstringBytes": 127,
+      "occurrences": 3,
+      "replacement": "<repository-root>"
+    }
+  ],
+  "resultFactsUnchanged": true,
+  "report": {
+    "runner": "source-npc-direct-sight-v1",
+    "ok": false,
+    "count": 91,
+    "passed": 88,
+    "sourceHtmlSha256": "1b10043c05a54fce97d86c544ac817a32a9a1a7954a3ab759674d6c8205e7930",
+    "failures": [
+      {
+        "name": "actual online relay bonus changes sight without granting memory or remote communication",
+        "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\nfalse !== true\n\n    at <repository-root>/scripts/check-npc-direct-sight-v1.mjs:134:218\n    at test (<repository-root>/scripts/check-npc-direct-sight-v1.mjs:98:104)\n    at <repository-root>/scripts/check-npc-direct-sight-v1.mjs:134:1"
+      },
+      {
+        "name": "strict raw coordinates and actual profile dependencies do not default bad values",
+        "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ 'observed'\n- 'unavailable'\n\n    at publicReport (<repository-root>/scripts/check-npc-direct-sight-v1.mjs:111:423)\n    at unavailable (<repository-root>/scripts/check-npc-direct-sight-v1.mjs:113:33)\n    at <repository-root>/scripts/check-npc-direct-sight-v1.mjs:140:594\n    at test (<repository-root>/scripts/check-npc-direct-sight-v1.mjs:98:104)\n    at <repository-root>/scripts/check-npc-direct-sight-v1.mjs:140:1"
+      },
+      {
+        "name": "complete scan at64 candidates128 buildings and262144 AABB upper budget stays supported",
+        "error": "TypeError: Cannot read properties of null (reading 'subjectId')\n    at <repository-root>/scripts/check-npc-direct-sight-v1.mjs:145:179\n    at test (<repository-root>/scripts/check-npc-direct-sight-v1.mjs:98:104)\n    at <repository-root>/scripts/check-npc-direct-sight-v1.mjs:145:1"
+      }
+    ]
+  }
+}

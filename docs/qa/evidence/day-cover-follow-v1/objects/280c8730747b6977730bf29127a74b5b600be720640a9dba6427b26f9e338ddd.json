@@ -1,0 +1,942 @@
+{
+  "schema": "DayCoverNarrowExactSourceV1",
+  "status": "OBSERVED",
+  "sourceHtmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a",
+  "inputSha256": "0366a9a9da371eef38c37aead420d5c3b0b01bd29948e793bc5a3c7db55a42c0",
+  "scope": {
+    "schema": "CoverNarrowMethodV1",
+    "sourceHtmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a",
+    "inputSha256": "0366a9a9da371eef38c37aead420d5c3b0b01bd29948e793bc5a3c7db55a42c0",
+    "subjectId": "guardChen",
+    "inputTable": [
+      {
+        "at": 100,
+        "type": "keydown",
+        "key": "ArrowDown"
+      },
+      {
+        "at": 1700,
+        "type": "keyup",
+        "key": "ArrowDown"
+      },
+      {
+        "at": 2200,
+        "type": "keydown",
+        "key": "ArrowRight"
+      },
+      {
+        "at": 3400,
+        "type": "keyup",
+        "key": "ArrowRight"
+      }
+    ],
+    "observationWorldMinutes": 16,
+    "virtualWallMs": 19200,
+    "rafHz": 60,
+    "tieOrder": [
+      "external registered inputs",
+      "due nonRAF tasks due/id",
+      "one snapshot of due RAF per60Hz frame"
+    ],
+    "renderer": "Exact HTML renderContext function copied into QA function only to call real renderer despite original IO render stubs; no Gate/command/motion/timer replacement",
+    "noPostBootBusinessStateOrStorageWrites": true,
+    "noTaskClear": true,
+    "noDirectMoveOrAdvance": true,
+    "notClaimed": [
+      "naturalGameplay",
+      "browser",
+      "public rescue usefulness",
+      "balance",
+      "general follow implementation",
+      "A04 result"
+    ]
+  },
+  "artifacts": [
+    {
+      "path": "source-executed.html",
+      "bytes": 984373,
+      "sha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a"
+    },
+    {
+      "path": "input-test-only-native.json",
+      "bytes": 128489,
+      "sha256": "0366a9a9da371eef38c37aead420d5c3b0b01bd29948e793bc5a3c7db55a42c0"
+    },
+    {
+      "path": "runner-executed.mjs",
+      "bytes": 13823,
+      "sha256": "bcd2e9be76f6119de9c51e79aedfb1d73d59c9ff1506d5ef6d67caadcc4a0816"
+    },
+    {
+      "path": "factory-executed.mjs",
+      "bytes": 2959,
+      "sha256": "e9872eeba85d49019d1bd806f3dd18357a5abc8f2f92922922f6a5324ec220dc"
+    },
+    {
+      "path": "io-adapter-executed.mjs",
+      "bytes": 51172,
+      "sha256": "6e0da555742e930b8bf926eeec0db0ee22f17240a4fa305978841f8ba862c0a3"
+    },
+    {
+      "path": "actual-context-renderer.js",
+      "bytes": 16665,
+      "sha256": "3c9b7e66738ea04d2407bef27591f8c67729d34afe4030d1d9bd1e67f5b29e85"
+    },
+    {
+      "path": "qa-alias.js",
+      "bytes": 17064,
+      "sha256": "5f138ae8ff7f6545e54c40f310d22a5dbd8fd2edf3bdb75bf6e0742cdff73d5e"
+    },
+    {
+      "path": "frozen-plan.json",
+      "bytes": 1233,
+      "sha256": "a8df4b3e2f7249c02d3c568a13ab8a79a4d4eea51f802c4ab813bc704c289285"
+    },
+    {
+      "path": "initial-live.json",
+      "bytes": 6798,
+      "sha256": "10fb7a36bf32cadae0b80a3c478e7dc99cac6f59cdd7766a2d2d3c9abb90a3ef"
+    },
+    {
+      "path": "before-order-context.html",
+      "bytes": 1510,
+      "sha256": "f7ecf5e1c49325ea402bdd52571ae2e4b9851b7526f4ba903a75b39ed607cb10"
+    },
+    {
+      "path": "after-order-live.json",
+      "bytes": 7032,
+      "sha256": "9288efef12f48315f0acb2900135ad09085f77db05b0157fad4b3059ec05aa4c"
+    },
+    {
+      "path": "order-events.json",
+      "bytes": 3633,
+      "sha256": "3bad089e492bf25881251bfdb2873d1119a03fa17ee7c820e008770aeacb9a2c"
+    },
+    {
+      "path": "endpoint-live.json",
+      "bytes": 7228,
+      "sha256": "623df354a58543fc3b11307830dabd0806318e4c6fe9e86083e53ad26f7de8ce"
+    },
+    {
+      "path": "minute-trace.json",
+      "bytes": 273152,
+      "sha256": "424f2f5fb20f1e297c649ea89cd4693576d048ba00160ecd3cc456d76ebbf55d"
+    },
+    {
+      "path": "input-trace.json",
+      "bytes": 68010,
+      "sha256": "780c97c0b3187a9e4daaca99ada4358ef6229c9793ce10ee5f0c52e70138c6df"
+    },
+    {
+      "path": "registered-callbacks.json",
+      "bytes": 37553,
+      "sha256": "8de4016acb6fb034632be87d0f2e9596a2d2d4b6cb38ad966606ffaed1f583ff"
+    },
+    {
+      "path": "registered-task-metadata.json",
+      "bytes": 49956,
+      "sha256": "13f4f3960513afa2c758329fd2c844d4800e548aa6ad66c7c4260deb798163a1"
+    },
+    {
+      "path": "observed-mechanism.json",
+      "bytes": 14007,
+      "sha256": "99c11cda0fec971ece785dfab4d4eaf2b394e7bfd4eb97f6e57cb8de8a8b7e7f"
+    },
+    {
+      "path": "automatic-normal-writer.json",
+      "bytes": 276629,
+      "sha256": "ff91261623f47919be56eee101a3ea1cf6fe1697eaf2ffba4ef4205b1fa8da4b"
+    }
+  ],
+  "checks": [
+    {
+      "name": "Complete preboot TEST-ONLY input passes actual validator and actual Continue",
+      "ok": true
+    },
+    {
+      "name": "Actual public same-ID cover pays gross2 before actual15 minutes; order set after completion",
+      "ok": true
+    },
+    {
+      "name": "Actual registered keys/RAF/world callbacks preserve16-minute DAY window and original population/health",
+      "ok": true
+    },
+    {
+      "name": "Automatic normal writer and actual same raw loader preserve paid cover",
+      "ok": true
+    }
+  ],
+  "orderReceipt": {
+    "event": {
+      "eventId": "evt-000258",
+      "seq": 258,
+      "type": "npc.orderChanged",
+      "actorId": "player-1",
+      "commandId": "cmd-000513",
+      "causationId": null,
+      "tick": {
+        "world": 685,
+        "phase": 0,
+        "schedule": 325
+      },
+      "payload": {
+        "ok": true,
+        "proofVersion": 1,
+        "npcId": "guardChen",
+        "operation": "support-and-order",
+        "outcome": "completed",
+        "orderId": "cover",
+        "target": {
+          "id": "guardChen",
+          "before": {
+            "id": "guardChen",
+            "supportRequested": false,
+            "order": null,
+            "bond": 0,
+            "hp": 100,
+            "lifeState": "healthy",
+            "sanity": 80,
+            "helpedByPlayer": 0
+          },
+          "beforeAdvance": {
+            "id": "guardChen",
+            "supportRequested": true,
+            "order": null,
+            "bond": 1,
+            "hp": 100,
+            "lifeState": "healthy",
+            "sanity": 80,
+            "helpedByPlayer": 1
+          },
+          "afterAdvance": {
+            "id": "guardChen",
+            "supportRequested": true,
+            "order": null,
+            "bond": 1,
+            "hp": 100,
+            "lifeState": "healthy",
+            "sanity": 80,
+            "helpedByPlayer": 1
+          },
+          "atCompletion": {
+            "id": "guardChen",
+            "supportRequested": true,
+            "order": "cover",
+            "bond": 1,
+            "hp": 100,
+            "lifeState": "healthy",
+            "sanity": 80,
+            "helpedByPlayer": 1
+          },
+          "presentAtCompletion": true,
+          "snapshotStages": {
+            "before": "before-payment-and-own-effects",
+            "beforeAdvance": "after-pre-simulation-own-effects",
+            "afterAdvance": "after-world-simulation-before-post-effects",
+            "atCompletion": "reducer-final-state"
+          }
+        },
+        "payment": {
+          "cost": {
+            "energy": 2
+          },
+          "before": {
+            "energy": 53
+          },
+          "after": {
+            "energy": 51
+          }
+        },
+        "resources": {
+          "energyBefore": 53,
+          "energyAfterPayment": 51,
+          "energyAfter": 52
+        },
+        "clock": {
+          "before": {
+            "day": 1,
+            "hour": 11,
+            "minute": 10,
+            "world": 670
+          },
+          "after": {
+            "day": 1,
+            "hour": 11,
+            "minute": 25,
+            "world": 685
+          },
+          "requestedMinutes": 15,
+          "elapsedMinutes": 15
+        },
+        "advance": {
+          "commandId": "cmd-000514",
+          "eventId": "evt-000256",
+          "causationId": "cmd-000513",
+          "minutes": 15,
+          "tick": {
+            "world": 685,
+            "phase": 0,
+            "schedule": 325
+          }
+        }
+      }
+    },
+    "command": {
+      "commandId": "cmd-000513",
+      "type": "npc.order",
+      "actorId": "player-1",
+      "payload": {
+        "npcId": "guardChen",
+        "orderId": "cover"
+      }
+    },
+    "gross2": true
+  },
+  "findings": {
+    "schema": "CoverObservedMechanismV1",
+    "publicDescription": "<kbd class=\"action-index\">5</kbd>🎯 支援玩家<small>跟随玩家行动，降低其遭遇危险时的压力。</small>",
+    "acceptedAt": 685,
+    "endpointAt": 701,
+    "playerAfterOrder": {
+      "x": 11,
+      "y": 11,
+      "prevX": 11,
+      "prevY": 11,
+      "hp": 52,
+      "energy": 52
+    },
+    "playerAtEndpoint": {
+      "x": 13.399999999999991,
+      "y": 14.199999999999989,
+      "prevX": 11,
+      "prevY": 11,
+      "hp": 52,
+      "energy": 53
+    },
+    "npcAfterOrder": {
+      "x": 11.75,
+      "y": 11,
+      "target": null
+    },
+    "npcAtEndpoint": {
+      "x": 10.653426141655757,
+      "y": 11.487366159263996,
+      "target": {
+        "x": 5,
+        "y": 14
+      }
+    },
+    "observed": [
+      {
+        "worldMinute": 686,
+        "atMs": 1200,
+        "player": {
+          "x": 11,
+          "y": 13.199999999999992
+        },
+        "npc": {
+          "x": 11.681464133853485,
+          "y": 11.030460384953983
+        },
+        "motionTarget": {
+          "x": 5,
+          "y": 14
+        },
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "岗位工作",
+        "behavior": "work",
+        "distance": 2.2740482639958777,
+        "simMoveClock": 0,
+        "perception": {
+          "clock": 1,
+          "targetId": "player-1",
+          "targetAt": 685,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "guardChen",
+              "at": 685,
+              "expiresAt": 775
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 687,
+        "atMs": 2400,
+        "player": {
+          "x": 11.399999999999999,
+          "y": 14.199999999999989
+        },
+        "npc": {
+          "x": 11.61292826770697,
+          "y": 11.060920769907966
+        },
+        "motionTarget": {
+          "x": 5,
+          "y": 14
+        },
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "岗位工作",
+        "behavior": "work",
+        "distance": 3.1462925579138084,
+        "simMoveClock": 1,
+        "perception": {
+          "clock": 2,
+          "targetId": "player-1",
+          "targetAt": 685,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "guardChen",
+              "at": 685,
+              "expiresAt": 775
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 688,
+        "atMs": 3600,
+        "player": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "npc": {
+          "x": 11.544392401560454,
+          "y": 11.09138115486195
+        },
+        "motionTarget": {
+          "x": 5,
+          "y": 14
+        },
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "岗位工作",
+        "behavior": "work",
+        "distance": 3.6203301898768716,
+        "simMoveClock": 2,
+        "perception": {
+          "clock": 3,
+          "targetId": "player-1",
+          "targetAt": 685,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "guardChen",
+              "at": 685,
+              "expiresAt": 775
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 689,
+        "atMs": 4800,
+        "player": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "npc": {
+          "x": 11.47585653541394,
+          "y": 11.121841539815932
+        },
+        "motionTarget": {
+          "x": 5,
+          "y": 14
+        },
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "岗位工作",
+        "behavior": "work",
+        "distance": 3.630067158925837,
+        "simMoveClock": 3,
+        "perception": {
+          "clock": 4,
+          "targetId": "player-1",
+          "targetAt": 685,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "guardChen",
+              "at": 685,
+              "expiresAt": 775
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 690,
+        "atMs": 6000,
+        "player": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "npc": {
+          "x": 11.407320669267424,
+          "y": 11.152301924769915
+        },
+        "motionTarget": {
+          "x": 5,
+          "y": 14
+        },
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "岗位工作",
+        "behavior": "work",
+        "distance": 3.6413231761119316,
+        "simMoveClock": 4,
+        "perception": {
+          "clock": 5,
+          "targetId": "player-1",
+          "targetAt": 685,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "guardChen",
+              "at": 685,
+              "expiresAt": 775
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 691,
+        "atMs": 7200,
+        "player": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "npc": {
+          "x": 11.338784803120909,
+          "y": 11.182762309723914
+        },
+        "motionTarget": {
+          "x": 5,
+          "y": 14
+        },
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "岗位工作",
+        "behavior": "work",
+        "distance": 3.6540842036641377,
+        "simMoveClock": 5,
+        "perception": {
+          "clock": 0,
+          "targetId": "player-1",
+          "targetAt": 685,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "guardChen",
+              "at": 685,
+              "expiresAt": 775
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 692,
+        "atMs": 8400,
+        "player": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "npc": {
+          "x": 11.270248936974394,
+          "y": 11.213222694677922
+        },
+        "motionTarget": {
+          "x": 5,
+          "y": 14
+        },
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "岗位工作",
+        "behavior": "work",
+        "distance": 3.6683345351869976,
+        "simMoveClock": 6,
+        "perception": {
+          "clock": 1,
+          "targetId": "player-1",
+          "targetAt": 685,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "guardChen",
+              "at": 685,
+              "expiresAt": 775
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 693,
+        "atMs": 9600,
+        "player": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "npc": {
+          "x": 11.201713070827878,
+          "y": 11.24368307963193
+        },
+        "motionTarget": {
+          "x": 5,
+          "y": 14
+        },
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "岗位工作",
+        "behavior": "work",
+        "distance": 3.684056888353306,
+        "simMoveClock": 7,
+        "perception": {
+          "clock": 2,
+          "targetId": "player-1",
+          "targetAt": 685,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "guardChen",
+              "at": 685,
+              "expiresAt": 775
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 694,
+        "atMs": 10800,
+        "player": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "npc": {
+          "x": 11.133177204681363,
+          "y": 11.274143464585938
+        },
+        "motionTarget": {
+          "x": 5,
+          "y": 14
+        },
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "岗位工作",
+        "behavior": "work",
+        "distance": 3.701232504342475,
+        "simMoveClock": 8,
+        "perception": {
+          "clock": 3,
+          "targetId": "player-1",
+          "targetAt": 685,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "guardChen",
+              "at": 685,
+              "expiresAt": 775
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 695,
+        "atMs": 12000,
+        "player": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "npc": {
+          "x": 11.064641338534848,
+          "y": 11.304603849539946
+        },
+        "motionTarget": {
+          "x": 5,
+          "y": 14
+        },
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "岗位工作",
+        "behavior": "work",
+        "distance": 3.719841252765916,
+        "simMoveClock": 9,
+        "perception": {
+          "clock": 4,
+          "targetId": "player-1",
+          "targetAt": 685,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "guardChen",
+              "at": 685,
+              "expiresAt": 775
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 696,
+        "atMs": 13200,
+        "player": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "npc": {
+          "x": 10.996105472388333,
+          "y": 11.335064234493954
+        },
+        "motionTarget": {
+          "x": 5,
+          "y": 14
+        },
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "岗位工作",
+        "behavior": "work",
+        "distance": 3.739861740807663,
+        "simMoveClock": 10,
+        "perception": {
+          "clock": 5,
+          "targetId": "player-1",
+          "targetAt": 685,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "guardChen",
+              "at": 685,
+              "expiresAt": 775
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 697,
+        "atMs": 14400,
+        "player": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "npc": {
+          "x": 10.927569606241818,
+          "y": 11.365524619447962
+        },
+        "motionTarget": {
+          "x": 5,
+          "y": 14
+        },
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "岗位工作",
+        "behavior": "work",
+        "distance": 3.761271425320799,
+        "simMoveClock": 11,
+        "perception": {
+          "clock": 0,
+          "targetId": "player-1",
+          "targetAt": 685,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "guardChen",
+              "at": 685,
+              "expiresAt": 775
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 698,
+        "atMs": 15600,
+        "player": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "npc": {
+          "x": 10.859033740095303,
+          "y": 11.395985004401972
+        },
+        "motionTarget": {
+          "x": 5,
+          "y": 14
+        },
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "岗位工作",
+        "behavior": "work",
+        "distance": 3.7840467266555486,
+        "simMoveClock": 12,
+        "perception": {
+          "clock": 1,
+          "targetId": "player-1",
+          "targetAt": 685,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "guardChen",
+              "at": 685,
+              "expiresAt": 775
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 699,
+        "atMs": 16800,
+        "player": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "npc": {
+          "x": 10.790497873948787,
+          "y": 11.42644538935598
+        },
+        "motionTarget": {
+          "x": 5,
+          "y": 14
+        },
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "岗位工作",
+        "behavior": "work",
+        "distance": 3.8081631430507796,
+        "simMoveClock": 13,
+        "perception": {
+          "clock": 2,
+          "targetId": "player-1",
+          "targetAt": 685,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "guardChen",
+              "at": 685,
+              "expiresAt": 775
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 700,
+        "atMs": 18000,
+        "player": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "npc": {
+          "x": 10.721962007802272,
+          "y": 11.456905774309988
+        },
+        "motionTarget": {
+          "x": 5,
+          "y": 14
+        },
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "岗位工作",
+        "behavior": "work",
+        "distance": 3.8335953644937826,
+        "simMoveClock": 14,
+        "perception": {
+          "clock": 3,
+          "targetId": "player-1",
+          "targetAt": 685,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "guardChen",
+              "at": 685,
+              "expiresAt": 775
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 701,
+        "atMs": 19200,
+        "player": {
+          "x": 13.399999999999991,
+          "y": 14.199999999999989
+        },
+        "npc": {
+          "x": 10.653426141655757,
+          "y": 11.487366159263996
+        },
+        "motionTarget": {
+          "x": 5,
+          "y": 14
+        },
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "岗位工作",
+        "behavior": "work",
+        "distance": 3.860317385040515,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 4,
+          "targetId": "player-1",
+          "targetAt": 685,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "guardChen",
+              "at": 685,
+              "expiresAt": 775
+            }
+          },
+          "sharedUntil": 0
+        }
+      }
+    ],
+    "anyMotionTargetMatchesCurrentPlayer": false,
+    "sourceScope": "Static exact-source path plus this TEST-ONLY no-enemy/collision-isolated16-minute controlled trajectory; not natural rescue utility or universal no-follow claim"
+  },
+  "automaticWriter": {
+    "worldMinute": 695,
+    "eventSeq": 268,
+    "sha256": "ff91261623f47919be56eee101a3ea1cf6fe1697eaf2ffba4ef4205b1fa8da4b"
+  },
+  "recovery": {
+    "selectedChecksum": "8035f5f1",
+    "writerMinute": 695,
+    "loadedMinute": 695,
+    "writerSha256": "ff91261623f47919be56eee101a3ea1cf6fe1697eaf2ffba4ef4205b1fa8da4b",
+    "noPostReloadTick": true
+  },
+  "ok": true,
+  "observationDoesNotDeclareProductBug": true,
+  "count": 4,
+  "passed": 4
+}

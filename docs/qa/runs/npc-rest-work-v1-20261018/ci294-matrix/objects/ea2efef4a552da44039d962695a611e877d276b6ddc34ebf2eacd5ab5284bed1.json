@@ -1,0 +1,8 @@
+{
+  "schema": "ExplicitPrivatePathRedactedCompanionV1",
+  "nativeOriginalBytes": false,
+  "originalSha256": "a8a4dfc77bf3de9507f23b47ce52a7275f03a7d5b0e1968e0957ca1712db566c",
+  "originalBytes": 1114,
+  "transformation": "Replace private execution locations only; original external bytes retained. This companion is not a native report or a new execution.",
+  "portableText": "node:fs:484\r\n    return binding.readFileUtf8(path, stringToFlags(options.flag));\r\n                   ^\r\n\r\nError: ENOENT: no such file or directory, open '[PRIVATE_EXECUTION_PATH]'\r\n    at readFileSync (node:fs:484:20)\r\n    at [PRIVATE_EXECUTION_PATH]\r\n    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)\r\n    at async node:internal/modules/esm/loader:643:26\r\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\r\n  errno: -4058,\r\n  code: 'ENOENT',\r\n  syscall: 'open',\r\n  path: '[PRIVATE_EXECUTION_PATH]'\r\n}\r\n\r\nNode.js v24.19.0\r\n"
+}

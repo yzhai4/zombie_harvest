@@ -1,0 +1,230 @@
+{
+  "ordinary": {
+    "count": 5,
+    "defense": 79,
+    "warning": {
+      "version": 1,
+      "availableWarningSource": "watchpost-manual",
+      "effectiveStartSource": "watchpost-manual",
+      "manualAvailable": true,
+      "outpostId": "watchPost",
+      "guardNpcId": "guardJi",
+      "oldStartProgress": 3,
+      "startProgress": 1,
+      "additionalProgressReduction": 2
+    },
+    "mechanics": [
+      {
+        "kind": "runner",
+        "hp": 75,
+        "maxHp": 75,
+        "speed": 7.5,
+        "baseSpeed": 7.5,
+        "damage": 6,
+        "lane": 0,
+        "progress": 0
+      },
+      {
+        "kind": "normal",
+        "hp": 100,
+        "maxHp": 100,
+        "speed": 5.4,
+        "baseSpeed": 5.4,
+        "damage": 7,
+        "lane": 1,
+        "progress": 4
+      },
+      {
+        "kind": "normal",
+        "hp": 100,
+        "maxHp": 100,
+        "speed": 5.4,
+        "baseSpeed": 5.4,
+        "damage": 7,
+        "lane": 2,
+        "progress": 8
+      },
+      {
+        "kind": "normal",
+        "hp": 100,
+        "maxHp": 100,
+        "speed": 5.4,
+        "baseSpeed": 5.4,
+        "damage": 7,
+        "lane": 0,
+        "progress": 0
+      },
+      {
+        "kind": "runner",
+        "hp": 75,
+        "maxHp": 75,
+        "speed": 7.5,
+        "baseSpeed": 7.5,
+        "damage": 6,
+        "lane": 1,
+        "progress": 4
+      }
+    ]
+  },
+  "radio": {
+    "version": 1,
+    "availableWarningSource": "watchpost-manual",
+    "effectiveStartSource": "radio-guard",
+    "manualAvailable": true,
+    "outpostId": "watchPost",
+    "guardNpcId": "guardJi",
+    "oldStartProgress": 0,
+    "startProgress": 0,
+    "additionalProgressReduction": 0
+  },
+  "relay": {
+    "version": 1,
+    "availableWarningSource": "relay-station",
+    "effectiveStartSource": "relay-station",
+    "manualAvailable": true,
+    "outpostId": "watchPost",
+    "guardNpcId": "guardJi",
+    "oldStartProgress": 0,
+    "startProgress": 0,
+    "additionalProgressReduction": 0
+  },
+  "realRelaySourceExit": {
+    "actualDamageEffect": {
+      "ok": true,
+      "results": [
+        {
+          "ok": true,
+          "op": "damageBuilding",
+          "buildingId": "bld-relay-station"
+        }
+      ]
+    },
+    "legacyMeta": {
+      "actorId": "system",
+      "defId": "relay-chain-001",
+      "definitionVersion": 1,
+      "instanceId": "camp-relay-001",
+      "effects": [
+        {
+          "type": "fact",
+          "key": "online",
+          "eventType": "relay.stationOnline",
+          "amount": 0,
+          "payload": {}
+        },
+        {
+          "type": "forecast",
+          "key": "hordeForecast",
+          "eventType": null,
+          "amount": 0,
+          "payload": {}
+        }
+      ]
+    },
+    "forecast": {
+      "eventId": "evt-000058",
+      "seq": 58,
+      "type": "threat.forecastChanged",
+      "actorId": "camp-autonomy",
+      "commandId": null,
+      "causationId": null,
+      "tick": {
+        "world": 1870,
+        "phase": 0,
+        "schedule": 70
+      },
+      "payload": {
+        "projectId": "camp-relay-001",
+        "forecast": {
+          "confidence": 18,
+          "leadMinutes": 60,
+          "routeId": "eastern-breach",
+          "source": "watchpost-manual",
+          "updatedAt": 1870,
+          "sourceOutpostId": "watchPost",
+          "guardNpcId": "guardJi"
+        },
+        "routeId": "eastern-breach",
+        "source": "watchpost-manual",
+        "sourceOutpostId": "watchPost",
+        "currentCapability": {
+          "status": "ready",
+          "operational": true,
+          "outpostId": "watchPost",
+          "guardNpcId": "guardJi",
+          "landmarkId": "poi-1vpf7ue",
+          "reason": null
+        }
+      },
+      "defId": "relay-chain-001",
+      "definitionVersion": 1,
+      "instanceId": "camp-relay-001",
+      "effects": [
+        {
+          "type": "fact",
+          "key": "online",
+          "eventType": "relay.stationOnline",
+          "amount": 0,
+          "payload": {}
+        },
+        {
+          "type": "forecast",
+          "key": "hordeForecast",
+          "eventType": null,
+          "amount": 0,
+          "payload": {}
+        }
+      ]
+    }
+  },
+  "actualBattleTicks": 19,
+  "settledReportMode": "REPORT",
+  "settledEnemies": [
+    {
+      "id": "threat-2-12-0-283:enemy:1",
+      "progress": 100,
+      "hp": 11,
+      "dead": false,
+      "reached": true
+    },
+    {
+      "id": "threat-2-12-0-283:enemy:2",
+      "progress": 100,
+      "hp": 68,
+      "dead": false,
+      "reached": true
+    },
+    {
+      "id": "threat-2-12-0-283:enemy:3",
+      "progress": 100,
+      "hp": 4,
+      "dead": false,
+      "reached": true
+    },
+    {
+      "id": "threat-2-12-0-283:enemy:4",
+      "progress": 100,
+      "hp": 100,
+      "dead": false,
+      "reached": true
+    },
+    {
+      "id": "threat-2-12-0-283:enemy:5",
+      "progress": 59.3,
+      "hp": 0,
+      "dead": true,
+      "reached": false
+    }
+  ],
+  "restoredWarning": {
+    "version": 1,
+    "availableWarningSource": "watchpost-manual",
+    "effectiveStartSource": "watchpost-manual",
+    "manualAvailable": true,
+    "outpostId": "watchPost",
+    "guardNpcId": "guardJi",
+    "oldStartProgress": 3,
+    "startProgress": 1,
+    "additionalProgressReduction": 2
+  }
+}

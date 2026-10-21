@@ -1,0 +1,55 @@
+{
+  "schema": "WorldClockHalfRateBrowserInputsV2",
+  "sourceHtmlSha256": "2bad52a4435ed95d1dfa6d0030dab3407f4a4cc9b0e63f07b5ff804304accc16",
+  "pendingField": "subMinuteRemainder",
+  "unit": "canonical-decimal-string-minutes",
+  "pendingRange": "[0,1)",
+  "clockPolicy": "whole-minute-v1",
+  "rate": 0.5,
+  "paused": false,
+  "scenes": [
+    {
+      "id": "legacy-half-rate",
+      "file": "legacy-half-rate-input-native.json",
+      "sha256": "a9d5aeccc31ea0dd80d034361605cb06b4b94978471ec29a4411ff0f4d24813b",
+      "bytes": 31817,
+      "expectedInitialRemainder": "0",
+      "kind": "TEST-ONLY-old-complete-writer-rate-only-missing-pending"
+    }
+  ],
+  "provenanceFiles": [
+    {
+      "file": "original-old-writer.json",
+      "sha256": "ebd2c2a6f1ab12b0e62dc6ba235231b4a229916759cdf1662c2594ed9ac4c7e6",
+      "bytes": 63429
+    },
+    {
+      "file": "producer-executed.mjs",
+      "sha256": "44934d2bf63cb2fdfa0a605be9aeac56c9b45ebdbed36b7bd8fa8ac26d67e329",
+      "bytes": 6264
+    },
+    {
+      "file": "io-adapter-executed.mjs",
+      "sha256": "6e0da555742e930b8bf926eeec0db0ee22f17240a4fa305978841f8ba862c0a3",
+      "bytes": 51172
+    },
+    {
+      "file": "source-runtime-fixture-executed.mjs",
+      "sha256": "e9872eeba85d49019d1bd806f3dd18357a5abc8f2f92922922f6a5324ec220dc",
+      "bytes": 2959
+    },
+    {
+      "file": "current-loader-writer-verification-native.json",
+      "sha256": "19aa17aa3e25bb825633d4a28aeac1bbcde187ec4bac1125a440c357bcb955bd",
+      "bytes": 65618
+    },
+    {
+      "file": "producer-report.json",
+      "sha256": "047f70a3fbba180bdc04f734f4674b310ab36df0f31a2328d3d2b6ba04b9cf65",
+      "bytes": 1064
+    }
+  ],
+  "naturalGameplay": false,
+  "publicRateControlUsed": false,
+  "reason": "No rate-setting public control has been located in baseline3545; explicit preboot fixture, not a public rate-change experiment"
+}

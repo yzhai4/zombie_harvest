@@ -1,0 +1,63 @@
+{
+  "schema": "ExplicitPrivatePathRedactedCompanionV1",
+  "nativeOriginalBytes": false,
+  "originalSha256": "dab2ba22a04a65cb3611acefc18aae9a04de0534683580ae20b9702e17e39132",
+  "originalBytes": 1827,
+  "transformation": "Replace private execution locations only; original external bytes retained. This companion is not a native report or a new execution.",
+  "portableData": {
+    "runner": "relay-construction-producer-trace",
+    "sourceHash": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+    "htmlPath": "[PRIVATE_EXECUTION_PATH]",
+    "ok": true,
+    "count": 9,
+    "passed": 9,
+    "checks": [
+      {
+        "name": "world.advance is the explicit CommandBus producer",
+        "ok": true
+      },
+      {
+        "name": "advanceReducer calls relay construction between NPC routine and world combat",
+        "ok": true
+      },
+      {
+        "name": "daytime timer is the only automatic advance source",
+        "ok": true
+      },
+      {
+        "name": "construction reducer emits the three relay construction facts",
+        "ok": true
+      },
+      {
+        "name": "construction reducer has only an opt-in stage adapter producer",
+        "ok": true
+      },
+      {
+        "name": "relay.projectAdvance keeps EventDef metadata and has one gated runtime child command",
+        "ok": true
+      },
+      {
+        "name": "handoff has a separate tokenized CommandBus producer",
+        "ok": true
+      },
+      {
+        "name": "construction state carries a persisted transaction token ledger",
+        "ok": true
+      },
+      {
+        "name": "construction path remains explicit about its migration boundary",
+        "ok": true
+      }
+    ],
+    "producer": {
+      "explicit": "advance -> CommandBus(world.advance) -> advanceReducer -> updateRelayProject",
+      "automaticSource": "startWorldSimulation daytime interval",
+      "constructionCommandProducer": true,
+      "constructionCommandProducerMode": "feature-gated-stage-only",
+      "registryChoiceMetadataOnly": true,
+      "productionWiring": "opt-in-stage-only",
+      "naturalGameplay": false
+    },
+    "migrationRequired": true
+  }
+}

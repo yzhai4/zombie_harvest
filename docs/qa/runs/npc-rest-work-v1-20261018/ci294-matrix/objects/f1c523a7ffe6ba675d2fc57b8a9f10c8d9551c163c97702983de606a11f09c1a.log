@@ -1,0 +1,53 @@
+{
+  "runner": "relay-construction-transaction-v1-contract",
+  "schema": "RelayConstructionTransactionV1",
+  "ok": true,
+  "count": 11,
+  "passed": 11,
+  "checks": [
+    {
+      "name": "prepare and apply atomically reserves inventory building and participants",
+      "ok": true
+    },
+    {
+      "name": "building transition carries the reserved occupancy",
+      "ok": true
+    },
+    {
+      "name": "online transition marks the station once",
+      "ok": true
+    },
+    {
+      "name": "occupied building rejects without touching the snapshot",
+      "ok": true
+    },
+    {
+      "name": "insufficient inventory rejects atomically",
+      "ok": true
+    },
+    {
+      "name": "inactive participant rejects before reservation",
+      "ok": true
+    },
+    {
+      "name": "prepared transaction rejects a changed current snapshot",
+      "ok": true
+    },
+    {
+      "name": "rollback returns the exact pre-transaction snapshot",
+      "ok": true
+    },
+    {
+      "name": "duplicate command is a transaction no-op",
+      "ok": true
+    },
+    {
+      "name": "material progress cannot exceed the resource debit",
+      "ok": true
+    },
+    {
+      "name": "resource source cannot be swapped after preflight",
+      "ok": true
+    }
+  ]
+}

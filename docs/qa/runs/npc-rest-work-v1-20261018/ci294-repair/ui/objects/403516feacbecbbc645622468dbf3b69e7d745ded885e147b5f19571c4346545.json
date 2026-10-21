@@ -1,0 +1,60 @@
+{
+  "schema": "ExplicitPathOnlyCompanionV1",
+  "native": false,
+  "originalSha256": "02e09ac23df6eb8eedd9eb3c30e39fa8d0d3fc4003f760390ac6c6b6c3d48a50",
+  "originalBytes": 2461,
+  "rawOriginalRetainedPrivately": true,
+  "omissions": [
+    "Only absolute private filesystem paths replaced; companion is not native original and cannot restore its exact bytes."
+  ],
+  "content": {
+    "order": 8,
+    "name": "plan-integrity-ui",
+    "status": "terminal",
+    "startedAt": "2026-10-17T16:38:25.926324+00:00",
+    "command": [
+      "<PRIVATE-ABSOLUTE-PATH>",
+      "scripts/check-plan-integrity-ui.mjs",
+      "--html",
+      "<PRIVATE-ABSOLUTE-PATH>",
+      "--io-adapter",
+      "<PRIVATE-ABSOLUTE-PATH>",
+      "--out",
+      "<PRIVATE-ABSOLUTE-PATH>",
+      "--legacy-fixture",
+      "<PRIVATE-ABSOLUTE-PATH>"
+    ],
+    "cwd": "<PRIVATE-ABSOLUTE-PATH>",
+    "sourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+    "runner": {
+      "path": "scripts/check-plan-integrity-ui.mjs",
+      "sha256": "6575911565826112523547f09ef0ecfd135647d173645f111f99fd277f526b8d"
+    },
+    "finishedAt": "2026-10-17T16:38:26.605716+00:00",
+    "exitCode": 1,
+    "stdout": {
+      "path": "stdout.log",
+      "sha256": "7285d12e2d83973030ee40761c169a222940647b7644021c06c13216c2c4b2d1",
+      "bytes": 341
+    },
+    "stderr": {
+      "path": "stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "nativeReport": {
+      "path": "native-report.json",
+      "sha256": "6d49931af7b77f560d71c6428408d01f07d7fb406dcdfb3633c66816fc583ef5",
+      "bytes": 62345
+    },
+    "reported": {
+      "runner": "source-plan-integrity-ui-phase",
+      "ok": false,
+      "count": 69,
+      "passed": 68,
+      "failures": [
+        "complete old committed source-writer fixture boots with same plan and spent CP"
+      ]
+    }
+  }
+}

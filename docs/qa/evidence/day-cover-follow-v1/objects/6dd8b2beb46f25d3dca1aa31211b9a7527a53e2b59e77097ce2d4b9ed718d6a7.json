@@ -1,0 +1,2673 @@
+{
+  "schema": "DayCoverCrewControlledSourceV1",
+  "status": "CONTROLLED_CREW_PAUSE_RESUME_VERIFIED",
+  "sourceHtmlSha256": "2fca005df63742164bd6f6e8e82fc0c2d3962b4678419b633482f8a54e09ef93",
+  "inputSha256": "a81ef1a23d2db69dc671181bb179e1d250459588add4e5ab0ac69bbb74037596",
+  "scope": {
+    "schema": "CoverNarrowMethodV1",
+    "sourceHtmlSha256": "2fca005df63742164bd6f6e8e82fc0c2d3962b4678419b633482f8a54e09ef93",
+    "inputSha256": "a81ef1a23d2db69dc671181bb179e1d250459588add4e5ab0ac69bbb74037596",
+    "subjectId": "radio",
+    "inputTable": [],
+    "observationWorldMinutes": 60,
+    "virtualWallMs": 72000,
+    "rafHz": 60,
+    "tieOrder": [
+      "external registered inputs",
+      "due nonRAF tasks due/id",
+      "one snapshot of due RAF per60Hz frame"
+    ],
+    "renderer": "Exact HTML renderContext function copied into QA function only to call real renderer despite original IO render stubs; no Gate/command/motion/timer replacement",
+    "noPostBootBusinessStateOrStorageWrites": true,
+    "noTaskClear": true,
+    "noDirectMoveOrAdvance": true,
+    "notClaimed": [
+      "naturalGameplay",
+      "browser",
+      "public rescue usefulness",
+      "balance",
+      "general follow implementation",
+      "A04 result"
+    ]
+  },
+  "artifacts": [
+    {
+      "path": "source-executed.html",
+      "bytes": 993727,
+      "sha256": "2fca005df63742164bd6f6e8e82fc0c2d3962b4678419b633482f8a54e09ef93"
+    },
+    {
+      "path": "input-test-only-native.json",
+      "bytes": 39158,
+      "sha256": "a81ef1a23d2db69dc671181bb179e1d250459588add4e5ab0ac69bbb74037596"
+    },
+    {
+      "path": "runner-executed.mjs",
+      "bytes": 19188,
+      "sha256": "7c68d1081cf55b3336c3a2ec6c828c56763955d4fb85f74ade81d3808445e2f7"
+    },
+    {
+      "path": "factory-executed.mjs",
+      "bytes": 2959,
+      "sha256": "e9872eeba85d49019d1bd806f3dd18357a5abc8f2f92922922f6a5324ec220dc"
+    },
+    {
+      "path": "io-adapter-executed.mjs",
+      "bytes": 51172,
+      "sha256": "6e0da555742e930b8bf926eeec0db0ee22f17240a4fa305978841f8ba862c0a3"
+    },
+    {
+      "path": "actual-context-renderer.js",
+      "bytes": 16737,
+      "sha256": "a26b0016e9dbc50cea8f799bde5bcf98fde2dbf981c45003b2cb699d273a1282"
+    },
+    {
+      "path": "qa-alias.js",
+      "bytes": 17249,
+      "sha256": "21b4c1091c1702e82ff2b4884b2a54d7da737f615f324dd8ad5a63b5b4a815eb"
+    },
+    {
+      "path": "frozen-plan.json",
+      "bytes": 906,
+      "sha256": "8b2f7c41e3b9ec19879cdd22ca8931f53dc7d4555d6253fe5e269b9175605a8a"
+    },
+    {
+      "path": "initial-live.json",
+      "bytes": 6267,
+      "sha256": "18ef8db08ade254be7e266f492a47295dcb6b2b1d92b5490376d4f6a3c7c20ab"
+    },
+    {
+      "path": "before-order-context.html",
+      "bytes": 1677,
+      "sha256": "c235311ebd3f3b20a20925f6729c6dafa43d09d9e0f1559ce7ffddbd3a3494c5"
+    },
+    {
+      "path": "after-order-live.json",
+      "bytes": 6621,
+      "sha256": "c0d4fdb9520bb524a20ca94b5115effe4a7d1967ff6399acaf5c0ae806eacc5c"
+    },
+    {
+      "path": "order-events.json",
+      "bytes": 4924,
+      "sha256": "be77f8668674866ac886c4bd0627138a1b536eadb4ab1f684ff71297dc984b77"
+    },
+    {
+      "path": "paused-engineering-live.json",
+      "bytes": 6714,
+      "sha256": "4045968fab9827ceee6539d83ee3ad9e54f38a347ddcce7c3126ca1b6c6e3a5c"
+    },
+    {
+      "path": "paused-normal-writer.json",
+      "bytes": 121483,
+      "sha256": "fbbeb69663b84ee8abd69d9a4fe55709b460720540925c904cae1c99b3b3336e"
+    },
+    {
+      "path": "guard-return-context.html",
+      "bytes": 2236,
+      "sha256": "94a007e32b609d373a6db4ca4b68c89dafc8188ba970c6075c90aaecb48178ee"
+    },
+    {
+      "path": "endpoint-live.json",
+      "bytes": 6858,
+      "sha256": "a06357f5bd2f456e05686a20452d5cd9f3f151d9b2e7bf0dd9f5c731b4be5296"
+    },
+    {
+      "path": "minute-trace.json",
+      "bytes": 969933,
+      "sha256": "5e9485576cd5f591238d5828ed11665da496d4090bceda0a778b8f3619bf07eb"
+    },
+    {
+      "path": "input-trace.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "registered-callbacks.json",
+      "bytes": 18846,
+      "sha256": "804d8c08049b3da1e2811451680397e3204797017c9693e474a00768b7e5770f"
+    },
+    {
+      "path": "registered-task-metadata.json",
+      "bytes": 14415,
+      "sha256": "a529d331901a6e10748bbc82fd029464a8d6ecb6d65dd7d4a1600b197691695b"
+    },
+    {
+      "path": "observed-mechanism.json",
+      "bytes": 45796,
+      "sha256": "1a6b0e11a983d394c4d16858a832a727550c59d0f3b57bc9b591551693fc8a81"
+    },
+    {
+      "path": "automatic-normal-writer.json",
+      "bytes": 146467,
+      "sha256": "f8dfdedeca27ca8de6e5ba967451c179657e108267ed91eee30c5db200fd5963"
+    }
+  ],
+  "checks": [
+    {
+      "name": "Complete preboot TEST-ONLY input passes actual validator and actual Continue",
+      "ok": true
+    },
+    {
+      "name": "Actual public same-ID cover pays gross2 before actual15 minutes; order set after completion",
+      "ok": true
+    },
+    {
+      "name": "Cover reserves actual engineer and freezes clock/materials/work after legitimate paid15 prefix",
+      "ok": true
+    },
+    {
+      "name": "Actual automatic paused writer/loader preserves the busy cover duty and paid prefix",
+      "ok": true
+    },
+    {
+      "name": "Same-ID existing guard return is zero additional payment/time/bond/SAN and retains support",
+      "ok": true
+    },
+    {
+      "name": "Thirty real resumed minutes consume one finite material batch with no paused catch-up",
+      "ok": true
+    },
+    {
+      "name": "Automatic normal resumed writer and actual same raw loader preserve guard and real material consequences",
+      "ok": true
+    }
+  ],
+  "orderReceipt": {
+    "event": {
+      "eventId": "evt-000025",
+      "seq": 25,
+      "type": "npc.orderChanged",
+      "actorId": "player-1",
+      "commandId": "cmd-000256",
+      "causationId": null,
+      "tick": {
+        "world": 395,
+        "phase": 0,
+        "schedule": 35
+      },
+      "payload": {
+        "ok": true,
+        "proofVersion": 1,
+        "npcId": "radio",
+        "operation": "support-and-order",
+        "outcome": "completed",
+        "orderId": "cover",
+        "target": {
+          "id": "radio",
+          "before": {
+            "id": "radio",
+            "supportRequested": false,
+            "order": null,
+            "bond": 0,
+            "hp": 100,
+            "lifeState": "healthy",
+            "sanity": 72,
+            "helpedByPlayer": 0
+          },
+          "beforeAdvance": {
+            "id": "radio",
+            "supportRequested": true,
+            "order": null,
+            "bond": 1,
+            "hp": 100,
+            "lifeState": "healthy",
+            "sanity": 72,
+            "helpedByPlayer": 1
+          },
+          "afterAdvance": {
+            "id": "radio",
+            "supportRequested": true,
+            "order": null,
+            "bond": 1,
+            "hp": 100,
+            "lifeState": "healthy",
+            "sanity": 74,
+            "helpedByPlayer": 1
+          },
+          "atCompletion": {
+            "id": "radio",
+            "supportRequested": true,
+            "order": "cover",
+            "bond": 1,
+            "hp": 100,
+            "lifeState": "healthy",
+            "sanity": 74,
+            "helpedByPlayer": 1
+          },
+          "presentAtCompletion": true,
+          "snapshotStages": {
+            "before": "before-payment-and-own-effects",
+            "beforeAdvance": "after-pre-simulation-own-effects",
+            "afterAdvance": "after-world-simulation-before-post-effects",
+            "atCompletion": "reducer-final-state"
+          }
+        },
+        "payment": {
+          "cost": {
+            "energy": 2
+          },
+          "before": {
+            "energy": 76
+          },
+          "after": {
+            "energy": 74
+          }
+        },
+        "resources": {
+          "energyBefore": 76,
+          "energyAfterPayment": 74,
+          "energyAfter": 74
+        },
+        "clock": {
+          "before": {
+            "day": 1,
+            "hour": 6,
+            "minute": 20,
+            "world": 380
+          },
+          "after": {
+            "day": 1,
+            "hour": 6,
+            "minute": 35,
+            "world": 395
+          },
+          "requestedMinutes": 15,
+          "elapsedMinutes": 15
+        },
+        "advance": {
+          "commandId": "cmd-000257",
+          "eventId": "evt-000023",
+          "causationId": "cmd-000256",
+          "minutes": 15,
+          "tick": {
+            "world": 395,
+            "phase": 0,
+            "schedule": 35
+          }
+        }
+      }
+    },
+    "command": {
+      "commandId": "cmd-000256",
+      "type": "npc.order",
+      "actorId": "player-1",
+      "payload": {
+        "npcId": "radio",
+        "orderId": "cover"
+      }
+    },
+    "gross2": true
+  },
+  "pausedWriter": {
+    "sha256": "fbbeb69663b84ee8abd69d9a4fe55709b460720540925c904cae1c99b3b3336e",
+    "minute": 425,
+    "checksum": "fbc9768a",
+    "actualLoader": true
+  },
+  "guardReceipt": {
+    "eventId": "evt-000069",
+    "seq": 69,
+    "type": "npc.orderChanged",
+    "actorId": "player-1",
+    "commandId": "cmd-000288",
+    "causationId": null,
+    "tick": {
+      "world": 425,
+      "phase": 0,
+      "schedule": 65
+    },
+    "payload": {
+      "ok": true,
+      "proofVersion": 1,
+      "npcId": "radio",
+      "operation": "order-change",
+      "outcome": "completed",
+      "orderId": "guard",
+      "target": {
+        "id": "radio",
+        "before": {
+          "id": "radio",
+          "supportRequested": true,
+          "order": "cover",
+          "bond": 1,
+          "hp": 100,
+          "lifeState": "healthy",
+          "sanity": 74,
+          "helpedByPlayer": 1
+        },
+        "beforeAdvance": null,
+        "afterAdvance": null,
+        "atCompletion": {
+          "id": "radio",
+          "supportRequested": true,
+          "order": "guard",
+          "bond": 1,
+          "hp": 100,
+          "lifeState": "healthy",
+          "sanity": 74,
+          "helpedByPlayer": 1
+        },
+        "presentAtCompletion": true,
+        "snapshotStages": {
+          "before": "before-payment-and-own-effects",
+          "beforeAdvance": null,
+          "afterAdvance": null,
+          "atCompletion": "reducer-final-state"
+        }
+      },
+      "payment": {
+        "cost": {
+          "energy": 0
+        },
+        "before": {
+          "energy": 76
+        },
+        "after": {
+          "energy": 76
+        }
+      },
+      "resources": {
+        "energyBefore": 76,
+        "energyAfterPayment": 76,
+        "energyAfter": 76
+      },
+      "clock": {
+        "before": {
+          "day": 1,
+          "hour": 7,
+          "minute": 5,
+          "world": 425
+        },
+        "after": {
+          "day": 1,
+          "hour": 7,
+          "minute": 5,
+          "world": 425
+        },
+        "requestedMinutes": 0,
+        "elapsedMinutes": 0
+      },
+      "advance": null
+    }
+  },
+  "engineering": {
+    "afterPaid": {
+      "id": "camp-relay-001",
+      "status": "staging",
+      "coreItemId": "item-relayCore-001",
+      "handoffAt": null,
+      "materialNeed": {
+        "wood": 10,
+        "parts": 5,
+        "stone": 4
+      },
+      "materialProgress": {
+        "wood": 0,
+        "parts": 0,
+        "stone": 0
+      },
+      "workMinutes": 0,
+      "targetMinutes": 180,
+      "buildingId": "bld-relay-station",
+      "assignedNpcIds": [
+        "radio",
+        "carpenter",
+        "quartermaster"
+      ],
+      "sharedSightBonus": 2,
+      "sharedRangeBonus": 4,
+      "forecastLeadMinutes": 180,
+      "routeId": "eastern-breach",
+      "materialClock": 15,
+      "lastBlockedReason": null
+    },
+    "paused": {
+      "id": "camp-relay-001",
+      "status": "staging",
+      "coreItemId": "item-relayCore-001",
+      "handoffAt": null,
+      "materialNeed": {
+        "wood": 10,
+        "parts": 5,
+        "stone": 4
+      },
+      "materialProgress": {
+        "wood": 0,
+        "parts": 0,
+        "stone": 0
+      },
+      "workMinutes": 0,
+      "targetMinutes": 180,
+      "buildingId": "bld-relay-station",
+      "assignedNpcIds": [
+        "radio",
+        "carpenter",
+        "quartermaster"
+      ],
+      "sharedSightBonus": 2,
+      "sharedRangeBonus": 4,
+      "forecastLeadMinutes": 180,
+      "routeId": "eastern-breach",
+      "materialClock": 15,
+      "lastBlockedReason": "cover-duty"
+    },
+    "resumed": {
+      "id": "camp-relay-001",
+      "status": "staging",
+      "coreItemId": "item-relayCore-001",
+      "handoffAt": null,
+      "materialNeed": {
+        "wood": 10,
+        "parts": 5,
+        "stone": 4
+      },
+      "materialProgress": {
+        "wood": 2,
+        "parts": 2,
+        "stone": 0
+      },
+      "workMinutes": 0,
+      "targetMinutes": 180,
+      "buildingId": "bld-relay-station",
+      "assignedNpcIds": [
+        "radio",
+        "carpenter",
+        "quartermaster"
+      ],
+      "sharedSightBonus": 2,
+      "sharedRangeBonus": 4,
+      "forecastLeadMinutes": 180,
+      "routeId": "eastern-breach",
+      "materialClock": 15,
+      "lastBlockedReason": null,
+      "lastMaterialAt": 440
+    },
+    "pausedWorldMinutes": 30,
+    "resumedWorldMinutes": 30
+  },
+  "findings": {
+    "schema": "CoverObservedMechanismV1",
+    "publicDescription": "<kbd class=\"action-index\">5</kbd>🎯 支援玩家<small>为玩家呼叫掩护，减少营地受到的冲击。 首次请求消耗2行动体力，并推进15分钟。广播员：阿默；随行会占用该岗位，使中继工程暂停；靠近本人改为守墙／巡逻后，满足条件时继续。</small>",
+    "acceptedAt": 395,
+    "endpointAt": 455,
+    "playerAfterOrder": {
+      "x": 11,
+      "y": 11,
+      "prevX": 11,
+      "prevY": 11,
+      "hp": 94,
+      "energy": 74
+    },
+    "playerAtEndpoint": {
+      "x": 11,
+      "y": 11,
+      "prevX": 11,
+      "prevY": 11,
+      "hp": 94,
+      "energy": 77
+    },
+    "npcAfterOrder": {
+      "x": 11.75,
+      "y": 11,
+      "target": null
+    },
+    "npcAtEndpoint": {
+      "x": 11.335350796137272,
+      "y": 8.788537579398493,
+      "target": {
+        "x": 11,
+        "y": 7
+      }
+    },
+    "observed": [
+      {
+        "worldMinute": 396,
+        "atMs": 1200,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 1,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 397,
+        "atMs": 2400,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 2,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 398,
+        "atMs": 3600,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 3,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 399,
+        "atMs": 4800,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 4,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 400,
+        "atMs": 6000,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 5,
+          "targetId": "player-1",
+          "targetAt": 395,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 395,
+              "expiresAt": 485
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 401,
+        "atMs": 7200,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 0,
+          "targetId": "player-1",
+          "targetAt": 401,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 401,
+              "expiresAt": 551
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 402,
+        "atMs": 8400,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 1,
+          "targetId": "player-1",
+          "targetAt": 401,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 401,
+              "expiresAt": 551
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 403,
+        "atMs": 9600,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 2,
+          "targetId": "player-1",
+          "targetAt": 401,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 401,
+              "expiresAt": 551
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 404,
+        "atMs": 10800,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 3,
+          "targetId": "player-1",
+          "targetAt": 401,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 401,
+              "expiresAt": 551
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 405,
+        "atMs": 12000,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 4,
+          "targetId": "player-1",
+          "targetAt": 401,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 401,
+              "expiresAt": 551
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 406,
+        "atMs": 13200,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 5,
+          "targetId": "player-1",
+          "targetAt": 401,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 401,
+              "expiresAt": 551
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 407,
+        "atMs": 14400,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 0,
+          "targetId": "player-1",
+          "targetAt": 407,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 407,
+              "expiresAt": 557
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 408,
+        "atMs": 15600,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 1,
+          "targetId": "player-1",
+          "targetAt": 407,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 407,
+              "expiresAt": 557
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 409,
+        "atMs": 16800,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 2,
+          "targetId": "player-1",
+          "targetAt": 407,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 407,
+              "expiresAt": 557
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 410,
+        "atMs": 18000,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 3,
+          "targetId": "player-1",
+          "targetAt": 407,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 407,
+              "expiresAt": 557
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 411,
+        "atMs": 19200,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 4,
+          "targetId": "player-1",
+          "targetAt": 407,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 407,
+              "expiresAt": 557
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 412,
+        "atMs": 20400,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 5,
+          "targetId": "player-1",
+          "targetAt": 407,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 407,
+              "expiresAt": 557
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 413,
+        "atMs": 21600,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 0,
+          "targetId": "player-1",
+          "targetAt": 413,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 413,
+              "expiresAt": 563
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 414,
+        "atMs": 22800,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 1,
+          "targetId": "player-1",
+          "targetAt": 413,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 413,
+              "expiresAt": 563
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 415,
+        "atMs": 24000,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 2,
+          "targetId": "player-1",
+          "targetAt": 413,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 413,
+              "expiresAt": 563
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 416,
+        "atMs": 25200,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 3,
+          "targetId": "player-1",
+          "targetAt": 413,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 413,
+              "expiresAt": 563
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 417,
+        "atMs": 26400,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 4,
+          "targetId": "player-1",
+          "targetAt": 413,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 413,
+              "expiresAt": 563
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 418,
+        "atMs": 27600,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 5,
+          "targetId": "player-1",
+          "targetAt": 413,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 413,
+              "expiresAt": 563
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 419,
+        "atMs": 28800,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 0,
+          "targetId": "player-1",
+          "targetAt": 419,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 419,
+              "expiresAt": 569
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 420,
+        "atMs": 30000,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 1,
+          "targetId": "player-1",
+          "targetAt": 419,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 419,
+              "expiresAt": 569
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 421,
+        "atMs": 31200,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 2,
+          "targetId": "player-1",
+          "targetAt": 419,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 419,
+              "expiresAt": 569
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 422,
+        "atMs": 32400,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 3,
+          "targetId": "player-1",
+          "targetAt": 419,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 419,
+              "expiresAt": 569
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 423,
+        "atMs": 33600,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 4,
+          "targetId": "player-1",
+          "targetAt": 419,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 419,
+              "expiresAt": 569
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 424,
+        "atMs": 34800,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 5,
+          "targetId": "player-1",
+          "targetAt": 419,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 419,
+              "expiresAt": 569
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 425,
+        "atMs": 36000,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 11
+        },
+        "motionTarget": null,
+        "order": "cover",
+        "supportRequested": true,
+        "schedule": "随行 · 圈内待命",
+        "behavior": "cover",
+        "distance": 0.75,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 0,
+          "targetId": "player-1",
+          "targetAt": 425,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 425,
+              "expiresAt": 575
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 426,
+        "atMs": 37200,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.73617835987126,
+          "y": 10.92628458597995
+        },
+        "motionTarget": {
+          "x": 11,
+          "y": 7
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.7398598109148021,
+        "simMoveClock": 0,
+        "perception": {
+          "clock": 1,
+          "targetId": "player-1",
+          "targetAt": 425,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 425,
+              "expiresAt": 575
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 427,
+        "atMs": 38400,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.722356719742521,
+          "y": 10.8525691719599
+        },
+        "motionTarget": {
+          "x": 11,
+          "y": 7
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.7372483161145673,
+        "simMoveClock": 1,
+        "perception": {
+          "clock": 2,
+          "targetId": "player-1",
+          "targetAt": 425,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 425,
+              "expiresAt": 575
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 428,
+        "atMs": 39600,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.708535079613782,
+          "y": 10.77885375793985
+        },
+        "motionTarget": {
+          "x": 11,
+          "y": 7
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.7422449861202396,
+        "simMoveClock": 2,
+        "perception": {
+          "clock": 3,
+          "targetId": "player-1",
+          "targetAt": 425,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 425,
+              "expiresAt": 575
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 429,
+        "atMs": 40800,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.694713439485042,
+          "y": 10.7051383439198
+        },
+        "motionTarget": {
+          "x": 11,
+          "y": 7
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.7546987208333509,
+        "simMoveClock": 3,
+        "perception": {
+          "clock": 4,
+          "targetId": "player-1",
+          "targetAt": 425,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 425,
+              "expiresAt": 575
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 430,
+        "atMs": 42000,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.680891799356303,
+          "y": 10.631422929899749
+        },
+        "motionTarget": {
+          "x": 11,
+          "y": 7
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.7742497652788467,
+        "simMoveClock": 4,
+        "perception": {
+          "clock": 5,
+          "targetId": "player-1",
+          "targetAt": 425,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 425,
+              "expiresAt": 575
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 431,
+        "atMs": 43200,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.667070159227553,
+          "y": 10.557707515879699
+        },
+        "motionTarget": {
+          "x": 11,
+          "y": 7
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.8003781848858572,
+        "simMoveClock": 5,
+        "perception": {
+          "clock": 0,
+          "targetId": "player-1",
+          "targetAt": 425,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 425,
+              "expiresAt": 575
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 432,
+        "atMs": 44400,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.65324851909879,
+          "y": 10.483992101859648
+        },
+        "motionTarget": {
+          "x": 11,
+          "y": 7
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.8324648813301291,
+        "simMoveClock": 6,
+        "perception": {
+          "clock": 1,
+          "targetId": "player-1",
+          "targetAt": 425,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 425,
+              "expiresAt": 575
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 433,
+        "atMs": 45600,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.63942687897003,
+          "y": 10.410276687839598
+        },
+        "motionTarget": {
+          "x": 11,
+          "y": 7
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.8698507449297191,
+        "simMoveClock": 7,
+        "perception": {
+          "clock": 2,
+          "targetId": "player-1",
+          "targetAt": 425,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 425,
+              "expiresAt": 575
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 434,
+        "atMs": 46800,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.625605238841267,
+          "y": 10.336561273819548
+        },
+        "motionTarget": {
+          "x": 11,
+          "y": 7
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.9118842351206535,
+        "simMoveClock": 8,
+        "perception": {
+          "clock": 3,
+          "targetId": "player-1",
+          "targetAt": 425,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 425,
+              "expiresAt": 575
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 435,
+        "atMs": 48000,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.611783598712506,
+          "y": 10.262845859799498
+        },
+        "motionTarget": {
+          "x": 11,
+          "y": 7
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 0.957953755704505,
+        "simMoveClock": 9,
+        "perception": {
+          "clock": 4,
+          "targetId": "player-1",
+          "targetAt": 425,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 425,
+              "expiresAt": 575
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 436,
+        "atMs": 49200,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.597961958583744,
+          "y": 10.189130445779448
+        },
+        "motionTarget": {
+          "x": 11,
+          "y": 7
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 1.0075058004176176,
+        "simMoveClock": 10,
+        "perception": {
+          "clock": 5,
+          "targetId": "player-1",
+          "targetAt": 425,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 425,
+              "expiresAt": 575
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 437,
+        "atMs": 50400,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.584140318454981,
+          "y": 10.115415031759397
+        },
+        "motionTarget": {
+          "x": 11,
+          "y": 7
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 1.0600521108331962,
+        "simMoveClock": 11,
+        "perception": {
+          "clock": 0,
+          "targetId": "player-1",
+          "targetAt": 425,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 425,
+              "expiresAt": 575
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 438,
+        "atMs": 51600,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.57031867832622,
+          "y": 10.041699617739347
+        },
+        "motionTarget": {
+          "x": 11,
+          "y": 7
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 1.1151695016851384,
+        "simMoveClock": 12,
+        "perception": {
+          "clock": 1,
+          "targetId": "player-1",
+          "targetAt": 425,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 425,
+              "expiresAt": 575
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 439,
+        "atMs": 52800,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.55649703819746,
+          "y": 9.967984203719297
+        },
+        "motionTarget": {
+          "x": 11,
+          "y": 7
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 1.1724954402024081,
+        "simMoveClock": 13,
+        "perception": {
+          "clock": 2,
+          "targetId": "player-1",
+          "targetAt": 425,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 425,
+              "expiresAt": 575
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 440,
+        "atMs": 54000,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.542675398068697,
+          "y": 9.894268789699247
+        },
+        "motionTarget": {
+          "x": 11,
+          "y": 7
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 1.2317215988616048,
+        "simMoveClock": 14,
+        "perception": {
+          "clock": 3,
+          "targetId": "player-1",
+          "targetAt": 425,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 425,
+              "expiresAt": 575
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 441,
+        "atMs": 55200,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.528853757939935,
+          "y": 9.820553375679197
+        },
+        "motionTarget": {
+          "x": 11,
+          "y": 7
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 1.2925868005317591,
+        "simMoveClock": 15,
+        "perception": {
+          "clock": 4,
+          "targetId": "player-1",
+          "targetAt": 425,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 425,
+              "expiresAt": 575
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 442,
+        "atMs": 56400,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.515032117811174,
+          "y": 9.746837961659146
+        },
+        "motionTarget": {
+          "x": 11,
+          "y": 7
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 1.3548701696899472,
+        "simMoveClock": 0,
+        "perception": {
+          "clock": 5,
+          "targetId": "player-1",
+          "targetAt": 425,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 425,
+              "expiresAt": 575
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 443,
+        "atMs": 57600,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.501210477682411,
+          "y": 9.673122547639096
+        },
+        "motionTarget": {
+          "x": 11,
+          "y": 7
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 1.418384897170861,
+        "simMoveClock": 1,
+        "perception": {
+          "clock": 0,
+          "targetId": "player-1",
+          "targetAt": 425,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 425,
+              "expiresAt": 575
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 444,
+        "atMs": 58800,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.48738883755365,
+          "y": 9.599407133619046
+        },
+        "motionTarget": {
+          "x": 11,
+          "y": 7
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 1.4829727766648706,
+        "simMoveClock": 2,
+        "perception": {
+          "clock": 1,
+          "targetId": "player-1",
+          "targetAt": 425,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 425,
+              "expiresAt": 575
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 445,
+        "atMs": 60000,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.473567197424888,
+          "y": 9.525691719598996
+        },
+        "motionTarget": {
+          "x": 11,
+          "y": 7
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 1.5484995305571874,
+        "simMoveClock": 3,
+        "perception": {
+          "clock": 2,
+          "targetId": "player-1",
+          "targetAt": 425,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 425,
+              "expiresAt": 575
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 446,
+        "atMs": 61200,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.459745557296127,
+          "y": 9.451976305578945
+        },
+        "motionTarget": {
+          "x": 11,
+          "y": 7
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 1.6148508711155147,
+        "simMoveClock": 4,
+        "perception": {
+          "clock": 3,
+          "targetId": "player-1",
+          "targetAt": 425,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 425,
+              "expiresAt": 575
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 447,
+        "atMs": 62400,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.445923917167365,
+          "y": 9.378260891558895
+        },
+        "motionTarget": {
+          "x": 11,
+          "y": 7
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 1.681929212466814,
+        "simMoveClock": 5,
+        "perception": {
+          "clock": 4,
+          "targetId": "player-1",
+          "targetAt": 425,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 425,
+              "expiresAt": 575
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 448,
+        "atMs": 63600,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.432102277038604,
+          "y": 9.304545477538845
+        },
+        "motionTarget": {
+          "x": 11,
+          "y": 7
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 1.7496509410610819,
+        "simMoveClock": 6,
+        "perception": {
+          "clock": 5,
+          "targetId": "player-1",
+          "targetAt": 425,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 425,
+              "expiresAt": 575
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 449,
+        "atMs": 64800,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.418280636909842,
+          "y": 9.230830063518795
+        },
+        "motionTarget": {
+          "x": 11,
+          "y": 7
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 1.817944156282754,
+        "simMoveClock": 7,
+        "perception": {
+          "clock": 0,
+          "targetId": "player-1",
+          "targetAt": 425,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 425,
+              "expiresAt": 575
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 450,
+        "atMs": 66000,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.40445899678108,
+          "y": 9.157114649498745
+        },
+        "motionTarget": {
+          "x": 11,
+          "y": 7
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 1.8867468020826996,
+        "simMoveClock": 8,
+        "perception": {
+          "clock": 1,
+          "targetId": "player-1",
+          "targetAt": 425,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 425,
+              "expiresAt": 575
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 451,
+        "atMs": 67200,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.390637356652318,
+          "y": 9.083399235478694
+        },
+        "motionTarget": {
+          "x": 11,
+          "y": 7
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 1.956005121408419,
+        "simMoveClock": 9,
+        "perception": {
+          "clock": 2,
+          "targetId": "player-1",
+          "targetAt": 425,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 425,
+              "expiresAt": 575
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 452,
+        "atMs": 68400,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.376815716523557,
+          "y": 9.009683821458644
+        },
+        "motionTarget": {
+          "x": 11,
+          "y": 7
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 2.0256723759736244,
+        "simMoveClock": 10,
+        "perception": {
+          "clock": 3,
+          "targetId": "player-1",
+          "targetAt": 425,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 425,
+              "expiresAt": 575
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 453,
+        "atMs": 69600,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.362994076394795,
+          "y": 8.935968407438594
+        },
+        "motionTarget": {
+          "x": 11,
+          "y": 7
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 2.0957077836829456,
+        "simMoveClock": 11,
+        "perception": {
+          "clock": 4,
+          "targetId": "player-1",
+          "targetAt": 425,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 425,
+              "expiresAt": 575
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 454,
+        "atMs": 70800,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.349172436266034,
+          "y": 8.862252993418544
+        },
+        "motionTarget": {
+          "x": 11,
+          "y": 7
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 2.16607563450493,
+        "simMoveClock": 12,
+        "perception": {
+          "clock": 5,
+          "targetId": "player-1",
+          "targetAt": 425,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 425,
+              "expiresAt": 575
+            }
+          },
+          "sharedUntil": 0
+        }
+      },
+      {
+        "worldMinute": 455,
+        "atMs": 72000,
+        "player": {
+          "x": 11,
+          "y": 11
+        },
+        "npc": {
+          "x": 11.335350796137272,
+          "y": 8.788537579398493
+        },
+        "motionTarget": {
+          "x": 11,
+          "y": 7
+        },
+        "order": "guard",
+        "supportRequested": true,
+        "schedule": "休整",
+        "behavior": "guard",
+        "distance": 2.2367445527378798,
+        "simMoveClock": 13,
+        "perception": {
+          "clock": 0,
+          "targetId": "player-1",
+          "targetAt": 425,
+          "contacts": {
+            "player-1": {
+              "x": 11,
+              "y": 11,
+              "sourceId": "radio",
+              "at": 425,
+              "expiresAt": 575
+            }
+          },
+          "sharedUntil": 0
+        }
+      }
+    ],
+    "anyMotionTargetMatchesCurrentPlayer": false,
+    "sourceScope": "TEST-ONLY complete actual handoff writer derivative; paid15 then30 paused and30 resumed actual registered world minutes, plus normal checkpoint timeout windows; not natural engineering or rescue utility"
+  },
+  "automaticWriter": {
+    "worldMinute": 455,
+    "eventSeq": 101,
+    "sha256": "f8dfdedeca27ca8de6e5ba967451c179657e108267ed91eee30c5db200fd5963"
+  },
+  "recovery": {
+    "selectedChecksum": "16714180",
+    "writerMinute": 455,
+    "loadedMinute": 455,
+    "writerSha256": "f8dfdedeca27ca8de6e5ba967451c179657e108267ed91eee30c5db200fd5963",
+    "noPostReloadTick": true
+  },
+  "ok": true,
+  "naturalEngineeringValueClaimed": false,
+  "count": 7,
+  "passed": 7
+}

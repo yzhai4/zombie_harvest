@@ -1,0 +1,204 @@
+{
+  "key": "zombie-harvest-progress-v12",
+  "sourceCategory": "primary",
+  "originalChecksum": "b30120ed",
+  "classification": "DAY",
+  "installed": false,
+  "savePending": false,
+  "started": false,
+  "mode": "START",
+  "exiting": false,
+  "overlayHidden": false,
+  "live": {
+    "world": 0,
+    "eventSeq": 1,
+    "npc": {
+      "id": "guardChen",
+      "name": "陈野",
+      "role": "士兵",
+      "icon": "🔦",
+      "desc": "节省弹药，威胁过高时提前撤退",
+      "homeZone": "barracks",
+      "workZone": "serviceGate",
+      "x": 13,
+      "y": 10,
+      "maxHp": 100,
+      "hp": 100,
+      "lifeState": "healthy",
+      "wounds": [],
+      "morale": 72,
+      "behaviorState": "work",
+      "currentOrder": null,
+      "fallbackPoint": {
+        "x": 2,
+        "y": 2
+      },
+      "inventory": {
+        "medicine": 0,
+        "ammo": 2
+      },
+      "appearance": {
+        "bodyType": "slim",
+        "skin": "#c88969",
+        "hair": "#332c2b",
+        "hairStyle": "beanie",
+        "signature": "flashlight",
+        "palette": {
+          "cloth": "#526f80",
+          "clothDark": "#324858",
+          "accent": "#d6bb63",
+          "tool": "#b9c5cc"
+        },
+        "equipment": {
+          "head": "beanie",
+          "outer": "guardVest",
+          "back": "smallPack",
+          "weapon": "flashlight",
+          "offhand": "flashlight",
+          "tool": "flashlight"
+        }
+      },
+      "equipment": {
+        "head": "beanie",
+        "outer": "guardVest",
+        "back": "smallPack",
+        "weapon": "flashlight",
+        "offhand": "flashlight",
+        "tool": "flashlight"
+      },
+      "personality": {
+        "courage": 42,
+        "duty": 56,
+        "compassion": 46,
+        "discipline": 64,
+        "riskTolerance": 28,
+        "loyalty": 48
+      },
+      "attributes": {
+        "production": 60,
+        "weaponSkill": 37,
+        "armorSkill": 60,
+        "turretSkill": 62,
+        "buildSkill": 57,
+        "medicalSkill": 54,
+        "researchSkill": 46,
+        "logisticsSkill": 59,
+        "commandSkill": 59
+      },
+      "hero": {
+        "tier": "ordinary",
+        "status": "locked",
+        "progress": 0,
+        "activeSkill": null,
+        "passiveSkill": null,
+        "promotedDay": null
+      },
+      "relations": {
+        "trustToPlayer": 0,
+        "trustToCommander": 0,
+        "bondToPlayer": 0,
+        "respectToPlayer": 0,
+        "fearOfPlayer": 0,
+        "resentmentOfPlayer": 0,
+        "loyaltyToCamp": 48,
+        "loyaltyToCommander": 45,
+        "belongingToCamp": 40,
+        "allies": [
+          "guardJi"
+        ],
+        "rivals": [
+          "guardJiang"
+        ],
+        "values": {
+          "safety": 50,
+          "order": 64,
+          "compassion": 46,
+          "autonomy": 50,
+          "truth": 50
+        },
+        "knowledgeOfPlayer": {
+          "facts": [],
+          "lastHeardAt": 0
+        },
+        "opinionFlags": {}
+      },
+      "memory": {
+        "helpedByPlayer": 0,
+        "witnessedDeaths": 0,
+        "failedOrders": 0,
+        "importantEvents": [],
+        "relayCoreHandoff": null
+      },
+      "needs": {
+        "hunger": 18,
+        "fatigue": 12,
+        "stress": 8,
+        "energy": 82,
+        "social": 28,
+        "safety": 18
+      },
+      "sanity": 72,
+      "sanityClock": 0,
+      "sanityLastReason": "营地仍然安全",
+      "scheduleState": "work",
+      "lastReport": "",
+      "actingRole": null,
+      "actingFor": null,
+      "eventChain": {
+        "step": 0,
+        "cooldown": 0,
+        "active": null,
+        "resolved": []
+      },
+      "perception": {
+        "clock": 0,
+        "targetId": null,
+        "targetAt": 0,
+        "contacts": {},
+        "sharedUntil": 0
+      },
+      "supportRequested": false,
+      "order": null,
+      "bond": 0,
+      "combatHp": 100,
+      "combatStatus": "ready",
+      "simMoveClock": 0,
+      "needClock": 0,
+      "workClock": 0,
+      "workPulseSeq": 0,
+      "workHistory": [],
+      "routineIntent": null,
+      "escapePressure": 0,
+      "perk": "威胁过高时优先撤退"
+    },
+    "events": [
+      {
+        "eventId": "evt-000001",
+        "seq": 1,
+        "type": "plan.commandPoints.refreshed",
+        "actorId": "camp-autonomy",
+        "commandId": null,
+        "causationId": null,
+        "tick": {
+          "world": 360,
+          "phase": 0,
+          "schedule": 0
+        },
+        "payload": {
+          "day": 1,
+          "before": 0,
+          "after": 0,
+          "cap": 0,
+          "reason": "initial",
+          "campTrust": 0,
+          "campCollapse": 0
+        },
+        "defId": "camp-plan-meeting-001",
+        "definitionVersion": 1,
+        "instanceId": "event-initial",
+        "effects": []
+      }
+    ]
+  },
+  "rawSha256": "d89a688f98e6b105def38aa0db466dfa6717f39533a899897c9d03dee73b9297"
+}

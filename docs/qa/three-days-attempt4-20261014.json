@@ -1,0 +1,1682 @@
+{
+  "runner": "smoke-three-days",
+  "mode": "python-playwright-public-action-calendar-progression",
+  "url": "http://82.157.208.167/",
+  "profile": "isolated-profile",
+  "startedAtUnix": 1791997835.6495025,
+  "limits": {
+    "actionSeconds": 30,
+    "encounterSeconds": 60,
+    "globalSeconds": 600,
+    "heartbeatSeconds": 15,
+    "parentPollingSeconds": 30
+  },
+  "policy": {
+    "newGameViaPublicReset": true,
+    "saveInjection": false,
+    "hiddenStateMutation": false,
+    "internalFunctionCalls": false,
+    "primarySaveReadOnly": true
+  },
+  "routeSideEffects": [
+    "Each barracks interaction advances 30 minutes, raises player SAN by 2 and morale by 2.",
+    "Training raises active guards' SAN/morale and lowers stress; this route is not a balance evaluation.",
+    "Residence dinner consumes one food while lowering all active NPC hunger; ordinary crop and resource rewards are retained.",
+    "Obstructing daytime threats are cleared with at most four verified public attacks per waypoint; each costs 5 energy and advances 10 minutes, and surviving enemies may bite, lowering HP/SAN."
+  ],
+  "checks": [
+    {
+      "name": "new game starts on calendar day one",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "new game fixed roster is ten",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "initial public supply event",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "resume main save is not older than runner checkpoint",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "new game starts on calendar day one",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "new game fixed roster is ten",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "initial public supply event",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "supply A gives three actual food",
+      "ok": true,
+      "detail": {
+        "before": 8,
+        "actual": 11,
+        "eventSeq": 12,
+        "resumedAlreadyHandled": false
+      }
+    },
+    {
+      "name": "public gather context action enabled",
+      "ok": true,
+      "detail": "1🧺 采集木材消耗 8 行动体力 · 前往附近资源"
+    },
+    {
+      "name": "gather has positive actual resource.collected ledger",
+      "ok": true,
+      "detail": [
+        {
+          "eventId": "evt-000026",
+          "seq": 26,
+          "type": "resource.collected",
+          "actorId": "system",
+          "commandId": "cmd-000090",
+          "causationId": null,
+          "tick": {
+            "world": 410,
+            "phase": 0,
+            "schedule": 50
+          },
+          "payload": {
+            "resourceId": null,
+            "delta": {
+              "wood": 4,
+              "stone": 0,
+              "food": 0,
+              "parts": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "public crop context action enabled",
+      "ok": true,
+      "detail": "1🌱 播种消耗 4 行动体力 · 消耗 1 种子"
+    },
+    {
+      "name": "existing garden planting",
+      "ok": true,
+      "detail": {
+        "x": 7,
+        "y": 14,
+        "type": "garden",
+        "planted": true,
+        "growth": 0,
+        "ready": false,
+        "id": "bld-mazjx8"
+      }
+    },
+    {
+      "name": "planting consumes real seed",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "public gather context action enabled",
+      "ok": true,
+      "detail": "1🧺 采集食物消耗 8 行动体力 · 前往附近资源"
+    },
+    {
+      "name": "gather has positive actual resource.collected ledger",
+      "ok": true,
+      "detail": [
+        {
+          "eventId": "evt-000083",
+          "seq": 83,
+          "type": "resource.collected",
+          "actorId": "system",
+          "commandId": "cmd-000253",
+          "causationId": null,
+          "tick": {
+            "world": 490,
+            "phase": 0,
+            "schedule": 130
+          },
+          "payload": {
+            "resourceId": null,
+            "delta": {
+              "wood": 0,
+              "stone": 0,
+              "food": 2,
+              "parts": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "public gather context action enabled",
+      "ok": true,
+      "detail": "1🧺 采集食物消耗 8 行动体力 · 前往附近资源"
+    },
+    {
+      "name": "gather has positive actual resource.collected ledger",
+      "ok": true,
+      "detail": [
+        {
+          "eventId": "evt-000091",
+          "seq": 91,
+          "type": "resource.collected",
+          "actorId": "system",
+          "commandId": "cmd-000256",
+          "causationId": null,
+          "tick": {
+            "world": 521,
+            "phase": 0,
+            "schedule": 161
+          },
+          "payload": {
+            "resourceId": null,
+            "delta": {
+              "wood": 0,
+              "stone": 0,
+              "food": 2,
+              "parts": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "encounter 1 starts on its actual calendar day",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "day 1 real night started",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "day 1 night resolved within 60 seconds",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "day 1 resolved threat save",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "day 1 camp survives before closing report",
+      "ok": true,
+      "detail": 100
+    },
+    {
+      "name": "day 1 actual threat.resolved ledger",
+      "ok": true,
+      "detail": [
+        {
+          "eventId": "evt-000131",
+          "seq": 131,
+          "type": "threat.resolved",
+          "actorId": "system",
+          "commandId": null,
+          "causationId": null,
+          "tick": {
+            "world": 540,
+            "phase": 0,
+            "schedule": 180
+          },
+          "payload": {
+            "threatId": "threat-1-9-0-125",
+            "kills": 3,
+            "breaches": 2,
+            "damage": 0,
+            "routeId": "eastern-breach",
+            "finalCrisisRoute": "eastern-breach"
+          }
+        }
+      ]
+    },
+    {
+      "name": "closing day 1 report does not advance the calendar",
+      "ok": true,
+      "detail": {
+        "summary": 540,
+        "afterClose": 540
+      }
+    },
+    {
+      "name": "day 1 returns to daytime",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "initial document actual served HTML request succeeds",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "resume main save is not older than runner checkpoint",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "day 1 resumed closed encounter exactly ten unique roster IDs",
+      "ok": true,
+      "detail": [
+        "carpenter",
+        "commander",
+        "cook",
+        "doctor",
+        "guardChen",
+        "guardJi",
+        "guardJiang",
+        "quartermaster",
+        "radio",
+        "sergeant"
+      ]
+    },
+    {
+      "name": "day 1 resumed closed encounter initial roster IDs preserved",
+      "ok": true,
+      "detail": [
+        "carpenter",
+        "commander",
+        "cook",
+        "doctor",
+        "guardChen",
+        "guardJi",
+        "guardJiang",
+        "quartermaster",
+        "radio",
+        "sergeant"
+      ]
+    },
+    {
+      "name": "day 1 resumed closed encounter camp existence invariants",
+      "ok": true,
+      "detail": {
+        "activeNpcCount": 10,
+        "campHp": 100,
+        "campCollapse": 0
+      }
+    },
+    {
+      "name": "resumed night has exact started/resolved/closed trace",
+      "ok": true,
+      "detail": {
+        "threatId": "threat-1-9-0-125",
+        "startedSeq": 125,
+        "resolvedSeq": 131,
+        "closedSeq": 134,
+        "legacyEmptyClosePayload": true
+      }
+    },
+    {
+      "name": "public 兵营 affordance",
+      "ok": true,
+      "detail": [
+        9.2,
+        11.8
+      ]
+    },
+    {
+      "name": "public 兵营 action persisted its specific receipt",
+      "ok": true,
+      "detail": [
+        {
+          "eventId": "evt-000182",
+          "seq": 182,
+          "type": "camp.area.interacted",
+          "actorId": "player-1",
+          "commandId": "cmd-000489",
+          "causationId": null,
+          "tick": {
+            "world": 600,
+            "phase": 0,
+            "schedule": 240
+          },
+          "payload": {
+            "zone": "barracks",
+            "x": 9,
+            "y": 12,
+            "before": {
+              "time": 570,
+              "food": 15,
+              "morale": 78,
+              "hp": 100,
+              "energy": 50
+            },
+            "after": {
+              "time": 600,
+              "food": 15,
+              "morale": 80,
+              "hp": 100,
+              "energy": 51
+            },
+            "minutes": 30
+          }
+        }
+      ]
+    },
+    {
+      "name": "public 兵营 affordance",
+      "ok": true,
+      "detail": [
+        9.2,
+        11.8
+      ]
+    },
+    {
+      "name": "public 兵营 action persisted its specific receipt",
+      "ok": true,
+      "detail": [
+        {
+          "eventId": "evt-000202",
+          "seq": 202,
+          "type": "camp.area.interacted",
+          "actorId": "player-1",
+          "commandId": "cmd-000493",
+          "causationId": null,
+          "tick": {
+            "world": 632,
+            "phase": 0,
+            "schedule": 272
+          },
+          "payload": {
+            "zone": "barracks",
+            "x": 9,
+            "y": 12,
+            "before": {
+              "time": 602,
+              "food": 15,
+              "morale": 80,
+              "hp": 100,
+              "energy": 51
+            },
+            "after": {
+              "time": 632,
+              "food": 15,
+              "morale": 82,
+              "hp": 100,
+              "energy": 52
+            },
+            "minutes": 30
+          }
+        }
+      ]
+    },
+    {
+      "name": "public 兵营 affordance",
+      "ok": true,
+      "detail": [
+        9.2,
+        11.8
+      ]
+    },
+    {
+      "name": "public 兵营 action persisted its specific receipt",
+      "ok": true,
+      "detail": [
+        {
+          "eventId": "evt-000228",
+          "seq": 228,
+          "type": "camp.area.interacted",
+          "actorId": "player-1",
+          "commandId": "cmd-000503",
+          "causationId": null,
+          "tick": {
+            "world": 670,
+            "phase": 0,
+            "schedule": 310
+          },
+          "payload": {
+            "zone": "barracks",
+            "x": 9,
+            "y": 12,
+            "before": {
+              "time": 640,
+              "food": 15,
+              "morale": 82,
+              "hp": 100,
+              "energy": 52
+            },
+            "after": {
+              "time": 670,
+              "food": 15,
+              "morale": 84,
+              "hp": 100,
+              "energy": 53
+            },
+            "minutes": 30
+          }
+        }
+      ]
+    },
+    {
+      "name": "public 兵营 affordance",
+      "ok": true,
+      "detail": [
+        9.2,
+        11.8
+      ]
+    },
+    {
+      "name": "public 兵营 action persisted its specific receipt",
+      "ok": true,
+      "detail": [
+        {
+          "eventId": "evt-000246",
+          "seq": 246,
+          "type": "camp.area.interacted",
+          "actorId": "player-1",
+          "commandId": "cmd-000515",
+          "causationId": null,
+          "tick": {
+            "world": 710,
+            "phase": 0,
+            "schedule": 350
+          },
+          "payload": {
+            "zone": "barracks",
+            "x": 9,
+            "y": 12,
+            "before": {
+              "time": 680,
+              "food": 15,
+              "morale": 84,
+              "hp": 100,
+              "energy": 53
+            },
+            "after": {
+              "time": 710,
+              "food": 15,
+              "morale": 86,
+              "hp": 100,
+              "energy": 54
+            },
+            "minutes": 30
+          }
+        }
+      ]
+    },
+    {
+      "name": "public 兵营 affordance",
+      "ok": true,
+      "detail": [
+        9.2,
+        11.8
+      ]
+    },
+    {
+      "name": "public 兵营 action persisted its specific receipt",
+      "ok": true,
+      "detail": [
+        {
+          "eventId": "evt-000266",
+          "seq": 266,
+          "type": "camp.area.interacted",
+          "actorId": "player-1",
+          "commandId": "cmd-000519",
+          "causationId": null,
+          "tick": {
+            "world": 742,
+            "phase": 0,
+            "schedule": 382
+          },
+          "payload": {
+            "zone": "barracks",
+            "x": 9,
+            "y": 12,
+            "before": {
+              "time": 712,
+              "food": 15,
+              "morale": 86,
+              "hp": 100,
+              "energy": 54
+            },
+            "after": {
+              "time": 742,
+              "food": 15,
+              "morale": 88,
+              "hp": 100,
+              "energy": 55
+            },
+            "minutes": 30
+          }
+        }
+      ]
+    },
+    {
+      "name": "public 兵营 affordance",
+      "ok": true,
+      "detail": [
+        9.2,
+        11.8
+      ]
+    },
+    {
+      "name": "public 兵营 action persisted its specific receipt",
+      "ok": true,
+      "detail": [
+        {
+          "eventId": "evt-000292",
+          "seq": 292,
+          "type": "camp.area.interacted",
+          "actorId": "player-1",
+          "commandId": "cmd-000529",
+          "causationId": null,
+          "tick": {
+            "world": 780,
+            "phase": 0,
+            "schedule": 420
+          },
+          "payload": {
+            "zone": "barracks",
+            "x": 9,
+            "y": 12,
+            "before": {
+              "time": 750,
+              "food": 15,
+              "morale": 88,
+              "hp": 100,
+              "energy": 55
+            },
+            "after": {
+              "time": 780,
+              "food": 15,
+              "morale": 90,
+              "hp": 100,
+              "energy": 56
+            },
+            "minutes": 30
+          }
+        }
+      ]
+    },
+    {
+      "name": "public 兵营 affordance",
+      "ok": true,
+      "detail": [
+        9.2,
+        11.8
+      ]
+    },
+    {
+      "name": "public 兵营 action persisted its specific receipt",
+      "ok": true,
+      "detail": [
+        {
+          "eventId": "evt-000302",
+          "seq": 302,
+          "type": "camp.area.interacted",
+          "actorId": "player-1",
+          "commandId": "cmd-000533",
+          "causationId": null,
+          "tick": {
+            "world": 812,
+            "phase": 0,
+            "schedule": 452
+          },
+          "payload": {
+            "zone": "barracks",
+            "x": 9,
+            "y": 12,
+            "before": {
+              "time": 782,
+              "food": 15,
+              "morale": 90,
+              "hp": 100,
+              "energy": 56
+            },
+            "after": {
+              "time": 812,
+              "food": 15,
+              "morale": 92,
+              "hp": 100,
+              "energy": 57
+            },
+            "minutes": 30
+          }
+        }
+      ]
+    },
+    {
+      "name": "public 兵营 affordance",
+      "ok": true,
+      "detail": [
+        9.2,
+        11.8
+      ]
+    },
+    {
+      "name": "public 兵营 action persisted its specific receipt",
+      "ok": true,
+      "detail": [
+        {
+          "eventId": "evt-000329",
+          "seq": 329,
+          "type": "camp.area.interacted",
+          "actorId": "player-1",
+          "commandId": "cmd-000544",
+          "causationId": null,
+          "tick": {
+            "world": 851,
+            "phase": 0,
+            "schedule": 491
+          },
+          "payload": {
+            "zone": "barracks",
+            "x": 9,
+            "y": 12,
+            "before": {
+              "time": 821,
+              "food": 15,
+              "morale": 92,
+              "hp": 100,
+              "energy": 57
+            },
+            "after": {
+              "time": 851,
+              "food": 15,
+              "morale": 94,
+              "hp": 100,
+              "energy": 58
+            },
+            "minutes": 30
+          }
+        }
+      ]
+    },
+    {
+      "name": "public 兵营 affordance",
+      "ok": true,
+      "detail": [
+        9.2,
+        11.8
+      ]
+    },
+    {
+      "name": "public 兵营 action persisted its specific receipt",
+      "ok": true,
+      "detail": [
+        {
+          "eventId": "evt-000345",
+          "seq": 345,
+          "type": "camp.area.interacted",
+          "actorId": "player-1",
+          "commandId": "cmd-000555",
+          "causationId": null,
+          "tick": {
+            "world": 890,
+            "phase": 0,
+            "schedule": 530
+          },
+          "payload": {
+            "zone": "barracks",
+            "x": 9,
+            "y": 12,
+            "before": {
+              "time": 860,
+              "food": 15,
+              "morale": 94,
+              "hp": 100,
+              "energy": 58
+            },
+            "after": {
+              "time": 890,
+              "food": 15,
+              "morale": 96,
+              "hp": 100,
+              "energy": 59
+            },
+            "minutes": 30
+          }
+        }
+      ]
+    },
+    {
+      "name": "public 兵营 affordance",
+      "ok": true,
+      "detail": [
+        9.2,
+        11.8
+      ]
+    },
+    {
+      "name": "public 兵营 action persisted its specific receipt",
+      "ok": true,
+      "detail": [
+        {
+          "eventId": "evt-000364",
+          "seq": 364,
+          "type": "camp.area.interacted",
+          "actorId": "player-1",
+          "commandId": "cmd-000559",
+          "causationId": null,
+          "tick": {
+            "world": 922,
+            "phase": 0,
+            "schedule": 562
+          },
+          "payload": {
+            "zone": "barracks",
+            "x": 9,
+            "y": 12,
+            "before": {
+              "time": 892,
+              "food": 15,
+              "morale": 96,
+              "hp": 100,
+              "energy": 59
+            },
+            "after": {
+              "time": 922,
+              "food": 15,
+              "morale": 98,
+              "hp": 100,
+              "energy": 60
+            },
+            "minutes": 30
+          }
+        }
+      ]
+    },
+    {
+      "name": "public 兵营 affordance",
+      "ok": true,
+      "detail": [
+        9.2,
+        11.8
+      ]
+    },
+    {
+      "name": "public 兵营 action persisted its specific receipt",
+      "ok": true,
+      "detail": [
+        {
+          "eventId": "evt-000390",
+          "seq": 390,
+          "type": "camp.area.interacted",
+          "actorId": "player-1",
+          "commandId": "cmd-000570",
+          "causationId": null,
+          "tick": {
+            "world": 961,
+            "phase": 0,
+            "schedule": 601
+          },
+          "payload": {
+            "zone": "barracks",
+            "x": 9,
+            "y": 12,
+            "before": {
+              "time": 931,
+              "food": 15,
+              "morale": 98,
+              "hp": 100,
+              "energy": 60
+            },
+            "after": {
+              "time": 961,
+              "food": 15,
+              "morale": 100,
+              "hp": 100,
+              "energy": 61
+            },
+            "minutes": 30
+          }
+        }
+      ]
+    },
+    {
+      "name": "public 兵营 affordance",
+      "ok": true,
+      "detail": [
+        9.2,
+        11.8
+      ]
+    },
+    {
+      "name": "public 兵营 action persisted its specific receipt",
+      "ok": true,
+      "detail": [
+        {
+          "eventId": "evt-000417",
+          "seq": 417,
+          "type": "camp.area.interacted",
+          "actorId": "player-1",
+          "commandId": "cmd-000592",
+          "causationId": null,
+          "tick": {
+            "world": 1011,
+            "phase": 0,
+            "schedule": 651
+          },
+          "payload": {
+            "zone": "barracks",
+            "x": 9,
+            "y": 12,
+            "before": {
+              "time": 981,
+              "food": 15,
+              "morale": 100,
+              "hp": 100,
+              "energy": 61
+            },
+            "after": {
+              "time": 1011,
+              "food": 15,
+              "morale": 100,
+              "hp": 100,
+              "energy": 62
+            },
+            "minutes": 30
+          }
+        }
+      ]
+    },
+    {
+      "name": "public 兵营 affordance",
+      "ok": true,
+      "detail": [
+        9.2,
+        11.8
+      ]
+    },
+    {
+      "name": "public 兵营 action persisted its specific receipt",
+      "ok": true,
+      "detail": [
+        {
+          "eventId": "evt-000454",
+          "seq": 454,
+          "type": "camp.area.interacted",
+          "actorId": "player-1",
+          "commandId": "cmd-000614",
+          "causationId": null,
+          "tick": {
+            "world": 1061,
+            "phase": 0,
+            "schedule": 701
+          },
+          "payload": {
+            "zone": "barracks",
+            "x": 9,
+            "y": 12,
+            "before": {
+              "time": 1031,
+              "food": 15,
+              "morale": 100,
+              "hp": 100,
+              "energy": 62
+            },
+            "after": {
+              "time": 1061,
+              "food": 15,
+              "morale": 100,
+              "hp": 100,
+              "energy": 63
+            },
+            "minutes": 30
+          }
+        }
+      ]
+    },
+    {
+      "name": "public 兵营 affordance",
+      "ok": true,
+      "detail": [
+        9.2,
+        11.8
+      ]
+    },
+    {
+      "name": "public 兵营 action persisted its specific receipt",
+      "ok": true,
+      "detail": [
+        {
+          "eventId": "evt-000472",
+          "seq": 472,
+          "type": "camp.area.interacted",
+          "actorId": "player-1",
+          "commandId": "cmd-000617",
+          "causationId": null,
+          "tick": {
+            "world": 1092,
+            "phase": 0,
+            "schedule": 732
+          },
+          "payload": {
+            "zone": "barracks",
+            "x": 9,
+            "y": 12,
+            "before": {
+              "time": 1062,
+              "food": 15,
+              "morale": 100,
+              "hp": 100,
+              "energy": 63
+            },
+            "after": {
+              "time": 1092,
+              "food": 15,
+              "morale": 100,
+              "hp": 100,
+              "energy": 64
+            },
+            "minutes": 30
+          }
+        }
+      ]
+    },
+    {
+      "name": "initial document actual served HTML request succeeds",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "resume main save is not older than runner checkpoint",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "navigation obstruction has public attack affordance",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "navigation attack uses available action energy",
+      "ok": true,
+      "detail": 64
+    },
+    {
+      "name": "navigation obstruction is a real adjacent world threat",
+      "ok": true,
+      "detail": {
+        "wz-4": 100
+      }
+    },
+    {
+      "name": "navigation public attack has actual health/time/command effect",
+      "ok": true,
+      "detail": {
+        "changes": [
+          {
+            "enemyId": "wz-4",
+            "beforeHp": 100,
+            "afterHp": 50
+          }
+        ],
+        "receipts": [
+          {
+            "eventId": "evt-000494",
+            "seq": 494,
+            "type": "threat.attacked",
+            "actorId": "player-1",
+            "commandId": "cmd-000656",
+            "causationId": null,
+            "tick": {
+              "world": 1121,
+              "phase": 0,
+              "schedule": 761
+            },
+            "payload": {}
+          }
+        ]
+      }
+    },
+    {
+      "name": "navigation after public attack exactly ten unique roster IDs",
+      "ok": true,
+      "detail": [
+        "carpenter",
+        "commander",
+        "cook",
+        "doctor",
+        "guardChen",
+        "guardJi",
+        "guardJiang",
+        "quartermaster",
+        "radio",
+        "sergeant"
+      ]
+    },
+    {
+      "name": "navigation after public attack initial roster IDs preserved",
+      "ok": true,
+      "detail": [
+        "carpenter",
+        "commander",
+        "cook",
+        "doctor",
+        "guardChen",
+        "guardJi",
+        "guardJiang",
+        "quartermaster",
+        "radio",
+        "sergeant"
+      ]
+    },
+    {
+      "name": "navigation after public attack camp existence invariants",
+      "ok": true,
+      "detail": {
+        "activeNpcCount": 10,
+        "campHp": 92,
+        "campCollapse": 0
+      }
+    },
+    {
+      "name": "navigation obstruction has public attack affordance",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "navigation attack uses available action energy",
+      "ok": true,
+      "detail": 59
+    },
+    {
+      "name": "navigation obstruction is a real adjacent world threat",
+      "ok": true,
+      "detail": {
+        "wz-4": 50
+      }
+    },
+    {
+      "name": "navigation public attack has actual health/time/command effect",
+      "ok": true,
+      "detail": {
+        "changes": [
+          {
+            "enemyId": "wz-4",
+            "beforeHp": 50,
+            "afterHp": 0
+          }
+        ],
+        "receipts": [
+          {
+            "eventId": "evt-000527",
+            "seq": 527,
+            "type": "threat.attacked",
+            "actorId": "player-1",
+            "commandId": "cmd-000695",
+            "causationId": null,
+            "tick": {
+              "world": 1151,
+              "phase": 0,
+              "schedule": 791
+            },
+            "payload": {}
+          }
+        ]
+      }
+    },
+    {
+      "name": "navigation after public attack exactly ten unique roster IDs",
+      "ok": true,
+      "detail": [
+        "carpenter",
+        "commander",
+        "cook",
+        "doctor",
+        "guardChen",
+        "guardJi",
+        "guardJiang",
+        "quartermaster",
+        "radio",
+        "sergeant"
+      ]
+    },
+    {
+      "name": "navigation after public attack initial roster IDs preserved",
+      "ok": true,
+      "detail": [
+        "carpenter",
+        "commander",
+        "cook",
+        "doctor",
+        "guardChen",
+        "guardJi",
+        "guardJiang",
+        "quartermaster",
+        "radio",
+        "sergeant"
+      ]
+    },
+    {
+      "name": "navigation after public attack camp existence invariants",
+      "ok": true,
+      "detail": {
+        "activeNpcCount": 10,
+        "campHp": 92,
+        "campCollapse": 0
+      }
+    }
+  ],
+  "errors": [
+    "TimeoutError:public navigation timeout toward (11.8, 11.6)"
+  ],
+  "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 404 (File not found)",
+    "Failed to load resource: the server responded with a status of 404 (File not found)",
+    "Failed to load resource: the server responded with a status of 404 (File not found)",
+    "Failed to load resource: the server responded with a status of 404 (File not found)"
+  ],
+  "httpErrors": [],
+  "actions": [
+    {
+      "type": "supply-A",
+      "foodGain": 3,
+      "recoveredFromPrimarySave": false
+    },
+    {
+      "type": "gather",
+      "x": 8.2,
+      "y": 8.2,
+      "events": [
+        {
+          "eventId": "evt-000026",
+          "seq": 26,
+          "type": "resource.collected",
+          "actorId": "system",
+          "commandId": "cmd-000090",
+          "causationId": null,
+          "tick": {
+            "world": 410,
+            "phase": 0,
+            "schedule": 50
+          },
+          "payload": {
+            "resourceId": null,
+            "delta": {
+              "wood": 4,
+              "stone": 0,
+              "food": 0,
+              "parts": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "plant",
+      "day": 1
+    },
+    {
+      "type": "gather",
+      "x": 8.2,
+      "y": 18.3,
+      "events": [
+        {
+          "eventId": "evt-000083",
+          "seq": 83,
+          "type": "resource.collected",
+          "actorId": "system",
+          "commandId": "cmd-000253",
+          "causationId": null,
+          "tick": {
+            "world": 490,
+            "phase": 0,
+            "schedule": 130
+          },
+          "payload": {
+            "resourceId": null,
+            "delta": {
+              "wood": 0,
+              "stone": 0,
+              "food": 2,
+              "parts": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "gather",
+      "x": 8.2,
+      "y": 18.3,
+      "events": [
+        {
+          "eventId": "evt-000091",
+          "seq": 91,
+          "type": "resource.collected",
+          "actorId": "system",
+          "commandId": "cmd-000256",
+          "causationId": null,
+          "tick": {
+            "world": 521,
+            "phase": 0,
+            "schedule": 161
+          },
+          "payload": {
+            "resourceId": null,
+            "delta": {
+              "wood": 0,
+              "stone": 0,
+              "food": 2,
+              "parts": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "barracks-training",
+      "before": 570,
+      "after": 600,
+      "publicExpectedMinutes": 30,
+      "eventId": "evt-000182"
+    },
+    {
+      "type": "barracks-training",
+      "before": 601,
+      "after": 632,
+      "publicExpectedMinutes": 30,
+      "eventId": "evt-000202"
+    },
+    {
+      "type": "barracks-training",
+      "before": 640,
+      "after": 671,
+      "publicExpectedMinutes": 30,
+      "eventId": "evt-000228"
+    },
+    {
+      "type": "barracks-training",
+      "before": 680,
+      "after": 710,
+      "publicExpectedMinutes": 30,
+      "eventId": "evt-000246"
+    },
+    {
+      "type": "barracks-training",
+      "before": 711,
+      "after": 742,
+      "publicExpectedMinutes": 30,
+      "eventId": "evt-000266"
+    },
+    {
+      "type": "barracks-training",
+      "before": 750,
+      "after": 780,
+      "publicExpectedMinutes": 30,
+      "eventId": "evt-000292"
+    },
+    {
+      "type": "barracks-training",
+      "before": 782,
+      "after": 812,
+      "publicExpectedMinutes": 30,
+      "eventId": "evt-000302"
+    },
+    {
+      "type": "barracks-training",
+      "before": 821,
+      "after": 851,
+      "publicExpectedMinutes": 30,
+      "eventId": "evt-000329"
+    },
+    {
+      "type": "barracks-training",
+      "before": 860,
+      "after": 891,
+      "publicExpectedMinutes": 30,
+      "eventId": "evt-000345"
+    },
+    {
+      "type": "barracks-training",
+      "before": 892,
+      "after": 922,
+      "publicExpectedMinutes": 30,
+      "eventId": "evt-000364"
+    },
+    {
+      "type": "barracks-training",
+      "before": 931,
+      "after": 961,
+      "publicExpectedMinutes": 30,
+      "eventId": "evt-000390"
+    },
+    {
+      "type": "barracks-training",
+      "before": 981,
+      "after": 1011,
+      "publicExpectedMinutes": 30,
+      "eventId": "evt-000417"
+    },
+    {
+      "type": "barracks-training",
+      "before": 1031,
+      "after": 1061,
+      "publicExpectedMinutes": 30,
+      "eventId": "evt-000454"
+    },
+    {
+      "type": "barracks-training",
+      "before": 1062,
+      "after": 1092,
+      "publicExpectedMinutes": 30,
+      "eventId": "evt-000472"
+    },
+    {
+      "type": "navigation-threat-attack",
+      "waypoint": [
+        11.8,
+        11.6
+      ],
+      "before": 1110,
+      "after": 1130,
+      "energyBefore": 64,
+      "energyAfter": 59,
+      "hpBefore": 100,
+      "hpAfter": 92,
+      "enemyHpChanges": [
+        {
+          "enemyId": "wz-4",
+          "beforeHp": 100,
+          "afterHp": 50
+        }
+      ],
+      "eventId": "evt-000494"
+    },
+    {
+      "type": "navigation-threat-attack",
+      "waypoint": [
+        11.8,
+        11.6
+      ],
+      "before": 1140,
+      "after": 1152,
+      "energyBefore": 59,
+      "energyAfter": 54,
+      "hpBefore": 92,
+      "hpAfter": 92,
+      "enemyHpChanges": [
+        {
+          "enemyId": "wz-4",
+          "beforeHp": 50,
+          "afterHp": 0
+        }
+      ],
+      "eventId": "evt-000527"
+    }
+  ],
+  "nightDays": [
+    1
+  ],
+  "calendarTransitions": [],
+  "snapshots": [
+    {
+      "stage": "started-or-resumed",
+      "path": "private-qa/00-started-or-resumed-save.json",
+      "checksum": "93cc9e89",
+      "day": 1,
+      "hour": 6,
+      "minute": 10,
+      "eventSeq": 11
+    },
+    {
+      "stage": "started-or-resumed",
+      "path": "private-qa/01-started-or-resumed-save.json",
+      "checksum": "93cc9e89",
+      "day": 1,
+      "hour": 6,
+      "minute": 10,
+      "eventSeq": 11
+    },
+    {
+      "stage": "supply-A-pending",
+      "path": "private-qa/02-supply-A-pending-save.json",
+      "checksum": "93cc9e89",
+      "day": 1,
+      "hour": 6,
+      "minute": 10,
+      "eventSeq": 11
+    },
+    {
+      "stage": "supplied",
+      "path": "private-qa/03-supplied-save.json",
+      "checksum": "c3c1c86f",
+      "day": 1,
+      "hour": 6,
+      "minute": 10,
+      "eventSeq": 12
+    },
+    {
+      "stage": "first-real-resource",
+      "path": "private-qa/04-first-real-resource-save.json",
+      "checksum": "98b5880c",
+      "day": 1,
+      "hour": 6,
+      "minute": 51,
+      "eventSeq": 27
+    },
+    {
+      "stage": "garden-planted",
+      "path": "private-qa/05-garden-planted-save.json",
+      "checksum": "df5a53a5",
+      "day": 1,
+      "hour": 7,
+      "minute": 21,
+      "eventSeq": 49
+    },
+    {
+      "stage": "berries-collected",
+      "path": "private-qa/06-berries-collected-save.json",
+      "checksum": "5f493173",
+      "day": 1,
+      "hour": 8,
+      "minute": 42,
+      "eventSeq": 92
+    },
+    {
+      "stage": "setup",
+      "path": "private-qa/07-setup-save.json",
+      "checksum": "c6f8b253",
+      "day": 1,
+      "hour": 8,
+      "minute": 50,
+      "eventSeq": 100
+    },
+    {
+      "stage": "day-1-before-encounter",
+      "path": "private-qa/08-day-1-before-encounter-save.json",
+      "checksum": "90076edf",
+      "day": 1,
+      "hour": 9,
+      "minute": 0,
+      "eventSeq": 122
+    },
+    {
+      "stage": "day-1-summary",
+      "path": "private-qa/09-day-1-summary-save.json",
+      "checksum": "fdcd74e0",
+      "day": 1,
+      "hour": 9,
+      "minute": 0,
+      "eventSeq": 132
+    },
+    {
+      "stage": "started-or-resumed",
+      "path": "private-qa/10-started-or-resumed-save.json",
+      "checksum": "12836c88",
+      "day": 1,
+      "hour": 9,
+      "minute": 20,
+      "eventSeq": 154,
+      "htmlSha256": "8a4abf285651e5ee78905da2b819648aa1ef862e580e8b4710e8c71079604ba0"
+    },
+    {
+      "stage": "day-1-night-resumed-complete",
+      "path": "private-qa/11-day-1-night-resumed-complete-save.json",
+      "checksum": "12836c88",
+      "day": 1,
+      "hour": 9,
+      "minute": 20,
+      "eventSeq": 154,
+      "htmlSha256": "8a4abf285651e5ee78905da2b819648aa1ef862e580e8b4710e8c71079604ba0",
+      "screenshot": "private-qa/11-day-1-night-resumed-complete.png"
+    },
+    {
+      "stage": "day-1-training-checkpoint",
+      "path": "private-qa/12-day-1-training-checkpoint-save.json",
+      "checksum": "bc921d49",
+      "day": 1,
+      "hour": 11,
+      "minute": 11,
+      "eventSeq": 229,
+      "htmlSha256": "8a4abf285651e5ee78905da2b819648aa1ef862e580e8b4710e8c71079604ba0"
+    },
+    {
+      "stage": "day-1-training-checkpoint",
+      "path": "private-qa/13-day-1-training-checkpoint-save.json",
+      "checksum": "99adc91c",
+      "day": 1,
+      "hour": 16,
+      "minute": 20,
+      "eventSeq": 409,
+      "htmlSha256": "8a4abf285651e5ee78905da2b819648aa1ef862e580e8b4710e8c71079604ba0"
+    },
+    {
+      "stage": "started-or-resumed",
+      "path": "private-qa/14-started-or-resumed-save.json",
+      "checksum": "30820ac9",
+      "day": 1,
+      "hour": 18,
+      "minute": 20,
+      "eventSeq": 480,
+      "htmlSha256": "8a4abf285651e5ee78905da2b819648aa1ef862e580e8b4710e8c71079604ba0"
+    },
+    {
+      "stage": "navigation-obstruction-before-attack",
+      "path": "private-qa/15-navigation-obstruction-before-attack-save.json",
+      "checksum": "d43e8a21",
+      "day": 1,
+      "hour": 18,
+      "minute": 30,
+      "eventSeq": 490,
+      "htmlSha256": "8a4abf285651e5ee78905da2b819648aa1ef862e580e8b4710e8c71079604ba0",
+      "screenshot": "private-qa/15-navigation-obstruction-before-attack.png"
+    },
+    {
+      "stage": "navigation-obstruction-after-attack",
+      "path": "private-qa/16-navigation-obstruction-after-attack-save.json",
+      "checksum": "8968f7e9",
+      "day": 1,
+      "hour": 18,
+      "minute": 50,
+      "eventSeq": 503,
+      "htmlSha256": "8a4abf285651e5ee78905da2b819648aa1ef862e580e8b4710e8c71079604ba0",
+      "screenshot": "private-qa/16-navigation-obstruction-after-attack.png"
+    },
+    {
+      "stage": "navigation-obstruction-before-attack",
+      "path": "private-qa/17-navigation-obstruction-before-attack-save.json",
+      "checksum": "82898a90",
+      "day": 1,
+      "hour": 19,
+      "minute": 0,
+      "eventSeq": 523,
+      "htmlSha256": "8a4abf285651e5ee78905da2b819648aa1ef862e580e8b4710e8c71079604ba0",
+      "screenshot": "private-qa/17-navigation-obstruction-before-attack.png"
+    },
+    {
+      "stage": "navigation-obstruction-after-attack",
+      "path": "private-qa/18-navigation-obstruction-after-attack-save.json",
+      "checksum": "f12950b1",
+      "day": 1,
+      "hour": 19,
+      "minute": 12,
+      "eventSeq": 528,
+      "htmlSha256": "8a4abf285651e5ee78905da2b819648aa1ef862e580e8b4710e8c71079604ba0",
+      "screenshot": "private-qa/18-navigation-obstruction-after-attack.png"
+    }
+  ],
+  "completedStages": [
+    "supplied",
+    "first-real-resource",
+    "garden-planted",
+    "berries-collected",
+    "setup",
+    "day-1-night-resumed-complete",
+    "navigation-obstruction-after-attack"
+  ],
+  "rosterIds": [
+    "carpenter",
+    "commander",
+    "cook",
+    "doctor",
+    "guardChen",
+    "guardJi",
+    "guardJiang",
+    "quartermaster",
+    "radio",
+    "sergeant"
+  ],
+  "ok": false,
+  "resumeSessions": [
+    {
+      "atUnix": 1791998889.917089,
+      "previousErrors": [
+        "AssertionError:supply A gives three actual food: None"
+      ],
+      "previousFailedChecks": [
+        {
+          "name": "supply A gives three actual food",
+          "ok": false,
+          "detail": null
+        }
+      ]
+    },
+    {
+      "atUnix": 1791999712.9413872,
+      "previousErrors": [
+        "TimeoutError:primary save did not catch up to the DOM after checkpoint debounce"
+      ],
+      "previousFailedChecks": [],
+      "previousHtmlSha256": null,
+      "htmlSha256": "8a4abf285651e5ee78905da2b819648aa1ef862e580e8b4710e8c71079604ba0",
+      "lastHtmlSha256": "8a4abf285651e5ee78905da2b819648aa1ef862e580e8b4710e8c71079604ba0"
+    },
+    {
+      "atUnix": 1792000223.9183495,
+      "previousErrors": [
+        "AssertionError:public navigation blocked at (9.2, 11.8) toward (11.8, 11.6); use an explicit safe waypoint"
+      ],
+      "previousFailedChecks": [],
+      "previousHtmlSha256": "8a4abf285651e5ee78905da2b819648aa1ef862e580e8b4710e8c71079604ba0",
+      "htmlSha256": "8a4abf285651e5ee78905da2b819648aa1ef862e580e8b4710e8c71079604ba0",
+      "lastHtmlSha256": "8a4abf285651e5ee78905da2b819648aa1ef862e580e8b4710e8c71079604ba0"
+    }
+  ],
+  "htmlSha256": "8a4abf285651e5ee78905da2b819648aa1ef862e580e8b4710e8c71079604ba0",
+  "buildSessions": [
+    {
+      "atUnix": 1791999714.3995605,
+      "htmlSha256": "8a4abf285651e5ee78905da2b819648aa1ef862e580e8b4710e8c71079604ba0",
+      "stage": "initial document",
+      "mode": "resume"
+    },
+    {
+      "atUnix": 1792000225.058399,
+      "htmlSha256": "8a4abf285651e5ee78905da2b819648aa1ef862e580e8b4710e8c71079604ba0",
+      "stage": "initial document",
+      "mode": "resume"
+    }
+  ],
+  "elapsedSeconds": 41.184,
+  "finishedAtUnix": 1792000265.1019938,
+  "warnings": [],
+  "finishedAt": "2026-10-14T17:51:05.586Z",
+  "rawReportSha256": "e6289af52b2a1cfcec28b4ffd66a7af0fd20e49b7ca5f3738f71bb4869007a70",
+  "pathSanitization": "Private host paths removed; original report retained locally."
+}

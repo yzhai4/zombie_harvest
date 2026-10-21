@@ -1,0 +1,118 @@
+{
+  "schema": "DayCoverNarrowSourcePrecheckV1",
+  "htmlSha256": "bd8a16700c6802093b772a5506bdaee52cd87365be8636e163895436a46e9883",
+  "inputSha256": "0366a9a9da371eef38c37aead420d5c3b0b01bd29948e793bc5a3c7db55a42c0",
+  "scope": "Actual candidate functions in original source runtime fixture. Each case installs unchanged complete0366 raw through actual Continue, then explicitly sets TEST-ONLY unit facts before calling real functions. No public action/cost, registered-clock, browser, all-role, full-phase or natural play acceptance claimed.",
+  "checks": [
+    {
+      "name": "Pure duty read has no state/RNG/task mutation",
+      "ok": true,
+      "evidence": {
+        "assigned": true,
+        "busy": true,
+        "dayDuty": true,
+        "follow": true,
+        "resting": false,
+        "owner": "cover",
+        "reason": "within-ring"
+      }
+    },
+    {
+      "name": "Low-energy pause uses original rates and automatically clears at24; work credit frozen",
+      "ok": true,
+      "evidence": {
+        "energy": 24.035,
+        "fatigue": 11.916,
+        "workClock": 57,
+        "needsPauseResumed": true
+      }
+    },
+    {
+      "name": "Critical pauses; consistent injured HP30 still follows",
+      "ok": true,
+      "evidence": {
+        "criticalPaused": true,
+        "hp30Allowed": true
+      }
+    },
+    {
+      "name": "Actual fleeing/fled outranks commander handoff without inventing target",
+      "ok": true,
+      "evidence": {
+        "before": {
+          "x": 28,
+          "y": 5
+        },
+        "after": {
+          "x": 28,
+          "y": 5
+        },
+        "target": null
+      }
+    },
+    {
+      "name": "Exact original commander handoff point survives cover; releases after actual status change",
+      "ok": true,
+      "evidence": {
+        "handoff": {
+          "x": 10,
+          "y": 6
+        },
+        "afterBriefed": "cover"
+      }
+    },
+    {
+      "name": "Outpost and inconsistent life facts do not gain DAY follow",
+      "ok": true,
+      "evidence": {
+        "outpostBlocked": true,
+        "inconsistentLifeBlocked": true
+      }
+    },
+    {
+      "name": "Night leaves original physical owner in control",
+      "ok": true,
+      "evidence": {
+        "duty": {
+          "assigned": true,
+          "busy": true,
+          "dayDuty": false,
+          "follow": false,
+          "resting": false,
+          "owner": "other",
+          "reason": "phase-changed"
+        },
+        "before": {
+          "x": 11.75,
+          "y": 11
+        },
+        "after": {
+          "x": 11.825,
+          "y": 11
+        },
+        "originalTargetRetained": true
+      }
+    },
+    {
+      "name": "Within-ring follow never spends a step past2.2",
+      "ok": true,
+      "evidence": {
+        "distance": 1,
+        "before": {
+          "x": 11.75,
+          "y": 11
+        },
+        "after": {
+          "x": 11.75,
+          "y": 11
+        }
+      }
+    }
+  ],
+  "ok": true,
+  "status": "NARROW_FUNCTION_PRECHECK_PASSED",
+  "count": 8,
+  "passed": 8,
+  "canonicalHtmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a",
+  "candidateUnchanged": true
+}

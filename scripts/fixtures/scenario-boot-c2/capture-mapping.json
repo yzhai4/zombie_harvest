@@ -1,0 +1,62 @@
+{
+  "schema": "ScenarioC2IndependentInputCaptureMapV1",
+  "baselineHtmlSha256": "a2fcdb647f2632fbf50f3ab0f3ba160f168082c602f6737c5ca4239eede137d2",
+  "ioAdapter": {
+    "path": "scripts/fixtures/scenario-boot-c1/frozen/scripts/check-report-recovery.mjs",
+    "sha256": "ee5bb659c0439044e1ec07a4aecf931293457c2478f35d0850fe90770b4367cf"
+  },
+  "oracle": {
+    "path": "scripts/fixtures/scenario-boot-c2/author-v2-oracle.json",
+    "sha256": "afdd0a2c79fbb74ba28b58ba0f3a43930de8367d18d8c7641a8cfec9e82a6fe7"
+  },
+  "sourceExcerpt": {
+    "path": "scripts/fixtures/scenario-boot-c2/author-v2-baseline-source.txt",
+    "sha256": "59716de13862e506e8cee8214742d5ba6f17f0d9331b53d3268e98242503a07c"
+  },
+  "inputs": [
+    {
+      "id": "save18-day",
+      "path": "scripts/fixtures/legacy-save18/DAY18-save.json",
+      "sha256": "0fe3b3e33d630621feb20cba3bb08b4db7cef247464d3b32f748c3c17bf829c3",
+      "bytes": 58883,
+      "kind": "complete original SAVE18 native writer"
+    },
+    {
+      "id": "legacy21",
+      "path": "scripts/fixtures/npc-threat-attention-v1/browser-writer-day1-1110-save21.json",
+      "sha256": "5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4",
+      "bytes": 496785,
+      "kind": "complete original SAVE21 writer before Scenario binding"
+    },
+    {
+      "id": "pre-episode",
+      "path": "scripts/fixtures/content-episode-v1/save21-pre-identity-active.json",
+      "sha256": "eb3b163e5b55e17f356b3ec95a4f9e5e55147bb78b8250ba0fac6ec3b6a0096d",
+      "bytes": 54441,
+      "kind": "previous TEST-ONLY complete source-writer payload with old active shape"
+    },
+    {
+      "id": "c1-bound",
+      "path": "docs/qa/runs/scenario-boot-c1-20261017/browser/boot-c1/default-button-initial-native-binding-save.json",
+      "sha256": "80d41c43a8ea07759aa88a852062b74f889b59c8e4edfc488d34f0e198c13d0e",
+      "bytes": 61776,
+      "kind": "actual C1 Chrome canonical full native writer, first binding"
+    },
+    {
+      "id": "used-cache",
+      "path": "docs/qa/runs/scenario-boot-c1-20261017/browser/associated-shortage/supplied-forage-reloaded-save.json",
+      "sha256": "fa8e79d3dda157bcaf4e6048fad50133aedc26174f368c6e1084128b29831508",
+      "bytes": 281763,
+      "kind": "actual C1 associated controlled-fixture Chrome native writer after real forage"
+    },
+    {
+      "id": "midnight-original",
+      "path": "docs/experiments/runs/food-shortage-strategies-32f911-20261017/report-artifacts/common-episode-baseline.json",
+      "sha256": "aafac0f27b14febce001281a67066efddae74ed19b0335af15f2df5425ba9498",
+      "bytes": 260163,
+      "kind": "original actual pre-midnight strategy source writer, derived scene ancestry retained"
+    }
+  ],
+  "expectedIndependence": "Oracle and numeric v2/v3 expected values are frozen from C1 before observing C2 candidate. Candidate input never regenerates them.",
+  "runtimeScenePolicy": "All preboot changed scenes are TEST-ONLY, retain full source native envelope and source checksum, declare fields changed. No fabricated receipt, calendar progression or result mutation."
+}

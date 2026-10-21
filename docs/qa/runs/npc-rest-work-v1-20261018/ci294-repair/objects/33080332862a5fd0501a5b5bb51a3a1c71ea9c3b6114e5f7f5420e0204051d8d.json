@@ -1,0 +1,78 @@
+{
+  "schema": "Ci294PlanNativeDifferenceClassificationV1",
+  "sourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+  "newRestMigrationOnly": {
+    "reasonPrefix": "npc-routine-intent-v1",
+    "addedDomains": [
+      "npc.routineIntent"
+    ],
+    "adapter": {
+      "adapter": "npc-routine-intent-v1",
+      "npcIds": [
+        "carpenter",
+        "doctor",
+        "radio",
+        "commander",
+        "sergeant",
+        "guardJi",
+        "guardChen",
+        "guardJiang",
+        "quartermaster",
+        "cook"
+      ],
+      "defaultValue": null
+    },
+    "npcLiveAndWriterAllNull": true
+  },
+  "existingScenarioContractUnchanged": {
+    "scenarioBindingAdapters": [
+      {
+        "adapter": "scenario-legacy-unbound-v1",
+        "sourceSeed": 1592639710,
+        "hadDeclaredSnapshot": false,
+        "seedSource": "saved-world-meta",
+        "declaredSeed": null,
+        "liveSeed": 1592639710,
+        "aiDowngraded": false,
+        "effectiveAuthority": "expression_only"
+      }
+    ],
+    "scenarioContentAdapters": [
+      {
+        "adapter": "scenario-content-binding-v1",
+        "oldPackageDigest": null,
+        "oldBindingStatus": "missing",
+        "compilerVersion": "scenario-event-chain-v1",
+        "catalogDigest": "fnv1a-utf16-canonical-hex-v1:33e5b74b",
+        "rulesDigest": "fnv1a-utf16-canonical-hex-v1:b19c6fb5"
+      }
+    ],
+    "originalHelperAlreadyAssertsThese": true
+  },
+  "existingLedgerContractUnchanged": {
+    "oldEventSeq": 3,
+    "newEventSeq": 4,
+    "singleMigrationNotSecondReceipt": true,
+    "originalHelperAlreadyExpectedSingleMigrationAndOriginalLedgerPrefix": true,
+    "activeCommandIdNull": "Existing loader default, no runtime change by this repair; asserted exactly, never omitted."
+  },
+  "oldFacts": "Every original payload key compared against pinned old writer. For npcs, original full objects plus only routineIntent:null. For worldMeta, full original object plus only existing activeCommandId:null and exact already-expected single migration event/watermarks. Scenario metadata remains separately exact/validator-checked. No current normalize output used as expected.",
+  "secondRealContinue": {
+    "payloadExactlyEqual": true,
+    "migrationLedgerExactlyEqual": true,
+    "oldPlanCpRewardsPopulationResourcesRngCommandsUntouched": true
+  },
+  "counts": {
+    "original": {
+      "count": 48,
+      "passed": 47,
+      "exitCode": 1
+    },
+    "repaired": {
+      "count": 48,
+      "passed": 48,
+      "exitCode": 0
+    }
+  },
+  "scope": "Method-only repair; no runtime/fixture/manifest changes. No CI rerun/approval claim from local source contract."
+}

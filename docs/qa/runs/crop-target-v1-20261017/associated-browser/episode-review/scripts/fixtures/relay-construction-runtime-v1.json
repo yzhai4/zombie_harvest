@@ -1,0 +1,19 @@
+{
+  "schema": "RelayConstructionTransactionV1",
+  "version": 1,
+  "featureFlag": {
+    "path": "worldMeta.flags.relayConstructionTransactionV1",
+    "default": false,
+    "enabledScope": "briefed->staging"
+  },
+  "cases": [
+    { "id": "flag-off-compatibility", "mode": "legacy-equivalence", "expected": "no-runtime-child" },
+    { "id": "stage-success-once", "mode": "world.advance", "expected": "staging-and-one-event" },
+    { "id": "missing-worker", "mode": "child-command", "expected": "participant-unavailable-and-unchanged" },
+    { "id": "stale-token", "mode": "child-command", "expected": "event-state-conflict-and-unchanged" },
+    { "id": "duplicate-child", "mode": "child-command", "expected": "idempotent-no-op" },
+    { "id": "virtual-occupancy", "mode": "child-command", "expected": "success-only-station" },
+    { "id": "save-reload-token", "mode": "save-reload", "expected": "token-and-replay-preserved" },
+    { "id": "same-tick-order", "mode": "source-order", "expected": "relay-before-world-combat" }
+  ]
+}

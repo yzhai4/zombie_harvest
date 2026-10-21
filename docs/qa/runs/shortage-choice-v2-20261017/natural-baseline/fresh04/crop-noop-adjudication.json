@@ -1,0 +1,69 @@
+{
+  "schema": "NaturalShortCropNoopAdjudicationV1",
+  "sourceHtmlSha256": "32f911f69a6a962ae69a0325afcffd1c5d6d923c0efe1fb0ca8787c1959d9fae",
+  "originalReportSha256": "98119898946d3724c0a5e7f6cad7c56e93f6c0acad93f83b856785da063ab22d",
+  "originalRunnerSha256": "1b748123680f52eca5ec8ddce35bb55503f2052c3b933af3087df81880a505ba",
+  "terminalWriterSha256": "0e91022d25944ee63d30f75efb3d0a9e57db795ea5d1708485c0449fb34700a9",
+  "originalStatus": "UNVERIFIED_RUNNER_FAILURE",
+  "originalOk": false,
+  "originalObservedExitCode": 1,
+  "adjustedStatus": "RULE_OR_UI_FAILURE",
+  "trigger": "Public near-crop context visibly offered enabled sow action at displayed player7,13, then wrote empty crop.changed success with no planting, seed payment or 20-minute child.",
+  "publicBefore": {
+    "player": {
+      "x": 7,
+      "y": 13
+    },
+    "contextTitle": "菜畦",
+    "context": "1🌱 播种消耗 4 行动体力 · 消耗 1 种子2⚙️ 使用建筑互动：播种或收获 · 不移动位置；结果会写入日志和世界事件3🧬 查看建筑进化需要蓝图、材料和对应 NPC 羁绊"
+  },
+  "actualWriterPlayer": {
+    "x": 7.000000000000014,
+    "y": 12.999999999999993,
+    "prevX": 10.9,
+    "prevY": 11
+  },
+  "actualNextRowY": 13.999999999999993,
+  "plot": {
+    "x": 7,
+    "y": 14,
+    "type": "garden",
+    "planted": false,
+    "growth": 0,
+    "ready": false,
+    "id": "bld-mazjx8"
+  },
+  "receipt": {
+    "eventId": "evt-000113",
+    "seq": 113,
+    "type": "crop.changed",
+    "actorId": "player-1",
+    "commandId": "cmd-000275",
+    "causationId": null,
+    "tick": {
+      "world": 469,
+      "phase": 0,
+      "schedule": 109
+    },
+    "payload": {}
+  },
+  "command": {
+    "commandId": "cmd-000275",
+    "type": "crop.change",
+    "actorId": "player-1",
+    "payload": {
+      "buildingId": null
+    }
+  },
+  "missingCoverage": [
+    "planting",
+    "usefulConstruction"
+  ],
+  "diagnosis": {
+    "sourcePublicAction": "dist/index.html context crop calls plantOrHarvest() with no preferred plot",
+    "sourceReducer": "plantOrHarvestReducer searches five raw fractional spots through getBuilding/buildingContains",
+    "floatBoundary": "player.y+1 is 13.999999999999993 below plot.y14; public continuous-distance context still allows the button",
+    "scope": "Confirmed this natural browser input only; no source edit or runtime fix performed; not a completed natural mixed slice or natural three days"
+  },
+  "originalArtifactsUnchanged": true
+}

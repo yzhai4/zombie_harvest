@@ -1,0 +1,161 @@
+{
+  "runner": "browser-world-clock-half-rate-v2",
+  "sourceHtmlSha256": "272f2c3871708a3f00a6a509f4695ebb84a020ee87dbc97cd8af71584f97fe5c",
+  "runnerSha256": "3847165b2ef50b79bbfdeebd4a96d9261e22f14b5f3e3f47fcd22b0ee28ebf62",
+  "inputManifestSha256": "9ddde85f831b4362bbc01952f923e0255592091f0572f0923125f3d3c1555cf8",
+  "mode": "TEST-ONLY-complete-old-writer-preboot-rate-half-real-world-interval",
+  "naturalGameplay": false,
+  "humanExperience": false,
+  "publicRateControlUsed": false,
+  "stateWritesAfterBoot": false,
+  "hiddenAdvanceCalls": 0,
+  "pausedForCapture": false,
+  "timerCallbacksInvokedByMethod": 0,
+  "budget": {
+    "overallMs": 70000,
+    "sceneMs": 48000,
+    "normalWriterWaitMs": 19000,
+    "minimumHpExclusive": 35,
+    "maximumObservedHpLoss": 12,
+    "movementKeys": 0,
+    "businessControls": 0,
+    "samplingIntervalMs": 120
+  },
+  "pendingContract": {
+    "field": "subMinuteRemainder",
+    "unit": "canonical-decimal-string-minutes",
+    "range": "[0,1)",
+    "missingReadAs": "0",
+    "missingMaterializedByMethod": false
+  },
+  "checks": [
+    {
+      "name": "legacy-half-rate: actual Continue visible and enabled",
+      "ok": true
+    },
+    {
+      "name": "legacy-half-rate: actual loader reads old missing credit0 without materialization or gifts",
+      "ok": true
+    },
+    {
+      "name": "legacy-half-rate: ten actual callbacks conserve exact half-units and normal writer saves true nonzero credit",
+      "ok": true
+    },
+    {
+      "name": "legacy-half-rate: real Continue restores the actual selected primary fraction/calendar",
+      "ok": true
+    },
+    {
+      "name": "legacy-half-rate: real nonzero normal credit survives selected primary and Continue",
+      "ok": false
+    },
+    {
+      "name": "legacy-half-rate: actual main body equals frozen HTML",
+      "ok": true
+    },
+    {
+      "name": "legacy-half-rate: actual main body equals frozen HTML",
+      "ok": true
+    },
+    {
+      "name": "legacy-half-rate: first load and real reload recorded",
+      "ok": true
+    }
+  ],
+  "errors": [
+    {
+      "scene": "legacy-half-rate",
+      "type": "AssertionError",
+      "message": "legacy-half-rate: real nonzero normal credit survives selected primary and Continue"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "legacy-half-rate",
+      "inputSha256": "a9d5aeccc31ea0dd80d034361605cb06b4b94978471ec29a4411ff0f4d24813b",
+      "expectedInitialRemainder": "0",
+      "status": "FAILED",
+      "artifacts": [
+        {
+          "file": "legacy-half-rate-initial-public-ui-live.json",
+          "sha256": "846471562702e7ba2f058d55ce906710d29bafe4e210c320d66748b86575a941",
+          "bytes": 60367
+        },
+        {
+          "file": "legacy-half-rate-initial-public.png",
+          "sha256": "cc51ff1a6cd92c480f04d3714740a7b18e5ea80456f17b2a8dfd3e891dbb7ec8",
+          "bytes": 490559
+        },
+        {
+          "file": "legacy-half-rate-before-reload-first-observed-nonzero-normal-native.json",
+          "sha256": "5835d8c461053662f92da71d64a597058f2bec39abe4e240007375381106320e",
+          "bytes": 66682
+        },
+        {
+          "file": "legacy-half-rate-before-reload-callback-trace.json",
+          "sha256": "791875d78669e9accbc1e2f88d95a93c43350c941769708a0a8ec8718b40b071",
+          "bytes": 9707
+        },
+        {
+          "file": "legacy-half-rate-before-reload-normal-native.json",
+          "sha256": "09592d4873c6e3718a034e19cc356bc222ec1f2c97d3b1a5ece79d6ece961fe1",
+          "bytes": 77520
+        },
+        {
+          "file": "legacy-half-rate-actual-reload-selected-primary-native.json",
+          "sha256": "ccd3f501566c2906596f6548431270462781586dde37ba148a5009b7c0dad062",
+          "bytes": 78767
+        },
+        {
+          "file": "legacy-half-rate-reload-boot-watermark.json",
+          "sha256": "3a7091b60b450cc1f245747132384551cda54b71c6ce44ddc6d7a567a77845b8",
+          "bytes": 6506
+        },
+        {
+          "file": "legacy-half-rate-failure-ui-live.json",
+          "sha256": "576b26d3931f2a62052ba85e8fa9d036b51c541d18fb65c685f0af4ee3a85d07",
+          "bytes": 77425
+        },
+        {
+          "file": "legacy-half-rate-failure.png",
+          "sha256": "60b57852ad5cd006aaaf11146a8f6e9b966a81ad9241638a5447663cfbf1cb44",
+          "bytes": 492721
+        },
+        {
+          "file": "legacy-half-rate-failure-native.json",
+          "sha256": "ccd3f501566c2906596f6548431270462781586dde37ba148a5009b7c0dad062",
+          "bytes": 78767
+        }
+      ]
+    }
+  ],
+  "documentHashes": [
+    "272f2c3871708a3f00a6a509f4695ebb84a020ee87dbc97cd8af71584f97fe5c",
+    "272f2c3871708a3f00a6a509f4695ebb84a020ee87dbc97cd8af71584f97fe5c"
+  ],
+  "documents": [
+    {
+      "scene": "legacy-half-rate",
+      "status": 200,
+      "sha256": "272f2c3871708a3f00a6a509f4695ebb84a020ee87dbc97cd8af71584f97fe5c",
+      "bytes": 930768
+    },
+    {
+      "scene": "legacy-half-rate",
+      "status": 200,
+      "sha256": "272f2c3871708a3f00a6a509f4695ebb84a020ee87dbc97cd8af71584f97fe5c",
+      "bytes": 930768
+    }
+  ],
+  "cleanup": {
+    "contextsClosed": true,
+    "browserClosed": true,
+    "serverClosed": true
+  },
+  "browserVersion": "155.0.8059.80",
+  "count": 8,
+  "passed": 7,
+  "elapsedMs": 14963,
+  "ok": false,
+  "status": "FAILED"
+}

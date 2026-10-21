@@ -1,0 +1,57 @@
+content-chain source execution passed: 54 checks
+sourceHtmlSha256: dfe75870c66c2fdf4c6834a62debfd47723d9cdfa6bdff9d638cbddd82c3942b
+sourceReplayHash: c5d6c772 (source CommandBus trajectory; distinct from save projection hash)
+  ✓ watermill repair node exposes GateV1 while keeping content-effect semantics
+  ✓ watermill start gate uses GateV1 and preserves the old start-condition rejection boundary
+  ✓ opt-in content GateV1 rejects unknown start objects without state mutation
+  ✓ opt-in content GateV1 rejects unknown choice objects before effects
+  ✓ opt-in content choice gate keeps the DAY/night boundary even when called directly
+  ✓ public choice gate fails closed when the active chain or choice is absent
+  ✓ watermill choice GateV1 does not re-check start trust after the chain is active
+  ✓ watermill direct choice GateV1 enforces its day window
+  ✓ watermill definition GateV1 owns its day window
+  ✓ legacy content condition objects now fail closed when their type is unknown
+  ✓ watermill repair charges once and records completion/effect ledger
+  ✓ positive watermill repair save fixture settles once and survives duplicate command
+  ✓ watermill salvage grants parts and raises resonance
+  ✓ repair requirement rejection preserves resources, facts and ledger
+  ✓ dead carpenter blocks repair while salvage remains available
+  ✓ effect failure rolls back earlier resource and history effects
+  ✓ CommandBus propagates reducer rejection without success event/checkpoint
+  ✓ CommandBus rollback failure records rejection and no checkpoint
+  ✓ successful same commandId is idempotent across rewards/events/checkpoints
+  ✓ completed node rejects a different command and cannot repeat rewards
+  ✓ multi-node chain advances authoritative instance after normalization
+  ✓ missing next node rejects before any effect
+  ✓ previously applied choice cannot advance a restored repeated node
+  ✓ public registry and command entries reject night without mutations
+  ✓ public registry and command entries reject gameOver without mutations
+  ✓ start checks day window and start conditions, including existing active
+  ✓ resolve/autonomy/skip reject expired or pre-window active saves
+  ✓ fallback/autonomy cannot grant completion for an unstarted chain
+  ✓ missing definitions and unknown fallback reasons reject
+  ✓ expiry only resolves after final allowed day and remains idempotent
+  ✓ day-start expiry hook tolerates corrupt entries and expires valid chain
+  ✓ active autonomy applies once and never also grants a player choice
+  ✓ active skipped fallback records one result and blocks later rewards
+  ✓ contradictory active plus completed save cannot claim a choice reward
+  ✓ null active instance rejects safely without a reward
+  ✓ malformed node history normalizes safely when advancing
+  ✓ cycle returning to an old node cannot claim another branch reward
+  ✓ 22-node cycle keeps settled facts after presentation history is trimmed
+  ✓ old save with trimmed history reconstructs settled nodes from effect receipts
+  ✓ settled set is constrained to registered node IDs and restores legacy history
+  ✓ resource effect receipts expose actual clamped before/after delta
+  ✓ registration rejects explicit string requirements without throwing or granting facts
+  ✓ reducer rejects test-only corrupted string requirements with no reward
+  ✓ registration rejects explicit object requirements without throwing or granting facts
+  ✓ reducer rejects test-only corrupted object requirements with no reward
+  ✓ registration rejects explicit null requirements without throwing or granting facts
+  ✓ reducer rejects test-only corrupted null requirements with no reward
+  ✓ registration rejects explicit mixed requirements without throwing or granting facts
+  ✓ reducer rejects test-only corrupted mixed requirements with no reward
+  ✓ requirement helper fails closed on non-string elements while supporting legacy single string conditions
+  ✓ null nodes/choices and duplicate node/choice IDs return schema issues without throwing
+  ✓ omitted requirements retain empty-list behavior and registered watermill schema remains valid
+  ✓ two identical source CommandBus sequences produce the same trajectory hash
+  ✓ JSON-restored middle node completes with the same source trace and no duplicate reward

@@ -7,6 +7,8 @@ description: 为尸潮农场创建或修改主线、支线、NPC、势力、科�
 
 先读 `docs/overall-iteration-plan.md` 和 `docs/handoff/尸潮农场-开发交接包.md`，只加载本次内容对应的 `剧本/尸潮农场/01–09` 设计源与 `11–16` 模板。已评审剧本卡保存在 `docs/scripts/<stable-id>.md`，不能只添加对白或按钮逻辑。
 
+剧本推演按 [WorkBuddy 分工](../imsaver-workbuddy/SKILL.md)交给 script-designer，自行读取相关设计卡、成本规则和真实 UI 文案；涉及状态后果时由 runtime-auditor 追实际消费者。六视角不机械拆成六次调用，未受影响的视角说明范围即可。主代理核对候选意见，缺少局部材料或遗漏公开入口不自动成为产品缺陷；模型意见不能代替实际玩法或真人回答。
+
 ## 创建内容
 
 1. 选择稳定 ID、`contentVersion`、时间窗、触发/终止条件和可选挂载包；显示名称可改，ID 不复用。
@@ -35,11 +37,30 @@ description: 为尸潮农场创建或修改主线、支线、NPC、势力、科�
 
 内容包定义不随存档保存。启动时按项目内容清单重新注册并校验 `contentVersion`；缺包要安全降级、不执行缺失链、不发放奖励，并写入 `content.pack.missing` 日志。新增内容交接必须同时提交定义、文本/资源清单和启动注册清单。
 
+一次性可选链若opt-in实例token，区分实例身份key与完成链ID，choice／自治／fallback／writer同源；不要因此迁移全部旧链。持续服务要区分配置历史、当前物理资格与已锁定遭遇输入；新捕获的人口／岗位限制不自动等同于既有服务资格。时间窗、费用和公开替代选择按具体卡裁定，参见[岗亭首片](../../../docs/scripts/watchpost-003.md)，不把该例的零追加费用推广为其它内容免费。
+
+本人经历槽可合法为null，但“格式合法”不等于“本人确有经历”；新互动先要求非空且同人的可信事实，不从工程现状或头衔补造。有效胶囊的来源滚出短期账本后仍可消费，角色当前可受理资格另核。一次性答复使用真正持久的终态，不能只依赖会淘汰的完成展示列表或短期效果缓存；关闭未答、明确暂不处理和未来自治成本分别说明。新增库存到工程等效果的事务还须覆盖本次完成与成功收据，而非只回滚效果内部。见[林岑补料卡](../../../docs/scripts/npc-relay-stone-001.md)。
+
 ## 当前运行时边界
 
-本 Skill 生成的设计 ID 默认是“设计冻结/待注册”，除非 `dist/index.html` 的注册表和交接包明确标为已接线。当前 v81 已接入 `campTrust`、`commandPoints`、`planMeeting`、内容 schema v2、SAVE20 迁移和回放投影；14 天最终尸潮、全量支线、完整 NPC 晋升与动态表现仍需逐轮接线。剧本卡必须标记“已接线/设计冻结/待开发”，不得把设计定义当成运行时能力。
+本 Skill 生成的设计 ID 默认是“设计冻结/待注册”，除非 `dist/index.html` 的注册表和交接包明确标为已接线。当前 v81 已接入 `campTrust`、`commandPoints`、`planMeeting`、内容 schema v3、SAVE21 迁移和回放投影；v82 已接入 NPC 属性默认值、英雄晋升入口、`npcRoster` 和岗位继任投影，但完整十人主动技能、死亡/失踪/重伤/拒绝合作分支仍需逐轮接线。14 天最终尸潮、全量支线和动态表现仍需逐轮接线。剧本卡必须标记“已接线/设计冻结/待开发”，不得把设计定义当成运行时能力。
 
 ## 版本对账与发布边界
 
 线上 Sites、Sites 源仓库和 GitHub 镜像可能处于不同提交。每轮先记录三者版本，不得用旧 GitHub `main` 覆盖线上。若 Sites Git endpoint 或本地 `.git` 不可写，使用 GitHub API 在独立分支创建 blob/tree/commit，并通过 draft PR 审阅；不要强行更新 `main` 或生产版本。公开 issue/PR 只写可公开的项目事实，凭据、内部路径和运行环境细节留在本地交接记录。
 
+## 长期记忆与 AI 边界
+
+内容迭代结束后，按 `docs/project-memory.md` 判断新增信息属于规则真相、架构决策、问题记录还是实验记录；不要把未验证的聊天结论写成运行时能力。新增内容若给 AI 首脑使用，必须声明观察字段、可用意图、资源预算、期限、拒绝原因和规则 fallback。LLM 只能生成候选意图或解释文本，不能绕过内容注册表、统一 reducer、night guard、人口守恒或回放契约。
+
+
+
+## 场景包内容合同（2026-10-17）
+
+新增故事、NPC、势力或营地事件时，同时更新版本化 JSON 包与设计卡。每个 storylet 必须有 stable ID、触发条件、fallback 及玩家/NPC/营地/势力/敌人/全局链账本。支持的 JSON 编译和启动范围以 Scenario C1/C2 合同及当前 QA 为准；未知引用、循环、不可满足门槛和无 AI-OFF 路径仍须按具体包分层核验。新配置或内容图未由真实启动消费并记录 scenarioVersion/contentVersion 前，标记为设计冻结/fixture；已有有限支持不能推定任意图均已接线。
+
+Observer 台词只能读取白名单事实并生成表达/披露；不能改资源、人口、敌人、事件或存档。需要 AI 时同时提供规则 fallback、预算和拒绝回执，并在 manifest 中区分 browser 与 source-VM。
+
+## 可重复内容合同（2026-10-17）
+
+新增可重复故事时，必须在 JSON 包和设计卡声明 `repeatable` 与稳定 episode key，区分一次性 `completedChains` 与按 episode 的账本。效果必须通过统一 reducer/CommandBus 并以 episode key 做去重；同日重复不得重复奖励，跨日重开要有可回放事实。若只实现单个内容的试验，不得声称所有 EventDef 已完成 repeatable/SAVE 迁移。

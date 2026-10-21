@@ -1,0 +1,29 @@
+{
+  "schema": "PublicA07FrozenMethodFindingV1",
+  "at": "2026-10-18T07:20:21.807993+00:00",
+  "status": "BLOCKED_METHOD_ONLY_NOT_GAME_EXECUTED",
+  "reviewedReadySha256": "fed6bc49d3cc95916fe0bfcc3c05c97670a803229fcafac1119a5e9646dd73e9",
+  "reviewedManifestSha256": "66f6de06f5362ad3bd7d186d853763cf6735fe89b7b4fcf116ccdfe1e97440cc",
+  "driverSha256": "d936a4edaa77ebf54149686ce4fa5377055471a3074fc92b3c8d9e457e1eaaf5",
+  "finding": {
+    "priority": "P2",
+    "scope": "method preflight, not product Gate failure",
+    "producer": {
+      "path": "next-public-A07-method/run-public-A07.mjs",
+      "line": 62,
+      "fact": "rest click is category business but omits minutes and no explicit session.safety(duration) call exists in rest."
+    },
+    "consumer": {
+      "path": "next-public-A07-method/pilot-session.mjs",
+      "line": 155,
+      "fact": "original safety is called only for category business and spec.minutes>0; unchanged helper body alone does not make this consumer execute."
+    },
+    "impact": "The unexecuted30-minute method can skip its promised original conservative reach-envelope veto. Actual game restGate remains authoritative and was not changed or executed.",
+    "minimalFix": "Add minutes:duration to the existing rest perform spec, reusing original safety and stop propagation; keep original frozen bytes and pure artifacts."
+  },
+  "rootDisposition": "Root acknowledged and did not run A07; builder authorized narrow consumer fix and refreeze. Only that consumer and new binding will be rechecked.",
+  "previousA06": "No rest request was submitted in A06; this does not reclassify its actual results.",
+  "newGameExecution": false,
+  "rootModified": false,
+  "originalsModified": false
+}

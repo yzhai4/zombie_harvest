@@ -1,0 +1,141 @@
+{
+  "schema": "EffectiveRoleSourceCounterexampleV1",
+  "sourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+  "adapterSha256": "554c400c174ad1b069c4dfcc839c12b3b45ea79c5aa7669e093a440ffa4845d3",
+  "inputSha256": "5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4",
+  "runnerSha256": "33f89050c480703141b1ae2d82163c7b467999313592afa7f9d41f0af2490a42",
+  "scope": {
+    "sourceVm": true,
+    "browser": false,
+    "naturalDeath": false,
+    "naturalGameplay": false,
+    "strictSingleFactor": false,
+    "noInjectedResourceOrNpc": true,
+    "actualFunctions": "complete loader/start/writer, markNpcDead, assignMorningSuccessors, npcHasRole, npcFulfillsRole, relayActiveParticipants",
+    "controlled": "Direct actual death/succession calls at captured11:10, Map DOM/storage and queued timers from original adapter; unrelated renderWorld/Hud/Context suppressed"
+  },
+  "checks": [
+    {
+      "name": "original complete writer booted at exact original time",
+      "ok": true
+    },
+    {
+      "name": "real death keeps original roster IDs and changes living10 to9",
+      "ok": true
+    },
+    {
+      "name": "real successor quartermaster now actingcarpenter without manually assigning role",
+      "ok": true
+    },
+    {
+      "name": "same successor is accepted by union helper for both old and current roles",
+      "ok": true
+    },
+    {
+      "name": "actual relay consumer returns same live object for two required slots",
+      "ok": true
+    },
+    {
+      "name": "no resource grants or roster/ID edits during controlled death and succession",
+      "ok": true
+    },
+    {
+      "name": "unknown project has not been fabricated into active material/work execution",
+      "ok": true
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "01-before-controlled-death-native.json",
+      "sha256": "791dc2fe91e5d2f3f17dc73d05cc34187ebe2aa4b2ee8a31e64c121e3c2a8a22",
+      "bytes": 265442
+    },
+    {
+      "path": "01-before-summary.json",
+      "sha256": "43826924ff44ab506a20be91b7aff1e596ebf05917179e7425506511830fc4b8",
+      "bytes": 137050
+    },
+    {
+      "path": "02-actual-death-result.json",
+      "sha256": "86b0fb98ca2786cb64054ab6c94ba800862adf4f06cea5e560e6cb22bdfd34c2",
+      "bytes": 99
+    },
+    {
+      "path": "02-after-controlled-death-native.json",
+      "sha256": "fd58b8524b1adb1dbc2f01ef2b1aa6e57ae3376110f6075f27827a297787726d",
+      "bytes": 272103
+    },
+    {
+      "path": "02-after-death-summary.json",
+      "sha256": "4e2cc47168cda4d52d08638a9da6687cb3035b3b6349037b87d0aab8a448edac",
+      "bytes": 142030
+    },
+    {
+      "path": "03-after-actual-succession-native.json",
+      "sha256": "5f6a14cf8d4e78a5b0270ca01418bf03b6d4e71ec691f176509afdd8b358fa74",
+      "bytes": 272144
+    },
+    {
+      "path": "03-after-succession-summary.json",
+      "sha256": "2a878b6271a30b08110473067f5037527ecfcafcb41d90898956c5c22036fd2b",
+      "bytes": 142207
+    },
+    {
+      "path": "04-role-and-participant-facts.json",
+      "sha256": "5c3d4441353a2b6751b9f3822bae0557bba2f74a1b3fc735fc73e2c5a24d5a8e",
+      "bytes": 2850
+    }
+  ],
+  "counterexample": {
+    "roles": {
+      "hasCarpenter": true,
+      "hasQuartermaster": true,
+      "fulfillsCarpenter": true,
+      "fulfillsQuartermaster": false
+    },
+    "participants": [
+      {
+        "id": "radio",
+        "actingRole": null,
+        "hp": 100,
+        "lifeState": "healthy",
+        "local": true
+      },
+      {
+        "id": "quartermaster",
+        "actingRole": "carpenter",
+        "hp": 100,
+        "lifeState": "healthy",
+        "local": true
+      },
+      {
+        "id": "quartermaster",
+        "actingRole": "carpenter",
+        "hp": 100,
+        "lifeState": "healthy",
+        "local": true
+      }
+    ],
+    "uniqueParticipantIds": [
+      "radio",
+      "quartermaster"
+    ],
+    "vacancies": {
+      "quartermaster": {
+        "role": "quartermaster",
+        "openedDay": 1
+      }
+    },
+    "materialExecutionObserved": false,
+    "workMinuteExecutionObserved": false,
+    "completionObserved": false
+  },
+  "count": 7,
+  "passed": 7,
+  "ok": true,
+  "limitations": [
+    "Controlled direct actual death and successor function calls are not natural death or calendar-morning coverage.",
+    "Project was unknown in the untouched complete writer; no relay readiness, material collection, build minutes or double output was fabricated or claimed.",
+    "Only participant identity/eligibility is dynamically confirmed here; downstream execution awaits an authentic ready-project native or an explicitly controlled full-source route."
+  ]
+}

@@ -1,0 +1,231 @@
+{
+  "schema": "RelayRoleBrowserSourceInputManifestV1",
+  "sourceHtmlSha256": "04a7ff13dc663d679330004867e2e960ab6e6472ddaaf3489d2597fc4cde50c7",
+  "method": "TEST-ONLY current 04a7 full inline source loader/native writer using the existing 10 logical relay-role methods and unchanged real 38cdf ancestry. Actual death/two successor functions and explicit offline duplicate-config derivative retained. Construction-only captures do not advance world/calendar/enemies and are not natural completion.",
+  "naturalGameplay": false,
+  "originalWriter": {
+    "file": "ancestry/original-briefed-native.json",
+    "bytes": 82162,
+    "sha256": "38cdf0a6ce9a38263091f475db7a6730444464d510f812e84a0658b7a5bc2b77"
+  },
+  "ancestryOriginalA": {
+    "file": "ancestry/original-A-native.json",
+    "bytes": 63429,
+    "sha256": "ebd2c2a6f1ab12b0e62dc6ba235231b4a229916759cdf1662c2594ed9ac4c7e6"
+  },
+  "ancestryHandoffProvenance": {
+    "file": "ancestry/handoff-provenance.json",
+    "bytes": 3709,
+    "sha256": "6f0afef528651a2f1beaf0b5079f74f1cf870a17af703915414121b741696c95"
+  },
+  "sourceCheckerProof": {
+    "file": "source-native-checker-report.json",
+    "bytes": 12415,
+    "sha256": "1aa626b2611c0a18a1f15d7609092b9d4bf6b8c92035be1ed4433b37b5207557"
+  },
+  "sourceCheckerRunnerSha256": "808c268e07942d437fb1fa6b956ac0bc62d7824ad9912bad61efda74c81b6bd4",
+  "sourceCheckerResult": {
+    "ok": true,
+    "count": 10,
+    "passed": 10
+  },
+  "scenes": [
+    {
+      "id": "normal-briefed",
+      "file": "inputs/normal-briefed-native.json",
+      "sha256": "f166269d48d0f1279b01b7724b989c9af2bf8b56b1930c79fbd383e8d756c22f",
+      "bytes": 84224,
+      "changes": [
+        "Actual 04a7 source Continue and native save of unchanged real c21 handoff writer; no business setup mutation."
+      ],
+      "controls": {
+        "clockPaused": false,
+        "clockRate": 1
+      },
+      "expected": {
+        "status": "briefed",
+        "bindings": {
+          "radio": "radio",
+          "carpenter": "carpenter",
+          "quartermaster": "quartermaster"
+        },
+        "blockedReason": null,
+        "nameSource": "Actual public NPC_TEMPLATES / same-ID roster label; serializeNpc omits name from native save. No name field was inserted.",
+        "npcRosterCount": 10,
+        "livingNpcCount": 10,
+        "enemyIds": [
+          "wz-1",
+          "wz-2",
+          "wz-3",
+          "wz-4",
+          "frontier-1"
+        ],
+        "handoffAt": null,
+        "materialProgress": {
+          "wood": 0,
+          "parts": 0,
+          "stone": 0
+        },
+        "workMinutes": 0
+      },
+      "actualSourceWriterAndValidator": true
+    },
+    {
+      "id": "missing-quartermaster",
+      "file": "inputs/missing-quartermaster-native.json",
+      "sha256": "bf4c9946574c562bf87727eda32793c3651e19542459850b24a8f2b9e2e15691",
+      "bytes": 95946,
+      "changes": [
+        "Actual markNpcDead(carpenter) invokes existing death consequences; actual assignMorningSuccessors once assigns quartermaster to carpenter and opens quartermaster vacancy. No manual actingRole/HP write."
+      ],
+      "controls": {
+        "clockPaused": false,
+        "clockRate": 1
+      },
+      "expected": {
+        "status": "briefed",
+        "bindings": {
+          "radio": "radio",
+          "carpenter": "quartermaster",
+          "quartermaster": null
+        },
+        "blockedReason": "missing-role",
+        "nameSource": "Actual public NPC_TEMPLATES / same-ID roster label; serializeNpc omits name from native save. No name field was inserted.",
+        "npcRosterCount": 10,
+        "livingNpcCount": 9,
+        "enemyIds": [
+          "wz-1",
+          "wz-2",
+          "wz-3",
+          "wz-4",
+          "frontier-1"
+        ],
+        "handoffAt": null,
+        "materialProgress": {
+          "wood": 0,
+          "parts": 0,
+          "stone": 0
+        },
+        "workMinutes": 0
+      },
+      "actualSourceWriterAndValidator": true
+    },
+    {
+      "id": "restored",
+      "file": "inputs/restored-native.json",
+      "sha256": "0c305702f7f72a59de26ca3071c019814e6778ddd862a666225a2213d9202e7c",
+      "bytes": 96862,
+      "changes": [
+        "From the actual missing-role scene after a blocked consumer-only60 probe, actual assignMorningSuccessors again fills quartermaster with cook. Native captured before resumed consumer. No world calendar advance."
+      ],
+      "controls": {
+        "clockPaused": false,
+        "clockRate": 1
+      },
+      "expected": {
+        "status": "briefed",
+        "bindings": {
+          "radio": "radio",
+          "carpenter": "quartermaster",
+          "quartermaster": "cook"
+        },
+        "blockedReason": null,
+        "nameSource": "Actual public NPC_TEMPLATES / same-ID roster label; serializeNpc omits name from native save. No name field was inserted.",
+        "npcRosterCount": 10,
+        "livingNpcCount": 9,
+        "enemyIds": [
+          "wz-1",
+          "wz-2",
+          "wz-3",
+          "wz-4",
+          "frontier-1"
+        ],
+        "handoffAt": null,
+        "materialProgress": {
+          "wood": 0,
+          "parts": 0,
+          "stone": 0
+        },
+        "workMinutes": 0
+      },
+      "actualSourceWriterAndValidator": true
+    },
+    {
+      "id": "invalid-config",
+      "file": "inputs/invalid-config-native.json",
+      "sha256": "3b11eb59aa1dc8d475bdbd155b71364ee59782eae2dde81df9597ce5f3f76307",
+      "bytes": 84216,
+      "changes": [
+        "TEST-ONLY offline complete writer derivative changes assignedNpcIds only to [radio,carpenter,carpenter], then actual validator/Continue/native writer; not historical actual project configuration."
+      ],
+      "controls": {
+        "clockPaused": false,
+        "clockRate": 1
+      },
+      "expected": {
+        "status": "briefed",
+        "bindings": {
+          "radio": null,
+          "carpenter": null,
+          "quartermaster": null
+        },
+        "blockedReason": "invalid-role-configuration",
+        "nameSource": "Actual public NPC_TEMPLATES / same-ID roster label; serializeNpc omits name from native save. No name field was inserted.",
+        "npcRosterCount": 10,
+        "livingNpcCount": 10,
+        "enemyIds": [
+          "wz-1",
+          "wz-2",
+          "wz-3",
+          "wz-4",
+          "frontier-1"
+        ],
+        "handoffAt": null,
+        "materialProgress": {
+          "wood": 0,
+          "parts": 0,
+          "stone": 0
+        },
+        "workMinutes": 0
+      },
+      "actualSourceWriterAndValidator": true
+    }
+  ],
+  "scope": "All inputs retain original roster IDs/resources/enemies except actual death/succession consequences. Real initial exploration spawned frontier-1; original four IDs remain, total five enemies. Real handoffAt:null remains unmodified. Scene input status is as captured; unpaused browser time can legitimately progress normal/restored scenes. Current 04a7 source-generated four original scenes. Two supplemental presentation-only complete writers use actual consumer-only building/online state, not world-time completion; they do not add to the original 197 checks.",
+  "inputMethodAncestry": {
+    "originalManifest": {
+      "file": "ancestry/prior-input-manifest.json",
+      "bytes": 6968,
+      "sha256": "335dd8146a0a9d8d8aa838f5c201887d203cc7ee987e2a54376288030b7151cf"
+    },
+    "originalProof": {
+      "file": "ancestry/prior-source-report.json",
+      "bytes": 12560,
+      "sha256": "c09d8ec5df20cbef8543eea1cf1c60eb239343f10888455b96f86b803704dc87"
+    },
+    "unchangedOriginalWriter": true,
+    "expectedRoleOraclesUnchanged": true
+  },
+  "presentationScenes": [
+    {
+      "id": "building",
+      "file": "presentation/building-native.json",
+      "bytes": 96238,
+      "sha256": "44ba6b616b6da296c3778d7a0c767da4f41794a8429942f99ce80d408e5f1ef9",
+      "method": "TEST-ONLY same actual 38cdf Continue -> unchanged real updateRelayProject(30) consumer -> actual native writer and validator; no world.advance, enemy deletion, healing, added materials or browser state override. Not natural/elapsed-world completion.",
+      "expectedStatus": "building",
+      "startWorkMinutes": 30,
+      "targetMinutes": 180
+    },
+    {
+      "id": "old-online",
+      "file": "presentation/old-online-native.json",
+      "bytes": 101558,
+      "sha256": "3e73c7733ea8840ee3338744428d1c2559a66bff3bd8bd5c156a457ddea7149f",
+      "method": "TEST-ONLY same actual 38cdf Continue -> unchanged real updateRelayProject(30) consumer -> actual native writer and validator; no world.advance, enemy deletion, healing, added materials or browser state override. Not natural/elapsed-world completion.",
+      "expectedStatus": "online",
+      "startWorkMinutes": 180,
+      "targetMinutes": 180
+    }
+  ]
+}

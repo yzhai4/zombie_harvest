@@ -1,0 +1,3930 @@
+{
+  "schema": "ScenarioC2IndependentSourceEvidenceV1",
+  "runner": "source-scenario-boot-c2-v1",
+  "runnerArtifact": {
+    "path": "runner-executed.mjs",
+    "bytes": 41790,
+    "sha256": "b824fb66115fb7ae1d0bb7036c66e427b1e6cd5cfad93a2f87604e24b2d6477f"
+  },
+  "source": {
+    "path": "source.html",
+    "bytes": 898114,
+    "sha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571"
+  },
+  "sourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+  "adapter": {
+    "path": "io-adapter-executed.mjs",
+    "bytes": 49132,
+    "sha256": "ee5bb659c0439044e1ec07a4aecf931293457c2478f35d0850fe90770b4367cf"
+  },
+  "oracle": {
+    "path": "inputs/author-v2-oracle.json",
+    "bytes": 4810,
+    "sha256": "afdd0a2c79fbb74ba28b58ba0f3a43930de8367d18d8c7641a8cfec9e82a6fe7"
+  },
+  "inputMapping": {
+    "path": "inputs/capture-mapping.json",
+    "bytes": 3064,
+    "sha256": "2bef1652768748f55b6316ec4b47917533fe726d4be0dd2babe6dc2388070bb5"
+  },
+  "coreModule": {
+    "path": "pure-core-executed.mjs",
+    "bytes": 15465,
+    "sha256": "343e52025cbda33ace694a4e281cfdb7fa66a2052370d67275c13a7a543004ce"
+  },
+  "inputWriters": [
+    {
+      "id": "save18-day",
+      "path": "scripts/fixtures/legacy-save18/DAY18-save.json",
+      "sha256": "0fe3b3e33d630621feb20cba3bb08b4db7cef247464d3b32f748c3c17bf829c3",
+      "kind": "complete original SAVE18 native writer",
+      "artifact": {
+        "path": "inputs/original/save18-day.json",
+        "bytes": 58883,
+        "sha256": "0fe3b3e33d630621feb20cba3bb08b4db7cef247464d3b32f748c3c17bf829c3"
+      }
+    },
+    {
+      "id": "legacy21",
+      "path": "scripts/fixtures/npc-threat-attention-v1/browser-writer-day1-1110-save21.json",
+      "sha256": "5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4",
+      "kind": "complete original SAVE21 writer before Scenario binding",
+      "artifact": {
+        "path": "inputs/original/legacy21.json",
+        "bytes": 496785,
+        "sha256": "5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4"
+      }
+    },
+    {
+      "id": "pre-episode",
+      "path": "scripts/fixtures/content-episode-v1/save21-pre-identity-active.json",
+      "sha256": "eb3b163e5b55e17f356b3ec95a4f9e5e55147bb78b8250ba0fac6ec3b6a0096d",
+      "kind": "previous TEST-ONLY complete source-writer payload with old active shape",
+      "artifact": {
+        "path": "inputs/original/pre-episode.json",
+        "bytes": 54441,
+        "sha256": "eb3b163e5b55e17f356b3ec95a4f9e5e55147bb78b8250ba0fac6ec3b6a0096d"
+      }
+    },
+    {
+      "id": "c1-bound",
+      "path": "docs/qa/runs/scenario-boot-c1-20261017/browser/boot-c1/default-button-initial-native-binding-save.json",
+      "sha256": "80d41c43a8ea07759aa88a852062b74f889b59c8e4edfc488d34f0e198c13d0e",
+      "kind": "actual C1 Chrome canonical full native writer, first binding",
+      "artifact": {
+        "path": "inputs/original/c1-bound.json",
+        "bytes": 61776,
+        "sha256": "80d41c43a8ea07759aa88a852062b74f889b59c8e4edfc488d34f0e198c13d0e"
+      }
+    },
+    {
+      "id": "used-cache",
+      "path": "docs/qa/runs/scenario-boot-c1-20261017/browser/associated-shortage/supplied-forage-reloaded-save.json",
+      "sha256": "fa8e79d3dda157bcaf4e6048fad50133aedc26174f368c6e1084128b29831508",
+      "kind": "actual C1 associated controlled-fixture Chrome native writer after real forage",
+      "artifact": {
+        "path": "inputs/original/used-cache.json",
+        "bytes": 281763,
+        "sha256": "fa8e79d3dda157bcaf4e6048fad50133aedc26174f368c6e1084128b29831508"
+      }
+    },
+    {
+      "id": "midnight-original",
+      "path": "docs/experiments/runs/food-shortage-strategies-32f911-20261017/report-artifacts/common-episode-baseline.json",
+      "sha256": "aafac0f27b14febce001281a67066efddae74ed19b0335af15f2df5425ba9498",
+      "kind": "original actual pre-midnight strategy source writer, derived scene ancestry retained",
+      "artifact": {
+        "path": "inputs/original/midnight-original.json",
+        "bytes": 260163,
+        "sha256": "aafac0f27b14febce001281a67066efddae74ed19b0335af15f2df5425ba9498"
+      }
+    }
+  ],
+  "scope": {
+    "controlledSourceVm": true,
+    "browser": false,
+    "naturalPlay": false,
+    "newGateOrCompilerMocked": false,
+    "sourceReducersChanged": false,
+    "receiptFabricated": false,
+    "oracle": "independent frozen actual C1 author v2, numeric v3 expected1; never recomputed from candidate package",
+    "IO": "existing full-inline controlled DOM/storage/timers adapter; Canvas/world/HUD/context unrelated renderers instrumented; actual event renderer, listener, Gate, reducers, loader and writer executed",
+    "variants": "TEST-ONLY preboot frozen package/options bytes or declared complete native writer derivations; no postboot GameState patch",
+    "C2": "one closed supported shortage storylet and typed existing relay reference; not arbitrary graphs/Scenario Studio/actor authorization/balance"
+  },
+  "ok": true,
+  "count": 66,
+  "passed": 66,
+  "checks": [
+    {
+      "name": "actual complete inline and independent frozen author oracle are available",
+      "ok": true,
+      "evidence": {
+        "oracle": {
+          "path": "inputs/author-v2-oracle.json",
+          "bytes": 4810,
+          "sha256": "afdd0a2c79fbb74ba28b58ba0f3a43930de8367d18d8c7641a8cfec9e82a6fe7"
+        },
+        "adapter": {
+          "path": "io-adapter-executed.mjs",
+          "bytes": 49132,
+          "sha256": "ee5bb659c0439044e1ec07a4aecf931293457c2478f35d0850fe90770b4367cf"
+        }
+      }
+    },
+    {
+      "name": "C2 compiler is actual pure inline code with exact module parity",
+      "ok": true,
+      "evidence": {
+        "module": {
+          "path": "pure-core-executed.mjs",
+          "bytes": 15465,
+          "sha256": "343e52025cbda33ace694a4e281cfdb7fa66a2052370d67275c13a7a543004ce"
+        },
+        "compiled": {
+          "path": "observations/default-compiled.json",
+          "bytes": 4220,
+          "sha256": "993458cf3ab595c4404c32037f59ef67f6547423ad0f67b724ddcbd695125be1"
+        }
+      }
+    },
+    {
+      "name": "default complete compiled runtime definition equals independent frozen C1 author v2 oracle",
+      "ok": true
+    },
+    {
+      "name": "staged definition is absent from committed lookup before public start",
+      "ok": true
+    },
+    {
+      "name": "public click commits compiled directory and initial/content bindings once before timer",
+      "ok": true,
+      "evidence": {
+        "native": {
+          "path": "native/public-click-fresh.json",
+          "bytes": 63452,
+          "sha256": "5a0c1e30627d5bd0ecabb983883a5e82e448f1ef17f35674ba9bd567f0a609e2"
+        }
+      }
+    },
+    {
+      "name": "public Enter commits compiled directory and initial/content bindings once before timer",
+      "ok": true,
+      "evidence": {
+        "native": {
+          "path": "native/public-Enter-fresh.json",
+          "bytes": 63452,
+          "sha256": "5a0c1e30627d5bd0ecabb983883a5e82e448f1ef17f35674ba9bd567f0a609e2"
+        }
+      }
+    },
+    {
+      "name": "default-v2 actual public start hook rendered ration controls actual effects",
+      "ok": true,
+      "evidence": {
+        "kind": "TEST-ONLY-preboot-food0; actual public choice listener",
+        "active": {
+          "chainId": "zh-food-shortage-001",
+          "nodeId": "shortage_choice",
+          "status": "active",
+          "startedAt": 360,
+          "actorId": "camp-autonomy",
+          "resolvedNodeIds": [],
+          "episodeSchemaVersion": 1,
+          "instanceKey": "zh-food-shortage-001:1",
+          "instanceId": "content:zh-food-shortage-001:1",
+          "defId": "zh-food-shortage-001",
+          "definitionVersion": 2
+        },
+        "publicView": {
+          "selection": {
+            "eventSource": "chain:zh-food-shortage-001",
+            "eventChoiceId": "ration",
+            "eventNodeId": "shortage_choice",
+            "eventInstanceId": "content:zh-food-shortage-001:1",
+            "eventDefId": "zh-food-shortage-001",
+            "eventDefinitionVersion": "2",
+            "eventId": "",
+            "eventInstanceKey": "zh-food-shortage-001:1"
+          },
+          "text": "保留备用粮，另行筹粮<small>仅确认并记录 · 食物不变 · 不额外增加崩溃压力 · 原配给与人物需求照常</small>",
+          "title": "断粮警报",
+          "body": "后勤官登记有两份应急藏粮，整局只可动用一次。可以现在动用，也可以保留备用粮，另行采集或收获；人物用餐与配给仍按真实库存结算。 当前库存 0 份，基础日需 3 份；下次午夜配给为第 2 天 00:00（约 1080 分钟后）。个人用餐与据点维护另计，库存会继续变化。结算时若库存不足，原配给缺口与人物需求后果照常发生。"
+        },
+        "events": [
+          {
+            "eventId": "evt-000005",
+            "seq": 5,
+            "type": "content.history",
+            "actorId": "player-1",
+            "commandId": null,
+            "causationId": "cmd-000001",
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "id": "zh-food-shortage-001:1:zh-food-shortage-001:ration",
+              "at": 360,
+              "payload": {
+                "route": "ration"
+              },
+              "actorId": "player-1"
+            },
+            "defId": "zh-food-shortage-001",
+            "definitionVersion": 2,
+            "instanceId": "content:zh-food-shortage-001:1",
+            "effects": []
+          },
+          {
+            "eventId": "evt-000006",
+            "seq": 6,
+            "type": "content.effects.applied",
+            "actorId": "player-1",
+            "commandId": null,
+            "causationId": "cmd-000001",
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "effects": [
+                {
+                  "op": "recordHistory",
+                  "key": "zh-food-shortage-001:ration",
+                  "payload": {
+                    "route": "ration"
+                  }
+                }
+              ],
+              "results": [
+                {
+                  "ok": true,
+                  "op": "recordHistory",
+                  "key": "zh-food-shortage-001:1:zh-food-shortage-001:ration"
+                }
+              ],
+              "effectId": "zh-food-shortage-001:1:shortage_choice:ration",
+              "instanceKey": "zh-food-shortage-001:1"
+            },
+            "defId": "zh-food-shortage-001",
+            "definitionVersion": 2,
+            "instanceId": "content:zh-food-shortage-001:1",
+            "effects": [
+              {
+                "op": "recordHistory",
+                "key": "zh-food-shortage-001:ration",
+                "payload": {
+                  "route": "ration"
+                }
+              }
+            ]
+          },
+          {
+            "eventId": "evt-000007",
+            "seq": 7,
+            "type": "content.chain.resolved",
+            "actorId": "player-1",
+            "commandId": null,
+            "causationId": "cmd-000001",
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "chainId": "zh-food-shortage-001",
+              "nodeId": "shortage_choice",
+              "choiceId": "ration",
+              "results": [
+                {
+                  "ok": true,
+                  "op": "recordHistory",
+                  "key": "zh-food-shortage-001:1:zh-food-shortage-001:ration"
+                }
+              ],
+              "instanceKey": "zh-food-shortage-001:1"
+            },
+            "defId": "zh-food-shortage-001",
+            "definitionVersion": 2,
+            "instanceId": "content:zh-food-shortage-001:1",
+            "effects": [
+              {
+                "op": "recordHistory",
+                "key": "zh-food-shortage-001:ration",
+                "payload": {
+                  "route": "ration"
+                }
+              }
+            ]
+          },
+          {
+            "eventId": "evt-000008",
+            "seq": 8,
+            "type": "content.chain.command",
+            "actorId": "player-1",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "result": {
+                "ok": true,
+                "chainId": "zh-food-shortage-001",
+                "nodeId": "shortage_choice",
+                "choiceId": "ration",
+                "results": [
+                  {
+                    "ok": true,
+                    "op": "recordHistory",
+                    "key": "zh-food-shortage-001:1:zh-food-shortage-001:ration"
+                  }
+                ]
+              }
+            },
+            "defId": "zh-food-shortage-001",
+            "definitionVersion": 2,
+            "instanceId": "content:zh-food-shortage-001:1",
+            "effects": []
+          }
+        ],
+        "native": {
+          "path": "native/default-v2-ration.json",
+          "bytes": 70346,
+          "sha256": "ee86e2c3bcc412ca3db0b50e85e04a5b944f873c00ad91f2efd5153a534191ac"
+        }
+      }
+    },
+    {
+      "name": "default-v2 actual public start hook rendered forage controls actual effects",
+      "ok": true,
+      "evidence": {
+        "kind": "TEST-ONLY-preboot-food0; actual public choice listener",
+        "active": {
+          "chainId": "zh-food-shortage-001",
+          "nodeId": "shortage_choice",
+          "status": "active",
+          "startedAt": 360,
+          "actorId": "camp-autonomy",
+          "resolvedNodeIds": [],
+          "episodeSchemaVersion": 1,
+          "instanceKey": "zh-food-shortage-001:1",
+          "instanceId": "content:zh-food-shortage-001:1",
+          "defId": "zh-food-shortage-001",
+          "definitionVersion": 2
+        },
+        "publicView": {
+          "selection": {
+            "eventSource": "chain:zh-food-shortage-001",
+            "eventChoiceId": "forage",
+            "eventNodeId": "shortage_choice",
+            "eventInstanceId": "content:zh-food-shortage-001:1",
+            "eventDefId": "zh-food-shortage-001",
+            "eventDefinitionVersion": "2",
+            "eventId": "",
+            "eventInstanceKey": "zh-food-shortage-001:1"
+          },
+          "text": "动用后勤应急藏粮<small>整局一次 · 食物 +2 · 共振仪表 +2 · 需要健康后勤人员在岗</small>",
+          "title": "断粮警报",
+          "body": "后勤官登记有两份应急藏粮，整局只可动用一次。可以现在动用，也可以保留备用粮，另行采集或收获；人物用餐与配给仍按真实库存结算。 当前库存 0 份，基础日需 3 份；下次午夜配给为第 2 天 00:00（约 1080 分钟后）。个人用餐与据点维护另计，库存会继续变化。结算时若库存不足，原配给缺口与人物需求后果照常发生。"
+        },
+        "events": [
+          {
+            "eventId": "evt-000005",
+            "seq": 5,
+            "type": "content.history",
+            "actorId": "player-1",
+            "commandId": null,
+            "causationId": "cmd-000001",
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "id": "zh-food-shortage-001:1:zh-food-shortage-001:forage",
+              "at": 360,
+              "payload": {
+                "route": "emergency-cache",
+                "sourceId": "zh-shortage-cache-001",
+                "amount": 2,
+                "resonancePressure": 2
+              },
+              "actorId": "player-1"
+            },
+            "defId": "zh-food-shortage-001",
+            "definitionVersion": 2,
+            "instanceId": "content:zh-food-shortage-001:1",
+            "effects": []
+          },
+          {
+            "eventId": "evt-000006",
+            "seq": 6,
+            "type": "content.effects.applied",
+            "actorId": "player-1",
+            "commandId": null,
+            "causationId": "cmd-000001",
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "effects": [
+                {
+                  "op": "addResource",
+                  "key": "food",
+                  "value": 2
+                },
+                {
+                  "op": "adjustMeter",
+                  "key": "resonancePressure",
+                  "value": 2
+                },
+                {
+                  "op": "unlock",
+                  "key": "zh-shortage-cache-retrieved"
+                },
+                {
+                  "op": "recordHistory",
+                  "key": "zh-food-shortage-001:forage",
+                  "payload": {
+                    "route": "emergency-cache",
+                    "sourceId": "zh-shortage-cache-001",
+                    "amount": 2,
+                    "resonancePressure": 2
+                  }
+                }
+              ],
+              "results": [
+                {
+                  "ok": true,
+                  "op": "addResource",
+                  "key": "food",
+                  "value": 2,
+                  "before": 0,
+                  "after": 2
+                },
+                {
+                  "ok": true,
+                  "op": "adjustMeter",
+                  "key": "resonancePressure",
+                  "before": 25,
+                  "after": 27
+                },
+                {
+                  "ok": true,
+                  "op": "unlock",
+                  "key": "zh-shortage-cache-retrieved"
+                },
+                {
+                  "ok": true,
+                  "op": "recordHistory",
+                  "key": "zh-food-shortage-001:1:zh-food-shortage-001:forage"
+                }
+              ],
+              "effectId": "zh-food-shortage-001:1:shortage_choice:forage",
+              "instanceKey": "zh-food-shortage-001:1"
+            },
+            "defId": "zh-food-shortage-001",
+            "definitionVersion": 2,
+            "instanceId": "content:zh-food-shortage-001:1",
+            "effects": [
+              {
+                "op": "addResource",
+                "key": "food",
+                "value": 2
+              },
+              {
+                "op": "adjustMeter",
+                "key": "resonancePressure",
+                "value": 2
+              },
+              {
+                "op": "unlock",
+                "key": "zh-shortage-cache-retrieved"
+              },
+              {
+                "op": "recordHistory",
+                "key": "zh-food-shortage-001:forage",
+                "payload": {
+                  "route": "emergency-cache",
+                  "sourceId": "zh-shortage-cache-001",
+                  "amount": 2,
+                  "resonancePressure": 2
+                }
+              }
+            ]
+          },
+          {
+            "eventId": "evt-000007",
+            "seq": 7,
+            "type": "content.chain.resolved",
+            "actorId": "player-1",
+            "commandId": null,
+            "causationId": "cmd-000001",
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "chainId": "zh-food-shortage-001",
+              "nodeId": "shortage_choice",
+              "choiceId": "forage",
+              "results": [
+                {
+                  "ok": true,
+                  "op": "addResource",
+                  "key": "food",
+                  "value": 2,
+                  "before": 0,
+                  "after": 2
+                },
+                {
+                  "ok": true,
+                  "op": "adjustMeter",
+                  "key": "resonancePressure",
+                  "before": 25,
+                  "after": 27
+                },
+                {
+                  "ok": true,
+                  "op": "unlock",
+                  "key": "zh-shortage-cache-retrieved"
+                },
+                {
+                  "ok": true,
+                  "op": "recordHistory",
+                  "key": "zh-food-shortage-001:1:zh-food-shortage-001:forage"
+                }
+              ],
+              "instanceKey": "zh-food-shortage-001:1"
+            },
+            "defId": "zh-food-shortage-001",
+            "definitionVersion": 2,
+            "instanceId": "content:zh-food-shortage-001:1",
+            "effects": [
+              {
+                "op": "addResource",
+                "key": "food",
+                "value": 2
+              },
+              {
+                "op": "adjustMeter",
+                "key": "resonancePressure",
+                "value": 2
+              },
+              {
+                "op": "unlock",
+                "key": "zh-shortage-cache-retrieved"
+              },
+              {
+                "op": "recordHistory",
+                "key": "zh-food-shortage-001:forage",
+                "payload": {
+                  "route": "emergency-cache",
+                  "sourceId": "zh-shortage-cache-001",
+                  "amount": 2,
+                  "resonancePressure": 2
+                }
+              }
+            ]
+          },
+          {
+            "eventId": "evt-000008",
+            "seq": 8,
+            "type": "content.chain.command",
+            "actorId": "player-1",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "result": {
+                "ok": true,
+                "chainId": "zh-food-shortage-001",
+                "nodeId": "shortage_choice",
+                "choiceId": "forage",
+                "results": [
+                  {
+                    "ok": true,
+                    "op": "addResource",
+                    "key": "food",
+                    "value": 2,
+                    "before": 0,
+                    "after": 2
+                  },
+                  {
+                    "ok": true,
+                    "op": "adjustMeter",
+                    "key": "resonancePressure",
+                    "before": 25,
+                    "after": 27
+                  },
+                  {
+                    "ok": true,
+                    "op": "unlock",
+                    "key": "zh-shortage-cache-retrieved"
+                  },
+                  {
+                    "ok": true,
+                    "op": "recordHistory",
+                    "key": "zh-food-shortage-001:1:zh-food-shortage-001:forage"
+                  }
+                ]
+              }
+            },
+            "defId": "zh-food-shortage-001",
+            "definitionVersion": 2,
+            "instanceId": "content:zh-food-shortage-001:1",
+            "effects": []
+          }
+        ],
+        "native": {
+          "path": "native/default-v2-forage.json",
+          "bytes": 73404,
+          "sha256": "d576a02f39fdc588410ef7984ec1aadd4bfc9a7400985751888ee64c3e808b1a"
+        }
+      }
+    },
+    {
+      "name": "TEST-ONLY-v3 actual public start hook rendered ration controls actual effects",
+      "ok": true,
+      "evidence": {
+        "kind": "TEST-ONLY-preboot-food0; actual public choice listener",
+        "active": {
+          "chainId": "zh-food-shortage-001",
+          "nodeId": "shortage_choice",
+          "status": "active",
+          "startedAt": 360,
+          "actorId": "camp-autonomy",
+          "resolvedNodeIds": [],
+          "episodeSchemaVersion": 1,
+          "instanceKey": "zh-food-shortage-001:1",
+          "instanceId": "content:zh-food-shortage-001:1",
+          "defId": "zh-food-shortage-001",
+          "definitionVersion": 3
+        },
+        "publicView": {
+          "selection": {
+            "eventSource": "chain:zh-food-shortage-001",
+            "eventChoiceId": "ration",
+            "eventNodeId": "shortage_choice",
+            "eventInstanceId": "content:zh-food-shortage-001:1",
+            "eventDefId": "zh-food-shortage-001",
+            "eventDefinitionVersion": "3",
+            "eventId": "",
+            "eventInstanceKey": "zh-food-shortage-001:1"
+          },
+          "text": "保留备用粮，另行筹粮<small>仅确认并记录 · 食物不变 · 不额外增加崩溃压力 · 原配给与人物需求照常</small>",
+          "title": "断粮警报",
+          "body": "后勤官登记有一份应急藏粮，整局只可动用一次。 当前库存 0 份，基础日需 3 份；下次午夜配给为第 2 天 00:00（约 1080 分钟后）。个人用餐与据点维护另计，库存会继续变化。结算时若库存不足，原配给缺口与人物需求后果照常发生。"
+        },
+        "events": [
+          {
+            "eventId": "evt-000005",
+            "seq": 5,
+            "type": "content.history",
+            "actorId": "player-1",
+            "commandId": null,
+            "causationId": "cmd-000001",
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "id": "zh-food-shortage-001:1:zh-food-shortage-001:ration",
+              "at": 360,
+              "payload": {
+                "route": "ration"
+              },
+              "actorId": "player-1"
+            },
+            "defId": "zh-food-shortage-001",
+            "definitionVersion": 3,
+            "instanceId": "content:zh-food-shortage-001:1",
+            "effects": []
+          },
+          {
+            "eventId": "evt-000006",
+            "seq": 6,
+            "type": "content.effects.applied",
+            "actorId": "player-1",
+            "commandId": null,
+            "causationId": "cmd-000001",
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "effects": [
+                {
+                  "op": "recordHistory",
+                  "key": "zh-food-shortage-001:ration",
+                  "payload": {
+                    "route": "ration"
+                  }
+                }
+              ],
+              "results": [
+                {
+                  "ok": true,
+                  "op": "recordHistory",
+                  "key": "zh-food-shortage-001:1:zh-food-shortage-001:ration"
+                }
+              ],
+              "effectId": "zh-food-shortage-001:1:shortage_choice:ration",
+              "instanceKey": "zh-food-shortage-001:1"
+            },
+            "defId": "zh-food-shortage-001",
+            "definitionVersion": 3,
+            "instanceId": "content:zh-food-shortage-001:1",
+            "effects": [
+              {
+                "op": "recordHistory",
+                "key": "zh-food-shortage-001:ration",
+                "payload": {
+                  "route": "ration"
+                }
+              }
+            ]
+          },
+          {
+            "eventId": "evt-000007",
+            "seq": 7,
+            "type": "content.chain.resolved",
+            "actorId": "player-1",
+            "commandId": null,
+            "causationId": "cmd-000001",
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "chainId": "zh-food-shortage-001",
+              "nodeId": "shortage_choice",
+              "choiceId": "ration",
+              "results": [
+                {
+                  "ok": true,
+                  "op": "recordHistory",
+                  "key": "zh-food-shortage-001:1:zh-food-shortage-001:ration"
+                }
+              ],
+              "instanceKey": "zh-food-shortage-001:1"
+            },
+            "defId": "zh-food-shortage-001",
+            "definitionVersion": 3,
+            "instanceId": "content:zh-food-shortage-001:1",
+            "effects": [
+              {
+                "op": "recordHistory",
+                "key": "zh-food-shortage-001:ration",
+                "payload": {
+                  "route": "ration"
+                }
+              }
+            ]
+          },
+          {
+            "eventId": "evt-000008",
+            "seq": 8,
+            "type": "content.chain.command",
+            "actorId": "player-1",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "result": {
+                "ok": true,
+                "chainId": "zh-food-shortage-001",
+                "nodeId": "shortage_choice",
+                "choiceId": "ration",
+                "results": [
+                  {
+                    "ok": true,
+                    "op": "recordHistory",
+                    "key": "zh-food-shortage-001:1:zh-food-shortage-001:ration"
+                  }
+                ]
+              }
+            },
+            "defId": "zh-food-shortage-001",
+            "definitionVersion": 3,
+            "instanceId": "content:zh-food-shortage-001:1",
+            "effects": []
+          }
+        ],
+        "native": {
+          "path": "native/TEST-ONLY-v3-ration.json",
+          "bytes": 70346,
+          "sha256": "a921ba8f76aef1a8599343c4a615a4f19608ae0a52a1db296ebd9ab33fb1b2ab"
+        }
+      }
+    },
+    {
+      "name": "TEST-ONLY-v3 actual public start hook rendered forage controls actual effects",
+      "ok": true,
+      "evidence": {
+        "kind": "TEST-ONLY-preboot-food0; actual public choice listener",
+        "active": {
+          "chainId": "zh-food-shortage-001",
+          "nodeId": "shortage_choice",
+          "status": "active",
+          "startedAt": 360,
+          "actorId": "camp-autonomy",
+          "resolvedNodeIds": [],
+          "episodeSchemaVersion": 1,
+          "instanceKey": "zh-food-shortage-001:1",
+          "instanceId": "content:zh-food-shortage-001:1",
+          "defId": "zh-food-shortage-001",
+          "definitionVersion": 3
+        },
+        "publicView": {
+          "selection": {
+            "eventSource": "chain:zh-food-shortage-001",
+            "eventChoiceId": "forage",
+            "eventNodeId": "shortage_choice",
+            "eventInstanceId": "content:zh-food-shortage-001:1",
+            "eventDefId": "zh-food-shortage-001",
+            "eventDefinitionVersion": "3",
+            "eventId": "",
+            "eventInstanceKey": "zh-food-shortage-001:1"
+          },
+          "text": "动用后勤应急藏粮<small>整局一次 · 食物 +1 · 共振仪表 +2 · 需要健康后勤人员在岗</small>",
+          "title": "断粮警报",
+          "body": "后勤官登记有一份应急藏粮，整局只可动用一次。 当前库存 0 份，基础日需 3 份；下次午夜配给为第 2 天 00:00（约 1080 分钟后）。个人用餐与据点维护另计，库存会继续变化。结算时若库存不足，原配给缺口与人物需求后果照常发生。"
+        },
+        "events": [
+          {
+            "eventId": "evt-000005",
+            "seq": 5,
+            "type": "content.history",
+            "actorId": "player-1",
+            "commandId": null,
+            "causationId": "cmd-000001",
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "id": "zh-food-shortage-001:1:zh-food-shortage-001:forage",
+              "at": 360,
+              "payload": {
+                "route": "emergency-cache",
+                "sourceId": "zh-shortage-cache-001",
+                "amount": 1,
+                "resonancePressure": 2
+              },
+              "actorId": "player-1"
+            },
+            "defId": "zh-food-shortage-001",
+            "definitionVersion": 3,
+            "instanceId": "content:zh-food-shortage-001:1",
+            "effects": []
+          },
+          {
+            "eventId": "evt-000006",
+            "seq": 6,
+            "type": "content.effects.applied",
+            "actorId": "player-1",
+            "commandId": null,
+            "causationId": "cmd-000001",
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "effects": [
+                {
+                  "op": "addResource",
+                  "key": "food",
+                  "value": 1
+                },
+                {
+                  "op": "adjustMeter",
+                  "key": "resonancePressure",
+                  "value": 2
+                },
+                {
+                  "op": "unlock",
+                  "key": "zh-shortage-cache-retrieved"
+                },
+                {
+                  "op": "recordHistory",
+                  "key": "zh-food-shortage-001:forage",
+                  "payload": {
+                    "route": "emergency-cache",
+                    "sourceId": "zh-shortage-cache-001",
+                    "amount": 1,
+                    "resonancePressure": 2
+                  }
+                }
+              ],
+              "results": [
+                {
+                  "ok": true,
+                  "op": "addResource",
+                  "key": "food",
+                  "value": 1,
+                  "before": 0,
+                  "after": 1
+                },
+                {
+                  "ok": true,
+                  "op": "adjustMeter",
+                  "key": "resonancePressure",
+                  "before": 25,
+                  "after": 27
+                },
+                {
+                  "ok": true,
+                  "op": "unlock",
+                  "key": "zh-shortage-cache-retrieved"
+                },
+                {
+                  "ok": true,
+                  "op": "recordHistory",
+                  "key": "zh-food-shortage-001:1:zh-food-shortage-001:forage"
+                }
+              ],
+              "effectId": "zh-food-shortage-001:1:shortage_choice:forage",
+              "instanceKey": "zh-food-shortage-001:1"
+            },
+            "defId": "zh-food-shortage-001",
+            "definitionVersion": 3,
+            "instanceId": "content:zh-food-shortage-001:1",
+            "effects": [
+              {
+                "op": "addResource",
+                "key": "food",
+                "value": 1
+              },
+              {
+                "op": "adjustMeter",
+                "key": "resonancePressure",
+                "value": 2
+              },
+              {
+                "op": "unlock",
+                "key": "zh-shortage-cache-retrieved"
+              },
+              {
+                "op": "recordHistory",
+                "key": "zh-food-shortage-001:forage",
+                "payload": {
+                  "route": "emergency-cache",
+                  "sourceId": "zh-shortage-cache-001",
+                  "amount": 1,
+                  "resonancePressure": 2
+                }
+              }
+            ]
+          },
+          {
+            "eventId": "evt-000007",
+            "seq": 7,
+            "type": "content.chain.resolved",
+            "actorId": "player-1",
+            "commandId": null,
+            "causationId": "cmd-000001",
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "chainId": "zh-food-shortage-001",
+              "nodeId": "shortage_choice",
+              "choiceId": "forage",
+              "results": [
+                {
+                  "ok": true,
+                  "op": "addResource",
+                  "key": "food",
+                  "value": 1,
+                  "before": 0,
+                  "after": 1
+                },
+                {
+                  "ok": true,
+                  "op": "adjustMeter",
+                  "key": "resonancePressure",
+                  "before": 25,
+                  "after": 27
+                },
+                {
+                  "ok": true,
+                  "op": "unlock",
+                  "key": "zh-shortage-cache-retrieved"
+                },
+                {
+                  "ok": true,
+                  "op": "recordHistory",
+                  "key": "zh-food-shortage-001:1:zh-food-shortage-001:forage"
+                }
+              ],
+              "instanceKey": "zh-food-shortage-001:1"
+            },
+            "defId": "zh-food-shortage-001",
+            "definitionVersion": 3,
+            "instanceId": "content:zh-food-shortage-001:1",
+            "effects": [
+              {
+                "op": "addResource",
+                "key": "food",
+                "value": 1
+              },
+              {
+                "op": "adjustMeter",
+                "key": "resonancePressure",
+                "value": 2
+              },
+              {
+                "op": "unlock",
+                "key": "zh-shortage-cache-retrieved"
+              },
+              {
+                "op": "recordHistory",
+                "key": "zh-food-shortage-001:forage",
+                "payload": {
+                  "route": "emergency-cache",
+                  "sourceId": "zh-shortage-cache-001",
+                  "amount": 1,
+                  "resonancePressure": 2
+                }
+              }
+            ]
+          },
+          {
+            "eventId": "evt-000008",
+            "seq": 8,
+            "type": "content.chain.command",
+            "actorId": "player-1",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "result": {
+                "ok": true,
+                "chainId": "zh-food-shortage-001",
+                "nodeId": "shortage_choice",
+                "choiceId": "forage",
+                "results": [
+                  {
+                    "ok": true,
+                    "op": "addResource",
+                    "key": "food",
+                    "value": 1,
+                    "before": 0,
+                    "after": 1
+                  },
+                  {
+                    "ok": true,
+                    "op": "adjustMeter",
+                    "key": "resonancePressure",
+                    "before": 25,
+                    "after": 27
+                  },
+                  {
+                    "ok": true,
+                    "op": "unlock",
+                    "key": "zh-shortage-cache-retrieved"
+                  },
+                  {
+                    "ok": true,
+                    "op": "recordHistory",
+                    "key": "zh-food-shortage-001:1:zh-food-shortage-001:forage"
+                  }
+                ]
+              }
+            },
+            "defId": "zh-food-shortage-001",
+            "definitionVersion": 3,
+            "instanceId": "content:zh-food-shortage-001:1",
+            "effects": []
+          }
+        ],
+        "native": {
+          "path": "native/TEST-ONLY-v3-forage.json",
+          "bytes": 73404,
+          "sha256": "13b3e4a7e4cb3ab16544ab97aeb1af3cbecc0c6683f0e359ec03eb75bf1f23e1"
+        }
+      }
+    },
+    {
+      "name": "v2 real one-minute calendar crossing creates new episode without reopening finite cache",
+      "ok": true,
+      "evidence": {
+        "input": {
+          "artifact": {
+            "path": "inputs/TEST-ONLY-near-midnight-v2.json",
+            "bytes": 36713,
+            "sha256": "e3caca4fd01b2db71454489f35330a782037a8e49605f59fbbb7269b95daa517"
+          },
+          "kind": "TEST-ONLY-offline-derived-complete-native-writer",
+          "changes": [
+            "day/hour/minute/world.totalMinutes only; actual settled cache flag/history preserved"
+          ],
+          "parentSha256": "42b8f39ee9ab5617f5953f7ef7e5168a3ec904f6c37089f9bbc072bb0dd3b297"
+        },
+        "beforeFood": 2,
+        "afterFood": 0,
+        "actualTime": {
+          "eventId": "evt-000013",
+          "seq": 13,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "qa-c2-midnight-v2",
+          "causationId": null,
+          "tick": {
+            "world": 1440,
+            "phase": 0,
+            "schedule": 1
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 2,
+            "hour": 0,
+            "minute": 0
+          }
+        },
+        "publicForageDisabled": true,
+        "npcsBefore": [
+          {
+            "id": "carpenter",
+            "needs": {
+              "hunger": 18,
+              "fatigue": 12,
+              "stress": 8,
+              "energy": 82,
+              "social": 28,
+              "safety": 18
+            }
+          },
+          {
+            "id": "doctor",
+            "needs": {
+              "hunger": 18,
+              "fatigue": 12,
+              "stress": 8,
+              "energy": 82,
+              "social": 28,
+              "safety": 18
+            }
+          },
+          {
+            "id": "radio",
+            "needs": {
+              "hunger": 18,
+              "fatigue": 12,
+              "stress": 8,
+              "energy": 82,
+              "social": 28,
+              "safety": 18
+            }
+          },
+          {
+            "id": "commander",
+            "needs": {
+              "hunger": 18,
+              "fatigue": 12,
+              "stress": 8,
+              "energy": 82,
+              "social": 28,
+              "safety": 18
+            }
+          },
+          {
+            "id": "sergeant",
+            "needs": {
+              "hunger": 18,
+              "fatigue": 12,
+              "stress": 8,
+              "energy": 82,
+              "social": 28,
+              "safety": 18
+            }
+          },
+          {
+            "id": "guardJi",
+            "needs": {
+              "hunger": 18,
+              "fatigue": 12,
+              "stress": 8,
+              "energy": 82,
+              "social": 28,
+              "safety": 18
+            }
+          },
+          {
+            "id": "guardChen",
+            "needs": {
+              "hunger": 18,
+              "fatigue": 12,
+              "stress": 8,
+              "energy": 82,
+              "social": 28,
+              "safety": 18
+            }
+          },
+          {
+            "id": "guardJiang",
+            "needs": {
+              "hunger": 18,
+              "fatigue": 12,
+              "stress": 8,
+              "energy": 82,
+              "social": 28,
+              "safety": 18
+            }
+          },
+          {
+            "id": "quartermaster",
+            "needs": {
+              "hunger": 18,
+              "fatigue": 12,
+              "stress": 8,
+              "energy": 82,
+              "social": 28,
+              "safety": 18
+            }
+          },
+          {
+            "id": "cook",
+            "needs": {
+              "hunger": 18,
+              "fatigue": 12,
+              "stress": 8,
+              "energy": 82,
+              "social": 28,
+              "safety": 18
+            }
+          }
+        ],
+        "npcsAfter": [
+          {
+            "id": "carpenter",
+            "needs": {
+              "hunger": 34.018,
+              "fatigue": 11.972,
+              "stress": 12.994,
+              "energy": 82.045,
+              "social": 27.994,
+              "safety": 17.992
+            }
+          },
+          {
+            "id": "doctor",
+            "needs": {
+              "hunger": 34.018,
+              "fatigue": 11.972,
+              "stress": 12.994,
+              "energy": 82.045,
+              "social": 27.994,
+              "safety": 17.992
+            }
+          },
+          {
+            "id": "radio",
+            "needs": {
+              "hunger": 34.018,
+              "fatigue": 11.972,
+              "stress": 12.994,
+              "energy": 82.045,
+              "social": 27.994,
+              "safety": 17.992
+            }
+          },
+          {
+            "id": "commander",
+            "needs": {
+              "hunger": 34.018,
+              "fatigue": 11.972,
+              "stress": 12.994,
+              "energy": 82.045,
+              "social": 27.994,
+              "safety": 17.992
+            }
+          },
+          {
+            "id": "sergeant",
+            "needs": {
+              "hunger": 34.018,
+              "fatigue": 11.972,
+              "stress": 12.994,
+              "energy": 82.045,
+              "social": 27.994,
+              "safety": 17.992
+            }
+          },
+          {
+            "id": "guardJi",
+            "needs": {
+              "hunger": 34.018,
+              "fatigue": 11.972,
+              "stress": 12.994,
+              "energy": 82.045,
+              "social": 27.994,
+              "safety": 17.992
+            }
+          },
+          {
+            "id": "guardChen",
+            "needs": {
+              "hunger": 34.018,
+              "fatigue": 11.972,
+              "stress": 12.994,
+              "energy": 82.045,
+              "social": 27.994,
+              "safety": 17.992
+            }
+          },
+          {
+            "id": "guardJiang",
+            "needs": {
+              "hunger": 34.018,
+              "fatigue": 11.972,
+              "stress": 12.994,
+              "energy": 82.045,
+              "social": 27.994,
+              "safety": 17.992
+            }
+          },
+          {
+            "id": "quartermaster",
+            "needs": {
+              "hunger": 34.018,
+              "fatigue": 11.972,
+              "stress": 12.994,
+              "energy": 82.045,
+              "social": 27.994,
+              "safety": 17.992
+            }
+          },
+          {
+            "id": "cook",
+            "needs": {
+              "hunger": 34.018,
+              "fatigue": 11.972,
+              "stress": 12.994,
+              "energy": 82.045,
+              "social": 27.994,
+              "safety": 17.992
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "v3 real one-minute calendar crossing creates new episode without reopening finite cache",
+      "ok": true,
+      "evidence": {
+        "input": {
+          "artifact": {
+            "path": "inputs/TEST-ONLY-near-midnight-v3.json",
+            "bytes": 36713,
+            "sha256": "94f58332c0988622580d9ff832ea0138280a7abc2cc70fa3bb99aa2c2be542f5"
+          },
+          "kind": "TEST-ONLY-offline-derived-complete-native-writer",
+          "changes": [
+            "day/hour/minute/world.totalMinutes only; actual settled cache flag/history preserved"
+          ],
+          "parentSha256": "930b4fedef18417e109e7d5805f1f95ead27c4026c964a278cfbc2274cb6dedd"
+        },
+        "beforeFood": 1,
+        "afterFood": 0,
+        "actualTime": {
+          "eventId": "evt-000013",
+          "seq": 13,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "qa-c2-midnight-v3",
+          "causationId": null,
+          "tick": {
+            "world": 1440,
+            "phase": 0,
+            "schedule": 1
+          },
+          "payload": {
+            "minutes": 1,
+            "day": 2,
+            "hour": 0,
+            "minute": 0
+          }
+        },
+        "publicForageDisabled": true,
+        "npcsBefore": [
+          {
+            "id": "carpenter",
+            "needs": {
+              "hunger": 18,
+              "fatigue": 12,
+              "stress": 8,
+              "energy": 82,
+              "social": 28,
+              "safety": 18
+            }
+          },
+          {
+            "id": "doctor",
+            "needs": {
+              "hunger": 18,
+              "fatigue": 12,
+              "stress": 8,
+              "energy": 82,
+              "social": 28,
+              "safety": 18
+            }
+          },
+          {
+            "id": "radio",
+            "needs": {
+              "hunger": 18,
+              "fatigue": 12,
+              "stress": 8,
+              "energy": 82,
+              "social": 28,
+              "safety": 18
+            }
+          },
+          {
+            "id": "commander",
+            "needs": {
+              "hunger": 18,
+              "fatigue": 12,
+              "stress": 8,
+              "energy": 82,
+              "social": 28,
+              "safety": 18
+            }
+          },
+          {
+            "id": "sergeant",
+            "needs": {
+              "hunger": 18,
+              "fatigue": 12,
+              "stress": 8,
+              "energy": 82,
+              "social": 28,
+              "safety": 18
+            }
+          },
+          {
+            "id": "guardJi",
+            "needs": {
+              "hunger": 18,
+              "fatigue": 12,
+              "stress": 8,
+              "energy": 82,
+              "social": 28,
+              "safety": 18
+            }
+          },
+          {
+            "id": "guardChen",
+            "needs": {
+              "hunger": 18,
+              "fatigue": 12,
+              "stress": 8,
+              "energy": 82,
+              "social": 28,
+              "safety": 18
+            }
+          },
+          {
+            "id": "guardJiang",
+            "needs": {
+              "hunger": 18,
+              "fatigue": 12,
+              "stress": 8,
+              "energy": 82,
+              "social": 28,
+              "safety": 18
+            }
+          },
+          {
+            "id": "quartermaster",
+            "needs": {
+              "hunger": 18,
+              "fatigue": 12,
+              "stress": 8,
+              "energy": 82,
+              "social": 28,
+              "safety": 18
+            }
+          },
+          {
+            "id": "cook",
+            "needs": {
+              "hunger": 18,
+              "fatigue": 12,
+              "stress": 8,
+              "energy": 82,
+              "social": 28,
+              "safety": 18
+            }
+          }
+        ],
+        "npcsAfter": [
+          {
+            "id": "carpenter",
+            "needs": {
+              "hunger": 50.018,
+              "fatigue": 11.972,
+              "stress": 17.994,
+              "energy": 82.045,
+              "social": 27.994,
+              "safety": 17.992
+            }
+          },
+          {
+            "id": "doctor",
+            "needs": {
+              "hunger": 50.018,
+              "fatigue": 11.972,
+              "stress": 17.994,
+              "energy": 82.045,
+              "social": 27.994,
+              "safety": 17.992
+            }
+          },
+          {
+            "id": "radio",
+            "needs": {
+              "hunger": 50.018,
+              "fatigue": 11.972,
+              "stress": 17.994,
+              "energy": 82.045,
+              "social": 27.994,
+              "safety": 17.992
+            }
+          },
+          {
+            "id": "commander",
+            "needs": {
+              "hunger": 50.018,
+              "fatigue": 11.972,
+              "stress": 17.994,
+              "energy": 82.045,
+              "social": 27.994,
+              "safety": 17.992
+            }
+          },
+          {
+            "id": "sergeant",
+            "needs": {
+              "hunger": 50.018,
+              "fatigue": 11.972,
+              "stress": 17.994,
+              "energy": 82.045,
+              "social": 27.994,
+              "safety": 17.992
+            }
+          },
+          {
+            "id": "guardJi",
+            "needs": {
+              "hunger": 50.018,
+              "fatigue": 11.972,
+              "stress": 17.994,
+              "energy": 82.045,
+              "social": 27.994,
+              "safety": 17.992
+            }
+          },
+          {
+            "id": "guardChen",
+            "needs": {
+              "hunger": 50.018,
+              "fatigue": 11.972,
+              "stress": 17.994,
+              "energy": 82.045,
+              "social": 27.994,
+              "safety": 17.992
+            }
+          },
+          {
+            "id": "guardJiang",
+            "needs": {
+              "hunger": 50.018,
+              "fatigue": 11.972,
+              "stress": 17.994,
+              "energy": 82.045,
+              "social": 27.994,
+              "safety": 17.992
+            }
+          },
+          {
+            "id": "quartermaster",
+            "needs": {
+              "hunger": 50.018,
+              "fatigue": 11.972,
+              "stress": 17.994,
+              "energy": 82.045,
+              "social": 27.994,
+              "safety": 17.992
+            }
+          },
+          {
+            "id": "cook",
+            "needs": {
+              "hunger": 50.018,
+              "fatigue": 11.972,
+              "stress": 17.994,
+              "energy": 82.045,
+              "social": 27.994,
+              "safety": 17.992
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "actual compiled fallback ifMissingNpc retains frozen effect and episode identity",
+      "ok": true,
+      "evidence": {
+        "scope": "existing explicit fallback command under actual phase qualification, not automatic missing-NPC inference",
+        "expiryInput": null,
+        "receipt": {
+          "eventId": "evt-000006",
+          "seq": 6,
+          "type": "content.chain.fallback",
+          "actorId": "camp-autonomy",
+          "commandId": null,
+          "causationId": null,
+          "tick": {
+            "world": 360,
+            "phase": 0,
+            "schedule": 0
+          },
+          "payload": {
+            "chainId": "zh-food-shortage-001",
+            "reason": "ifMissingNpc",
+            "fallbackId": "shortage_deferred",
+            "active": true,
+            "results": [
+              {
+                "ok": true,
+                "op": "adjustMeter",
+                "key": "campCollapse",
+                "before": 0,
+                "after": 1
+              }
+            ],
+            "instanceKey": "zh-food-shortage-001:1",
+            "nodeId": "shortage_choice"
+          },
+          "defId": "zh-food-shortage-001",
+          "definitionVersion": 2,
+          "instanceId": "content:zh-food-shortage-001:1",
+          "effects": [
+            {
+              "op": "adjustMeter",
+              "key": "campCollapse",
+              "value": 1
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "actual compiled fallback ifInsufficientPopulation retains frozen effect and episode identity",
+      "ok": true,
+      "evidence": {
+        "scope": "existing explicit fallback command under actual phase qualification, not automatic missing-NPC inference",
+        "expiryInput": null,
+        "receipt": {
+          "eventId": "evt-000006",
+          "seq": 6,
+          "type": "content.chain.fallback",
+          "actorId": "camp-autonomy",
+          "commandId": null,
+          "causationId": null,
+          "tick": {
+            "world": 360,
+            "phase": 0,
+            "schedule": 0
+          },
+          "payload": {
+            "chainId": "zh-food-shortage-001",
+            "reason": "ifInsufficientPopulation",
+            "fallbackId": "shortage_deferred",
+            "active": true,
+            "results": [
+              {
+                "ok": true,
+                "op": "adjustMeter",
+                "key": "campCollapse",
+                "before": 0,
+                "after": 2
+              }
+            ],
+            "instanceKey": "zh-food-shortage-001:1",
+            "nodeId": "shortage_choice"
+          },
+          "defId": "zh-food-shortage-001",
+          "definitionVersion": 2,
+          "instanceId": "content:zh-food-shortage-001:1",
+          "effects": [
+            {
+              "op": "adjustMeter",
+              "key": "campCollapse",
+              "value": 2
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "actual compiled fallback ifExpired retains frozen effect and episode identity",
+      "ok": true,
+      "evidence": {
+        "scope": "existing explicit fallback command under actual phase qualification, not automatic missing-NPC inference",
+        "expiryInput": {
+          "path": "inputs/TEST-ONLY-past-window-active.json",
+          "bytes": 32708,
+          "sha256": "613f9e223ee2eebe6ea04a7f1c4397ca8b6d0ea0c53e9cfabf742912e720941d"
+        },
+        "receipt": {
+          "eventId": "evt-000006",
+          "seq": 6,
+          "type": "content.chain.fallback",
+          "actorId": "camp-autonomy",
+          "commandId": null,
+          "causationId": null,
+          "tick": {
+            "world": 18720,
+            "phase": 0,
+            "schedule": 0
+          },
+          "payload": {
+            "chainId": "zh-food-shortage-001",
+            "reason": "ifExpired",
+            "fallbackId": "ledger_only",
+            "active": true,
+            "results": [],
+            "instanceKey": "zh-food-shortage-001:1",
+            "nodeId": "shortage_choice"
+          },
+          "defId": "zh-food-shortage-001",
+          "definitionVersion": 2,
+          "instanceId": "content:zh-food-shortage-001:1",
+          "effects": []
+        }
+      }
+    },
+    {
+      "name": "actual compiled fallback ifSkipped retains frozen effect and episode identity",
+      "ok": true,
+      "evidence": {
+        "scope": "existing explicit fallback command under actual phase qualification, not automatic missing-NPC inference",
+        "expiryInput": null,
+        "receipt": {
+          "eventId": "evt-000006",
+          "seq": 6,
+          "type": "content.chain.fallback",
+          "actorId": "camp-autonomy",
+          "commandId": null,
+          "causationId": null,
+          "tick": {
+            "world": 360,
+            "phase": 0,
+            "schedule": 0
+          },
+          "payload": {
+            "chainId": "zh-food-shortage-001",
+            "reason": "ifSkipped",
+            "fallbackId": "ledger_only",
+            "active": true,
+            "results": [],
+            "instanceKey": "zh-food-shortage-001:1",
+            "nodeId": "shortage_choice"
+          },
+          "defId": "zh-food-shortage-001",
+          "definitionVersion": 2,
+          "instanceId": "content:zh-food-shortage-001:1",
+          "effects": []
+        }
+      }
+    },
+    {
+      "name": "invalid untyped-ref rejects pure preparation and public start without partial registry or IO",
+      "ok": true,
+      "evidence": {
+        "purePackageValidation": {
+          "ok": false,
+          "issues": [
+            "event-compile:shape:kind/id"
+          ]
+        },
+        "compilerScope": "actual event compiler also rejects",
+        "failure": "scenario-content-invalid",
+        "initialRegisteredShortage": false
+      }
+    },
+    {
+      "name": "invalid wrong-ref-kind rejects pure preparation and public start without partial registry or IO",
+      "ok": true,
+      "evidence": {
+        "purePackageValidation": {
+          "ok": false,
+          "issues": [
+            "event-compile:registry-definition-mismatch"
+          ]
+        },
+        "compilerScope": "actual event compiler also rejects",
+        "failure": "scenario-content-invalid",
+        "initialRegisteredShortage": false
+      }
+    },
+    {
+      "name": "invalid unknown-external-ref rejects pure preparation and public start without partial registry or IO",
+      "ok": true,
+      "evidence": {
+        "purePackageValidation": {
+          "ok": false,
+          "issues": [
+            "event-compile:unsupported-external-ref"
+          ]
+        },
+        "compilerScope": "actual event compiler also rejects",
+        "failure": "scenario-content-invalid",
+        "initialRegisteredShortage": false
+      }
+    },
+    {
+      "name": "invalid unknown-ref-kind rejects pure preparation and public start without partial registry or IO",
+      "ok": true,
+      "evidence": {
+        "purePackageValidation": {
+          "ok": false,
+          "issues": [
+            "event-compile:typed-ref"
+          ]
+        },
+        "compilerScope": "actual event compiler also rejects",
+        "failure": "scenario-content-invalid",
+        "initialRegisteredShortage": false
+      }
+    },
+    {
+      "name": "invalid unknown-gate rejects pure preparation and public start without partial registry or IO",
+      "ok": true,
+      "evidence": {
+        "purePackageValidation": {
+          "ok": false,
+          "issues": [
+            "event-compile:gate-conflict"
+          ]
+        },
+        "compilerScope": "actual event compiler also rejects",
+        "failure": "scenario-content-invalid",
+        "initialRegisteredShortage": false
+      }
+    },
+    {
+      "name": "invalid unknown-op rejects pure preparation and public start without partial registry or IO",
+      "ok": true,
+      "evidence": {
+        "purePackageValidation": {
+          "ok": false,
+          "issues": [
+            "event-compile:unsupported-effect"
+          ]
+        },
+        "compilerScope": "actual event compiler also rejects",
+        "failure": "scenario-content-invalid",
+        "initialRegisteredShortage": false
+      }
+    },
+    {
+      "name": "invalid unknown-resource rejects pure preparation and public start without partial registry or IO",
+      "ok": true,
+      "evidence": {
+        "purePackageValidation": {
+          "ok": false,
+          "issues": [
+            "event-compile:resource-effect"
+          ]
+        },
+        "compilerScope": "actual event compiler also rejects",
+        "failure": "scenario-content-invalid",
+        "initialRegisteredShortage": false
+      }
+    },
+    {
+      "name": "invalid authority-write rejects pure preparation and public start without partial registry or IO",
+      "ok": true,
+      "evidence": {
+        "purePackageValidation": {
+          "ok": false,
+          "issues": [
+            "event-compile:expression-authority"
+          ]
+        },
+        "compilerScope": "actual event compiler also rejects",
+        "failure": "scenario-content-invalid",
+        "initialRegisteredShortage": false
+      }
+    },
+    {
+      "name": "invalid authority-ai-policy rejects pure preparation and public start without partial registry or IO",
+      "ok": true,
+      "evidence": {
+        "purePackageValidation": {
+          "ok": false,
+          "issues": [
+            "ai-authority"
+          ]
+        },
+        "compilerScope": "events compiler does not validate outer package AI policy; actual package validator rejects",
+        "failure": "scenario-content-invalid",
+        "initialRegisteredShortage": false
+      }
+    },
+    {
+      "name": "invalid no-fallback rejects pure preparation and public start without partial registry or IO",
+      "ok": true,
+      "evidence": {
+        "purePackageValidation": {
+          "ok": false,
+          "issues": [
+            "event-compile:shape:id/chainId/title/description/definitionVersion/category/phase/priority/gateVersion/evaluatePreconditions/gate/preconditions/startConditions/nodes/fallback/hooks/repeatable/optional/source/expression"
+          ]
+        },
+        "compilerScope": "actual event compiler also rejects",
+        "failure": "scenario-content-invalid",
+        "initialRegisteredShortage": false
+      }
+    },
+    {
+      "name": "invalid missing-fallback-arm rejects pure preparation and public start without partial registry or IO",
+      "ok": true,
+      "evidence": {
+        "purePackageValidation": {
+          "ok": false,
+          "issues": [
+            "event-compile:shape:ifMissingNpc/ifInsufficientPopulation/ifExpired/ifSkipped"
+          ]
+        },
+        "compilerScope": "actual event compiler also rejects",
+        "failure": "scenario-content-invalid",
+        "initialRegisteredShortage": false
+      }
+    },
+    {
+      "name": "invalid fallback-op rejects pure preparation and public start without partial registry or IO",
+      "ok": true,
+      "evidence": {
+        "purePackageValidation": {
+          "ok": false,
+          "issues": [
+            "event-compile:unsupported-effect"
+          ]
+        },
+        "compilerScope": "actual event compiler also rejects",
+        "failure": "scenario-content-invalid",
+        "initialRegisteredShortage": false
+      }
+    },
+    {
+      "name": "invalid nonexistent-next rejects pure preparation and public start without partial registry or IO",
+      "ok": true,
+      "evidence": {
+        "purePackageValidation": {
+          "ok": false,
+          "issues": [
+            "event-compile:shape:id/label/hint/requires/effects"
+          ]
+        },
+        "compilerScope": "actual event compiler also rejects",
+        "failure": "scenario-content-invalid",
+        "initialRegisteredShortage": false
+      }
+    },
+    {
+      "name": "invalid self-loop rejects pure preparation and public start without partial registry or IO",
+      "ok": true,
+      "evidence": {
+        "purePackageValidation": {
+          "ok": false,
+          "issues": [
+            "event-compile:shape:id/label/hint/requires/effects"
+          ]
+        },
+        "compilerScope": "actual event compiler also rejects",
+        "failure": "scenario-content-invalid",
+        "initialRegisteredShortage": false
+      }
+    },
+    {
+      "name": "invalid source-budget-overflow rejects pure preparation and public start without partial registry or IO",
+      "ok": true,
+      "evidence": {
+        "purePackageValidation": {
+          "ok": false,
+          "issues": [
+            "event-compile:source-budget-or-protection"
+          ]
+        },
+        "compilerScope": "actual event compiler also rejects",
+        "failure": "scenario-content-invalid",
+        "initialRegisteredShortage": false
+      }
+    },
+    {
+      "name": "invalid source-infinite-retrieval rejects pure preparation and public start without partial registry or IO",
+      "ok": true,
+      "evidence": {
+        "purePackageValidation": {
+          "ok": false,
+          "issues": [
+            "event-compile:finite-source"
+          ]
+        },
+        "compilerScope": "actual event compiler also rejects",
+        "failure": "scenario-content-invalid",
+        "initialRegisteredShortage": false
+      }
+    },
+    {
+      "name": "invalid source-flag-missing rejects pure preparation and public start without partial registry or IO",
+      "ok": true,
+      "evidence": {
+        "purePackageValidation": {
+          "ok": false,
+          "issues": [
+            "event-compile:shape:id/food/retrievalLimit/flag"
+          ]
+        },
+        "compilerScope": "actual event compiler also rejects",
+        "failure": "scenario-content-invalid",
+        "initialRegisteredShortage": false
+      }
+    },
+    {
+      "name": "invalid source-history-mismatch rejects pure preparation and public start without partial registry or IO",
+      "ok": true,
+      "evidence": {
+        "purePackageValidation": {
+          "ok": false,
+          "issues": [
+            "event-compile:source-budget-or-protection"
+          ]
+        },
+        "compilerScope": "actual event compiler also rejects",
+        "failure": "scenario-content-invalid",
+        "initialRegisteredShortage": false
+      }
+    },
+    {
+      "name": "invalid source-unlock-missing rejects pure preparation and public start without partial registry or IO",
+      "ok": true,
+      "evidence": {
+        "purePackageValidation": {
+          "ok": false,
+          "issues": [
+            "event-compile:source-budget-or-protection"
+          ]
+        },
+        "compilerScope": "actual event compiler also rejects",
+        "failure": "scenario-content-invalid",
+        "initialRegisteredShortage": false
+      }
+    },
+    {
+      "name": "invalid source-second-food-path rejects pure preparation and public start without partial registry or IO",
+      "ok": true,
+      "evidence": {
+        "purePackageValidation": {
+          "ok": false,
+          "issues": [
+            "event-compile:source-budget-or-protection"
+          ]
+        },
+        "compilerScope": "actual event compiler also rejects",
+        "failure": "scenario-content-invalid",
+        "initialRegisteredShortage": false
+      }
+    },
+    {
+      "name": "invalid late-duplicate-definition rejects pure preparation and public start without partial registry or IO",
+      "ok": true,
+      "evidence": {
+        "purePackageValidation": {
+          "ok": false,
+          "issues": [
+            "event-compile:story-id"
+          ]
+        },
+        "compilerScope": "actual event compiler also rejects",
+        "failure": "scenario-content-invalid",
+        "initialRegisteredShortage": false
+      }
+    },
+    {
+      "name": "invalid late-invalid-op rejects pure preparation and public start without partial registry or IO",
+      "ok": true,
+      "evidence": {
+        "purePackageValidation": {
+          "ok": false,
+          "issues": [
+            "event-compile:finite-source"
+          ]
+        },
+        "compilerScope": "actual event compiler also rejects",
+        "failure": "scenario-content-invalid",
+        "initialRegisteredShortage": false
+      }
+    },
+    {
+      "name": "invalid late-missing-ref rejects pure preparation and public start without partial registry or IO",
+      "ok": true,
+      "evidence": {
+        "purePackageValidation": {
+          "ok": false,
+          "issues": [
+            "event-compile:unsupported-external-ref"
+          ]
+        },
+        "compilerScope": "actual event compiler also rejects",
+        "failure": "scenario-content-invalid",
+        "initialRegisteredShortage": false
+      }
+    },
+    {
+      "name": "complete original save18-day preserves old world and C1 provenance through actual loader writer reload",
+      "ok": true,
+      "evidence": {
+        "input": {
+          "path": "inputs/original/save18-day.json",
+          "bytes": 58883,
+          "sha256": "0fe3b3e33d630621feb20cba3bb08b4db7cef247464d3b32f748c3c17bf829c3"
+        },
+        "kind": "complete original SAVE18 native writer",
+        "originalFixtureEnvelope": null,
+        "native": {
+          "path": "native/legacy-save18-day.json",
+          "bytes": 72110,
+          "sha256": "f43fdc3e3d75106933b5cc583ffece402ce2e5c535ac857c663ab3f09b8bacc3"
+        }
+      }
+    },
+    {
+      "name": "complete original legacy21 preserves old world and C1 provenance through actual loader writer reload",
+      "ok": true,
+      "evidence": {
+        "input": {
+          "path": "inputs/original/legacy21.json",
+          "bytes": 496785,
+          "sha256": "5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4"
+        },
+        "kind": "complete original SAVE21 writer before Scenario binding",
+        "originalFixtureEnvelope": null,
+        "native": {
+          "path": "native/legacy-legacy21.json",
+          "bytes": 265406,
+          "sha256": "b0d30b6a6db30176ff40bea9f655cfca1ff56964b8543db3dc47b673b7d61948"
+        }
+      }
+    },
+    {
+      "name": "complete original pre-episode preserves old world and C1 provenance through actual loader writer reload",
+      "ok": true,
+      "evidence": {
+        "input": {
+          "path": "inputs/original/pre-episode.json",
+          "bytes": 54441,
+          "sha256": "eb3b163e5b55e17f356b3ec95a4f9e5e55147bb78b8250ba0fac6ec3b6a0096d"
+        },
+        "kind": "previous TEST-ONLY complete source-writer payload with old active shape",
+        "originalFixtureEnvelope": {
+          "path": "inputs/TEST-ONLY-original-preidentity-payload-envelope.json",
+          "bytes": 30357,
+          "sha256": "2f0b800fbf4532187d766d23a06272db3ec48b8c8ace28934b084a698d11c97a"
+        },
+        "native": {
+          "path": "native/legacy-pre-episode.json",
+          "bytes": 66727,
+          "sha256": "27b94b5bb10b3e411b7bda2956ca398759433200f051e017bb1d6c7bb6ea16e8"
+        }
+      }
+    },
+    {
+      "name": "complete original c1-bound preserves old world and C1 provenance through actual loader writer reload",
+      "ok": true,
+      "evidence": {
+        "input": {
+          "path": "inputs/original/c1-bound.json",
+          "bytes": 61776,
+          "sha256": "80d41c43a8ea07759aa88a852062b74f889b59c8e4edfc488d34f0e198c13d0e"
+        },
+        "kind": "actual C1 Chrome canonical full native writer, first binding",
+        "originalFixtureEnvelope": null,
+        "native": {
+          "path": "native/legacy-c1-bound.json",
+          "bytes": 65110,
+          "sha256": "2c1a44939f65873cb3af3cb3b64a77948ecbb174f3ed6cb18f1535ab6bb679f6"
+        }
+      }
+    },
+    {
+      "name": "complete original used-cache preserves old world and C1 provenance through actual loader writer reload",
+      "ok": true,
+      "evidence": {
+        "input": {
+          "path": "inputs/original/used-cache.json",
+          "bytes": 281763,
+          "sha256": "fa8e79d3dda157bcaf4e6048fad50133aedc26174f368c6e1084128b29831508"
+        },
+        "kind": "actual C1 associated controlled-fixture Chrome native writer after real forage",
+        "originalFixtureEnvelope": null,
+        "native": {
+          "path": "native/legacy-used-cache.json",
+          "bytes": 285005,
+          "sha256": "6dc189777517d38c0f22ec76bea3e7e008cda44d25037cf64e3ec0eee6f0e257"
+        }
+      }
+    },
+    {
+      "name": "complete original midnight-original preserves old world and C1 provenance through actual loader writer reload",
+      "ok": true,
+      "evidence": {
+        "input": {
+          "path": "inputs/original/midnight-original.json",
+          "bytes": 260163,
+          "sha256": "aafac0f27b14febce001281a67066efddae74ed19b0335af15f2df5425ba9498"
+        },
+        "kind": "original actual pre-midnight strategy source writer, derived scene ancestry retained",
+        "originalFixtureEnvelope": null,
+        "native": {
+          "path": "native/legacy-midnight-original.json",
+          "bytes": 265941,
+          "sha256": "e5a3e9abe743039c85b1f07cc60b82017e1f59dab27a723fd13bb7125f4d7cec"
+        }
+      }
+    },
+    {
+      "name": "known C1 bound writer unknown-initial-package-digest rejects without replacing primary or backup",
+      "ok": true,
+      "evidence": {
+        "input": {
+          "path": "inputs/TEST-ONLY-unknown-initial-package-digest.json",
+          "bytes": 30908,
+          "sha256": "9bba1578f84b4ffaecc8653684f29eda140e617536a1c4edacd67d142b4dae02"
+        },
+        "scope": "TEST-ONLY altered metadata on complete original C1 native writer"
+      }
+    },
+    {
+      "name": "known C1 bound writer unknown-initial-config-digest rejects without replacing primary or backup",
+      "ok": true,
+      "evidence": {
+        "input": {
+          "path": "inputs/TEST-ONLY-unknown-initial-config-digest.json",
+          "bytes": 30908,
+          "sha256": "702e290ae9ae4aa4304b1e0b75b9c32a8f60d17103ee5ee75c68eb5e722306f2"
+        },
+        "scope": "TEST-ONLY altered metadata on complete original C1 native writer"
+      }
+    },
+    {
+      "name": "C2 bound catalog mismatch refuses continuation and preserves native saved bytes",
+      "ok": true,
+      "evidence": {
+        "input": {
+          "path": "inputs/TEST-ONLY-unknown-c2-content-digest.json",
+          "bytes": 31734,
+          "sha256": "92f962695defb4a110fda0c62b9e8fb61c7297cfd079f09cb9dee701da6518f8"
+        }
+      }
+    },
+    {
+      "name": "real command duplicate settles one episode once without second food receipt or payment",
+      "ok": true
+    },
+    {
+      "name": "package-authored text reaches actual renderer while a text-only change preserves rule digest",
+      "ok": true,
+      "evidence": {
+        "publicView": {
+          "title": "TEST-ONLY 包作者标题",
+          "body": "TEST-ONLY 包作者正文 当前库存 0 份，基础日需 3 份；下次午夜配给为第 2 天 00:00（约 1080 分钟后）。个人用餐与据点维护另计，库存会继续变化。结算时若库存不足，原配给缺口与人物需求后果照常发生。",
+          "text": "保留备用粮，另行筹粮<small>TEST-ONLY 保留备用粮提示</small>"
+        },
+        "catalogDigest": "fnv1a-utf16-canonical-hex-v1:795dc2ea",
+        "rulesDigest": "fnv1a-utf16-canonical-hex-v1:b19c6fb5"
+      }
+    },
+    {
+      "name": "repeated actual renderer calls do not dispatch, settle, or change the episode token",
+      "ok": true
+    },
+    {
+      "name": "actual healthy quartermaster choice Gate rejects injured without blocking ration",
+      "ok": true,
+      "evidence": {
+        "input": {
+          "path": "inputs/TEST-ONLY-quartermaster-injured.json",
+          "bytes": 31733,
+          "sha256": "f1e46a516581b16a6676d1f98ff78d353941c693dc3c2c9c81cfb79923f65afe"
+        },
+        "scope": "TEST-ONLY-offline-derived-complete-native-writer"
+      }
+    },
+    {
+      "name": "actual healthy quartermaster choice Gate rejects dead without blocking ration",
+      "ok": true,
+      "evidence": {
+        "input": {
+          "path": "inputs/TEST-ONLY-quartermaster-dead.json",
+          "bytes": 31729,
+          "sha256": "94cd6bebb4e1bbba7fa2e8c74a1367f1f2510ec0815da948079efd05200c35db"
+        },
+        "scope": "TEST-ONLY-offline-derived-complete-native-writer"
+      }
+    },
+    {
+      "name": "old rendered episode token cannot settle the next actual midnight episode",
+      "ok": true,
+      "evidence": {
+        "input": {
+          "path": "inputs/TEST-ONLY-stale-token-near-midnight.json",
+          "bytes": 35184,
+          "sha256": "3ca566c5487ee9924a601df8b2c5167af428a7710ffcefb515f5ec6fe2f08425"
+        },
+        "oldDisplayedToken": {
+          "eventSource": "chain:zh-food-shortage-001",
+          "eventChoiceId": "forage",
+          "eventNodeId": "shortage_choice",
+          "eventInstanceId": "content:zh-food-shortage-001:1",
+          "eventDefId": "zh-food-shortage-001",
+          "eventDefinitionVersion": "2",
+          "eventId": "",
+          "eventInstanceKey": "zh-food-shortage-001:1"
+        }
+      }
+    },
+    {
+      "name": "typed external relay remains its original EventDef and is never registered as eventChain",
+      "ok": true
+    },
+    {
+      "name": "existing public register API really installs and executes a non-Scenario chain after start",
+      "ok": true,
+      "evidence": {
+        "scope": "actual register/get/start/resolve/save; dynamic package replay across reload is not claimed",
+        "native": {
+          "path": "native/old-registration-api.json",
+          "bytes": 68774,
+          "sha256": "2cedaa5b990ab318062d4fca87e2245000b681c7af5493046aed53b62ff22eb9"
+        }
+      }
+    },
+    {
+      "name": "a coherent lowercase weapon alias is pure-valid but cannot become an installed cache source",
+      "ok": true,
+      "evidence": {
+        "scope": "actual preboot public registration followed by actual staging and old-draft install revalidation",
+        "registration": {
+          "ok": true,
+          "id": "qa-c2-lowercase-weapon",
+          "definition": {
+            "id": "qa-c2-lowercase-weapon",
+            "family": "axe",
+            "name": "生锈斧",
+            "damage": {
+              "min": 45,
+              "max": 55
+            },
+            "damageRange": {
+              "min": 45,
+              "max": 55
+            },
+            "nightDamage": 100,
+            "attackInterval": 1,
+            "staminaCost": 5,
+            "durability": 100,
+            "damageTypes": [
+              "slash"
+            ],
+            "tags": [
+              "starter",
+              "heavy"
+            ],
+            "penetration": 0,
+            "knockback": 0.7,
+            "statusEffects": [],
+            "activeAbility": null,
+            "passive": null,
+            "ammo": null,
+            "heat": {
+              "max": 0,
+              "perUse": 0,
+              "coolRate": 0
+            },
+            "repair": {
+              "materials": [
+                "scrap"
+              ],
+              "uses": 1
+            },
+            "recipe": [],
+            "techRequired": null,
+            "storyHooks": [],
+            "weakAgainst": [
+              "armored"
+            ],
+            "assetKeys": {
+              "icon": "rustAxe.icon",
+              "sprite": "rustAxe.sprite",
+              "attack": "rustAxe.attack",
+              "sfx": "rustAxe.attack.sfx"
+            },
+            "rarity": "common",
+            "desc": "可靠但笨重的旧斧头。",
+            "definitionVersion": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "installed cache flag rejects colliding weapon registration before any base or extension mutation",
+      "ok": true,
+      "evidence": {
+        "collidingResult": {
+          "ok": false,
+          "id": "zh-shortage-cache-retrieved",
+          "issues": [
+            "scenario-source-flag-conflict"
+          ]
+        },
+        "unrelatedWeaponActuallyInstalled": true
+      }
+    },
+    {
+      "name": "an already committed same-ID extension conflicts instead of silently skipping the Scenario definition",
+      "ok": true,
+      "evidence": {
+        "scope": "TEST-ONLY actual old public registration before fresh preparation; existing identical ID is still a conflict"
+      }
+    },
+    {
+      "name": "complete C2 native malformed content binding future-version refuses continuation with original bytes intact",
+      "ok": true,
+      "evidence": {
+        "input": {
+          "path": "inputs/TEST-ONLY-binding-future-version.json",
+          "bytes": 31734,
+          "sha256": "d4b1b5524d8a7766524af75e6c532a443be938ce5e41b69024fcb9b3656169a0"
+        }
+      }
+    },
+    {
+      "name": "complete C2 native malformed content binding unknown-rules-digest refuses continuation with original bytes intact",
+      "ok": true,
+      "evidence": {
+        "input": {
+          "path": "inputs/TEST-ONLY-binding-unknown-rules-digest.json",
+          "bytes": 31734,
+          "sha256": "5715d7a6cfee9cb5b6888454e6984876081d3ae138cf45c22d898cb7fa571bda"
+        }
+      }
+    },
+    {
+      "name": "complete C2 native malformed content binding missing-digest refuses continuation with original bytes intact",
+      "ok": true,
+      "evidence": {
+        "input": {
+          "path": "inputs/TEST-ONLY-binding-missing-digest.json",
+          "bytes": 31678,
+          "sha256": "9c9cc808e71ac201caa344e25d8086c9506447251dbd7bdee1a3a1dd7a359812"
+        }
+      }
+    },
+    {
+      "name": "complete C2 native malformed content binding unknown-key refuses continuation with original bytes intact",
+      "ok": true,
+      "evidence": {
+        "input": {
+          "path": "inputs/TEST-ONLY-binding-unknown-key.json",
+          "bytes": 31755,
+          "sha256": "105186e01c2a25a2fa8b5b0a448f6442876a777052243a219483fcd5d2f17fc5"
+        }
+      }
+    },
+    {
+      "name": "complete C2 native malformed content binding wrong-ref-kind refuses continuation with original bytes intact",
+      "ok": true,
+      "evidence": {
+        "input": {
+          "path": "inputs/TEST-ONLY-binding-wrong-ref-kind.json",
+          "bytes": 31736,
+          "sha256": "9017bfdd97bab747cb2a7bbe2061438ec83e7b332560a6154101d58107b8f4eb"
+        }
+      }
+    },
+    {
+      "name": "a TEST-ONLY v3 deployment refuses the known C1 v2 bound writer without rewriting initial provenance",
+      "ok": true,
+      "evidence": {
+        "input": {
+          "path": "inputs/original/c1-bound.json",
+          "bytes": 61776,
+          "sha256": "80d41c43a8ea07759aa88a852062b74f889b59c8e4edfc488d34f0e198c13d0e"
+        },
+        "scope": "incompatible C1 v2 rules cannot be relabeled v3"
+      }
+    },
+    {
+      "name": "storage failure after atomic installation freezes then retries same prepared catalog and binding",
+      "ok": true,
+      "evidence": {
+        "native": {
+          "path": "native/first-save-retry.json",
+          "bytes": 63452,
+          "sha256": "5a0c1e30627d5bd0ecabb983883a5e82e448f1ef17f35674ba9bd567f0a609e2"
+        }
+      }
+    }
+  ],
+  "variants": [
+    {
+      "label": "default-v2-ration",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/default-v2-ration.html",
+        "bytes": 898112,
+        "sha256": "e869509efb3e55e3e2a37444867ffbdbd52eabca377ffa28e6a4da073a7a8b63"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "default-v2-forage",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/default-v2-forage.html",
+        "bytes": 898112,
+        "sha256": "e869509efb3e55e3e2a37444867ffbdbd52eabca377ffa28e6a4da073a7a8b63"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "TEST-ONLY-v3-ration",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/TEST-ONLY-v3-ration.html",
+        "bytes": 897924,
+        "sha256": "850a0a6a15ea4e159f3496e36ee5d9021edb6903da10107a13a18372611b0313"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "TEST-ONLY-v3-forage",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/TEST-ONLY-v3-forage.html",
+        "bytes": 897924,
+        "sha256": "850a0a6a15ea4e159f3496e36ee5d9021edb6903da10107a13a18372611b0313"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "calendar-v2",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/calendar-v2.html",
+        "bytes": 898112,
+        "sha256": "e869509efb3e55e3e2a37444867ffbdbd52eabca377ffa28e6a4da073a7a8b63"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "calendar-v3",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/calendar-v3.html",
+        "bytes": 897924,
+        "sha256": "850a0a6a15ea4e159f3496e36ee5d9021edb6903da10107a13a18372611b0313"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "fallback-ifMissingNpc",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/fallback-ifMissingNpc.html",
+        "bytes": 898112,
+        "sha256": "e869509efb3e55e3e2a37444867ffbdbd52eabca377ffa28e6a4da073a7a8b63"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "fallback-ifInsufficientPopulation",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/fallback-ifInsufficientPopulation.html",
+        "bytes": 898112,
+        "sha256": "e869509efb3e55e3e2a37444867ffbdbd52eabca377ffa28e6a4da073a7a8b63"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "fallback-ifExpired",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/fallback-ifExpired.html",
+        "bytes": 898112,
+        "sha256": "e869509efb3e55e3e2a37444867ffbdbd52eabca377ffa28e6a4da073a7a8b63"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "fallback-ifSkipped",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/fallback-ifSkipped.html",
+        "bytes": 898112,
+        "sha256": "e869509efb3e55e3e2a37444867ffbdbd52eabca377ffa28e6a4da073a7a8b63"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "invalid-untyped-ref",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/invalid-untyped-ref.html",
+        "bytes": 898087,
+        "sha256": "a5beb0d88a1e9b2aa1fb4956cd5fb452a9e0bffec772d8024b250a85266951c7"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "invalid-wrong-ref-kind",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/invalid-wrong-ref-kind.html",
+        "bytes": 898114,
+        "sha256": "99281235bf91aa1e79be4bc3298a96137a4c1df039726183f6fb5ee9a18b3e7b"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "invalid-unknown-external-ref",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/invalid-unknown-external-ref.html",
+        "bytes": 898110,
+        "sha256": "5f01680186b84dac02d8d759ce2d2d56710f93f2572d59f7ffd43a1d22585cb1"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "invalid-unknown-ref-kind",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/invalid-unknown-ref-kind.html",
+        "bytes": 898110,
+        "sha256": "89475d030c5aa34e575a88c1c675d75fda833e92c6bbb69d6c24318c92e2fcd8"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "invalid-unknown-gate",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/invalid-unknown-gate.html",
+        "bytes": 898105,
+        "sha256": "28947ba8e5508fc6e8de5b0f45ead43f9f29455c69007a6db9923f43ada40548"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "invalid-unknown-op",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/invalid-unknown-op.html",
+        "bytes": 898117,
+        "sha256": "4d120853d44418d1f66caa33d729ed269a39ebc855ebbf14e727c2ee854685c4"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "invalid-unknown-resource",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/invalid-unknown-resource.html",
+        "bytes": 898118,
+        "sha256": "05bb5f182c5c57dddc125255a979524bc9d5b6e7a6ddb58052abd0474c316cbf"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "invalid-authority-write",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/invalid-authority-write.html",
+        "bytes": 898108,
+        "sha256": "cf9368d58dea2aac816f2bc3e2a88a19208f846185905817664ab87429b713a2"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "invalid-authority-ai-policy",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/invalid-authority-ai-policy.html",
+        "bytes": 898108,
+        "sha256": "ee72945fef6adfb7c64cbf7703b21dce4e5fca324afd5e12062ab0c847d3a6f5"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "invalid-no-fallback",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/invalid-no-fallback.html",
+        "bytes": 897823,
+        "sha256": "b168dd11de70fb475c033de31edac4cc63022d372271bec9e9bb45f02d0d2975"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "invalid-missing-fallback-arm",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/invalid-missing-fallback-arm.html",
+        "bytes": 898086,
+        "sha256": "d853ad489bf7456284dfc762790ea87278d7b5d43a39c9b61dfad2f8ae14889b"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "invalid-fallback-op",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/invalid-fallback-op.html",
+        "bytes": 898109,
+        "sha256": "036e43697c2c015d0f1bc2f984019273739386e8c0cd31588b0818fd41d455a6"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "invalid-nonexistent-next",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/invalid-nonexistent-next.html",
+        "bytes": 898135,
+        "sha256": "663b5b560f6172317a735c3ee9243973a56373539039d5ed2c98095e9d59322a"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "invalid-self-loop",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/invalid-self-loop.html",
+        "bytes": 898143,
+        "sha256": "a073a5ec61d9c589fe421f6b18dd23d2e678abeba29a3bdc7427b7c44c05b2b4"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "invalid-source-budget-overflow",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/invalid-source-budget-overflow.html",
+        "bytes": 898112,
+        "sha256": "0ee45677d1917bc582b54826546c617a97b6b1a00b56f7bdeae7bdd180dc3d00"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "invalid-source-infinite-retrieval",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/invalid-source-infinite-retrieval.html",
+        "bytes": 898112,
+        "sha256": "085f66199da4e7c5479419ddf864234f858b97c6bb3c4e533533962b06426e0b"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "invalid-source-flag-missing",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/invalid-source-flag-missing.html",
+        "bytes": 898075,
+        "sha256": "831288904bc609ad90fa4fb88dd2bbd643e968a8bcae34126da2760b0c4c4ab8"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "invalid-source-history-mismatch",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/invalid-source-history-mismatch.html",
+        "bytes": 898112,
+        "sha256": "19d0bd8788f414bb2e6a943c234961c137427214a040f0e31f40a445ac7e17ce"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "invalid-source-unlock-missing",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/invalid-source-unlock-missing.html",
+        "bytes": 898060,
+        "sha256": "4eede0cd5abd93c873e7d917ff6d6493e1578985cbdeaeee198cf453bca78638"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "invalid-source-second-food-path",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/invalid-source-second-food-path.html",
+        "bytes": 898156,
+        "sha256": "80338091a4b921f920d0d5ffa12c1dbcca06249e3fc2636ef20427555185e9b8"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "invalid-late-duplicate-definition",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/invalid-late-duplicate-definition.html",
+        "bytes": 900339,
+        "sha256": "3f28733e505b763828a625ab4835d15bacda8f21c4f3dcbf5d53230914996eaf"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "invalid-late-invalid-op",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/invalid-late-invalid-op.html",
+        "bytes": 900388,
+        "sha256": "464b6bc948d19ed45cbe019db3d15981aacef421362d45ee961bb9c46cb21be5"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "invalid-late-missing-ref",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/invalid-late-missing-ref.html",
+        "bytes": 898162,
+        "sha256": "a862acaac27d065f1206c858f7aecf740a9616176aa0c87361c566ffe0d88382"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "command-duplicate",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/command-duplicate.html",
+        "bytes": 898112,
+        "sha256": "e869509efb3e55e3e2a37444867ffbdbd52eabca377ffa28e6a4da073a7a8b63"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "authored-text",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/authored-text.html",
+        "bytes": 897896,
+        "sha256": "9291bb61343c4420e576dd7050a35778c7b533bad827cf00da593c336d5aa452"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "renderer-pure",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/renderer-pure.html",
+        "bytes": 898112,
+        "sha256": "e869509efb3e55e3e2a37444867ffbdbd52eabca377ffa28e6a4da073a7a8b63"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "npc-injured",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/npc-injured.html",
+        "bytes": 898112,
+        "sha256": "e869509efb3e55e3e2a37444867ffbdbd52eabca377ffa28e6a4da073a7a8b63"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "npc-dead",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/npc-dead.html",
+        "bytes": 898112,
+        "sha256": "e869509efb3e55e3e2a37444867ffbdbd52eabca377ffa28e6a4da073a7a8b63"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "stale-rendered-episode",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/stale-rendered-episode.html",
+        "bytes": 898112,
+        "sha256": "e869509efb3e55e3e2a37444867ffbdbd52eabca377ffa28e6a4da073a7a8b63"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "weapon-alias-coherent",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/weapon-alias-coherent.html",
+        "bytes": 898097,
+        "sha256": "e39292b2c0fa95757128ed4d09243ec72e992a714bbfdaec97b5122997e9eeed"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    },
+    {
+      "label": "v3-refuses-old-v2-binding",
+      "kind": "TEST-ONLY-preboot-package-and-options-byte-variant",
+      "parentSourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+      "artifact": {
+        "path": "variants/v3-refuses-old-v2-binding.html",
+        "bytes": 897924,
+        "sha256": "850a0a6a15ea4e159f3496e36ee5d9021edb6903da10107a13a18372611b0313"
+      },
+      "options": {
+        "seed": 1592639710,
+        "difficultyProfile": "standard",
+        "worldConfig": {
+          "foodMultiplier": 0
+        }
+      }
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "source.html",
+      "bytes": 898114,
+      "sha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571"
+    },
+    {
+      "path": "runner-executed.mjs",
+      "bytes": 41790,
+      "sha256": "b824fb66115fb7ae1d0bb7036c66e427b1e6cd5cfad93a2f87604e24b2d6477f"
+    },
+    {
+      "path": "io-adapter-executed.mjs",
+      "bytes": 49132,
+      "sha256": "ee5bb659c0439044e1ec07a4aecf931293457c2478f35d0850fe90770b4367cf"
+    },
+    {
+      "path": "inputs/author-v2-oracle.json",
+      "bytes": 4810,
+      "sha256": "afdd0a2c79fbb74ba28b58ba0f3a43930de8367d18d8c7641a8cfec9e82a6fe7"
+    },
+    {
+      "path": "inputs/capture-mapping.json",
+      "bytes": 3064,
+      "sha256": "2bef1652768748f55b6316ec4b47917533fe726d4be0dd2babe6dc2388070bb5"
+    },
+    {
+      "path": "inputs/author-v2-baseline-source.txt",
+      "bytes": 2454,
+      "sha256": "59716de13862e506e8cee8214742d5ba6f17f0d9331b53d3268e98242503a07c"
+    },
+    {
+      "path": "pure-core-executed.mjs",
+      "bytes": 15465,
+      "sha256": "343e52025cbda33ace694a4e281cfdb7fa66a2052370d67275c13a7a543004ce"
+    },
+    {
+      "path": "inputs/original/save18-day.json",
+      "bytes": 58883,
+      "sha256": "0fe3b3e33d630621feb20cba3bb08b4db7cef247464d3b32f748c3c17bf829c3"
+    },
+    {
+      "path": "inputs/original/legacy21.json",
+      "bytes": 496785,
+      "sha256": "5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4"
+    },
+    {
+      "path": "inputs/original/pre-episode.json",
+      "bytes": 54441,
+      "sha256": "eb3b163e5b55e17f356b3ec95a4f9e5e55147bb78b8250ba0fac6ec3b6a0096d"
+    },
+    {
+      "path": "inputs/original/c1-bound.json",
+      "bytes": 61776,
+      "sha256": "80d41c43a8ea07759aa88a852062b74f889b59c8e4edfc488d34f0e198c13d0e"
+    },
+    {
+      "path": "inputs/original/used-cache.json",
+      "bytes": 281763,
+      "sha256": "fa8e79d3dda157bcaf4e6048fad50133aedc26174f368c6e1084128b29831508"
+    },
+    {
+      "path": "inputs/original/midnight-original.json",
+      "bytes": 260163,
+      "sha256": "aafac0f27b14febce001281a67066efddae74ed19b0335af15f2df5425ba9498"
+    },
+    {
+      "path": "observations/default-compiled.json",
+      "bytes": 4220,
+      "sha256": "993458cf3ab595c4404c32037f59ef67f6547423ad0f67b724ddcbd695125be1"
+    },
+    {
+      "path": "native/public-click-fresh.json",
+      "bytes": 63452,
+      "sha256": "5a0c1e30627d5bd0ecabb983883a5e82e448f1ef17f35674ba9bd567f0a609e2"
+    },
+    {
+      "path": "native/public-Enter-fresh.json",
+      "bytes": 63452,
+      "sha256": "5a0c1e30627d5bd0ecabb983883a5e82e448f1ef17f35674ba9bd567f0a609e2"
+    },
+    {
+      "path": "variants/default-v2-ration.html",
+      "bytes": 898112,
+      "sha256": "e869509efb3e55e3e2a37444867ffbdbd52eabca377ffa28e6a4da073a7a8b63"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-default-v2-ration.json",
+      "bytes": 5513,
+      "sha256": "c5780832b29399caeed9bd0b33aa55086a4a0e0928e1ce66285042feb6d2a818"
+    },
+    {
+      "path": "native/default-v2-ration.json",
+      "bytes": 70346,
+      "sha256": "ee86e2c3bcc412ca3db0b50e85e04a5b944f873c00ad91f2efd5153a534191ac"
+    },
+    {
+      "path": "variants/default-v2-forage.html",
+      "bytes": 898112,
+      "sha256": "e869509efb3e55e3e2a37444867ffbdbd52eabca377ffa28e6a4da073a7a8b63"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-default-v2-forage.json",
+      "bytes": 5513,
+      "sha256": "c5780832b29399caeed9bd0b33aa55086a4a0e0928e1ce66285042feb6d2a818"
+    },
+    {
+      "path": "native/default-v2-forage.json",
+      "bytes": 73404,
+      "sha256": "d576a02f39fdc588410ef7984ec1aadd4bfc9a7400985751888ee64c3e808b1a"
+    },
+    {
+      "path": "variants/TEST-ONLY-v3-ration.html",
+      "bytes": 897924,
+      "sha256": "850a0a6a15ea4e159f3496e36ee5d9021edb6903da10107a13a18372611b0313"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-TEST-ONLY-v3-ration.json",
+      "bytes": 5325,
+      "sha256": "5eb0227c2944684a9bb9b9385c07157dd47f63f043a00b3afe52e0c54ee1cb21"
+    },
+    {
+      "path": "native/TEST-ONLY-v3-ration.json",
+      "bytes": 70346,
+      "sha256": "a921ba8f76aef1a8599343c4a615a4f19608ae0a52a1db296ebd9ab33fb1b2ab"
+    },
+    {
+      "path": "variants/TEST-ONLY-v3-forage.html",
+      "bytes": 897924,
+      "sha256": "850a0a6a15ea4e159f3496e36ee5d9021edb6903da10107a13a18372611b0313"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-TEST-ONLY-v3-forage.json",
+      "bytes": 5325,
+      "sha256": "5eb0227c2944684a9bb9b9385c07157dd47f63f043a00b3afe52e0c54ee1cb21"
+    },
+    {
+      "path": "native/TEST-ONLY-v3-forage.json",
+      "bytes": 73404,
+      "sha256": "13b3e4a7e4cb3ab16544ab97aeb1af3cbecc0c6683f0e359ec03eb75bf1f23e1"
+    },
+    {
+      "path": "variants/calendar-v2.html",
+      "bytes": 898112,
+      "sha256": "e869509efb3e55e3e2a37444867ffbdbd52eabca377ffa28e6a4da073a7a8b63"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-calendar-v2.json",
+      "bytes": 5513,
+      "sha256": "c5780832b29399caeed9bd0b33aa55086a4a0e0928e1ce66285042feb6d2a818"
+    },
+    {
+      "path": "native/calendar-v2-settled.json",
+      "bytes": 73376,
+      "sha256": "42b8f39ee9ab5617f5953f7ef7e5168a3ec904f6c37089f9bbc072bb0dd3b297"
+    },
+    {
+      "path": "inputs/TEST-ONLY-near-midnight-v2.json",
+      "bytes": 36713,
+      "sha256": "e3caca4fd01b2db71454489f35330a782037a8e49605f59fbbb7269b95daa517"
+    },
+    {
+      "path": "native/midnight-v2.json",
+      "bytes": 80991,
+      "sha256": "f8a29a1b64f7b26c46998dec8624d161139c48a4d8c70241455867720983aae1"
+    },
+    {
+      "path": "variants/calendar-v3.html",
+      "bytes": 897924,
+      "sha256": "850a0a6a15ea4e159f3496e36ee5d9021edb6903da10107a13a18372611b0313"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-calendar-v3.json",
+      "bytes": 5325,
+      "sha256": "5eb0227c2944684a9bb9b9385c07157dd47f63f043a00b3afe52e0c54ee1cb21"
+    },
+    {
+      "path": "native/calendar-v3-settled.json",
+      "bytes": 73376,
+      "sha256": "930b4fedef18417e109e7d5805f1f95ead27c4026c964a278cfbc2274cb6dedd"
+    },
+    {
+      "path": "inputs/TEST-ONLY-near-midnight-v3.json",
+      "bytes": 36713,
+      "sha256": "94f58332c0988622580d9ff832ea0138280a7abc2cc70fa3bb99aa2c2be542f5"
+    },
+    {
+      "path": "native/midnight-v3.json",
+      "bytes": 80991,
+      "sha256": "61edfb03e23133f4adf2bc955e8211c801b02f987628d0eb07789b125d4db731"
+    },
+    {
+      "path": "variants/fallback-ifMissingNpc.html",
+      "bytes": 898112,
+      "sha256": "e869509efb3e55e3e2a37444867ffbdbd52eabca377ffa28e6a4da073a7a8b63"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-fallback-ifMissingNpc.json",
+      "bytes": 5513,
+      "sha256": "c5780832b29399caeed9bd0b33aa55086a4a0e0928e1ce66285042feb6d2a818"
+    },
+    {
+      "path": "variants/fallback-ifInsufficientPopulation.html",
+      "bytes": 898112,
+      "sha256": "e869509efb3e55e3e2a37444867ffbdbd52eabca377ffa28e6a4da073a7a8b63"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-fallback-ifInsufficientPopulation.json",
+      "bytes": 5513,
+      "sha256": "c5780832b29399caeed9bd0b33aa55086a4a0e0928e1ce66285042feb6d2a818"
+    },
+    {
+      "path": "variants/fallback-ifExpired.html",
+      "bytes": 898112,
+      "sha256": "e869509efb3e55e3e2a37444867ffbdbd52eabca377ffa28e6a4da073a7a8b63"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-fallback-ifExpired.json",
+      "bytes": 5513,
+      "sha256": "c5780832b29399caeed9bd0b33aa55086a4a0e0928e1ce66285042feb6d2a818"
+    },
+    {
+      "path": "native/pre-expired.json",
+      "bytes": 65364,
+      "sha256": "b9e0637ae74167c681ca616666a36c8acc6a0d9c969822744682827e9cb731aa"
+    },
+    {
+      "path": "inputs/TEST-ONLY-past-window-active.json",
+      "bytes": 32708,
+      "sha256": "613f9e223ee2eebe6ea04a7f1c4397ca8b6d0ea0c53e9cfabf742912e720941d"
+    },
+    {
+      "path": "variants/fallback-ifSkipped.html",
+      "bytes": 898112,
+      "sha256": "e869509efb3e55e3e2a37444867ffbdbd52eabca377ffa28e6a4da073a7a8b63"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-fallback-ifSkipped.json",
+      "bytes": 5513,
+      "sha256": "c5780832b29399caeed9bd0b33aa55086a4a0e0928e1ce66285042feb6d2a818"
+    },
+    {
+      "path": "variants/invalid-untyped-ref.html",
+      "bytes": 898087,
+      "sha256": "a5beb0d88a1e9b2aa1fb4956cd5fb452a9e0bffec772d8024b250a85266951c7"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-invalid-untyped-ref.json",
+      "bytes": 5461,
+      "sha256": "4ffb7622cc0d265786996eedcf903538f68539cea049e4e5c5b170111bc9e840"
+    },
+    {
+      "path": "variants/invalid-wrong-ref-kind.html",
+      "bytes": 898114,
+      "sha256": "99281235bf91aa1e79be4bc3298a96137a4c1df039726183f6fb5ee9a18b3e7b"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-invalid-wrong-ref-kind.json",
+      "bytes": 5515,
+      "sha256": "4adefab7eb4b8a1fcf2069fbe32a7c01171bdfe22c7cff1ec89cb229a19c14c8"
+    },
+    {
+      "path": "variants/invalid-unknown-external-ref.html",
+      "bytes": 898110,
+      "sha256": "5f01680186b84dac02d8d759ce2d2d56710f93f2572d59f7ffd43a1d22585cb1"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-invalid-unknown-external-ref.json",
+      "bytes": 5511,
+      "sha256": "c9a3acdbe56050b86c4c4280efbc89a4ecf20197d2901b283aab21d853a1dbe3"
+    },
+    {
+      "path": "variants/invalid-unknown-ref-kind.html",
+      "bytes": 898110,
+      "sha256": "89475d030c5aa34e575a88c1c675d75fda833e92c6bbb69d6c24318c92e2fcd8"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-invalid-unknown-ref-kind.json",
+      "bytes": 5511,
+      "sha256": "1867a820a61fe80a1580d1bbed31348f696b54401929640b7932e2e5f3729760"
+    },
+    {
+      "path": "variants/invalid-unknown-gate.html",
+      "bytes": 898105,
+      "sha256": "28947ba8e5508fc6e8de5b0f45ead43f9f29455c69007a6db9923f43ada40548"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-invalid-unknown-gate.json",
+      "bytes": 5490,
+      "sha256": "e82d6ed389111f013b608ec62cd9e31f7b1ee4383a29dc355f8d300e7a622170"
+    },
+    {
+      "path": "variants/invalid-unknown-op.html",
+      "bytes": 898117,
+      "sha256": "4d120853d44418d1f66caa33d729ed269a39ebc855ebbf14e727c2ee854685c4"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-invalid-unknown-op.json",
+      "bytes": 5518,
+      "sha256": "1af12e0ce9ba38cb00dc1d5d95008a7d3564d06e74311c502498d36b345c25c7"
+    },
+    {
+      "path": "variants/invalid-unknown-resource.html",
+      "bytes": 898118,
+      "sha256": "05bb5f182c5c57dddc125255a979524bc9d5b6e7a6ddb58052abd0474c316cbf"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-invalid-unknown-resource.json",
+      "bytes": 5519,
+      "sha256": "ae9d3655e74cce724665378edf403fa52a9efe3d9912aa8365991507914dc879"
+    },
+    {
+      "path": "variants/invalid-authority-write.html",
+      "bytes": 898108,
+      "sha256": "cf9368d58dea2aac816f2bc3e2a88a19208f846185905817664ab87429b713a2"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-invalid-authority-write.json",
+      "bytes": 5509,
+      "sha256": "9a6a206f35051a175746ef6d14251b87212898132b920ca0e105fcdb1447543f"
+    },
+    {
+      "path": "variants/invalid-authority-ai-policy.html",
+      "bytes": 898108,
+      "sha256": "ee72945fef6adfb7c64cbf7703b21dce4e5fca324afd5e12062ab0c847d3a6f5"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-invalid-authority-ai-policy.json",
+      "bytes": 5509,
+      "sha256": "46f0a7ae622d26deac8068ef62c39ddb6e5dea32884370548608d3f4e75c7403"
+    },
+    {
+      "path": "variants/invalid-no-fallback.html",
+      "bytes": 897823,
+      "sha256": "b168dd11de70fb475c033de31edac4cc63022d372271bec9e9bb45f02d0d2975"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-invalid-no-fallback.json",
+      "bytes": 4885,
+      "sha256": "9050ee1e07c208d4e258a99addcc80c1213adad9b3688f27ce2e0911b6040611"
+    },
+    {
+      "path": "variants/invalid-missing-fallback-arm.html",
+      "bytes": 898086,
+      "sha256": "d853ad489bf7456284dfc762790ea87278d7b5d43a39c9b61dfad2f8ae14889b"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-invalid-missing-fallback-arm.json",
+      "bytes": 5475,
+      "sha256": "366971d013db21f7547a01353703143a9354c325ac4e98905e00e58a0e2b9629"
+    },
+    {
+      "path": "variants/invalid-fallback-op.html",
+      "bytes": 898109,
+      "sha256": "036e43697c2c015d0f1bc2f984019273739386e8c0cd31588b0818fd41d455a6"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-invalid-fallback-op.json",
+      "bytes": 5510,
+      "sha256": "c6671f962a20e154e22531345762ad31847c5d4c9155fa28810f79fc25c55322"
+    },
+    {
+      "path": "variants/invalid-nonexistent-next.html",
+      "bytes": 898135,
+      "sha256": "663b5b560f6172317a735c3ee9243973a56373539039d5ed2c98095e9d59322a"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-invalid-nonexistent-next.json",
+      "bytes": 5554,
+      "sha256": "c5e26840d9543d9954db51c3f2670798656b8e5d77edc15e49e724fdd9e13552"
+    },
+    {
+      "path": "variants/invalid-self-loop.html",
+      "bytes": 898143,
+      "sha256": "a073a5ec61d9c589fe421f6b18dd23d2e678abeba29a3bdc7427b7c44c05b2b4"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-invalid-self-loop.json",
+      "bytes": 5562,
+      "sha256": "d03fdad45e144ba0e7fbd38dbd49d26256e1d9c53ee7723e45b661df1d4324a3"
+    },
+    {
+      "path": "variants/invalid-source-budget-overflow.html",
+      "bytes": 898112,
+      "sha256": "0ee45677d1917bc582b54826546c617a97b6b1a00b56f7bdeae7bdd180dc3d00"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-invalid-source-budget-overflow.json",
+      "bytes": 5513,
+      "sha256": "947da48e0554011d67069b2dcc3a3e50c055b76c9f3fb880109b209f45f9664d"
+    },
+    {
+      "path": "variants/invalid-source-infinite-retrieval.html",
+      "bytes": 898112,
+      "sha256": "085f66199da4e7c5479419ddf864234f858b97c6bb3c4e533533962b06426e0b"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-invalid-source-infinite-retrieval.json",
+      "bytes": 5513,
+      "sha256": "78dc3604b5822728b3beece28a76e6a95333784c7f99daa10b17a2029064b6eb"
+    },
+    {
+      "path": "variants/invalid-source-flag-missing.html",
+      "bytes": 898075,
+      "sha256": "831288904bc609ad90fa4fb88dd2bbd643e968a8bcae34126da2760b0c4c4ab8"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-invalid-source-flag-missing.json",
+      "bytes": 5464,
+      "sha256": "068cd1e94198e7fff47b4ba78bcd35e21b5cda7c1a3e23a1764ca69a9e751572"
+    },
+    {
+      "path": "variants/invalid-source-history-mismatch.html",
+      "bytes": 898112,
+      "sha256": "19d0bd8788f414bb2e6a943c234961c137427214a040f0e31f40a445ac7e17ce"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-invalid-source-history-mismatch.json",
+      "bytes": 5513,
+      "sha256": "143039cdb0fc1fd9c23420514d3dce07dfe6048b27e8543b4c53442ec25ced14"
+    },
+    {
+      "path": "variants/invalid-source-unlock-missing.html",
+      "bytes": 898060,
+      "sha256": "4eede0cd5abd93c873e7d917ff6d6493e1578985cbdeaeee198cf453bca78638"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-invalid-source-unlock-missing.json",
+      "bytes": 5379,
+      "sha256": "4e6e25eb08a16febcc730d3936b73ccd6d89867e3486f4502c1b4d938eecd48d"
+    },
+    {
+      "path": "variants/invalid-source-second-food-path.html",
+      "bytes": 898156,
+      "sha256": "80338091a4b921f920d0d5ffa12c1dbcca06249e3fc2636ef20427555185e9b8"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-invalid-source-second-food-path.json",
+      "bytes": 5661,
+      "sha256": "a37f8f2566140fd4dd57c35c0ce402f4e50555b647b47b6050e6ddf9bdf51137"
+    },
+    {
+      "path": "variants/invalid-late-duplicate-definition.html",
+      "bytes": 900339,
+      "sha256": "3f28733e505b763828a625ab4835d15bacda8f21c4f3dcbf5d53230914996eaf"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-invalid-late-duplicate-definition.json",
+      "bytes": 9940,
+      "sha256": "d641b00a70ea9b0a12b51abfa8e4ec6681c2fbcd9ffcba876bca5372898bffdf"
+    },
+    {
+      "path": "variants/invalid-late-invalid-op.html",
+      "bytes": 900388,
+      "sha256": "464b6bc948d19ed45cbe019db3d15981aacef421362d45ee961bb9c46cb21be5"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-invalid-late-invalid-op.json",
+      "bytes": 10023,
+      "sha256": "bcaad5f7e6ea7f684599d67446bfd0f0237e091a98519c6e10a8c93eb6e534fe"
+    },
+    {
+      "path": "variants/invalid-late-missing-ref.html",
+      "bytes": 898162,
+      "sha256": "a862acaac27d065f1206c858f7aecf740a9616176aa0c87361c566ffe0d88382"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-invalid-late-missing-ref.json",
+      "bytes": 5597,
+      "sha256": "81457c7ce7b58e849e153b7787bf23e152c505d53be9516fa3fda9d7c36c0703"
+    },
+    {
+      "path": "native/legacy-save18-day.json",
+      "bytes": 72110,
+      "sha256": "f43fdc3e3d75106933b5cc583ffece402ce2e5c535ac857c663ab3f09b8bacc3"
+    },
+    {
+      "path": "native/legacy-legacy21.json",
+      "bytes": 265406,
+      "sha256": "b0d30b6a6db30176ff40bea9f655cfca1ff56964b8543db3dc47b673b7d61948"
+    },
+    {
+      "path": "inputs/TEST-ONLY-original-preidentity-payload-envelope.json",
+      "bytes": 30357,
+      "sha256": "2f0b800fbf4532187d766d23a06272db3ec48b8c8ace28934b084a698d11c97a"
+    },
+    {
+      "path": "native/legacy-pre-episode.json",
+      "bytes": 66727,
+      "sha256": "27b94b5bb10b3e411b7bda2956ca398759433200f051e017bb1d6c7bb6ea16e8"
+    },
+    {
+      "path": "native/legacy-c1-bound.json",
+      "bytes": 65110,
+      "sha256": "2c1a44939f65873cb3af3cb3b64a77948ecbb174f3ed6cb18f1535ab6bb679f6"
+    },
+    {
+      "path": "native/legacy-used-cache.json",
+      "bytes": 285005,
+      "sha256": "6dc189777517d38c0f22ec76bea3e7e008cda44d25037cf64e3ec0eee6f0e257"
+    },
+    {
+      "path": "native/legacy-midnight-original.json",
+      "bytes": 265941,
+      "sha256": "e5a3e9abe743039c85b1f07cc60b82017e1f59dab27a723fd13bb7125f4d7cec"
+    },
+    {
+      "path": "inputs/TEST-ONLY-unknown-initial-package-digest.json",
+      "bytes": 30908,
+      "sha256": "9bba1578f84b4ffaecc8653684f29eda140e617536a1c4edacd67d142b4dae02"
+    },
+    {
+      "path": "inputs/TEST-ONLY-unknown-initial-config-digest.json",
+      "bytes": 30908,
+      "sha256": "702e290ae9ae4aa4304b1e0b75b9c32a8f60d17103ee5ee75c68eb5e722306f2"
+    },
+    {
+      "path": "inputs/TEST-ONLY-unknown-c2-content-digest.json",
+      "bytes": 31734,
+      "sha256": "92f962695defb4a110fda0c62b9e8fb61c7297cfd079f09cb9dee701da6518f8"
+    },
+    {
+      "path": "variants/command-duplicate.html",
+      "bytes": 898112,
+      "sha256": "e869509efb3e55e3e2a37444867ffbdbd52eabca377ffa28e6a4da073a7a8b63"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-command-duplicate.json",
+      "bytes": 5513,
+      "sha256": "c5780832b29399caeed9bd0b33aa55086a4a0e0928e1ce66285042feb6d2a818"
+    },
+    {
+      "path": "variants/authored-text.html",
+      "bytes": 897896,
+      "sha256": "9291bb61343c4420e576dd7050a35778c7b533bad827cf00da593c336d5aa452"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-authored-text.json",
+      "bytes": 5297,
+      "sha256": "6f7200f0fad30294e8880fb86d86c209e809ac337605968bec1199a331a7aa4c"
+    },
+    {
+      "path": "variants/renderer-pure.html",
+      "bytes": 898112,
+      "sha256": "e869509efb3e55e3e2a37444867ffbdbd52eabca377ffa28e6a4da073a7a8b63"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-renderer-pure.json",
+      "bytes": 5513,
+      "sha256": "c5780832b29399caeed9bd0b33aa55086a4a0e0928e1ce66285042feb6d2a818"
+    },
+    {
+      "path": "variants/npc-injured.html",
+      "bytes": 898112,
+      "sha256": "e869509efb3e55e3e2a37444867ffbdbd52eabca377ffa28e6a4da073a7a8b63"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-npc-injured.json",
+      "bytes": 5513,
+      "sha256": "c5780832b29399caeed9bd0b33aa55086a4a0e0928e1ce66285042feb6d2a818"
+    },
+    {
+      "path": "inputs/TEST-ONLY-quartermaster-injured.json",
+      "bytes": 31733,
+      "sha256": "f1e46a516581b16a6676d1f98ff78d353941c693dc3c2c9c81cfb79923f65afe"
+    },
+    {
+      "path": "variants/npc-dead.html",
+      "bytes": 898112,
+      "sha256": "e869509efb3e55e3e2a37444867ffbdbd52eabca377ffa28e6a4da073a7a8b63"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-npc-dead.json",
+      "bytes": 5513,
+      "sha256": "c5780832b29399caeed9bd0b33aa55086a4a0e0928e1ce66285042feb6d2a818"
+    },
+    {
+      "path": "inputs/TEST-ONLY-quartermaster-dead.json",
+      "bytes": 31729,
+      "sha256": "94cd6bebb4e1bbba7fa2e8c74a1367f1f2510ec0815da948079efd05200c35db"
+    },
+    {
+      "path": "variants/stale-rendered-episode.html",
+      "bytes": 898112,
+      "sha256": "e869509efb3e55e3e2a37444867ffbdbd52eabca377ffa28e6a4da073a7a8b63"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-stale-rendered-episode.json",
+      "bytes": 5513,
+      "sha256": "c5780832b29399caeed9bd0b33aa55086a4a0e0928e1ce66285042feb6d2a818"
+    },
+    {
+      "path": "native/stale-token-first-episode.json",
+      "bytes": 70318,
+      "sha256": "a934428ccb3441325c05150cdb65e4340cd48828b0b3fed65d0676e9aebb0c83"
+    },
+    {
+      "path": "inputs/TEST-ONLY-stale-token-near-midnight.json",
+      "bytes": 35184,
+      "sha256": "3ca566c5487ee9924a601df8b2c5167af428a7710ffcefb515f5ec6fe2f08425"
+    },
+    {
+      "path": "native/old-registration-api.json",
+      "bytes": 68774,
+      "sha256": "2cedaa5b990ab318062d4fca87e2245000b681c7af5493046aed53b62ff22eb9"
+    },
+    {
+      "path": "variants/weapon-alias-coherent.html",
+      "bytes": 898097,
+      "sha256": "e39292b2c0fa95757128ed4d09243ec72e992a714bbfdaec97b5122997e9eeed"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-weapon-alias-coherent.json",
+      "bytes": 5498,
+      "sha256": "1e78f7c8ce52513d05cab5c97d504e192c1f37cc907a60f25455cff442a57a60"
+    },
+    {
+      "path": "inputs/TEST-ONLY-binding-future-version.json",
+      "bytes": 31734,
+      "sha256": "d4b1b5524d8a7766524af75e6c532a443be938ce5e41b69024fcb9b3656169a0"
+    },
+    {
+      "path": "inputs/TEST-ONLY-binding-unknown-rules-digest.json",
+      "bytes": 31734,
+      "sha256": "5715d7a6cfee9cb5b6888454e6984876081d3ae138cf45c22d898cb7fa571bda"
+    },
+    {
+      "path": "inputs/TEST-ONLY-binding-missing-digest.json",
+      "bytes": 31678,
+      "sha256": "9c9cc808e71ac201caa344e25d8086c9506447251dbd7bdee1a3a1dd7a359812"
+    },
+    {
+      "path": "inputs/TEST-ONLY-binding-unknown-key.json",
+      "bytes": 31755,
+      "sha256": "105186e01c2a25a2fa8b5b0a448f6442876a777052243a219483fcd5d2f17fc5"
+    },
+    {
+      "path": "inputs/TEST-ONLY-binding-wrong-ref-kind.json",
+      "bytes": 31736,
+      "sha256": "9017bfdd97bab747cb2a7bbe2061438ec83e7b332560a6154101d58107b8f4eb"
+    },
+    {
+      "path": "variants/v3-refuses-old-v2-binding.html",
+      "bytes": 897924,
+      "sha256": "850a0a6a15ea4e159f3496e36ee5d9021edb6903da10107a13a18372611b0313"
+    },
+    {
+      "path": "inputs/TEST-ONLY-package-v3-refuses-old-v2-binding.json",
+      "bytes": 5325,
+      "sha256": "5eb0227c2944684a9bb9b9385c07157dd47f63f043a00b3afe52e0c54ee1cb21"
+    },
+    {
+      "path": "native/first-save-retry.json",
+      "bytes": 63452,
+      "sha256": "5a0c1e30627d5bd0ecabb983883a5e82e448f1ef17f35674ba9bd567f0a609e2"
+    }
+  ]
+}

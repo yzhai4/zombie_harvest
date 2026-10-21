@@ -1,0 +1,310 @@
+{
+  "schema": "RelayPilotCanonicalLoaderPreflightV1",
+  "sourceHtmlSha256": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+  "runnerSha256": "2054de14ea613bc885705cb1043ece1faaf23207643441139e747c5e355eb37a",
+  "adapterSha256": "554c400c174ad1b069c4dfcc839c12b3b45ea79c5aa7669e093a440ffa4845d3",
+  "scope": "Only two unchanged complete old native writers through actual canonical loader, real Continue listener and native checkpoint writer; queued timer/DOM/storage IO controlled. No new normalizer, runtime mutation, digest patch, advance, browser, natural route or broad-contract run.",
+  "inputs": [
+    {
+      "label": "A",
+      "inputSha256": "ebd2c2a6f1ab12b0e62dc6ba235231b4a229916759cdf1662c2594ed9ac4c7e6",
+      "checks": [
+        "complete original payload, no migration needed; existing activeCommandId:null and session-start metadata only",
+        "food/berry/cache/population/enemies/RNG/initial+content bindings unchanged",
+        "second Continue full-payload and migration idempotence"
+      ],
+      "accepted": true,
+      "browserInitialInputSuitable": true,
+      "originalValidation": {
+        "ok": true,
+        "reason": null
+      },
+      "bootBefore": {
+        "classification": "DAY",
+        "installed": false,
+        "started": false,
+        "mode": "START"
+      },
+      "bootAfter": {
+        "classification": "DAY",
+        "installed": true,
+        "started": true,
+        "mode": "DAY"
+      },
+      "primaryUnchangedUntilExplicitSave": true,
+      "firstNative": {
+        "path": "A-first-native.json",
+        "sha256": "d5a8f3bfb89bce52bedbf34c74da63fb2ee192fa80ba9c92fadf82f948ef6a3a",
+        "bytes": 63529
+      },
+      "secondNative": {
+        "path": "A-second-continue-native.json",
+        "sha256": "70034a54cacdacd2416afe1d9dda679dc01925571cb58e877516d08f62e9465d",
+        "bytes": 63513
+      },
+      "newMigrationReceipts": [],
+      "existingScenarioBoundReceipts": 1,
+      "summary": {
+        "food": 8,
+        "berryRecords": [
+          {
+            "x": 7,
+            "y": 1,
+            "type": "berry",
+            "amount": 2,
+            "id": "res-t2g3gn"
+          },
+          {
+            "x": 3,
+            "y": 9,
+            "type": "berry",
+            "amount": 2,
+            "id": "res-12yv3vn"
+          },
+          {
+            "x": 28,
+            "y": 18,
+            "type": "berry",
+            "amount": 3,
+            "id": "res-wd8jtm"
+          },
+          {
+            "x": 8,
+            "y": 19,
+            "type": "berry",
+            "amount": 2,
+            "id": "res-47tdj9"
+          }
+        ],
+        "population": 10,
+        "enemies": 4,
+        "seed": 1592639710,
+        "rngState": 1592639710,
+        "scenarioBinding": {
+          "version": 1,
+          "status": "bound",
+          "bindingId": "scenario-initial-v1",
+          "baselineId": "zombie-farm-authored-initial-v1",
+          "packageDigest": "fnv1a-utf16-canonical-hex-v1:f6760f36",
+          "configDigest": "fnv1a-utf16-canonical-hex-v1:7f93557f",
+          "appliedKeys": [
+            "seed",
+            "world.foodMultiplier",
+            "events"
+          ],
+          "baselineOnlyKeys": [
+            "world.ordinaryNpcCount",
+            "world.medicineMultiplier",
+            "world.materialMultiplier",
+            "world.initialEnemyMultiplier",
+            "world.waveGrowthMultiplier",
+            "world.eventFrequency"
+          ],
+          "deferredKeys": [
+            "continuity"
+          ],
+          "initialAiConfig": {
+            "generativeDialogue": false,
+            "observerCommentary": false,
+            "generatedWorldEvents": false,
+            "learnedWorldModel": false,
+            "policyVersion": "observer-expression-v1"
+          }
+        },
+        "contentBinding": {
+          "version": 1,
+          "status": "bound",
+          "compilerVersion": "scenario-event-chain-v1",
+          "catalogDigest": "fnv1a-utf16-canonical-hex-v1:33e5b74b",
+          "rulesDigest": "fnv1a-utf16-canonical-hex-v1:b19c6fb5",
+          "registry": [
+            {
+              "kind": "eventDef",
+              "id": "relay-chain-001"
+            },
+            {
+              "kind": "eventChain",
+              "id": "zh-food-shortage-001"
+            }
+          ]
+        },
+        "cacheFlags": {},
+        "firstCheckpointValid": true,
+        "secondCheckpointValid": true,
+        "secondPayloadExactlyEqual": true
+      }
+    },
+    {
+      "label": "B",
+      "inputSha256": "d0d160f8b03c6323e51611ff6013895d52713d0775bcd56dc8d84ba86b46fded",
+      "checks": [
+        "complete original payload, no migration needed; existing activeCommandId:null and session-start metadata only",
+        "food/berry/cache/population/enemies/RNG/initial+content bindings unchanged",
+        "second Continue full-payload and migration idempotence"
+      ],
+      "accepted": true,
+      "browserInitialInputSuitable": true,
+      "originalValidation": {
+        "ok": true,
+        "reason": null
+      },
+      "bootBefore": {
+        "classification": "DAY",
+        "installed": false,
+        "started": false,
+        "mode": "START"
+      },
+      "bootAfter": {
+        "classification": "DAY",
+        "installed": true,
+        "started": true,
+        "mode": "DAY"
+      },
+      "primaryUnchangedUntilExplicitSave": true,
+      "firstNative": {
+        "path": "B-first-native.json",
+        "sha256": "9a62a25d58cd6cffaf1d5a6ab0ca2f583f50d0d14199c347357fbe6bc85c47ff",
+        "bytes": 63529
+      },
+      "secondNative": {
+        "path": "B-second-continue-native.json",
+        "sha256": "19c228f089c9364a59a045eac9a7a153eb3f77d0b8fb26c10ac3a3a3f142274a",
+        "bytes": 63513
+      },
+      "newMigrationReceipts": [],
+      "existingScenarioBoundReceipts": 1,
+      "summary": {
+        "food": 0,
+        "berryRecords": [
+          {
+            "x": 7,
+            "y": 1,
+            "type": "berry",
+            "amount": 0,
+            "id": "res-t2g3gn"
+          },
+          {
+            "x": 3,
+            "y": 9,
+            "type": "berry",
+            "amount": 0,
+            "id": "res-12yv3vn"
+          },
+          {
+            "x": 28,
+            "y": 18,
+            "type": "berry",
+            "amount": 0,
+            "id": "res-wd8jtm"
+          },
+          {
+            "x": 8,
+            "y": 19,
+            "type": "berry",
+            "amount": 0,
+            "id": "res-47tdj9"
+          }
+        ],
+        "population": 10,
+        "enemies": 4,
+        "seed": 1592639710,
+        "rngState": 1592639710,
+        "scenarioBinding": {
+          "version": 1,
+          "status": "bound",
+          "bindingId": "scenario-initial-v1",
+          "baselineId": "zombie-farm-authored-initial-v1",
+          "packageDigest": "fnv1a-utf16-canonical-hex-v1:f6760f36",
+          "configDigest": "fnv1a-utf16-canonical-hex-v1:2ebc43c8",
+          "appliedKeys": [
+            "seed",
+            "world.foodMultiplier",
+            "events"
+          ],
+          "baselineOnlyKeys": [
+            "world.ordinaryNpcCount",
+            "world.medicineMultiplier",
+            "world.materialMultiplier",
+            "world.initialEnemyMultiplier",
+            "world.waveGrowthMultiplier",
+            "world.eventFrequency"
+          ],
+          "deferredKeys": [
+            "continuity"
+          ],
+          "initialAiConfig": {
+            "generativeDialogue": false,
+            "observerCommentary": false,
+            "generatedWorldEvents": false,
+            "learnedWorldModel": false,
+            "policyVersion": "observer-expression-v1"
+          }
+        },
+        "contentBinding": {
+          "version": 1,
+          "status": "bound",
+          "compilerVersion": "scenario-event-chain-v1",
+          "catalogDigest": "fnv1a-utf16-canonical-hex-v1:33e5b74b",
+          "rulesDigest": "fnv1a-utf16-canonical-hex-v1:b19c6fb5",
+          "registry": [
+            {
+              "kind": "eventDef",
+              "id": "relay-chain-001"
+            },
+            {
+              "kind": "eventChain",
+              "id": "zh-food-shortage-001"
+            }
+          ]
+        },
+        "cacheFlags": {},
+        "firstCheckpointValid": true,
+        "secondCheckpointValid": true,
+        "secondPayloadExactlyEqual": true
+      }
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "A-after-continue-before-explicit-checkpoint.json",
+      "sha256": "ebd2c2a6f1ab12b0e62dc6ba235231b4a229916759cdf1662c2594ed9ac4c7e6",
+      "bytes": 63429
+    },
+    {
+      "path": "A-first-native.json",
+      "sha256": "d5a8f3bfb89bce52bedbf34c74da63fb2ee192fa80ba9c92fadf82f948ef6a3a",
+      "bytes": 63529
+    },
+    {
+      "path": "A-first-runtime.json",
+      "sha256": "53ef053da4fe0e6b5f5c5fe64e78536d63edf96f0a470a31b41edfe0fa3094e3",
+      "bytes": 54731
+    },
+    {
+      "path": "A-second-continue-native.json",
+      "sha256": "70034a54cacdacd2416afe1d9dda679dc01925571cb58e877516d08f62e9465d",
+      "bytes": 63513
+    },
+    {
+      "path": "B-after-continue-before-explicit-checkpoint.json",
+      "sha256": "d0d160f8b03c6323e51611ff6013895d52713d0775bcd56dc8d84ba86b46fded",
+      "bytes": 63429
+    },
+    {
+      "path": "B-first-native.json",
+      "sha256": "9a62a25d58cd6cffaf1d5a6ab0ca2f583f50d0d14199c347357fbe6bc85c47ff",
+      "bytes": 63529
+    },
+    {
+      "path": "B-first-runtime.json",
+      "sha256": "05676f3922d1b25077bf78869ab6ed1f8d102d26dc4bcae2d76553c12074d5ed",
+      "bytes": 54731
+    },
+    {
+      "path": "B-second-continue-native.json",
+      "sha256": "19c228f089c9364a59a045eac9a7a153eb3f77d0b8fb26c10ac3a3a3f142274a",
+      "bytes": 63513
+    }
+  ],
+  "ok": true
+}

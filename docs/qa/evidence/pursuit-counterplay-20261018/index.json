@@ -1,0 +1,64 @@
+{
+  "schema": "PursuitCounterplayEvidenceSelectionV1",
+  "createdAt": "2026-10-18T04:41:08.016336+00:00",
+  "htmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a",
+  "scope": "Two selected original-byte transports plus documented outside retained dependencies. Archive verification is not gameplay validation; A03 stays exit1 and D0/D1 stay source-VM method/recovery diagnostics.",
+  "archives": [
+    {
+      "archive": "A03-selected-native-v1.zip",
+      "sha256": "db648d316b887d0bd5527c9b9eb593f66d2948bd96ecc0d0c2c02a0d861c323e",
+      "bytes": 763792,
+      "entries": 38,
+      "allSelectedBytesVerified": true,
+      "pathTraversalRejectedByPrecheck": true
+    },
+    {
+      "archive": "D0-D1-selected-v1.zip",
+      "sha256": "27e4f8b8143af30e174e3adf1576b948b9387f4253bb68cc2f487b7b30e3dfe8",
+      "bytes": 804930,
+      "entries": 42,
+      "allSelectedBytesVerified": true,
+      "pathTraversalRejectedByPrecheck": true
+    }
+  ],
+  "indices": [
+    {
+      "path": "A03-selected-index.json",
+      "sha256": "768506365562702ad2f27e54c0f0b7cb52c0d9f336d7d445e9d4a81c5091dc1a",
+      "bytes": 8354
+    },
+    {
+      "path": "D0-D1-selected-index.json",
+      "sha256": "40d7613359721e6b34232accfdd5b9204d9e5e1cf4fe6c53f4534901677b2487",
+      "bytes": 31927
+    },
+    {
+      "path": "D0-D1-original-readback.json",
+      "sha256": "6e0ea0ac54828cdc5113f63eda17338e6d96bc649688bbcdc21b4a4be5c66abb",
+      "bytes": 8239
+    }
+  ],
+  "coverage": {
+    "A03": "All non-PNG files under actual execution plus three derived audit files; six PNGs outside-retained. Selected BootRecovery raw was never captured and is absent, not reconstructed.",
+    "D0D1": "Original two reports, 34 declared artifact references and frozen method/receipt selection per dedicated index; outside framework sources as declared there.",
+    "uniqueSourceContractsAdded": 0,
+    "browserChecksAddedToFeature84": 0
+  },
+  "nativeReports": {
+    "A03": {
+      "sha256": "828981e261a1f15568b8a820f3e9e496d5ce1e2fdd15ac2eedaa20e159c7390e",
+      "exitCode": 1,
+      "status": "BOUNDED_BRANCH_STOPPED"
+    },
+    "D0": {
+      "sha256": "db7e53dcab040976347d14109f933afef3c36bdc5334c0f5cb800cad56c2789c",
+      "exitCode": 0,
+      "methodRecoveryChecks": 6
+    },
+    "D1": {
+      "sha256": "2bfec9345d2c2673dafa105f19ef59cd7ce023922494066ea1a493d6333e0c77",
+      "exitCode": 0,
+      "methodRecoveryChecks": 6
+    }
+  }
+}

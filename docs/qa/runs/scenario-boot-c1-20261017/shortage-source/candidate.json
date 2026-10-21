@@ -1,0 +1,645 @@
+{
+  "runner": "source-shortage-choice-v2",
+  "sourceHtmlSha256": "a2fcdb647f2632fbf50f3ab0f3ba160f168082c602f6737c5ca4239eede137d2",
+  "checkerSha256": "b5e2815e899d6648548f7787762bc9513859be1ede04ca38e5cb827d940490fe",
+  "ioAdapterSha256": "ee5bb659c0439044e1ec07a4aecf931293457c2478f35d0850fe90770b4367cf",
+  "baselineReportSha256": "8d6544b1d6b073273b5f485505c724d44df60a5d4eb6866c025108c1fec93b9a",
+  "sourceRefs": [
+    {
+      "path": "shortage-artifacts/inputs/runtime.html",
+      "sha256": "a2fcdb647f2632fbf50f3ab0f3ba160f168082c602f6737c5ca4239eede137d2",
+      "kind": "tested-runtime"
+    },
+    {
+      "path": "shortage-artifacts/inputs/checker.mjs",
+      "sha256": "b5e2815e899d6648548f7787762bc9513859be1ede04ca38e5cb827d940490fe",
+      "kind": "executed-checker"
+    },
+    {
+      "path": "shortage-artifacts/inputs/io-adapter.mjs",
+      "sha256": "ee5bb659c0439044e1ec07a4aecf931293457c2478f35d0850fe90770b4367cf",
+      "kind": "controlled-io-adapter"
+    },
+    {
+      "path": "shortage-artifacts/inputs/baseline/report.json",
+      "sha256": "8d6544b1d6b073273b5f485505c724d44df60a5d4eb6866c025108c1fec93b9a",
+      "kind": "unchanged-prior-experiment-report"
+    },
+    {
+      "path": "shortage-artifacts/inputs/baseline/input-mapping.json",
+      "sha256": "f6eef201322f3ae24e2006f6e0b78f951ff0bd41caa264e735ef5ac27c7a3686",
+      "kind": "baseline-native-input-mapping"
+    },
+    {
+      "path": "shortage-artifacts/inputs/baseline/protocol-executed.md",
+      "sha256": "ce3b11405da41302385424cae3cfdd9ef4b5bbb95bb2370a617043457d63bdde",
+      "kind": "actual-baseline-executed-protocol"
+    },
+    {
+      "path": "shortage-artifacts/inputs/original-complete-writer.json",
+      "sha256": "5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4",
+      "kind": "existing-original-complete-writer",
+      "rootRelativeSource": "scripts/fixtures/npc-threat-attention-v1/browser-writer-day1-1110-save21.json"
+    },
+    {
+      "path": "shortage-artifacts/inputs/existing-pre-identity-fixture.json",
+      "sha256": "eb3b163e5b55e17f356b3ec95a4f9e5e55147bb78b8250ba0fac6ec3b6a0096d",
+      "kind": "existing-pre-identity-payload-fixture",
+      "rootRelativeSource": "scripts/fixtures/content-episode-v1/save21-pre-identity-active.json"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "shortage-artifacts/inputs/runtime.html",
+      "sha256": "a2fcdb647f2632fbf50f3ab0f3ba160f168082c602f6737c5ca4239eede137d2",
+      "kind": "tested-runtime"
+    },
+    {
+      "path": "shortage-artifacts/inputs/checker.mjs",
+      "sha256": "b5e2815e899d6648548f7787762bc9513859be1ede04ca38e5cb827d940490fe",
+      "kind": "executed-checker"
+    },
+    {
+      "path": "shortage-artifacts/inputs/io-adapter.mjs",
+      "sha256": "ee5bb659c0439044e1ec07a4aecf931293457c2478f35d0850fe90770b4367cf",
+      "kind": "controlled-io-adapter"
+    },
+    {
+      "path": "shortage-artifacts/inputs/baseline/report.json",
+      "sha256": "8d6544b1d6b073273b5f485505c724d44df60a5d4eb6866c025108c1fec93b9a",
+      "kind": "unchanged-prior-experiment-report"
+    },
+    {
+      "path": "shortage-artifacts/inputs/baseline/input-mapping.json",
+      "sha256": "f6eef201322f3ae24e2006f6e0b78f951ff0bd41caa264e735ef5ac27c7a3686",
+      "kind": "baseline-native-input-mapping"
+    },
+    {
+      "path": "shortage-artifacts/inputs/baseline/protocol-executed.md",
+      "sha256": "ce3b11405da41302385424cae3cfdd9ef4b5bbb95bb2370a617043457d63bdde",
+      "kind": "actual-baseline-executed-protocol"
+    },
+    {
+      "path": "shortage-artifacts/inputs/baseline/report-artifacts/declared-derived-boot-input.json",
+      "sha256": "43d09354a5e82a8936e1b7f9f3704fecf0df4ad9588895c0a9e9f0e9a4e154d0",
+      "kind": "offline-derived-complete-old-writer",
+      "sourceName": "declared-derived-boot-input"
+    },
+    {
+      "path": "shortage-artifacts/inputs/baseline/report-artifacts/common-episode-baseline.json",
+      "sha256": "aafac0f27b14febce001281a67066efddae74ed19b0335af15f2df5425ba9498",
+      "kind": "actual-source-writer",
+      "sourceName": "common-episode-baseline"
+    },
+    {
+      "path": "shortage-artifacts/inputs/baseline/report-artifacts/A-before-action.json",
+      "sha256": "aafac0f27b14febce001281a67066efddae74ed19b0335af15f2df5425ba9498",
+      "kind": "actual-source-writer",
+      "sourceName": "A-before-action"
+    },
+    {
+      "path": "shortage-artifacts/inputs/baseline/report-artifacts/A-after-action.json",
+      "sha256": "8564fd8e884b5c2e1446a476148dcc941667022b10a9352a0507cb980edebf24",
+      "kind": "actual-source-writer",
+      "sourceName": "A-after-action"
+    },
+    {
+      "path": "shortage-artifacts/inputs/baseline/report-artifacts/A-first-midnight.json",
+      "sha256": "a41d3e0b017f6d488d1135e9ac9aef38e0e32a85f2a937d31eb9a1dea5e6f565",
+      "kind": "actual-source-writer",
+      "sourceName": "A-first-midnight"
+    },
+    {
+      "path": "shortage-artifacts/inputs/baseline/report-artifacts/B-before-action.json",
+      "sha256": "aafac0f27b14febce001281a67066efddae74ed19b0335af15f2df5425ba9498",
+      "kind": "actual-source-writer",
+      "sourceName": "B-before-action"
+    },
+    {
+      "path": "shortage-artifacts/inputs/baseline/report-artifacts/B-after-action.json",
+      "sha256": "35bbd592abace0cb95031ea13bf99ea8bd4e07891498290a8f8030552dda89ef",
+      "kind": "actual-source-writer",
+      "sourceName": "B-after-action"
+    },
+    {
+      "path": "shortage-artifacts/inputs/baseline/report-artifacts/B-first-midnight.json",
+      "sha256": "bcf9dc7cfc8b81e026961099eb12a80c4b30394f1d96504a9655c5595417b9f3",
+      "kind": "actual-source-writer",
+      "sourceName": "B-first-midnight"
+    },
+    {
+      "path": "shortage-artifacts/inputs/baseline/report-artifacts/C-before-action.json",
+      "sha256": "aafac0f27b14febce001281a67066efddae74ed19b0335af15f2df5425ba9498",
+      "kind": "actual-source-writer",
+      "sourceName": "C-before-action"
+    },
+    {
+      "path": "shortage-artifacts/inputs/baseline/report-artifacts/C-after-real-gather-before-midnight.json",
+      "sha256": "4ab59f6455896f4f241d4e249d3f815e46c4ebbe6af03e536d48558451c620d3",
+      "kind": "actual-source-writer",
+      "sourceName": "C-after-real-gather-before-midnight"
+    },
+    {
+      "path": "shortage-artifacts/inputs/baseline/report-artifacts/C-after-action.json",
+      "sha256": "4ab59f6455896f4f241d4e249d3f815e46c4ebbe6af03e536d48558451c620d3",
+      "kind": "actual-source-writer",
+      "sourceName": "C-after-action"
+    },
+    {
+      "path": "shortage-artifacts/inputs/baseline/report-artifacts/C-first-midnight.json",
+      "sha256": "821c7c545ca4704ad14bfc7cc54f4ce361918bebc994c08769365800eee47d4e",
+      "kind": "actual-source-writer",
+      "sourceName": "C-first-midnight"
+    },
+    {
+      "path": "shortage-artifacts/inputs/baseline/report-artifacts/D-before-action.json",
+      "sha256": "aafac0f27b14febce001281a67066efddae74ed19b0335af15f2df5425ba9498",
+      "kind": "actual-source-writer",
+      "sourceName": "D-before-action"
+    },
+    {
+      "path": "shortage-artifacts/inputs/baseline/report-artifacts/D-after-action.json",
+      "sha256": "aafac0f27b14febce001281a67066efddae74ed19b0335af15f2df5425ba9498",
+      "kind": "actual-source-writer",
+      "sourceName": "D-after-action"
+    },
+    {
+      "path": "shortage-artifacts/inputs/baseline/report-artifacts/D-first-midnight.json",
+      "sha256": "8d0fedf07e6741e0a1de0211889397a8098cc765df6588325cecb2b4c3407a16",
+      "kind": "actual-source-writer",
+      "sourceName": "D-first-midnight"
+    },
+    {
+      "path": "shortage-artifacts/inputs/baseline/report-artifacts/probe-C-then-forage.json",
+      "sha256": "393fde2068d85723bb0c96d6693deea3d9d0067398705df0c69aadd084849a7a",
+      "kind": "actual-source-writer",
+      "sourceName": "probe-C-then-forage"
+    },
+    {
+      "path": "shortage-artifacts/inputs/baseline/report-artifacts/probe-B-cache-reuse-rejection.json",
+      "sha256": "ba02c5deb760d321058de421a6a084c3ababa124837c78a862b513db95ad129d",
+      "kind": "actual-source-writer",
+      "sourceName": "probe-B-cache-reuse-rejection"
+    },
+    {
+      "path": "shortage-artifacts/inputs/original-complete-writer.json",
+      "sha256": "5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4",
+      "kind": "existing-original-complete-writer",
+      "rootRelativeSource": "scripts/fixtures/npc-threat-attention-v1/browser-writer-day1-1110-save21.json"
+    },
+    {
+      "path": "shortage-artifacts/inputs/existing-pre-identity-fixture.json",
+      "sha256": "eb3b163e5b55e17f356b3ec95a4f9e5e55147bb78b8250ba0fac6ec3b6a0096d",
+      "kind": "existing-pre-identity-payload-fixture",
+      "rootRelativeSource": "scripts/fixtures/content-episode-v1/save21-pre-identity-active.json"
+    },
+    {
+      "path": "shortage-artifacts/writers/active-v1-migrated.json",
+      "sha256": "381ae949ac71d79a823540a15b14cfa28d360ab310a7a79445424791ead5bdab",
+      "kind": "actual-candidate-writer",
+      "receiptFabricated": false
+    },
+    {
+      "path": "shortage-artifacts/writers/migration-write-retry.json",
+      "sha256": "381ae949ac71d79a823540a15b14cfa28d360ab310a7a79445424791ead5bdab",
+      "kind": "actual-candidate-writer",
+      "receiptFabricated": false
+    },
+    {
+      "path": "shortage-artifacts/writers/existing-pre-identity-migrated.json",
+      "sha256": "9a7741fa5ee2753a509a15d5b7a5fea84b6a69e2a08fad8e4762f51cb060e09b",
+      "kind": "actual-candidate-writer",
+      "receiptFabricated": false
+    },
+    {
+      "path": "shortage-artifacts/writers/v2-ration-once.json",
+      "sha256": "0b68e8b7e020815256b73aac2096c3b8b092f86cc26ac49503be524527d8982b",
+      "kind": "actual-candidate-writer",
+      "receiptFabricated": false
+    },
+    {
+      "path": "shortage-artifacts/writers/v2-new-forage-history.json",
+      "sha256": "b6d32683e8d96577abcef4d7e1d1c1337357f7df4d2c85d56598987c689d83ba",
+      "kind": "actual-candidate-writer",
+      "receiptFabricated": false
+    },
+    {
+      "path": "shortage-artifacts/writers/v2-spent-cache-next-episode.json",
+      "sha256": "f9eeb19500c111d5ac74fd2f50d5e1709b1cd001a9b0beb6d4dcf9a018742742",
+      "kind": "actual-candidate-writer",
+      "receiptFabricated": false
+    },
+    {
+      "path": "shortage-artifacts/writers/v1-settled-ration-preserved.json",
+      "sha256": "70e53f8015b29a5e9d743a114586e7651d6757d5b8f1facbd3dcbbeeef9f6138",
+      "kind": "actual-candidate-writer",
+      "receiptFabricated": false
+    },
+    {
+      "path": "shortage-artifacts/writers/v1-settled-forage-preserved.json",
+      "sha256": "8cff52a7b74a9aab7b5d6e0aa43eb7fb5ccb9dbf36ec9168d421ff0bbc7c79b2",
+      "kind": "actual-candidate-writer",
+      "receiptFabricated": false
+    },
+    {
+      "path": "shortage-artifacts/writers/v1-active-next-day-cache-preserved.json",
+      "sha256": "24492c6713640715ff15ce8810315b6c2699d632332e58dd778b83f0d7ba5e85",
+      "kind": "actual-candidate-writer",
+      "receiptFabricated": false
+    },
+    {
+      "path": "shortage-artifacts/writers/v2-A-confirm-first-midnight.json",
+      "sha256": "7360843e86172392f14a0b32b23ac004b50e59afee759d58404a1b7753b312d0",
+      "kind": "actual-candidate-writer",
+      "receiptFabricated": false
+    },
+    {
+      "path": "shortage-artifacts/writers/v2-D-defer-first-midnight.json",
+      "sha256": "5925a00640b7fde78ab45e62633091791a0025d493cf751de6029df1b4e5d08c",
+      "kind": "actual-candidate-writer",
+      "receiptFabricated": false
+    }
+  ],
+  "count": 43,
+  "ok": true,
+  "failures": [],
+  "checks": [
+    {
+      "name": "v2 definition removes ration effect tax and names new forage history precisely",
+      "inputKind": "actual-source-writer",
+      "ok": true
+    },
+    {
+      "name": "original complete writer without active shortage preserves rewards with only explicit Scenario metadata migration",
+      "inputKind": "actual-source-writer",
+      "ok": true
+    },
+    {
+      "name": "actual unresolved v1 writer validates and draft upgrades only version without live state or input effects",
+      "inputKind": "actual-source-writer",
+      "ok": true
+    },
+    {
+      "name": "boot saves one real migration record and a second reload neither repeats it nor advances time",
+      "inputKind": "actual-source-writer",
+      "ok": true
+    },
+    {
+      "name": "failed migration write remains fenced and retry records no second migration or effect",
+      "inputKind": "actual-source-writer",
+      "ok": true
+    },
+    {
+      "name": "pre-existing missing-version identity fixture upgrades from its actual startedAt without settlement",
+      "inputKind": "existing-pre-identity-payload-fixture",
+      "ok": true
+    },
+    {
+      "name": "derived later save date never re-dates the valid missing-version original episode",
+      "inputKind": "derived-later-date-control",
+      "ok": true
+    },
+    {
+      "name": "v1 adapter rejects derived invalid input: unknown version",
+      "inputKind": "derived-invalid-v1-adapter-input",
+      "ok": true
+    },
+    {
+      "name": "v1 adapter rejects derived invalid input: string version",
+      "inputKind": "derived-invalid-v1-adapter-input",
+      "ok": true
+    },
+    {
+      "name": "v1 adapter rejects derived invalid input: wrong v1 node",
+      "inputKind": "derived-invalid-v1-adapter-input",
+      "ok": true
+    },
+    {
+      "name": "v1 adapter rejects derived invalid input: resolved v1 status",
+      "inputKind": "derived-invalid-v1-adapter-input",
+      "ok": true
+    },
+    {
+      "name": "v1 adapter rejects derived invalid input: empty actor",
+      "inputKind": "derived-invalid-v1-adapter-input",
+      "ok": true
+    },
+    {
+      "name": "v1 adapter rejects derived invalid input: negative startedAt",
+      "inputKind": "derived-invalid-v1-adapter-input",
+      "ok": true
+    },
+    {
+      "name": "v1 adapter rejects derived invalid input: wrong instance",
+      "inputKind": "derived-invalid-v1-adapter-input",
+      "ok": true
+    },
+    {
+      "name": "v1 adapter rejects derived invalid input: wrong creation key",
+      "inputKind": "derived-invalid-v1-adapter-input",
+      "ok": true
+    },
+    {
+      "name": "v1 adapter rejects derived invalid input: wrong definition id",
+      "inputKind": "derived-invalid-v1-adapter-input",
+      "ok": true
+    },
+    {
+      "name": "v1 adapter rejects derived invalid input: wrong identity schema",
+      "inputKind": "derived-invalid-v1-adapter-input",
+      "ok": true
+    },
+    {
+      "name": "v1 adapter rejects derived invalid input: v1 resolved node set",
+      "inputKind": "derived-invalid-v1-adapter-input",
+      "ok": true
+    },
+    {
+      "name": "v1 adapter rejects derived invalid input: v1 nonempty history",
+      "inputKind": "derived-invalid-v1-adapter-input",
+      "ok": true
+    },
+    {
+      "name": "v1 adapter rejects derived invalid input: already completed episode",
+      "inputKind": "derived-invalid-v1-adapter-input",
+      "ok": true
+    },
+    {
+      "name": "v1 adapter rejects derived invalid input: already applied real v1 choice",
+      "inputKind": "derived-invalid-v1-adapter-input",
+      "ok": true
+    },
+    {
+      "name": "v1 adapter rejects derived invalid input: real settled history conflict",
+      "inputKind": "derived-invalid-v1-adapter-input",
+      "ok": true
+    },
+    {
+      "name": "v1 adapter rejects derived invalid input: declared v1 missing instanceKey",
+      "inputKind": "derived-invalid-v1-adapter-input",
+      "ok": true
+    },
+    {
+      "name": "v1 adapter rejects derived invalid input: declared v1 missing instanceId",
+      "inputKind": "derived-invalid-v1-adapter-input",
+      "ok": true
+    },
+    {
+      "name": "v1 adapter rejects derived invalid input: declared v1 missing defId",
+      "inputKind": "derived-invalid-v1-adapter-input",
+      "ok": true
+    },
+    {
+      "name": "v1 adapter rejects derived invalid input: declared v1 missing episodeSchemaVersion",
+      "inputKind": "derived-invalid-v1-adapter-input",
+      "ok": true
+    },
+    {
+      "name": "v1 adapter rejects derived invalid input: missing version with new schema marker",
+      "inputKind": "derived-invalid-v1-adapter-input",
+      "ok": true
+    },
+    {
+      "name": "v1 button token is stale after migration and cannot silently settle a v2 choice",
+      "inputKind": "actual-source-writer",
+      "ok": true
+    },
+    {
+      "name": "current v2 ration only records confirmation and duplicate does not add any payment or reward",
+      "inputKind": "actual-source-writer",
+      "ok": true
+    },
+    {
+      "name": "current v2 forage preserves finite food/resonance costs and uses only new history spelling",
+      "inputKind": "actual-source-writer",
+      "ok": true
+    },
+    {
+      "name": "actual unhealthy quartermaster cannot collect v2 cache while confirmation remains available",
+      "inputKind": "actual-source-damage-eligibility-control",
+      "ok": true
+    },
+    {
+      "name": "v2 cache remains spent after actual midnight, new episode and writer reload",
+      "inputKind": "actual-source-writer",
+      "ok": true
+    },
+    {
+      "name": "actual phase Gate rejects v2 choice in BATTLE",
+      "inputKind": "explicit-session-phase-negative-control",
+      "ok": true
+    },
+    {
+      "name": "actual phase Gate rejects v2 choice in REPORT",
+      "inputKind": "explicit-session-phase-negative-control",
+      "ok": true
+    },
+    {
+      "name": "actual phase Gate rejects v2 choice in LOSS",
+      "inputKind": "explicit-session-phase-negative-control",
+      "ok": true
+    },
+    {
+      "name": "actual phase Gate rejects v2 choice in RECOVERY",
+      "inputKind": "explicit-session-phase-negative-control",
+      "ok": true
+    },
+    {
+      "name": "settled v1 ration writer retains historical costs, receipts and cache without refund",
+      "inputKind": "actual-source-writer",
+      "ok": true
+    },
+    {
+      "name": "settled v1 forage writer retains historical costs, receipts and cache without refund",
+      "inputKind": "actual-source-writer",
+      "ok": true
+    },
+    {
+      "name": "actual next-day v1 active writer migrates without reviving its already spent cache",
+      "inputKind": "actual-source-writer",
+      "ok": true
+    },
+    {
+      "name": "actual renderer shows current stock/basic ration, next midnight and additional consumption",
+      "inputKind": "actual-source-writer",
+      "ok": true
+    },
+    {
+      "name": "actual renderer explains a replenished old warning instead of claiming current shortage",
+      "inputKind": "actual-source-writer",
+      "ok": true
+    },
+    {
+      "name": "renderer next midnight derives from the current calendar even for an older episode",
+      "inputKind": "actual-source-writer",
+      "ok": true
+    },
+    {
+      "name": "same start A-confirm and D-defer have no extra numeric click tax at the first actual midnight",
+      "inputKind": "actual-source-writer",
+      "ok": true
+    }
+  ],
+  "observations": {
+    "pureAdapter": {
+      "chainId": "zh-food-shortage-001",
+      "instanceKey": "zh-food-shortage-001:1",
+      "instanceId": "content:zh-food-shortage-001:1",
+      "defId": "zh-food-shortage-001",
+      "nodeId": "shortage_choice",
+      "startedAt": 1400,
+      "actorId": "player-1",
+      "fromDefinitionVersion": 1,
+      "toDefinitionVersion": 2,
+      "adapter": "shortage-choice-v1-to-v2"
+    },
+    "currentRenderer": {
+      "title": "断粮警报",
+      "text": "后勤官登记有两份应急藏粮，整局只可动用一次。可以现在动用，也可以保留备用粮，另行采集或收获；人物用餐与配给仍按真实库存结算。 当前库存 2 份，基础日需 3 份；下次午夜配给为第 2 天 00:00（约 40 分钟后）。个人用餐与据点维护另计，库存会继续变化。结算时若库存不足，原配给缺口与人物需求后果照常发生。",
+      "a": {
+        "disabled": false,
+        "html": "保留备用粮，另行筹粮<small>仅确认并记录 · 食物不变 · 不额外增加崩溃压力 · 原配给与人物需求照常</small>",
+        "dataset": {
+          "eventSource": "chain:zh-food-shortage-001",
+          "eventChoiceId": "ration",
+          "eventNodeId": "shortage_choice",
+          "eventInstanceId": "content:zh-food-shortage-001:1",
+          "eventDefId": "zh-food-shortage-001",
+          "eventDefinitionVersion": "2",
+          "eventId": "",
+          "eventInstanceKey": "zh-food-shortage-001:1"
+        }
+      },
+      "b": {
+        "disabled": false,
+        "html": "动用后勤应急藏粮<small>整局一次 · 食物 +2 · 共振仪表 +2 · 需要健康后勤人员在岗</small>",
+        "dataset": {
+          "eventSource": "chain:zh-food-shortage-001",
+          "eventChoiceId": "forage",
+          "eventNodeId": "shortage_choice",
+          "eventInstanceId": "content:zh-food-shortage-001:1",
+          "eventDefId": "zh-food-shortage-001",
+          "eventDefinitionVersion": "2",
+          "eventId": "",
+          "eventInstanceKey": "zh-food-shortage-001:1"
+        }
+      }
+    },
+    "replenishedRenderer": {
+      "title": "断粮警报",
+      "text": "后勤官登记有两份应急藏粮，整局只可动用一次。可以现在动用，也可以保留备用粮，另行采集或收获；人物用餐与配给仍按真实库存结算。 当前库存 4 份，基础日需 3 份；下次午夜配给为第 2 天 00:00（约 10 分钟后）。个人用餐与据点维护另计，库存会继续变化。当前基础供给已缓解；这是原预警，仍可确认并保留备用粮。",
+      "a": {
+        "disabled": false,
+        "html": "保留备用粮，另行筹粮<small>仅确认并记录 · 食物不变 · 不额外增加崩溃压力 · 原配给与人物需求照常</small>",
+        "dataset": {
+          "eventSource": "chain:zh-food-shortage-001",
+          "eventChoiceId": "ration",
+          "eventNodeId": "shortage_choice",
+          "eventInstanceId": "content:zh-food-shortage-001:1",
+          "eventDefId": "zh-food-shortage-001",
+          "eventDefinitionVersion": "2",
+          "eventId": "",
+          "eventInstanceKey": "zh-food-shortage-001:1"
+        }
+      },
+      "b": {
+        "disabled": false,
+        "html": "动用后勤应急藏粮<small>整局一次 · 食物 +2 · 共振仪表 +2 · 需要健康后勤人员在岗</small>",
+        "dataset": {
+          "eventSource": "chain:zh-food-shortage-001",
+          "eventChoiceId": "forage",
+          "eventNodeId": "shortage_choice",
+          "eventInstanceId": "content:zh-food-shortage-001:1",
+          "eventDefId": "zh-food-shortage-001",
+          "eventDefinitionVersion": "2",
+          "eventId": "",
+          "eventInstanceKey": "zh-food-shortage-001:1"
+        }
+      }
+    },
+    "firstMidnight": {
+      "A": {
+        "resources": {
+          "food": 0,
+          "energy": 55,
+          "hp": 64,
+          "sanity": 75,
+          "wood": 28,
+          "stone": 12,
+          "parts": 5,
+          "medicine": 0,
+          "seeds": 2,
+          "morale": 84
+        },
+        "meters": {
+          "campCollapse": 8,
+          "resonancePressure": 25,
+          "campTrust": 1.5
+        },
+        "episode": {
+          "chainId": "zh-food-shortage-001",
+          "nodeId": "shortage_choice",
+          "status": "active",
+          "startedAt": 1440,
+          "actorId": "camp-autonomy",
+          "resolvedNodeIds": [],
+          "episodeSchemaVersion": 1,
+          "instanceKey": "zh-food-shortage-001:2",
+          "instanceId": "content:zh-food-shortage-001:2",
+          "defId": "zh-food-shortage-001",
+          "definitionVersion": 2
+        }
+      },
+      "D": {
+        "resources": {
+          "food": 0,
+          "energy": 55,
+          "hp": 64,
+          "sanity": 75,
+          "wood": 28,
+          "stone": 12,
+          "parts": 5,
+          "medicine": 0,
+          "seeds": 2,
+          "morale": 84
+        },
+        "meters": {
+          "campCollapse": 8,
+          "resonancePressure": 25,
+          "campTrust": 1.5
+        },
+        "episode": {
+          "chainId": "zh-food-shortage-001",
+          "nodeId": "shortage_choice",
+          "status": "active",
+          "startedAt": 1400,
+          "actorId": "player-1",
+          "resolvedNodeIds": [],
+          "episodeSchemaVersion": 1,
+          "instanceKey": "zh-food-shortage-001:1",
+          "instanceId": "content:zh-food-shortage-001:1",
+          "defId": "zh-food-shortage-001",
+          "definitionVersion": 2
+        }
+      },
+      "scope": "same derived writer and 40 actual one-minute advances; local click-tax parity only, not overall balance"
+    }
+  },
+  "scope": "actual complete inline/runtime Gate, adapter, loader/writer, renderer and original DOM choice listeners; IO adapter controls DOM/storage/Date/schedulers and suppresses unrelated Canvas/HUD/world rendering after capturing the tested actual event renderer",
+  "inputClassification": {
+    "actualOldWriters": [
+      "original-complete-writer",
+      "baseline common unresolved v1",
+      "baseline settled v1 ration",
+      "baseline settled v1 forage",
+      "baseline next-day active v1 spent cache",
+      "baseline actual post-gather writer"
+    ],
+    "existingPayloadFixture": "scripts/fixtures/content-episode-v1/save21-pre-identity-active.json",
+    "derivedInvalidInputs": "only known v1 adapter shapes; not a claim of complete global v2 node validation",
+    "receiptsFabricated": false
+  },
+  "browserStarted": false,
+  "naturalGameplay": false,
+  "balanceValidated": false
+}

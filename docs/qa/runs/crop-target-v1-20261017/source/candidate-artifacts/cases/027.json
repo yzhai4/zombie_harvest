@@ -1,0 +1,55 @@
+{
+  "name": "real target Gate rejects expired-object without fallback",
+  "inputClassification": "TEST-ONLY-derived-from-original-writer",
+  "derivations": [
+    "expired-object"
+  ],
+  "observations": [
+    {
+      "events": [
+        {
+          "eventId": "evt-000114",
+          "seq": 114,
+          "type": "command.rejected",
+          "actorId": "player-1",
+          "commandId": "crop-invalid-expired-object",
+          "causationId": null,
+          "tick": {
+            "world": 469,
+            "phase": 0,
+            "schedule": 109
+          },
+          "payload": {
+            "type": "crop.change",
+            "reason": "crop-target-unknown"
+          }
+        }
+      ],
+      "commands": [
+        {
+          "commandId": "crop-invalid-expired-object",
+          "type": "crop.change",
+          "actorId": "player-1",
+          "payload": {
+            "buildingId": "bld-mazjx8"
+          }
+        }
+      ],
+      "resources": {
+        "wood": 28,
+        "stone": 12,
+        "food": 13,
+        "parts": 5,
+        "medicine": 0,
+        "seeds": 4,
+        "energy": 66,
+        "hp": 100,
+        "sanity": 76,
+        "morale": 72
+      },
+      "minute": 469,
+      "plot": null,
+      "toast": "当前无法对这块田进行农务"
+    }
+  ]
+}

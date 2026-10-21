@@ -1,0 +1,68 @@
+{
+  "schema": "ExplicitOriginalFailureExcerptV1",
+  "isOriginalNativeReport": false,
+  "originalExternalRetained": true,
+  "original": {
+    "portableName": "report.json",
+    "sha256": "718c89b0504ac82de65691e49ee66216da4f6f015e09acac4d1b44b6c73d1998",
+    "bytes": 1212409
+  },
+  "omittedFieldsRetainedExternally": [
+    "observations",
+    "fixtures",
+    "artifacts",
+    "inputs",
+    "naturalGameplay",
+    "productionDeployment",
+    "scope",
+    "limitations"
+  ],
+  "replacedStackPathSubstrings": [
+    {
+      "field": "$.checks[5].stack",
+      "originalSubstringSha256": "ec02ca01b211287898f35fc48a7018ef03660ccf985d9bce517a1f5c62cc642e",
+      "originalSubstringBytes": 90,
+      "occurrences": 3,
+      "replacement": "<day-fatal-round-root>"
+    }
+  ],
+  "resultCountAndFailedChecksUnchanged": true,
+  "reportExcerpt": {
+    "runner": "source-day-fatal-outcome-v1",
+    "mode": "candidate",
+    "sourceHtmlSha256": "7b23b0b757ed2242903c952f54c5c31145499ba98280aa80f1578e64b78780cc",
+    "sourceHash": "7b23b0b757ed2242903c952f54c5c31145499ba98280aa80f1578e64b78780cc",
+    "ok": false,
+    "count": 6,
+    "passed": 5,
+    "checks": [
+      {
+        "name": "Actual original DAY timer fatal damage finalizes once after its command and normal writer Continue remains LOSS",
+        "ok": true
+      },
+      {
+        "name": "Paid attack child fatal preserves real hit/5E/time, suppresses unreached kill rewards and needs no new command ID",
+        "ok": true
+      },
+      {
+        "name": "Paused original retaliation fatal retains gross payment and zero elapsed time; IO failure retry does not repeat loss",
+        "ok": true
+      },
+      {
+        "name": "Defensive registered content fallback in real midnight rest child keeps completed-minute and final ledger watermarks",
+        "ok": true
+      },
+      {
+        "name": "Real HP effect transaction only finalizes stable successful zero, never rollback or within-transaction heal",
+        "ok": true
+      },
+      {
+        "name": "Legacy HP0 without new fact stays recovery-only; original night report remains distinct and bad new capsule is rejected",
+        "ok": false,
+        "error": "The input did not match the regular expression /尸潮|防守|报告/. Input:\n\n'平安守住这一轮'\n",
+        "stack": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /尸潮|防守|报告/. Input:\n\n'平安守住这一轮'\n\n    at <day-fatal-round-root>/candidate7b23-execution01/checker-executed.mjs:284:10\n    at group (<day-fatal-round-root>/candidate7b23-execution01/checker-executed.mjs:94:9)\n    at <day-fatal-round-root>/candidate7b23-execution01/checker-executed.mjs:264:1\n    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)\n    at async node:internal/modules/esm/loader:643:26\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)"
+      }
+    ]
+  },
+  "scope": "Selection of original failure checks and identity only; full repeated observations/fixtures/artifacts remain in unchanged external native report. Not a new execution or native pass row."
+}

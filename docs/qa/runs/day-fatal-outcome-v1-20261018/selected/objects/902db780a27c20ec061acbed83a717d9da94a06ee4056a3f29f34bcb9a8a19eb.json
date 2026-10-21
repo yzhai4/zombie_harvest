@@ -1,0 +1,3733 @@
+{
+  "runner": "source-world-clock-persistence-v1",
+  "mode": "candidate",
+  "sourceHtmlSha256": "7b23b0b757ed2242903c952f54c5c31145499ba98280aa80f1578e64b78780cc",
+  "sourceHash": "7b23b0b757ed2242903c952f54c5c31145499ba98280aa80f1578e64b78780cc",
+  "ok": true,
+  "count": 8,
+  "passed": 8,
+  "checks": [
+    {
+      "name": "Actual registered .5 world callback keeps normal writer and Continue recoverable",
+      "ok": true
+    },
+    {
+      "name": "Legal rates conserve fixed cumulative duration through actual callbacks and normal writers",
+      "ok": true
+    },
+    {
+      "name": "Normal writer/Continue retains exact pending credit and paid action minutes remain5/8/10",
+      "ok": true
+    },
+    {
+      "name": "Pause, rate change, stop/start, rest and generation preserve credit and fence old callbacks",
+      "ok": true
+    },
+    {
+      "name": "Duplicate cannot credit twice and invalid candidate writer cannot overwrite valid primary or backup",
+      "ok": true
+    },
+    {
+      "name": "Old missing remainder remains implicit zero while present canonical/invalid slots follow strict writer contract",
+      "ok": true
+    },
+    {
+      "name": "Three declared calendar midnight boundaries keep actual ration/upkeep and Continue idempotent",
+      "ok": true
+    },
+    {
+      "name": "Full old DAY18 and real paid-combat writer remain accepted by the global writer guard",
+      "ok": true
+    }
+  ],
+  "observations": [
+    {
+      "fixture": {
+        "name": "half-rate-original-callback",
+        "input": {
+          "path": "clock-native.json.artifacts/half-rate-original-callback-input.json",
+          "bytes": 31776,
+          "sha256": "ec2ba9363f28dfb0fb0328e3d001836d9354b5245344dffb2cdd26d87aa8fd34"
+        },
+        "changes": [
+          {
+            "path": "payload.worldMeta.clock.rate",
+            "before": 1,
+            "after": 0.5
+          }
+        ],
+        "testOnly": true
+      },
+      "beforeWriter": {
+        "returned": true,
+        "validation": {
+          "ok": true,
+          "reason": null,
+          "sourceCategory": "primary"
+        },
+        "artifact": {
+          "path": "clock-native.json.artifacts/before-tick-actual-writer.json",
+          "bytes": 65584,
+          "sha256": "d7536b8957e4198cfb69759a6611feefa04a87e647f79747f1bf9fea578218e0"
+        }
+      },
+      "actualTick": {
+        "before": {
+          "world": 360,
+          "day": 1,
+          "hour": 6,
+          "minute": 0,
+          "clock": {
+            "paused": false,
+            "rate": 0.5,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 0
+          },
+          "eventSeq": 3,
+          "commandSeq": 0,
+          "session": "DAY",
+          "timer": {
+            "handle": 1,
+            "lastTickAt": 1700000000000,
+            "tickCounter": 0,
+            "epoch": 2,
+            "generation": 0
+          },
+          "now": 1700000000000
+        },
+        "after": {
+          "world": 360,
+          "day": 1,
+          "hour": 6,
+          "minute": 0,
+          "clock": {
+            "paused": false,
+            "rate": 0.5,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 0.5,
+            "subMinuteRemainder": "0.5"
+          },
+          "eventSeq": 4,
+          "commandSeq": 1,
+          "session": "DAY",
+          "timer": {
+            "handle": 1,
+            "lastTickAt": 1700000001200,
+            "tickCounter": 1,
+            "epoch": 2,
+            "generation": 0
+          },
+          "now": 1700000001200
+        },
+        "events": [
+          {
+            "eventId": "evt-000004",
+            "seq": 4,
+            "type": "time.advanced",
+            "actorId": "system",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0.5
+            },
+            "payload": {
+              "minutes": 0,
+              "day": 1,
+              "hour": 6,
+              "minute": 0,
+              "clockPolicy": "whole-minute-v1",
+              "scaledMinutes": 0.5,
+              "remainderBefore": "0",
+              "remainderAfter": "0.5"
+            }
+          }
+        ],
+        "handle": 1,
+        "callbackSha256": "e898ee64e299368836dae2a98976ab6f505138679fbdaf28ba3251642fe73d14"
+      },
+      "afterWriter": {
+        "returned": true,
+        "validation": {
+          "ok": true,
+          "reason": null,
+          "sourceCategory": "primary"
+        },
+        "artifact": {
+          "path": "clock-native.json.artifacts/after-tick-actual-writer.json",
+          "bytes": 66682,
+          "sha256": "5835d8c461053662f92da71d64a597058f2bec39abe4e240007375381106320e"
+        }
+      },
+      "actualContinue": {
+        "result": {
+          "ok": true,
+          "classification": "DAY"
+        },
+        "started": true,
+        "mode": "DAY",
+        "world": 360
+      }
+    },
+    {
+      "group": "fixed-rate-accumulation",
+      "rate": 0.25,
+      "fixedExpectedTotal": 1,
+      "steps": [
+        {
+          "step": {
+            "before": {
+              "world": 360,
+              "day": 1,
+              "hour": 6,
+              "minute": 0,
+              "clock": {
+                "paused": false,
+                "rate": 0.25,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 0
+              },
+              "eventSeq": 3,
+              "commandSeq": 0,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000000000,
+                "tickCounter": 0,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000000000
+            },
+            "after": {
+              "world": 360,
+              "day": 1,
+              "hour": 6,
+              "minute": 0,
+              "clock": {
+                "paused": false,
+                "rate": 0.25,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 0.25,
+                "subMinuteRemainder": "0.25"
+              },
+              "eventSeq": 4,
+              "commandSeq": 1,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000001200,
+                "tickCounter": 1,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000001200
+            },
+            "events": [
+              {
+                "eventId": "evt-000004",
+                "seq": 4,
+                "type": "time.advanced",
+                "actorId": "system",
+                "commandId": "cmd-000001",
+                "causationId": null,
+                "tick": {
+                  "world": 360,
+                  "phase": 0,
+                  "schedule": 0.25
+                },
+                "payload": {
+                  "minutes": 0,
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 0,
+                  "clockPolicy": "whole-minute-v1",
+                  "scaledMinutes": 0.25,
+                  "remainderBefore": "0",
+                  "remainderAfter": "0.25"
+                }
+              }
+            ],
+            "handle": 1,
+            "callbackSha256": "e898ee64e299368836dae2a98976ab6f505138679fbdaf28ba3251642fe73d14"
+          },
+          "writer": {
+            "path": "clock-native.json.artifacts/cumulative-0.25-step-0-actual-writer.json",
+            "bytes": 66698,
+            "sha256": "72eb482ef84ba9442852ee743ead4913c605046fd93d9749e083d67a8589605c"
+          }
+        },
+        {
+          "step": {
+            "before": {
+              "world": 360,
+              "day": 1,
+              "hour": 6,
+              "minute": 0,
+              "clock": {
+                "paused": false,
+                "rate": 0.25,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 0.25,
+                "subMinuteRemainder": "0.25"
+              },
+              "eventSeq": 4,
+              "commandSeq": 1,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000001200,
+                "tickCounter": 1,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000001200
+            },
+            "after": {
+              "world": 360,
+              "day": 1,
+              "hour": 6,
+              "minute": 0,
+              "clock": {
+                "paused": false,
+                "rate": 0.25,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 0.5,
+                "subMinuteRemainder": "0.5"
+              },
+              "eventSeq": 5,
+              "commandSeq": 2,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000002400,
+                "tickCounter": 2,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000002400
+            },
+            "events": [
+              {
+                "eventId": "evt-000005",
+                "seq": 5,
+                "type": "time.advanced",
+                "actorId": "system",
+                "commandId": "cmd-000002",
+                "causationId": null,
+                "tick": {
+                  "world": 360,
+                  "phase": 0,
+                  "schedule": 0.5
+                },
+                "payload": {
+                  "minutes": 0,
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 0,
+                  "clockPolicy": "whole-minute-v1",
+                  "scaledMinutes": 0.25,
+                  "remainderBefore": "0.25",
+                  "remainderAfter": "0.5"
+                }
+              }
+            ],
+            "handle": 1,
+            "callbackSha256": "e898ee64e299368836dae2a98976ab6f505138679fbdaf28ba3251642fe73d14"
+          },
+          "writer": {
+            "path": "clock-native.json.artifacts/cumulative-0.25-step-1-actual-writer.json",
+            "bytes": 67748,
+            "sha256": "e2b671c97eafa480b9e0fcae5e3262fb983503e40484a25f4d36e65ae3c55d76"
+          }
+        },
+        {
+          "step": {
+            "before": {
+              "world": 360,
+              "day": 1,
+              "hour": 6,
+              "minute": 0,
+              "clock": {
+                "paused": false,
+                "rate": 0.25,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 0.5,
+                "subMinuteRemainder": "0.5"
+              },
+              "eventSeq": 5,
+              "commandSeq": 2,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000002400,
+                "tickCounter": 2,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000002400
+            },
+            "after": {
+              "world": 360,
+              "day": 1,
+              "hour": 6,
+              "minute": 0,
+              "clock": {
+                "paused": false,
+                "rate": 0.25,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 0.75,
+                "subMinuteRemainder": "0.75"
+              },
+              "eventSeq": 6,
+              "commandSeq": 3,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000003600,
+                "tickCounter": 3,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000003600
+            },
+            "events": [
+              {
+                "eventId": "evt-000006",
+                "seq": 6,
+                "type": "time.advanced",
+                "actorId": "system",
+                "commandId": "cmd-000003",
+                "causationId": null,
+                "tick": {
+                  "world": 360,
+                  "phase": 0,
+                  "schedule": 0.75
+                },
+                "payload": {
+                  "minutes": 0,
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 0,
+                  "clockPolicy": "whole-minute-v1",
+                  "scaledMinutes": 0.25,
+                  "remainderBefore": "0.5",
+                  "remainderAfter": "0.75"
+                }
+              }
+            ],
+            "handle": 1,
+            "callbackSha256": "e898ee64e299368836dae2a98976ab6f505138679fbdaf28ba3251642fe73d14"
+          },
+          "writer": {
+            "path": "clock-native.json.artifacts/cumulative-0.25-step-2-actual-writer.json",
+            "bytes": 68808,
+            "sha256": "32483a3dce994b00dbb66e5251be0b38fe8e0bb69eb6c920337cf1ca432da112"
+          }
+        },
+        {
+          "step": {
+            "before": {
+              "world": 360,
+              "day": 1,
+              "hour": 6,
+              "minute": 0,
+              "clock": {
+                "paused": false,
+                "rate": 0.25,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 0.75,
+                "subMinuteRemainder": "0.75"
+              },
+              "eventSeq": 6,
+              "commandSeq": 3,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000003600,
+                "tickCounter": 3,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000003600
+            },
+            "after": {
+              "world": 361,
+              "day": 1,
+              "hour": 6,
+              "minute": 1,
+              "clock": {
+                "paused": false,
+                "rate": 0.25,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 1,
+                "subMinuteRemainder": "0"
+              },
+              "eventSeq": 7,
+              "commandSeq": 4,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000004800,
+                "tickCounter": 4,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000004800
+            },
+            "events": [
+              {
+                "eventId": "evt-000007",
+                "seq": 7,
+                "type": "time.advanced",
+                "actorId": "system",
+                "commandId": "cmd-000004",
+                "causationId": null,
+                "tick": {
+                  "world": 361,
+                  "phase": 0,
+                  "schedule": 1
+                },
+                "payload": {
+                  "minutes": 1,
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 1,
+                  "clockPolicy": "whole-minute-v1",
+                  "scaledMinutes": 0.25,
+                  "remainderBefore": "0.75",
+                  "remainderAfter": "0"
+                }
+              }
+            ],
+            "handle": 1,
+            "callbackSha256": "e898ee64e299368836dae2a98976ab6f505138679fbdaf28ba3251642fe73d14"
+          },
+          "writer": {
+            "path": "clock-native.json.artifacts/cumulative-0.25-step-3-actual-writer.json",
+            "bytes": 71442,
+            "sha256": "3417a7d34e77ba4b3cdd7c43a576e5aab57f93ad2269e1c396af269335ec04e5"
+          }
+        }
+      ]
+    },
+    {
+      "group": "fixed-rate-accumulation",
+      "rate": 0.5,
+      "fixedExpectedTotal": 1,
+      "steps": [
+        {
+          "step": {
+            "before": {
+              "world": 360,
+              "day": 1,
+              "hour": 6,
+              "minute": 0,
+              "clock": {
+                "paused": false,
+                "rate": 0.5,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 0
+              },
+              "eventSeq": 3,
+              "commandSeq": 0,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000000000,
+                "tickCounter": 0,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000000000
+            },
+            "after": {
+              "world": 360,
+              "day": 1,
+              "hour": 6,
+              "minute": 0,
+              "clock": {
+                "paused": false,
+                "rate": 0.5,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 0.5,
+                "subMinuteRemainder": "0.5"
+              },
+              "eventSeq": 4,
+              "commandSeq": 1,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000001200,
+                "tickCounter": 1,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000001200
+            },
+            "events": [
+              {
+                "eventId": "evt-000004",
+                "seq": 4,
+                "type": "time.advanced",
+                "actorId": "system",
+                "commandId": "cmd-000001",
+                "causationId": null,
+                "tick": {
+                  "world": 360,
+                  "phase": 0,
+                  "schedule": 0.5
+                },
+                "payload": {
+                  "minutes": 0,
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 0,
+                  "clockPolicy": "whole-minute-v1",
+                  "scaledMinutes": 0.5,
+                  "remainderBefore": "0",
+                  "remainderAfter": "0.5"
+                }
+              }
+            ],
+            "handle": 1,
+            "callbackSha256": "e898ee64e299368836dae2a98976ab6f505138679fbdaf28ba3251642fe73d14"
+          },
+          "writer": {
+            "path": "clock-native.json.artifacts/cumulative-0.5-step-0-actual-writer.json",
+            "bytes": 66682,
+            "sha256": "5835d8c461053662f92da71d64a597058f2bec39abe4e240007375381106320e"
+          }
+        },
+        {
+          "step": {
+            "before": {
+              "world": 360,
+              "day": 1,
+              "hour": 6,
+              "minute": 0,
+              "clock": {
+                "paused": false,
+                "rate": 0.5,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 0.5,
+                "subMinuteRemainder": "0.5"
+              },
+              "eventSeq": 4,
+              "commandSeq": 1,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000001200,
+                "tickCounter": 1,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000001200
+            },
+            "after": {
+              "world": 361,
+              "day": 1,
+              "hour": 6,
+              "minute": 1,
+              "clock": {
+                "paused": false,
+                "rate": 0.5,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 1,
+                "subMinuteRemainder": "0"
+              },
+              "eventSeq": 5,
+              "commandSeq": 2,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000002400,
+                "tickCounter": 2,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000002400
+            },
+            "events": [
+              {
+                "eventId": "evt-000005",
+                "seq": 5,
+                "type": "time.advanced",
+                "actorId": "system",
+                "commandId": "cmd-000002",
+                "causationId": null,
+                "tick": {
+                  "world": 361,
+                  "phase": 0,
+                  "schedule": 1
+                },
+                "payload": {
+                  "minutes": 1,
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 1,
+                  "clockPolicy": "whole-minute-v1",
+                  "scaledMinutes": 0.5,
+                  "remainderBefore": "0.5",
+                  "remainderAfter": "0"
+                }
+              }
+            ],
+            "handle": 1,
+            "callbackSha256": "e898ee64e299368836dae2a98976ab6f505138679fbdaf28ba3251642fe73d14"
+          },
+          "writer": {
+            "path": "clock-native.json.artifacts/cumulative-0.5-step-1-actual-writer.json",
+            "bytes": 69312,
+            "sha256": "6db6080a7e16dcf1a65c35995a3dd3bcea326931570406192896761486c4b4f4"
+          }
+        }
+      ]
+    },
+    {
+      "group": "fixed-rate-accumulation",
+      "rate": 0.8,
+      "fixedExpectedTotal": 4,
+      "steps": [
+        {
+          "step": {
+            "before": {
+              "world": 360,
+              "day": 1,
+              "hour": 6,
+              "minute": 0,
+              "clock": {
+                "paused": false,
+                "rate": 0.8,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 0
+              },
+              "eventSeq": 3,
+              "commandSeq": 0,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000000000,
+                "tickCounter": 0,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000000000
+            },
+            "after": {
+              "world": 360,
+              "day": 1,
+              "hour": 6,
+              "minute": 0,
+              "clock": {
+                "paused": false,
+                "rate": 0.8,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 0.8,
+                "subMinuteRemainder": "0.8"
+              },
+              "eventSeq": 4,
+              "commandSeq": 1,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000001200,
+                "tickCounter": 1,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000001200
+            },
+            "events": [
+              {
+                "eventId": "evt-000004",
+                "seq": 4,
+                "type": "time.advanced",
+                "actorId": "system",
+                "commandId": "cmd-000001",
+                "causationId": null,
+                "tick": {
+                  "world": 360,
+                  "phase": 0,
+                  "schedule": 0.8
+                },
+                "payload": {
+                  "minutes": 0,
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 0,
+                  "clockPolicy": "whole-minute-v1",
+                  "scaledMinutes": 0.8,
+                  "remainderBefore": "0",
+                  "remainderAfter": "0.8"
+                }
+              }
+            ],
+            "handle": 1,
+            "callbackSha256": "e898ee64e299368836dae2a98976ab6f505138679fbdaf28ba3251642fe73d14"
+          },
+          "writer": {
+            "path": "clock-native.json.artifacts/cumulative-0.8-step-0-actual-writer.json",
+            "bytes": 66682,
+            "sha256": "abc6716011c204b0e4d476af797cd1f68bd1c560622177628c856e72e46fc110"
+          }
+        },
+        {
+          "step": {
+            "before": {
+              "world": 360,
+              "day": 1,
+              "hour": 6,
+              "minute": 0,
+              "clock": {
+                "paused": false,
+                "rate": 0.8,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 0.8,
+                "subMinuteRemainder": "0.8"
+              },
+              "eventSeq": 4,
+              "commandSeq": 1,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000001200,
+                "tickCounter": 1,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000001200
+            },
+            "after": {
+              "world": 361,
+              "day": 1,
+              "hour": 6,
+              "minute": 1,
+              "clock": {
+                "paused": false,
+                "rate": 0.8,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 1.6,
+                "subMinuteRemainder": "0.6"
+              },
+              "eventSeq": 5,
+              "commandSeq": 2,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000002400,
+                "tickCounter": 2,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000002400
+            },
+            "events": [
+              {
+                "eventId": "evt-000005",
+                "seq": 5,
+                "type": "time.advanced",
+                "actorId": "system",
+                "commandId": "cmd-000002",
+                "causationId": null,
+                "tick": {
+                  "world": 361,
+                  "phase": 0,
+                  "schedule": 1.6
+                },
+                "payload": {
+                  "minutes": 1,
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 1,
+                  "clockPolicy": "whole-minute-v1",
+                  "scaledMinutes": 0.8,
+                  "remainderBefore": "0.8",
+                  "remainderAfter": "0.6"
+                }
+              }
+            ],
+            "handle": 1,
+            "callbackSha256": "e898ee64e299368836dae2a98976ab6f505138679fbdaf28ba3251642fe73d14"
+          },
+          "writer": {
+            "path": "clock-native.json.artifacts/cumulative-0.8-step-1-actual-writer.json",
+            "bytes": 69332,
+            "sha256": "e8f0c506285ad3e7815225d45ade7c7444793850c36ced14b7f0bfe6e6318678"
+          }
+        },
+        {
+          "step": {
+            "before": {
+              "world": 361,
+              "day": 1,
+              "hour": 6,
+              "minute": 1,
+              "clock": {
+                "paused": false,
+                "rate": 0.8,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 1.6,
+                "subMinuteRemainder": "0.6"
+              },
+              "eventSeq": 5,
+              "commandSeq": 2,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000002400,
+                "tickCounter": 2,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000002400
+            },
+            "after": {
+              "world": 362,
+              "day": 1,
+              "hour": 6,
+              "minute": 2,
+              "clock": {
+                "paused": false,
+                "rate": 0.8,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 2.4000000000000004,
+                "subMinuteRemainder": "0.4"
+              },
+              "eventSeq": 6,
+              "commandSeq": 3,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000003600,
+                "tickCounter": 3,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000003600
+            },
+            "events": [
+              {
+                "eventId": "evt-000006",
+                "seq": 6,
+                "type": "time.advanced",
+                "actorId": "system",
+                "commandId": "cmd-000003",
+                "causationId": null,
+                "tick": {
+                  "world": 362,
+                  "phase": 0,
+                  "schedule": 2.4000000000000004
+                },
+                "payload": {
+                  "minutes": 1,
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 2,
+                  "clockPolicy": "whole-minute-v1",
+                  "scaledMinutes": 0.8,
+                  "remainderBefore": "0.6",
+                  "remainderAfter": "0.4"
+                }
+              }
+            ],
+            "handle": 1,
+            "callbackSha256": "e898ee64e299368836dae2a98976ab6f505138679fbdaf28ba3251642fe73d14"
+          },
+          "writer": {
+            "path": "clock-native.json.artifacts/cumulative-0.8-step-2-actual-writer.json",
+            "bytes": 70918,
+            "sha256": "8fdebb1da337ef8fab18bbf28103e01871541aabd88714ba4a66e312697c33cc"
+          }
+        },
+        {
+          "step": {
+            "before": {
+              "world": 362,
+              "day": 1,
+              "hour": 6,
+              "minute": 2,
+              "clock": {
+                "paused": false,
+                "rate": 0.8,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 2.4000000000000004,
+                "subMinuteRemainder": "0.4"
+              },
+              "eventSeq": 6,
+              "commandSeq": 3,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000003600,
+                "tickCounter": 3,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000003600
+            },
+            "after": {
+              "world": 363,
+              "day": 1,
+              "hour": 6,
+              "minute": 3,
+              "clock": {
+                "paused": false,
+                "rate": 0.8,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 3.2,
+                "subMinuteRemainder": "0.2"
+              },
+              "eventSeq": 7,
+              "commandSeq": 4,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000004800,
+                "tickCounter": 4,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000004800
+            },
+            "events": [
+              {
+                "eventId": "evt-000007",
+                "seq": 7,
+                "type": "time.advanced",
+                "actorId": "system",
+                "commandId": "cmd-000004",
+                "causationId": null,
+                "tick": {
+                  "world": 363,
+                  "phase": 0,
+                  "schedule": 3.2
+                },
+                "payload": {
+                  "minutes": 1,
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 3,
+                  "clockPolicy": "whole-minute-v1",
+                  "scaledMinutes": 0.8,
+                  "remainderBefore": "0.4",
+                  "remainderAfter": "0.2"
+                }
+              }
+            ],
+            "handle": 1,
+            "callbackSha256": "e898ee64e299368836dae2a98976ab6f505138679fbdaf28ba3251642fe73d14"
+          },
+          "writer": {
+            "path": "clock-native.json.artifacts/cumulative-0.8-step-3-actual-writer.json",
+            "bytes": 72410,
+            "sha256": "019d9a6dddc71ea2778a95a0add0ebdecff0af4ba5703f99ce2fbee2c980989f"
+          }
+        },
+        {
+          "step": {
+            "before": {
+              "world": 363,
+              "day": 1,
+              "hour": 6,
+              "minute": 3,
+              "clock": {
+                "paused": false,
+                "rate": 0.8,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 3.2,
+                "subMinuteRemainder": "0.2"
+              },
+              "eventSeq": 7,
+              "commandSeq": 4,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000004800,
+                "tickCounter": 4,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000004800
+            },
+            "after": {
+              "world": 364,
+              "day": 1,
+              "hour": 6,
+              "minute": 4,
+              "clock": {
+                "paused": false,
+                "rate": 0.8,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 4,
+                "subMinuteRemainder": "0"
+              },
+              "eventSeq": 8,
+              "commandSeq": 5,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000006000,
+                "tickCounter": 5,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000006000
+            },
+            "events": [
+              {
+                "eventId": "evt-000008",
+                "seq": 8,
+                "type": "time.advanced",
+                "actorId": "system",
+                "commandId": "cmd-000005",
+                "causationId": null,
+                "tick": {
+                  "world": 364,
+                  "phase": 0,
+                  "schedule": 4
+                },
+                "payload": {
+                  "minutes": 1,
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 4,
+                  "clockPolicy": "whole-minute-v1",
+                  "scaledMinutes": 0.8,
+                  "remainderBefore": "0.2",
+                  "remainderAfter": "0"
+                }
+              }
+            ],
+            "handle": 1,
+            "callbackSha256": "e898ee64e299368836dae2a98976ab6f505138679fbdaf28ba3251642fe73d14"
+          },
+          "writer": {
+            "path": "clock-native.json.artifacts/cumulative-0.8-step-4-actual-writer.json",
+            "bytes": 73418,
+            "sha256": "04359e151e48304243b71b6819ab558b6068e1d9bedf68182505098181e28c0c"
+          }
+        }
+      ]
+    },
+    {
+      "group": "fixed-rate-accumulation",
+      "rate": 1,
+      "fixedExpectedTotal": 3,
+      "steps": [
+        {
+          "step": {
+            "before": {
+              "world": 360,
+              "day": 1,
+              "hour": 6,
+              "minute": 0,
+              "clock": {
+                "paused": false,
+                "rate": 1,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 0
+              },
+              "eventSeq": 3,
+              "commandSeq": 0,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000000000,
+                "tickCounter": 0,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000000000
+            },
+            "after": {
+              "world": 361,
+              "day": 1,
+              "hour": 6,
+              "minute": 1,
+              "clock": {
+                "paused": false,
+                "rate": 1,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 1
+              },
+              "eventSeq": 4,
+              "commandSeq": 1,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000001200,
+                "tickCounter": 1,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000001200
+            },
+            "events": [
+              {
+                "eventId": "evt-000004",
+                "seq": 4,
+                "type": "time.advanced",
+                "actorId": "system",
+                "commandId": "cmd-000001",
+                "causationId": null,
+                "tick": {
+                  "world": 361,
+                  "phase": 0,
+                  "schedule": 1
+                },
+                "payload": {
+                  "minutes": 1,
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 1
+                }
+              }
+            ],
+            "handle": 1,
+            "callbackSha256": "e898ee64e299368836dae2a98976ab6f505138679fbdaf28ba3251642fe73d14"
+          },
+          "writer": {
+            "path": "clock-native.json.artifacts/cumulative-1-step-0-actual-writer.json",
+            "bytes": 67825,
+            "sha256": "d20b567048fd4faa5f9c0f6810f766af9db9518b6a3d0e1caf108e8d0aac7572"
+          }
+        },
+        {
+          "step": {
+            "before": {
+              "world": 361,
+              "day": 1,
+              "hour": 6,
+              "minute": 1,
+              "clock": {
+                "paused": false,
+                "rate": 1,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 1
+              },
+              "eventSeq": 4,
+              "commandSeq": 1,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000001200,
+                "tickCounter": 1,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000001200
+            },
+            "after": {
+              "world": 362,
+              "day": 1,
+              "hour": 6,
+              "minute": 2,
+              "clock": {
+                "paused": false,
+                "rate": 1,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 2
+              },
+              "eventSeq": 5,
+              "commandSeq": 2,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000002400,
+                "tickCounter": 2,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000002400
+            },
+            "events": [
+              {
+                "eventId": "evt-000005",
+                "seq": 5,
+                "type": "time.advanced",
+                "actorId": "system",
+                "commandId": "cmd-000002",
+                "causationId": null,
+                "tick": {
+                  "world": 362,
+                  "phase": 0,
+                  "schedule": 2
+                },
+                "payload": {
+                  "minutes": 1,
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 2
+                }
+              }
+            ],
+            "handle": 1,
+            "callbackSha256": "e898ee64e299368836dae2a98976ab6f505138679fbdaf28ba3251642fe73d14"
+          },
+          "writer": {
+            "path": "clock-native.json.artifacts/cumulative-1-step-1-actual-writer.json",
+            "bytes": 68951,
+            "sha256": "fae1b1115c7b613fa51da160181df23138e4a65f17330f30a55c578da3c16920"
+          }
+        },
+        {
+          "step": {
+            "before": {
+              "world": 362,
+              "day": 1,
+              "hour": 6,
+              "minute": 2,
+              "clock": {
+                "paused": false,
+                "rate": 1,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 2
+              },
+              "eventSeq": 5,
+              "commandSeq": 2,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000002400,
+                "tickCounter": 2,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000002400
+            },
+            "after": {
+              "world": 363,
+              "day": 1,
+              "hour": 6,
+              "minute": 3,
+              "clock": {
+                "paused": false,
+                "rate": 1,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 3
+              },
+              "eventSeq": 6,
+              "commandSeq": 3,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000003600,
+                "tickCounter": 3,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000003600
+            },
+            "events": [
+              {
+                "eventId": "evt-000006",
+                "seq": 6,
+                "type": "time.advanced",
+                "actorId": "system",
+                "commandId": "cmd-000003",
+                "causationId": null,
+                "tick": {
+                  "world": 363,
+                  "phase": 0,
+                  "schedule": 3
+                },
+                "payload": {
+                  "minutes": 1,
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 3
+                }
+              }
+            ],
+            "handle": 1,
+            "callbackSha256": "e898ee64e299368836dae2a98976ab6f505138679fbdaf28ba3251642fe73d14"
+          },
+          "writer": {
+            "path": "clock-native.json.artifacts/cumulative-1-step-2-actual-writer.json",
+            "bytes": 70074,
+            "sha256": "69b781f24482982d2edd0db337ea0c5004e19e52db8c6a743503aaa334e28c7e"
+          }
+        }
+      ]
+    },
+    {
+      "group": "fixed-rate-accumulation",
+      "rate": 1.5,
+      "fixedExpectedTotal": 3,
+      "steps": [
+        {
+          "step": {
+            "before": {
+              "world": 360,
+              "day": 1,
+              "hour": 6,
+              "minute": 0,
+              "clock": {
+                "paused": false,
+                "rate": 1.5,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 0
+              },
+              "eventSeq": 3,
+              "commandSeq": 0,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000000000,
+                "tickCounter": 0,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000000000
+            },
+            "after": {
+              "world": 361,
+              "day": 1,
+              "hour": 6,
+              "minute": 1,
+              "clock": {
+                "paused": false,
+                "rate": 1.5,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 1.5,
+                "subMinuteRemainder": "0.5"
+              },
+              "eventSeq": 4,
+              "commandSeq": 1,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000001200,
+                "tickCounter": 1,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000001200
+            },
+            "events": [
+              {
+                "eventId": "evt-000004",
+                "seq": 4,
+                "type": "time.advanced",
+                "actorId": "system",
+                "commandId": "cmd-000001",
+                "causationId": null,
+                "tick": {
+                  "world": 361,
+                  "phase": 0,
+                  "schedule": 1.5
+                },
+                "payload": {
+                  "minutes": 1,
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 1,
+                  "clockPolicy": "whole-minute-v1",
+                  "scaledMinutes": 1.5,
+                  "remainderBefore": "0",
+                  "remainderAfter": "0.5"
+                }
+              }
+            ],
+            "handle": 1,
+            "callbackSha256": "e898ee64e299368836dae2a98976ab6f505138679fbdaf28ba3251642fe73d14"
+          },
+          "writer": {
+            "path": "clock-native.json.artifacts/cumulative-1.5-step-0-actual-writer.json",
+            "bytes": 68286,
+            "sha256": "02d5dda690d3b0ff0a45b3fa8c888c416ac711f100de2d5a5d7bd6c441c92d4f"
+          }
+        },
+        {
+          "step": {
+            "before": {
+              "world": 361,
+              "day": 1,
+              "hour": 6,
+              "minute": 1,
+              "clock": {
+                "paused": false,
+                "rate": 1.5,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 1.5,
+                "subMinuteRemainder": "0.5"
+              },
+              "eventSeq": 4,
+              "commandSeq": 1,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000001200,
+                "tickCounter": 1,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000001200
+            },
+            "after": {
+              "world": 363,
+              "day": 1,
+              "hour": 6,
+              "minute": 3,
+              "clock": {
+                "paused": false,
+                "rate": 1.5,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 3,
+                "subMinuteRemainder": "0"
+              },
+              "eventSeq": 5,
+              "commandSeq": 2,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000002400,
+                "tickCounter": 2,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000002400
+            },
+            "events": [
+              {
+                "eventId": "evt-000005",
+                "seq": 5,
+                "type": "time.advanced",
+                "actorId": "system",
+                "commandId": "cmd-000002",
+                "causationId": null,
+                "tick": {
+                  "world": 363,
+                  "phase": 0,
+                  "schedule": 3
+                },
+                "payload": {
+                  "minutes": 2,
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 3,
+                  "clockPolicy": "whole-minute-v1",
+                  "scaledMinutes": 1.5,
+                  "remainderBefore": "0.5",
+                  "remainderAfter": "0"
+                }
+              }
+            ],
+            "handle": 1,
+            "callbackSha256": "e898ee64e299368836dae2a98976ab6f505138679fbdaf28ba3251642fe73d14"
+          },
+          "writer": {
+            "path": "clock-native.json.artifacts/cumulative-1.5-step-1-actual-writer.json",
+            "bytes": 69783,
+            "sha256": "83a869da5c53bc4bb9efde29b749cbe4a2ee3048c4019aefddaf2df6ea120892"
+          }
+        }
+      ]
+    },
+    {
+      "group": "fixed-rate-accumulation",
+      "rate": 4,
+      "fixedExpectedTotal": 8,
+      "steps": [
+        {
+          "step": {
+            "before": {
+              "world": 360,
+              "day": 1,
+              "hour": 6,
+              "minute": 0,
+              "clock": {
+                "paused": false,
+                "rate": 4,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 0
+              },
+              "eventSeq": 3,
+              "commandSeq": 0,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000000000,
+                "tickCounter": 0,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000000000
+            },
+            "after": {
+              "world": 364,
+              "day": 1,
+              "hour": 6,
+              "minute": 4,
+              "clock": {
+                "paused": false,
+                "rate": 4,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 4
+              },
+              "eventSeq": 4,
+              "commandSeq": 1,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000001200,
+                "tickCounter": 1,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000001200
+            },
+            "events": [
+              {
+                "eventId": "evt-000004",
+                "seq": 4,
+                "type": "time.advanced",
+                "actorId": "system",
+                "commandId": "cmd-000001",
+                "causationId": null,
+                "tick": {
+                  "world": 364,
+                  "phase": 0,
+                  "schedule": 4
+                },
+                "payload": {
+                  "minutes": 4,
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 4
+                }
+              }
+            ],
+            "handle": 1,
+            "callbackSha256": "e898ee64e299368836dae2a98976ab6f505138679fbdaf28ba3251642fe73d14"
+          },
+          "writer": {
+            "path": "clock-native.json.artifacts/cumulative-4-step-0-actual-writer.json",
+            "bytes": 67806,
+            "sha256": "1a0b35c6c5e5440ddaaf60133208607a0f757f913da430f82b5f8a93f7571283"
+          }
+        },
+        {
+          "step": {
+            "before": {
+              "world": 364,
+              "day": 1,
+              "hour": 6,
+              "minute": 4,
+              "clock": {
+                "paused": false,
+                "rate": 4,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 4
+              },
+              "eventSeq": 4,
+              "commandSeq": 1,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000001200,
+                "tickCounter": 1,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000001200
+            },
+            "after": {
+              "world": 368,
+              "day": 1,
+              "hour": 6,
+              "minute": 8,
+              "clock": {
+                "paused": false,
+                "rate": 4,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 8
+              },
+              "eventSeq": 5,
+              "commandSeq": 2,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000002400,
+                "tickCounter": 2,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000002400
+            },
+            "events": [
+              {
+                "eventId": "evt-000005",
+                "seq": 5,
+                "type": "time.advanced",
+                "actorId": "system",
+                "commandId": "cmd-000002",
+                "causationId": null,
+                "tick": {
+                  "world": 368,
+                  "phase": 0,
+                  "schedule": 8
+                },
+                "payload": {
+                  "minutes": 4,
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 8
+                }
+              }
+            ],
+            "handle": 1,
+            "callbackSha256": "e898ee64e299368836dae2a98976ab6f505138679fbdaf28ba3251642fe73d14"
+          },
+          "writer": {
+            "path": "clock-native.json.artifacts/cumulative-4-step-1-actual-writer.json",
+            "bytes": 69254,
+            "sha256": "ce71bde87e0aa0eeb38c9c43c303142c9335ec75d465ffdc5f6170db1d0b26b7"
+          }
+        }
+      ]
+    },
+    {
+      "group": "pending-Continue",
+      "first": {
+        "path": "clock-native.json.artifacts/pending-quarter-before-Continue-actual-writer.json",
+        "bytes": 66698,
+        "sha256": "72eb482ef84ba9442852ee743ead4913c605046fd93d9749e083d67a8589605c"
+      },
+      "second": {
+        "path": "clock-native.json.artifacts/pending-quarter-after-Continue-three-callbacks-actual-writer.json",
+        "bytes": 71442,
+        "sha256": "3417a7d34e77ba4b3cdd7c43a576e5aab57f93ad2269e1c396af269335ec04e5"
+      }
+    },
+    {
+      "group": "paid-integer-time",
+      "rate": 0.5,
+      "fixedExpectedMinutes": 5,
+      "result": {
+        "ok": true,
+        "commandId": "clock-valid-paid-0.5",
+        "event": {
+          "eventId": "evt-000008",
+          "seq": 8,
+          "type": "threat.attacked",
+          "actorId": "player-1",
+          "commandId": "clock-valid-paid-0.5",
+          "causationId": null,
+          "tick": {
+            "world": 365,
+            "phase": 0,
+            "schedule": 5
+          },
+          "payload": {
+            "proofVersion": 1,
+            "targetId": "wz-4",
+            "weaponId": "rustAxe",
+            "hit": {
+              "damage": 50,
+              "beforeHp": 100,
+              "afterHp": 50
+            },
+            "target": {
+              "id": "wz-4",
+              "before": {
+                "id": "wz-4",
+                "kind": "normal",
+                "hp": 100,
+                "x": 2,
+                "y": 20,
+                "dead": false
+              },
+              "afterHit": {
+                "id": "wz-4",
+                "kind": "normal",
+                "hp": 50,
+                "x": 2,
+                "y": 20,
+                "dead": false
+              },
+              "afterAdvance": {
+                "id": "wz-4",
+                "kind": "normal",
+                "hp": 50,
+                "x": 2.3135482419022617,
+                "y": 19.914486843117523,
+                "dead": false
+              },
+              "presentAtCompletion": true
+            },
+            "payment": {
+              "cost": {
+                "energy": 5
+              },
+              "before": {
+                "energy": 78
+              },
+              "after": {
+                "energy": 73
+              }
+            },
+            "clock": {
+              "before": {
+                "day": 1,
+                "hour": 6,
+                "minute": 0,
+                "world": 360
+              },
+              "after": {
+                "day": 1,
+                "hour": 6,
+                "minute": 5,
+                "world": 365
+              },
+              "requestedMinutes": 10,
+              "elapsedMinutes": 5
+            },
+            "advance": {
+              "ok": true,
+              "paused": false,
+              "commandId": "cmd-000001",
+              "eventId": "evt-000004",
+              "causationId": "clock-valid-paid-0.5",
+              "minutes": 5
+            },
+            "outcome": {
+              "killed": false,
+              "retaliationDamage": 8,
+              "salvage": 0
+            }
+          }
+        },
+        "result": {
+          "proofVersion": 1,
+          "targetId": "wz-4",
+          "weaponId": "rustAxe",
+          "hit": {
+            "damage": 50,
+            "beforeHp": 100,
+            "afterHp": 50
+          },
+          "target": {
+            "id": "wz-4",
+            "before": {
+              "id": "wz-4",
+              "kind": "normal",
+              "hp": 100,
+              "x": 2,
+              "y": 20,
+              "dead": false
+            },
+            "afterHit": {
+              "id": "wz-4",
+              "kind": "normal",
+              "hp": 50,
+              "x": 2,
+              "y": 20,
+              "dead": false
+            },
+            "afterAdvance": {
+              "id": "wz-4",
+              "kind": "normal",
+              "hp": 50,
+              "x": 2.3135482419022617,
+              "y": 19.914486843117523,
+              "dead": false
+            },
+            "presentAtCompletion": true
+          },
+          "payment": {
+            "cost": {
+              "energy": 5
+            },
+            "before": {
+              "energy": 78
+            },
+            "after": {
+              "energy": 73
+            }
+          },
+          "clock": {
+            "before": {
+              "day": 1,
+              "hour": 6,
+              "minute": 0,
+              "world": 360
+            },
+            "after": {
+              "day": 1,
+              "hour": 6,
+              "minute": 5,
+              "world": 365
+            },
+            "requestedMinutes": 10,
+            "elapsedMinutes": 5
+          },
+          "advance": {
+            "ok": true,
+            "paused": false,
+            "commandId": "cmd-000001",
+            "eventId": "evt-000004",
+            "causationId": "clock-valid-paid-0.5",
+            "minutes": 5
+          },
+          "outcome": {
+            "killed": false,
+            "retaliationDamage": 8,
+            "salvage": 0
+          }
+        }
+      }
+    },
+    {
+      "group": "paid-integer-time",
+      "rate": 0.8,
+      "fixedExpectedMinutes": 8,
+      "result": {
+        "ok": true,
+        "commandId": "clock-valid-paid-0.8",
+        "event": {
+          "eventId": "evt-000008",
+          "seq": 8,
+          "type": "threat.attacked",
+          "actorId": "player-1",
+          "commandId": "clock-valid-paid-0.8",
+          "causationId": null,
+          "tick": {
+            "world": 368,
+            "phase": 0,
+            "schedule": 8
+          },
+          "payload": {
+            "proofVersion": 1,
+            "targetId": "wz-4",
+            "weaponId": "rustAxe",
+            "hit": {
+              "damage": 50,
+              "beforeHp": 100,
+              "afterHp": 50
+            },
+            "target": {
+              "id": "wz-4",
+              "before": {
+                "id": "wz-4",
+                "kind": "normal",
+                "hp": 100,
+                "x": 2,
+                "y": 20,
+                "dead": false
+              },
+              "afterHit": {
+                "id": "wz-4",
+                "kind": "normal",
+                "hp": 50,
+                "x": 2,
+                "y": 20,
+                "dead": false
+              },
+              "afterAdvance": {
+                "id": "wz-4",
+                "kind": "normal",
+                "hp": 50,
+                "x": 1.480000000000004,
+                "y": 20,
+                "dead": false
+              },
+              "presentAtCompletion": true
+            },
+            "payment": {
+              "cost": {
+                "energy": 5
+              },
+              "before": {
+                "energy": 78
+              },
+              "after": {
+                "energy": 73
+              }
+            },
+            "clock": {
+              "before": {
+                "day": 1,
+                "hour": 6,
+                "minute": 0,
+                "world": 360
+              },
+              "after": {
+                "day": 1,
+                "hour": 6,
+                "minute": 8,
+                "world": 368
+              },
+              "requestedMinutes": 10,
+              "elapsedMinutes": 8
+            },
+            "advance": {
+              "ok": true,
+              "paused": false,
+              "commandId": "cmd-000001",
+              "eventId": "evt-000004",
+              "causationId": "clock-valid-paid-0.8",
+              "minutes": 8
+            },
+            "outcome": {
+              "killed": false,
+              "retaliationDamage": 8,
+              "salvage": 0
+            }
+          }
+        },
+        "result": {
+          "proofVersion": 1,
+          "targetId": "wz-4",
+          "weaponId": "rustAxe",
+          "hit": {
+            "damage": 50,
+            "beforeHp": 100,
+            "afterHp": 50
+          },
+          "target": {
+            "id": "wz-4",
+            "before": {
+              "id": "wz-4",
+              "kind": "normal",
+              "hp": 100,
+              "x": 2,
+              "y": 20,
+              "dead": false
+            },
+            "afterHit": {
+              "id": "wz-4",
+              "kind": "normal",
+              "hp": 50,
+              "x": 2,
+              "y": 20,
+              "dead": false
+            },
+            "afterAdvance": {
+              "id": "wz-4",
+              "kind": "normal",
+              "hp": 50,
+              "x": 1.480000000000004,
+              "y": 20,
+              "dead": false
+            },
+            "presentAtCompletion": true
+          },
+          "payment": {
+            "cost": {
+              "energy": 5
+            },
+            "before": {
+              "energy": 78
+            },
+            "after": {
+              "energy": 73
+            }
+          },
+          "clock": {
+            "before": {
+              "day": 1,
+              "hour": 6,
+              "minute": 0,
+              "world": 360
+            },
+            "after": {
+              "day": 1,
+              "hour": 6,
+              "minute": 8,
+              "world": 368
+            },
+            "requestedMinutes": 10,
+            "elapsedMinutes": 8
+          },
+          "advance": {
+            "ok": true,
+            "paused": false,
+            "commandId": "cmd-000001",
+            "eventId": "evt-000004",
+            "causationId": "clock-valid-paid-0.8",
+            "minutes": 8
+          },
+          "outcome": {
+            "killed": false,
+            "retaliationDamage": 8,
+            "salvage": 0
+          }
+        }
+      }
+    },
+    {
+      "group": "paid-integer-time",
+      "rate": 1,
+      "fixedExpectedMinutes": 10,
+      "result": {
+        "ok": true,
+        "commandId": "clock-valid-paid-1",
+        "event": {
+          "eventId": "evt-000008",
+          "seq": 8,
+          "type": "threat.attacked",
+          "actorId": "player-1",
+          "commandId": "clock-valid-paid-1",
+          "causationId": null,
+          "tick": {
+            "world": 370,
+            "phase": 0,
+            "schedule": 10
+          },
+          "payload": {
+            "proofVersion": 1,
+            "targetId": "wz-4",
+            "weaponId": "rustAxe",
+            "hit": {
+              "damage": 50,
+              "beforeHp": 100,
+              "afterHp": 50
+            },
+            "target": {
+              "id": "wz-4",
+              "before": {
+                "id": "wz-4",
+                "kind": "normal",
+                "hp": 100,
+                "x": 2,
+                "y": 20,
+                "dead": false
+              },
+              "afterHit": {
+                "id": "wz-4",
+                "kind": "normal",
+                "hp": 50,
+                "x": 2,
+                "y": 20,
+                "dead": false
+              },
+              "afterAdvance": {
+                "id": "wz-4",
+                "kind": "normal",
+                "hp": 50,
+                "x": 1.3500000000000023,
+                "y": 20,
+                "dead": false
+              },
+              "presentAtCompletion": true
+            },
+            "payment": {
+              "cost": {
+                "energy": 5
+              },
+              "before": {
+                "energy": 78
+              },
+              "after": {
+                "energy": 73
+              }
+            },
+            "clock": {
+              "before": {
+                "day": 1,
+                "hour": 6,
+                "minute": 0,
+                "world": 360
+              },
+              "after": {
+                "day": 1,
+                "hour": 6,
+                "minute": 10,
+                "world": 370
+              },
+              "requestedMinutes": 10,
+              "elapsedMinutes": 10
+            },
+            "advance": {
+              "ok": true,
+              "paused": false,
+              "commandId": "cmd-000001",
+              "eventId": "evt-000004",
+              "causationId": "clock-valid-paid-1",
+              "minutes": 10
+            },
+            "outcome": {
+              "killed": false,
+              "retaliationDamage": 8,
+              "salvage": 0
+            }
+          }
+        },
+        "result": {
+          "proofVersion": 1,
+          "targetId": "wz-4",
+          "weaponId": "rustAxe",
+          "hit": {
+            "damage": 50,
+            "beforeHp": 100,
+            "afterHp": 50
+          },
+          "target": {
+            "id": "wz-4",
+            "before": {
+              "id": "wz-4",
+              "kind": "normal",
+              "hp": 100,
+              "x": 2,
+              "y": 20,
+              "dead": false
+            },
+            "afterHit": {
+              "id": "wz-4",
+              "kind": "normal",
+              "hp": 50,
+              "x": 2,
+              "y": 20,
+              "dead": false
+            },
+            "afterAdvance": {
+              "id": "wz-4",
+              "kind": "normal",
+              "hp": 50,
+              "x": 1.3500000000000023,
+              "y": 20,
+              "dead": false
+            },
+            "presentAtCompletion": true
+          },
+          "payment": {
+            "cost": {
+              "energy": 5
+            },
+            "before": {
+              "energy": 78
+            },
+            "after": {
+              "energy": 73
+            }
+          },
+          "clock": {
+            "before": {
+              "day": 1,
+              "hour": 6,
+              "minute": 0,
+              "world": 360
+            },
+            "after": {
+              "day": 1,
+              "hour": 6,
+              "minute": 10,
+              "world": 370
+            },
+            "requestedMinutes": 10,
+            "elapsedMinutes": 10
+          },
+          "advance": {
+            "ok": true,
+            "paused": false,
+            "commandId": "cmd-000001",
+            "eventId": "evt-000004",
+            "causationId": "clock-valid-paid-1",
+            "minutes": 10
+          },
+          "outcome": {
+            "killed": false,
+            "retaliationDamage": 8,
+            "salvage": 0
+          }
+        }
+      }
+    },
+    {
+      "group": "ownership",
+      "pausedTick": {
+        "before": {
+          "world": 360,
+          "day": 1,
+          "hour": 6,
+          "minute": 0,
+          "clock": {
+            "paused": true,
+            "rate": 0.25,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 0.25,
+            "subMinuteRemainder": "0.25"
+          },
+          "eventSeq": 5,
+          "commandSeq": 1,
+          "session": "DAY",
+          "timer": {
+            "handle": 1,
+            "lastTickAt": 1700000001200,
+            "tickCounter": 1,
+            "epoch": 2,
+            "generation": 0
+          },
+          "now": 1700000001200
+        },
+        "after": {
+          "world": 360,
+          "day": 1,
+          "hour": 6,
+          "minute": 0,
+          "clock": {
+            "paused": true,
+            "rate": 0.25,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 0.25,
+            "subMinuteRemainder": "0.25"
+          },
+          "eventSeq": 5,
+          "commandSeq": 1,
+          "session": "DAY",
+          "timer": {
+            "handle": 1,
+            "lastTickAt": 1700000002400,
+            "tickCounter": 2,
+            "epoch": 2,
+            "generation": 0
+          },
+          "now": 1700000002400
+        },
+        "events": [],
+        "handle": 1,
+        "callbackSha256": "e898ee64e299368836dae2a98976ab6f505138679fbdaf28ba3251642fe73d14"
+      },
+      "rateChangeTick": {
+        "before": {
+          "world": 360,
+          "day": 1,
+          "hour": 6,
+          "minute": 0,
+          "clock": {
+            "paused": false,
+            "rate": 0.8,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 0.25,
+            "subMinuteRemainder": "0.25"
+          },
+          "eventSeq": 7,
+          "commandSeq": 1,
+          "session": "DAY",
+          "timer": {
+            "handle": 1,
+            "lastTickAt": 1700000002400,
+            "tickCounter": 2,
+            "epoch": 2,
+            "generation": 0
+          },
+          "now": 1700000002400
+        },
+        "after": {
+          "world": 361,
+          "day": 1,
+          "hour": 6,
+          "minute": 1,
+          "clock": {
+            "paused": false,
+            "rate": 0.8,
+            "phaseMinutes": 0,
+            "scheduleMinutes": 1.05,
+            "subMinuteRemainder": "0.05"
+          },
+          "eventSeq": 8,
+          "commandSeq": 2,
+          "session": "DAY",
+          "timer": {
+            "handle": 1,
+            "lastTickAt": 1700000003600,
+            "tickCounter": 3,
+            "epoch": 2,
+            "generation": 0
+          },
+          "now": 1700000003600
+        },
+        "events": [
+          {
+            "eventId": "evt-000008",
+            "seq": 8,
+            "type": "time.advanced",
+            "actorId": "system",
+            "commandId": "cmd-000002",
+            "causationId": null,
+            "tick": {
+              "world": 361,
+              "phase": 0,
+              "schedule": 1.05
+            },
+            "payload": {
+              "minutes": 1,
+              "day": 1,
+              "hour": 6,
+              "minute": 1,
+              "clockPolicy": "whole-minute-v1",
+              "scaledMinutes": 0.8,
+              "remainderBefore": "0.25",
+              "remainderAfter": "0.05"
+            }
+          }
+        ],
+        "handle": 1,
+        "callbackSha256": "e898ee64e299368836dae2a98976ab6f505138679fbdaf28ba3251642fe73d14"
+      },
+      "restStatus": {
+        "active": false,
+        "restId": "rest-0-1-cmd-000001",
+        "requested": 30,
+        "completed": 1,
+        "remaining": 29,
+        "stepIndex": 1,
+        "generation": 0,
+        "reason": "player-cancel",
+        "anchorId": "bld-4ep952",
+        "startMinute": 360,
+        "currentMinute": 361,
+        "last": {
+          "active": false,
+          "restId": "rest-0-1-cmd-000001",
+          "requested": 30,
+          "completed": 1,
+          "remaining": 29,
+          "stepIndex": 1,
+          "generation": 0,
+          "reason": "player-cancel",
+          "anchorId": "bld-4ep952",
+          "startMinute": 360,
+          "currentMinute": 361
+        }
+      }
+    },
+    {
+      "group": "live-own-undefined-writer-preflight",
+      "artifact": {
+        "path": "clock-native.json.artifacts/live-own-undefined-writer-refusal.json",
+        "bytes": 792,
+        "sha256": "3ca42e02ff5a81eb34d1a3d3d4ec489f6fe463da20653467785849ac178ab06a"
+      },
+      "hasOwnRemainder": true,
+      "liveValueType": "undefined",
+      "writerReturn": false,
+      "storageBefore": [
+        {
+          "key": "zombie-harvest-progress-v12",
+          "bytes": 66724,
+          "sha256": "9fbcd06e85a082f846cf6d65bb614c5d58c94eab10898428794bd21531385f6b"
+        },
+        {
+          "key": "zombie-harvest-progress-v12.bak",
+          "bytes": 65584,
+          "sha256": "d7536b8957e4198cfb69759a6611feefa04a87e647f79747f1bf9fea578218e0"
+        }
+      ],
+      "storageAfter": [
+        {
+          "key": "zombie-harvest-progress-v12",
+          "bytes": 66724,
+          "sha256": "9fbcd06e85a082f846cf6d65bb614c5d58c94eab10898428794bd21531385f6b"
+        },
+        {
+          "key": "zombie-harvest-progress-v12.bak",
+          "bytes": 65584,
+          "sha256": "d7536b8957e4198cfb69759a6611feefa04a87e647f79747f1bf9fea578218e0"
+        }
+      ]
+    },
+    {
+      "group": "duplicate-writer-guard",
+      "initial": {
+        "path": "clock-native.json.artifacts/valid-primary-first-actual-writer.json",
+        "bytes": 65584,
+        "sha256": "d7536b8957e4198cfb69759a6611feefa04a87e647f79747f1bf9fea578218e0"
+      },
+      "valid": {
+        "path": "clock-native.json.artifacts/valid-primary-with-credit-actual-writer.json",
+        "bytes": 66724,
+        "sha256": "9fbcd06e85a082f846cf6d65bb614c5d58c94eab10898428794bd21531385f6b"
+      },
+      "refused": false,
+      "preservedStorage": [
+        {
+          "key": "zombie-harvest-progress-v12",
+          "bytes": 66724,
+          "sha256": "9fbcd06e85a082f846cf6d65bb614c5d58c94eab10898428794bd21531385f6b"
+        },
+        {
+          "key": "zombie-harvest-progress-v12.bak",
+          "bytes": 65584,
+          "sha256": "d7536b8957e4198cfb69759a6611feefa04a87e647f79747f1bf9fea578218e0"
+        }
+      ],
+      "recovered": {
+        "path": "clock-native.json.artifacts/valid-after-rejected-candidate-actual-writer.json",
+        "bytes": 66724,
+        "sha256": "9fbcd06e85a082f846cf6d65bb614c5d58c94eab10898428794bd21531385f6b"
+      }
+    },
+    {
+      "group": "legacy-and-strict-slots",
+      "legacy": {
+        "path": "clock-native.json.artifacts/old-missing-zero-after-integer-actual-writer.json",
+        "bytes": 67904,
+        "sha256": "efdd0438fe1717d18912d14897a8dcfb89973ea64c3b634e6b45273316302418"
+      },
+      "exact324": {
+        "path": "clock-native.json.artifacts/canonical-324-places-actual-writer.json",
+        "bytes": 66280,
+        "sha256": "e7ce686792a4c118dbc5fae0748f0ce30c29b85511b446742492f14207cbec2c"
+      },
+      "badResults": [
+        {
+          "input": {
+            "path": "clock-native.json.artifacts/invalid-remainder-numeric.json",
+            "bytes": 31759,
+            "sha256": "68de932b4df866f3f98cae9969d80b2a5e0958dca48dad0fa4eca8e881838d55"
+          },
+          "validation": {
+            "ok": false,
+            "reason": "world-clock-remainder",
+            "sourceCategory": "primary"
+          }
+        },
+        {
+          "input": {
+            "path": "clock-native.json.artifacts/invalid-remainder-trailing-zero.json",
+            "bytes": 31762,
+            "sha256": "eed8762442927cfedfc67d03807ac9fa04bc7a03a43ab865ea57c514b232df21"
+          },
+          "validation": {
+            "ok": false,
+            "reason": "world-clock-remainder",
+            "sourceCategory": "primary"
+          }
+        },
+        {
+          "input": {
+            "path": "clock-native.json.artifacts/invalid-remainder-negative.json",
+            "bytes": 31762,
+            "sha256": "05750f6a615649cb20716a584528fbea98c81a92de60a6eeb1ef947bc20668a0"
+          },
+          "validation": {
+            "ok": false,
+            "reason": "world-clock-remainder",
+            "sourceCategory": "primary"
+          }
+        },
+        {
+          "input": {
+            "path": "clock-native.json.artifacts/invalid-remainder-325-places.json",
+            "bytes": 32085,
+            "sha256": "7c95546044a76540982feb6ec07c831ca73cfda666e94de1e9adb3918fed9f53"
+          },
+          "validation": {
+            "ok": false,
+            "reason": "world-clock-remainder",
+            "sourceCategory": "primary"
+          }
+        }
+      ]
+    },
+    {
+      "group": "three-independent-midnight-boundaries",
+      "boundaries": [
+        {
+          "fixture": {
+            "name": "midnight-day-1",
+            "input": {
+              "path": "clock-native.json.artifacts/midnight-day-1-input.json",
+              "bytes": 31780,
+              "sha256": "15cbc89b049b8d8790286eb0257c6914b96509e84e019809a08f6e064189a123"
+            },
+            "changes": [
+              {
+                "path": "payload.hour",
+                "before": 6,
+                "after": 23
+              },
+              {
+                "path": "payload.minute",
+                "before": 0,
+                "after": 59
+              },
+              {
+                "path": "payload.world.totalMinutes",
+                "before": 360,
+                "after": 1439
+              },
+              {
+                "path": "payload.worldMeta.clock.rate",
+                "before": 1,
+                "after": 0.5
+              }
+            ],
+            "testOnly": true
+          },
+          "first": {
+            "before": {
+              "world": 1439,
+              "day": 1,
+              "hour": 23,
+              "minute": 59,
+              "clock": {
+                "paused": false,
+                "rate": 0.5,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 0
+              },
+              "eventSeq": 3,
+              "commandSeq": 0,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000000000,
+                "tickCounter": 0,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000000000
+            },
+            "after": {
+              "world": 1439,
+              "day": 1,
+              "hour": 23,
+              "minute": 59,
+              "clock": {
+                "paused": false,
+                "rate": 0.5,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 0.5,
+                "subMinuteRemainder": "0.5"
+              },
+              "eventSeq": 4,
+              "commandSeq": 1,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000001200,
+                "tickCounter": 1,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000001200
+            },
+            "events": [
+              {
+                "eventId": "evt-000004",
+                "seq": 4,
+                "type": "time.advanced",
+                "actorId": "system",
+                "commandId": "cmd-000001",
+                "causationId": null,
+                "tick": {
+                  "world": 1439,
+                  "phase": 0,
+                  "schedule": 0.5
+                },
+                "payload": {
+                  "minutes": 0,
+                  "day": 1,
+                  "hour": 23,
+                  "minute": 59,
+                  "clockPolicy": "whole-minute-v1",
+                  "scaledMinutes": 0.5,
+                  "remainderBefore": "0",
+                  "remainderAfter": "0.5"
+                }
+              }
+            ],
+            "handle": 1,
+            "callbackSha256": "e898ee64e299368836dae2a98976ab6f505138679fbdaf28ba3251642fe73d14"
+          },
+          "second": {
+            "before": {
+              "world": 1439,
+              "day": 1,
+              "hour": 23,
+              "minute": 59,
+              "clock": {
+                "paused": false,
+                "rate": 0.5,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 0.5,
+                "subMinuteRemainder": "0.5"
+              },
+              "eventSeq": 4,
+              "commandSeq": 1,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000001200,
+                "tickCounter": 1,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000001200
+            },
+            "after": {
+              "world": 1440,
+              "day": 2,
+              "hour": 0,
+              "minute": 0,
+              "clock": {
+                "paused": false,
+                "rate": 0.5,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 1,
+                "subMinuteRemainder": "0"
+              },
+              "eventSeq": 6,
+              "commandSeq": 2,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000002400,
+                "tickCounter": 2,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000002400
+            },
+            "events": [
+              {
+                "eventId": "evt-000005",
+                "seq": 5,
+                "type": "plan.commandPoints.refreshed",
+                "actorId": "camp-autonomy",
+                "commandId": null,
+                "causationId": "cmd-000002",
+                "tick": {
+                  "world": 1440,
+                  "phase": 0,
+                  "schedule": 1
+                },
+                "payload": {
+                  "day": 2,
+                  "before": 0,
+                  "after": 0,
+                  "cap": 0,
+                  "reason": "day-start",
+                  "campTrust": 0,
+                  "campCollapse": 0
+                },
+                "defId": "camp-plan-meeting-001",
+                "definitionVersion": 1,
+                "instanceId": "event-initial",
+                "effects": []
+              },
+              {
+                "eventId": "evt-000006",
+                "seq": 6,
+                "type": "time.advanced",
+                "actorId": "system",
+                "commandId": "cmd-000002",
+                "causationId": null,
+                "tick": {
+                  "world": 1440,
+                  "phase": 0,
+                  "schedule": 1
+                },
+                "payload": {
+                  "minutes": 1,
+                  "day": 2,
+                  "hour": 0,
+                  "minute": 0,
+                  "clockPolicy": "whole-minute-v1",
+                  "scaledMinutes": 0.5,
+                  "remainderBefore": "0.5",
+                  "remainderAfter": "0"
+                }
+              }
+            ],
+            "handle": 1,
+            "callbackSha256": "e898ee64e299368836dae2a98976ab6f505138679fbdaf28ba3251642fe73d14"
+          },
+          "dailyUpkeepReceipt": {
+            "eventId": "evt-000005",
+            "seq": 5,
+            "type": "plan.commandPoints.refreshed",
+            "actorId": "camp-autonomy",
+            "commandId": null,
+            "causationId": "cmd-000002",
+            "tick": {
+              "world": 1440,
+              "phase": 0,
+              "schedule": 1
+            },
+            "payload": {
+              "day": 2,
+              "before": 0,
+              "after": 0,
+              "cap": 0,
+              "reason": "day-start",
+              "campTrust": 0,
+              "campCollapse": 0
+            },
+            "defId": "camp-plan-meeting-001",
+            "definitionVersion": 1,
+            "instanceId": "event-initial",
+            "effects": []
+          },
+          "writer": {
+            "path": "clock-native.json.artifacts/midnight-day-1-after-actual-writer.json",
+            "bytes": 70221,
+            "sha256": "26329b9e45f13d81dbd22d6698033098db446a51ea0803c255b8c430f851412d"
+          },
+          "afterContinue": {
+            "path": "clock-native.json.artifacts/midnight-day-1-Continue-new-whole-actual-writer.json",
+            "bytes": 72777,
+            "sha256": "8a416238847e500aef6030a82e7b32db2cf7477a551d6e26e2e787f57634fdb5"
+          }
+        },
+        {
+          "fixture": {
+            "name": "midnight-day-2",
+            "input": {
+              "path": "clock-native.json.artifacts/midnight-day-2-input.json",
+              "bytes": 31780,
+              "sha256": "b40fa69d6879d0520995138881f4cf24a4cd7382c8ce995036dcf50637484622"
+            },
+            "changes": [
+              {
+                "path": "payload.day",
+                "before": 1,
+                "after": 2
+              },
+              {
+                "path": "payload.hour",
+                "before": 6,
+                "after": 23
+              },
+              {
+                "path": "payload.minute",
+                "before": 0,
+                "after": 59
+              },
+              {
+                "path": "payload.world.lastDailyUpkeepDay",
+                "before": 1,
+                "after": 2
+              },
+              {
+                "path": "payload.world.lastRationDay",
+                "before": 1,
+                "after": 2
+              },
+              {
+                "path": "payload.world.totalMinutes",
+                "before": 360,
+                "after": 2879
+              },
+              {
+                "path": "payload.worldMeta.clock.rate",
+                "before": 1,
+                "after": 0.5
+              }
+            ],
+            "testOnly": true
+          },
+          "first": {
+            "before": {
+              "world": 2879,
+              "day": 2,
+              "hour": 23,
+              "minute": 59,
+              "clock": {
+                "paused": false,
+                "rate": 0.5,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 0
+              },
+              "eventSeq": 3,
+              "commandSeq": 0,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000000000,
+                "tickCounter": 0,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000000000
+            },
+            "after": {
+              "world": 2879,
+              "day": 2,
+              "hour": 23,
+              "minute": 59,
+              "clock": {
+                "paused": false,
+                "rate": 0.5,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 0.5,
+                "subMinuteRemainder": "0.5"
+              },
+              "eventSeq": 4,
+              "commandSeq": 1,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000001200,
+                "tickCounter": 1,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000001200
+            },
+            "events": [
+              {
+                "eventId": "evt-000004",
+                "seq": 4,
+                "type": "time.advanced",
+                "actorId": "system",
+                "commandId": "cmd-000001",
+                "causationId": null,
+                "tick": {
+                  "world": 2879,
+                  "phase": 0,
+                  "schedule": 0.5
+                },
+                "payload": {
+                  "minutes": 0,
+                  "day": 2,
+                  "hour": 23,
+                  "minute": 59,
+                  "clockPolicy": "whole-minute-v1",
+                  "scaledMinutes": 0.5,
+                  "remainderBefore": "0",
+                  "remainderAfter": "0.5"
+                }
+              }
+            ],
+            "handle": 1,
+            "callbackSha256": "e898ee64e299368836dae2a98976ab6f505138679fbdaf28ba3251642fe73d14"
+          },
+          "second": {
+            "before": {
+              "world": 2879,
+              "day": 2,
+              "hour": 23,
+              "minute": 59,
+              "clock": {
+                "paused": false,
+                "rate": 0.5,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 0.5,
+                "subMinuteRemainder": "0.5"
+              },
+              "eventSeq": 4,
+              "commandSeq": 1,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000001200,
+                "tickCounter": 1,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000001200
+            },
+            "after": {
+              "world": 2880,
+              "day": 3,
+              "hour": 0,
+              "minute": 0,
+              "clock": {
+                "paused": false,
+                "rate": 0.5,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 1,
+                "subMinuteRemainder": "0"
+              },
+              "eventSeq": 6,
+              "commandSeq": 2,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000002400,
+                "tickCounter": 2,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000002400
+            },
+            "events": [
+              {
+                "eventId": "evt-000005",
+                "seq": 5,
+                "type": "plan.commandPoints.refreshed",
+                "actorId": "camp-autonomy",
+                "commandId": null,
+                "causationId": "cmd-000002",
+                "tick": {
+                  "world": 2880,
+                  "phase": 0,
+                  "schedule": 1
+                },
+                "payload": {
+                  "day": 3,
+                  "before": 0,
+                  "after": 0,
+                  "cap": 0,
+                  "reason": "day-start",
+                  "campTrust": 0,
+                  "campCollapse": 0
+                },
+                "defId": "camp-plan-meeting-001",
+                "definitionVersion": 1,
+                "instanceId": "event-initial",
+                "effects": []
+              },
+              {
+                "eventId": "evt-000006",
+                "seq": 6,
+                "type": "time.advanced",
+                "actorId": "system",
+                "commandId": "cmd-000002",
+                "causationId": null,
+                "tick": {
+                  "world": 2880,
+                  "phase": 0,
+                  "schedule": 1
+                },
+                "payload": {
+                  "minutes": 1,
+                  "day": 3,
+                  "hour": 0,
+                  "minute": 0,
+                  "clockPolicy": "whole-minute-v1",
+                  "scaledMinutes": 0.5,
+                  "remainderBefore": "0.5",
+                  "remainderAfter": "0"
+                }
+              }
+            ],
+            "handle": 1,
+            "callbackSha256": "e898ee64e299368836dae2a98976ab6f505138679fbdaf28ba3251642fe73d14"
+          },
+          "dailyUpkeepReceipt": {
+            "eventId": "evt-000005",
+            "seq": 5,
+            "type": "plan.commandPoints.refreshed",
+            "actorId": "camp-autonomy",
+            "commandId": null,
+            "causationId": "cmd-000002",
+            "tick": {
+              "world": 2880,
+              "phase": 0,
+              "schedule": 1
+            },
+            "payload": {
+              "day": 3,
+              "before": 0,
+              "after": 0,
+              "cap": 0,
+              "reason": "day-start",
+              "campTrust": 0,
+              "campCollapse": 0
+            },
+            "defId": "camp-plan-meeting-001",
+            "definitionVersion": 1,
+            "instanceId": "event-initial",
+            "effects": []
+          },
+          "writer": {
+            "path": "clock-native.json.artifacts/midnight-day-2-after-actual-writer.json",
+            "bytes": 70221,
+            "sha256": "406a4c00e8d9ba9d00c0c37434f9d200402430d5db8d7efe001394031019e1d1"
+          },
+          "afterContinue": {
+            "path": "clock-native.json.artifacts/midnight-day-2-Continue-new-whole-actual-writer.json",
+            "bytes": 72777,
+            "sha256": "0c15435f85592c0315131938c23deba4a64b7aa395249a061c39bb0469adbc18"
+          }
+        },
+        {
+          "fixture": {
+            "name": "midnight-day-3",
+            "input": {
+              "path": "clock-native.json.artifacts/midnight-day-3-input.json",
+              "bytes": 31780,
+              "sha256": "4c7c48cd4c18c3107f7478c71f597da80f886bcc128771446fa4b653fe48141a"
+            },
+            "changes": [
+              {
+                "path": "payload.day",
+                "before": 1,
+                "after": 3
+              },
+              {
+                "path": "payload.hour",
+                "before": 6,
+                "after": 23
+              },
+              {
+                "path": "payload.minute",
+                "before": 0,
+                "after": 59
+              },
+              {
+                "path": "payload.world.lastDailyUpkeepDay",
+                "before": 1,
+                "after": 3
+              },
+              {
+                "path": "payload.world.lastRationDay",
+                "before": 1,
+                "after": 3
+              },
+              {
+                "path": "payload.world.totalMinutes",
+                "before": 360,
+                "after": 4319
+              },
+              {
+                "path": "payload.worldMeta.clock.rate",
+                "before": 1,
+                "after": 0.5
+              }
+            ],
+            "testOnly": true
+          },
+          "first": {
+            "before": {
+              "world": 4319,
+              "day": 3,
+              "hour": 23,
+              "minute": 59,
+              "clock": {
+                "paused": false,
+                "rate": 0.5,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 0
+              },
+              "eventSeq": 3,
+              "commandSeq": 0,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000000000,
+                "tickCounter": 0,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000000000
+            },
+            "after": {
+              "world": 4319,
+              "day": 3,
+              "hour": 23,
+              "minute": 59,
+              "clock": {
+                "paused": false,
+                "rate": 0.5,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 0.5,
+                "subMinuteRemainder": "0.5"
+              },
+              "eventSeq": 4,
+              "commandSeq": 1,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000001200,
+                "tickCounter": 1,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000001200
+            },
+            "events": [
+              {
+                "eventId": "evt-000004",
+                "seq": 4,
+                "type": "time.advanced",
+                "actorId": "system",
+                "commandId": "cmd-000001",
+                "causationId": null,
+                "tick": {
+                  "world": 4319,
+                  "phase": 0,
+                  "schedule": 0.5
+                },
+                "payload": {
+                  "minutes": 0,
+                  "day": 3,
+                  "hour": 23,
+                  "minute": 59,
+                  "clockPolicy": "whole-minute-v1",
+                  "scaledMinutes": 0.5,
+                  "remainderBefore": "0",
+                  "remainderAfter": "0.5"
+                }
+              }
+            ],
+            "handle": 1,
+            "callbackSha256": "e898ee64e299368836dae2a98976ab6f505138679fbdaf28ba3251642fe73d14"
+          },
+          "second": {
+            "before": {
+              "world": 4319,
+              "day": 3,
+              "hour": 23,
+              "minute": 59,
+              "clock": {
+                "paused": false,
+                "rate": 0.5,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 0.5,
+                "subMinuteRemainder": "0.5"
+              },
+              "eventSeq": 4,
+              "commandSeq": 1,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000001200,
+                "tickCounter": 1,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000001200
+            },
+            "after": {
+              "world": 4320,
+              "day": 4,
+              "hour": 0,
+              "minute": 0,
+              "clock": {
+                "paused": false,
+                "rate": 0.5,
+                "phaseMinutes": 0,
+                "scheduleMinutes": 1,
+                "subMinuteRemainder": "0"
+              },
+              "eventSeq": 6,
+              "commandSeq": 2,
+              "session": "DAY",
+              "timer": {
+                "handle": 1,
+                "lastTickAt": 1700000002400,
+                "tickCounter": 2,
+                "epoch": 2,
+                "generation": 0
+              },
+              "now": 1700000002400
+            },
+            "events": [
+              {
+                "eventId": "evt-000005",
+                "seq": 5,
+                "type": "plan.commandPoints.refreshed",
+                "actorId": "camp-autonomy",
+                "commandId": null,
+                "causationId": "cmd-000002",
+                "tick": {
+                  "world": 4320,
+                  "phase": 0,
+                  "schedule": 1
+                },
+                "payload": {
+                  "day": 4,
+                  "before": 0,
+                  "after": 0,
+                  "cap": 0,
+                  "reason": "day-start",
+                  "campTrust": 0,
+                  "campCollapse": 0
+                },
+                "defId": "camp-plan-meeting-001",
+                "definitionVersion": 1,
+                "instanceId": "event-initial",
+                "effects": []
+              },
+              {
+                "eventId": "evt-000006",
+                "seq": 6,
+                "type": "time.advanced",
+                "actorId": "system",
+                "commandId": "cmd-000002",
+                "causationId": null,
+                "tick": {
+                  "world": 4320,
+                  "phase": 0,
+                  "schedule": 1
+                },
+                "payload": {
+                  "minutes": 1,
+                  "day": 4,
+                  "hour": 0,
+                  "minute": 0,
+                  "clockPolicy": "whole-minute-v1",
+                  "scaledMinutes": 0.5,
+                  "remainderBefore": "0.5",
+                  "remainderAfter": "0"
+                }
+              }
+            ],
+            "handle": 1,
+            "callbackSha256": "e898ee64e299368836dae2a98976ab6f505138679fbdaf28ba3251642fe73d14"
+          },
+          "dailyUpkeepReceipt": {
+            "eventId": "evt-000005",
+            "seq": 5,
+            "type": "plan.commandPoints.refreshed",
+            "actorId": "camp-autonomy",
+            "commandId": null,
+            "causationId": "cmd-000002",
+            "tick": {
+              "world": 4320,
+              "phase": 0,
+              "schedule": 1
+            },
+            "payload": {
+              "day": 4,
+              "before": 0,
+              "after": 0,
+              "cap": 0,
+              "reason": "day-start",
+              "campTrust": 0,
+              "campCollapse": 0
+            },
+            "defId": "camp-plan-meeting-001",
+            "definitionVersion": 1,
+            "instanceId": "event-initial",
+            "effects": []
+          },
+          "writer": {
+            "path": "clock-native.json.artifacts/midnight-day-3-after-actual-writer.json",
+            "bytes": 70221,
+            "sha256": "a4d9e6d9e425b5258740e404416b0256d64652e46dd6f4d787e1c54713434fcf"
+          },
+          "afterContinue": {
+            "path": "clock-native.json.artifacts/midnight-day-3-Continue-new-whole-actual-writer.json",
+            "bytes": 72777,
+            "sha256": "df4b78850c6e8e46676241c802da62f7c0a6abfbffa8431d963ee3305c0d07bf"
+          }
+        }
+      ],
+      "continuousThreeDayGameplayClaim": false
+    },
+    {
+      "group": "normal-writer-compatibility",
+      "compatibility": [
+        {
+          "original": {
+            "repositoryPath": "scripts/fixtures/legacy-save18/DAY18-save.json",
+            "sha256": "0fe3b3e33d630621feb20cba3bb08b4db7cef247464d3b32f748c3c17bf829c3",
+            "artifact": {
+              "path": "clock-native.json.artifacts/original-DAY18-original-native.json",
+              "bytes": 58883,
+              "sha256": "0fe3b3e33d630621feb20cba3bb08b4db7cef247464d3b32f748c3c17bf829c3"
+            }
+          },
+          "first": {
+            "path": "clock-native.json.artifacts/original-DAY18-current-normal-writer-actual-writer.json",
+            "bytes": 73132,
+            "sha256": "914b0425843a850ce434aeac5c064e8bdbb98a2a79adff830916d58ae71d9627"
+          },
+          "second": {
+            "path": "clock-native.json.artifacts/original-DAY18-second-Continue-writer-actual-writer.json",
+            "bytes": 73132,
+            "sha256": "914b0425843a850ce434aeac5c064e8bdbb98a2a79adff830916d58ae71d9627"
+          }
+        },
+        {
+          "original": {
+            "repositoryPath": "docs/qa/runs/player-day-attack-v1-20261018/selected/objects/b464332ecb94f04e112cb79daf9cb2b936e4d8f58e01c58e4de2507524340296.json",
+            "sha256": "b464332ecb94f04e112cb79daf9cb2b936e4d8f58e01c58e4de2507524340296",
+            "artifact": {
+              "path": "clock-native.json.artifacts/actual-public-F-current-native-original-native.json",
+              "bytes": 244372,
+              "sha256": "b464332ecb94f04e112cb79daf9cb2b936e4d8f58e01c58e4de2507524340296"
+            }
+          },
+          "first": {
+            "path": "clock-native.json.artifacts/actual-public-F-current-native-current-normal-writer-actual-writer.json",
+            "bytes": 244348,
+            "sha256": "fcc80281ddce38dec1ef8157c98752736a6e9634c7e7fd0cdaa18b05d2dff1c0"
+          },
+          "second": {
+            "path": "clock-native.json.artifacts/actual-public-F-current-native-second-Continue-writer-actual-writer.json",
+            "bytes": 244348,
+            "sha256": "fcc80281ddce38dec1ef8157c98752736a6e9634c7e7fd0cdaa18b05d2dff1c0"
+          }
+        }
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "clock-native.json.artifacts/original-old-writer.json",
+      "bytes": 63429,
+      "sha256": "ebd2c2a6f1ab12b0e62dc6ba235231b4a229916759cdf1662c2594ed9ac4c7e6"
+    },
+    {
+      "path": "clock-native.json.artifacts/half-rate-original-callback-input.json",
+      "bytes": 31776,
+      "sha256": "ec2ba9363f28dfb0fb0328e3d001836d9354b5245344dffb2cdd26d87aa8fd34"
+    },
+    {
+      "path": "clock-native.json.artifacts/before-tick-actual-writer.json",
+      "bytes": 65584,
+      "sha256": "d7536b8957e4198cfb69759a6611feefa04a87e647f79747f1bf9fea578218e0"
+    },
+    {
+      "path": "clock-native.json.artifacts/after-tick-actual-writer.json",
+      "bytes": 66682,
+      "sha256": "5835d8c461053662f92da71d64a597058f2bec39abe4e240007375381106320e"
+    },
+    {
+      "path": "clock-native.json.artifacts/cumulative-0.25-input.json",
+      "bytes": 31777,
+      "sha256": "357fc25ddcce9e9db0c274706746c2e95691cf8778e289f88572f0673211204c"
+    },
+    {
+      "path": "clock-native.json.artifacts/cumulative-0.25-step-0-actual-writer.json",
+      "bytes": 66698,
+      "sha256": "72eb482ef84ba9442852ee743ead4913c605046fd93d9749e083d67a8589605c"
+    },
+    {
+      "path": "clock-native.json.artifacts/cumulative-0.25-step-1-actual-writer.json",
+      "bytes": 67748,
+      "sha256": "e2b671c97eafa480b9e0fcae5e3262fb983503e40484a25f4d36e65ae3c55d76"
+    },
+    {
+      "path": "clock-native.json.artifacts/cumulative-0.25-step-2-actual-writer.json",
+      "bytes": 68808,
+      "sha256": "32483a3dce994b00dbb66e5251be0b38fe8e0bb69eb6c920337cf1ca432da112"
+    },
+    {
+      "path": "clock-native.json.artifacts/cumulative-0.25-step-3-actual-writer.json",
+      "bytes": 71442,
+      "sha256": "3417a7d34e77ba4b3cdd7c43a576e5aab57f93ad2269e1c396af269335ec04e5"
+    },
+    {
+      "path": "clock-native.json.artifacts/cumulative-0.5-input.json",
+      "bytes": 31776,
+      "sha256": "ec2ba9363f28dfb0fb0328e3d001836d9354b5245344dffb2cdd26d87aa8fd34"
+    },
+    {
+      "path": "clock-native.json.artifacts/cumulative-0.5-step-0-actual-writer.json",
+      "bytes": 66682,
+      "sha256": "5835d8c461053662f92da71d64a597058f2bec39abe4e240007375381106320e"
+    },
+    {
+      "path": "clock-native.json.artifacts/cumulative-0.5-step-1-actual-writer.json",
+      "bytes": 69312,
+      "sha256": "6db6080a7e16dcf1a65c35995a3dd3bcea326931570406192896761486c4b4f4"
+    },
+    {
+      "path": "clock-native.json.artifacts/cumulative-0.8-input.json",
+      "bytes": 31776,
+      "sha256": "a15d2a9bfb6989b8de4a12edf3ffe22305cd3d33368be7e8209a239e235f0124"
+    },
+    {
+      "path": "clock-native.json.artifacts/cumulative-0.8-step-0-actual-writer.json",
+      "bytes": 66682,
+      "sha256": "abc6716011c204b0e4d476af797cd1f68bd1c560622177628c856e72e46fc110"
+    },
+    {
+      "path": "clock-native.json.artifacts/cumulative-0.8-step-1-actual-writer.json",
+      "bytes": 69332,
+      "sha256": "e8f0c506285ad3e7815225d45ade7c7444793850c36ced14b7f0bfe6e6318678"
+    },
+    {
+      "path": "clock-native.json.artifacts/cumulative-0.8-step-2-actual-writer.json",
+      "bytes": 70918,
+      "sha256": "8fdebb1da337ef8fab18bbf28103e01871541aabd88714ba4a66e312697c33cc"
+    },
+    {
+      "path": "clock-native.json.artifacts/cumulative-0.8-step-3-actual-writer.json",
+      "bytes": 72410,
+      "sha256": "019d9a6dddc71ea2778a95a0add0ebdecff0af4ba5703f99ce2fbee2c980989f"
+    },
+    {
+      "path": "clock-native.json.artifacts/cumulative-0.8-step-4-actual-writer.json",
+      "bytes": 73418,
+      "sha256": "04359e151e48304243b71b6819ab558b6068e1d9bedf68182505098181e28c0c"
+    },
+    {
+      "path": "clock-native.json.artifacts/cumulative-1-input.json",
+      "bytes": 31774,
+      "sha256": "5bd146476fa616cacf7c7b0c819d0862df683d8e1318c2f0e21e1fac4f3cb5ca"
+    },
+    {
+      "path": "clock-native.json.artifacts/cumulative-1-step-0-actual-writer.json",
+      "bytes": 67825,
+      "sha256": "d20b567048fd4faa5f9c0f6810f766af9db9518b6a3d0e1caf108e8d0aac7572"
+    },
+    {
+      "path": "clock-native.json.artifacts/cumulative-1-step-1-actual-writer.json",
+      "bytes": 68951,
+      "sha256": "fae1b1115c7b613fa51da160181df23138e4a65f17330f30a55c578da3c16920"
+    },
+    {
+      "path": "clock-native.json.artifacts/cumulative-1-step-2-actual-writer.json",
+      "bytes": 70074,
+      "sha256": "69b781f24482982d2edd0db337ea0c5004e19e52db8c6a743503aaa334e28c7e"
+    },
+    {
+      "path": "clock-native.json.artifacts/cumulative-1.5-input.json",
+      "bytes": 31776,
+      "sha256": "445537c2cec2246bec33e28e7831adaf022cd67b265625dda52eaf26f866a5cc"
+    },
+    {
+      "path": "clock-native.json.artifacts/cumulative-1.5-step-0-actual-writer.json",
+      "bytes": 68286,
+      "sha256": "02d5dda690d3b0ff0a45b3fa8c888c416ac711f100de2d5a5d7bd6c441c92d4f"
+    },
+    {
+      "path": "clock-native.json.artifacts/cumulative-1.5-step-1-actual-writer.json",
+      "bytes": 69783,
+      "sha256": "83a869da5c53bc4bb9efde29b749cbe4a2ee3048c4019aefddaf2df6ea120892"
+    },
+    {
+      "path": "clock-native.json.artifacts/cumulative-4-input.json",
+      "bytes": 31774,
+      "sha256": "69014990bb7c2e4cee1472be6f2195631663f4e6d57a6ac45deb8947fb6cba42"
+    },
+    {
+      "path": "clock-native.json.artifacts/cumulative-4-step-0-actual-writer.json",
+      "bytes": 67806,
+      "sha256": "1a0b35c6c5e5440ddaaf60133208607a0f757f913da430f82b5f8a93f7571283"
+    },
+    {
+      "path": "clock-native.json.artifacts/cumulative-4-step-1-actual-writer.json",
+      "bytes": 69254,
+      "sha256": "ce71bde87e0aa0eeb38c9c43c303142c9335ec75d465ffdc5f6170db1d0b26b7"
+    },
+    {
+      "path": "clock-native.json.artifacts/credit-across-Continue-input.json",
+      "bytes": 31777,
+      "sha256": "357fc25ddcce9e9db0c274706746c2e95691cf8778e289f88572f0673211204c"
+    },
+    {
+      "path": "clock-native.json.artifacts/pending-quarter-before-Continue-actual-writer.json",
+      "bytes": 66698,
+      "sha256": "72eb482ef84ba9442852ee743ead4913c605046fd93d9749e083d67a8589605c"
+    },
+    {
+      "path": "clock-native.json.artifacts/pending-quarter-after-Continue-three-callbacks-actual-writer.json",
+      "bytes": 71442,
+      "sha256": "3417a7d34e77ba4b3cdd7c43a576e5aab57f93ad2269e1c396af269335ec04e5"
+    },
+    {
+      "path": "clock-native.json.artifacts/paid-attack-0.5-input.json",
+      "bytes": 31802,
+      "sha256": "b489b9b4fa63cd68abba4d79a508c7e7152d5ae139543f2e62155e5d5901a60d"
+    },
+    {
+      "path": "clock-native.json.artifacts/paid-attack-0.5-after-actual-writer.json",
+      "bytes": 72578,
+      "sha256": "c31a7a8e7d079bd358ee5f2f8338b1235b33e354c59ec98c06f055960f8bcac8"
+    },
+    {
+      "path": "clock-native.json.artifacts/paid-attack-0.8-input.json",
+      "bytes": 31802,
+      "sha256": "88602615db7206782bb2c4ea73abad6c24bcc7a3034e8014d49a437bd4425935"
+    },
+    {
+      "path": "clock-native.json.artifacts/paid-attack-0.8-after-actual-writer.json",
+      "bytes": 72561,
+      "sha256": "325d3800d051f35c9c94b46d78f494cea7b9e7f114345705d938b7fb628ad605"
+    },
+    {
+      "path": "clock-native.json.artifacts/paid-attack-1-input.json",
+      "bytes": 31800,
+      "sha256": "6d79a584aea1cc2b99ff6806c1dd1a84f800139fb56175b896a92c2e5c495523"
+    },
+    {
+      "path": "clock-native.json.artifacts/paid-attack-1-after-actual-writer.json",
+      "bytes": 72507,
+      "sha256": "c74ea8c1391616e08bcecae73605a40d61a3ef9d928f3f4c06070c80e50ab804"
+    },
+    {
+      "path": "clock-native.json.artifacts/clock-ownership-input.json",
+      "bytes": 31777,
+      "sha256": "357fc25ddcce9e9db0c274706746c2e95691cf8778e289f88572f0673211204c"
+    },
+    {
+      "path": "clock-native.json.artifacts/clock-ownership-final-actual-writer.json",
+      "bytes": 70408,
+      "sha256": "442a8d48b1de87431b14d57669daf1822d6510c5cd4f203fa7d956b480638625"
+    },
+    {
+      "path": "clock-native.json.artifacts/rest-preserves-credit-input.json",
+      "bytes": 31802,
+      "sha256": "86b2ede0749067d2ef249b45b13cd359c82b5665b4dd40992b322c8e116e91c6"
+    },
+    {
+      "path": "clock-native.json.artifacts/rest-preserves-credit-final-actual-writer.json",
+      "bytes": 71860,
+      "sha256": "b5eba281f0023f631cfa416e5989beb9cec1f9f49cc8a04036fcd8dc0852e9f0"
+    },
+    {
+      "path": "clock-native.json.artifacts/duplicate-credit-and-writer-guard-input.json",
+      "bytes": 31776,
+      "sha256": "ec2ba9363f28dfb0fb0328e3d001836d9354b5245344dffb2cdd26d87aa8fd34"
+    },
+    {
+      "path": "clock-native.json.artifacts/valid-primary-first-actual-writer.json",
+      "bytes": 65584,
+      "sha256": "d7536b8957e4198cfb69759a6611feefa04a87e647f79747f1bf9fea578218e0"
+    },
+    {
+      "path": "clock-native.json.artifacts/valid-primary-with-credit-actual-writer.json",
+      "bytes": 66724,
+      "sha256": "9fbcd06e85a082f846cf6d65bb614c5d58c94eab10898428794bd21531385f6b"
+    },
+    {
+      "path": "clock-native.json.artifacts/live-own-undefined-writer-refusal.json",
+      "bytes": 792,
+      "sha256": "3ca42e02ff5a81eb34d1a3d3d4ec489f6fe463da20653467785849ac178ab06a"
+    },
+    {
+      "path": "clock-native.json.artifacts/valid-after-rejected-candidate-actual-writer.json",
+      "bytes": 66724,
+      "sha256": "9fbcd06e85a082f846cf6d65bb614c5d58c94eab10898428794bd21531385f6b"
+    },
+    {
+      "path": "clock-native.json.artifacts/legacy-missing-zero-input.json",
+      "bytes": 31774,
+      "sha256": "5bd146476fa616cacf7c7b0c819d0862df683d8e1318c2f0e21e1fac4f3cb5ca"
+    },
+    {
+      "path": "clock-native.json.artifacts/old-missing-zero-after-integer-actual-writer.json",
+      "bytes": 67904,
+      "sha256": "efdd0438fe1717d18912d14897a8dcfb89973ea64c3b634e6b45273316302418"
+    },
+    {
+      "path": "clock-native.json.artifacts/canonical-324-places-input.json",
+      "bytes": 32124,
+      "sha256": "dae6d8cdaeda57544101ae0e47709cf61fe9833a8c3ce345e8b337186611aa9f"
+    },
+    {
+      "path": "clock-native.json.artifacts/canonical-324-places-actual-writer.json",
+      "bytes": 66280,
+      "sha256": "e7ce686792a4c118dbc5fae0748f0ce30c29b85511b446742492f14207cbec2c"
+    },
+    {
+      "path": "clock-native.json.artifacts/invalid-remainder-numeric.json",
+      "bytes": 31759,
+      "sha256": "68de932b4df866f3f98cae9969d80b2a5e0958dca48dad0fa4eca8e881838d55"
+    },
+    {
+      "path": "clock-native.json.artifacts/invalid-remainder-trailing-zero.json",
+      "bytes": 31762,
+      "sha256": "eed8762442927cfedfc67d03807ac9fa04bc7a03a43ab865ea57c514b232df21"
+    },
+    {
+      "path": "clock-native.json.artifacts/invalid-remainder-negative.json",
+      "bytes": 31762,
+      "sha256": "05750f6a615649cb20716a584528fbea98c81a92de60a6eeb1ef947bc20668a0"
+    },
+    {
+      "path": "clock-native.json.artifacts/invalid-remainder-325-places.json",
+      "bytes": 32085,
+      "sha256": "7c95546044a76540982feb6ec07c831ca73cfda666e94de1e9adb3918fed9f53"
+    },
+    {
+      "path": "clock-native.json.artifacts/midnight-day-1-input.json",
+      "bytes": 31780,
+      "sha256": "15cbc89b049b8d8790286eb0257c6914b96509e84e019809a08f6e064189a123"
+    },
+    {
+      "path": "clock-native.json.artifacts/midnight-day-1-after-actual-writer.json",
+      "bytes": 70221,
+      "sha256": "26329b9e45f13d81dbd22d6698033098db446a51ea0803c255b8c430f851412d"
+    },
+    {
+      "path": "clock-native.json.artifacts/midnight-day-1-Continue-new-whole-actual-writer.json",
+      "bytes": 72777,
+      "sha256": "8a416238847e500aef6030a82e7b32db2cf7477a551d6e26e2e787f57634fdb5"
+    },
+    {
+      "path": "clock-native.json.artifacts/midnight-day-2-input.json",
+      "bytes": 31780,
+      "sha256": "b40fa69d6879d0520995138881f4cf24a4cd7382c8ce995036dcf50637484622"
+    },
+    {
+      "path": "clock-native.json.artifacts/midnight-day-2-after-actual-writer.json",
+      "bytes": 70221,
+      "sha256": "406a4c00e8d9ba9d00c0c37434f9d200402430d5db8d7efe001394031019e1d1"
+    },
+    {
+      "path": "clock-native.json.artifacts/midnight-day-2-Continue-new-whole-actual-writer.json",
+      "bytes": 72777,
+      "sha256": "0c15435f85592c0315131938c23deba4a64b7aa395249a061c39bb0469adbc18"
+    },
+    {
+      "path": "clock-native.json.artifacts/midnight-day-3-input.json",
+      "bytes": 31780,
+      "sha256": "4c7c48cd4c18c3107f7478c71f597da80f886bcc128771446fa4b653fe48141a"
+    },
+    {
+      "path": "clock-native.json.artifacts/midnight-day-3-after-actual-writer.json",
+      "bytes": 70221,
+      "sha256": "a4d9e6d9e425b5258740e404416b0256d64652e46dd6f4d787e1c54713434fcf"
+    },
+    {
+      "path": "clock-native.json.artifacts/midnight-day-3-Continue-new-whole-actual-writer.json",
+      "bytes": 72777,
+      "sha256": "df4b78850c6e8e46676241c802da62f7c0a6abfbffa8431d963ee3305c0d07bf"
+    },
+    {
+      "path": "clock-native.json.artifacts/original-DAY18-original-native.json",
+      "bytes": 58883,
+      "sha256": "0fe3b3e33d630621feb20cba3bb08b4db7cef247464d3b32f748c3c17bf829c3"
+    },
+    {
+      "path": "clock-native.json.artifacts/original-DAY18-current-normal-writer-actual-writer.json",
+      "bytes": 73132,
+      "sha256": "914b0425843a850ce434aeac5c064e8bdbb98a2a79adff830916d58ae71d9627"
+    },
+    {
+      "path": "clock-native.json.artifacts/original-DAY18-second-Continue-writer-actual-writer.json",
+      "bytes": 73132,
+      "sha256": "914b0425843a850ce434aeac5c064e8bdbb98a2a79adff830916d58ae71d9627"
+    },
+    {
+      "path": "clock-native.json.artifacts/actual-public-F-current-native-original-native.json",
+      "bytes": 244372,
+      "sha256": "b464332ecb94f04e112cb79daf9cb2b936e4d8f58e01c58e4de2507524340296"
+    },
+    {
+      "path": "clock-native.json.artifacts/actual-public-F-current-native-current-normal-writer-actual-writer.json",
+      "bytes": 244348,
+      "sha256": "fcc80281ddce38dec1ef8157c98752736a6e9634c7e7fd0cdaa18b05d2dff1c0"
+    },
+    {
+      "path": "clock-native.json.artifacts/actual-public-F-current-native-second-Continue-writer-actual-writer.json",
+      "bytes": 244348,
+      "sha256": "fcc80281ddce38dec1ef8157c98752736a6e9634c7e7fd0cdaa18b05d2dff1c0"
+    }
+  ],
+  "inputs": {
+    "checker": {
+      "sha256": "b67464d7d92f80484f78728f5bd66a60deabf853f52615400987abb559f939db",
+      "bytes": 29193
+    },
+    "io": {
+      "sha256": "6e0da555742e930b8bf926eeec0db0ee22f17240a4fa305978841f8ba862c0a3",
+      "bytes": 51172
+    },
+    "ioRuntimeFactory": {
+      "sha256": "5dc89410d5f4a1ce303bbdb03370f6f08c646e38d426a39e7dacd3a3f4e2b89d",
+      "bytes": 7955
+    },
+    "originalWriter": {
+      "path": "clock-native.json.artifacts/original-old-writer.json",
+      "bytes": 63429,
+      "sha256": "ebd2c2a6f1ab12b0e62dc6ba235231b4a229916759cdf1662c2594ed9ac4c7e6"
+    }
+  },
+  "scope": {
+    "sourceVM": true,
+    "actualRegisteredCallbacks": true,
+    "directAdvanceSubstitutesForTimer": false,
+    "candidatePreparationIncomplete": false,
+    "browser": false,
+    "naturalGameplay": false,
+    "productFixAcceptance": true,
+    "calendarBoundaryScope": "Three independent TEST-ONLY day1/2/3 midnight boundaries; no continuous three-day survival or full-world chunk equivalence claim",
+    "note": "Eight grouped persistence contracts, including actual midnight consumers and global normal-writer compatibility. Baseline uses one original public-consumer countercontrol; no missing-new-API product negative."
+  }
+}

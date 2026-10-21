@@ -1,0 +1,47 @@
+{
+  "id": "watermill-repair-gate-v1",
+  "description": "Positive GateV1 repair save projection: day 4, discovered watermill, trust 30, healthy carpenter, 20 parts.",
+  "commandId": "fixture-watermill-repair-001",
+  "state": {
+    "day": 4,
+    "hour": 8,
+    "minute": 0,
+    "night": false,
+    "gameOver": null,
+    "parts": 20,
+    "npcs": [
+      {
+        "id": "carpenter",
+        "name": "阿梁",
+        "hp": 100,
+        "lifeState": "healthy"
+      }
+    ],
+    "landmarks": [
+      {
+        "id": "watermill-repair-fixture",
+        "type": "waterMill",
+        "found": true
+      }
+    ],
+    "contentState": {
+      "meters": {
+        "campTrust": 30,
+        "campCollapse": 10,
+        "resonancePressure": 25
+      },
+      "activeChains": {},
+      "completedChains": [],
+      "appliedEffects": [],
+      "flags": {}
+    }
+  },
+  "expected": {
+    "parts": 0,
+    "campCollapse": 6,
+    "watermillFlag": "watermill_t2",
+    "completedChain": "watermill-002",
+    "appliedEffect": "watermill-002:repair_gate:repair"
+  }
+}
+

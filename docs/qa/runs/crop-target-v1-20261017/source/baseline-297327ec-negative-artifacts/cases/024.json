@@ -1,0 +1,368 @@
+{
+  "name": "rendered target removed before click refuses instead of switching plots",
+  "inputClassification": "TEST-ONLY-derived-from-original-writer",
+  "derivations": [
+    {
+      "playerOnly": {
+        "x": 7,
+        "y": 13
+      }
+    },
+    "remove rendered plot, add other legal plot"
+  ],
+  "observations": [
+    {
+      "actualContextRenderer": {
+        "title": "菜畦",
+        "crop": {
+          "disabled": false,
+          "attrs": {
+            "class": "context-action primary",
+            "data-context-action": "crop",
+            "data-context-index": "0"
+          },
+          "dataset": {
+            "contextAction": "crop",
+            "contextIndex": "0"
+          },
+          "text": "<kbd class=\"action-index\">1</kbd>🌱 播种<small>消耗 4 行动体力 · 消耗 1 种子</small>"
+        },
+        "building": {
+          "disabled": false,
+          "attrs": {
+            "class": "context-action primary",
+            "data-context-action": "building",
+            "data-context-index": "1"
+          },
+          "dataset": {
+            "contextAction": "building",
+            "contextIndex": "1"
+          },
+          "text": "<kbd class=\"action-index\">2</kbd>⚙️ 使用建筑<small>互动：播种或收获 · 不移动位置；结果会写入日志和世界事件</small>"
+        },
+        "html": "<button class=\"context-action primary\" data-context-action=\"crop\" data-context-index=\"0\" ><kbd class=\"action-index\">1</kbd>🌱 播种<small>消耗 4 行动体力 · 消耗 1 种子</small></button><button class=\"context-action primary\" data-context-action=\"building\" data-context-index=\"1\" ><kbd class=\"action-index\">2</kbd>⚙️ 使用建筑<small>互动：播种或收获 · 不移动位置；结果会写入日志和世界事件</small></button><button class=\"context-action \" data-context-action=\"evolve\" data-context-index=\"2\" ><kbd class=\"action-index\">3</kbd>🧬 查看建筑进化<small>需要蓝图、材料和对应 NPC 羁绊</small></button>"
+      }
+    },
+    {
+      "events": [
+        {
+          "eventId": "evt-000114",
+          "seq": 114,
+          "type": "npc.work.completed",
+          "actorId": "carpenter",
+          "commandId": null,
+          "causationId": "cmd-000277",
+          "tick": {
+            "world": 489,
+            "phase": 0,
+            "schedule": 129
+          },
+          "payload": {
+            "workId": "work.carpenter.2",
+            "npcId": "carpenter",
+            "role": "carpenter",
+            "task": "检查工坊与墙体库存",
+            "destination": "workshop",
+            "relayProjectId": null
+          }
+        },
+        {
+          "eventId": "evt-000115",
+          "seq": 115,
+          "type": "npc.work.completed",
+          "actorId": "doctor",
+          "commandId": null,
+          "causationId": "cmd-000277",
+          "tick": {
+            "world": 489,
+            "phase": 0,
+            "schedule": 129
+          },
+          "payload": {
+            "workId": "work.doctor.2",
+            "npcId": "doctor",
+            "role": "doctor",
+            "task": "巡查伤员与医务库存",
+            "destination": "infirmary",
+            "relayProjectId": null
+          }
+        },
+        {
+          "eventId": "evt-000116",
+          "seq": 116,
+          "type": "npc.work.completed",
+          "actorId": "radio",
+          "commandId": null,
+          "causationId": "cmd-000277",
+          "tick": {
+            "world": 489,
+            "phase": 0,
+            "schedule": 129
+          },
+          "payload": {
+            "workId": "work.radio.2",
+            "npcId": "radio",
+            "role": "radio",
+            "task": "监听频道并标记尸群方向",
+            "destination": "command",
+            "relayProjectId": null
+          }
+        },
+        {
+          "eventId": "evt-000117",
+          "seq": 117,
+          "type": "npc.work.completed",
+          "actorId": "commander",
+          "commandId": null,
+          "causationId": "cmd-000277",
+          "tick": {
+            "world": 489,
+            "phase": 0,
+            "schedule": 129
+          },
+          "payload": {
+            "workId": "work.commander.2",
+            "npcId": "commander",
+            "role": "commander",
+            "task": "分派营地岗位与防线任务",
+            "destination": "command",
+            "relayProjectId": null
+          }
+        },
+        {
+          "eventId": "evt-000118",
+          "seq": 118,
+          "type": "npc.work.completed",
+          "actorId": "guardJi",
+          "commandId": null,
+          "causationId": "cmd-000277",
+          "tick": {
+            "world": 489,
+            "phase": 0,
+            "schedule": 129
+          },
+          "payload": {
+            "workId": "work.guardJi.2",
+            "npcId": "guardJi",
+            "role": "guardJi",
+            "task": "巡检防线与索敌范围",
+            "destination": "eastGate",
+            "relayProjectId": null
+          }
+        },
+        {
+          "eventId": "evt-000119",
+          "seq": 119,
+          "type": "npc.work.completed",
+          "actorId": "guardChen",
+          "commandId": null,
+          "causationId": "cmd-000277",
+          "tick": {
+            "world": 489,
+            "phase": 0,
+            "schedule": 129
+          },
+          "payload": {
+            "workId": "work.guardChen.2",
+            "npcId": "guardChen",
+            "role": "guardChen",
+            "task": "巡检防线与索敌范围",
+            "destination": "northGate",
+            "relayProjectId": null
+          }
+        },
+        {
+          "eventId": "evt-000120",
+          "seq": 120,
+          "type": "npc.work.completed",
+          "actorId": "guardJiang",
+          "commandId": null,
+          "causationId": "cmd-000277",
+          "tick": {
+            "world": 489,
+            "phase": 0,
+            "schedule": 129
+          },
+          "payload": {
+            "workId": "work.guardJiang.2",
+            "npcId": "guardJiang",
+            "role": "guardJiang",
+            "task": "巡检防线与索敌范围",
+            "destination": "eastOutpost",
+            "relayProjectId": null
+          }
+        },
+        {
+          "eventId": "evt-000121",
+          "seq": 121,
+          "type": "npc.work.completed",
+          "actorId": "quartermaster",
+          "commandId": null,
+          "causationId": "cmd-000277",
+          "tick": {
+            "world": 489,
+            "phase": 0,
+            "schedule": 129
+          },
+          "payload": {
+            "workId": "work.quartermaster.2",
+            "npcId": "quartermaster",
+            "role": "quartermaster",
+            "task": "盘点仓库并整理物流",
+            "destination": "warehouse",
+            "relayProjectId": null
+          }
+        },
+        {
+          "eventId": "evt-000122",
+          "seq": 122,
+          "type": "npc.work.completed",
+          "actorId": "cook",
+          "commandId": null,
+          "causationId": "cmd-000277",
+          "tick": {
+            "world": 489,
+            "phase": 0,
+            "schedule": 129
+          },
+          "payload": {
+            "workId": "work.cook.2",
+            "npcId": "cook",
+            "role": "cook",
+            "task": "安排营地餐火与配给",
+            "destination": "residence",
+            "relayProjectId": null
+          }
+        },
+        {
+          "eventId": "evt-000123",
+          "seq": 123,
+          "type": "combat.damage.applied",
+          "actorId": "bld-1rhfvwb",
+          "commandId": null,
+          "causationId": "cmd-000277",
+          "tick": {
+            "world": 489,
+            "phase": 0,
+            "schedule": 129
+          },
+          "payload": {
+            "schemaVersion": "CombatIntentV1",
+            "phase": "DAY",
+            "tick": 10,
+            "intentId": "day-48-1",
+            "attackSeq": 1,
+            "profileId": "tower.tower",
+            "sourceId": "bld-1rhfvwb",
+            "targetId": "wz-1",
+            "sourceKind": "tower",
+            "targetKind": "event-enemy",
+            "amount": 10,
+            "before": 10,
+            "after": 0,
+            "damageType": "physical",
+            "sourceEventId": null
+          }
+        },
+        {
+          "eventId": "evt-000124",
+          "seq": 124,
+          "type": "combat.entity.defeated",
+          "actorId": "bld-1rhfvwb",
+          "commandId": null,
+          "causationId": "cmd-000277",
+          "tick": {
+            "world": 489,
+            "phase": 0,
+            "schedule": 129
+          },
+          "payload": {
+            "schemaVersion": "CombatIntentV1",
+            "phase": "DAY",
+            "tick": 10,
+            "intentId": "day-48-1",
+            "attackSeq": 1,
+            "profileId": "tower.tower",
+            "sourceId": "bld-1rhfvwb",
+            "targetId": "wz-1",
+            "sourceKind": "tower",
+            "targetKind": "event-enemy",
+            "amount": 10,
+            "before": 10,
+            "after": 0,
+            "damageType": "physical",
+            "sourceEventId": null,
+            "defeatedAt": 489
+          }
+        },
+        {
+          "eventId": "evt-000125",
+          "seq": 125,
+          "type": "time.advanced",
+          "actorId": "system",
+          "commandId": "cmd-000277",
+          "causationId": "cmd-000276",
+          "tick": {
+            "world": 489,
+            "phase": 0,
+            "schedule": 129
+          },
+          "payload": {
+            "minutes": 20,
+            "day": 1,
+            "hour": 8,
+            "minute": 9
+          }
+        },
+        {
+          "eventId": "evt-000126",
+          "seq": 126,
+          "type": "crop.changed",
+          "actorId": "player-1",
+          "commandId": "cmd-000276",
+          "causationId": null,
+          "tick": {
+            "world": 489,
+            "phase": 0,
+            "schedule": 129
+          },
+          "payload": {}
+        }
+      ],
+      "commands": [
+        {
+          "commandId": "cmd-000276",
+          "type": "crop.change",
+          "actorId": "player-1",
+          "payload": {
+            "buildingId": null
+          }
+        },
+        {
+          "commandId": "cmd-000277",
+          "type": "world.advance",
+          "actorId": "player-1",
+          "payload": {
+            "minutes": 20
+          }
+        }
+      ],
+      "resources": {
+        "wood": 28,
+        "stone": 12,
+        "food": 13,
+        "parts": 5,
+        "medicine": 0,
+        "seeds": 3,
+        "energy": 63,
+        "hp": 100,
+        "sanity": 75,
+        "morale": 72
+      },
+      "minute": 489,
+      "plot": null,
+      "toast": "播种完成"
+    }
+  ],
+  "error": "AssertionError: rejection preserves resources/time/targets/NPCs/content/standing\n+ actual - expected\n... Skipped lines\n\n  {\n    buildings: [\n      {\n        id: 'bld-4ep952',\n        type: 'shelter',\n...\n      {\n+       combatClock: 9,\n-       combatClock: 1,\n        hp: 5,\n        id: 'bld-1rhfvwb',\n        maxHp: 10,\n        type: 'tower',\n        x: 18,\n...\n        id: 'crop-replacement',\n+       planted: true,\n-       planted: false,\n        ready: false,\n        type: 'garden',\n        x: 7,\n        y: 14\n      }\n...\n    },\n+   minute: 489,\n-   minute: 469,\n    npcs: [\n      {\n        actingFor: null,\n        actingRole: null,\n        appearance: {\n...\n        },\n+       facing: 'down',\n        fallbackPoint: {\n          x: 2,\n          y: 2\n        },\n        garrisonedOutpostId: null,\n...\n        },\n+       lastReport: '检查工坊与墙体库存（工作脉冲 2）',\n-       lastReport: '检查工坊与墙体库存（工作脉冲 1）',\n        lifeState: 'healthy',\n        maxHp: 100,\n        memory: {\n          failedOrders: 0,\n          helpedByPlayer: 0,\n...\n        name: '阿梁',\n+       needClock: 9,\n-       needClock: 49,\n        needs: {\n+         energy: 86.46500000000007,\n+         fatigue: 9.18799999999998,\n+         hunger: 20.322000000000028,\n+         safety: 17.484000000000094,\n+         social: 27.425999999999988,\n+         stress: 7.22599999999999\n-         energy: 86.90500000000007,\n-         fatigue: 8.947999999999979,\n-         hunger: 19.962000000000028,\n-         safety: 17.564000000000096,\n-         social: 27.34599999999999,\n-         stress: 7.34599999999999\n        },\n        order: null,\n        perception: {\n          clock: 0,\n          contacts: {},\n...\n        },\n+       prevX: 6.126609044399295,\n+       prevY: 7.981043885132854,\n        relations: {\n          allies: [],\n          belongingToCamp: 62,\n          bondToPlayer: 0,\n          fearOfPlayer: 0,\n...\n        role: '木匠',\n+       sanity: 74,\n+       sanityClock: 9,\n+       sanityLastReason: '岗位压力持续积累（-1）',\n+       scheduleState: '岗位工作 · 检查工坊与墙体库存',\n+       simMoveClock: 0,\n-       sanity: 75,\n-       sanityClock: 19,\n-       sanityLastReason: '休整与岗位安全（+1）',\n-       scheduleState: '休整',\n-       simMoveClock: 4,\n        supportRequested: false,\n+       workClock: 9,\n-       workClock: 49,\n        workHistory: [\n          {\n            at: 433,\n            destination: 'workshop',\n            id: 'work.carpenter.1',\n...\n          },\n+         {\n+           at: 489,\n+           destination: 'workshop',\n+           id: 'work.carpenter.2',\n+           role: 'carpenter',\n+           status: 'completed',\n+           task: '检查工坊与墙体库存'\n+         }\n        ],\n+       workPulseSeq: 2,\n-       workPulseSeq: 1,\n        workZone: 'eastGate',\n        wounds: [],\n+       x: 7.000000000000002,\n+       y: 8.908396292115661\n-       x: 6.124982065965654,\n-       y: 7.97914574362694\n      },\n      {\n        actingFor: null,\n        actingRole: null,\n        appearance: {\n...\n        },\n+       lastReport: '巡查伤员与医务库存（工作脉冲 2）',\n-       lastReport: '巡查伤员与医务库存（工作脉冲 1）',\n        lifeState: 'healthy',\n        maxHp: 100,\n        memory: {\n          failedOrders: 0,\n          helpedByPlayer: 0,\n...\n        morale: 72,\n-       motionTarget: null,\n        name: '苏禾',\n+       needClock: 9,\n-       needClock: 49,\n        needs: {\n+         energy: 86.46500000000007,\n+         fatigue: 9.18799999999998,\n+         hunger: 20.322000000000028,\n+         safety: 17.484000000000094,\n+         social: 27.425999999999988,\n+         stress: 7.22599999999999\n-         energy: 86.90500000000007,\n-         fatigue: 8.947999999999979,\n-         hunger: 19.962000000000028,\n-         safety: 17.564000000000096,\n-         social: 27.34599999999999,\n-         stress: 7.34599999999999\n        },\n        order: null,\n        perception: {\n          clock: 0,\n          contacts: {},\n...\n        role: '医生',\n+       sanity: 74,\n+       sanityClock: 9,\n+       sanityLastReason: '岗位压力持续积累（-1）',\n+       scheduleState: '岗位工作 · 巡查伤员与医务库存',\n+       simMoveClock: 0,\n-       sanity: 75,\n-       sanityClock: 19,\n-       sanityLastReason: '休整与岗位安全（+1）',\n-       scheduleState: '休整',\n-       simMoveClock: 4,\n        supportRequested: false,\n+       workClock: 9,\n-       workClock: 49,\n        workHistory: [\n          {\n            at: 433,\n            destination: 'infirmary',\n            id: 'work.doctor.1',\n...\n          },\n+         {\n+           at: 489,\n+           destination: 'infirmary',\n+           id: 'work.doctor.2',\n+           role: 'doctor',\n+           status: 'completed',\n+           task: '巡查伤员与医务库存'\n+         }\n        ],\n+       workPulseSeq: 2,\n-       workPulseSeq: 1,\n        workZone: 'core',\n        wounds: [],\n        x: 13,\n        y: 9\n      },\n...\n        },\n+       lastReport: '监听频道并标记尸群方向（工作脉冲 2）',\n-       lastReport: '监听频道并标记尸群方向（工作脉冲 1）',\n        lifeState: 'healthy',\n        maxHp: 100,\n        memory: {\n          failedOrders: 0,\n          helpedByPlayer: 0,\n...\n        name: '阿默',\n+       needClock: 9,\n-       needClock: 49,\n        needs: {\n+         energy: 86.46500000000007,\n+         fatigue: 9.18799999999998,\n+         hunger: 20.322000000000028,\n+         safety: 17.484000000000094,\n+         social: 27.425999999999988,\n+         stress: 7.22599999999999\n-         energy: 86.90500000000007,\n-         fatigue: 8.947999999999979,\n-         hunger: 19.962000000000028,\n-         safety: 17.564000000000096,\n-         social: 27.34599999999999,\n-         stress: 7.34599999999999\n        },\n        order: null,\n        perception: {\n          clock: 0,\n          contacts: {},\n...\n        role: '广播员',\n+       sanity: 74,\n+       sanityClock: 9,\n+       sanityLastReason: '岗位压力持续积累（-1）',\n+       scheduleState: '岗位工作 · 监听频道并标记尸群方向',\n+       simMoveClock: 0,\n-       sanity: 75,\n-       sanityClock: 19,\n-       sanityLastReason: '休整与岗位安全（+1）',\n-       scheduleState: '休整',\n-       simMoveClock: 4,\n        supportRequested: false,\n+       workClock: 9,\n-       workClock: 49,\n        workHistory: [\n          {\n            at: 433,\n            destination: 'command',\n            id: 'work.radio.1',\n...\n          },\n+         {\n+           at: 489,\n+           destination: 'command',\n+           id: 'work.radio.2',\n+           role: 'radio',\n+           status: 'completed',\n+           task: '监听频道并标记尸群方向'\n+         }\n        ],\n+       workPulseSeq: 2,\n-       workPulseSeq: 1,\n        workZone: 'northGate',\n        wounds: [],\n        x: 15,\n        y: 9\n      },\n...\n        },\n+       lastReport: '分派营地岗位与防线任务（工作脉冲 2）',\n-       lastReport: '分派营地岗位与防线任务（工作脉冲 1）',\n        lifeState: 'healthy',\n        maxHp: 100,\n        memory: {\n          failedOrders: 0,\n          helpedByPlayer: 0,\n...\n        name: '林岑',\n+       needClock: 9,\n-       needClock: 49,\n        needs: {\n+         energy: 86.46500000000007,\n+         fatigue: 9.18799999999998,\n+         hunger: 20.322000000000028,\n+         safety: 17.484000000000094,\n+         social: 27.425999999999988,\n+         stress: 7.22599999999999\n-         energy: 86.90500000000007,\n-         fatigue: 8.947999999999979,\n-         hunger: 19.962000000000028,\n-         safety: 17.564000000000096,\n-         social: 27.34599999999999,\n-         stress: 7.34599999999999\n        },\n        order: null,\n        perception: {\n          clock: 0,\n          contacts: {\n...\n        role: '营地长官',\n+       sanity: 74,\n+       sanityClock: 9,\n+       sanityLastReason: '岗位压力持续积累（-1）',\n+       scheduleState: '岗位工作 · 分派营地岗位与防线任务',\n+       simMoveClock: 0,\n-       sanity: 75,\n-       sanityClock: 19,\n-       sanityLastReason: '休整与岗位安全（+1）',\n-       scheduleState: '休整',\n-       simMoveClock: 4,\n        supportRequested: false,\n+       workClock: 9,\n-       workClock: 49,\n        workHistory: [\n          {\n            at: 433,\n            destination: 'command',\n            id: 'work.commander.1',\n...\n          },\n+         {\n+           at: 489,\n+           destination: 'command',\n+           id: 'work.commander.2',\n+           role: 'commander',\n+           status: 'completed',\n+           task: '分派营地岗位与防线任务'\n+         }\n        ],\n+       workPulseSeq: 2,\n-       workPulseSeq: 1,\n        workZone: 'core',\n        wounds: [],\n        x: 10.999999999999996,\n        y: 6.358856691452118\n      },\n...\n        bond: 1,\n+       combatClock: 0,\n        combatHp: 100,\n        combatStatus: 'ready',\n        currentOrder: null,\n        desc: '训练士兵并负责换防',\n        equipment: {\n...\n        },\n+       facing: 'right',\n        fallbackPoint: {\n          x: 2,\n          y: 2\n        },\n        garrisonedOutpostId: null,\n...\n        morale: 72,\n+       motionTarget: {\n+         x: 18,\n+         y: 9\n+       },\n-       motionTarget: null,\n        name: '贺川',\n+       needClock: 9,\n-       needClock: 49,\n        needs: {\n+         energy: 86.46500000000007,\n+         fatigue: 9.18799999999998,\n+         hunger: 20.322000000000028,\n+         safety: 17.484000000000094,\n+         social: 27.425999999999988,\n+         stress: 7.22599999999999\n-         energy: 86.90500000000007,\n-         fatigue: 8.947999999999979,\n-         hunger: 19.962000000000028,\n-         safety: 17.564000000000096,\n-         social: 27.34599999999999,\n-         stress: 7.34599999999999\n        },\n        order: 'guard',\n        perception: {\n          clock: 0,\n          contacts: {\n...\n        },\n+       prevX: 9.002371708245127,\n+       prevY: 11.999209430584958,\n        relations: {\n          allies: [\n            'commander'\n          ],\n          belongingToCamp: 76,\n...\n        sanity: 79,\n+       sanityClock: 9,\n-       sanityClock: 19,\n        sanityLastReason: '休整与岗位安全（+2）',\n+       scheduleState: '岗位工作',\n+       simMoveClock: 0,\n-       scheduleState: '休整',\n-       simMoveClock: 4,\n        supportRequested: true,\n+       workClock: 9,\n-       workClock: 49,\n        workHistory: [],\n        workPulseSeq: 0,\n        workZone: 'eastGate',\n        wounds: [],\n+       x: 10.423024947075845,\n+       y: 11.525658350974851\n-       x: 9,\n-       y: 12\n      },\n      {\n        actingFor: null,\n        actingRole: null,\n        appearance: {\n...\n        },\n+       facing: 'right',\n        fallbackPoint: {\n          x: 2,\n          y: 2\n        },\n        garrisonedOutpostId: null,\n...\n        },\n+       lastReport: '巡检防线与索敌范围（工作脉冲 2）',\n-       lastReport: '巡检防线与索敌范围（工作脉冲 1）',\n        lifeState: 'healthy',\n        maxHp: 100,\n        memory: {\n          failedOrders: 0,\n          helpedByPlayer: 0,\n...\n        motionTarget: {\n+         x: 18,\n+         y: 9\n-         x: 9,\n-         y: 12\n        },\n        name: '纪宁',\n+       needClock: 9,\n-       needClock: 49,\n        needs: {\n+         energy: 86.46500000000007,\n+         fatigue: 9.18799999999998,\n+         hunger: 20.322000000000028,\n+         safety: 17.484000000000094,\n+         social: 27.425999999999988,\n+         stress: 7.22599999999999\n-         energy: 86.90500000000007,\n-         fatigue: 8.947999999999979,\n-         hunger: 19.962000000000028,\n-         safety: 17.564000000000096,\n-         social: 27.34599999999999,\n-         stress: 7.34599999999999\n        },\n        order: null,\n        perception: {\n          clock: 0,\n          contacts: {},\n...\n        },\n+       prevX: 16.03143361943723,\n+       prevY: 9.639282260589107,\n        relations: {\n          allies: [\n            'guardChen'\n          ],\n          belongingToCamp: 78,\n...\n        role: '士兵',\n+       sanity: 74,\n+       sanityClock: 9,\n+       sanityLastReason: '岗位压力持续积累（-1）',\n+       scheduleState: '岗位工作 · 巡检防线与索敌范围',\n+       simMoveClock: 0,\n-       sanity: 75,\n-       sanityClock: 19,\n-       sanityLastReason: '休整与岗位安全（+1）',\n-       scheduleState: '休整',\n-       simMoveClock: 4,\n        supportRequested: false,\n+       workClock: 9,\n-       workClock: 49,\n        workHistory: [\n          {\n            at: 433,\n            destination: 'eastGate',\n            id: 'work.guardJi.1',\n...\n          },\n+         {\n+           at: 489,\n+           destination: 'eastGate',\n+           id: 'work.guardJi.2',\n+           role: 'guardJi',\n+           status: 'completed',\n+           task: '巡检防线与索敌范围'\n+         }\n        ],\n+       workPulseSeq: 2,\n-       workPulseSeq: 1,\n        workZone: 'northGate',\n        wounds: [],\n+       x: 17.455713823694616,\n+       y: 9.176754261696022\n-       x: 16.029055856158003,\n-       y: 9.640054427532167\n      },\n      {\n        actingFor: null,\n        actingRole: null,\n        appearance: {\n...\n        },\n+       facing: 'up',\n        fallbackPoint: {\n          x: 2,\n          y: 2\n        },\n        garrisonedOutpostId: null,\n...\n        },\n+       lastReport: '巡检防线与索敌范围（工作脉冲 2）',\n-       lastReport: '巡检防线与索敌范围（工作脉冲 1）',\n        lifeState: 'healthy',\n        maxHp: 100,\n        memory: {\n          failedOrders: 0,\n          helpedByPlayer: 0,\n...\n        morale: 72,\n+       motionTarget: {\n+         x: 10,\n+         y: 4\n+       },\n-       motionTarget: null,\n        name: '陈野',\n+       needClock: 9,\n-       needClock: 49,\n        needs: {\n+         energy: 86.46500000000007,\n+         fatigue: 9.18799999999998,\n+         hunger: 20.322000000000028,\n+         safety: 17.484000000000094,\n+         social: 27.425999999999988,\n+         stress: 7.22599999999999\n-         energy: 86.90500000000007,\n-         fatigue: 8.947999999999979,\n-         hunger: 19.962000000000028,\n-         safety: 17.564000000000096,\n-         social: 27.34599999999999,\n-         stress: 7.34599999999999\n        },\n        order: null,\n        perception: {\n          clock: 0,\n          contacts: {\n            'player-1': {\n+             at: 489,\n+             expiresAt: 544,\n-             at: 445,\n-             expiresAt: 500,\n              sourceId: 'guardChen',\n+             x: 7,\n+             y: 13\n-             x: 10.000000000000004,\n-             y: 9.000000000000007\n            }\n          },\n          sharedUntil: 0,\n+         targetAt: 489,\n-         targetAt: 445,\n          targetId: 'player-1'\n        },\n        personality: {\n          compassion: 46,\n          courage: 42,\n...\n        },\n+       prevX: 9.000310086836473,\n+       prevY: 11.997519305308217,\n        relations: {\n          allies: [\n            'guardJi'\n          ],\n          belongingToCamp: 40,\n...\n        role: '士兵',\n+       sanity: 74,\n+       sanityClock: 9,\n+       sanityLastReason: '岗位压力持续积累（-1）',\n+       scheduleState: '岗位工作 · 巡检防线与索敌范围',\n+       simMoveClock: 0,\n-       sanity: 75,\n-       sanityClock: 19,\n-       sanityLastReason: '休整与岗位安全（+1）',\n-       scheduleState: '休整',\n-       simMoveClock: 4,\n        supportRequested: false,\n+       workClock: 9,\n-       workClock: 49,\n        workHistory: [\n          {\n            at: 433,\n            destination: 'northGate',\n            id: 'work.guardChen.1',\n...\n          },\n+         {\n+           at: 489,\n+           destination: 'northGate',\n+           id: 'work.guardChen.2',\n+           role: 'guardChen',\n+           status: 'completed',\n+           task: '巡检防线与索敌范围'\n+         }\n        ],\n+       workPulseSeq: 2,\n-       workPulseSeq: 1,\n        workZone: 'serviceGate',\n        wounds: [],\n+       x: 9.186052101883789,\n+       y: 10.511583184929677\n-       x: 9,\n-       y: 12\n      },\n      {\n        actingFor: null,\n        actingRole: null,\n        appearance: {\n...\n        },\n+       facing: 'right',\n        fallbackPoint: {\n          x: 2,\n          y: 2\n        },\n        garrisonedOutpostId: null,\n...\n        },\n+       lastReport: '巡检防线与索敌范围（工作脉冲 2）',\n-       lastReport: '巡检防线与索敌范围（工作脉冲 1）',\n        lifeState: 'healthy',\n        maxHp: 100,\n        memory: {\n          failedOrders: 0,\n          helpedByPlayer: 0,\n...\n        motionTarget: {\n+         x: 24,\n+         y: 8\n-         x: 9,\n-         y: 12\n        },\n        name: '蒋锋',\n+       needClock: 9,\n-       needClock: 49,\n        needs: {\n+         energy: 86.46500000000007,\n+         fatigue: 9.18799999999998,\n+         hunger: 20.322000000000028,\n+         safety: 17.484000000000094,\n+         social: 27.425999999999988,\n+         stress: 7.22599999999999\n-         energy: 86.90500000000007,\n-         fatigue: 8.947999999999979,\n-         hunger: 19.962000000000028,\n-         safety: 17.564000000000096,\n-         social: 27.34599999999999,\n-         stress: 7.34599999999999\n        },\n        order: null,\n        perception: {\n          clock: 0,\n+         contacts: {},\n-         contacts: {\n-           'player-1': {\n-             at: 433,\n-             expiresAt: 488,\n-             sourceId: 'guardJiang',\n-             x: 11,\n-             y: 9.000000000000007\n-           }\n-         },\n          sharedUntil: 0,\n          targetAt: 433,\n          targetId: 'player-1'\n        },\n        personality: {\n...\n        },\n+       prevX: 13.718896238923639,\n+       prevY: 10.782705554668144,\n        relations: {\n          allies: [],\n          belongingToCamp: 50,\n          bondToPlayer: 0,\n          fearOfPlayer: 0,\n...\n        role: '士兵',\n+       sanity: 74,\n+       sanityClock: 9,\n+       sanityLastReason: '岗位压力持续积累（-1）',\n+       scheduleState: '岗位工作 · 巡检防线与索敌范围',\n+       simMoveClock: 0,\n-       sanity: 75,\n-       sanityClock: 19,\n-       sanityLastReason: '休整与岗位安全（+1）',\n-       scheduleState: '休整',\n-       simMoveClock: 4,\n        supportRequested: false,\n+       workClock: 9,\n-       workClock: 49,\n        workHistory: [\n          {\n            at: 433,\n            destination: 'eastOutpost',\n            id: 'work.guardJiang.1',\n...\n          },\n+         {\n+           at: 489,\n+           destination: 'eastOutpost',\n+           id: 'work.guardJiang.2',\n+           role: 'guardJiang',\n+           status: 'completed',\n+           task: '巡检防线与索敌范围'\n+         }\n        ],\n+       workPulseSeq: 2,\n-       workPulseSeq: 1,\n        workZone: 'eastGate',\n        wounds: [],\n+       x: 15.164385152047544,\n+       y: 10.391466430811857\n-       x: 13.716483068784868,\n-       y: 10.783358708464231\n      },\n      {\n        actingFor: null,\n        actingRole: null,\n        appearance: {\n...\n        },\n+       lastReport: '盘点仓库并整理物流（工作脉冲 2）',\n-       lastReport: '盘点仓库并整理物流（工作脉冲 1）',\n        lifeState: 'healthy',\n        maxHp: 100,\n        memory: {\n          failedOrders: 0,\n          helpedByPlayer: 0,\n...\n        morale: 72,\n-       motionTarget: null,\n        name: '周岚',\n+       needClock: 9,\n-       needClock: 49,\n        needs: {\n+         energy: 86.46500000000007,\n+         fatigue: 9.18799999999998,\n+         hunger: 20.322000000000028,\n+         safety: 17.484000000000094,\n+         social: 27.425999999999988,\n+         stress: 7.22599999999999\n-         energy: 86.90500000000007,\n-         fatigue: 8.947999999999979,\n-         hunger: 19.962000000000028,\n-         safety: 17.564000000000096,\n-         social: 27.34599999999999,\n-         stress: 7.34599999999999\n        },\n        order: null,\n        perception: {\n          clock: 0,\n          contacts: {},\n...\n        role: '后勤官',\n+       sanity: 74,\n+       sanityClock: 9,\n+       sanityLastReason: '岗位压力持续积累（-1）',\n+       scheduleState: '岗位工作 · 盘点仓库并整理物流',\n+       simMoveClock: 0,\n-       sanity: 75,\n-       sanityClock: 19,\n-       sanityLastReason: '休整与岗位安全（+1）',\n-       scheduleState: '休整',\n-       simMoveClock: 4,\n        supportRequested: false,\n+       workClock: 9,\n-       workClock: 49,\n        workHistory: [\n          {\n            at: 433,\n            destination: 'warehouse',\n            id: 'work.quartermaster.1',\n...\n          },\n+         {\n+           at: 489,\n+           destination: 'warehouse',\n+           id: 'work.quartermaster.2',\n+           role: 'quartermaster',\n+           status: 'completed',\n+           task: '盘点仓库并整理物流'\n+         }\n        ],\n+       workPulseSeq: 2,\n-       workPulseSeq: 1,\n        workZone: 'core',\n        wounds: [],\n        x: 16,\n        y: 9\n      },\n...\n        },\n+       lastReport: '安排营地餐火与配给（工作脉冲 2）',\n-       lastReport: '安排营地餐火与配给（工作脉冲 1）',\n        lifeState: 'healthy',\n        maxHp: 100,\n        memory: {\n          failedOrders: 0,\n          helpedByPlayer: 0,\n...\n        morale: 72,\n-       motionTarget: null,\n        name: '唐婶',\n+       needClock: 9,\n-       needClock: 49,\n        needs: {\n+         energy: 86.46500000000007,\n+         fatigue: 9.18799999999998,\n+         hunger: 20.322000000000028,\n+         safety: 17.484000000000094,\n+         social: 27.425999999999988,\n+         stress: 7.22599999999999\n-         energy: 86.90500000000007,\n-         fatigue: 8.947999999999979,\n-         hunger: 19.962000000000028,\n-         safety: 17.564000000000096,\n-         social: 27.34599999999999,\n-         stress: 7.34599999999999\n        },\n        order: null,\n        perception: {\n          clock: 0,\n          contacts: {},\n...\n        role: '炊事与农务',\n+       sanity: 74,\n+       sanityClock: 9,\n+       sanityLastReason: '岗位压力持续积累（-1）',\n+       scheduleState: '岗位工作 · 安排营地餐火与配给',\n+       simMoveClock: 0,\n-       sanity: 75,\n-       sanityClock: 19,\n-       sanityLastReason: '休整与岗位安全（+1）',\n-       scheduleState: '休整',\n-       simMoveClock: 4,\n        supportRequested: false,\n+       workClock: 9,\n-       workClock: 49,\n        workHistory: [\n          {\n            at: 433,\n            destination: 'residence',\n            id: 'work.cook.1',\n...\n          },\n+         {\n+           at: 489,\n+           destination: 'residence',\n+           id: 'work.cook.2',\n+           role: 'cook',\n+           status: 'completed',\n+           task: '安排营地餐火与配给'\n+         }\n        ],\n+       workPulseSeq: 2,\n-       workPulseSeq: 1,\n        workZone: 'core',\n        wounds: [],\n        x: 13,\n        y: 12\n      }\n    ],\n    resources: {\n+     energy: 63,\n-     energy: 66,\n      food: 13,\n      hp: 100,\n      medicine: 0,\n      morale: 72,\n      parts: 5,\n+     sanity: 75,\n+     seeds: 3,\n-     sanity: 76,\n-     seeds: 4,\n      stone: 12,\n      wood: 28\n    }\n  }\n"
+}

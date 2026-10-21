@@ -1,0 +1,31 @@
+plan-day source execution passed: 27 checks
+sourceHtmlSha256: 23b8c8c27234592673aa927f3909ea49247c372a937787f90355f87531f421b0
+planDayTraceHash: 66c9368d (plan settlement/calendar contract; separate from content-chain trace)
+  ✓ successful effects settle authoritative meeting/history and one event
+  ✓ committed player plan preserves its route after effects normalize
+  ✓ failure rollback settles current meeting/history without partial effects
+  ✓ invalid effect preflight also terminates current meeting exactly once
+  ✓ legacy candidate with applied effect receipt recovers without extra reward
+  ✓ legacy unresolved candidate plus existing resolved ledger keeps one event
+  ✓ legacy fallback ledger recovers without retrying now-valid effects
+  ✓ execute rejects night before mutation
+  ✓ execute rejects gameOver before mutation
+  ✓ same-day or future meeting is not prematurely applied
+  ✓ same-day refresh never tops up spent points or repeats a grant event
+  ✓ JSON-restored same-day spent points remain spent on boot refresh
+  ✓ same-day cap decrease clamps points down, increase does not top up
+  ✓ new calendar day grants cap without accumulating old points
+  ✓ legacy save without granted-day receives one grant then stays stable
+  ✓ ration charges once on a calendar day and shortage effects remain idempotent
+  ✓ world daily upkeep grows and produces once, retaining pending event
+  ✓ cross-midnight advance executes daily accounting once
+  ✓ same-day report close preserves calendar and cannot repeat ration/upkeep
+  ✓ resolved report command closes its exact threat with replay receipt and one checkpoint
+  ✓ same command ID cannot close or settle the report twice
+  ✓ different command ID double-click with no report emits rejection and no success/checkpoint
+  ✓ unresolved battle cannot close and remains in night mode
+  ✓ resolved legacy report without threat ID is rejected without leaving night
+  ✓ actual night guard still blocks ordinary daytime commands before the bus
+  ✓ game-over validation blocks report close before reducer reset side effects
+  ✓ identical plan/day sequences including JSON restore have a stable trace
+

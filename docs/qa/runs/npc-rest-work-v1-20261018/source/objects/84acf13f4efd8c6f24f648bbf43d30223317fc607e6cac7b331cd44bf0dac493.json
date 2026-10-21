@@ -1,0 +1,152 @@
+{
+  "schema": "NpcRestWorkBrowserSourceInputManifestV1",
+  "sourceHtmlSha256": "32185e4f592f7e0a6b897027908fe072e4c7a5889f771436cfa3c3da8b11609b",
+  "runnerSha256": "b00acf57d83f09f744bcb6f9384087dfcf09f652031f5d74cfc0e4fa85aed69c",
+  "moduleSha256": "266212a41dd4d9b7638c118659a1a0651e80855595f5584580c2113448b406bb",
+  "method": "TEST-ONLY offline complete native derivative, actual source loader/start/writer/validator/reload; only declared player/carpenter position, near-complete energy and clock controls changed; original enemies/food/population/buildings retained. Near-complete intent was created by actual world.advance1, not fabricated.",
+  "naturalGameplay": false,
+  "originalWriter": {
+    "file": "original-low-due-pulse-native.json",
+    "sha256": "6a74a12b9ce2ff269342adc52e509ff139b2201137760f338b12bf4653b2a3cf",
+    "bytes": 63107
+  },
+  "scenes": [
+    {
+      "id": "low-start",
+      "file": "low-start-native.json",
+      "sha256": "df44f2b084603559d01c06e2859d58c4daf9739da9ca5ee5b6a60efb00435302",
+      "bytes": 65122,
+      "npcId": "carpenter",
+      "npcName": "阿梁",
+      "changes": [
+        {
+          "field": "player",
+          "before": {
+            "x": 11,
+            "y": 11
+          },
+          "after": {
+            "x": 11,
+            "y": 10.5
+          }
+        },
+        {
+          "field": "npcs.carpenter.position",
+          "before": {
+            "x": 1,
+            "y": 2
+          },
+          "after": {
+            "x": 11.75,
+            "y": 10.5
+          }
+        },
+        {
+          "field": "worldMeta.clock.paused",
+          "before": false,
+          "after": false
+        },
+        {
+          "field": "worldMeta.clock.rate",
+          "before": 1,
+          "after": 1
+        }
+      ],
+      "controls": {
+        "clockPaused": false,
+        "clockRate": 1
+      },
+      "expected": {
+        "initialEnergy": 23.5,
+        "intentId": null,
+        "home": {
+          "x": 7,
+          "y": 9,
+          "zone": "workshop"
+        },
+        "player": {
+          "x": 11,
+          "y": 10.5
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 10.5
+        },
+        "food": 8,
+        "enemyCount": 4,
+        "phase": "DAY"
+      }
+    },
+    {
+      "id": "near-complete",
+      "file": "near-complete-native.json",
+      "sha256": "65e04e06a6ce6db763429d370ac3d9029a42f5b14bc2de24314aa1e81fce5fbc",
+      "bytes": 69958,
+      "npcId": "carpenter",
+      "npcName": "阿梁",
+      "changes": [
+        {
+          "field": "player",
+          "before": {
+            "x": 11,
+            "y": 11
+          },
+          "after": {
+            "x": 11,
+            "y": 10.5
+          }
+        },
+        {
+          "field": "npcs.carpenter.position",
+          "before": {
+            "x": 1.0488093530092004,
+            "y": 2.0569442451774016
+          },
+          "after": {
+            "x": 11.75,
+            "y": 10.5
+          }
+        },
+        {
+          "field": "npcs.carpenter.needs.energy",
+          "before": 23.545,
+          "after": 35.5
+        },
+        {
+          "field": "worldMeta.clock.paused",
+          "before": false,
+          "after": false
+        },
+        {
+          "field": "worldMeta.clock.rate",
+          "before": 1,
+          "after": 1
+        }
+      ],
+      "controls": {
+        "clockPaused": false,
+        "clockRate": 1
+      },
+      "expected": {
+        "initialEnergy": 35.5,
+        "intentId": "[\"rest\",\"cmd-000001\",\"carpenter\",541]",
+        "home": {
+          "x": 7,
+          "y": 9,
+          "zone": "workshop"
+        },
+        "player": {
+          "x": 11,
+          "y": 10.5
+        },
+        "npc": {
+          "x": 11.75,
+          "y": 10.5
+        },
+        "food": 8,
+        "enemyCount": 4,
+        "phase": "DAY"
+      }
+    }
+  ]
+}

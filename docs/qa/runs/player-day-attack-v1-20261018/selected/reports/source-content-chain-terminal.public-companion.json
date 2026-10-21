@@ -1,0 +1,62 @@
+{
+  "schema": "ExplicitPathOnlyPublicCompanionV1",
+  "isOriginalNativeReport": false,
+  "original": {
+    "portableName": "terminal.json",
+    "sha256": "616130df93a15313bfb66735558d79354e9b2d8d6e1e736ed2c9b7c2c7762493",
+    "bytes": 1403
+  },
+  "originalExternalRetained": true,
+  "replacedMetadataFields": [
+    {
+      "field": "$.command[0]",
+      "originalValueSha256": "16e0b943fe5b1ad8ee8e2d55008e5e2377f6f5d70a1134f11dfd25d37e313c41",
+      "originalValueBytes": 88,
+      "replacement": "external-path-sha256:16e0b943fe5b1ad8ee8e2d55008e5e2377f6f5d70a1134f11dfd25d37e313c41"
+    },
+    {
+      "field": "$.cwd",
+      "originalValueSha256": "ffb14d7eca524082d2a91c03debbd3e0e932d267ca8bf0adf4876cb21b483321",
+      "originalValueBytes": 119,
+      "replacement": "external-path-sha256:ffb14d7eca524082d2a91c03debbd3e0e932d267ca8bf0adf4876cb21b483321"
+    }
+  ],
+  "resultFactsUnchanged": true,
+  "report": {
+    "order": 4,
+    "name": "content-chain",
+    "command": [
+      "external-path-sha256:16e0b943fe5b1ad8ee8e2d55008e5e2377f6f5d70a1134f11dfd25d37e313c41",
+      "scripts/check-content-chain.mjs"
+    ],
+    "cwd": "external-path-sha256:ffb14d7eca524082d2a91c03debbd3e0e932d267ca8bf0adf4876cb21b483321",
+    "status": "TERMINAL",
+    "startedAt": "2026-10-17T22:46:52.572397+00:00",
+    "sourceHtmlSha256": "3545adb19fc8e75256013a50ce9885e051aa4170757a0c33095cc682cfcb7aa1",
+    "runnerRepositoryPath": "scripts/check-content-chain.mjs",
+    "runnerSha256": "72b8fd5344cd8df727625da0b301be7f884b3434f24680218944002e866ada25",
+    "runnerBytes": 44919,
+    "sourceInventory": "../source-inventory.json",
+    "finishedAt": "2026-10-17T22:46:52.723039+00:00",
+    "exitCode": 0,
+    "htmlUnchanged": true,
+    "runnerUnchanged": true,
+    "artifacts": [
+      {
+        "path": "04-content-chain/runner-executed.mjs",
+        "bytes": 44919,
+        "sha256": "72b8fd5344cd8df727625da0b301be7f884b3434f24680218944002e866ada25"
+      },
+      {
+        "path": "04-content-chain/stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "04-content-chain/stdout.log",
+        "bytes": 4399,
+        "sha256": "d4b6763e456e83ec946b9fef64892965e0db9a1ad6eea6e7c297fe410b8df7f6"
+      }
+    ]
+  }
+}

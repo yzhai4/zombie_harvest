@@ -1,0 +1,64 @@
+{
+  "name": "live farm interactBuilding wrapper routes to same crop command and supplied ID",
+  "inputClassification": "TEST-ONLY-derived-from-original-writer",
+  "derivations": [],
+  "observations": [
+    {
+      "events": [
+        {
+          "eventId": "evt-000114",
+          "seq": 114,
+          "type": "building.interacted",
+          "actorId": "player-1",
+          "commandId": "crop-building-route",
+          "causationId": null,
+          "tick": {
+            "world": 469,
+            "phase": 0,
+            "schedule": 109
+          },
+          "payload": {
+            "result": {
+              "message": "菜畦状态已查看。"
+            }
+          }
+        }
+      ],
+      "commands": [
+        {
+          "commandId": "crop-building-route",
+          "type": "building.interact",
+          "actorId": "player-1",
+          "payload": {
+            "buildingId": "bld-mazjx8",
+            "buildingType": "garden"
+          }
+        }
+      ],
+      "resources": {
+        "wood": 28,
+        "stone": 12,
+        "food": 13,
+        "parts": 5,
+        "medicine": 0,
+        "seeds": 4,
+        "energy": 66,
+        "hp": 100,
+        "sanity": 76,
+        "morale": 72
+      },
+      "minute": 469,
+      "plot": {
+        "x": 7,
+        "y": 14,
+        "type": "garden",
+        "planted": false,
+        "growth": 0,
+        "ready": false,
+        "id": "bld-mazjx8"
+      },
+      "toast": "菜畦状态已查看。"
+    }
+  ],
+  "error": "AssertionError: one actual crop success\n\n0 !== 1\n"
+}

@@ -1,0 +1,91 @@
+{
+  "schema": "ExplicitPathOnlyPublicCompanionV1",
+  "isOriginalNativeReport": false,
+  "isOriginalExecutedMethod": false,
+  "original": {
+    "name": "launch.json",
+    "sha256": "2f817df4ab4b124e3e2643af3a634ff0b324422381dd3deaa58493fac45abb2c",
+    "bytes": 2020
+  },
+  "originalExternalRetained": true,
+  "replacedStringFields": [
+    {
+      "field": "$.command[0]",
+      "originalStringSha256": "c1f2d55c025bb763cd04596f58dd543bad16ef531c8148937241585c01b34a28",
+      "originalBytes": 88,
+      "replacement": "external-path-sha256:c1f2d55c025bb763cd04596f58dd543bad16ef531c8148937241585c01b34a28"
+    },
+    {
+      "field": "$.command[1]",
+      "originalStringSha256": "1088bc1a59ecef303d859cc6210df7f05c9e1886a355565ee9e44685f56f3437",
+      "originalBytes": 176,
+      "replacement": "<cover-round-root>\\associated-npc-browser-final2fca\\browser-npc-public-actions-v1.mjs"
+    },
+    {
+      "field": "$.command[5]",
+      "originalStringSha256": "ffb14d7eca524082d2a91c03debbd3e0e932d267ca8bf0adf4876cb21b483321",
+      "originalBytes": 119,
+      "replacement": "<repository-root>"
+    },
+    {
+      "field": "$.command[7]",
+      "originalStringSha256": "2be9d3e7def5196ecc62e75adab305e7637a4ba30e0944cd677afcf61cc35cef",
+      "originalBytes": 135,
+      "replacement": "<repository-root>\\dist\\index.html"
+    },
+    {
+      "field": "$.command[11]",
+      "originalStringSha256": "8d2bf60edb624a87cc0f689ec7a9a81b765c52839071c3c3e197a9c194a076a0",
+      "originalBytes": 196,
+      "replacement": "<repository-root>\\docs\\qa\\runs\\npc-public-actions-v1-20261017\\npc-browser\\original-writer.json"
+    },
+    {
+      "field": "$.command[15]",
+      "originalStringSha256": "3bd07d5f0bbe65bd66b450e1e17f518e80edd4ad17893248ec07682de38d50a6",
+      "originalBytes": 230,
+      "replacement": "<repository-root>\\docs\\qa\\runs\\npc-public-actions-v1-20261017\\npc-browser\\actual-advance-death-interact-parent-native-input.json"
+    },
+    {
+      "field": "$.command[17]",
+      "originalStringSha256": "6b7b7560cdf1aaaa5d5efa71e2b97ba6a2e04e6246c0024eecfb9b8f5cc8daf5",
+      "originalBytes": 227,
+      "replacement": "<repository-root>\\docs\\qa\\runs\\npc-public-actions-v1-20261017\\npc-browser\\actual-advance-death-order-parent-native-input.json"
+    },
+    {
+      "field": "$.command[19]",
+      "originalStringSha256": "1e7a50c81daf4e26198e441f48aeb049bb78064e7daf543b0dec16ffd3d4d9a1",
+      "originalBytes": 149,
+      "replacement": "<cover-round-root>\\associated-npc-browser-final2fca\\native"
+    }
+  ],
+  "report": {
+    "schema": "ActualNpcBrowserLaunchV1",
+    "pid": 28848,
+    "startedAt": "2026-10-18T05:51:57.857148+00:00",
+    "command": [
+      "external-path-sha256:c1f2d55c025bb763cd04596f58dd543bad16ef531c8148937241585c01b34a28",
+      "<cover-round-root>\\associated-npc-browser-final2fca\\browser-npc-public-actions-v1.mjs",
+      "--run-approved",
+      "yes",
+      "--repo-root",
+      "<repository-root>",
+      "--html",
+      "<repository-root>\\dist\\index.html",
+      "--expect-html-sha256",
+      "2fca005df63742164bd6f6e8e82fc0c2d3962b4678419b633482f8a54e09ef93",
+      "--input",
+      "<repository-root>\\docs\\qa\\runs\\npc-public-actions-v1-20261017\\npc-browser\\original-writer.json",
+      "--expect-input-sha256",
+      "1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f",
+      "--death-interact-input",
+      "<repository-root>\\docs\\qa\\runs\\npc-public-actions-v1-20261017\\npc-browser\\actual-advance-death-interact-parent-native-input.json",
+      "--death-order-input",
+      "<repository-root>\\docs\\qa\\runs\\npc-public-actions-v1-20261017\\npc-browser\\actual-advance-death-order-parent-native-input.json",
+      "--out",
+      "<cover-round-root>\\associated-npc-browser-final2fca\\native"
+    ],
+    "status": "RUNNING",
+    "overallCapAdded": false
+  },
+  "scope": "Only declared path strings changed. Result/status/count/error semantics retained; original raw bytes are external, not reconstructed by this companion."
+}

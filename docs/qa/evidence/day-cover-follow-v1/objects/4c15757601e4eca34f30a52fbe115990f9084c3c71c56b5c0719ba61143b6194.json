@@ -1,0 +1,125 @@
+{
+  "event": {
+    "eventId": "evt-000258",
+    "seq": 258,
+    "type": "npc.orderChanged",
+    "actorId": "player-1",
+    "commandId": "cmd-000513",
+    "causationId": null,
+    "tick": {
+      "world": 685,
+      "phase": 0,
+      "schedule": 325
+    },
+    "payload": {
+      "ok": true,
+      "proofVersion": 1,
+      "npcId": "guardChen",
+      "operation": "support-and-order",
+      "outcome": "completed",
+      "orderId": "cover",
+      "target": {
+        "id": "guardChen",
+        "before": {
+          "id": "guardChen",
+          "supportRequested": false,
+          "order": null,
+          "bond": 0,
+          "hp": 100,
+          "lifeState": "healthy",
+          "sanity": 80,
+          "helpedByPlayer": 0
+        },
+        "beforeAdvance": {
+          "id": "guardChen",
+          "supportRequested": true,
+          "order": null,
+          "bond": 1,
+          "hp": 100,
+          "lifeState": "healthy",
+          "sanity": 80,
+          "helpedByPlayer": 1
+        },
+        "afterAdvance": {
+          "id": "guardChen",
+          "supportRequested": true,
+          "order": null,
+          "bond": 1,
+          "hp": 100,
+          "lifeState": "healthy",
+          "sanity": 80,
+          "helpedByPlayer": 1
+        },
+        "atCompletion": {
+          "id": "guardChen",
+          "supportRequested": true,
+          "order": "cover",
+          "bond": 1,
+          "hp": 100,
+          "lifeState": "healthy",
+          "sanity": 80,
+          "helpedByPlayer": 1
+        },
+        "presentAtCompletion": true,
+        "snapshotStages": {
+          "before": "before-payment-and-own-effects",
+          "beforeAdvance": "after-pre-simulation-own-effects",
+          "afterAdvance": "after-world-simulation-before-post-effects",
+          "atCompletion": "reducer-final-state"
+        }
+      },
+      "payment": {
+        "cost": {
+          "energy": 2
+        },
+        "before": {
+          "energy": 53
+        },
+        "after": {
+          "energy": 51
+        }
+      },
+      "resources": {
+        "energyBefore": 53,
+        "energyAfterPayment": 51,
+        "energyAfter": 52
+      },
+      "clock": {
+        "before": {
+          "day": 1,
+          "hour": 11,
+          "minute": 10,
+          "world": 670
+        },
+        "after": {
+          "day": 1,
+          "hour": 11,
+          "minute": 25,
+          "world": 685
+        },
+        "requestedMinutes": 15,
+        "elapsedMinutes": 15
+      },
+      "advance": {
+        "commandId": "cmd-000514",
+        "eventId": "evt-000256",
+        "causationId": "cmd-000513",
+        "minutes": 15,
+        "tick": {
+          "world": 685,
+          "phase": 0,
+          "schedule": 325
+        }
+      }
+    }
+  },
+  "command": {
+    "commandId": "cmd-000513",
+    "type": "npc.order",
+    "actorId": "player-1",
+    "payload": {
+      "npcId": "guardChen",
+      "orderId": "cover"
+    }
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "schema": "C2SourceVmArchiveIndependentReviewV1",
+  "ok": true,
+  "scope": "Read-only lossless archive/materialization verification. No checker, game, browser, source, report or expected output execution/mutation. Standard ZIP extraction occurred only in this new independent directory.",
+  "sourceHtmlSha256": "61ea64b27a65cc4a271c214c16126b40a453eae40c8684c106bc8edc89e5f115",
+  "archive": {
+    "path": "source-vm-raw.zip",
+    "bytes": 19533065,
+    "sha256": "2cb977d6ec264c128b78b8e5b6bedbe463788c3ddc0187d8eccb536aa0fba0d2"
+  },
+  "indexSha256": "f303237fb1aaeaeb2af49c5b8ba53a603b56570cac399123c88e66fa929356e7",
+  "roundtripReceiptSha256": "c26f7ca365a7fa28ede78b6f72b3c1eb2a5a7d16f96d0b83ff562121bd05e099",
+  "verified": {
+    "zipEntries": 442,
+    "allIndexedBytesAndHashes": 442,
+    "originalQABytesMatched": 442,
+    "rawBytes": 89012938,
+    "nativeReports": 5,
+    "nativeArtifactRefs": 438,
+    "uniqueInternalReferencedEntries": 437,
+    "explicitExistingRepositoryInputs": 1,
+    "unaccountedEntries": 0,
+    "privacyHits": [],
+    "bundleAllFilesMatch": true
+  },
+  "nativeReports": [
+    {
+      "path": "boot-c1-source/report.json",
+      "count": 120,
+      "passed": 120,
+      "sha256": "cc76806e30dc4c2b3babccb430811207df3ab024372bfc6f087435d2d8622fa4"
+    },
+    {
+      "path": "boot-c2-source/report.json",
+      "count": 66,
+      "passed": 66,
+      "sha256": "711b7119b12f8f12c33993bb9c0ab1fe82813cfce04d652376fb47ec387b5bbd"
+    },
+    {
+      "path": "crop-source/candidate.json",
+      "count": 64,
+      "passed": 64,
+      "sha256": "072142e79dda6baac5a957060a2617bffeb0f31023f3ee9cf6d164c9af4fadd1"
+    },
+    {
+      "path": "npc-source/candidate.json",
+      "count": 110,
+      "passed": 110,
+      "sha256": "cda072718aa3948d4e6edc8a9768dc32d180e985f15f9af3a60154f84543fea8"
+    },
+    {
+      "path": "shortage-source/candidate.json",
+      "count": 43,
+      "passed": 43,
+      "sha256": "ed4915e75818bab842af3a72b481670f3fcea517c9af258aba29c4ef5fa4f8eb"
+    }
+  ],
+  "consumerConditions": [
+    "Generic iteration Gate reads separately retained native report ordinary files only; ZIP is inventory evidence, not transparent native artifact storage.",
+    "Direct child-artifact consumers must extract into repositoryQaRoot (not source-vm-archive subfolder).",
+    "The sole natural19 artifact is not in ZIP; resolve the explicit map or materialize the same SHA-matched repository bytes at its original native artifact path.",
+    "Only exact indexed files with matching current bytes may be removed from QA; retain five main reports at original QA-relative names and keep ZIP/index/receipt/map separately indexed.",
+    "All five reports and zip bytes retain original evidence; transport does not add executions or extend gameplay scope."
+  ]
+}

@@ -1,0 +1,142 @@
+{
+  "runner": "source-watchpost-old-report-close-repro-v1",
+  "schema": "WatchpostWarningSourceV1",
+  "mode": "candidate",
+  "sourceHtmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a",
+  "methodSha256": "1fb6c0e7b50b8a553d93422c711e2482471ce351ab1e7da1d7dafcbb0c0c61a8",
+  "ioFactorySha256": "5dc89410d5f4a1ce303bbdb03370f6f08c646e38d426a39e7dacd3a3f4e2b89d",
+  "motherSha256": "5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4",
+  "scope": {
+    "fullActualInline": true,
+    "originalControlledIO": true,
+    "testOnlyBootDerivations": true,
+    "sourceVM": true,
+    "browser": false,
+    "naturalGameplay": false
+  },
+  "checks": [
+    {
+      "name": "old4f-day2-report-close returns to actual DAY with pending manual choice",
+      "ok": true,
+      "details": {
+        "day": 2,
+        "actualPublicClose": true,
+        "pendingManual": true
+      },
+      "artifacts": [
+        "report-artifacts/inputs/old4f-day2-report-close.json",
+        "report-artifacts/native/old4f-day2-report-close-closed-day.json",
+        "report-artifacts/observations/old4f-day2-report-close.json"
+      ]
+    },
+    {
+      "name": "old4f-day8-report-close returns to actual DAY with pending manual choice",
+      "ok": true,
+      "details": {
+        "day": 8,
+        "actualPublicClose": true,
+        "pendingManual": true
+      },
+      "artifacts": [
+        "report-artifacts/inputs/old4f-day8-report-close.json",
+        "report-artifacts/native/old4f-day8-report-close-closed-day.json",
+        "report-artifacts/observations/old4f-day8-report-close.json"
+      ]
+    }
+  ],
+  "count": 2,
+  "passed": 2,
+  "artifacts": [
+    {
+      "path": "report-artifacts/inputs/source.html",
+      "bytes": 984373,
+      "sha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a",
+      "kind": "actual executed HTML"
+    },
+    {
+      "path": "report-artifacts/inputs/io-adapter.mjs",
+      "bytes": 51172,
+      "sha256": "6e0da555742e930b8bf926eeec0db0ee22f17240a4fa305978841f8ba862c0a3",
+      "kind": "original controlled IO"
+    },
+    {
+      "path": "report-artifacts/inputs/mother-native.json",
+      "bytes": 496785,
+      "sha256": "5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4",
+      "kind": "original complete old browser writer"
+    },
+    {
+      "path": "report-artifacts/inputs/mother-capture-meta.json",
+      "bytes": 1642,
+      "sha256": "a24e58af9364dc6a81b86a7fddf0b618fc19ca72c9823dcaff0756e4f32b25e5",
+      "kind": "original fixture provenance"
+    },
+    {
+      "path": "report-artifacts/inputs/checker-executed.mjs",
+      "bytes": 15987,
+      "sha256": "1fb6c0e7b50b8a553d93422c711e2482471ce351ab1e7da1d7dafcbb0c0c61a8",
+      "kind": "actual executed checker"
+    },
+    {
+      "path": "report-artifacts/inputs/watchpost-manual-v1.json",
+      "bytes": 3264,
+      "sha256": "b2d196a171d3a4e828d8486c36ea664992e51fd8df1223ea395172a511b869e3",
+      "kind": "authoritative JSON pack"
+    },
+    {
+      "path": "report-artifacts/inputs/shadow-event-gate-v1.mjs",
+      "bytes": 17225,
+      "sha256": "5320d244837f3ec12794d0969320f6b76955725292d3d6c5df00d3ef0ef17f9f",
+      "kind": "actual shadow Gate module"
+    },
+    {
+      "path": "report-artifacts/inputs/day2-watchpost-isolation.json",
+      "bytes": 258480,
+      "sha256": "83dcdb954d71bf7933d0e9fb3ea3eb36459d7c731b0cdb01c6a639ed4c72d348",
+      "kind": "TEST-ONLY complete boot derivation"
+    },
+    {
+      "path": "report-artifacts/inputs/derivation-contract.json",
+      "bytes": 560,
+      "sha256": "9f9e9e83854c8760ab6730e571371e624a3f333f31b90325a466c483d2e931df",
+      "kind": "observation"
+    },
+    {
+      "path": "report-artifacts/inputs/old4f-day2-report-close.json",
+      "bytes": 296250,
+      "sha256": "bc9fab4fe9e904ec2a080311510bd3b4a05601331eff76148a287f1cb1c525e0",
+      "kind": "actual old4f normal REPORT writer; no new-source field deletion"
+    },
+    {
+      "path": "report-artifacts/native/old4f-day2-report-close-closed-day.json",
+      "bytes": 294368,
+      "sha256": "6e9ac974f5f074e1f34a975e21bd8b856ad1031078e6282637c4eed0e1fd0c44",
+      "kind": "actual source normal writer before reload"
+    },
+    {
+      "path": "report-artifacts/observations/old4f-day2-report-close.json",
+      "bytes": 12486,
+      "sha256": "e12465da6d71266aa0da46ba3f14f55871c25640b1e16b1ed8097976a02dadb5",
+      "kind": "observation"
+    },
+    {
+      "path": "report-artifacts/inputs/old4f-day8-report-close.json",
+      "bytes": 302958,
+      "sha256": "d0c0caad7b9b0fd32b8a2907383fcadce62531cd8215479a714766ca61f8cc1a",
+      "kind": "actual old4f normal REPORT writer; no new-source field deletion"
+    },
+    {
+      "path": "report-artifacts/native/old4f-day8-report-close-closed-day.json",
+      "bytes": 296839,
+      "sha256": "9ad93b8008a9cff76c019f86090796cca0f74dadca645c2ad1e5ede1272e348f",
+      "kind": "actual source normal writer before reload"
+    },
+    {
+      "path": "report-artifacts/observations/old4f-day8-report-close.json",
+      "bytes": 16389,
+      "sha256": "117d6a28dc2abb222552c95c1e63c394fd886bd8fda0a56b906f6d632f235e0c",
+      "kind": "observation"
+    }
+  ],
+  "ok": true
+}

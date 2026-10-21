@@ -1,0 +1,156 @@
+{
+  "runner": "source-npc-threat-attention",
+  "ok": true,
+  "passed": 29,
+  "count": 29,
+  "sourceHtmlSha256": "9edb6d3c3daa7ec63d90594381d811cb077828fd0955fb7095c601ce91b5b87b",
+  "sourceFixtureSha256": "5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4",
+  "sourceCaptureHtmlSha256": "cc900da9cdf865b101c37080eb7417148a8a388796ba808153c905ef8ad8494a",
+  "originalReportSha256": "08e4309113473164d886a39d8366f000491cb5449dcad86452d453b00e55a94b",
+  "fixtureCapture": "automation browser writer from failed run; not production",
+  "browserStarted": false,
+  "naturalGameplay": false,
+  "scope": "actual complete inline loader/perception/combat/writer; Map IO and queued timers, explicit offline negative scenes",
+  "limitations": [
+    "Direct perception then combat proves this attention defect; complete advance may change view direction/positions before combat, so this does not guarantee rescue during repeated training.",
+    "Candidate camp combat membership excludes assigned outpost guards; damage/range/cadence/FOV unchanged, critical-health policy unchanged. Broader routine/motion/render membership is not covered. Original FAILED browser result is unchanged."
+  ],
+  "offlineNegativeScenes": [
+    "remove/move existing world threats; dead existing enemy/guard; turn existing guard; move existing wall; place existing quartermaster at guard viewpoint; night uses existing threat reference; frozen session modes; discover existing waterMill then actual captureOutpost/release for existing guardJi; declared coordinate isolation for incoming/outgoing combat"
+  ],
+  "observations": {
+    "original": {
+      "playerHp": 52,
+      "enemyHp": 100,
+      "distance": 1.6213256283167474,
+      "nearestVisibleId": "player-1"
+    },
+    "activatedCombat": {
+      "beforeHp": 100,
+      "afterHp": 89,
+      "damage": [
+        11
+      ],
+      "source": "sergeant",
+      "target": "wz-4"
+    }
+  },
+  "checks": [
+    {
+      "name": "original automation browser writer capture provenance and untouched bytes",
+      "ok": true
+    },
+    {
+      "name": "actual loader preserves captured population health positions resources and RNG",
+      "ok": true
+    },
+    {
+      "name": "captured guard sees enemy but nearest visible player is closer before update",
+      "ok": true
+    },
+    {
+      "name": "visible threat gets attention despite closer player; identity and contact retained",
+      "ok": true
+    },
+    {
+      "name": "actual day combat applies the activated guard damage to original wz-4",
+      "ok": true
+    },
+    {
+      "name": "perception-only update does not advance clock RNG events resources positions or health",
+      "ok": true
+    },
+    {
+      "name": "player-only view preserves social observation without a false alert",
+      "ok": true
+    },
+    {
+      "name": "out-of-range enemy does not become visible through player proximity",
+      "ok": true
+    },
+    {
+      "name": "enemy behind view cone does not activate the guard",
+      "ok": true
+    },
+    {
+      "name": "real wall LOS gate remains effective",
+      "ok": true
+    },
+    {
+      "name": "dead enemy does not trigger alert",
+      "ok": true
+    },
+    {
+      "name": "perception cadence is retained",
+      "ok": true
+    },
+    {
+      "name": "noncombat role can notice but cannot gain guard attack capability",
+      "ok": true
+    },
+    {
+      "name": "dead guard stays excluded by actual routine and combat eligibility",
+      "ok": true
+    },
+    {
+      "name": "night perception uses only night threats and day combat remains locked",
+      "ok": true
+    },
+    {
+      "name": "night direct threat may alert using existing visibility but cannot invoke day damage",
+      "ok": true
+    },
+    {
+      "name": "REPORT blocks day combat",
+      "ok": true
+    },
+    {
+      "name": "LOSS blocks day combat",
+      "ok": true
+    },
+    {
+      "name": "RECOVERY blocks day combat",
+      "ok": true
+    },
+    {
+      "name": "real outpost capture keeps one canonical roster and marks the existing guard away",
+      "ok": true
+    },
+    {
+      "name": "assigned outpost guard cannot gain camp attack capability through either role or support and checks are read only",
+      "ok": true
+    },
+    {
+      "name": "assigned outpost guard does not receive local perception updates or deal camp damage",
+      "ok": true
+    },
+    {
+      "name": "assigned outpost guard is excluded from incoming enemy target perception and damage",
+      "ok": true
+    },
+    {
+      "name": "real local radio threat sharing reaches local peers but not the assigned outpost guard",
+      "ok": true
+    },
+    {
+      "name": "dead assigned guard still rejects camp targeting without changing state",
+      "ok": true
+    },
+    {
+      "name": "real outpost release restores local guard perception eligibility and outgoing damage",
+      "ok": true
+    },
+    {
+      "name": "real outpost release restores incoming enemy perception and damage eligibility",
+      "ok": true
+    },
+    {
+      "name": "actual writer loader roundtrip retains both contacts without changing saved resources",
+      "ok": true
+    },
+    {
+      "name": "same original input and explicit sense/combat steps produce deterministic combat facts",
+      "ok": true
+    }
+  ]
+}

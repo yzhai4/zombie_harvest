@@ -1,0 +1,40 @@
+name: Validate WorkBuddy routing and project agents
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.codex/skills/imsaver-workbuddy/**'
+      - '.github/workflows/workbuddy-routing.yml'
+  push:
+    branches: [main]
+    paths:
+      - '.codex/skills/imsaver-workbuddy/**'
+      - '.github/workflows/workbuddy-routing.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  offline-routing:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Preserve tracked bytes on Windows checkout
+        if: runner.os == 'Windows'
+        run: git config --global core.autocrlf false
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify routing, streams, project scope and agents without credentials
+        working-directory: .codex/skills/imsaver-workbuddy/scripts
+        env:
+          # runner is available in step env, not job env; avoid Windows RUNNER~1.
+          TMPDIR: ${{ runner.temp }}
+          TEMP: ${{ runner.temp }}
+          TMP: ${{ runner.temp }}
+        run: python -X utf8 -B -m unittest test_routing test_streaming test_agent_streaming test_project_gateway test_project_agents

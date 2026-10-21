@@ -1,0 +1,83 @@
+{
+  "schema": "ExplicitPathOnlyPublicCompanionV1",
+  "isOriginalNativeReport": false,
+  "isOriginalExecutedMethod": false,
+  "original": {
+    "name": "execution.json",
+    "sha256": "8aa56de911520722f166742d6c4adb9fd05f1442d3442d87d33fc45233d55601",
+    "bytes": 2061
+  },
+  "originalExternalRetained": true,
+  "replacedStringFields": [
+    {
+      "field": "$.command[0]",
+      "originalStringSha256": "c1f2d55c025bb763cd04596f58dd543bad16ef531c8148937241585c01b34a28",
+      "originalBytes": 88,
+      "replacement": "external-path-sha256:c1f2d55c025bb763cd04596f58dd543bad16ef531c8148937241585c01b34a28"
+    },
+    {
+      "field": "$.command[1]",
+      "originalStringSha256": "956cafdfbd3fc2e162ad9b9ad941a7a8dfd91f2db36b0d6c4c384afd89d343fe",
+      "originalBytes": 158,
+      "replacement": "<repository-root>\\scripts\\browser-content-episode-v1.mjs"
+    },
+    {
+      "field": "$.command[3]",
+      "originalStringSha256": "40a8b71f63c9c52564cd3809cbaccb68ffefb6c1cc715f934e1b1685b683ce1e",
+      "originalBytes": 147,
+      "replacement": "<cover-round-root>\\episode-browser-final2fca-execution01"
+    }
+  ],
+  "report": {
+    "runner": "browser-content-episode-execution-v1",
+    "status": "TERMINAL",
+    "startedAt": "2026-10-18T05:51:10.397207+00:00",
+    "command": [
+      "external-path-sha256:c1f2d55c025bb763cd04596f58dd543bad16ef531c8148937241585c01b34a28",
+      "<repository-root>\\scripts\\browser-content-episode-v1.mjs",
+      "--out",
+      "<cover-round-root>\\episode-browser-final2fca-execution01"
+    ],
+    "inputs": [
+      {
+        "path": "dist/index.html",
+        "bytes": 993727,
+        "sha256": "2fca005df63742164bd6f6e8e82fc0c2d3962b4678419b633482f8a54e09ef93"
+      },
+      {
+        "path": "dist/actor-sprites.js",
+        "bytes": 19246,
+        "sha256": "257f4b38760813c21c723bbb9f934f1198e742fd1223db48705f34787e0f71b7"
+      },
+      {
+        "path": "scripts/browser-content-episode-v1.mjs",
+        "bytes": 6475,
+        "sha256": "a91f58668aae7f0d5e2132fc5712bb4fca1f30cee403cadf7949bccea20f5be5"
+      },
+      {
+        "path": "scripts/lib/source-runtime-fixture.mjs",
+        "bytes": 2959,
+        "sha256": "e9872eeba85d49019d1bd806f3dd18357a5abc8f2f92922922f6a5324ec220dc"
+      },
+      {
+        "path": "scripts/fixtures/content-episode-v1/save21-pre-identity-active.json",
+        "bytes": 54441,
+        "sha256": "eb3b163e5b55e17f356b3ec95a4f9e5e55147bb78b8250ba0fac6ec3b6a0096d"
+      },
+      {
+        "path": "scripts/check-report-recovery.mjs",
+        "bytes": 51172,
+        "sha256": "6e0da555742e930b8bf926eeec0db0ee22f17240a4fa305978841f8ba862c0a3"
+      }
+    ],
+    "naturalGameplay": false,
+    "browserChannel": "chrome",
+    "chromeProgramFilesEnvironmentSet": true,
+    "sourceHtmlSha256": "2fca005df63742164bd6f6e8e82fc0c2d3962b4678419b633482f8a54e09ef93",
+    "exitCode": 0,
+    "finishedAt": "2026-10-18T05:51:15.782902+00:00",
+    "unchanged": true,
+    "reportSha256": "19c524281d3b7142b3fda3dbb7a44ae3742b9c675e49ca51d061bb5564f4adc0"
+  },
+  "scope": "Only declared path strings changed. Result/status/count/error semantics retained; original raw bytes are external, not reconstructed by this companion."
+}

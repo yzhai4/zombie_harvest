@@ -1,0 +1,96 @@
+{
+  "schema": "RelayMaintenanceBrowserInputProductionV1",
+  "status": "PREPARATION_VERIFIED",
+  "sourceHtmlSha256": "ad7627a94ccced73b1ec7222501c13558deb4dd48ebb22ede980cfbf6bd3f65a",
+  "mother": {
+    "file": "original-online-mother-native.json",
+    "sha256": "4bb6aac0eb6b4f440aa60d7b58e13de5c33b8dd70ca4f073f4757d245735a6a8",
+    "bytes": 99460
+  },
+  "mode": "TEST-ONLY-complete-real-online-writer-derived-HP0-stale-flags-and-player-position",
+  "naturalDamageClaim": false,
+  "naturalGameplay": false,
+  "humanExperience": false,
+  "browserExecuted": false,
+  "noBusinessCommandsExecuted": true,
+  "scenes": [
+    {
+      "id": "destroyed-near-repair",
+      "file": "destroyed-near-repair-input-native.json",
+      "sha256": "cd92cdf6fccce25345e9633c32bd5abffaf13d132414690607c2a4026f89b0e2",
+      "bytes": 102652,
+      "stationId": "bld-relay-station",
+      "initialDistance": 0.9,
+      "expectedInitialRepairAllowed": true,
+      "kind": "TEST-ONLY-complete-real-online-writer-derived-HP0-stale-flags-and-player-position"
+    },
+    {
+      "id": "destroyed-view-only-range",
+      "file": "destroyed-view-only-range-input-native.json",
+      "sha256": "b47807eeabd060a5225894a0b94409744c39738fec4d0edffaa89523e3dbb430",
+      "bytes": 102660,
+      "stationId": "bld-relay-station",
+      "initialDistance": 1.19,
+      "expectedInitialRepairAllowed": false,
+      "kind": "TEST-ONLY-complete-real-online-writer-derived-HP0-stale-flags-and-player-position"
+    }
+  ],
+  "changes": [
+    {
+      "scene": "destroyed-near-repair",
+      "stationId": "bld-relay-station",
+      "stationHp": {
+        "before": 8,
+        "after": 0
+      },
+      "player": {
+        "before": {
+          "x": 10.900000000000002,
+          "y": 5.30000000000002,
+          "prevX": 11.1,
+          "prevY": 11
+        },
+        "after": {
+          "x": 11.1,
+          "y": 0,
+          "prevX": 11.1,
+          "prevY": 0
+        }
+      },
+      "stationFlags": {
+        "active": true,
+        "relayEnabled": true,
+        "preservedStaleFlags": true
+      },
+      "enemyOrResourceChanges": 0
+    },
+    {
+      "scene": "destroyed-view-only-range",
+      "stationId": "bld-relay-station",
+      "stationHp": {
+        "before": 8,
+        "after": 0
+      },
+      "player": {
+        "before": {
+          "x": 10.900000000000002,
+          "y": 5.30000000000002,
+          "prevX": 11.1,
+          "prevY": 11
+        },
+        "after": {
+          "x": 10.81,
+          "y": 0,
+          "prevX": 10.81,
+          "prevY": 0
+        }
+      },
+      "stationFlags": {
+        "active": true,
+        "relayEnabled": true,
+        "preservedStaleFlags": true
+      },
+      "enemyOrResourceChanges": 0
+    }
+  ]
+}

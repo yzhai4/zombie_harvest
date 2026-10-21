@@ -1,0 +1,811 @@
+{
+  "schema": "NpcRelayStoneBrowserV1",
+  "methodRevision": 3,
+  "methodCorrection": "Original generic 10px choice text is recorded without an invented 12px rule; actual visibility, CSS bounds and center hit-target required; external feedback retains >=12px. Inner resolved receipt links by causationId to the real parent command/outer receipt; original recordWorldEvent contract is not rewritten.",
+  "status": "FAILED",
+  "sourceHtmlSha256": "082e8e2e6233351155fb560d4afd0af930b72af1997907733efb936d2654df46",
+  "runnerSha256": "072cc50d77cdbba1b3bc4ea6c38104f27a19bfd5b871cc88ff8cbbcf465f46d8",
+  "inputManifestSha256": "e261ae069ec0619e301768acb56101a4814263a4b4d2eae61c86460e72d54506",
+  "naturalGameplayClaim": false,
+  "humanUnderstanding": false,
+  "sourceVmExecuted": false,
+  "gameStateWritesAfterBoot": false,
+  "fixtureStorageWritesAfterBoot": false,
+  "hiddenBusinessCalls": 0,
+  "forceClicks": 0,
+  "scope": "Four independent TEST-ONLY full-writer Chrome scenes; public nearby NPC story, close/reopen, two real choices, bounded refusal, actual normal writer/selected/Continue/new tick. No A08 continuation, natural outcome, all-NPC/Actor or balance claim.",
+  "budget": {
+    "overallMs": 135000,
+    "choiceSceneMs": 40000,
+    "refusalSceneMs": 20000,
+    "controlsPerScene": 14,
+    "navigation": 0,
+    "attack": 0,
+    "rest": 0,
+    "eat": 0,
+    "support": 0,
+    "minimumHp": 35,
+    "maximumHpLoss": 12
+  },
+  "checks": [
+    {
+      "name": "accept-close-reopen: actual initial loader raw equals complete fixture",
+      "ok": true
+    },
+    {
+      "name": "accept-close-reopen: AI-OFF fixed-template route and real personal source",
+      "ok": true
+    },
+    {
+      "name": "accept-close-reopen: public entry selects exact chain",
+      "ok": true
+    },
+    {
+      "name": "accept-close-reopen: two actual public bound choices and readable external feedback",
+      "ok": true
+    },
+    {
+      "name": "accept-close-reopen: both actual choices enabled near eligible holder with explicit cost and alternatives",
+      "ok": true
+    },
+    {
+      "name": "accept-close-reopen: closing unanswered restores visible main controls",
+      "ok": true
+    },
+    {
+      "name": "accept-close-reopen: close leaves pending unresolved without material or relationship cost",
+      "ok": true
+    },
+    {
+      "name": "accept-close-reopen: public entry selects exact chain",
+      "ok": true
+    },
+    {
+      "name": "accept-close-reopen: real same-ID command and completion include exact public choice",
+      "ok": true
+    },
+    {
+      "name": "accept-close-reopen: source-bound public CAS and actual finite effect match displayed choice",
+      "ok": false
+    },
+    {
+      "name": "defer: actual initial loader raw equals complete fixture",
+      "ok": true
+    },
+    {
+      "name": "defer: AI-OFF fixed-template route and real personal source",
+      "ok": true
+    },
+    {
+      "name": "defer: public entry selects exact chain",
+      "ok": true
+    },
+    {
+      "name": "defer: two actual public bound choices and readable external feedback",
+      "ok": true
+    },
+    {
+      "name": "defer: both actual choices enabled near eligible holder with explicit cost and alternatives",
+      "ok": true
+    },
+    {
+      "name": "defer: real same-ID command and completion include exact public choice",
+      "ok": true
+    },
+    {
+      "name": "defer: source-bound public CAS and actual finite effect match displayed choice",
+      "ok": false
+    },
+    {
+      "name": "range-band: actual initial loader raw equals complete fixture",
+      "ok": true
+    },
+    {
+      "name": "range-band: AI-OFF fixed-template route and real personal source",
+      "ok": true
+    },
+    {
+      "name": "range-band: public 1.25 view stays enabled while 1.0 action is disabled",
+      "ok": true
+    },
+    {
+      "name": "range-band: view-desktop external 1.0 vs1.25 reason and personal view are actually readable",
+      "ok": true
+    },
+    {
+      "name": "range-band: view-390 external 1.0 vs1.25 reason and personal view are actually readable",
+      "ok": true
+    },
+    {
+      "name": "range-band: view never pays or starts/resolves the stone action",
+      "ok": true
+    },
+    {
+      "name": "range-band: only one preboot seed",
+      "ok": true
+    },
+    {
+      "name": "stone-zero: actual initial loader raw equals complete fixture",
+      "ok": true
+    },
+    {
+      "name": "stone-zero: AI-OFF fixed-template route and real personal source",
+      "ok": true
+    },
+    {
+      "name": "stone-zero: public entry selects exact chain",
+      "ok": true
+    },
+    {
+      "name": "stone-zero: two actual public bound choices and readable external feedback",
+      "ok": true
+    },
+    {
+      "name": "stone-zero: actual accept disabled and reason readable outside disabled button",
+      "ok": true
+    },
+    {
+      "name": "stone-zero: unavailable case did not pay or resolve",
+      "ok": true
+    },
+    {
+      "name": "stone-zero: zero-stone has explicit resource reason",
+      "ok": true
+    },
+    {
+      "name": "stone-zero: only one preboot storage seed",
+      "ok": true
+    },
+    {
+      "name": "immutable method browser-npc-relay-stone-v1.mjs",
+      "ok": true
+    },
+    {
+      "name": "immutable html index.html",
+      "ok": true
+    },
+    {
+      "name": "immutable input-manifest input-manifest-v2.json",
+      "ok": true
+    },
+    {
+      "name": "immutable input near-writer.json",
+      "ok": true
+    },
+    {
+      "name": "immutable input range-band-writer.json",
+      "ok": true
+    },
+    {
+      "name": "immutable input stone-zero-writer.json",
+      "ok": true
+    },
+    {
+      "name": "immutable asset /actor-sprites.js",
+      "ok": true
+    },
+    {
+      "name": "immutable asset /content/packs/watchpost-manual-v1.json",
+      "ok": true
+    },
+    {
+      "name": "immutable asset /content/packs/npc-relay-stone-v1.json",
+      "ok": true
+    },
+    {
+      "name": "actual main document accept-close-reopen matches candidate",
+      "ok": true
+    },
+    {
+      "name": "actual main document defer matches candidate",
+      "ok": true
+    },
+    {
+      "name": "actual main document range-band matches candidate",
+      "ok": true
+    },
+    {
+      "name": "actual main document stone-zero matches candidate",
+      "ok": true
+    },
+    {
+      "name": "accept-close-reopen actual load/reload document count",
+      "ok": false,
+      "detail": 1
+    },
+    {
+      "name": "defer actual load/reload document count",
+      "ok": false,
+      "detail": 1
+    },
+    {
+      "name": "range-band actual load/reload document count",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "stone-zero actual load/reload document count",
+      "ok": true,
+      "detail": 1
+    }
+  ],
+  "errors": [
+    {
+      "scene": "accept-close-reopen",
+      "type": "AssertionError",
+      "message": "accept-close-reopen: source-bound public CAS and actual finite effect match displayed choice"
+    },
+    {
+      "scene": "defer",
+      "type": "AssertionError",
+      "message": "defer: source-bound public CAS and actual finite effect match displayed choice"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "accept-close-reopen",
+      "inputId": "near",
+      "inputSha256": "df08b55ad5f2a1c6efcd933ba03f75adf7de3571a99801c596030dc1658bd13f",
+      "actions": [
+        {
+          "selector": "#continueSaveBtn",
+          "label": "continue-fixture",
+          "at": 1792385734267
+        },
+        {
+          "selector": "[data-context-action=\"npcRelayStone\"][data-npc-id=\"commander\"]",
+          "label": "nearby-owned-fact-story",
+          "at": 1792385734479
+        },
+        {
+          "selector": "#infoModalClose",
+          "label": "close-unanswered",
+          "at": 1792385735587
+        },
+        {
+          "selector": "[data-context-action=\"npcRelayStone\"][data-npc-id=\"commander\"]",
+          "label": "nearby-owned-fact-story",
+          "at": 1792385735661
+        },
+        {
+          "selector": "#eventChoiceA",
+          "label": "submit-supply",
+          "at": 1792385735826
+        }
+      ],
+      "captures": [
+        {
+          "file": "accept-close-reopen-choices-390.png",
+          "uiAt": 1792385734678,
+          "liveAt": 1792385734721,
+          "screenshotAfter": 1792385734834,
+          "atomic": false
+        },
+        {
+          "file": "accept-close-reopen-buttons-390.png",
+          "uiAt": 1792385734860,
+          "liveAt": 1792385734889,
+          "screenshotAfter": 1792385735030,
+          "atomic": false
+        },
+        {
+          "file": "accept-close-reopen-choices-desktop.png",
+          "uiAt": 1792385735078,
+          "liveAt": 1792385735234,
+          "screenshotAfter": 1792385735470,
+          "atomic": false
+        }
+      ],
+      "status": "FAILED",
+      "lastPublicSafety": {
+        "label": "actual story resolution",
+        "started": true,
+        "hp": 86,
+        "phase": "DAY"
+      }
+    },
+    {
+      "id": "defer",
+      "inputId": "near",
+      "inputSha256": "df08b55ad5f2a1c6efcd933ba03f75adf7de3571a99801c596030dc1658bd13f",
+      "actions": [
+        {
+          "selector": "#continueSaveBtn",
+          "label": "continue-fixture",
+          "at": 1792385736912
+        },
+        {
+          "selector": "[data-context-action=\"npcRelayStone\"][data-npc-id=\"commander\"]",
+          "label": "nearby-owned-fact-story",
+          "at": 1792385737038
+        },
+        {
+          "selector": "#eventChoiceB",
+          "label": "submit-later",
+          "at": 1792385737946
+        }
+      ],
+      "captures": [
+        {
+          "file": "defer-choices-390.png",
+          "uiAt": 1792385737160,
+          "liveAt": 1792385737206,
+          "screenshotAfter": 1792385737312,
+          "atomic": false
+        },
+        {
+          "file": "defer-buttons-390.png",
+          "uiAt": 1792385737335,
+          "liveAt": 1792385737361,
+          "screenshotAfter": 1792385737464,
+          "atomic": false
+        },
+        {
+          "file": "defer-choices-desktop.png",
+          "uiAt": 1792385737511,
+          "liveAt": 1792385737585,
+          "screenshotAfter": 1792385737813,
+          "atomic": false
+        }
+      ],
+      "status": "FAILED",
+      "lastPublicSafety": {
+        "label": "actual story resolution",
+        "started": true,
+        "hp": 86,
+        "phase": "DAY"
+      }
+    },
+    {
+      "id": "range-band",
+      "inputId": "range-band",
+      "inputSha256": "8f864ee94f0091f624752dd30e6442b7a4e7e057a7cfb0df7da26d28ab8103b2",
+      "actions": [
+        {
+          "selector": "#continueSaveBtn",
+          "label": "continue-fixture",
+          "at": 1792385739211
+        },
+        {
+          "selector": "[data-context-action=\"npcView\"][data-npc-id=\"commander\"]",
+          "label": "legal-view-only",
+          "at": 1792385739340
+        }
+      ],
+      "captures": [
+        {
+          "file": "range-band-view-desktop.png",
+          "uiAt": 1792385739368,
+          "screenshotAfter": 1792385739620,
+          "atomic": false
+        },
+        {
+          "file": "range-band-view-390.png",
+          "uiAt": 1792385739729,
+          "screenshotAfter": 1792385739889,
+          "atomic": false
+        }
+      ],
+      "status": "VERIFIED",
+      "lastPublicSafety": {
+        "label": "after-legal-view-only",
+        "started": true,
+        "hp": 86,
+        "phase": "DAY"
+      }
+    },
+    {
+      "id": "stone-zero",
+      "inputId": "stone-zero",
+      "inputSha256": "5a903306e752c005ed6e50856ff5158bc4daff5c9ee645085940c026c083bc07",
+      "actions": [
+        {
+          "selector": "#continueSaveBtn",
+          "label": "continue-fixture",
+          "at": 1792385740614
+        },
+        {
+          "selector": "[data-context-action=\"npcRelayStone\"][data-npc-id=\"commander\"]",
+          "label": "nearby-owned-fact-story",
+          "at": 1792385740748
+        },
+        {
+          "selector": "#infoModalClose",
+          "label": "close-disabled",
+          "at": 1792385741540
+        }
+      ],
+      "captures": [
+        {
+          "file": "stone-zero-choices-390.png",
+          "uiAt": 1792385740855,
+          "liveAt": 1792385740893,
+          "screenshotAfter": 1792385741022,
+          "atomic": false
+        },
+        {
+          "file": "stone-zero-disabled-desktop.png",
+          "uiAt": 1792385741126,
+          "liveAt": 1792385741231,
+          "screenshotAfter": 1792385741488,
+          "atomic": false
+        }
+      ],
+      "status": "VERIFIED",
+      "lastPublicSafety": {
+        "label": "after-close-disabled",
+        "started": true,
+        "hp": 86,
+        "phase": "DAY"
+      }
+    }
+  ],
+  "documents": [
+    {
+      "scene": "accept-close-reopen",
+      "status": 200,
+      "sha256": "082e8e2e6233351155fb560d4afd0af930b72af1997907733efb936d2654df46",
+      "bytes": 1019498
+    },
+    {
+      "scene": "defer",
+      "status": 200,
+      "sha256": "082e8e2e6233351155fb560d4afd0af930b72af1997907733efb936d2654df46",
+      "bytes": 1019498
+    },
+    {
+      "scene": "range-band",
+      "status": 200,
+      "sha256": "082e8e2e6233351155fb560d4afd0af930b72af1997907733efb936d2654df46",
+      "bytes": 1019498
+    },
+    {
+      "scene": "stone-zero",
+      "status": 200,
+      "sha256": "082e8e2e6233351155fb560d4afd0af930b72af1997907733efb936d2654df46",
+      "bytes": 1019498
+    }
+  ],
+  "cleanup": {
+    "contextsClosed": true,
+    "browserClosed": true,
+    "serverClosed": true
+  },
+  "browserVersion": "155.0.8059.80",
+  "count": 49,
+  "passed": 45,
+  "elapsedMs": 8630,
+  "ok": false,
+  "artifacts": [
+    {
+      "file": "accept-close-reopen-actual-choice-receipt.json",
+      "sha256": "c2ff4dd53d48905c2ff49b7785c65ced3fd1b91c32269c3f2fb1d9a2101258e5",
+      "bytes": 4254
+    },
+    {
+      "file": "accept-close-reopen-baseline-live.json",
+      "sha256": "8c3038fa04af5d0c5c292242fb90531aa9f5b88da6c2dd75e374b8e65d5d4dfc",
+      "bytes": 150293
+    },
+    {
+      "file": "accept-close-reopen-before-choice-live.json",
+      "sha256": "38757412e49d3b9f9b7944c8aaa365c02c6342f8c2fff2355bf4980bb48193ea",
+      "bytes": 155620
+    },
+    {
+      "file": "accept-close-reopen-buttons-390-live.json",
+      "sha256": "789bc62d48c10075834c885a570147687a488e74b73208be7d6a0f0fa6c5fd7f",
+      "bytes": 153852
+    },
+    {
+      "file": "accept-close-reopen-buttons-390-ui.json",
+      "sha256": "905dee3a32c7b1c0d433beeb5dcbb4d7800ef7babd4761e2e814c15e351c5875",
+      "bytes": 3800
+    },
+    {
+      "file": "accept-close-reopen-buttons-390.png",
+      "sha256": "b15bd0433f78c576611d76cc5ccdaf8861a30142472b2a47476be8304d4ff633",
+      "bytes": 155038
+    },
+    {
+      "file": "accept-close-reopen-choices-390-live.json",
+      "sha256": "c54091839517ba8fcd16e0d950fdeb8378ee19e2828b20a38828722bd6bc6af4",
+      "bytes": 153852
+    },
+    {
+      "file": "accept-close-reopen-choices-390-ui.json",
+      "sha256": "57eb3d3609393666505a2ce47790c5fb77967ce85fadd71d1f307064ad2c8b33",
+      "bytes": 3383
+    },
+    {
+      "file": "accept-close-reopen-choices-390.png",
+      "sha256": "58e129b8aa4e8e33d9742f4fb39cd09e9d4eddd9659b526f49f41c142bb4d0e6",
+      "bytes": 155031
+    },
+    {
+      "file": "accept-close-reopen-choices-desktop-live.json",
+      "sha256": "d69493a1e66c60280918b1b98e501db381ae50f449556b32cc1f6d4db7d6988d",
+      "bytes": 153852
+    },
+    {
+      "file": "accept-close-reopen-choices-desktop-ui.json",
+      "sha256": "04a9aabec56a6a7b391b2e5e663c13743c2b8421215015be7113f2a772f0aac5",
+      "bytes": 3313
+    },
+    {
+      "file": "accept-close-reopen-choices-desktop.png",
+      "sha256": "8502962ab891ed0a9f5cc1364478c82a5d098a85e32879a05c984a43feff9125",
+      "bytes": 340017
+    },
+    {
+      "file": "accept-close-reopen-closed-unanswered-live.json",
+      "sha256": "8424dcd613d35b0aa7e538a344f9918ac56b7fce77f2a55362efea0c49ebf3cc",
+      "bytes": 153979
+    },
+    {
+      "file": "accept-close-reopen-failure-last-writer-native.json",
+      "sha256": "2fed731f1679f9a9c2335891a4086a1bc3acd607a08618e905ad799eb7c53c51",
+      "bytes": 330625
+    },
+    {
+      "file": "accept-close-reopen-failure-live-read.json",
+      "sha256": "3ca4df68fdc8f83f859b7ed07b28af87f75b3cda5eee9a30560e989242e3f419",
+      "bytes": 261632
+    },
+    {
+      "file": "accept-close-reopen-failure.png",
+      "sha256": "09edefef030f732c20bfae2bb111318461db8beeeb0d00cea287564b1bd7caf0",
+      "bytes": 318388
+    },
+    {
+      "file": "accept-close-reopen-initial-selected-metadata.json",
+      "sha256": "8891b020922a4782bdcdf3a3b78c03135fbe8e171590731f9819feaf2767a781",
+      "bytes": 295
+    },
+    {
+      "file": "accept-close-reopen-initial-selected-native.json",
+      "sha256": "df08b55ad5f2a1c6efcd933ba03f75adf7de3571a99801c596030dc1658bd13f",
+      "bytes": 325891
+    },
+    {
+      "file": "asset-actor-sprites.js",
+      "sha256": "257f4b38760813c21c723bbb9f934f1198e742fd1223db48705f34787e0f71b7",
+      "bytes": 19246
+    },
+    {
+      "file": "asset-npc-relay-stone-v1.json",
+      "sha256": "cca7e6712418c1f1512f19413a8c3f9823df8a5424c4b41e0432d088cad4e1ec",
+      "bytes": 1912
+    },
+    {
+      "file": "asset-watchpost-manual-v1.json",
+      "sha256": "b2d196a171d3a4e828d8486c36ea664992e51fd8df1223ea395172a511b869e3",
+      "bytes": 3264
+    },
+    {
+      "file": "bindings-after.json",
+      "sha256": "2044e96040ba495d7c13d9b130b2b60a16ffa4cfede0a36716fe9589170848c5",
+      "bytes": 3750
+    },
+    {
+      "file": "bindings-before.json",
+      "sha256": "65196f4b078011ad379a6afc720d7773fdf4d07a5f0eee48bae82da5de0bd90d",
+      "bytes": 2958
+    },
+    {
+      "file": "defer-actual-choice-receipt.json",
+      "sha256": "e4e98779d45224e2ac53406123f2e99c6fe56772d196a6a86c21fbec1df5b7e1",
+      "bytes": 4248
+    },
+    {
+      "file": "defer-baseline-live.json",
+      "sha256": "b889d0275050af1224661dbd2348df03c41c71563053f33246f578d9f9c3024e",
+      "bytes": 150293
+    },
+    {
+      "file": "defer-before-choice-live.json",
+      "sha256": "819e30be40aeef3013857e3edd456b0793d88c3c8e6fedb9980b8962e776cb09",
+      "bytes": 153852
+    },
+    {
+      "file": "defer-buttons-390-live.json",
+      "sha256": "9889a22bb92a7aba12875e16ceb0c34f9bbe7a114c49218576c1d93741d76488",
+      "bytes": 153852
+    },
+    {
+      "file": "defer-buttons-390-ui.json",
+      "sha256": "60589344e6d159981308cc3a946ea88557ce59d2c9a3cfb6fc18db9180ec497a",
+      "bytes": 3800
+    },
+    {
+      "file": "defer-buttons-390.png",
+      "sha256": "7380d55e76f98f70b8857e4b1f9f33001ae5138022dd0ff902426c8bf9fbf293",
+      "bytes": 155045
+    },
+    {
+      "file": "defer-choices-390-live.json",
+      "sha256": "160b941875cf6294b5c07443018ce8b261175bee5fc315ebe2efd78859c12ab5",
+      "bytes": 153852
+    },
+    {
+      "file": "defer-choices-390-ui.json",
+      "sha256": "5dc1851b0f6dc909042808414bfdc74a6b2fe98685f2f3da71254fcdc4ddaaf2",
+      "bytes": 3383
+    },
+    {
+      "file": "defer-choices-390.png",
+      "sha256": "58e129b8aa4e8e33d9742f4fb39cd09e9d4eddd9659b526f49f41c142bb4d0e6",
+      "bytes": 155031
+    },
+    {
+      "file": "defer-choices-desktop-live.json",
+      "sha256": "95ea207421f3b2f8e3517c58c4d2a797dc32c5e830e7f1aef94789bc4ce082ee",
+      "bytes": 153852
+    },
+    {
+      "file": "defer-choices-desktop-ui.json",
+      "sha256": "cd9bf629525e8f0ad9b890350731f5b30422e8516643f2d5816eeaf9548eb9e2",
+      "bytes": 3313
+    },
+    {
+      "file": "defer-choices-desktop.png",
+      "sha256": "ddf9c0d4d20bfcf3a8df99319f1eb8eadb3aab9871474d8337d58631c0a44d98",
+      "bytes": 342631
+    },
+    {
+      "file": "defer-failure-last-writer-native.json",
+      "sha256": "2fed731f1679f9a9c2335891a4086a1bc3acd607a08618e905ad799eb7c53c51",
+      "bytes": 330625
+    },
+    {
+      "file": "defer-failure-live-read.json",
+      "sha256": "3172e6cb374d234a09a326ea572c1f068ae14a693483b02620add9b8795e9a56",
+      "bytes": 258734
+    },
+    {
+      "file": "defer-failure.png",
+      "sha256": "b888187736ada838d22622eea0eacc1cd2369746140ab50bdbc48c4acb12d663",
+      "bytes": 318937
+    },
+    {
+      "file": "defer-initial-selected-metadata.json",
+      "sha256": "8891b020922a4782bdcdf3a3b78c03135fbe8e171590731f9819feaf2767a781",
+      "bytes": 295
+    },
+    {
+      "file": "defer-initial-selected-native.json",
+      "sha256": "df08b55ad5f2a1c6efcd933ba03f75adf7de3571a99801c596030dc1658bd13f",
+      "bytes": 325891
+    },
+    {
+      "file": "input-manifest.json",
+      "sha256": "e261ae069ec0619e301768acb56101a4814263a4b4d2eae61c86460e72d54506",
+      "bytes": 4241
+    },
+    {
+      "file": "invocation.json",
+      "sha256": "d295dad53cf94825ebf83d478272dc51ecd45e8c555a7911a606898462c39c31",
+      "bytes": 1569
+    },
+    {
+      "file": "near-input-native.json",
+      "sha256": "df08b55ad5f2a1c6efcd933ba03f75adf7de3571a99801c596030dc1658bd13f",
+      "bytes": 325891
+    },
+    {
+      "file": "range-band-baseline-live.json",
+      "sha256": "0380afb1746a2938bdc354478f5448372526b76e6caa20ab5906344bf8b3917c",
+      "bytes": 150293
+    },
+    {
+      "file": "range-band-endpoint-live.json",
+      "sha256": "54cc67b4bbe7d48559510069fac5025717c644aa3a29c98251dfab12e5b8f6e7",
+      "bytes": 150293
+    },
+    {
+      "file": "range-band-initial-selected-metadata.json",
+      "sha256": "239763ac1aa1d4bcbb58ba9fc6c7fde194c26b00d94f2715a9f287667f01570f",
+      "bytes": 295
+    },
+    {
+      "file": "range-band-initial-selected-native.json",
+      "sha256": "8f864ee94f0091f624752dd30e6442b7a4e7e057a7cfb0df7da26d28ab8103b2",
+      "bytes": 325892
+    },
+    {
+      "file": "range-band-input-native.json",
+      "sha256": "8f864ee94f0091f624752dd30e6442b7a4e7e057a7cfb0df7da26d28ab8103b2",
+      "bytes": 325892
+    },
+    {
+      "file": "range-band-view-390-live.json",
+      "sha256": "3a815b65952e56cca94300c807fd3afbcd0c19517a79dc71b2b96145360ae83b",
+      "bytes": 150293
+    },
+    {
+      "file": "range-band-view-390-ui.json",
+      "sha256": "f616c6c8d8dbdba3da6d136bdc17220568a9103447c2da6e1962fafe94e2e327",
+      "bytes": 2384
+    },
+    {
+      "file": "range-band-view-390.png",
+      "sha256": "2b22b7ec06af0282e2de7338f6469c0bbb0f5d557fd5c2c674727bf5343ff305",
+      "bytes": 159290
+    },
+    {
+      "file": "range-band-view-desktop-live.json",
+      "sha256": "5f45e23e18b74bbbaf4e8aac67d70ca138fa6720aad6fc16da2951a930065d26",
+      "bytes": 150293
+    },
+    {
+      "file": "range-band-view-desktop-ui.json",
+      "sha256": "22a48d0f40cc0ff89f67fa3335ba7a86b5ef54486206e14f1aad3319b4ed4b84",
+      "bytes": 2412
+    },
+    {
+      "file": "range-band-view-desktop.png",
+      "sha256": "75ad6513b606c7c568de4efa16e6cc24997572cb4f7a0086a07f651d0278bcd8",
+      "bytes": 548337
+    },
+    {
+      "file": "runner-executed.mjs",
+      "sha256": "072cc50d77cdbba1b3bc4ea6c38104f27a19bfd5b871cc88ff8cbbcf465f46d8",
+      "bytes": 26575
+    },
+    {
+      "file": "source-executed.html",
+      "sha256": "082e8e2e6233351155fb560d4afd0af930b72af1997907733efb936d2654df46",
+      "bytes": 1019498
+    },
+    {
+      "file": "stone-zero-baseline-live.json",
+      "sha256": "83f0f6d067defaa08e228aa5b594b20688a094217f031e6724e8359929bc6655",
+      "bytes": 150293
+    },
+    {
+      "file": "stone-zero-choices-390-live.json",
+      "sha256": "d6696989f3e03bb60fc7f244b3bd6722822a043794f3bb1f1887285e3586cbd9",
+      "bytes": 153852
+    },
+    {
+      "file": "stone-zero-choices-390-ui.json",
+      "sha256": "43d1d8e3d31e6ae6efb5d909f66ceed6fa8c266dd90d51efd779efe4ac6ad210",
+      "bytes": 3101
+    },
+    {
+      "file": "stone-zero-choices-390.png",
+      "sha256": "cb946f3d22c99d5b9bab259dba6ffe83c2ea053c7f0b20ba4002b3d402709fd0",
+      "bytes": 145948
+    },
+    {
+      "file": "stone-zero-disabled-desktop-live.json",
+      "sha256": "dec82e9b569fe096001f4499a3491e0774030ec69ba59763f9eb0eddf358897b",
+      "bytes": 153852
+    },
+    {
+      "file": "stone-zero-disabled-desktop-ui.json",
+      "sha256": "37120bd0da30d4a4cc9c3f3ae180fbed8f41a10a14a7916b07e66161b186c416",
+      "bytes": 3031
+    },
+    {
+      "file": "stone-zero-disabled-desktop.png",
+      "sha256": "a4076a3923436b336c5efb9d9ab94aefad2b6bc604ad5bb72abb6ec233ea01ec",
+      "bytes": 335367
+    },
+    {
+      "file": "stone-zero-initial-selected-metadata.json",
+      "sha256": "e80316be8d60bae3b7942d8ce84b028428635811fd3a03f28ae5dbf0204c3caf",
+      "bytes": 295
+    },
+    {
+      "file": "stone-zero-initial-selected-native.json",
+      "sha256": "5a903306e752c005ed6e50856ff5158bc4daff5c9ee645085940c026c083bc07",
+      "bytes": 325897
+    },
+    {
+      "file": "stone-zero-input-native.json",
+      "sha256": "5a903306e752c005ed6e50856ff5158bc4daff5c9ee645085940c026c083bc07",
+      "bytes": 325897
+    }
+  ]
+}

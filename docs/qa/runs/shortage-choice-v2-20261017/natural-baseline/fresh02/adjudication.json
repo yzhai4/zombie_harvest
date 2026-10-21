@@ -1,0 +1,20 @@
+{
+  "schema": "NaturalShortCoverageAdjudicationV1",
+  "originalReportSha256": "f5912d211d00a3cd778ad68114a0871da3ed561a334f6bf689fa737d732a67c2",
+  "originalRunnerSha256": "c0f02eb71d3c24856bd0a35071b0b62927a8414fc0e28b67ad7b13d307c33f76",
+  "originalStatus": "SHORT_MIXED_OBSERVED",
+  "originalOk": true,
+  "originalObservedExitCode": 0,
+  "originalChecks": {
+    "passed": 12,
+    "count": 12
+  },
+  "adjustedStatus": "INCOMPLETE_COVERAGE",
+  "missing": [
+    "npcInteraction",
+    "planting",
+    "usefulConstruction",
+    "goalDrivenRest"
+  ],
+  "reason": "Executed checks passed but omitted planned NPC, planting, useful construction and purposeful recovery. Original report and artifacts remain unchanged; this companion does not promote runtime coverage."
+}

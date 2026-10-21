@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "zombie-harvest://schemas/scenario-package-v1.json",
+  "title": "ScenarioPackageV1",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "scenario",
+    "metadata",
+    "world",
+    "difficulty",
+    "events",
+    "ai",
+    "continuity"
+  ],
+  "properties": {
+    "events": {
+      "type": "object",
+      "properties": {
+        "storylets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "definitionVersion": {
+                "type": "integer",
+                "minimum": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "id": "npc-relay-stone-v1",
+  "version": 1,
+  "scope": "zombie-farm-built-in-relay-only",
+  "definition": {
+    "id": "npc-relay-stone-001",
+    "chainId": "npc-relay-stone-001",
+    "definitionVersion": 1,
+    "instancePolicy": "source-once-v1",
+    "title": "最后一块石料",
+    "description": "林岑记得你亲手交来的核心，中继站还缺最后一块石料。",
+    "category": "camp",
+    "phase": ["DAY"],
+    "priority": 76,
+    "repeatable": false,
+    "optional": true,
+    "gateVersion": 1,
+    "evaluatePreconditions": true,
+    "gate": {"version": 1, "phase": "DAY", "nightAllowed": false, "preconditions": []},
+    "preconditions": [],
+    "startConditions": [],
+    "nodes": [{
+      "nodeId": "stone_offer",
+      "title": "补齐站基",
+      "text": "林岑：你把核心交给过我。还愿意自愿拿出一块石料，补齐站基吗？也可以本次先不交，按原节拍筹料。交料只补材料，施工仍需时间；本次先不交也不会保留库存，营地之后仍可能自行取料。关闭面板表示尚未答复。",
+      "choices": [{
+        "id": "supply",
+        "label": "交出1石料，补齐站基",
+        "hint": "库存石料 −1 · 工程石料 +1 · 不额外支付体力或分钟 · 不立即施工或完工",
+        "requires": [],
+        "effects": [{"op": "npcRelayStoneReply", "choiceId": "supply", "amount": 1}]
+      }, {
+        "id": "later",
+        "label": "本次先不交，按原节拍筹料",
+        "hint": "本次不扣物资 · 答复后不再询问 · 营地之后仍可能自行取用库存",
+        "requires": [],
+        "effects": [{"op": "npcRelayStoneReply", "choiceId": "later", "amount": 0}]
+      }]
+    }],
+    "fallback": {"ifMissingNpc": "ledger_only", "ifInsufficientPopulation": "ledger_only", "ifExpired": "ledger_only", "ifSkipped": "ledger_only"},
+    "hooks": []
+  }
+}

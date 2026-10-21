@@ -1,0 +1,39 @@
+{
+  "runner": "source-leader-command-bridge-runtime",
+  "sourceHash": "36fed237dd11b579ee7c1463203c6c3755d65dd69c0d22a65f9b270c71dd3e7a",
+  "adapterHash": "199267c9f37aa6c60f4da79a1d5fde5af72e2192e3a130ca2ec79ecdd9110110",
+  "productionWiring": false,
+  "naturalGameplay": false,
+  "migrationRequired": true,
+  "leaderAttribution": "pending-save-replay-migration-adr",
+  "ok": true,
+  "count": 6,
+  "passed": 6,
+  "checks": [
+    {
+      "name": "real reducer accepts mapped plan.meeting.commit",
+      "ok": true
+    },
+    {
+      "name": "real reducer deducts one CP and keeps plan authority",
+      "ok": true
+    },
+    {
+      "name": "real CommandBus writes replay command and event causation fields",
+      "ok": true
+    },
+    {
+      "name": "real SAVE21 writer validates the bridge projection",
+      "ok": true
+    },
+    {
+      "name": "stale second click cannot debit or commit twice",
+      "ok": true
+    },
+    {
+      "name": "leader identity remains an explicit migration gap",
+      "ok": true
+    }
+  ]
+}
+

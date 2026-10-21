@@ -1,0 +1,992 @@
+{
+  "schema": "NpcClockAndCompletionReadOnlyAuditV1",
+  "scope": "actual source VM; TEST-ONLY scene preparation, source and existing outputs unchanged; no browser or natural claim",
+  "results": [
+    {
+      "label": "19cb-baseline",
+      "case": "clock",
+      "rate": 0.25,
+      "resultOk": true,
+      "reason": null,
+      "energyBefore": 78,
+      "energyAfter": 76,
+      "elapsed": 3.75,
+      "minute": 3.75,
+      "saveSucceeded": true,
+      "validation": {
+        "ok": false,
+        "reason": "calendar"
+      }
+    },
+    {
+      "label": "19cb-baseline",
+      "case": "clock",
+      "rate": 0.5,
+      "resultOk": true,
+      "reason": null,
+      "energyBefore": 78,
+      "energyAfter": 76,
+      "elapsed": 7.5,
+      "minute": 7.5,
+      "saveSucceeded": true,
+      "validation": {
+        "ok": false,
+        "reason": "calendar"
+      }
+    },
+    {
+      "label": "19cb-baseline",
+      "case": "clock",
+      "rate": 0.8,
+      "resultOk": true,
+      "reason": null,
+      "energyBefore": 78,
+      "energyAfter": 76,
+      "elapsed": 12,
+      "minute": 12,
+      "saveSucceeded": true,
+      "validation": {
+        "ok": true,
+        "reason": null
+      }
+    },
+    {
+      "label": "19cb-baseline",
+      "case": "clock",
+      "rate": 1,
+      "resultOk": true,
+      "reason": null,
+      "energyBefore": 78,
+      "energyAfter": 76,
+      "elapsed": 15,
+      "minute": 15,
+      "saveSucceeded": true,
+      "validation": {
+        "ok": true,
+        "reason": null
+      }
+    },
+    {
+      "label": "19cb-baseline",
+      "case": "completion-death",
+      "action": "interact",
+      "setup": "TEST-ONLY one retained actual initial enemy repositioned; existing doctor hp1/critical, player0.3 apart, other NPCs relocated, actual advance/motion/combat unchanged; no Gate/AI/damage stub",
+      "resultOk": true,
+      "reason": null,
+      "receiptType": "npc.interacted",
+      "payload": {},
+      "energyBefore": 78,
+      "energyAfter": 76,
+      "helpedBefore": 0,
+      "helpedAfter": 1,
+      "npc": {
+        "hp": 0,
+        "lifeState": "dead",
+        "supportRequested": false,
+        "order": null,
+        "lastReport": "等待执行支援玩家"
+      },
+      "toast": "苏禾已请求支援",
+      "events": [
+        {
+          "type": "combat.damage.applied",
+          "actorId": "doctor",
+          "payload": {
+            "schemaVersion": "CombatIntentV1",
+            "phase": "DAY",
+            "tick": 1,
+            "intentId": "day-1-1",
+            "attackSeq": 1,
+            "profileId": "npc.guard.day",
+            "sourceId": "doctor",
+            "targetId": "wz-1",
+            "sourceKind": "npc",
+            "targetKind": "event-enemy",
+            "amount": 7,
+            "before": 100,
+            "after": 93,
+            "damageType": "physical",
+            "sourceEventId": null
+          }
+        },
+        {
+          "type": "combat.damage.applied",
+          "actorId": "wz-1",
+          "payload": {
+            "schemaVersion": "CombatIntentV1",
+            "phase": "DAY",
+            "tick": 2,
+            "intentId": "day-1-2",
+            "attackSeq": 2,
+            "profileId": "enemy.normal.day",
+            "sourceId": "wz-1",
+            "targetId": "doctor",
+            "sourceKind": "event-enemy",
+            "targetKind": "npc",
+            "amount": 6,
+            "before": 1,
+            "after": 0,
+            "damageType": "bite",
+            "sourceEventId": null
+          }
+        },
+        {
+          "type": "sanity.changed",
+          "actorId": "doctor",
+          "payload": {
+            "targetId": "doctor",
+            "before": 72,
+            "after": 71,
+            "delta": -1,
+            "reason": "白天敌袭造成的战斗冲击",
+            "state": "stable"
+          }
+        },
+        {
+          "type": "combat.entity.defeated",
+          "actorId": "wz-1",
+          "payload": {
+            "schemaVersion": "CombatIntentV1",
+            "phase": "DAY",
+            "tick": 2,
+            "intentId": "day-1-2",
+            "attackSeq": 2,
+            "profileId": "enemy.normal.day",
+            "sourceId": "wz-1",
+            "targetId": "doctor",
+            "sourceKind": "event-enemy",
+            "targetKind": "npc",
+            "amount": 6,
+            "before": 1,
+            "after": 0,
+            "damageType": "bite",
+            "sourceEventId": null,
+            "defeatedAt": 375
+          }
+        },
+        {
+          "type": "time.advanced",
+          "actorId": "system",
+          "payload": {
+            "minutes": 15,
+            "day": 1,
+            "hour": 6,
+            "minute": 15
+          }
+        },
+        {
+          "type": "sanity.changed",
+          "actorId": "player-1",
+          "payload": {
+            "targetId": "player-1",
+            "before": 72,
+            "after": 74,
+            "delta": 2,
+            "reason": "与苏禾建立支援联系",
+            "state": "stable"
+          }
+        },
+        {
+          "type": "sanity.changed",
+          "actorId": "doctor",
+          "payload": {
+            "targetId": "doctor",
+            "before": 71,
+            "after": 73,
+            "delta": 2,
+            "reason": "接受玩家支援请求",
+            "state": "stable"
+          }
+        },
+        {
+          "type": "npc.interacted",
+          "actorId": "player-1",
+          "payload": {}
+        }
+      ]
+    },
+    {
+      "label": "19cb-baseline",
+      "case": "completion-death",
+      "action": "order",
+      "setup": "TEST-ONLY one retained actual initial enemy repositioned; existing doctor hp1/critical, player0.3 apart, other NPCs relocated, actual advance/motion/combat unchanged; no Gate/AI/damage stub",
+      "resultOk": true,
+      "reason": null,
+      "receiptType": "npc.orderChanged",
+      "payload": {},
+      "energyBefore": 78,
+      "energyAfter": 76,
+      "helpedBefore": 0,
+      "helpedAfter": 1,
+      "npc": {
+        "hp": 0,
+        "lifeState": "dead",
+        "supportRequested": false,
+        "order": "guard",
+        "lastReport": "已接受守墙，当前信任 3"
+      },
+      "toast": "苏禾已设为守墙",
+      "events": [
+        {
+          "type": "combat.damage.applied",
+          "actorId": "doctor",
+          "payload": {
+            "schemaVersion": "CombatIntentV1",
+            "phase": "DAY",
+            "tick": 1,
+            "intentId": "day-1-1",
+            "attackSeq": 1,
+            "profileId": "npc.guard.day",
+            "sourceId": "doctor",
+            "targetId": "wz-1",
+            "sourceKind": "npc",
+            "targetKind": "event-enemy",
+            "amount": 7,
+            "before": 100,
+            "after": 93,
+            "damageType": "physical",
+            "sourceEventId": null
+          }
+        },
+        {
+          "type": "combat.damage.applied",
+          "actorId": "wz-1",
+          "payload": {
+            "schemaVersion": "CombatIntentV1",
+            "phase": "DAY",
+            "tick": 2,
+            "intentId": "day-1-2",
+            "attackSeq": 2,
+            "profileId": "enemy.normal.day",
+            "sourceId": "wz-1",
+            "targetId": "doctor",
+            "sourceKind": "event-enemy",
+            "targetKind": "npc",
+            "amount": 6,
+            "before": 1,
+            "after": 0,
+            "damageType": "bite",
+            "sourceEventId": null
+          }
+        },
+        {
+          "type": "sanity.changed",
+          "actorId": "doctor",
+          "payload": {
+            "targetId": "doctor",
+            "before": 72,
+            "after": 71,
+            "delta": -1,
+            "reason": "白天敌袭造成的战斗冲击",
+            "state": "stable"
+          }
+        },
+        {
+          "type": "combat.entity.defeated",
+          "actorId": "wz-1",
+          "payload": {
+            "schemaVersion": "CombatIntentV1",
+            "phase": "DAY",
+            "tick": 2,
+            "intentId": "day-1-2",
+            "attackSeq": 2,
+            "profileId": "enemy.normal.day",
+            "sourceId": "wz-1",
+            "targetId": "doctor",
+            "sourceKind": "event-enemy",
+            "targetKind": "npc",
+            "amount": 6,
+            "before": 1,
+            "after": 0,
+            "damageType": "bite",
+            "sourceEventId": null,
+            "defeatedAt": 375
+          }
+        },
+        {
+          "type": "time.advanced",
+          "actorId": "system",
+          "payload": {
+            "minutes": 15,
+            "day": 1,
+            "hour": 6,
+            "minute": 15
+          }
+        },
+        {
+          "type": "npc.orderAccepted",
+          "actorId": "doctor",
+          "payload": {
+            "npcId": "doctor",
+            "orderId": "guard",
+            "attitude": {
+              "cooperation": 1.4099999999999997,
+              "obedience": 42.800000000000004,
+              "support": 1.6199999999999997,
+              "defectionRisk": 3.918499999999996,
+              "label": "戒备"
+            },
+            "visibility": "local"
+          }
+        },
+        {
+          "type": "npc.orderChanged",
+          "actorId": "player-1",
+          "payload": {}
+        }
+      ]
+    },
+    {
+      "label": "r2-candidate",
+      "case": "clock",
+      "rate": 0.25,
+      "resultOk": false,
+      "reason": "npc-clock-invalid",
+      "energyBefore": 78,
+      "energyAfter": 78,
+      "elapsed": 0,
+      "minute": 0,
+      "saveSucceeded": true,
+      "validation": {
+        "ok": true,
+        "reason": null
+      }
+    },
+    {
+      "label": "r2-candidate",
+      "case": "clock",
+      "rate": 0.5,
+      "resultOk": false,
+      "reason": "npc-clock-invalid",
+      "energyBefore": 78,
+      "energyAfter": 78,
+      "elapsed": 0,
+      "minute": 0,
+      "saveSucceeded": true,
+      "validation": {
+        "ok": true,
+        "reason": null
+      }
+    },
+    {
+      "label": "r2-candidate",
+      "case": "clock",
+      "rate": 0.8,
+      "resultOk": true,
+      "reason": null,
+      "energyBefore": 78,
+      "energyAfter": 76,
+      "elapsed": 12,
+      "minute": 12,
+      "saveSucceeded": true,
+      "validation": {
+        "ok": true,
+        "reason": null
+      }
+    },
+    {
+      "label": "r2-candidate",
+      "case": "clock",
+      "rate": 1,
+      "resultOk": true,
+      "reason": null,
+      "energyBefore": 78,
+      "energyAfter": 76,
+      "elapsed": 15,
+      "minute": 15,
+      "saveSucceeded": true,
+      "validation": {
+        "ok": true,
+        "reason": null
+      }
+    },
+    {
+      "label": "r2-candidate",
+      "case": "completion-death",
+      "action": "interact",
+      "setup": "TEST-ONLY one retained actual initial enemy repositioned; existing doctor hp1/critical, player0.3 apart, other NPCs relocated, actual advance/motion/combat unchanged; no Gate/AI/damage stub",
+      "resultOk": true,
+      "reason": null,
+      "receiptType": "npc.interacted",
+      "payload": {
+        "ok": true,
+        "proofVersion": 1,
+        "npcId": "doctor",
+        "operation": "support-requested",
+        "target": {
+          "id": "doctor",
+          "before": {
+            "supportRequested": false,
+            "order": null,
+            "bond": 0,
+            "hp": 1,
+            "lifeState": "critical",
+            "sanity": 72,
+            "helpedByPlayer": 0
+          },
+          "afterAction": {
+            "supportRequested": true,
+            "order": "cover",
+            "bond": 1,
+            "hp": 1,
+            "lifeState": "critical",
+            "sanity": 72,
+            "helpedByPlayer": 0
+          },
+          "atCompletion": {
+            "supportRequested": false,
+            "order": null,
+            "bond": 1,
+            "hp": 0,
+            "lifeState": "dead",
+            "sanity": 73,
+            "helpedByPlayer": 1
+          },
+          "presentAtCompletion": true
+        },
+        "payment": {
+          "cost": {
+            "energy": 2
+          },
+          "before": {
+            "energy": 78
+          },
+          "after": {
+            "energy": 76
+          }
+        },
+        "resources": {
+          "energyBefore": 78,
+          "energyAfterPayment": 76,
+          "energyAfter": 76
+        },
+        "clock": {
+          "before": {
+            "day": 1,
+            "hour": 6,
+            "minute": 0,
+            "world": 360
+          },
+          "after": {
+            "day": 1,
+            "hour": 6,
+            "minute": 15,
+            "world": 375
+          },
+          "requestedMinutes": 15,
+          "elapsedMinutes": 15
+        },
+        "advance": {
+          "commandId": "cmd-000003",
+          "eventId": "evt-000007",
+          "causationId": "cmd-000002",
+          "minutes": 15,
+          "tick": {
+            "world": 375,
+            "phase": 0,
+            "schedule": 15
+          }
+        }
+      },
+      "energyBefore": 78,
+      "energyAfter": 76,
+      "helpedBefore": 0,
+      "helpedAfter": 1,
+      "npc": {
+        "hp": 0,
+        "lifeState": "dead",
+        "supportRequested": false,
+        "order": null,
+        "lastReport": "等待执行支援玩家"
+      },
+      "toast": "苏禾已请求支援",
+      "events": [
+        {
+          "type": "combat.damage.applied",
+          "actorId": "doctor",
+          "payload": {
+            "schemaVersion": "CombatIntentV1",
+            "phase": "DAY",
+            "tick": 1,
+            "intentId": "day-1-1",
+            "attackSeq": 1,
+            "profileId": "npc.guard.day",
+            "sourceId": "doctor",
+            "targetId": "wz-1",
+            "sourceKind": "npc",
+            "targetKind": "event-enemy",
+            "amount": 7,
+            "before": 100,
+            "after": 93,
+            "damageType": "physical",
+            "sourceEventId": null
+          }
+        },
+        {
+          "type": "combat.damage.applied",
+          "actorId": "wz-1",
+          "payload": {
+            "schemaVersion": "CombatIntentV1",
+            "phase": "DAY",
+            "tick": 2,
+            "intentId": "day-1-2",
+            "attackSeq": 2,
+            "profileId": "enemy.normal.day",
+            "sourceId": "wz-1",
+            "targetId": "doctor",
+            "sourceKind": "event-enemy",
+            "targetKind": "npc",
+            "amount": 6,
+            "before": 1,
+            "after": 0,
+            "damageType": "bite",
+            "sourceEventId": null
+          }
+        },
+        {
+          "type": "sanity.changed",
+          "actorId": "doctor",
+          "payload": {
+            "targetId": "doctor",
+            "before": 72,
+            "after": 71,
+            "delta": -1,
+            "reason": "白天敌袭造成的战斗冲击",
+            "state": "stable"
+          }
+        },
+        {
+          "type": "combat.entity.defeated",
+          "actorId": "wz-1",
+          "payload": {
+            "schemaVersion": "CombatIntentV1",
+            "phase": "DAY",
+            "tick": 2,
+            "intentId": "day-1-2",
+            "attackSeq": 2,
+            "profileId": "enemy.normal.day",
+            "sourceId": "wz-1",
+            "targetId": "doctor",
+            "sourceKind": "event-enemy",
+            "targetKind": "npc",
+            "amount": 6,
+            "before": 1,
+            "after": 0,
+            "damageType": "bite",
+            "sourceEventId": null,
+            "defeatedAt": 375
+          }
+        },
+        {
+          "type": "time.advanced",
+          "actorId": "system",
+          "payload": {
+            "minutes": 15,
+            "day": 1,
+            "hour": 6,
+            "minute": 15
+          }
+        },
+        {
+          "type": "sanity.changed",
+          "actorId": "player-1",
+          "payload": {
+            "targetId": "player-1",
+            "before": 72,
+            "after": 74,
+            "delta": 2,
+            "reason": "与苏禾建立支援联系",
+            "state": "stable"
+          }
+        },
+        {
+          "type": "sanity.changed",
+          "actorId": "doctor",
+          "payload": {
+            "targetId": "doctor",
+            "before": 71,
+            "after": 73,
+            "delta": 2,
+            "reason": "接受玩家支援请求",
+            "state": "stable"
+          }
+        },
+        {
+          "type": "npc.interacted",
+          "actorId": "player-1",
+          "payload": {
+            "ok": true,
+            "proofVersion": 1,
+            "npcId": "doctor",
+            "operation": "support-requested",
+            "target": {
+              "id": "doctor",
+              "before": {
+                "supportRequested": false,
+                "order": null,
+                "bond": 0,
+                "hp": 1,
+                "lifeState": "critical",
+                "sanity": 72,
+                "helpedByPlayer": 0
+              },
+              "afterAction": {
+                "supportRequested": true,
+                "order": "cover",
+                "bond": 1,
+                "hp": 1,
+                "lifeState": "critical",
+                "sanity": 72,
+                "helpedByPlayer": 0
+              },
+              "atCompletion": {
+                "supportRequested": false,
+                "order": null,
+                "bond": 1,
+                "hp": 0,
+                "lifeState": "dead",
+                "sanity": 73,
+                "helpedByPlayer": 1
+              },
+              "presentAtCompletion": true
+            },
+            "payment": {
+              "cost": {
+                "energy": 2
+              },
+              "before": {
+                "energy": 78
+              },
+              "after": {
+                "energy": 76
+              }
+            },
+            "resources": {
+              "energyBefore": 78,
+              "energyAfterPayment": 76,
+              "energyAfter": 76
+            },
+            "clock": {
+              "before": {
+                "day": 1,
+                "hour": 6,
+                "minute": 0,
+                "world": 360
+              },
+              "after": {
+                "day": 1,
+                "hour": 6,
+                "minute": 15,
+                "world": 375
+              },
+              "requestedMinutes": 15,
+              "elapsedMinutes": 15
+            },
+            "advance": {
+              "commandId": "cmd-000003",
+              "eventId": "evt-000007",
+              "causationId": "cmd-000002",
+              "minutes": 15,
+              "tick": {
+                "world": 375,
+                "phase": 0,
+                "schedule": 15
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "label": "r2-candidate",
+      "case": "completion-death",
+      "action": "order",
+      "setup": "TEST-ONLY one retained actual initial enemy repositioned; existing doctor hp1/critical, player0.3 apart, other NPCs relocated, actual advance/motion/combat unchanged; no Gate/AI/damage stub",
+      "resultOk": true,
+      "reason": null,
+      "receiptType": "npc.orderChanged",
+      "payload": {
+        "ok": true,
+        "proofVersion": 1,
+        "npcId": "doctor",
+        "operation": "support-and-order",
+        "orderId": "guard",
+        "target": {
+          "id": "doctor",
+          "before": {
+            "supportRequested": false,
+            "order": null,
+            "bond": 0,
+            "hp": 1,
+            "lifeState": "critical",
+            "sanity": 72,
+            "helpedByPlayer": 0
+          },
+          "afterAction": {
+            "supportRequested": false,
+            "order": "guard",
+            "bond": 1,
+            "hp": 0,
+            "lifeState": "dead",
+            "sanity": 71,
+            "helpedByPlayer": 1
+          },
+          "atCompletion": {
+            "supportRequested": false,
+            "order": "guard",
+            "bond": 1,
+            "hp": 0,
+            "lifeState": "dead",
+            "sanity": 71,
+            "helpedByPlayer": 1
+          },
+          "presentAtCompletion": true
+        },
+        "payment": {
+          "cost": {
+            "energy": 2
+          },
+          "before": {
+            "energy": 78
+          },
+          "after": {
+            "energy": 76
+          }
+        },
+        "resources": {
+          "energyBefore": 78,
+          "energyAfterPayment": 76,
+          "energyAfter": 76
+        },
+        "clock": {
+          "before": {
+            "day": 1,
+            "hour": 6,
+            "minute": 0,
+            "world": 360
+          },
+          "after": {
+            "day": 1,
+            "hour": 6,
+            "minute": 15,
+            "world": 375
+          },
+          "requestedMinutes": 15,
+          "elapsedMinutes": 15
+        },
+        "advance": {
+          "commandId": "cmd-000002",
+          "eventId": "evt-000006",
+          "causationId": "cmd-000001",
+          "minutes": 15,
+          "tick": {
+            "world": 375,
+            "phase": 0,
+            "schedule": 15
+          }
+        }
+      },
+      "energyBefore": 78,
+      "energyAfter": 76,
+      "helpedBefore": 0,
+      "helpedAfter": 1,
+      "npc": {
+        "hp": 0,
+        "lifeState": "dead",
+        "supportRequested": false,
+        "order": "guard",
+        "lastReport": "已接受守墙，当前信任 3"
+      },
+      "toast": "苏禾已设为守墙",
+      "events": [
+        {
+          "type": "combat.damage.applied",
+          "actorId": "doctor",
+          "payload": {
+            "schemaVersion": "CombatIntentV1",
+            "phase": "DAY",
+            "tick": 1,
+            "intentId": "day-1-1",
+            "attackSeq": 1,
+            "profileId": "npc.guard.day",
+            "sourceId": "doctor",
+            "targetId": "wz-1",
+            "sourceKind": "npc",
+            "targetKind": "event-enemy",
+            "amount": 7,
+            "before": 100,
+            "after": 93,
+            "damageType": "physical",
+            "sourceEventId": null
+          }
+        },
+        {
+          "type": "combat.damage.applied",
+          "actorId": "wz-1",
+          "payload": {
+            "schemaVersion": "CombatIntentV1",
+            "phase": "DAY",
+            "tick": 2,
+            "intentId": "day-1-2",
+            "attackSeq": 2,
+            "profileId": "enemy.normal.day",
+            "sourceId": "wz-1",
+            "targetId": "doctor",
+            "sourceKind": "event-enemy",
+            "targetKind": "npc",
+            "amount": 6,
+            "before": 1,
+            "after": 0,
+            "damageType": "bite",
+            "sourceEventId": null
+          }
+        },
+        {
+          "type": "sanity.changed",
+          "actorId": "doctor",
+          "payload": {
+            "targetId": "doctor",
+            "before": 72,
+            "after": 71,
+            "delta": -1,
+            "reason": "白天敌袭造成的战斗冲击",
+            "state": "stable"
+          }
+        },
+        {
+          "type": "combat.entity.defeated",
+          "actorId": "wz-1",
+          "payload": {
+            "schemaVersion": "CombatIntentV1",
+            "phase": "DAY",
+            "tick": 2,
+            "intentId": "day-1-2",
+            "attackSeq": 2,
+            "profileId": "enemy.normal.day",
+            "sourceId": "wz-1",
+            "targetId": "doctor",
+            "sourceKind": "event-enemy",
+            "targetKind": "npc",
+            "amount": 6,
+            "before": 1,
+            "after": 0,
+            "damageType": "bite",
+            "sourceEventId": null,
+            "defeatedAt": 375
+          }
+        },
+        {
+          "type": "time.advanced",
+          "actorId": "system",
+          "payload": {
+            "minutes": 15,
+            "day": 1,
+            "hour": 6,
+            "minute": 15
+          }
+        },
+        {
+          "type": "npc.orderAccepted",
+          "actorId": "doctor",
+          "payload": {
+            "npcId": "doctor",
+            "orderId": "guard",
+            "attitude": {
+              "cooperation": 1.4099999999999997,
+              "obedience": 42.800000000000004,
+              "support": 1.6199999999999997,
+              "defectionRisk": 3.918499999999996,
+              "label": "戒备"
+            },
+            "visibility": "local"
+          }
+        },
+        {
+          "type": "npc.orderChanged",
+          "actorId": "player-1",
+          "payload": {
+            "ok": true,
+            "proofVersion": 1,
+            "npcId": "doctor",
+            "operation": "support-and-order",
+            "orderId": "guard",
+            "target": {
+              "id": "doctor",
+              "before": {
+                "supportRequested": false,
+                "order": null,
+                "bond": 0,
+                "hp": 1,
+                "lifeState": "critical",
+                "sanity": 72,
+                "helpedByPlayer": 0
+              },
+              "afterAction": {
+                "supportRequested": false,
+                "order": "guard",
+                "bond": 1,
+                "hp": 0,
+                "lifeState": "dead",
+                "sanity": 71,
+                "helpedByPlayer": 1
+              },
+              "atCompletion": {
+                "supportRequested": false,
+                "order": "guard",
+                "bond": 1,
+                "hp": 0,
+                "lifeState": "dead",
+                "sanity": 71,
+                "helpedByPlayer": 1
+              },
+              "presentAtCompletion": true
+            },
+            "payment": {
+              "cost": {
+                "energy": 2
+              },
+              "before": {
+                "energy": 78
+              },
+              "after": {
+                "energy": 76
+              }
+            },
+            "resources": {
+              "energyBefore": 78,
+              "energyAfterPayment": 76,
+              "energyAfter": 76
+            },
+            "clock": {
+              "before": {
+                "day": 1,
+                "hour": 6,
+                "minute": 0,
+                "world": 360
+              },
+              "after": {
+                "day": 1,
+                "hour": 6,
+                "minute": 15,
+                "world": 375
+              },
+              "requestedMinutes": 15,
+              "elapsedMinutes": 15
+            },
+            "advance": {
+              "commandId": "cmd-000002",
+              "eventId": "evt-000006",
+              "causationId": "cmd-000001",
+              "minutes": 15,
+              "tick": {
+                "world": 375,
+                "phase": 0,
+                "schedule": 15
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

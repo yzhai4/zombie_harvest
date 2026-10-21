@@ -1,0 +1,145 @@
+{
+  "kind": "TEST-ONLY-controlled-storage-write-failure",
+  "started": false,
+  "mode": "RECOVERY",
+  "installed": true,
+  "savePending": true,
+  "minute": 360,
+  "intervals": [],
+  "scenarioSnapshot": {
+    "scenarioId": "zombie-farm",
+    "schemaVersion": 1,
+    "scenarioVersion": 1,
+    "contentVersion": 3,
+    "gameVersion": "zfarm-world-1.0",
+    "seed": 1592639710,
+    "difficultyProfile": "standard",
+    "worldConfig": {
+      "ordinaryNpcCount": 10,
+      "foodMultiplier": 1,
+      "medicineMultiplier": 1,
+      "materialMultiplier": 1,
+      "initialEnemyMultiplier": 1,
+      "waveGrowthMultiplier": 1,
+      "eventFrequency": 1
+    },
+    "aiConfig": {
+      "generativeDialogue": false,
+      "observerCommentary": false,
+      "generatedWorldEvents": false,
+      "learnedWorldModel": false,
+      "policyVersion": "observer-expression-v1"
+    },
+    "binding": {
+      "version": 1,
+      "status": "bound",
+      "bindingId": "scenario-initial-v1",
+      "baselineId": "zombie-farm-authored-initial-v1",
+      "packageDigest": "fnv1a-utf16-canonical-hex-v1:287aed10",
+      "configDigest": "fnv1a-utf16-canonical-hex-v1:7f93557f",
+      "appliedKeys": [
+        "seed",
+        "world.foodMultiplier"
+      ],
+      "baselineOnlyKeys": [
+        "world.ordinaryNpcCount",
+        "world.medicineMultiplier",
+        "world.materialMultiplier",
+        "world.initialEnemyMultiplier",
+        "world.waveGrowthMultiplier",
+        "world.eventFrequency",
+        "events"
+      ],
+      "deferredKeys": [
+        "continuity"
+      ],
+      "initialAiConfig": {
+        "generativeDialogue": false,
+        "observerCommentary": false,
+        "generatedWorldEvents": false,
+        "learnedWorldModel": false,
+        "policyVersion": "observer-expression-v1"
+      }
+    }
+  },
+  "events": [
+    {
+      "eventId": "evt-000001",
+      "seq": 1,
+      "type": "plan.commandPoints.refreshed",
+      "actorId": "camp-autonomy",
+      "commandId": null,
+      "causationId": null,
+      "tick": {
+        "world": 360,
+        "phase": 0,
+        "schedule": 0
+      },
+      "payload": {
+        "day": 1,
+        "before": 0,
+        "after": 0,
+        "cap": 0,
+        "reason": "initial",
+        "campTrust": 0,
+        "campCollapse": 0
+      },
+      "defId": "camp-plan-meeting-001",
+      "definitionVersion": 1,
+      "instanceId": "event-initial",
+      "effects": []
+    },
+    {
+      "eventId": "evt-000002",
+      "seq": 2,
+      "type": "scenario.bound",
+      "actorId": "system",
+      "commandId": null,
+      "causationId": null,
+      "tick": {
+        "world": 360,
+        "phase": 0,
+        "schedule": 0
+      },
+      "payload": {
+        "bindingId": "scenario-initial-v1",
+        "packageDigest": "fnv1a-utf16-canonical-hex-v1:287aed10",
+        "configDigest": "fnv1a-utf16-canonical-hex-v1:7f93557f",
+        "seed": 1592639710,
+        "appliedKeys": [
+          "seed",
+          "world.foodMultiplier"
+        ],
+        "baselineOnlyKeys": [
+          "world.ordinaryNpcCount",
+          "world.medicineMultiplier",
+          "world.materialMultiplier",
+          "world.initialEnemyMultiplier",
+          "world.waveGrowthMultiplier",
+          "world.eventFrequency",
+          "events"
+        ],
+        "initialFood": 8,
+        "initialBerries": [
+          {
+            "id": "res-t2g3gn",
+            "amount": 2
+          },
+          {
+            "id": "res-12yv3vn",
+            "amount": 2
+          },
+          {
+            "id": "res-wd8jtm",
+            "amount": 3
+          },
+          {
+            "id": "res-47tdj9",
+            "amount": 2
+          }
+        ]
+      }
+    }
+  ],
+  "storageKeys": []
+}

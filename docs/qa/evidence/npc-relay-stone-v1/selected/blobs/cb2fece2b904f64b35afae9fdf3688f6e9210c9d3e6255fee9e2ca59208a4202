@@ -1,0 +1,551 @@
+{
+  "schema": "NpcRelayStoneAffectedRegressionClosureV1",
+  "status": "TERMINAL",
+  "sourceHtmlSha256": "595551a3fd73d0bbdfecb4d2e4d5e468b2bac7d1e119bf95b74b4b6ab8ad7bd6",
+  "scope": "Affected existing contracts only; no natural gameplay, new browser or deployment",
+  "executions": [
+    {
+      "schema": "NpcRelayStoneAffectedActualExecutionV1",
+      "name": "00-python-playwright-probe",
+      "argv": [
+        "C:/Program Files (x86)/Microsoft Visual Studio/Shared/Python39_64/python.exe",
+        "-c",
+        "from playwright.sync_api import sync_playwright"
+      ],
+      "cwd": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\source",
+      "pid": 7716,
+      "startedAt": "2026-10-19T04:44:36.653277+00:00",
+      "endedAt": "2026-10-19T04:44:36.699829+00:00",
+      "elapsedSeconds": 0.047,
+      "terminal": true,
+      "exitCode": 1,
+      "sourceHtmlSha256": "595551a3fd73d0bbdfecb4d2e4d5e468b2bac7d1e119bf95b74b4b6ab8ad7bd6",
+      "method": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\method-executed.py",
+        "sha256": "80d28d5f359137de4259dd726380a7f9759427970ad54094598ccea8debc2ec4",
+        "bytes": 6910
+      },
+      "stdout": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\00-python-playwright-probe\\stdout.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderr": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\00-python-playwright-probe\\stderr.txt",
+        "sha256": "d9de1b961e0694548c1986e8f6278859f25a3e8d22089e9934aaea481c8ec7c6",
+        "bytes": 127
+      },
+      "nativeStdout": null
+    },
+    {
+      "schema": "NpcRelayStoneAffectedActualExecutionV1",
+      "name": "01-validate-content",
+      "argv": [
+        "C:/Users/DELL/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe",
+        "scripts/validate-content.mjs"
+      ],
+      "cwd": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\source",
+      "pid": 15056,
+      "startedAt": "2026-10-19T04:44:36.731717+00:00",
+      "endedAt": "2026-10-19T04:44:36.821443+00:00",
+      "elapsedSeconds": 0.079,
+      "terminal": true,
+      "exitCode": 0,
+      "sourceHtmlSha256": "595551a3fd73d0bbdfecb4d2e4d5e468b2bac7d1e119bf95b74b4b6ab8ad7bd6",
+      "method": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\method-executed.py",
+        "sha256": "80d28d5f359137de4259dd726380a7f9759427970ad54094598ccea8debc2ec4",
+        "bytes": 6910
+      },
+      "stdout": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\01-validate-content\\stdout.txt",
+        "sha256": "fdae2874e53f6d308e58cbec46fd5e2be5c0870e867a4cff494f9abf1d080e93",
+        "bytes": 7085
+      },
+      "stderr": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\01-validate-content\\stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "nativeStdout": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\01-validate-content\\native-stdout.json",
+        "sha256": "fdae2874e53f6d308e58cbec46fd5e2be5c0870e867a4cff494f9abf1d080e93",
+        "bytes": 7085
+      }
+    },
+    {
+      "schema": "NpcRelayStoneAffectedActualExecutionV1",
+      "name": "02-night-guard",
+      "argv": [
+        "C:/Users/DELL/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe",
+        "scripts/check-night-guard.mjs"
+      ],
+      "cwd": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\source",
+      "pid": 26276,
+      "startedAt": "2026-10-19T04:44:36.828373+00:00",
+      "endedAt": "2026-10-19T04:44:36.903196+00:00",
+      "elapsedSeconds": 0.078,
+      "terminal": true,
+      "exitCode": 0,
+      "sourceHtmlSha256": "595551a3fd73d0bbdfecb4d2e4d5e468b2bac7d1e119bf95b74b4b6ab8ad7bd6",
+      "method": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\method-executed.py",
+        "sha256": "80d28d5f359137de4259dd726380a7f9759427970ad54094598ccea8debc2ec4",
+        "bytes": 6910
+      },
+      "stdout": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\02-night-guard\\stdout.txt",
+        "sha256": "531da710f88c511c95622c2e162f46d665aa5b5a56f033b718a21f39fec65732",
+        "bytes": 26
+      },
+      "stderr": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\02-night-guard\\stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "nativeStdout": null
+    },
+    {
+      "schema": "NpcRelayStoneAffectedActualExecutionV1",
+      "name": "03-scenario-c1",
+      "argv": [
+        "C:/Users/DELL/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe",
+        "scripts/check-scenario-boot-c1.mjs",
+        "--html",
+        "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\source\\dist\\index.html",
+        "--core-module",
+        "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\source\\scripts\\lib\\scenario-package-v1.mjs",
+        "--input-manifest",
+        "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\source\\scripts\\fixtures\\scenario-boot-c1\\frozen-input-manifest.json",
+        "--out",
+        "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\03-scenario-c1\\native"
+      ],
+      "cwd": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\source",
+      "pid": 29144,
+      "startedAt": "2026-10-19T04:44:36.906923+00:00",
+      "endedAt": "2026-10-19T04:44:57.386203+00:00",
+      "elapsedSeconds": 20.469,
+      "terminal": true,
+      "exitCode": 1,
+      "sourceHtmlSha256": "595551a3fd73d0bbdfecb4d2e4d5e468b2bac7d1e119bf95b74b4b6ab8ad7bd6",
+      "method": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\method-executed.py",
+        "sha256": "80d28d5f359137de4259dd726380a7f9759427970ad54094598ccea8debc2ec4",
+        "bytes": 6910
+      },
+      "stdout": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\03-scenario-c1\\stdout.txt",
+        "sha256": "7685c27399d7eec29a16057d397037a32f2f64fbd6a5149ce0310c8fe75e02b8",
+        "bytes": 842
+      },
+      "stderr": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\03-scenario-c1\\stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "nativeStdout": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\03-scenario-c1\\native-stdout.json",
+        "sha256": "7685c27399d7eec29a16057d397037a32f2f64fbd6a5149ce0310c8fe75e02b8",
+        "bytes": 842
+      }
+    },
+    {
+      "schema": "NpcRelayStoneAffectedActualExecutionV1",
+      "name": "04-scenario-c2",
+      "argv": [
+        "C:/Users/DELL/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe",
+        "scripts/check-scenario-boot-c2.mjs",
+        "--html",
+        "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\source\\dist\\index.html",
+        "--core-module",
+        "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\source\\scripts\\lib\\scenario-package-v1.mjs",
+        "--repo-root",
+        "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\source",
+        "--out",
+        "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\04-scenario-c2\\native"
+      ],
+      "cwd": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\source",
+      "pid": 26808,
+      "startedAt": "2026-10-19T04:44:57.396561+00:00",
+      "endedAt": "2026-10-19T04:45:07.121800+00:00",
+      "elapsedSeconds": 9.734,
+      "terminal": true,
+      "exitCode": 1,
+      "sourceHtmlSha256": "595551a3fd73d0bbdfecb4d2e4d5e468b2bac7d1e119bf95b74b4b6ab8ad7bd6",
+      "method": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\method-executed.py",
+        "sha256": "80d28d5f359137de4259dd726380a7f9759427970ad54094598ccea8debc2ec4",
+        "bytes": 6910
+      },
+      "stdout": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\04-scenario-c2\\stdout.txt",
+        "sha256": "ee725ba37522e7950d94286d46460cbd6ab71dceb4eba94f12b2921d47dda99e",
+        "bytes": 495
+      },
+      "stderr": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\04-scenario-c2\\stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "nativeStdout": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\04-scenario-c2\\native-stdout.json",
+        "sha256": "ee725ba37522e7950d94286d46460cbd6ab71dceb4eba94f12b2921d47dda99e",
+        "bytes": 495
+      }
+    },
+    {
+      "schema": "NpcRelayStoneAffectedActualExecutionV1",
+      "name": "05-content-chain",
+      "argv": [
+        "C:/Users/DELL/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe",
+        "scripts/check-content-chain.mjs"
+      ],
+      "cwd": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\source",
+      "pid": 24204,
+      "startedAt": "2026-10-19T04:45:07.129539+00:00",
+      "endedAt": "2026-10-19T04:45:07.236004+00:00",
+      "elapsedSeconds": 0.109,
+      "terminal": true,
+      "exitCode": 1,
+      "sourceHtmlSha256": "595551a3fd73d0bbdfecb4d2e4d5e468b2bac7d1e119bf95b74b4b6ab8ad7bd6",
+      "method": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\method-executed.py",
+        "sha256": "80d28d5f359137de4259dd726380a7f9759427970ad54094598ccea8debc2ec4",
+        "bytes": 6910
+      },
+      "stdout": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\05-content-chain\\stdout.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderr": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\05-content-chain\\stderr.txt",
+        "sha256": "7c32810c7d79fec20068b324a967a9495aa299a14b0c3d7b844e2ba6486cb278",
+        "bytes": 1576
+      },
+      "nativeStdout": null
+    },
+    {
+      "schema": "NpcRelayStoneAffectedActualExecutionV1",
+      "name": "06-event-gate-parity",
+      "argv": [
+        "C:/Users/DELL/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe",
+        "scripts/check-event-gate-parity.mjs",
+        "--html",
+        "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\source\\dist\\index.html"
+      ],
+      "cwd": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\source",
+      "pid": 25300,
+      "startedAt": "2026-10-19T04:45:07.255561+00:00",
+      "endedAt": "2026-10-19T04:45:07.366849+00:00",
+      "elapsedSeconds": 0.109,
+      "terminal": true,
+      "exitCode": 0,
+      "sourceHtmlSha256": "595551a3fd73d0bbdfecb4d2e4d5e468b2bac7d1e119bf95b74b4b6ab8ad7bd6",
+      "method": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\method-executed.py",
+        "sha256": "80d28d5f359137de4259dd726380a7f9759427970ad54094598ccea8debc2ec4",
+        "bytes": 6910
+      },
+      "stdout": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\06-event-gate-parity\\stdout.txt",
+        "sha256": "072ad5744b71619a7866a11ef23c9964b28a4a4722f3f9347bf7d73027a81b22",
+        "bytes": 2169
+      },
+      "stderr": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\06-event-gate-parity\\stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "nativeStdout": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\06-event-gate-parity\\native-stdout.json",
+        "sha256": "072ad5744b71619a7866a11ef23c9964b28a4a4722f3f9347bf7d73027a81b22",
+        "bytes": 2169
+      }
+    },
+    {
+      "schema": "NpcRelayStoneAffectedActualExecutionV1",
+      "name": "07-content-episode",
+      "argv": [
+        "C:/Users/DELL/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe",
+        "scripts/check-content-episode-v1.mjs"
+      ],
+      "cwd": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\source",
+      "pid": 29956,
+      "startedAt": "2026-10-19T04:45:07.372080+00:00",
+      "endedAt": "2026-10-19T04:45:09.946110+00:00",
+      "elapsedSeconds": 2.563,
+      "terminal": true,
+      "exitCode": 0,
+      "sourceHtmlSha256": "595551a3fd73d0bbdfecb4d2e4d5e468b2bac7d1e119bf95b74b4b6ab8ad7bd6",
+      "method": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\method-executed.py",
+        "sha256": "80d28d5f359137de4259dd726380a7f9759427970ad54094598ccea8debc2ec4",
+        "bytes": 6910
+      },
+      "stdout": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\07-content-episode\\stdout.txt",
+        "sha256": "4b2815d04268f1fb395876571ce2b9aa4e344b166c67fbde1f17dd7f3d4ae52a",
+        "bytes": 3831
+      },
+      "stderr": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\07-content-episode\\stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "nativeStdout": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\07-content-episode\\native-stdout.json",
+        "sha256": "4b2815d04268f1fb395876571ce2b9aa4e344b166c67fbde1f17dd7f3d4ae52a",
+        "bytes": 3831
+      }
+    },
+    {
+      "schema": "NpcRelayStoneAffectedActualExecutionV1",
+      "name": "08-gameplay-vertical-slice",
+      "argv": [
+        "C:/Users/DELL/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe",
+        "scripts/check-gameplay-vertical-slice.mjs"
+      ],
+      "cwd": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\source",
+      "pid": 30320,
+      "startedAt": "2026-10-19T04:45:09.953892+00:00",
+      "endedAt": "2026-10-19T04:45:10.962120+00:00",
+      "elapsedSeconds": 1.0,
+      "terminal": true,
+      "exitCode": 0,
+      "sourceHtmlSha256": "595551a3fd73d0bbdfecb4d2e4d5e468b2bac7d1e119bf95b74b4b6ab8ad7bd6",
+      "method": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\method-executed.py",
+        "sha256": "80d28d5f359137de4259dd726380a7f9759427970ad54094598ccea8debc2ec4",
+        "bytes": 6910
+      },
+      "stdout": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\08-gameplay-vertical-slice\\stdout.txt",
+        "sha256": "2262b9d53f459884409ca4a0b17147887d23225b174aacbd8aee3daffe70adb5",
+        "bytes": 673
+      },
+      "stderr": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\08-gameplay-vertical-slice\\stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "nativeStdout": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\08-gameplay-vertical-slice\\native-stdout.json",
+        "sha256": "2262b9d53f459884409ca4a0b17147887d23225b174aacbd8aee3daffe70adb5",
+        "bytes": 673
+      }
+    },
+    {
+      "schema": "NpcRelayStoneAffectedActualExecutionV1",
+      "name": "09-replay-self-test",
+      "argv": [
+        "C:/Users/DELL/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe",
+        "scripts/replay-harness.mjs",
+        "--self-test"
+      ],
+      "cwd": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\source",
+      "pid": 9920,
+      "startedAt": "2026-10-19T04:45:10.969004+00:00",
+      "endedAt": "2026-10-19T04:45:11.050817+00:00",
+      "elapsedSeconds": 0.078,
+      "terminal": true,
+      "exitCode": 0,
+      "sourceHtmlSha256": "595551a3fd73d0bbdfecb4d2e4d5e468b2bac7d1e119bf95b74b4b6ab8ad7bd6",
+      "method": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\method-executed.py",
+        "sha256": "80d28d5f359137de4259dd726380a7f9759427970ad54094598ccea8debc2ec4",
+        "bytes": 6910
+      },
+      "stdout": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\09-replay-self-test\\stdout.txt",
+        "sha256": "0813da21b6068f27a332a072cc73180b1362f2dffb7ed3b99e31a2a8392a8538",
+        "bytes": 67
+      },
+      "stderr": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\09-replay-self-test\\stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "nativeStdout": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\09-replay-self-test\\native-stdout.json",
+        "sha256": "0813da21b6068f27a332a072cc73180b1362f2dffb7ed3b99e31a2a8392a8538",
+        "bytes": 67
+      }
+    },
+    {
+      "schema": "NpcRelayStoneAffectedActualExecutionV1",
+      "name": "10-static-smoke",
+      "argv": [
+        "C:/Users/DELL/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe",
+        "scripts/smoke-three-days.mjs",
+        "--python",
+        "C:/Program Files (x86)/Microsoft Visual Studio/Shared/Python39_64/python.exe",
+        "--url",
+        "http://127.0.0.1:9/STATIC_BRANCH_ONLY_NO_SERVER",
+        "--report",
+        "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\10-static-smoke\\native-report.json"
+      ],
+      "cwd": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\source",
+      "pid": 31252,
+      "startedAt": "2026-10-19T04:45:11.058242+00:00",
+      "endedAt": "2026-10-19T04:45:11.193582+00:00",
+      "elapsedSeconds": 0.141,
+      "terminal": true,
+      "exitCode": 0,
+      "sourceHtmlSha256": "595551a3fd73d0bbdfecb4d2e4d5e468b2bac7d1e119bf95b74b4b6ab8ad7bd6",
+      "method": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\method-executed.py",
+        "sha256": "80d28d5f359137de4259dd726380a7f9759427970ad54094598ccea8debc2ec4",
+        "bytes": 6910
+      },
+      "stdout": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\10-static-smoke\\stdout.txt",
+        "sha256": "94448e79690ac6545423411245b25804ba13e0581dc84e046389548a24e8136a",
+        "bytes": 67
+      },
+      "stderr": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\10-static-smoke\\stderr.txt",
+        "sha256": "9aa80de5d0ee99245c3b8a87e1e2a3522f078e67df2f9f13f74bf399447cd9e1",
+        "bytes": 212
+      },
+      "nativeStdout": null
+    },
+    {
+      "schema": "NpcRelayStoneAffectedActualExecutionV1",
+      "name": "11-handoff-memory",
+      "argv": [
+        "C:/Users/DELL/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe",
+        "scripts/check-relay-handoff-memory-v1.mjs",
+        "--repo-root",
+        "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\source",
+        "--html",
+        "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\source\\dist\\index.html",
+        "--out",
+        "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\11-handoff-memory\\native-report.json",
+        "--expect-html-sha256",
+        "595551a3fd73d0bbdfecb4d2e4d5e468b2bac7d1e119bf95b74b4b6ab8ad7bd6"
+      ],
+      "cwd": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\source",
+      "pid": 23932,
+      "startedAt": "2026-10-19T04:45:11.200031+00:00",
+      "endedAt": "2026-10-19T04:45:18.127203+00:00",
+      "elapsedSeconds": 6.922,
+      "terminal": true,
+      "exitCode": 0,
+      "sourceHtmlSha256": "595551a3fd73d0bbdfecb4d2e4d5e468b2bac7d1e119bf95b74b4b6ab8ad7bd6",
+      "method": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\method-executed.py",
+        "sha256": "80d28d5f359137de4259dd726380a7f9759427970ad54094598ccea8debc2ec4",
+        "bytes": 6910
+      },
+      "stdout": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\11-handoff-memory\\stdout.txt",
+        "sha256": "00678c41ae99961ba54b5b37699a04a2537136b34b3eef411d7a25aecf3d16fc",
+        "bytes": 245
+      },
+      "stderr": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\11-handoff-memory\\stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "nativeStdout": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\11-handoff-memory\\native-stdout.json",
+        "sha256": "00678c41ae99961ba54b5b37699a04a2537136b34b3eef411d7a25aecf3d16fc",
+        "bytes": 245
+      }
+    },
+    {
+      "schema": "NpcRelayStoneAffectedActualExecutionV1",
+      "name": "12-camp-area",
+      "argv": [
+        "C:/Users/DELL/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe",
+        "scripts/check-camp-area.mjs",
+        "--html",
+        "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\source\\dist\\index.html",
+        "--expect-html-sha256",
+        "595551a3fd73d0bbdfecb4d2e4d5e468b2bac7d1e119bf95b74b4b6ab8ad7bd6"
+      ],
+      "cwd": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\source",
+      "pid": 29488,
+      "startedAt": "2026-10-19T04:45:18.139522+00:00",
+      "endedAt": "2026-10-19T04:45:18.193897+00:00",
+      "elapsedSeconds": 0.047,
+      "terminal": true,
+      "exitCode": 1,
+      "sourceHtmlSha256": "595551a3fd73d0bbdfecb4d2e4d5e468b2bac7d1e119bf95b74b4b6ab8ad7bd6",
+      "method": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\method-executed.py",
+        "sha256": "80d28d5f359137de4259dd726380a7f9759427970ad54094598ccea8debc2ec4",
+        "bytes": 6910
+      },
+      "stdout": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\12-camp-area\\stdout.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderr": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\12-camp-area\\stderr.txt",
+        "sha256": "796e78d3c3239a6e90216b61347a0421be713910be91eeaa244ce4fd2d8e14a9",
+        "bytes": 880
+      },
+      "nativeStdout": null
+    },
+    {
+      "schema": "NpcRelayStoneAffectedActualExecutionV1",
+      "name": "13-report-recovery",
+      "argv": [
+        "C:/Users/DELL/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe",
+        "scripts/check-report-recovery.mjs"
+      ],
+      "cwd": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\source",
+      "pid": 10768,
+      "startedAt": "2026-10-19T04:45:18.214565+00:00",
+      "endedAt": "2026-10-19T04:45:27.269770+00:00",
+      "elapsedSeconds": 9.063,
+      "terminal": true,
+      "exitCode": 1,
+      "sourceHtmlSha256": "595551a3fd73d0bbdfecb4d2e4d5e468b2bac7d1e119bf95b74b4b6ab8ad7bd6",
+      "method": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\method-executed.py",
+        "sha256": "80d28d5f359137de4259dd726380a7f9759427970ad54094598ccea8debc2ec4",
+        "bytes": 6910
+      },
+      "stdout": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\13-report-recovery\\stdout.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderr": {
+        "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\13-report-recovery\\stderr.txt",
+        "sha256": "1de9c32588be888de736cbf81a3223cf1969939372ce8664617965cb49d85f8c",
+        "bytes": 1070
+      },
+      "nativeStdout": null
+    }
+  ],
+  "reusedBuildCheck": {
+    "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\precheck-v2\\03\\execution.json",
+    "sha256": "2fed8dabf33ac779c11ecec0f8b6ee6f04abb4c6bb645c4b6226e68414d05995",
+    "scope": "same frozen HTML/pack/build script; not rerun"
+  },
+  "skipped": [],
+  "dependenciesBefore": {
+    "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\inputs-before.json",
+    "sha256": "368a8dd99db904875d56f8fbe11fecf1f73aa9714deef1883001befcf6e093ed",
+    "count": 222
+  },
+  "dependenciesAfter": {
+    "path": "C:\\Users\\DELL\\AppData\\Local\\Temp\\zh-iteration-20261017-ae1ced87\\watchpost-manual-20261018\\npc-relay-stone-v1\\affected-regression01\\inputs-after.json",
+    "sha256": "368a8dd99db904875d56f8fbe11fecf1f73aa9714deef1883001befcf6e093ed",
+    "count": 222
+  },
+  "inputsUnchanged": true,
+  "drift": [],
+  "passedExecutions": 8,
+  "failedExecutions": 5,
+  "pythonProbe": {
+    "missingPlaywrightActuallyObserved": true,
+    "expectedDiagnosticExit": 1
+  },
+  "ok": false
+}

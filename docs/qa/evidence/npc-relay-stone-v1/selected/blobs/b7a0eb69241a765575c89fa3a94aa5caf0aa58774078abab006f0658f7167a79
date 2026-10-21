@@ -1,0 +1,86 @@
+from pathlib import Path
+import subprocess,json,hashlib,datetime,time,shutil,os,re,sys
+D=Path(r'C:\Users\DELL\AppData\Local\Temp\zh-iteration-20261017-ae1ced87\watchpost-manual-20261018\npc-relay-stone-v1')
+ROOT=Path(r'C:\Users\DELL\AppData\Local\Temp\zh-iteration-20261017-ae1ced87\zombie_harvest-30eeefb5c20e4e8105dfe76e64ce9f806e3373cd')
+SOURCE=D/'source';OUT=D/'integration/required-contracts01';OUT.mkdir(parents=True,exist_ok=False)
+NODE=Path(r'C:/Users/DELL/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe')
+PYTHON=Path(r'C:/Program Files (x86)/Microsoft Visual Studio/Shared/Python39_64/python.exe')
+PLAYWRIGHT=Path(r'C:/Users/DELL/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright')
+CHROME=Path(r'C:/Program Files/Google/Chrome/Application/chrome.exe')
+EXPECTED='082e8e2e6233351155fb560d4afd0af930b72af1997907733efb936d2654df46'
+def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+def ref(p):p=Path(p);return {'path':str(p),'sha256':sha(p),'bytes':p.stat().st_size}
+def dump(p,v):Path(p).write_text(json.dumps(v,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+def now():return datetime.datetime.now(datetime.timezone.utc).isoformat()
+assert sha(SOURCE/'dist/index.html')==EXPECTED
+assert sha(SOURCE/'scripts/browser-content-episode-v1.mjs')==sha(ROOT/'scripts/browser-content-episode-v1.mjs')
+method=OUT/'method-executed.py';shutil.copyfile(Path(__file__),method)
+extra=[ROOT/'dist/index.html',ROOT/'scripts/browser-content-episode-v1.mjs',ROOT/'scripts/check-iteration-evidence.mjs',D/'browser-method/run-browser.py',D/'browser-method/READY-v4.json',D/'affected-regression02/closure.json',D/'affected-regression02/03-content-chain/execution.json',D/'affected-regression02/03-content-chain/stdout.txt',D/'affected-regression02/inputs-before.json',D/'affected-regression02/inputs-after.json',NODE,PYTHON,PLAYWRIGHT/'package.json',CHROME,method]
+deps=sorted(set([p for p in SOURCE.rglob('*') if p.is_file()]+extra),key=lambda p:str(p).lower())
+def inventory():return [ref(p) for p in deps]
+before=inventory();dump(OUT/'inputs-before.json',before)
+old=json.loads((D/'affected-regression02/03-content-chain/execution.json').read_text(encoding='utf-8'))
+native=(D/'affected-regression02/03-content-chain/stdout.txt').read_bytes()
+lines=native.decode('utf-8').strip().splitlines()
+count=int(re.fullmatch(r'content-chain source execution passed: ([1-9]\d*) checks',lines[0]).group(1))
+assert old['terminal'] is True and old['exitCode']==0 and old['sourceHtmlSha256']==EXPECTED
+assert lines[1]=='sourceHtmlSha256: '+EXPECTED and len(lines)==count+3 and all(x.startswith('  \u2713 ') for x in lines[3:])
+assert old['stdout']['sha256']==hashlib.sha256(native).hexdigest()
+rd=OUT/'00-content-chain-reused';rd.mkdir();(rd/'native-stdout.txt').write_bytes(native)
+reuse={'name':'content-chain','status':'passed','count':count,'passed':count,'reusedOriginalTerminalEvidence':True,'originalExecution':ref(D/'affected-regression02/03-content-chain/execution.json'),'originalNativeReport':ref(D/'affected-regression02/03-content-chain/stdout.txt'),'nativeReport':ref(rd/'native-stdout.txt'),'sourceHtmlSha256':EXPECTED,'bindingsFromOriginalExecution':True,'originalPid':old['pid'],'originalExitCode':old['exitCode'],'bindingScope':'source VM executes candidate HTML; original native report reused without edits'}
+dump(rd/'reuse.json',reuse)
+records=[]
+commands=[
+('01-event-gate-parity','event-gate-parity',['scripts/check-event-gate-parity.mjs','--html',str(SOURCE/'dist/index.html')],'source VM inline gate plus pure core fixture parity',None),
+('02-observer-expression','observer-expression',['scripts/check-observer-expression-v1.mjs'],'pure module and isolated VM module checks; does not execute candidate HTML',None),
+('03-gameplay-vertical-slice','gameplay-vertical-slice',['scripts/check-gameplay-vertical-slice.mjs'],'source VM executes candidate HTML through existing source IO adapter',None),
+('04-content-episode','content-episode',['scripts/check-content-episode-v1.mjs'],'source VM executes candidate HTML with explicit old-writer fixtures',None),
+('05-replay-self-test','replay-self-test',['scripts/replay-harness.mjs','--self-test'],'pure replay/save projection module self-test; does not execute candidate HTML',None),
+('06-static-three-day-smoke','static-three-day-smoke',['scripts/smoke-three-days.mjs','--python',str(PYTHON),'--report',str(OUT/'06-static-three-day-smoke/report.json')],'native static-contract fallback; VS Python genuinely has no playwright; no browser or production URL navigation',None),
+('07-validate-content','validate-content',['scripts/validate-content.mjs'],'static candidate HTML, content documentation and registry contract checks',None),
+('08-night-guard','night-guard',['scripts/check-night-guard.mjs'],'static patterns in candidate HTML; native success text contains no check counter',None),
+('09-primary-episode-browser','primary-episode-browser',['scripts/browser-content-episode-v1.mjs','--out',str(OUT/'09-primary-episode-browser/business')],'original browser-content-episode-v1; TEST-ONLY old-writer preboot fixture; public choice/reload; actual main document response hashes',{'ZH_PLAYWRIGHT_MODULE':str(PLAYWRIGHT),'ZH_BROWSER_CHANNEL':'chrome'}),
+]
+for dirname,name,args,scope,envadd in commands:
+    assert sha(SOURCE/'dist/index.html')==EXPECTED
+    directory=OUT/dirname;directory.mkdir()
+    argv=[str(NODE),*args];env=os.environ.copy();env.update(envadd or {})
+    record={'schema':'NpcRelayStoneRequiredContractActualExecutionV1','name':name,'argv':argv,'cwd':str(SOURCE),'envOverrides':envadd or {},'startedUtc':now(),'terminal':False,'sourceHtmlSha256':EXPECTED,'bindingScope':scope,'method':ref(method),'processBudgetSeconds':165 if envadd else None}
+    dump(directory/'execution.json',record);t=time.monotonic()
+    with (directory/'stdout.txt').open('wb') as so,(directory/'stderr.txt').open('wb') as se:
+        p=subprocess.Popen(argv,cwd=str(SOURCE),env=env,stdout=so,stderr=se);record['pid']=p.pid;dump(directory/'execution.json',record)
+        print(json.dumps({'name':name,'pid':p.pid,'started':True}),flush=True)
+        try:code=p.wait(timeout=165 if envadd else None)
+        except subprocess.TimeoutExpired:
+            cleanup=subprocess.run(['taskkill','/PID',str(p.pid),'/T','/F'],capture_output=True)
+            (directory/'timeout-process-cleanup.stdout.txt').write_bytes(cleanup.stdout);(directory/'timeout-process-cleanup.stderr.txt').write_bytes(cleanup.stderr)
+            code=p.wait();record['wrapperTimeout']=True
+    record.update(terminal=True,exitCode=code,endedUtc=now(),elapsedSeconds=round(time.monotonic()-t,6),stdout=ref(directory/'stdout.txt'),stderr=ref(directory/'stderr.txt'))
+    raw=(directory/'stdout.txt').read_bytes();nr=None;summary={}
+    try:
+        report=json.loads(raw);nr=directory/'native-stdout.json';nr.write_bytes(raw)
+    except (ValueError,UnicodeDecodeError):
+        candidate=directory/('business/report.json' if envadd else 'report.json')
+        if candidate.exists():
+            nr=candidate;report=json.loads(candidate.read_text(encoding='utf-8-sig'))
+        else:report=None
+    if report:
+        if 'checks' in report:summary={'count':len(report['checks']),'passed':sum(c.get('ok') is True for c in report['checks']),'nativeOk':report.get('ok')}
+        elif 'fixtureCount' in report:summary={'count':report['fixtureCount'],'passed':report['fixtureCount'] if report.get('ok') is True else 0,'countUnit':'fixtures','nativeOk':report.get('ok')}
+        if name=='static-three-day-smoke':assert report['mode']=='static-contract'
+        if name=='primary-episode-browser':
+            summary.update(documentHashes=report.get('documentHashes'),browserVersion=report.get('browserVersion'),fixtureOnly=True,naturalGameplay=False)
+        for key in ['sourceHtmlSha256','sourceHash']:
+            if key in report:assert report[key]==EXPECTED,(name,key)
+    else:
+        summary={'count':None,'passed':None,'nativeCounterAvailable':False,'nativeSuccessText':raw.decode('utf-8').strip()}
+    record.update(nativeReport=ref(nr) if nr else ref(directory/'stdout.txt'),summary=summary,status='passed' if code==0 else 'failed')
+    dump(directory/'execution.json',record);records.append(record);dump(OUT/'execution-index-in-progress.json',records)
+    print(json.dumps({'name':name,'pid':p.pid,'terminal':True,'exitCode':code,'summary':summary},ensure_ascii=False),flush=True)
+after=inventory();dump(OUT/'inputs-after.json',after)
+drift=[{'before':a,'after':b} for a,b in zip(before,after) if a!=b]
+closure={'schema':'NpcRelayStoneRequiredContractsClosureV1','status':'TERMINAL','sourceHtmlSha256':EXPECTED,'requiredTestNames':['content-chain','event-gate-parity','observer-expression','gameplay-vertical-slice','content-episode','replay-self-test','static-three-day-smoke'],'reusedContentChain':reuse,'executions':records,'inputsBefore':ref(OUT/'inputs-before.json'),'inputsAfter':ref(OUT/'inputs-after.json'),'inputCount':len(before),'inputsUnchanged':not drift,'drift':drift,'rootHtmlUntouched':sha(ROOT/'dist/index.html'),'ok':all(r['exitCode']==0 for r in records) and not drift,'scope':'existing required seven source/pure/static contracts plus validate-content, night-guard and original primary old-writer browser contract; no natural gameplay/A08/model/Git/production operation','naturalGameplayClaim':False,'newNpcFourScenesReplacePrimary':False}
+dump(OUT/'closure.json',closure)
+print(json.dumps({'closure':ref(OUT/'closure.json'),'terminal':True,'ok':closure['ok'],'passedActualExecutions':sum(r['exitCode']==0 for r in records),'failedActualExecutions':sum(r['exitCode']!=0 for r in records),'inputsUnchanged':not drift}),flush=True)
+sys.exit(0 if closure['ok'] else 1)
+

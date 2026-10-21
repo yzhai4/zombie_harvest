@@ -1,0 +1,69 @@
+{
+  "schema": "NpcSelfSourceIndependentReviewV1",
+  "methodVersion": "source-npc-self-observation-v1-final98",
+  "ok": true,
+  "sourceHtmlSha256": "68834890643f962c46b1c7c74e52d8f436609b260d31e079df2b579f26eef395",
+  "runner": {
+    "path": "check-npc-self-observation-v1.mjs",
+    "sha256": "7f235a08ba1ee913327ae3da87894c00f47844a1cd51f054bc1a46f127da7a5c"
+  },
+  "runs": [
+    {
+      "report": {
+        "path": "../candidate6883-final02.json",
+        "sha256": "327f8437306130cc7ed4402fdbddf9f7901ef361eb743b436dbc2c97f5904ab5"
+      },
+      "terminal": {
+        "path": "../candidate6883-final02.terminal.json",
+        "sha256": "3e9d8e7213952cc29d055ba5bc9fa92b510987a14ff654c47263318bad0f355e"
+      },
+      "sourceHtmlSha256": "68834890643f962c46b1c7c74e52d8f436609b260d31e079df2b579f26eef395",
+      "runnerSha256": "7f235a08ba1ee913327ae3da87894c00f47844a1cd51f054bc1a46f127da7a5c",
+      "ok": true,
+      "count": 98,
+      "passed": 98,
+      "verifiedArtifacts": 26
+    },
+    {
+      "report": {
+        "path": "../negative61ea-final98.json",
+        "sha256": "bcb998368f3ed63949e92ee09d72e94f30be9e19d661351647a2cab36258058b"
+      },
+      "terminal": {
+        "path": "../negative61ea-final98.terminal.json",
+        "sha256": "461eaa36d343721e105e8c917cf8522cde8035f5f6f30c6540cb01b12d1cc8b1"
+      },
+      "sourceHtmlSha256": "61ea64b27a65cc4a271c214c16126b40a453eae40c8684c106bc8edc89e5f115",
+      "runnerSha256": "7f235a08ba1ee913327ae3da87894c00f47844a1cd51f054bc1a46f127da7a5c",
+      "ok": false,
+      "count": 98,
+      "passed": 9,
+      "verifiedArtifacts": 25
+    }
+  ],
+  "browserInputs": {
+    "path": "../candidate6883-final02-artifacts/browser-inputs/manifest.json",
+    "sha256": "dd3568e537e31886448c898acbeaf11953258de99655e04499633382c86b0d9c",
+    "count": 4,
+    "sourceHtmlSha256": "68834890643f962c46b1c7c74e52d8f436609b260d31e079df2b579f26eef395"
+  },
+  "retainedIntermediate": [
+    "../candidate9cb2-first.json",
+    "../negative61ea-first.json",
+    "../candidate6883-diagnostic.json",
+    "../candidate6883-final.json"
+  ],
+  "methodCorrection": "Two 97/98 runs retained; only failing cross-VM array-prototype comparison was corrected with JSON scalar projection. No domain assertions removed, source/module/IO unchanged.",
+  "scope": {
+    "actual": "full inline private components, existing Gate/reducer/CommandBus, real delegated context click/E listeners, real advance/combat, old complete writer/loader and save checkpoint",
+    "testOnly": "DOM/storage/queued-timer IO adapter plus explicit offline scene changes; input captures are source-VM writer outputs",
+    "excluded": [
+      "browser verification",
+      "natural gameplay",
+      "LLM",
+      "contact/perception authorization",
+      "full ActorObservation ADR",
+      "global historical injury normalization"
+    ]
+  }
+}

@@ -1,0 +1,7 @@
+# NPC休整／工作切片证据审查归档
+
+本目录七份审查原件按字节复制，原SHA和长度列于index.json。审查范围是来源、发布运输、原件与伴件、manifest引用及范围表述；不是开发发布、完整测试矩阵、体验、自然三日或生产批准。
+
+审查时读取的development ref为`1277585f0009e059066b9f326cdb2b726b6353c7`。待发布source commit为`6dbee8cc06c45bec47ff114f41f27686123a8248`，HTML为`c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571`。精确最终引用及CI仍pending；本目录不把待完成项视作批准。
+
+`gate-native-stdout.json`保留原输出，包括本地commitVerification unavailable的实际边界；独立Git树字节核对不改写该状态。后续ref／CI结果须另行追加证据，不能倒改此审查时快照。

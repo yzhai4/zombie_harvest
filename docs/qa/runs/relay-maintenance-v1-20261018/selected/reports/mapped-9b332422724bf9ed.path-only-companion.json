@@ -1,0 +1,25 @@
+{
+  "schema": "ExplicitPathOnlyPublicCompanionV1",
+  "isOriginalNativeReport": false,
+  "originalExternalRetained": true,
+  "original": {
+    "portableName": "group-1.json",
+    "sha256": "9b332422724bf9ed69ecdf7baa0d47aecc750189a5ae1ef340a05fd7f6697d1a",
+    "bytes": 913
+  },
+  "replacedMetadataFields": [
+    {
+      "field": "$.stack",
+      "originalSubstringSha256": "6f7851ad2031d4c7d0aefac6d81eb1bd56ebdabf67d3764dae7b587c1bbba96a",
+      "originalSubstringBytes": 98,
+      "occurrences": 3,
+      "replacement": "<relay-maintenance-round-root>"
+    }
+  ],
+  "resultFactsUnchanged": true,
+  "report": {
+    "name": "AssertionError",
+    "message": "actual update must not reactivate zero HP station\n\ntrue !== false\n",
+    "stack": "AssertionError [ERR_ASSERTION]: actual update must not reactivate zero HP station\n\ntrue !== false\n\n    at <relay-maintenance-round-root>/baseline7b23-final02/checker-executed.mjs:102:44\n    at check (<relay-maintenance-round-root>/baseline7b23-final02/checker-executed.mjs:84:80)\n    at <relay-maintenance-round-root>/baseline7b23-final02/checker-executed.mjs:87:1\n    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)\n    at async node:internal/modules/esm/loader:643:26\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)"
+  }
+}

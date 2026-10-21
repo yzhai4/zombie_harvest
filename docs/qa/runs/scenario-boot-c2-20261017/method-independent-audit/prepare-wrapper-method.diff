@@ -1,0 +1,11 @@
+--- previous/scripts/check-report-recovery.mjs
++++ new/scripts/check-report-recovery.mjs
+@@ -78,7 +78,7 @@
+       validate(input) { return validateStoredProgress(input, qaLookupContext()); },
+       validatePayload(payload) { return validateProgressPayload(payload, qaLookupContext()); },
+       select(candidates, policy = {}) { return selectProgressSave(candidates, policy, qaLookupContext()); },
+-      prepare: prepareSavedPayload, install: installSavedPayload,
++      prepare(selected, recovery, original = selected) { return prepareSavedPayload(selected, recovery, original, BootRecovery.scenarioContent || BootRecovery.draft?.scenarioContent); }, install: installSavedPayload,
+       project: projectResolvedReport, renderReport: renderResolvedReport, hud: renderHud, identity: savedReportIdentity,
+       close: continueMorning, command: actionCommand, dispatch: dispatchCommand, gather, commit: commitPlanMeeting, generatePlan: generatePlanMeeting, buildToggle: toggleBuild, checkpoint: requestCheckpoint, save: saveProgress, threatStart: startThreatEncounter, settleThreat: resolveNight, contentHook: runContentHook, contentEffects: applyContentEffects,
+       worldStart: startWorldSimulation, battleStart: startBattleLoop, heldStart: startHeldMovement, repeatStart: startInteractionRepeat,

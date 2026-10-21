@@ -1,0 +1,768 @@
+﻿2026-10-17T16:30:43.4753892Z Current runner version: '2.337.0'
+2026-10-17T16:30:43.4802916Z ##[group]Runner Image Provisioner
+2026-10-17T16:30:43.4803829Z Hosted Compute Agent
+2026-10-17T16:30:43.4804559Z Version: 20261012.601
+2026-10-17T16:30:43.4805240Z Commit: f3dc54e1fb89da6852db922499a0233137369e1d
+2026-10-17T16:30:43.4805955Z Build Date: 2026-10-12T17:48:21Z
+2026-10-17T16:30:43.4806735Z Worker ID: {c08d539c-d5cf-4e84-b7be-8625690b79d4}
+2026-10-17T16:30:43.4807473Z Region: southcentralus
+2026-10-17T16:30:43.4808088Z Cloud: Azure
+2026-10-17T16:30:43.4808704Z ##[endgroup]
+2026-10-17T16:30:43.4810218Z ##[group]Operating System
+2026-10-17T16:30:43.4810987Z Ubuntu
+2026-10-17T16:30:43.4811534Z 24.04.5
+2026-10-17T16:30:43.4812165Z LTS
+2026-10-17T16:30:43.4813037Z ##[endgroup]
+2026-10-17T16:30:43.4813667Z ##[group]Runner Image
+2026-10-17T16:30:43.4814406Z Image: ubuntu-24.04
+2026-10-17T16:30:43.4815046Z Version: 20261012.334.1
+2026-10-17T16:30:43.4816457Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261012.334/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-17T16:30:43.4818013Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261012.334
+2026-10-17T16:30:43.4819042Z ##[endgroup]
+2026-10-17T16:30:43.4820175Z ##[group]GITHUB_TOKEN Permissions
+2026-10-17T16:30:43.4822621Z Contents: read
+2026-10-17T16:30:43.4823314Z Metadata: read
+2026-10-17T16:30:43.4823880Z ##[endgroup]
+2026-10-17T16:30:43.4826123Z Secret source: Actions
+2026-10-17T16:30:43.4827132Z Cache mode: write
+2026-10-17T16:30:43.4827943Z Prepare workflow directory
+2026-10-17T16:30:43.5161149Z Prepare all required actions
+2026-10-17T16:30:43.5209458Z Getting action download info
+2026-10-17T16:30:43.8038432Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-10-17T16:30:43.9119013Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+2026-10-17T16:30:44.0957003Z Complete job name: static-validation
+2026-10-17T16:30:44.1982885Z ##[group]Run actions/checkout@v4
+2026-10-17T16:30:44.1983840Z with:
+2026-10-17T16:30:44.1984262Z   fetch-depth: 0
+2026-10-17T16:30:44.1984733Z   repository: yzhai4/zombie_harvest
+2026-10-17T16:30:44.1988707Z   token: ***
+2026-10-17T16:30:44.1989155Z   ssh-strict: true
+2026-10-17T16:30:44.1989589Z   ssh-user: git
+2026-10-17T16:30:44.1990038Z   persist-credentials: true
+2026-10-17T16:30:44.1990536Z   clean: true
+2026-10-17T16:30:44.1990987Z   sparse-checkout-cone-mode: true
+2026-10-17T16:30:44.1991509Z   fetch-tags: false
+2026-10-17T16:30:44.1991954Z   show-progress: true
+2026-10-17T16:30:44.1992575Z   lfs: false
+2026-10-17T16:30:44.1992996Z   submodules: false
+2026-10-17T16:30:44.1993438Z   set-safe-directory: true
+2026-10-17T16:30:44.1993952Z   allow-unsafe-pr-checkout: false
+2026-10-17T16:30:44.1994734Z ##[endgroup]
+2026-10-17T16:30:44.2991674Z Syncing repository: yzhai4/zombie_harvest
+2026-10-17T16:30:44.2994996Z ##[group]Getting Git version info
+2026-10-17T16:30:44.2996213Z Working directory is '/home/runner/work/zombie_harvest/zombie_harvest'
+2026-10-17T16:30:44.2997607Z [command]/usr/bin/git version
+2026-10-17T16:30:44.3102162Z git version 2.55.0
+2026-10-17T16:30:44.3128969Z ##[endgroup]
+2026-10-17T16:30:44.3146661Z Temporarily overriding HOME='/home/runner/work/_temp/38407d6a-6c53-4fd2-b3cf-aa73942f74ba' before making global git config changes
+2026-10-17T16:30:44.3148999Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-17T16:30:44.3153361Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/zombie_harvest/zombie_harvest
+2026-10-17T16:30:44.3209668Z Deleting the contents of '/home/runner/work/zombie_harvest/zombie_harvest'
+2026-10-17T16:30:44.3219826Z ##[group]Initializing the repository
+2026-10-17T16:30:44.3223843Z [command]/usr/bin/git init /home/runner/work/zombie_harvest/zombie_harvest
+2026-10-17T16:30:44.3381690Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-17T16:30:44.3383717Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-17T16:30:44.3385605Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-17T16:30:44.3386845Z hint: call:
+2026-10-17T16:30:44.3387467Z hint:
+2026-10-17T16:30:44.3388256Z hint: 	git config --global init.defaultBranch <name>
+2026-10-17T16:30:44.3389221Z hint:
+2026-10-17T16:30:44.3390130Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-17T16:30:44.3391696Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-17T16:30:44.3393156Z hint:
+2026-10-17T16:30:44.3393803Z hint: 	git branch -m <name>
+2026-10-17T16:30:44.3394534Z hint:
+2026-10-17T16:30:44.3395562Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-17T16:30:44.3402849Z Initialized empty Git repository in /home/runner/work/zombie_harvest/zombie_harvest/.git/
+2026-10-17T16:30:44.3414804Z [command]/usr/bin/git remote add origin https://github.com/yzhai4/zombie_harvest
+2026-10-17T16:30:44.3467659Z ##[endgroup]
+2026-10-17T16:30:44.3468886Z ##[group]Disabling automatic garbage collection
+2026-10-17T16:30:44.3471771Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-17T16:30:44.3510921Z ##[endgroup]
+2026-10-17T16:30:44.3511782Z ##[group]Setting up auth
+2026-10-17T16:30:44.3519922Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-17T16:30:44.3557702Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-17T16:30:44.3972071Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-17T16:30:44.4008743Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-17T16:30:44.4233433Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-17T16:30:44.4270541Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-17T16:30:44.4502758Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-17T16:30:44.4546783Z ##[endgroup]
+2026-10-17T16:30:44.4547663Z ##[group]Fetching the repository
+2026-10-17T16:30:44.4557782Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/* +39a617361002be40ed4eaadccf8315bd07c645f0:refs/remotes/pull/4/merge
+2026-10-17T16:31:07.8574529Z From https://github.com/yzhai4/zombie_harvest
+2026-10-17T16:31:07.8575753Z  * [new branch]      codex/v81-site-reconciliation            -> origin/codex/v81-site-reconciliation
+2026-10-17T16:31:07.8577087Z  * [new branch]      codex/v82-npc-succession                 -> origin/codex/v82-npc-succession
+2026-10-17T16:31:07.8578121Z  * [new branch]      main                                     -> origin/main
+2026-10-17T16:31:07.8579019Z  * [new branch]      sites-v76-sync                           -> origin/sites-v76-sync
+2026-10-17T16:31:07.8580053Z  * [new ref]         39a617361002be40ed4eaadccf8315bd07c645f0 -> pull/4/merge
+2026-10-17T16:31:07.8595482Z ##[endgroup]
+2026-10-17T16:31:07.8595990Z ##[group]Determining the checkout info
+2026-10-17T16:31:07.8596508Z ##[endgroup]
+2026-10-17T16:31:07.8598530Z [command]/usr/bin/git sparse-checkout disable
+2026-10-17T16:31:07.8655920Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-17T16:31:07.8697063Z ##[group]Checking out the ref
+2026-10-17T16:31:07.8700064Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/4/merge
+2026-10-17T16:31:08.8961853Z Updating files:  69% (3279/4727)
+2026-10-17T16:31:08.9213890Z Updating files:  70% (3309/4727)
+2026-10-17T16:31:08.9486160Z Updating files:  71% (3357/4727)
+2026-10-17T16:31:08.9698463Z Updating files:  72% (3404/4727)
+2026-10-17T16:31:08.9871113Z Updating files:  73% (3451/4727)
+2026-10-17T16:31:09.0068000Z Updating files:  74% (3498/4727)
+2026-10-17T16:31:09.0197045Z Updating files:  75% (3546/4727)
+2026-10-17T16:31:09.0261481Z Updating files:  76% (3593/4727)
+2026-10-17T16:31:09.0312952Z Updating files:  77% (3640/4727)
+2026-10-17T16:31:09.0455717Z Updating files:  78% (3688/4727)
+2026-10-17T16:31:09.0599971Z Updating files:  79% (3735/4727)
+2026-10-17T16:31:09.0700872Z Updating files:  80% (3782/4727)
+2026-10-17T16:31:09.0846315Z Updating files:  81% (3829/4727)
+2026-10-17T16:31:09.1094931Z Updating files:  82% (3877/4727)
+2026-10-17T16:31:09.1336092Z Updating files:  83% (3924/4727)
+2026-10-17T16:31:09.1507785Z Updating files:  84% (3971/4727)
+2026-10-17T16:31:09.1659962Z Updating files:  85% (4018/4727)
+2026-10-17T16:31:09.1772113Z Updating files:  86% (4066/4727)
+2026-10-17T16:31:09.1894719Z Updating files:  87% (4113/4727)
+2026-10-17T16:31:09.2046822Z Updating files:  88% (4160/4727)
+2026-10-17T16:31:09.2173060Z Updating files:  89% (4208/4727)
+2026-10-17T16:31:09.2519906Z Updating files:  90% (4255/4727)
+2026-10-17T16:31:09.2795316Z Updating files:  91% (4302/4727)
+2026-10-17T16:31:09.3021453Z Updating files:  92% (4349/4727)
+2026-10-17T16:31:09.3212407Z Updating files:  93% (4397/4727)
+2026-10-17T16:31:09.3326612Z Updating files:  94% (4444/4727)
+2026-10-17T16:31:09.3376024Z Updating files:  95% (4491/4727)
+2026-10-17T16:31:09.3427388Z Updating files:  96% (4538/4727)
+2026-10-17T16:31:09.3481804Z Updating files:  97% (4586/4727)
+2026-10-17T16:31:09.3548439Z Updating files:  98% (4633/4727)
+2026-10-17T16:31:09.3591475Z Updating files:  99% (4680/4727)
+2026-10-17T16:31:09.3592080Z Updating files: 100% (4727/4727)
+2026-10-17T16:31:09.3602975Z Updating files: 100% (4727/4727), done.
+2026-10-17T16:31:09.3668905Z Note: switching to 'refs/remotes/pull/4/merge'.
+2026-10-17T16:31:09.3669334Z 
+2026-10-17T16:31:09.3670104Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-10-17T16:31:09.3670999Z changes and commit them, and you can discard any commits you make in this
+2026-10-17T16:31:09.3671841Z state without impacting any branches by switching back to a branch.
+2026-10-17T16:31:09.3672588Z 
+2026-10-17T16:31:09.3672927Z If you want to create a new branch to retain commits you create, you may
+2026-10-17T16:31:09.3673549Z do so (now or later) by using -c with the switch command. Example:
+2026-10-17T16:31:09.3673827Z 
+2026-10-17T16:31:09.3673966Z   git switch -c <new-branch-name>
+2026-10-17T16:31:09.3674197Z 
+2026-10-17T16:31:09.3674310Z Or undo this operation with:
+2026-10-17T16:31:09.3674508Z 
+2026-10-17T16:31:09.3674634Z   git switch -
+2026-10-17T16:31:09.3674769Z 
+2026-10-17T16:31:09.3674988Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-10-17T16:31:09.3675339Z 
+2026-10-17T16:31:09.3675752Z HEAD is now at 39a6173 Merge c8078dcd1f13f616b48fab1009917a3bf00c9f8a into d409e3cea281fa71ab5874b8a9b389633656bf25
+2026-10-17T16:31:09.3784696Z ##[endgroup]
+2026-10-17T16:31:09.3832040Z [command]/usr/bin/git log -1 --format=%H
+2026-10-17T16:31:09.3860877Z 39a617361002be40ed4eaadccf8315bd07c645f0
+2026-10-17T16:31:09.4121624Z ##[group]Run actions/setup-node@v4
+2026-10-17T16:31:09.4121936Z with:
+2026-10-17T16:31:09.4122142Z   node-version: 20
+2026-10-17T16:31:09.4122667Z   always-auth: false
+2026-10-17T16:31:09.4122900Z   check-latest: false
+2026-10-17T16:31:09.4125486Z   token: ***
+2026-10-17T16:31:09.4125697Z ##[endgroup]
+2026-10-17T16:31:09.5529930Z Attempting to download 20...
+2026-10-17T16:31:09.5637494Z (node:2307) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-17T16:31:09.5638475Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-17T16:31:10.3515867Z Acquiring 20.20.2 - x64 from https://github.com/actions/node-versions/releases/download/20.20.2-23521894959/node-20.20.2-linux-x64.tar.gz
+2026-10-17T16:31:10.8578668Z Extracting ...
+2026-10-17T16:31:10.8698921Z [command]/usr/bin/tar xz --strip 1 --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/87a9e05e-73d2-4b87-947a-93dc7dbf0065 -f /home/runner/work/_temp/9a7bbba7-39fa-4677-a344-0424adcaacf7
+2026-10-17T16:31:11.8892153Z Adding to the cache ...
+2026-10-17T16:31:13.7937153Z ##[group]Environment details
+2026-10-17T16:31:14.0219673Z node: v20.20.2
+2026-10-17T16:31:14.0220137Z npm: 10.8.2
+2026-10-17T16:31:14.0220525Z yarn: 1.22.22
+2026-10-17T16:31:14.0221333Z ##[endgroup]
+2026-10-17T16:31:14.0395053Z ##[group]Run node --check dist/actor-sprites.js
+2026-10-17T16:31:14.0395571Z [36;1mnode --check dist/actor-sprites.js[0m
+2026-10-17T16:31:14.0395968Z [36;1mnode --check prototype/mobile-zombie-game/game.js[0m
+2026-10-17T16:31:14.0396352Z [36;1mnode scripts/check-inline-syntax.mjs[0m
+2026-10-17T16:31:14.0396724Z [36;1mnode --check scripts/verify-three-days-artifacts.mjs[0m
+2026-10-17T16:31:14.0397138Z [36;1mnode --check scripts/export-three-days-artifacts.mjs[0m
+2026-10-17T16:31:14.0397539Z [36;1mnode --check scripts/runtime-source-target.mjs[0m
+2026-10-17T16:31:14.0397906Z [36;1mnode --check scripts/check-report-recovery.mjs[0m
+2026-10-17T16:31:14.0398266Z [36;1mnode --check scripts/check-plan-integrity.mjs[0m
+2026-10-17T16:31:14.0398646Z [36;1mnode --check scripts/check-plan-integrity-ui.mjs[0m
+2026-10-17T16:31:14.0399045Z [36;1mnode --check scripts/check-command-id-reservation.mjs[0m
+2026-10-17T16:31:14.0399474Z [36;1mnode --check scripts/check-repair-proof.mjs[0m
+2026-10-17T16:31:14.0399840Z [36;1mnode --check scripts/check-leader-llm-harness.mjs[0m
+2026-10-17T16:31:14.0400226Z [36;1mnode --check scripts/check-leader-harness-replay.mjs[0m
+2026-10-17T16:31:14.0400637Z [36;1mnode --check scripts/headless-leader-ledger-adapter.mjs[0m
+2026-10-17T16:31:14.0401049Z [36;1mnode --check scripts/check-leader-command-bridge.mjs[0m
+2026-10-17T16:31:14.0401483Z [36;1mnode --check scripts/check-leader-command-bridge-runtime.mjs[0m
+2026-10-17T16:31:14.0401905Z [36;1mnode --check scripts/check-daytime-combat.mjs[0m
+2026-10-17T16:31:14.0402274Z [36;1mnode --check scripts/check-combat-intent-v1.mjs[0m
+2026-10-17T16:31:14.0402958Z [36;1mnode --check scripts/lib/combat-intent-v1.mjs[0m
+2026-10-17T16:31:14.0403309Z [36;1mnode --check scripts/lib/event-gate-v1.mjs[0m
+2026-10-17T16:31:14.0403653Z [36;1mnode --check scripts/check-event-gate-v1.mjs[0m
+2026-10-17T16:31:14.0404016Z [36;1mnode --check scripts/check-event-gate-parity.mjs[0m
+2026-10-17T16:31:14.0404411Z [36;1mnode --check scripts/lib/relay-construction-v1.mjs[0m
+2026-10-17T16:31:14.0404814Z [36;1mnode --check scripts/check-relay-construction-v1.mjs[0m
+2026-10-17T16:31:14.0405251Z [36;1mnode --check scripts/check-relay-construction-producer.mjs[0m
+2026-10-17T16:31:14.0405732Z [36;1mnode --check scripts/lib/relay-construction-transaction-v1.mjs[0m
+2026-10-17T16:31:14.0406239Z [36;1mnode --check scripts/check-relay-construction-transaction-v1.mjs[0m
+2026-10-17T16:31:14.0406721Z [36;1mnode --check scripts/check-relay-construction-runtime.mjs[0m
+2026-10-17T16:31:14.0407137Z [36;1mnode --check scripts/lib/scenario-package-v1.mjs[0m
+2026-10-17T16:31:14.0407521Z [36;1mnode --check scripts/check-scenario-package-v1.mjs[0m
+2026-10-17T16:31:14.0407902Z [36;1mnode --check scripts/build-scenario-package.mjs[0m
+2026-10-17T16:31:14.0408272Z [36;1mnode --check scripts/check-scenario-boot-c1.mjs[0m
+2026-10-17T16:31:14.0408629Z [36;1mnode --check scripts/check-scenario-boot-c2.mjs[0m
+2026-10-17T16:31:14.0408999Z [36;1mnode --check scripts/browser-scenario-boot-c1.mjs[0m
+2026-10-17T16:31:14.0409375Z [36;1mnode --check scripts/browser-scenario-boot-c2.mjs[0m
+2026-10-17T16:31:14.0409754Z [36;1mnode --check scripts/lib/observer-expression-v1.mjs[0m
+2026-10-17T16:31:14.0410155Z [36;1mnode --check scripts/check-observer-expression-v1.mjs[0m
+2026-10-17T16:31:14.0410562Z [36;1mnode --check scripts/lib/npc-self-observation-v1.mjs[0m
+2026-10-17T16:31:14.0410975Z [36;1mnode --check scripts/check-npc-self-observation-v1.mjs[0m
+2026-10-17T16:31:14.0411558Z [36;1mnode --check scripts/lib/npc-direct-sight-v1.mjs[0m
+2026-10-17T16:31:14.0411937Z [36;1mnode --check scripts/check-npc-direct-sight-v1.mjs[0m
+2026-10-17T16:31:14.0412579Z [36;1mnode --check scripts/browser-npc-direct-sight-v1.mjs[0m
+2026-10-17T16:31:14.0413009Z [36;1mnode --check scripts/browser-npc-self-observation-v1.mjs[0m
+2026-10-17T16:31:14.0413438Z [36;1mnode --check scripts/check-gameplay-vertical-slice.mjs[0m
+2026-10-17T16:31:14.0414011Z [36;1mnode --check scripts/check-iteration-evidence.mjs[0m
+2026-10-17T16:31:14.0414440Z [36;1mnode --check scripts/check-iteration-evidence-self-test.mjs[0m
+2026-10-17T16:31:14.0414876Z [36;1mnode --check scripts/lib/source-runtime-fixture.mjs[0m
+2026-10-17T16:31:14.0415279Z [36;1mnode --check scripts/capture-episode-writer-fixture.mjs[0m
+2026-10-17T16:31:14.0415688Z [36;1mnode --check scripts/check-content-episode-v1.mjs[0m
+2026-10-17T16:31:14.0416072Z [36;1mnode --check scripts/browser-content-episode-v1.mjs[0m
+2026-10-17T16:31:14.0416473Z [36;1mnode --check scripts/check-npc-threat-attention.mjs[0m
+2026-10-17T16:31:14.0416859Z [36;1mnode --check scripts/check-outpost-presence-v1.mjs[0m
+2026-10-17T16:31:14.0417259Z [36;1mnode --check scripts/browser-outpost-presence-v1.mjs[0m
+2026-10-17T16:31:14.0417629Z [36;1mnode --check scripts/check-camp-rest-v1.mjs[0m
+2026-10-17T16:31:14.0417981Z [36;1mnode --check scripts/browser-camp-rest-v1.mjs[0m
+2026-10-17T16:31:14.0418385Z [36;1mnode --check scripts/probe-food-shortage-strategies-v1.mjs[0m
+2026-10-17T16:31:14.0418803Z [36;1mnode --check scripts/check-shortage-choice-v2.mjs[0m
+2026-10-17T16:31:14.0419184Z [36;1mnode --check scripts/browser-natural-mixed-v1.mjs[0m
+2026-10-17T16:31:14.0419565Z [36;1mnode --check scripts/browser-shortage-choice-v2.mjs[0m
+2026-10-17T16:31:14.0419935Z [36;1mnode --check scripts/check-crop-target-v1.mjs[0m
+2026-10-17T16:31:14.0420313Z [36;1mnode --check scripts/browser-crop-target-v1.mjs[0m
+2026-10-17T16:31:14.0420767Z [36;1mnode --check scripts/check-npc-public-eligibility-v1.mjs[0m
+2026-10-17T16:31:14.0421201Z [36;1mnode --check scripts/browser-npc-public-actions-v1.mjs[0m
+2026-10-17T16:31:14.0714555Z shell: /usr/bin/bash -e {0}
+2026-10-17T16:31:14.0714897Z ##[endgroup]
+2026-10-17T16:31:14.2063700Z inline JavaScript syntax passed: 1 scripts
+2026-10-17T16:31:15.5551785Z ##[group]Run test -s dist/index.html
+2026-10-17T16:31:15.5552146Z [36;1mtest -s dist/index.html[0m
+2026-10-17T16:31:15.5553057Z [36;1mtest -s prototype/mobile-zombie-game/index.html[0m
+2026-10-17T16:31:15.5553428Z [36;1mgrep -q '<html' dist/index.html[0m
+2026-10-17T16:31:15.5553795Z [36;1mgrep -q '<html' prototype/mobile-zombie-game/index.html[0m
+2026-10-17T16:31:15.5618776Z shell: /usr/bin/bash -e {0}
+2026-10-17T16:31:15.5619039Z ##[endgroup]
+2026-10-17T16:31:15.5764491Z ##[group]Run node scripts/validate-content.mjs
+2026-10-17T16:31:15.5764885Z [36;1mnode scripts/validate-content.mjs[0m
+2026-10-17T16:31:15.5765230Z [36;1mnode scripts/check-night-guard.mjs[0m
+2026-10-17T16:31:15.5826911Z shell: /usr/bin/bash -e {0}
+2026-10-17T16:31:15.5827178Z ##[endgroup]
+2026-10-17T16:31:15.6340337Z {
+2026-10-17T16:31:15.6340998Z   "runner": "validate-content",
+2026-10-17T16:31:15.6341544Z   "ok": true,
+2026-10-17T16:31:15.6341960Z   "checks": [
+2026-10-17T16:31:15.6342646Z     {
+2026-10-17T16:31:15.6343080Z       "name": "registry:WEAPON_DEFS",
+2026-10-17T16:31:15.6343606Z       "ok": true,
+2026-10-17T16:31:15.6343992Z       "detail": ""
+2026-10-17T16:31:15.6344389Z     },
+2026-10-17T16:31:15.6344758Z     {
+2026-10-17T16:31:15.6345199Z       "name": "registry:EVENT_CHAIN_DEFS",
+2026-10-17T16:31:15.6345742Z       "ok": true,
+2026-10-17T16:31:15.6346144Z       "detail": ""
+2026-10-17T16:31:15.6346518Z     },
+2026-10-17T16:31:15.6346855Z     {
+2026-10-17T16:31:15.6347381Z       "name": "registry:NPC_STORY_DEFS",
+2026-10-17T16:31:15.6347911Z       "ok": true,
+2026-10-17T16:31:15.6348338Z       "detail": ""
+2026-10-17T16:31:15.6349147Z     },
+2026-10-17T16:31:15.6349448Z     {
+2026-10-17T16:31:15.6349878Z       "name": "registry:TECH_NODE_DEFS",
+2026-10-17T16:31:15.6350355Z       "ok": true,
+2026-10-17T16:31:15.6350712Z       "detail": ""
+2026-10-17T16:31:15.6351173Z     },
+2026-10-17T16:31:15.6351540Z     {
+2026-10-17T16:31:15.6352092Z       "name": "registry:BUILDING_DEFS",
+2026-10-17T16:31:15.6352907Z       "ok": true,
+2026-10-17T16:31:15.6353322Z       "detail": ""
+2026-10-17T16:31:15.6353706Z     },
+2026-10-17T16:31:15.6354076Z     {
+2026-10-17T16:31:15.6354489Z       "name": "registry:FACTION_DEFS",
+2026-10-17T16:31:15.6354960Z       "ok": true,
+2026-10-17T16:31:15.6355332Z       "detail": ""
+2026-10-17T16:31:15.6355719Z     },
+2026-10-17T16:31:15.6356169Z     {
+2026-10-17T16:31:15.6356593Z       "name": "registry:OUTPOST_DEFS",
+2026-10-17T16:31:15.6356944Z       "ok": true,
+2026-10-17T16:31:15.6357161Z       "detail": ""
+2026-10-17T16:31:15.6357363Z     },
+2026-10-17T16:31:15.6357548Z     {
+2026-10-17T16:31:15.6357785Z       "name": "registry:NPC_ROLE_DEFS",
+2026-10-17T16:31:15.6358059Z       "ok": true,
+2026-10-17T16:31:15.6358265Z       "detail": ""
+2026-10-17T16:31:15.6358468Z     },
+2026-10-17T16:31:15.6358647Z     {
+2026-10-17T16:31:15.6358885Z       "name": "effect:addResource",
+2026-10-17T16:31:15.6359147Z       "ok": true,
+2026-10-17T16:31:15.6359355Z       "detail": ""
+2026-10-17T16:31:15.6359550Z     },
+2026-10-17T16:31:15.6359727Z     {
+2026-10-17T16:31:15.6359951Z       "name": "effect:adjustMeter",
+2026-10-17T16:31:15.6360207Z       "ok": true,
+2026-10-17T16:31:15.6360417Z       "detail": ""
+2026-10-17T16:31:15.6360615Z     },
+2026-10-17T16:31:15.6360792Z     {
+2026-10-17T16:31:15.6361028Z       "name": "effect:modifyRelation",
+2026-10-17T16:31:15.6361567Z       "ok": true,
+2026-10-17T16:31:15.6361950Z       "detail": ""
+2026-10-17T16:31:15.6362186Z     },
+2026-10-17T16:31:15.6362634Z     {
+2026-10-17T16:31:15.6362881Z       "name": "effect:unlockTech",
+2026-10-17T16:31:15.6363179Z       "ok": true,
+2026-10-17T16:31:15.6363393Z       "detail": ""
+2026-10-17T16:31:15.6363592Z     },
+2026-10-17T16:31:15.6363769Z     {
+2026-10-17T16:31:15.6364000Z       "name": "effect:unlockWeapon",
+2026-10-17T16:31:15.6364264Z       "ok": true,
+2026-10-17T16:31:15.6364466Z       "detail": ""
+2026-10-17T16:31:15.6364660Z     },
+2026-10-17T16:31:15.6364836Z     {
+2026-10-17T16:31:15.6365060Z       "name": "effect:scheduleEvent",
+2026-10-17T16:31:15.6365323Z       "ok": true,
+2026-10-17T16:31:15.6365525Z       "detail": ""
+2026-10-17T16:31:15.6365719Z     },
+2026-10-17T16:31:15.6365895Z     {
+2026-10-17T16:31:15.6366140Z       "name": "effect:assignJob",
+2026-10-17T16:31:15.6366399Z       "ok": true,
+2026-10-17T16:31:15.6366601Z       "detail": ""
+2026-10-17T16:31:15.6366800Z     },
+2026-10-17T16:31:15.6366978Z     {
+2026-10-17T16:31:15.6367465Z       "name": "effect:damageBuilding",
+2026-10-17T16:31:15.6367882Z       "ok": true,
+2026-10-17T16:31:15.6368222Z       "detail": ""
+2026-10-17T16:31:15.6368553Z     },
+2026-10-17T16:31:15.6368889Z     {
+2026-10-17T16:31:15.6369285Z       "name": "effect:captureOutpost",
+2026-10-17T16:31:15.6369772Z       "ok": true,
+2026-10-17T16:31:15.6370143Z       "detail": ""
+2026-10-17T16:31:15.6370495Z     },
+2026-10-17T16:31:15.6370731Z     {
+2026-10-17T16:31:15.6370960Z       "name": "effect:recordHistory",
+2026-10-17T16:31:15.6371228Z       "ok": true,
+2026-10-17T16:31:15.6371427Z       "detail": ""
+2026-10-17T16:31:15.6371627Z     },
+2026-10-17T16:31:15.6371806Z     {
+2026-10-17T16:31:15.6372037Z       "name": "runtime:contentVersion",
+2026-10-17T16:31:15.6372551Z       "ok": true,
+2026-10-17T16:31:15.6372795Z       "detail": ""
+2026-10-17T16:31:15.6373004Z     },
+2026-10-17T16:31:15.6373186Z     {
+2026-10-17T16:31:15.6373440Z       "name": "runtime:CONTENT_SCHEMA_VERSION",
+2026-10-17T16:31:15.6373739Z       "ok": true,
+2026-10-17T16:31:15.6373951Z       "detail": ""
+2026-10-17T16:31:15.6374152Z     },
+2026-10-17T16:31:15.6374328Z     {
+2026-10-17T16:31:15.6374595Z       "name": "runtime:function migrateContentState",
+2026-10-17T16:31:15.6375100Z       "ok": true,
+2026-10-17T16:31:15.6375310Z       "detail": ""
+2026-10-17T16:31:15.6375506Z     },
+2026-10-17T16:31:15.6375682Z     {
+2026-10-17T16:31:15.6375908Z       "name": "runtime:contentState",
+2026-10-17T16:31:15.6376171Z       "ok": true,
+2026-10-17T16:31:15.6376370Z       "detail": ""
+2026-10-17T16:31:15.6376563Z     },
+2026-10-17T16:31:15.6376737Z     {
+2026-10-17T16:31:15.6377022Z       "name": "runtime:function validateContentDefinition",
+2026-10-17T16:31:15.6377352Z       "ok": true,
+2026-10-17T16:31:15.6377558Z       "detail": ""
+2026-10-17T16:31:15.6377751Z     },
+2026-10-17T16:31:15.6377934Z     {
+2026-10-17T16:31:15.6378182Z       "name": "runtime:function registerContent",
+2026-10-17T16:31:15.6378477Z       "ok": true,
+2026-10-17T16:31:15.6378703Z       "detail": ""
+2026-10-17T16:31:15.6378913Z     },
+2026-10-17T16:31:15.6379094Z     {
+2026-10-17T16:31:15.6379372Z       "name": "runtime:function applyContentEffects",
+2026-10-17T16:31:15.6379689Z       "ok": true,
+2026-10-17T16:31:15.6379890Z       "detail": ""
+2026-10-17T16:31:15.6380093Z     },
+2026-10-17T16:31:15.6380271Z     {
+2026-10-17T16:31:15.6380531Z       "name": "runtime:function startContentChain",
+2026-10-17T16:31:15.6380827Z       "ok": true,
+2026-10-17T16:31:15.6381032Z       "detail": ""
+2026-10-17T16:31:15.6381228Z     },
+2026-10-17T16:31:15.6381430Z     {
+2026-10-17T16:31:15.6381691Z       "name": "runtime:function resolveContentChain",
+2026-10-17T16:31:15.6381985Z       "ok": true,
+2026-10-17T16:31:15.6382182Z       "detail": ""
+2026-10-17T16:31:15.6382607Z     },
+2026-10-17T16:31:15.6382794Z     {
+2026-10-17T16:31:15.6383070Z       "name": "runtime:function resolveContentFallback",
+2026-10-17T16:31:15.6383384Z       "ok": true,
+2026-10-17T16:31:15.6383588Z       "detail": ""
+2026-10-17T16:31:15.6383782Z     },
+2026-10-17T16:31:15.6383982Z     {
+2026-10-17T16:31:15.6384253Z       "name": "runtime:function resolveContentAutonomy",
+2026-10-17T16:31:15.6384559Z       "ok": true,
+2026-10-17T16:31:15.6384767Z       "detail": ""
+2026-10-17T16:31:15.6384959Z     },
+2026-10-17T16:31:15.6385136Z     {
+2026-10-17T16:31:15.6385388Z       "name": "runtime:function runContentHook",
+2026-10-17T16:31:15.6385680Z       "ok": true,
+2026-10-17T16:31:15.6385890Z       "detail": ""
+2026-10-17T16:31:15.6386089Z     },
+2026-10-17T16:31:15.6386261Z     {
+2026-10-17T16:31:15.6386495Z       "name": "runtime:rolledBack: true",
+2026-10-17T16:31:15.6386770Z       "ok": true,
+2026-10-17T16:31:15.6386981Z       "detail": ""
+2026-10-17T16:31:15.6387173Z     },
+2026-10-17T16:31:15.6387350Z     {
+2026-10-17T16:31:15.6387579Z       "name": "runtime:triggeredEvents",
+2026-10-17T16:31:15.6387849Z       "ok": true,
+2026-10-17T16:31:15.6388048Z       "detail": ""
+2026-10-17T16:31:15.6388245Z     },
+2026-10-17T16:31:15.6388420Z     {
+2026-10-17T16:31:15.6388831Z       "name": "runtime:outpost-guard-slots",
+2026-10-17T16:31:15.6389125Z       "ok": true,
+2026-10-17T16:31:15.6389326Z       "detail": ""
+2026-10-17T16:31:15.6389527Z     },
+2026-10-17T16:31:15.6389702Z     {
+2026-10-17T16:31:15.6389933Z       "name": "runtime:ContentRegistry",
+2026-10-17T16:31:15.6390199Z       "ok": true,
+2026-10-17T16:31:15.6390407Z       "detail": ""
+2026-10-17T16:31:15.6390598Z     },
+2026-10-17T16:31:15.6390779Z     {
+2026-10-17T16:31:15.6391003Z       "name": "runtime:PLAN_DEFS",
+2026-10-17T16:31:15.6391266Z       "ok": true,
+2026-10-17T16:31:15.6391465Z       "detail": ""
+2026-10-17T16:31:15.6391669Z     },
+2026-10-17T16:31:15.6391848Z     {
+2026-10-17T16:31:15.6392089Z       "name": "runtime:PLAN_VOTE_PROFILES",
+2026-10-17T16:31:15.6392602Z       "ok": true,
+2026-10-17T16:31:15.6392820Z       "detail": ""
+2026-10-17T16:31:15.6393027Z     },
+2026-10-17T16:31:15.6393208Z     {
+2026-10-17T16:31:15.6393439Z       "name": "runtime:commandPoints",
+2026-10-17T16:31:15.6393718Z       "ok": true,
+2026-10-17T16:31:15.6393920Z       "detail": ""
+2026-10-17T16:31:15.6394118Z     },
+2026-10-17T16:31:15.6394301Z     {
+2026-10-17T16:31:15.6394693Z       "name": "runtime:planMeeting",
+2026-10-17T16:31:15.6394965Z       "ok": true,
+2026-10-17T16:31:15.6395169Z       "detail": ""
+2026-10-17T16:31:15.6395371Z     },
+2026-10-17T16:31:15.6395547Z     {
+2026-10-17T16:31:15.6395796Z       "name": "runtime:generatePlanMeeting",
+2026-10-17T16:31:15.6396076Z       "ok": true,
+2026-10-17T16:31:15.6396275Z       "detail": ""
+2026-10-17T16:31:15.6396468Z     },
+2026-10-17T16:31:15.6396641Z     {
+2026-10-17T16:31:15.6396872Z       "name": "runtime:commitPlanMeeting",
+2026-10-17T16:31:15.6397142Z       "ok": true,
+2026-10-17T16:31:15.6397346Z       "detail": ""
+2026-10-17T16:31:15.6397539Z     },
+2026-10-17T16:31:15.6397712Z     {
+2026-10-17T16:31:15.6397945Z       "name": "runtime:executePlanMeeting",
+2026-10-17T16:31:15.6398220Z       "ok": true,
+2026-10-17T16:31:15.6398420Z       "detail": ""
+2026-10-17T16:31:15.6398622Z     },
+2026-10-17T16:31:15.6398796Z     {
+2026-10-17T16:31:15.6399035Z       "name": "runtime:refreshCommandPoints",
+2026-10-17T16:31:15.6399322Z       "ok": true,
+2026-10-17T16:31:15.6399521Z       "detail": ""
+2026-10-17T16:31:15.6399713Z     },
+2026-10-17T16:31:15.6399889Z     {
+2026-10-17T16:31:15.6400136Z       "name": "runtime:NPC_ATTRIBUTE_DEFAULTS",
+2026-10-17T16:31:15.6400419Z       "ok": true,
+2026-10-17T16:31:15.6400620Z       "detail": ""
+2026-10-17T16:31:15.6400821Z     },
+2026-10-17T16:31:15.6400996Z     {
+2026-10-17T16:31:15.6401238Z       "name": "runtime:evaluateNpcPromotion",
+2026-10-17T16:31:15.6401527Z       "ok": true,
+2026-10-17T16:31:15.6401724Z       "detail": ""
+2026-10-17T16:31:15.6401913Z     },
+2026-10-17T16:31:15.6402088Z     {
+2026-10-17T16:31:15.6402582Z       "name": "runtime:promoteNpcHero",
+2026-10-17T16:31:15.6402897Z       "ok": true,
+2026-10-17T16:31:15.6403111Z       "detail": ""
+2026-10-17T16:31:15.6403310Z     },
+2026-10-17T16:31:15.6403490Z     {
+2026-10-17T16:31:15.6403751Z       "name": "runtime:assignMorningSuccessors",
+2026-10-17T16:31:15.6404050Z       "ok": true,
+2026-10-17T16:31:15.6404252Z       "detail": ""
+2026-10-17T16:31:15.6404453Z     },
+2026-10-17T16:31:15.6404639Z     {
+2026-10-17T16:31:15.6404865Z       "name": "runtime:npcFulfillsRole",
+2026-10-17T16:31:15.6405136Z       "ok": true,
+2026-10-17T16:31:15.6405335Z       "detail": ""
+2026-10-17T16:31:15.6405528Z     },
+2026-10-17T16:31:15.6405701Z     {
+2026-10-17T16:31:15.6405924Z       "name": "runtime:npcRoster",
+2026-10-17T16:31:15.6406174Z       "ok": true,
+2026-10-17T16:31:15.6406371Z       "detail": ""
+2026-10-17T16:31:15.6406563Z     },
+2026-10-17T16:31:15.6406765Z     {
+2026-10-17T16:31:15.6406994Z       "name": "runtime:SAVE_VERSION = 21",
+2026-10-17T16:31:15.6407263Z       "ok": true,
+2026-10-17T16:31:15.6407458Z       "detail": ""
+2026-10-17T16:31:15.6407652Z     },
+2026-10-17T16:31:15.6407828Z     {
+2026-10-17T16:31:15.6408054Z       "name": "runtime:worldMeta.events",
+2026-10-17T16:31:15.6408468Z       "ok": true,
+2026-10-17T16:31:15.6408676Z       "detail": ""
+2026-10-17T16:31:15.6408869Z     },
+2026-10-17T16:31:15.6409042Z     {
+2026-10-17T16:31:15.6409273Z       "name": "runtime:worldMeta.replay",
+2026-10-17T16:31:15.6409541Z       "ok": true,
+2026-10-17T16:31:15.6409744Z       "detail": ""
+2026-10-17T16:31:15.6409943Z     },
+2026-10-17T16:31:15.6410123Z     {
+2026-10-17T16:31:15.6410339Z       "name": "content-directory",
+2026-10-17T16:31:15.6410587Z       "ok": true,
+2026-10-17T16:31:15.6410786Z       "detail": ""
+2026-10-17T16:31:15.6410979Z     },
+2026-10-17T16:31:15.6411157Z     {
+2026-10-17T16:31:15.6411645Z       "name": "template:01_整体世界观与叙事法则.md",
+2026-10-17T16:31:15.6411926Z       "ok": true,
+2026-10-17T16:31:15.6412129Z       "detail": ""
+2026-10-17T16:31:15.6412546Z     },
+2026-10-17T16:31:15.6412826Z     {
+2026-10-17T16:31:15.6413197Z       "name": "template:02_14天时间线与最终尸潮.md",
+2026-10-17T16:31:15.6413481Z       "ok": true,
+2026-10-17T16:31:15.6413682Z       "detail": ""
+2026-10-17T16:31:15.6413925Z     },
+2026-10-17T16:31:15.6414103Z     {
+2026-10-17T16:31:15.6414393Z       "name": "template:03_主线事件链总图.md",
+2026-10-17T16:31:15.6414825Z       "ok": true,
+2026-10-17T16:31:15.6415031Z       "detail": ""
+2026-10-17T16:31:15.6415222Z     },
+2026-10-17T16:31:15.6415394Z     {
+2026-10-17T16:31:15.6415669Z       "name": "template:04_支线事件链总图.md",
+2026-10-17T16:31:15.6415927Z       "ok": true,
+2026-10-17T16:31:15.6416125Z       "detail": ""
+2026-10-17T16:31:15.6416327Z     },
+2026-10-17T16:31:15.6416500Z     {
+2026-10-17T16:31:15.6416782Z       "name": "template:05_势力营地与敌人多视角.md",
+2026-10-17T16:31:15.6417045Z       "ok": true,
+2026-10-17T16:31:15.6417245Z       "detail": ""
+2026-10-17T16:31:15.6417436Z     },
+2026-10-17T16:31:15.6417613Z     {
+2026-10-17T16:31:15.6418196Z       "name": "template:06_NPC英雄晋升与普通NPC体系.md",
+2026-10-17T16:31:15.6418496Z       "ok": true,
+2026-10-17T16:31:15.6418697Z       "detail": ""
+2026-10-17T16:31:15.6418891Z     },
+2026-10-17T16:31:15.6419065Z     {
+2026-10-17T16:31:15.6419373Z       "name": "template:07_计划会与commandPoints.md",
+2026-10-17T16:31:15.6419676Z       "ok": true,
+2026-10-17T16:31:15.6419883Z       "detail": ""
+2026-10-17T16:31:15.6420078Z     },
+2026-10-17T16:31:15.6420254Z     {
+2026-10-17T16:31:15.6420556Z       "name": "template:08_战斗武器技能建筑科技统一规则.md",
+2026-10-17T16:31:15.6420834Z       "ok": true,
+2026-10-17T16:31:15.6421036Z       "detail": ""
+2026-10-17T16:31:15.6421228Z     },
+2026-10-17T16:31:15.6421404Z     {
+2026-10-17T16:31:15.6421704Z       "name": "template:09_数值、性能与实体预算.md",
+2026-10-17T16:31:15.6421974Z       "ok": true,
+2026-10-17T16:31:15.6422177Z       "detail": ""
+2026-10-17T16:31:15.6422648Z     },
+2026-10-17T16:31:15.6422941Z     {
+2026-10-17T16:31:15.6423247Z       "name": "template:11_扩展接口与内容规范.md",
+2026-10-17T16:31:15.6423525Z       "ok": true,
+2026-10-17T16:31:15.6423725Z       "detail": ""
+2026-10-17T16:31:15.6423921Z     },
+2026-10-17T16:31:15.6424099Z     {
+2026-10-17T16:31:15.6424379Z       "name": "template:12_武器模板.md",
+2026-10-17T16:31:15.6424637Z       "ok": true,
+2026-10-17T16:31:15.6424839Z       "detail": ""
+2026-10-17T16:31:15.6425031Z     },
+2026-10-17T16:31:15.6425218Z     {
+2026-10-17T16:31:15.6425478Z       "name": "template:13_支线事件模板.md",
+2026-10-17T16:31:15.6425738Z       "ok": true,
+2026-10-17T16:31:15.6425943Z       "detail": ""
+2026-10-17T16:31:15.6426252Z     },
+2026-10-17T16:31:15.6426519Z     {
+2026-10-17T16:31:15.6426825Z       "name": "template:14_NPC剧情模板.md",
+2026-10-17T16:31:15.6427087Z       "ok": true,
+2026-10-17T16:31:15.6427286Z       "detail": ""
+2026-10-17T16:31:15.6427626Z     },
+2026-10-17T16:31:15.6427811Z     {
+2026-10-17T16:31:15.6428091Z       "name": "template:15_科技建筑模板.md",
+2026-10-17T16:31:15.6428357Z       "ok": true,
+2026-10-17T16:31:15.6428589Z       "detail": ""
+2026-10-17T16:31:15.6428886Z     },
+2026-10-17T16:31:15.6429071Z     {
+2026-10-17T16:31:15.6429367Z       "name": "template:16_扩展内容验收表.md",
+2026-10-17T16:31:15.6429634Z       "ok": true,
+2026-10-17T16:31:15.6430143Z       "detail": ""
+2026-10-17T16:31:15.6430385Z     },
+2026-10-17T16:31:15.6430573Z     {
+2026-10-17T16:31:15.6430895Z       "name": "project-doc:docs/overall-iteration-plan.md",
+2026-10-17T16:31:15.6431394Z       "ok": true,
+2026-10-17T16:31:15.6431609Z       "detail": ""
+2026-10-17T16:31:15.6431808Z     },
+2026-10-17T16:31:15.6431989Z     {
+2026-10-17T16:31:15.6432837Z       "name": "project-doc:docs/handoff/尸潮农场-开发交接包.md",
+2026-10-17T16:31:15.6433193Z       "ok": true,
+2026-10-17T16:31:15.6433568Z       "detail": ""
+2026-10-17T16:31:15.6433785Z     },
+2026-10-17T16:31:15.6433968Z     {
+2026-10-17T16:31:15.6434284Z       "name": "project-doc:docs/design-reference-evidence.md",
+2026-10-17T16:31:15.6434742Z       "ok": true,
+2026-10-17T16:31:15.6434956Z       "detail": ""
+2026-10-17T16:31:15.6435158Z     },
+2026-10-17T16:31:15.6435347Z     {
+2026-10-17T16:31:15.6435772Z       "name": "project-doc:.codex/skills/zombie-harvest-content/SKILL.md",
+2026-10-17T16:31:15.6436214Z       "ok": true,
+2026-10-17T16:31:15.6436438Z       "detail": ""
+2026-10-17T16:31:15.6436642Z     }
+2026-10-17T16:31:15.6436865Z   ],
+2026-10-17T16:31:15.6437140Z   "issues": [],
+2026-10-17T16:31:15.6437567Z   "source": "dist/index.html",
+2026-10-17T16:31:15.6437942Z   "contentDirectory": "剧本/尸潮农场"
+2026-10-17T16:31:15.6438340Z }
+2026-10-17T16:31:15.6741636Z night guard checks passed
+2026-10-17T16:31:15.6804603Z ##[group]Run node scripts/check-content-chain.mjs
+2026-10-17T16:31:15.6805015Z [36;1mnode scripts/check-content-chain.mjs[0m
+2026-10-17T16:31:15.6871959Z shell: /usr/bin/bash -e {0}
+2026-10-17T16:31:15.6872220Z ##[endgroup]
+2026-10-17T16:31:15.8472931Z content-chain source execution passed: 54 checks
+2026-10-17T16:31:15.8477901Z sourceHtmlSha256: c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571
+2026-10-17T16:31:15.8479811Z sourceReplayHash: c5d6c772 (source CommandBus trajectory; distinct from save projection hash)
+2026-10-17T16:31:15.8481804Z   ✓ watermill repair node exposes GateV1 while keeping content-effect semantics
+2026-10-17T16:31:15.8483817Z   ✓ watermill start gate uses GateV1 and preserves the old start-condition rejection boundary
+2026-10-17T16:31:15.8485553Z   ✓ opt-in content GateV1 rejects unknown start objects without state mutation
+2026-10-17T16:31:15.8487124Z   ✓ opt-in content GateV1 rejects unknown choice objects before effects
+2026-10-17T16:31:15.8488761Z   ✓ opt-in content choice gate keeps the DAY/night boundary even when called directly
+2026-10-17T16:31:15.8490370Z   ✓ public choice gate fails closed when the active chain or choice is absent
+2026-10-17T16:31:15.8492054Z   ✓ watermill choice GateV1 does not re-check start trust after the chain is active
+2026-10-17T16:31:15.8493638Z   ✓ watermill direct choice GateV1 enforces its day window
+2026-10-17T16:31:15.8494843Z   ✓ watermill definition GateV1 owns its day window
+2026-10-17T16:31:15.8495917Z   ✓ legacy content condition objects now fail closed when their type is unknown
+2026-10-17T16:31:15.8497063Z   ✓ watermill repair charges once and records completion/effect ledger
+2026-10-17T16:31:15.8498245Z   ✓ positive watermill repair save fixture settles once and survives duplicate command
+2026-10-17T16:31:15.8499299Z   ✓ watermill salvage grants parts and raises resonance
+2026-10-17T16:31:15.8500256Z   ✓ repair requirement rejection preserves resources, facts and ledger
+2026-10-17T16:31:15.8501322Z   ✓ dead carpenter blocks repair while salvage remains available
+2026-10-17T16:31:15.8502578Z   ✓ effect failure rolls back earlier resource and history effects
+2026-10-17T16:31:15.8503865Z   ✓ CommandBus propagates reducer rejection without success event/checkpoint
+2026-10-17T16:31:15.8505164Z   ✓ CommandBus rollback failure records rejection and no checkpoint
+2026-10-17T16:31:15.8506460Z   ✓ successful same commandId is idempotent across rewards/events/checkpoints
+2026-10-17T16:31:15.8507768Z   ✓ completed node rejects a different command and cannot repeat rewards
+2026-10-17T16:31:15.8508980Z   ✓ multi-node chain advances authoritative instance after normalization
+2026-10-17T16:31:15.8510104Z   ✓ missing next node rejects before any effect
+2026-10-17T16:31:15.8511225Z   ✓ previously applied choice cannot advance a restored repeated node
+2026-10-17T16:31:15.8512851Z   ✓ public registry and command entries reject night without mutations
+2026-10-17T16:31:15.8514149Z   ✓ public registry and command entries reject gameOver without mutations
+2026-10-17T16:31:15.8515400Z   ✓ start checks day window and start conditions, including existing active
+2026-10-17T16:31:15.8516716Z   ✓ resolve/autonomy/skip reject expired or pre-window active saves
+2026-10-17T16:31:15.8518108Z   ✓ fallback/autonomy cannot grant completion for an unstarted chain
+2026-10-17T16:31:15.8519279Z   ✓ missing definitions and unknown fallback reasons reject
+2026-10-17T16:31:15.8520409Z   ✓ expiry only resolves after final allowed day and remains idempotent
+2026-10-17T16:31:15.8521589Z   ✓ day-start expiry hook tolerates corrupt entries and expires valid chain
+2026-10-17T16:31:15.8523148Z   ✓ active autonomy applies once and never also grants a player choice
+2026-10-17T16:31:15.8524434Z   ✓ active skipped fallback records one result and blocks later rewards
+2026-10-17T16:31:15.8526142Z   ✓ contradictory active plus completed save cannot claim a choice reward
+2026-10-17T16:31:15.8527233Z   ✓ null active instance rejects safely without a reward
+2026-10-17T16:31:15.8528483Z   ✓ malformed node history normalizes safely when advancing
+2026-10-17T16:31:15.8529731Z   ✓ cycle returning to an old node cannot claim another branch reward
+2026-10-17T16:31:15.8530962Z   ✓ 22-node cycle keeps settled facts after presentation history is trimmed
+2026-10-17T16:31:15.8532561Z   ✓ old save with trimmed history reconstructs settled nodes from effect receipts
+2026-10-17T16:31:15.8553456Z   ✓ settled set is constrained to registered node IDs and restores legacy history
+2026-10-17T16:31:15.8554646Z   ✓ resource effect receipts expose actual clamped before/after delta
+2026-10-17T16:31:15.8555852Z   ✓ registration rejects explicit string requirements without throwing or granting facts
+2026-10-17T16:31:15.8557059Z   ✓ reducer rejects test-only corrupted string requirements with no reward
+2026-10-17T16:31:15.8558294Z   ✓ registration rejects explicit object requirements without throwing or granting facts
+2026-10-17T16:31:15.8559499Z   ✓ reducer rejects test-only corrupted object requirements with no reward
+2026-10-17T16:31:15.8560661Z   ✓ registration rejects explicit null requirements without throwing or granting facts
+2026-10-17T16:31:15.8561799Z   ✓ reducer rejects test-only corrupted null requirements with no reward
+2026-10-17T16:31:15.8563209Z   ✓ registration rejects explicit mixed requirements without throwing or granting facts
+2026-10-17T16:31:15.8564417Z   ✓ reducer rejects test-only corrupted mixed requirements with no reward
+2026-10-17T16:31:15.8565809Z   ✓ requirement helper fails closed on non-string elements while supporting legacy single string conditions
+2026-10-17T16:31:15.8567277Z   ✓ null nodes/choices and duplicate node/choice IDs return schema issues without throwing
+2026-10-17T16:31:15.8568528Z   ✓ omitted requirements retain empty-list behavior and registered watermill schema remains valid
+2026-10-17T16:31:15.8569279Z   ✓ two identical source CommandBus sequences produce the same trajectory hash
+2026-10-17T16:31:15.8570010Z   ✓ JSON-restored middle node completes with the same source trace and no duplicate reward
+2026-10-17T16:31:15.8635220Z ##[group]Run node scripts/check-plan-day.mjs
+2026-10-17T16:31:15.8635615Z [36;1mnode scripts/check-plan-day.mjs[0m
+2026-10-17T16:31:15.8635918Z [36;1mnode scripts/check-camp-area.mjs[0m
+2026-10-17T16:31:15.8636235Z [36;1mnode scripts/check-plan-integrity.mjs[0m
+2026-10-17T16:31:15.8637334Z [36;1mnode scripts/check-plan-integrity-ui.mjs --html dist/index.html --io-adapter scripts/check-report-recovery.mjs --legacy-fixture scripts/fixtures/plan-integrity/plan-committed-legacy-basewriter.json --out "$RUNNER_TEMP/plan-integrity-ui.json"[0m
+2026-10-17T16:31:15.8699975Z shell: /usr/bin/bash -e {0}
+2026-10-17T16:31:15.8700234Z ##[endgroup]
+2026-10-17T16:31:15.9797440Z plan-day source execution passed: 27 checks
+2026-10-17T16:31:15.9801710Z sourceHtmlSha256: c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571
+2026-10-17T16:31:15.9803726Z planDayTraceHash: 66c9368d (plan settlement/calendar contract; separate from content-chain trace)
+2026-10-17T16:31:15.9805630Z   ✓ successful effects settle authoritative meeting/history and one event
+2026-10-17T16:31:15.9806940Z   ✓ committed player plan preserves its route after effects normalize
+2026-10-17T16:31:15.9808080Z   ✓ failure rollback settles current meeting/history without partial effects
+2026-10-17T16:31:15.9809171Z   ✓ invalid effect preflight also terminates current meeting exactly once
+2026-10-17T16:31:15.9810274Z   ✓ legacy candidate with applied effect receipt recovers without extra reward
+2026-10-17T16:31:15.9811404Z   ✓ legacy unresolved candidate plus existing resolved ledger keeps one event
+2026-10-17T16:31:15.9812661Z   ✓ legacy fallback ledger recovers without retrying now-valid effects
+2026-10-17T16:31:15.9813509Z   ✓ execute rejects night before mutation
+2026-10-17T16:31:15.9814722Z   ✓ execute rejects gameOver before mutation
+2026-10-17T16:31:15.9815499Z   ✓ same-day or future meeting is not prematurely applied
+2026-10-17T16:31:15.9816478Z   ✓ same-day refresh never tops up spent points or repeats a grant event
+2026-10-17T16:31:15.9817505Z   ✓ JSON-restored same-day spent points remain spent on boot refresh
+2026-10-17T16:31:15.9818260Z   ✓ same-day cap decrease clamps points down, increase does not top up
+2026-10-17T16:31:15.9818881Z   ✓ new calendar day grants cap without accumulating old points
+2026-10-17T16:31:15.9819489Z   ✓ legacy save without granted-day receives one grant then stays stable
+2026-10-17T16:31:15.9820148Z   ✓ ration charges once on a calendar day and shortage effects remain idempotent
+2026-10-17T16:31:15.9820805Z   ✓ world daily upkeep grows and produces once, retaining pending event
+2026-10-17T16:31:15.9821361Z   ✓ cross-midnight advance executes daily accounting once
+2026-10-17T16:31:15.9821974Z   ✓ same-day report close preserves calendar and cannot repeat ration/upkeep
+2026-10-17T16:31:15.9823020Z   ✓ resolved report command closes its exact threat with replay receipt and one checkpoint
+2026-10-17T16:31:15.9823667Z   ✓ same command ID cannot close or settle the report twice
+2026-10-17T16:31:15.9824377Z   ✓ different command ID double-click with no report emits rejection and no success/checkpoint
+2026-10-17T16:31:15.9824991Z   ✓ unresolved battle cannot close and remains in night mode
+2026-10-17T16:31:15.9825576Z   ✓ resolved legacy report without threat ID is rejected without leaving night
+2026-10-17T16:31:15.9826250Z   ✓ actual night guard still blocks ordinary daytime commands before the bus
+2026-10-17T16:31:15.9826952Z   ✓ game-over validation blocks report close before reducer reset side effects
+2026-10-17T16:31:15.9827654Z   ✓ identical plan/day sequences including JSON restore have a stable trace
+2026-10-17T16:31:16.0460705Z camp-area source execution passed: 16 checks
+2026-10-17T16:31:16.0465239Z sourceHtmlSha256: c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571
+2026-10-17T16:31:16.0466918Z   ✓ displayed 1.17-distance barracks matches shared proximity and reducer
+2026-10-17T16:31:16.0467988Z   ✓ exact 1.25 boundary is accepted
+2026-10-17T16:31:16.0469481Z   ✓ out-of-range interaction rejects without progression or successful event
+2026-10-17T16:31:16.0470711Z   ✓ shared proximity selector retains its predicate filter
+2026-10-17T16:31:16.0471754Z   ✓ invalid area null is rejected through CommandBus
+2026-10-17T16:31:16.0472957Z   ✓ invalid area qa-absent is rejected through CommandBus
+2026-10-17T16:31:16.0473956Z   ✓ invalid area barracks is rejected through CommandBus
+2026-10-17T16:31:16.0474881Z   ✓ night wrapper and reducer both refuse area effects
+2026-10-17T16:31:16.0475783Z   ✓ game-over command is rejected before area mutations
+2026-10-17T16:31:16.0476837Z   ✓ successful repeated commandId cannot train or checkpoint twice
+2026-10-17T16:31:16.0478050Z   ✓ training spends no food and records before/after actual elapsed minutes
+2026-10-17T16:31:16.0479375Z   ✓ residence dinner charges one food and advances thirty minutes once
+2026-10-17T16:31:16.0480602Z   ✓ food-empty dinner emits rejection and no success/checkpoint/time
+2026-10-17T16:31:16.0485020Z   ✓ barracks with no active guards cannot emit a successful action
+2026-10-17T16:31:16.0486248Z   ✓ zero-minute core view still records its command and checkpoint honestly
+2026-10-17T16:31:16.0487608Z   ✓ zero-minute farmland view selects existing crop without time/resource cost
+2026-10-17T16:31:19.9920957Z {
+2026-10-17T16:31:19.9921739Z   "runner": "source-plan-integrity",
+2026-10-17T16:31:19.9922989Z   "sourceHash": "c21cedd145fe9e2db4b224f727c0e7bceaedfefaba31a37b73dbe3a7308f1571",
+2026-10-17T16:31:19.9923876Z   "ok": false,
+2026-10-17T16:31:19.9924302Z   "count": 48,
+2026-10-17T16:31:19.9924686Z   "passed": 47,
+2026-10-17T16:31:19.9925176Z   "expectedBaselineDefects": false,
+2026-10-17T16:31:19.9925729Z   "browserStarted": false,
+2026-10-17T16:31:19.9926260Z   "naturalGameplayExecuted": false,
+2026-10-17T16:31:19.9927411Z   "failures": [
+2026-10-17T16:31:19.9928118Z     "old complete committed save boots without reward or schema change"
+2026-10-17T16:31:19.9928823Z   ]
+2026-10-17T16:31:19.9929178Z }
+2026-10-17T16:31:20.0485771Z ##[error]Process completed with exit code 1.
+2026-10-17T16:31:20.0981434Z Post job cleanup.
+2026-10-17T16:31:20.1849716Z [command]/usr/bin/git version
+2026-10-17T16:31:20.1895759Z git version 2.55.0
+2026-10-17T16:31:20.1975998Z Temporarily overriding HOME='/home/runner/work/_temp/d23c1fde-e47c-4fe9-a76b-7faf20887a93' before making global git config changes
+2026-10-17T16:31:20.1977731Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-17T16:31:20.1985737Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/zombie_harvest/zombie_harvest
+2026-10-17T16:31:20.2036312Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-17T16:31:20.2083198Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-17T16:31:20.2436521Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-17T16:31:20.2480707Z http.https://github.com/.extraheader
+2026-10-17T16:31:20.2496718Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-17T16:31:20.2560897Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-17T16:31:20.2913890Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-17T16:31:20.2974227Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-17T16:31:20.3431167Z Cleaning up orphan processes
+2026-10-17T16:31:20.3756856Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

@@ -1,0 +1,47 @@
+--- scripts/check-plan-integrity.mjs
++++ scripts/check-plan-integrity.mjs
+@@ -13,6 +13,35 @@
+ import { fileURLToPath } from 'node:url';
+ import vm from 'node:vm';
+ import { createHash } from 'node:crypto';
++
++// Only the two pinned complete SAVE21 fixtures in these four legacy checks.
++// This validates the exact additive Scenario receipt; it never removes arbitrary
++// migrations or relaxes historical plan/resource/CP/population assertions.
++function hasOnlyExpectedScenarioLegacyMigration(runtime, envelope) {
++  const s = runtime.api.state, p = envelope.payload, eq = (a,b) => JSON.stringify(a) === JSON.stringify(b);
++  if (!['707889bd','7fde7715'].includes(envelope.checksum)) return false;
++  const date = { day: p.day, hour: p.hour, minute: p.minute }, seq = p.worldMeta.eventSeq + 1;
++  const expected = { eventId: `evt-${String(seq).padStart(6,'0')}`, seq, type: 'save.migrated', actorId: 'system', commandId: null, causationId: null,
++    tick: { world: (p.day-1)*1440+p.hour*60+p.minute, phase: p.worldMeta.clock.phaseMinutes, schedule: p.worldMeta.clock.scheduleMinutes },
++    payload: { migration: 'resolved-report-recovery-001', migrationVersion: 1, reason: 'scenario-legacy-unbound-v1', sourceCategory: 'primary',
++      originalChecksum: envelope.checksum, originalDate: date, selectedChecksum: envelope.checksum, selectedDate: date, rollback: false, instanceId: null,
++      fromSaveVersion: 21, fromContentVersion: 3, adapter: null, addedDomains: [], scenarioBindingAdapters: [{ adapter: 'scenario-legacy-unbound-v1',
++        sourceSeed: p.worldMeta.seed, hadDeclaredSnapshot: Object.hasOwn(p,'scenarioSnapshot'), seedSource: 'saved-world-meta', declaredSeed: p.scenarioSnapshot?.seed ?? null,
++        liveSeed: p.worldMeta.seed, aiDowngraded: false, effectiveAuthority: 'expression_only' }] } };
++  const added = s.worldMeta.events.filter(event => event.seq > p.worldMeta.eventSeq), stored = runtime.storage.get(saveKey);
++  if (!stored || !runtime.api.validate({raw:stored,sourceCategory:'primary'}).ok) return false;
++  const written = JSON.parse(stored).payload;
++  return eq(added,[expected]) && s.worldMeta.eventSeq === seq
++    && eq(s.worldMeta.events.slice(0,p.worldMeta.events.length),p.worldMeta.events)
++    && eq(written.worldMeta.events,s.worldMeta.events) && written.version === 21 && written.contentState.contentVersion === 3
++    && s.worldMeta.seed === p.worldMeta.seed && s.worldMeta.rngState === p.worldMeta.rngState && eq(s.worldMeta.replay,p.worldMeta.replay)
++    && s.worldMeta.commandSeq === p.worldMeta.commandSeq && eq(s.worldMeta.seenCommands,p.worldMeta.seenCommands)
++    && eq(s.world,p.world) && ['day','hour','minute','hp','energy','sanity','wood','stone','food','seeds','parts','medicine','morale'].every(key => s[key] === p[key])
++    && eq(s.resources,p.resources) && eq(s.npcs.map(n=>({id:n.id,hp:n.hp,lifeState:n.lifeState})),p.npcs.map(n=>({id:n.id,hp:n.hp,lifeState:n.lifeState})))
++    && eq(s.contentState.planMeeting,p.contentState.planMeeting) && s.contentState.commandPoints === p.contentState.commandPoints
++    && eq(s.scenarioSnapshot.binding,{version:1,status:'legacy-unbound',sourceSeed:p.worldMeta.seed,declaredSnapshot:p.scenarioSnapshot??null})
++    && s.scenarioSnapshot.seed === p.worldMeta.seed;
++}
+ 
+ const scriptDir = path.dirname(fileURLToPath(import.meta.url));
+ const repoRoot = path.resolve(scriptDir, '..');
+@@ -178,7 +207,7 @@
+   const r = currentRuntime(runtime,[[saveKey,legacyRaw]]), expected = legacyEnvelope.payload.contentState.planMeeting;
+   check('old complete committed save boots without reward or schema change',r.api.state.contentState.planMeeting.status === 'committed'
+     && JSON.stringify(clone(r.api.state.contentState.planMeeting)) === JSON.stringify(expected)
+-    && r.api.state.contentState.commandPoints === legacyEnvelope.payload.contentState.commandPoints && events(r,'save.migrated').length === 0);
++    && r.api.state.contentState.commandPoints === legacyEnvelope.payload.contentState.commandPoints && hasOnlyExpectedScenarioLegacyMigration(r,legacyEnvelope));
+   const before = protectedFacts(r), force = r.api.generatePlan({force:true}), repeat = r.api.commit('support',expected.selectedId);
+   check('restored legacy meeting remains frozen and cannot spend another CP',force.duplicate === true && repeat.ok === false
+     && JSON.stringify(protectedFacts(r)) === JSON.stringify(before) && events(r,'plan.meeting.committed').length === 1);

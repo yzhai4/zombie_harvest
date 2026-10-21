@@ -1,0 +1,99 @@
+{
+  "interacted": [
+    {
+      "eventId": "evt-000275",
+      "seq": 275,
+      "type": "npc.dialogueOpened",
+      "actorId": "player-1",
+      "commandId": "cmd-000519",
+      "causationId": null,
+      "tick": {
+        "world": 723,
+        "phase": 0,
+        "schedule": 363
+      },
+      "payload": {
+        "ok": true,
+        "proofVersion": 1,
+        "npcId": "doctor",
+        "operation": "dialogue-open",
+        "outcome": "completed",
+        "target": {
+          "id": "doctor",
+          "before": {
+            "id": "doctor",
+            "supportRequested": false,
+            "order": null,
+            "bond": 0,
+            "hp": 100,
+            "lifeState": "healthy",
+            "sanity": 66,
+            "helpedByPlayer": 0
+          },
+          "beforeAdvance": null,
+          "afterAdvance": null,
+          "atCompletion": {
+            "id": "doctor",
+            "supportRequested": false,
+            "order": null,
+            "bond": 0,
+            "hp": 100,
+            "lifeState": "healthy",
+            "sanity": 66,
+            "helpedByPlayer": 0
+          },
+          "presentAtCompletion": true,
+          "snapshotStages": {
+            "before": "before-payment-and-own-effects",
+            "beforeAdvance": null,
+            "afterAdvance": null,
+            "atCompletion": "reducer-final-state"
+          }
+        },
+        "payment": {
+          "cost": {
+            "energy": 0
+          },
+          "before": {
+            "energy": 47
+          },
+          "after": {
+            "energy": 47
+          }
+        },
+        "resources": {
+          "energyBefore": 47,
+          "energyAfterPayment": 47,
+          "energyAfter": 47
+        },
+        "clock": {
+          "before": {
+            "day": 1,
+            "hour": 12,
+            "minute": 3,
+            "world": 723
+          },
+          "after": {
+            "day": 1,
+            "hour": 12,
+            "minute": 3,
+            "world": 723
+          },
+          "requestedMinutes": 0,
+          "elapsedMinutes": 0
+        },
+        "advance": null
+      }
+    }
+  ],
+  "interactions": [
+    {
+      "commandId": "cmd-000519",
+      "type": "npc.interact",
+      "actorId": "player-1",
+      "payload": {
+        "npcId": "doctor"
+      }
+    }
+  ]
+}

@@ -1,0 +1,503 @@
+{
+  "runner": "server-three-days",
+  "mode": "public-action-calendar-progression",
+  "url": "http://82.157.208.167/",
+  "profile": "isolated-profile",
+  "startedAtUnix": 1791997835.6495025,
+  "limits": {
+    "actionSeconds": 30,
+    "encounterSeconds": 60,
+    "globalSeconds": 600,
+    "heartbeatSeconds": 15,
+    "parentPollingSeconds": 30
+  },
+  "policy": {
+    "newGameViaPublicReset": true,
+    "saveInjection": false,
+    "hiddenStateMutation": false,
+    "internalFunctionCalls": false,
+    "primarySaveReadOnly": true
+  },
+  "routeSideEffects": [
+    "Each barracks interaction advances 30 minutes, raises player SAN by 2 and morale by 2.",
+    "Training raises active guards' SAN/morale and lowers stress; this route is not a balance evaluation.",
+    "Residence dinner consumes one food while lowering all active NPC hunger; ordinary crop and resource rewards are retained."
+  ],
+  "checks": [
+    {
+      "name": "new game starts on calendar day one",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "new game fixed roster is ten",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "initial public supply event",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "resume main save is not older than runner checkpoint",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "new game starts on calendar day one",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "new game fixed roster is ten",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "initial public supply event",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "supply A gives three actual food",
+      "ok": true,
+      "detail": {
+        "before": 8,
+        "actual": 11,
+        "eventSeq": 12,
+        "resumedAlreadyHandled": false
+      }
+    },
+    {
+      "name": "public gather context action enabled",
+      "ok": true,
+      "detail": "1🧺 采集木材消耗 8 行动体力 · 前往附近资源"
+    },
+    {
+      "name": "gather has positive actual resource.collected ledger",
+      "ok": true,
+      "detail": [
+        {
+          "eventId": "evt-000026",
+          "seq": 26,
+          "type": "resource.collected",
+          "actorId": "system",
+          "commandId": "cmd-000090",
+          "causationId": null,
+          "tick": {
+            "world": 410,
+            "phase": 0,
+            "schedule": 50
+          },
+          "payload": {
+            "resourceId": null,
+            "delta": {
+              "wood": 4,
+              "stone": 0,
+              "food": 0,
+              "parts": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "public crop context action enabled",
+      "ok": true,
+      "detail": "1🌱 播种消耗 4 行动体力 · 消耗 1 种子"
+    },
+    {
+      "name": "existing garden planting",
+      "ok": true,
+      "detail": {
+        "x": 7,
+        "y": 14,
+        "type": "garden",
+        "planted": true,
+        "growth": 0,
+        "ready": false,
+        "id": "bld-mazjx8"
+      }
+    },
+    {
+      "name": "planting consumes real seed",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "public gather context action enabled",
+      "ok": true,
+      "detail": "1🧺 采集食物消耗 8 行动体力 · 前往附近资源"
+    },
+    {
+      "name": "gather has positive actual resource.collected ledger",
+      "ok": true,
+      "detail": [
+        {
+          "eventId": "evt-000083",
+          "seq": 83,
+          "type": "resource.collected",
+          "actorId": "system",
+          "commandId": "cmd-000253",
+          "causationId": null,
+          "tick": {
+            "world": 490,
+            "phase": 0,
+            "schedule": 130
+          },
+          "payload": {
+            "resourceId": null,
+            "delta": {
+              "wood": 0,
+              "stone": 0,
+              "food": 2,
+              "parts": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "public gather context action enabled",
+      "ok": true,
+      "detail": "1🧺 采集食物消耗 8 行动体力 · 前往附近资源"
+    },
+    {
+      "name": "gather has positive actual resource.collected ledger",
+      "ok": true,
+      "detail": [
+        {
+          "eventId": "evt-000091",
+          "seq": 91,
+          "type": "resource.collected",
+          "actorId": "system",
+          "commandId": "cmd-000256",
+          "causationId": null,
+          "tick": {
+            "world": 521,
+            "phase": 0,
+            "schedule": 161
+          },
+          "payload": {
+            "resourceId": null,
+            "delta": {
+              "wood": 0,
+              "stone": 0,
+              "food": 2,
+              "parts": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "encounter 1 starts on its actual calendar day",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "day 1 real night started",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "day 1 night resolved within 60 seconds",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "day 1 resolved threat save",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "day 1 camp survives before closing report",
+      "ok": true,
+      "detail": 100
+    },
+    {
+      "name": "day 1 actual threat.resolved ledger",
+      "ok": true,
+      "detail": [
+        {
+          "eventId": "evt-000131",
+          "seq": 131,
+          "type": "threat.resolved",
+          "actorId": "system",
+          "commandId": null,
+          "causationId": null,
+          "tick": {
+            "world": 540,
+            "phase": 0,
+            "schedule": 180
+          },
+          "payload": {
+            "threatId": "threat-1-9-0-125",
+            "kills": 3,
+            "breaches": 2,
+            "damage": 0,
+            "routeId": "eastern-breach",
+            "finalCrisisRoute": "eastern-breach"
+          }
+        }
+      ]
+    },
+    {
+      "name": "closing day 1 report does not advance the calendar",
+      "ok": true,
+      "detail": {
+        "summary": 540,
+        "afterClose": 540
+      }
+    },
+    {
+      "name": "day 1 returns to daytime",
+      "ok": true,
+      "detail": null
+    }
+  ],
+  "errors": [
+    "TimeoutError:primary save did not catch up to the DOM after checkpoint debounce"
+  ],
+  "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 404 (File not found)",
+    "Failed to load resource: the server responded with a status of 404 (File not found)"
+  ],
+  "httpErrors": [],
+  "actions": [
+    {
+      "type": "supply-A",
+      "foodGain": 3,
+      "recoveredFromPrimarySave": false
+    },
+    {
+      "type": "gather",
+      "x": 8.2,
+      "y": 8.2,
+      "events": [
+        {
+          "eventId": "evt-000026",
+          "seq": 26,
+          "type": "resource.collected",
+          "actorId": "system",
+          "commandId": "cmd-000090",
+          "causationId": null,
+          "tick": {
+            "world": 410,
+            "phase": 0,
+            "schedule": 50
+          },
+          "payload": {
+            "resourceId": null,
+            "delta": {
+              "wood": 4,
+              "stone": 0,
+              "food": 0,
+              "parts": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "plant",
+      "day": 1
+    },
+    {
+      "type": "gather",
+      "x": 8.2,
+      "y": 18.3,
+      "events": [
+        {
+          "eventId": "evt-000083",
+          "seq": 83,
+          "type": "resource.collected",
+          "actorId": "system",
+          "commandId": "cmd-000253",
+          "causationId": null,
+          "tick": {
+            "world": 490,
+            "phase": 0,
+            "schedule": 130
+          },
+          "payload": {
+            "resourceId": null,
+            "delta": {
+              "wood": 0,
+              "stone": 0,
+              "food": 2,
+              "parts": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "gather",
+      "x": 8.2,
+      "y": 18.3,
+      "events": [
+        {
+          "eventId": "evt-000091",
+          "seq": 91,
+          "type": "resource.collected",
+          "actorId": "system",
+          "commandId": "cmd-000256",
+          "causationId": null,
+          "tick": {
+            "world": 521,
+            "phase": 0,
+            "schedule": 161
+          },
+          "payload": {
+            "resourceId": null,
+            "delta": {
+              "wood": 0,
+              "stone": 0,
+              "food": 2,
+              "parts": 0
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "nightDays": [],
+  "calendarTransitions": [],
+  "snapshots": [
+    {
+      "stage": "started-or-resumed",
+      "path": "private-qa/00-started-or-resumed-save.json",
+      "checksum": "93cc9e89",
+      "day": 1,
+      "hour": 6,
+      "minute": 10,
+      "eventSeq": 11
+    },
+    {
+      "stage": "started-or-resumed",
+      "path": "private-qa/01-started-or-resumed-save.json",
+      "checksum": "93cc9e89",
+      "day": 1,
+      "hour": 6,
+      "minute": 10,
+      "eventSeq": 11
+    },
+    {
+      "stage": "supply-A-pending",
+      "path": "private-qa/02-supply-A-pending-save.json",
+      "checksum": "93cc9e89",
+      "day": 1,
+      "hour": 6,
+      "minute": 10,
+      "eventSeq": 11
+    },
+    {
+      "stage": "supplied",
+      "path": "private-qa/03-supplied-save.json",
+      "checksum": "c3c1c86f",
+      "day": 1,
+      "hour": 6,
+      "minute": 10,
+      "eventSeq": 12
+    },
+    {
+      "stage": "first-real-resource",
+      "path": "private-qa/04-first-real-resource-save.json",
+      "checksum": "98b5880c",
+      "day": 1,
+      "hour": 6,
+      "minute": 51,
+      "eventSeq": 27
+    },
+    {
+      "stage": "garden-planted",
+      "path": "private-qa/05-garden-planted-save.json",
+      "checksum": "df5a53a5",
+      "day": 1,
+      "hour": 7,
+      "minute": 21,
+      "eventSeq": 49
+    },
+    {
+      "stage": "berries-collected",
+      "path": "private-qa/06-berries-collected-save.json",
+      "checksum": "5f493173",
+      "day": 1,
+      "hour": 8,
+      "minute": 42,
+      "eventSeq": 92
+    },
+    {
+      "stage": "setup",
+      "path": "private-qa/07-setup-save.json",
+      "checksum": "c6f8b253",
+      "day": 1,
+      "hour": 8,
+      "minute": 50,
+      "eventSeq": 100
+    },
+    {
+      "stage": "day-1-before-encounter",
+      "path": "private-qa/08-day-1-before-encounter-save.json",
+      "checksum": "90076edf",
+      "day": 1,
+      "hour": 9,
+      "minute": 0,
+      "eventSeq": 122
+    },
+    {
+      "stage": "day-1-summary",
+      "path": "private-qa/09-day-1-summary-save.json",
+      "checksum": "fdcd74e0",
+      "day": 1,
+      "hour": 9,
+      "minute": 0,
+      "eventSeq": 132
+    }
+  ],
+  "completedStages": [
+    "supplied",
+    "first-real-resource",
+    "garden-planted",
+    "berries-collected",
+    "setup"
+  ],
+  "rosterIds": [
+    "carpenter",
+    "commander",
+    "cook",
+    "doctor",
+    "guardChen",
+    "guardJi",
+    "guardJiang",
+    "quartermaster",
+    "radio",
+    "sergeant"
+  ],
+  "ok": false,
+  "resumeSessions": [
+    {
+      "atUnix": 1791998889.917089,
+      "previousErrors": [
+        "AssertionError:supply A gives three actual food: None"
+      ],
+      "previousFailedChecks": [
+        {
+          "name": "supply A gives three actual food",
+          "ok": false,
+          "detail": null
+        }
+      ]
+    }
+  ],
+  "pendingEncounter": {
+    "day": 1,
+    "beforeMinute": 540
+  },
+  "elapsedSeconds": 117.188,
+  "finishedAtUnix": 1791999007.1036088,
+  "rawReportSha256": "d8467a5383d2e8b287d0840741480439856fddc2f57bd4005cd4acc659f20b41",
+  "pathSanitization": "Private host paths removed from the published evidence; original report retained locally."
+}

@@ -1,0 +1,9 @@
+# Impact regression evidence transport
+
+This publication contains no new test execution. It preserves two distinct builds: dc265 (six executions, four pass and two fail, 349/356 checks) and 3218 (only the two precisely adapted contracts rerun, 95/95). The seven original failed checks and original method SHAs remain failures. Four original passing reports retain dc265; they are not relabelled as 3218. The original CSS-only diff and inline-equality receipt are mapped as evidence, not a new execution.
+
+`source-execution-matrix.json` lists all eight executions. `index.json` lists primary native outputs. `native-artifact-transport-map.json` maps every retained original output, executed method, source HTML, input dependency and native artifact reference to an exact public byte object or an explicit redacted companion. Objects are content addressed and may reuse existing immutable QA/fixture paths; no ZIP is required.
+
+To restore a private output tree, select a build prefix in objects.originalPath and place each exact object at that remaining relative path. Restore repo-inputs under a temporary repository root and use the executed method/source arguments documented in the retained coordinator. Map original native artifacts using rows and their originalArtifactPath. A redacted companion cannot reconstruct private locator bytes and must never be called the original native report; original SHA/length and external preservation are declared. Its portableReport keeps keys and non-path values, including failures/counts/resources/effects. Already-published historical input reports reused by SHA keep their original identity; no duplicate private-parameter report is added.
+
+This is controlled source VM evidence with each old runner's declared TEST-ONLY scenes and IO. No browser/profile, credential, natural play, balance or player-preference claim is made. The full current-build closure and new rest/work source/browser slice are separate evidence.

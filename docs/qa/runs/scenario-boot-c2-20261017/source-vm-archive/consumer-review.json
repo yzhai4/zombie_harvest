@@ -1,0 +1,38 @@
+{
+  "schema": "SourceVmArchiveConsumerReviewV1",
+  "operation": "read-only-transport-review",
+  "newGameOrCheckerExecution": false,
+  "repositoryFilesChanged": false,
+  "inspected": [
+    {
+      "repositoryPath": "scripts/check-iteration-evidence.mjs",
+      "bytes": 16123,
+      "sha256": "351d3c857cd27d424df6e4151fd4acfbc60320bb3220326942ee8b852d43cc97"
+    },
+    {
+      "repositoryPath": "docs/qa/iteration-manifest-v1.json",
+      "bytes": 207132,
+      "sha256": "f70d90d14a3429b4e1601f4c00685b8211d65d21d98f355e1debb95090d9aaaa"
+    }
+  ],
+  "findings": [
+    "The generic evidence Gate validates each manifest artifact as an ordinary root-relative file and does not resolve ZIP members.",
+    "The generic evidence Gate reads the retained native test report summary; it does not recursively traverse native report.artifacts.",
+    "The inspected manifest has no artifact paths under this newly curated C2 evidence root yet.",
+    "A future manifest must inventory the ZIP/index/receipt and retained native reports as ordinary files. Deleting raw files while retaining manifest references to them would fail the existing artifact inventory.",
+    "Tools which directly traverse native artifact references require extraction into the original C2 QA root, plus the explicit unchanged natural19 external-input map. No checker was executed to claim otherwise.",
+    "A read-only search of scripts and .github found no hardcoded dependency on these five new C2 source-output directories."
+  ],
+  "currentManifestC2ArtifactRefs": [],
+  "privacy": {
+    "scope": "All 442 original archive input files, scanning repeated Windows separators and JSON-escaped separators as well as Unix homes and file URIs.",
+    "patterns": [
+      "windows-user-home-including-json-escapes",
+      "windows-appdata-temp-including-json-escapes",
+      "unix-user-home",
+      "file-uri"
+    ],
+    "hits": []
+  },
+  "unchangedScope": "Source VM evidence transport only. No implementation, assertions, native report counts, effects, or business evidence changed."
+}

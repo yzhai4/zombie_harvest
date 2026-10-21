@@ -1,0 +1,124 @@
+{
+  "runner": "source-npc-threat-attention",
+  "ok": true,
+  "passed": 21,
+  "count": 21,
+  "sourceHtmlSha256": "51faa0c7c62607aa0d4e280a5bc056e4eb01b374b1ae3f45782c232445ae1662",
+  "sourceFixtureSha256": "5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4",
+  "sourceCaptureHtmlSha256": "cc900da9cdf865b101c37080eb7417148a8a388796ba808153c905ef8ad8494a",
+  "originalReportSha256": "08e4309113473164d886a39d8366f000491cb5449dcad86452d453b00e55a94b",
+  "fixtureCapture": "automation browser writer from failed run; not production",
+  "browserStarted": false,
+  "naturalGameplay": false,
+  "scope": "actual complete inline loader/perception/combat/writer; Map IO and queued timers, explicit offline negative scenes",
+  "limitations": [
+    "Direct perception then combat proves this attention defect; complete advance may change view direction/positions before combat, so this does not guarantee rescue during repeated training.",
+    "No source damage/range/cadence/health/role gate change; original FAILED browser result is unchanged."
+  ],
+  "offlineNegativeScenes": [
+    "remove/move existing world threats; dead existing enemy/guard; turn existing guard; move existing wall; place existing quartermaster at guard viewpoint; night uses existing threat reference; frozen session modes"
+  ],
+  "observations": {
+    "original": {
+      "playerHp": 52,
+      "enemyHp": 100,
+      "distance": 1.6213256283167474,
+      "nearestVisibleId": "player-1"
+    },
+    "activatedCombat": {
+      "beforeHp": 100,
+      "afterHp": 89,
+      "damage": [
+        11
+      ],
+      "source": "sergeant",
+      "target": "wz-4"
+    }
+  },
+  "checks": [
+    {
+      "name": "original automation browser writer capture provenance and untouched bytes",
+      "ok": true
+    },
+    {
+      "name": "actual loader preserves captured population health positions resources and RNG",
+      "ok": true
+    },
+    {
+      "name": "captured guard sees enemy but nearest visible player is closer before update",
+      "ok": true
+    },
+    {
+      "name": "visible threat gets attention despite closer player; identity and contact retained",
+      "ok": true
+    },
+    {
+      "name": "actual day combat applies the activated guard damage to original wz-4",
+      "ok": true
+    },
+    {
+      "name": "perception-only update does not advance clock RNG events resources positions or health",
+      "ok": true
+    },
+    {
+      "name": "player-only view preserves social observation without a false alert",
+      "ok": true
+    },
+    {
+      "name": "out-of-range enemy does not become visible through player proximity",
+      "ok": true
+    },
+    {
+      "name": "enemy behind view cone does not activate the guard",
+      "ok": true
+    },
+    {
+      "name": "real wall LOS gate remains effective",
+      "ok": true
+    },
+    {
+      "name": "dead enemy does not trigger alert",
+      "ok": true
+    },
+    {
+      "name": "perception cadence is retained",
+      "ok": true
+    },
+    {
+      "name": "noncombat role can notice but cannot gain guard attack capability",
+      "ok": true
+    },
+    {
+      "name": "dead guard stays excluded by actual routine and combat eligibility",
+      "ok": true
+    },
+    {
+      "name": "night perception uses only night threats and day combat remains locked",
+      "ok": true
+    },
+    {
+      "name": "night direct threat may alert using existing visibility but cannot invoke day damage",
+      "ok": true
+    },
+    {
+      "name": "REPORT blocks day combat",
+      "ok": true
+    },
+    {
+      "name": "LOSS blocks day combat",
+      "ok": true
+    },
+    {
+      "name": "RECOVERY blocks day combat",
+      "ok": true
+    },
+    {
+      "name": "actual writer loader roundtrip retains both contacts without changing saved resources",
+      "ok": true
+    },
+    {
+      "name": "same original input and explicit sense/combat steps produce deterministic combat facts",
+      "ok": true
+    }
+  ]
+}

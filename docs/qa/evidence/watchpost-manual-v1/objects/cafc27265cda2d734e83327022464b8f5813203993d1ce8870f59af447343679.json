@@ -1,0 +1,169 @@
+{
+  "receipt": {
+    "eventId": "evt-000297",
+    "seq": 297,
+    "type": "content.chain.command",
+    "actorId": "player-1",
+    "commandId": "cmd-000516",
+    "causationId": null,
+    "tick": {
+      "world": 1851,
+      "phase": 0,
+      "schedule": 361
+    },
+    "payload": {
+      "result": {
+        "ok": true,
+        "chainId": "watchpost-003",
+        "nodeId": "manual_preparation",
+        "choiceId": "manual",
+        "results": [
+          {
+            "ok": true,
+            "op": "unlock",
+            "key": "watchpost-manual-prepared"
+          },
+          {
+            "ok": true,
+            "op": "recordHistory",
+            "key": "watchpost-003:once:watchpost-003:manual"
+          }
+        ]
+      }
+    },
+    "defId": "watchpost-003",
+    "definitionVersion": 1,
+    "instanceId": "content:watchpost-003:once",
+    "effects": []
+  },
+  "resolution": {
+    "eventId": "evt-000296",
+    "seq": 296,
+    "type": "content.chain.resolved",
+    "actorId": "player-1",
+    "commandId": null,
+    "causationId": "cmd-000516",
+    "tick": {
+      "world": 1851,
+      "phase": 0,
+      "schedule": 361
+    },
+    "payload": {
+      "chainId": "watchpost-003",
+      "nodeId": "manual_preparation",
+      "choiceId": "manual",
+      "results": [
+        {
+          "ok": true,
+          "op": "unlock",
+          "key": "watchpost-manual-prepared"
+        },
+        {
+          "ok": true,
+          "op": "recordHistory",
+          "key": "watchpost-003:once:watchpost-003:manual"
+        }
+      ],
+      "instanceKey": "watchpost-003:once"
+    },
+    "defId": "watchpost-003",
+    "definitionVersion": 1,
+    "instanceId": "content:watchpost-003:once",
+    "effects": [
+      {
+        "op": "unlock",
+        "key": "watchpost-manual-prepared"
+      },
+      {
+        "op": "recordHistory",
+        "key": "watchpost-003:manual",
+        "payload": {
+          "route": "manual",
+          "outpostId": "watchPost",
+          "definitionVersion": 1
+        }
+      }
+    ]
+  },
+  "parent": {
+    "commandId": "cmd-000516",
+    "type": "content.chain.resolve",
+    "actorId": "player-1",
+    "payload": {
+      "chainId": "watchpost-003",
+      "nodeId": "manual_preparation",
+      "choiceId": "manual",
+      "expectedInstanceKey": "watchpost-003:once",
+      "expectedInstanceId": "content:watchpost-003:once",
+      "expectedDefId": "watchpost-003",
+      "expectedDefinitionVersion": 1,
+      "expectedNodeId": "manual_preparation"
+    }
+  },
+  "effects": [
+    {
+      "eventId": "evt-000294",
+      "seq": 294,
+      "type": "content.effects.applied",
+      "actorId": "player-1",
+      "commandId": null,
+      "causationId": "cmd-000516",
+      "tick": {
+        "world": 1851,
+        "phase": 0,
+        "schedule": 361
+      },
+      "payload": {
+        "effects": [
+          {
+            "op": "unlock",
+            "key": "watchpost-manual-prepared"
+          },
+          {
+            "op": "recordHistory",
+            "key": "watchpost-003:manual",
+            "payload": {
+              "route": "manual",
+              "outpostId": "watchPost",
+              "definitionVersion": 1
+            }
+          }
+        ],
+        "results": [
+          {
+            "ok": true,
+            "op": "unlock",
+            "key": "watchpost-manual-prepared"
+          },
+          {
+            "ok": true,
+            "op": "recordHistory",
+            "key": "watchpost-003:once:watchpost-003:manual"
+          }
+        ],
+        "effectId": "watchpost-003:manual_preparation:manual",
+        "instanceKey": "watchpost-003:once"
+      },
+      "defId": "watchpost-003",
+      "definitionVersion": 1,
+      "instanceId": "content:watchpost-003:once",
+      "effects": [
+        {
+          "op": "unlock",
+          "key": "watchpost-manual-prepared"
+        },
+        {
+          "op": "recordHistory",
+          "key": "watchpost-003:manual",
+          "payload": {
+            "route": "manual",
+            "outpostId": "watchPost",
+            "definitionVersion": 1
+          }
+        }
+      ]
+    }
+  ],
+  "elapsedObservedMinutes": 0,
+  "independentClockMinutes": 0
+}

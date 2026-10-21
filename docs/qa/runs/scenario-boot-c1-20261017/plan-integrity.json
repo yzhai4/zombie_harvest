@@ -1,0 +1,3448 @@
+{
+  "runner": "source-plan-integrity",
+  "sourceHash": "a2fcdb647f2632fbf50f3ab0f3ba160f168082c602f6737c5ca4239eede137d2",
+  "adapterSourceHash": "ee5bb659c0439044e1ec07a4aecf931293457c2478f35d0850fe90770b4367cf",
+  "evidence": "complete-actual-inline-VM",
+  "browserStarted": false,
+  "naturalGameplayExecuted": false,
+  "changedFunctionsMocked": false,
+  "expectedBaselineDefects": false,
+  "ioMocks": {
+    "dom": "in-memory nodes without native layout/focus",
+    "storage": "Map-backed local/session storage",
+    "clocks": "controlled Date.now/performance.now",
+    "timers": "queued callbacks; asynchronous real-time callbacks not run",
+    "bootstrap": "unrelated final Canvas render omitted",
+    "replacedRenderingFunctions": [
+      "renderWorld",
+      "renderHud",
+      "renderContext"
+    ],
+    "preservedFunctions": [
+      "commitPlanMeeting",
+      "generatePlanMeeting",
+      "CommandBus",
+      "advance",
+      "runWorldDayUpkeep",
+      "executePlanMeeting",
+      "loadProgress",
+      "saveProgress"
+    ]
+  },
+  "fixtureBoundary": "declared input states; transient same-day resolved/fallback inputs are never written/booted; pinned old fixture loaded without executing old HTML",
+  "checks": [
+    {
+      "name": "trust 0 support rejected by actual CommandBus without plan/CP/reward",
+      "ok": true,
+      "detail": {
+        "result": {
+          "ok": false,
+          "commandId": "cmd-000001",
+          "reason": "camp-trust-low"
+        },
+        "pointsBefore": 2,
+        "pointsAfter": 2,
+        "committedReceipts": 0,
+        "rejected": [
+          {
+            "eventId": "evt-000004",
+            "seq": 4,
+            "type": "command.rejected",
+            "actorId": "player-1",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "type": "plan.meeting.commit",
+              "reason": "camp-trust-low"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "trust 0 deny rejected by actual CommandBus without plan/CP/reward",
+      "ok": true,
+      "detail": {
+        "result": {
+          "ok": false,
+          "commandId": "cmd-000001",
+          "reason": "camp-trust-low"
+        },
+        "pointsBefore": 2,
+        "pointsAfter": 2,
+        "committedReceipts": 0,
+        "rejected": [
+          {
+            "eventId": "evt-000004",
+            "seq": 4,
+            "type": "command.rejected",
+            "actorId": "player-1",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "type": "plan.meeting.commit",
+              "reason": "camp-trust-low"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "trust 0 modify rejected by actual CommandBus without plan/CP/reward",
+      "ok": true,
+      "detail": {
+        "result": {
+          "ok": false,
+          "commandId": "cmd-000001",
+          "reason": "camp-trust-low"
+        },
+        "pointsBefore": 2,
+        "pointsAfter": 2,
+        "committedReceipts": 0,
+        "rejected": [
+          {
+            "eventId": "evt-000004",
+            "seq": 4,
+            "type": "command.rejected",
+            "actorId": "player-1",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "type": "plan.meeting.commit",
+              "reason": "camp-trust-low"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "trust 19 support rejected by actual CommandBus without plan/CP/reward",
+      "ok": true,
+      "detail": {
+        "result": {
+          "ok": false,
+          "commandId": "cmd-000001",
+          "reason": "camp-trust-low"
+        },
+        "pointsBefore": 2,
+        "pointsAfter": 2,
+        "committedReceipts": 0,
+        "rejected": [
+          {
+            "eventId": "evt-000004",
+            "seq": 4,
+            "type": "command.rejected",
+            "actorId": "player-1",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "type": "plan.meeting.commit",
+              "reason": "camp-trust-low"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "trust 19 deny rejected by actual CommandBus without plan/CP/reward",
+      "ok": true,
+      "detail": {
+        "result": {
+          "ok": false,
+          "commandId": "cmd-000001",
+          "reason": "camp-trust-low"
+        },
+        "pointsBefore": 2,
+        "pointsAfter": 2,
+        "committedReceipts": 0,
+        "rejected": [
+          {
+            "eventId": "evt-000004",
+            "seq": 4,
+            "type": "command.rejected",
+            "actorId": "player-1",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "type": "plan.meeting.commit",
+              "reason": "camp-trust-low"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "trust 19 modify rejected by actual CommandBus without plan/CP/reward",
+      "ok": true,
+      "detail": {
+        "result": {
+          "ok": false,
+          "commandId": "cmd-000001",
+          "reason": "camp-trust-low"
+        },
+        "pointsBefore": 2,
+        "pointsAfter": 2,
+        "committedReceipts": 0,
+        "rejected": [
+          {
+            "eventId": "evt-000004",
+            "seq": 4,
+            "type": "command.rejected",
+            "actorId": "player-1",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "type": "plan.meeting.commit",
+              "reason": "camp-trust-low"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "trust 20 support rejected by actual CommandBus without plan/CP/reward",
+      "ok": true,
+      "detail": {
+        "result": {
+          "ok": false,
+          "commandId": "cmd-000001",
+          "reason": "camp-trust-low"
+        },
+        "pointsBefore": 2,
+        "pointsAfter": 2,
+        "committedReceipts": 0,
+        "rejected": [
+          {
+            "eventId": "evt-000004",
+            "seq": 4,
+            "type": "command.rejected",
+            "actorId": "player-1",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "type": "plan.meeting.commit",
+              "reason": "camp-trust-low"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "trust 20 deny rejected by actual CommandBus without plan/CP/reward",
+      "ok": true,
+      "detail": {
+        "result": {
+          "ok": false,
+          "commandId": "cmd-000001",
+          "reason": "camp-trust-low"
+        },
+        "pointsBefore": 2,
+        "pointsAfter": 2,
+        "committedReceipts": 0,
+        "rejected": [
+          {
+            "eventId": "evt-000004",
+            "seq": 4,
+            "type": "command.rejected",
+            "actorId": "player-1",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "type": "plan.meeting.commit",
+              "reason": "camp-trust-low"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "trust 20 modify rejected by actual CommandBus without plan/CP/reward",
+      "ok": true,
+      "detail": {
+        "result": {
+          "ok": false,
+          "commandId": "cmd-000001",
+          "reason": "camp-trust-low"
+        },
+        "pointsBefore": 2,
+        "pointsAfter": 2,
+        "committedReceipts": 0,
+        "rejected": [
+          {
+            "eventId": "evt-000004",
+            "seq": 4,
+            "type": "command.rejected",
+            "actorId": "player-1",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "type": "plan.meeting.commit",
+              "reason": "camp-trust-low"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "trust 40 support rejected by actual CommandBus without plan/CP/reward",
+      "ok": true,
+      "detail": {
+        "result": {
+          "ok": false,
+          "commandId": "cmd-000001",
+          "reason": "camp-trust-low"
+        },
+        "pointsBefore": 2,
+        "pointsAfter": 2,
+        "committedReceipts": 0,
+        "rejected": [
+          {
+            "eventId": "evt-000004",
+            "seq": 4,
+            "type": "command.rejected",
+            "actorId": "player-1",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "type": "plan.meeting.commit",
+              "reason": "camp-trust-low"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "trust 40 deny rejected by actual CommandBus without plan/CP/reward",
+      "ok": true,
+      "detail": {
+        "result": {
+          "ok": false,
+          "commandId": "cmd-000001",
+          "reason": "camp-trust-low"
+        },
+        "pointsBefore": 2,
+        "pointsAfter": 2,
+        "committedReceipts": 0,
+        "rejected": [
+          {
+            "eventId": "evt-000004",
+            "seq": 4,
+            "type": "command.rejected",
+            "actorId": "player-1",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "type": "plan.meeting.commit",
+              "reason": "camp-trust-low"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "trust 40 modify rejected by actual CommandBus without plan/CP/reward",
+      "ok": true,
+      "detail": {
+        "result": {
+          "ok": false,
+          "commandId": "cmd-000001",
+          "reason": "camp-trust-low"
+        },
+        "pointsBefore": 2,
+        "pointsAfter": 2,
+        "committedReceipts": 0,
+        "rejected": [
+          {
+            "eventId": "evt-000004",
+            "seq": 4,
+            "type": "command.rejected",
+            "actorId": "player-1",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "type": "plan.meeting.commit",
+              "reason": "camp-trust-low"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "trust 59 support rejected by actual CommandBus without plan/CP/reward",
+      "ok": true,
+      "detail": {
+        "result": {
+          "ok": false,
+          "commandId": "cmd-000001",
+          "reason": "camp-trust-low"
+        },
+        "pointsBefore": 2,
+        "pointsAfter": 2,
+        "committedReceipts": 0,
+        "rejected": [
+          {
+            "eventId": "evt-000004",
+            "seq": 4,
+            "type": "command.rejected",
+            "actorId": "player-1",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "type": "plan.meeting.commit",
+              "reason": "camp-trust-low"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "trust 59 deny rejected by actual CommandBus without plan/CP/reward",
+      "ok": true,
+      "detail": {
+        "result": {
+          "ok": false,
+          "commandId": "cmd-000001",
+          "reason": "camp-trust-low"
+        },
+        "pointsBefore": 2,
+        "pointsAfter": 2,
+        "committedReceipts": 0,
+        "rejected": [
+          {
+            "eventId": "evt-000004",
+            "seq": 4,
+            "type": "command.rejected",
+            "actorId": "player-1",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "type": "plan.meeting.commit",
+              "reason": "camp-trust-low"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "trust 59 modify rejected by actual CommandBus without plan/CP/reward",
+      "ok": true,
+      "detail": {
+        "result": {
+          "ok": false,
+          "commandId": "cmd-000001",
+          "reason": "camp-trust-low"
+        },
+        "pointsBefore": 2,
+        "pointsAfter": 2,
+        "committedReceipts": 0,
+        "rejected": [
+          {
+            "eventId": "evt-000004",
+            "seq": 4,
+            "type": "command.rejected",
+            "actorId": "player-1",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "type": "plan.meeting.commit",
+              "reason": "camp-trust-low"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "trust 59.99 support rejected by actual CommandBus without plan/CP/reward",
+      "ok": true,
+      "detail": {
+        "result": {
+          "ok": false,
+          "commandId": "cmd-000001",
+          "reason": "camp-trust-low"
+        },
+        "pointsBefore": 2,
+        "pointsAfter": 2,
+        "committedReceipts": 0,
+        "rejected": [
+          {
+            "eventId": "evt-000004",
+            "seq": 4,
+            "type": "command.rejected",
+            "actorId": "player-1",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "type": "plan.meeting.commit",
+              "reason": "camp-trust-low"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "trust 59.99 deny rejected by actual CommandBus without plan/CP/reward",
+      "ok": true,
+      "detail": {
+        "result": {
+          "ok": false,
+          "commandId": "cmd-000001",
+          "reason": "camp-trust-low"
+        },
+        "pointsBefore": 2,
+        "pointsAfter": 2,
+        "committedReceipts": 0,
+        "rejected": [
+          {
+            "eventId": "evt-000004",
+            "seq": 4,
+            "type": "command.rejected",
+            "actorId": "player-1",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "type": "plan.meeting.commit",
+              "reason": "camp-trust-low"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "trust 59.99 modify rejected by actual CommandBus without plan/CP/reward",
+      "ok": true,
+      "detail": {
+        "result": {
+          "ok": false,
+          "commandId": "cmd-000001",
+          "reason": "camp-trust-low"
+        },
+        "pointsBefore": 2,
+        "pointsAfter": 2,
+        "committedReceipts": 0,
+        "rejected": [
+          {
+            "eventId": "evt-000004",
+            "seq": 4,
+            "type": "command.rejected",
+            "actorId": "player-1",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "type": "plan.meeting.commit",
+              "reason": "camp-trust-low"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "trust 60 support commits exactly once for one CP",
+      "ok": true,
+      "detail": {
+        "result": {
+          "ok": true,
+          "commandId": "cmd-000001",
+          "event": {
+            "eventId": "evt-000004",
+            "seq": 4,
+            "type": "plan.meeting.committed",
+            "actorId": "player-1",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "instanceId": "camp-plan-meeting-001:d1",
+              "meetingDay": 1,
+              "action": "support",
+              "selectedId": "plan-defend-core-001",
+              "pointsBefore": 3,
+              "pointsAfter": 2,
+              "candidates": [
+                {
+                  "id": "plan-defend-core-001",
+                  "title": "收缩核心防线",
+                  "category": "defense",
+                  "proposerId": "commander",
+                  "cost": 1,
+                  "expected": "核心建筑承压下降，夜间失守风险降低",
+                  "risk": "外围采集与前哨推进放缓",
+                  "affectedRoles": [
+                    "commander",
+                    "sergeant",
+                    "guardJi",
+                    "guardChen"
+                  ],
+                  "votes": 7,
+                  "voteWeight": 7,
+                  "ballots": [
+                    {
+                      "npcId": "commander",
+                      "weight": 3,
+                      "score": 58
+                    },
+                    {
+                      "npcId": "doctor",
+                      "weight": 1,
+                      "score": 45
+                    },
+                    {
+                      "npcId": "radio",
+                      "weight": 1,
+                      "score": 47
+                    },
+                    {
+                      "npcId": "sergeant",
+                      "weight": 2,
+                      "score": 55
+                    }
+                  ],
+                  "rank": 1,
+                  "validDay": 1,
+                  "effects": [
+                    {
+                      "op": "adjustMeter",
+                      "key": "campCollapse",
+                      "value": -3
+                    },
+                    {
+                      "op": "recordHistory",
+                      "key": "plan-defend-core-001:applied",
+                      "payload": {
+                        "category": "defense"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "plan-relay-priority-001",
+                  "title": "把中继优先级调到前线",
+                  "category": "research",
+                  "proposerId": "radio",
+                  "cost": 1,
+                  "expected": "提前识别下一波路线，降低共振压力",
+                  "risk": "短期会增加外围行动的暴露",
+                  "affectedRoles": [
+                    "radio",
+                    "sergeant",
+                    "guardJiang"
+                  ],
+                  "votes": 7,
+                  "voteWeight": 7,
+                  "ballots": [
+                    {
+                      "npcId": "commander",
+                      "weight": 3,
+                      "score": 41
+                    },
+                    {
+                      "npcId": "doctor",
+                      "weight": 1,
+                      "score": 40
+                    },
+                    {
+                      "npcId": "radio",
+                      "weight": 1,
+                      "score": 52
+                    },
+                    {
+                      "npcId": "sergeant",
+                      "weight": 2,
+                      "score": 38
+                    }
+                  ],
+                  "rank": 2,
+                  "validDay": 1,
+                  "effects": [
+                    {
+                      "op": "adjustMeter",
+                      "key": "resonancePressure",
+                      "value": -3
+                    },
+                    {
+                      "op": "adjustMeter",
+                      "key": "campCollapse",
+                      "value": 1
+                    },
+                    {
+                      "op": "recordHistory",
+                      "key": "plan-relay-priority-001:applied",
+                      "payload": {
+                        "category": "research"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "plan-research-signal-001",
+                  "title": "校准共振信标",
+                  "category": "research",
+                  "proposerId": "radio",
+                  "cost": 1,
+                  "expected": "中继预警更稳定，共振压力下降",
+                  "risk": "需要把人员留在指挥频道",
+                  "affectedRoles": [
+                    "radio",
+                    "commander",
+                    "doctor"
+                  ],
+                  "votes": 7,
+                  "voteWeight": 7,
+                  "ballots": [
+                    {
+                      "npcId": "commander",
+                      "weight": 3,
+                      "score": 39
+                    },
+                    {
+                      "npcId": "doctor",
+                      "weight": 1,
+                      "score": 38
+                    },
+                    {
+                      "npcId": "radio",
+                      "weight": 1,
+                      "score": 50
+                    },
+                    {
+                      "npcId": "sergeant",
+                      "weight": 2,
+                      "score": 36
+                    }
+                  ],
+                  "rank": 3,
+                  "validDay": 1,
+                  "effects": [
+                    {
+                      "op": "adjustMeter",
+                      "key": "resonancePressure",
+                      "value": -4
+                    },
+                    {
+                      "op": "recordHistory",
+                      "key": "plan-research-signal-001:applied",
+                      "payload": {
+                        "category": "research"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "defId": "camp-plan-meeting-001",
+            "definitionVersion": 1,
+            "instanceId": "camp-plan-meeting-001:d1",
+            "effects": []
+          },
+          "result": {
+            "payload": {
+              "instanceId": "camp-plan-meeting-001:d1",
+              "meetingDay": 1,
+              "action": "support",
+              "selectedId": "plan-defend-core-001",
+              "pointsBefore": 3,
+              "pointsAfter": 2,
+              "candidates": [
+                {
+                  "id": "plan-defend-core-001",
+                  "title": "收缩核心防线",
+                  "category": "defense",
+                  "proposerId": "commander",
+                  "cost": 1,
+                  "expected": "核心建筑承压下降，夜间失守风险降低",
+                  "risk": "外围采集与前哨推进放缓",
+                  "affectedRoles": [
+                    "commander",
+                    "sergeant",
+                    "guardJi",
+                    "guardChen"
+                  ],
+                  "votes": 7,
+                  "voteWeight": 7,
+                  "ballots": [
+                    {
+                      "npcId": "commander",
+                      "weight": 3,
+                      "score": 58
+                    },
+                    {
+                      "npcId": "doctor",
+                      "weight": 1,
+                      "score": 45
+                    },
+                    {
+                      "npcId": "radio",
+                      "weight": 1,
+                      "score": 47
+                    },
+                    {
+                      "npcId": "sergeant",
+                      "weight": 2,
+                      "score": 55
+                    }
+                  ],
+                  "rank": 1,
+                  "validDay": 1,
+                  "effects": [
+                    {
+                      "op": "adjustMeter",
+                      "key": "campCollapse",
+                      "value": -3
+                    },
+                    {
+                      "op": "recordHistory",
+                      "key": "plan-defend-core-001:applied",
+                      "payload": {
+                        "category": "defense"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "plan-relay-priority-001",
+                  "title": "把中继优先级调到前线",
+                  "category": "research",
+                  "proposerId": "radio",
+                  "cost": 1,
+                  "expected": "提前识别下一波路线，降低共振压力",
+                  "risk": "短期会增加外围行动的暴露",
+                  "affectedRoles": [
+                    "radio",
+                    "sergeant",
+                    "guardJiang"
+                  ],
+                  "votes": 7,
+                  "voteWeight": 7,
+                  "ballots": [
+                    {
+                      "npcId": "commander",
+                      "weight": 3,
+                      "score": 41
+                    },
+                    {
+                      "npcId": "doctor",
+                      "weight": 1,
+                      "score": 40
+                    },
+                    {
+                      "npcId": "radio",
+                      "weight": 1,
+                      "score": 52
+                    },
+                    {
+                      "npcId": "sergeant",
+                      "weight": 2,
+                      "score": 38
+                    }
+                  ],
+                  "rank": 2,
+                  "validDay": 1,
+                  "effects": [
+                    {
+                      "op": "adjustMeter",
+                      "key": "resonancePressure",
+                      "value": -3
+                    },
+                    {
+                      "op": "adjustMeter",
+                      "key": "campCollapse",
+                      "value": 1
+                    },
+                    {
+                      "op": "recordHistory",
+                      "key": "plan-relay-priority-001:applied",
+                      "payload": {
+                        "category": "research"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "plan-research-signal-001",
+                  "title": "校准共振信标",
+                  "category": "research",
+                  "proposerId": "radio",
+                  "cost": 1,
+                  "expected": "中继预警更稳定，共振压力下降",
+                  "risk": "需要把人员留在指挥频道",
+                  "affectedRoles": [
+                    "radio",
+                    "commander",
+                    "doctor"
+                  ],
+                  "votes": 7,
+                  "voteWeight": 7,
+                  "ballots": [
+                    {
+                      "npcId": "commander",
+                      "weight": 3,
+                      "score": 39
+                    },
+                    {
+                      "npcId": "doctor",
+                      "weight": 1,
+                      "score": 38
+                    },
+                    {
+                      "npcId": "radio",
+                      "weight": 1,
+                      "score": 50
+                    },
+                    {
+                      "npcId": "sergeant",
+                      "weight": 2,
+                      "score": 36
+                    }
+                  ],
+                  "rank": 3,
+                  "validDay": 1,
+                  "effects": [
+                    {
+                      "op": "adjustMeter",
+                      "key": "resonancePressure",
+                      "value": -4
+                    },
+                    {
+                      "op": "recordHistory",
+                      "key": "plan-research-signal-001:applied",
+                      "payload": {
+                        "category": "research"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "defId": "camp-plan-meeting-001",
+            "instanceId": "camp-plan-meeting-001:d1"
+          }
+        },
+        "selectedId": "plan-defend-core-001"
+      }
+    },
+    {
+      "name": "trust 60 support second intervention is rejected without second debit",
+      "ok": true,
+      "detail": {
+        "result": {
+          "ok": false,
+          "commandId": "cmd-000002",
+          "reason": "plan-not-open"
+        },
+        "commandPoints": 2
+      }
+    },
+    {
+      "name": "trust 60 deny commits exactly once for one CP",
+      "ok": true,
+      "detail": {
+        "result": {
+          "ok": true,
+          "commandId": "cmd-000001",
+          "event": {
+            "eventId": "evt-000004",
+            "seq": 4,
+            "type": "plan.meeting.committed",
+            "actorId": "player-1",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "instanceId": "camp-plan-meeting-001:d1",
+              "meetingDay": 1,
+              "action": "deny",
+              "selectedId": "plan-relay-priority-001",
+              "pointsBefore": 3,
+              "pointsAfter": 2,
+              "candidates": [
+                {
+                  "id": "plan-defend-core-001",
+                  "title": "收缩核心防线",
+                  "category": "defense",
+                  "proposerId": "commander",
+                  "cost": 1,
+                  "expected": "核心建筑承压下降，夜间失守风险降低",
+                  "risk": "外围采集与前哨推进放缓",
+                  "affectedRoles": [
+                    "commander",
+                    "sergeant",
+                    "guardJi",
+                    "guardChen"
+                  ],
+                  "votes": 7,
+                  "voteWeight": 7,
+                  "ballots": [
+                    {
+                      "npcId": "commander",
+                      "weight": 3,
+                      "score": 58
+                    },
+                    {
+                      "npcId": "doctor",
+                      "weight": 1,
+                      "score": 45
+                    },
+                    {
+                      "npcId": "radio",
+                      "weight": 1,
+                      "score": 47
+                    },
+                    {
+                      "npcId": "sergeant",
+                      "weight": 2,
+                      "score": 55
+                    }
+                  ],
+                  "rank": 1,
+                  "validDay": 1,
+                  "effects": [
+                    {
+                      "op": "adjustMeter",
+                      "key": "campCollapse",
+                      "value": -3
+                    },
+                    {
+                      "op": "recordHistory",
+                      "key": "plan-defend-core-001:applied",
+                      "payload": {
+                        "category": "defense"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "plan-relay-priority-001",
+                  "title": "把中继优先级调到前线",
+                  "category": "research",
+                  "proposerId": "radio",
+                  "cost": 1,
+                  "expected": "提前识别下一波路线，降低共振压力",
+                  "risk": "短期会增加外围行动的暴露",
+                  "affectedRoles": [
+                    "radio",
+                    "sergeant",
+                    "guardJiang"
+                  ],
+                  "votes": 7,
+                  "voteWeight": 7,
+                  "ballots": [
+                    {
+                      "npcId": "commander",
+                      "weight": 3,
+                      "score": 41
+                    },
+                    {
+                      "npcId": "doctor",
+                      "weight": 1,
+                      "score": 40
+                    },
+                    {
+                      "npcId": "radio",
+                      "weight": 1,
+                      "score": 52
+                    },
+                    {
+                      "npcId": "sergeant",
+                      "weight": 2,
+                      "score": 38
+                    }
+                  ],
+                  "rank": 2,
+                  "validDay": 1,
+                  "effects": [
+                    {
+                      "op": "adjustMeter",
+                      "key": "resonancePressure",
+                      "value": -3
+                    },
+                    {
+                      "op": "adjustMeter",
+                      "key": "campCollapse",
+                      "value": 1
+                    },
+                    {
+                      "op": "recordHistory",
+                      "key": "plan-relay-priority-001:applied",
+                      "payload": {
+                        "category": "research"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "plan-research-signal-001",
+                  "title": "校准共振信标",
+                  "category": "research",
+                  "proposerId": "radio",
+                  "cost": 1,
+                  "expected": "中继预警更稳定，共振压力下降",
+                  "risk": "需要把人员留在指挥频道",
+                  "affectedRoles": [
+                    "radio",
+                    "commander",
+                    "doctor"
+                  ],
+                  "votes": 7,
+                  "voteWeight": 7,
+                  "ballots": [
+                    {
+                      "npcId": "commander",
+                      "weight": 3,
+                      "score": 39
+                    },
+                    {
+                      "npcId": "doctor",
+                      "weight": 1,
+                      "score": 38
+                    },
+                    {
+                      "npcId": "radio",
+                      "weight": 1,
+                      "score": 50
+                    },
+                    {
+                      "npcId": "sergeant",
+                      "weight": 2,
+                      "score": 36
+                    }
+                  ],
+                  "rank": 3,
+                  "validDay": 1,
+                  "effects": [
+                    {
+                      "op": "adjustMeter",
+                      "key": "resonancePressure",
+                      "value": -4
+                    },
+                    {
+                      "op": "recordHistory",
+                      "key": "plan-research-signal-001:applied",
+                      "payload": {
+                        "category": "research"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "defId": "camp-plan-meeting-001",
+            "definitionVersion": 1,
+            "instanceId": "camp-plan-meeting-001:d1",
+            "effects": []
+          },
+          "result": {
+            "payload": {
+              "instanceId": "camp-plan-meeting-001:d1",
+              "meetingDay": 1,
+              "action": "deny",
+              "selectedId": "plan-relay-priority-001",
+              "pointsBefore": 3,
+              "pointsAfter": 2,
+              "candidates": [
+                {
+                  "id": "plan-defend-core-001",
+                  "title": "收缩核心防线",
+                  "category": "defense",
+                  "proposerId": "commander",
+                  "cost": 1,
+                  "expected": "核心建筑承压下降，夜间失守风险降低",
+                  "risk": "外围采集与前哨推进放缓",
+                  "affectedRoles": [
+                    "commander",
+                    "sergeant",
+                    "guardJi",
+                    "guardChen"
+                  ],
+                  "votes": 7,
+                  "voteWeight": 7,
+                  "ballots": [
+                    {
+                      "npcId": "commander",
+                      "weight": 3,
+                      "score": 58
+                    },
+                    {
+                      "npcId": "doctor",
+                      "weight": 1,
+                      "score": 45
+                    },
+                    {
+                      "npcId": "radio",
+                      "weight": 1,
+                      "score": 47
+                    },
+                    {
+                      "npcId": "sergeant",
+                      "weight": 2,
+                      "score": 55
+                    }
+                  ],
+                  "rank": 1,
+                  "validDay": 1,
+                  "effects": [
+                    {
+                      "op": "adjustMeter",
+                      "key": "campCollapse",
+                      "value": -3
+                    },
+                    {
+                      "op": "recordHistory",
+                      "key": "plan-defend-core-001:applied",
+                      "payload": {
+                        "category": "defense"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "plan-relay-priority-001",
+                  "title": "把中继优先级调到前线",
+                  "category": "research",
+                  "proposerId": "radio",
+                  "cost": 1,
+                  "expected": "提前识别下一波路线，降低共振压力",
+                  "risk": "短期会增加外围行动的暴露",
+                  "affectedRoles": [
+                    "radio",
+                    "sergeant",
+                    "guardJiang"
+                  ],
+                  "votes": 7,
+                  "voteWeight": 7,
+                  "ballots": [
+                    {
+                      "npcId": "commander",
+                      "weight": 3,
+                      "score": 41
+                    },
+                    {
+                      "npcId": "doctor",
+                      "weight": 1,
+                      "score": 40
+                    },
+                    {
+                      "npcId": "radio",
+                      "weight": 1,
+                      "score": 52
+                    },
+                    {
+                      "npcId": "sergeant",
+                      "weight": 2,
+                      "score": 38
+                    }
+                  ],
+                  "rank": 2,
+                  "validDay": 1,
+                  "effects": [
+                    {
+                      "op": "adjustMeter",
+                      "key": "resonancePressure",
+                      "value": -3
+                    },
+                    {
+                      "op": "adjustMeter",
+                      "key": "campCollapse",
+                      "value": 1
+                    },
+                    {
+                      "op": "recordHistory",
+                      "key": "plan-relay-priority-001:applied",
+                      "payload": {
+                        "category": "research"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "plan-research-signal-001",
+                  "title": "校准共振信标",
+                  "category": "research",
+                  "proposerId": "radio",
+                  "cost": 1,
+                  "expected": "中继预警更稳定，共振压力下降",
+                  "risk": "需要把人员留在指挥频道",
+                  "affectedRoles": [
+                    "radio",
+                    "commander",
+                    "doctor"
+                  ],
+                  "votes": 7,
+                  "voteWeight": 7,
+                  "ballots": [
+                    {
+                      "npcId": "commander",
+                      "weight": 3,
+                      "score": 39
+                    },
+                    {
+                      "npcId": "doctor",
+                      "weight": 1,
+                      "score": 38
+                    },
+                    {
+                      "npcId": "radio",
+                      "weight": 1,
+                      "score": 50
+                    },
+                    {
+                      "npcId": "sergeant",
+                      "weight": 2,
+                      "score": 36
+                    }
+                  ],
+                  "rank": 3,
+                  "validDay": 1,
+                  "effects": [
+                    {
+                      "op": "adjustMeter",
+                      "key": "resonancePressure",
+                      "value": -4
+                    },
+                    {
+                      "op": "recordHistory",
+                      "key": "plan-research-signal-001:applied",
+                      "payload": {
+                        "category": "research"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "defId": "camp-plan-meeting-001",
+            "instanceId": "camp-plan-meeting-001:d1"
+          }
+        },
+        "selectedId": "plan-relay-priority-001"
+      }
+    },
+    {
+      "name": "trust 60 deny second intervention is rejected without second debit",
+      "ok": true,
+      "detail": {
+        "result": {
+          "ok": false,
+          "commandId": "cmd-000002",
+          "reason": "plan-not-open"
+        },
+        "commandPoints": 2
+      }
+    },
+    {
+      "name": "trust 60 modify commits exactly once for one CP",
+      "ok": true,
+      "detail": {
+        "result": {
+          "ok": true,
+          "commandId": "cmd-000001",
+          "event": {
+            "eventId": "evt-000004",
+            "seq": 4,
+            "type": "plan.meeting.committed",
+            "actorId": "player-1",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "instanceId": "camp-plan-meeting-001:d1",
+              "meetingDay": 1,
+              "action": "modify",
+              "selectedId": "plan-defend-core-001",
+              "pointsBefore": 3,
+              "pointsAfter": 2,
+              "candidates": [
+                {
+                  "id": "plan-defend-core-001",
+                  "title": "收缩核心防线",
+                  "category": "defense",
+                  "proposerId": "commander",
+                  "cost": 1,
+                  "expected": "核心建筑承压下降，夜间失守风险降低",
+                  "risk": "外围采集与前哨推进放缓",
+                  "affectedRoles": [
+                    "commander",
+                    "sergeant",
+                    "guardJi",
+                    "guardChen"
+                  ],
+                  "votes": 7,
+                  "voteWeight": 7,
+                  "ballots": [
+                    {
+                      "npcId": "commander",
+                      "weight": 3,
+                      "score": 58
+                    },
+                    {
+                      "npcId": "doctor",
+                      "weight": 1,
+                      "score": 45
+                    },
+                    {
+                      "npcId": "radio",
+                      "weight": 1,
+                      "score": 47
+                    },
+                    {
+                      "npcId": "sergeant",
+                      "weight": 2,
+                      "score": 55
+                    }
+                  ],
+                  "rank": 1,
+                  "validDay": 1,
+                  "effects": [
+                    {
+                      "op": "adjustMeter",
+                      "key": "campCollapse",
+                      "value": -3
+                    },
+                    {
+                      "op": "recordHistory",
+                      "key": "plan-defend-core-001:applied",
+                      "payload": {
+                        "category": "defense"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "plan-relay-priority-001",
+                  "title": "把中继优先级调到前线",
+                  "category": "research",
+                  "proposerId": "radio",
+                  "cost": 1,
+                  "expected": "提前识别下一波路线，降低共振压力",
+                  "risk": "短期会增加外围行动的暴露",
+                  "affectedRoles": [
+                    "radio",
+                    "sergeant",
+                    "guardJiang"
+                  ],
+                  "votes": 7,
+                  "voteWeight": 7,
+                  "ballots": [
+                    {
+                      "npcId": "commander",
+                      "weight": 3,
+                      "score": 41
+                    },
+                    {
+                      "npcId": "doctor",
+                      "weight": 1,
+                      "score": 40
+                    },
+                    {
+                      "npcId": "radio",
+                      "weight": 1,
+                      "score": 52
+                    },
+                    {
+                      "npcId": "sergeant",
+                      "weight": 2,
+                      "score": 38
+                    }
+                  ],
+                  "rank": 2,
+                  "validDay": 1,
+                  "effects": [
+                    {
+                      "op": "adjustMeter",
+                      "key": "resonancePressure",
+                      "value": -3
+                    },
+                    {
+                      "op": "adjustMeter",
+                      "key": "campCollapse",
+                      "value": 1
+                    },
+                    {
+                      "op": "recordHistory",
+                      "key": "plan-relay-priority-001:applied",
+                      "payload": {
+                        "category": "research"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "plan-research-signal-001",
+                  "title": "校准共振信标",
+                  "category": "research",
+                  "proposerId": "radio",
+                  "cost": 1,
+                  "expected": "中继预警更稳定，共振压力下降",
+                  "risk": "需要把人员留在指挥频道",
+                  "affectedRoles": [
+                    "radio",
+                    "commander",
+                    "doctor"
+                  ],
+                  "votes": 7,
+                  "voteWeight": 7,
+                  "ballots": [
+                    {
+                      "npcId": "commander",
+                      "weight": 3,
+                      "score": 39
+                    },
+                    {
+                      "npcId": "doctor",
+                      "weight": 1,
+                      "score": 38
+                    },
+                    {
+                      "npcId": "radio",
+                      "weight": 1,
+                      "score": 50
+                    },
+                    {
+                      "npcId": "sergeant",
+                      "weight": 2,
+                      "score": 36
+                    }
+                  ],
+                  "rank": 3,
+                  "validDay": 1,
+                  "effects": [
+                    {
+                      "op": "adjustMeter",
+                      "key": "resonancePressure",
+                      "value": -4
+                    },
+                    {
+                      "op": "recordHistory",
+                      "key": "plan-research-signal-001:applied",
+                      "payload": {
+                        "category": "research"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "defId": "camp-plan-meeting-001",
+            "definitionVersion": 1,
+            "instanceId": "camp-plan-meeting-001:d1",
+            "effects": []
+          },
+          "result": {
+            "payload": {
+              "instanceId": "camp-plan-meeting-001:d1",
+              "meetingDay": 1,
+              "action": "modify",
+              "selectedId": "plan-defend-core-001",
+              "pointsBefore": 3,
+              "pointsAfter": 2,
+              "candidates": [
+                {
+                  "id": "plan-defend-core-001",
+                  "title": "收缩核心防线",
+                  "category": "defense",
+                  "proposerId": "commander",
+                  "cost": 1,
+                  "expected": "核心建筑承压下降，夜间失守风险降低",
+                  "risk": "外围采集与前哨推进放缓",
+                  "affectedRoles": [
+                    "commander",
+                    "sergeant",
+                    "guardJi",
+                    "guardChen"
+                  ],
+                  "votes": 7,
+                  "voteWeight": 7,
+                  "ballots": [
+                    {
+                      "npcId": "commander",
+                      "weight": 3,
+                      "score": 58
+                    },
+                    {
+                      "npcId": "doctor",
+                      "weight": 1,
+                      "score": 45
+                    },
+                    {
+                      "npcId": "radio",
+                      "weight": 1,
+                      "score": 47
+                    },
+                    {
+                      "npcId": "sergeant",
+                      "weight": 2,
+                      "score": 55
+                    }
+                  ],
+                  "rank": 1,
+                  "validDay": 1,
+                  "effects": [
+                    {
+                      "op": "adjustMeter",
+                      "key": "campCollapse",
+                      "value": -3
+                    },
+                    {
+                      "op": "recordHistory",
+                      "key": "plan-defend-core-001:applied",
+                      "payload": {
+                        "category": "defense"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "plan-relay-priority-001",
+                  "title": "把中继优先级调到前线",
+                  "category": "research",
+                  "proposerId": "radio",
+                  "cost": 1,
+                  "expected": "提前识别下一波路线，降低共振压力",
+                  "risk": "短期会增加外围行动的暴露",
+                  "affectedRoles": [
+                    "radio",
+                    "sergeant",
+                    "guardJiang"
+                  ],
+                  "votes": 7,
+                  "voteWeight": 7,
+                  "ballots": [
+                    {
+                      "npcId": "commander",
+                      "weight": 3,
+                      "score": 41
+                    },
+                    {
+                      "npcId": "doctor",
+                      "weight": 1,
+                      "score": 40
+                    },
+                    {
+                      "npcId": "radio",
+                      "weight": 1,
+                      "score": 52
+                    },
+                    {
+                      "npcId": "sergeant",
+                      "weight": 2,
+                      "score": 38
+                    }
+                  ],
+                  "rank": 2,
+                  "validDay": 1,
+                  "effects": [
+                    {
+                      "op": "adjustMeter",
+                      "key": "resonancePressure",
+                      "value": -3
+                    },
+                    {
+                      "op": "adjustMeter",
+                      "key": "campCollapse",
+                      "value": 1
+                    },
+                    {
+                      "op": "recordHistory",
+                      "key": "plan-relay-priority-001:applied",
+                      "payload": {
+                        "category": "research"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "plan-research-signal-001",
+                  "title": "校准共振信标",
+                  "category": "research",
+                  "proposerId": "radio",
+                  "cost": 1,
+                  "expected": "中继预警更稳定，共振压力下降",
+                  "risk": "需要把人员留在指挥频道",
+                  "affectedRoles": [
+                    "radio",
+                    "commander",
+                    "doctor"
+                  ],
+                  "votes": 7,
+                  "voteWeight": 7,
+                  "ballots": [
+                    {
+                      "npcId": "commander",
+                      "weight": 3,
+                      "score": 39
+                    },
+                    {
+                      "npcId": "doctor",
+                      "weight": 1,
+                      "score": 38
+                    },
+                    {
+                      "npcId": "radio",
+                      "weight": 1,
+                      "score": 50
+                    },
+                    {
+                      "npcId": "sergeant",
+                      "weight": 2,
+                      "score": 36
+                    }
+                  ],
+                  "rank": 3,
+                  "validDay": 1,
+                  "effects": [
+                    {
+                      "op": "adjustMeter",
+                      "key": "resonancePressure",
+                      "value": -4
+                    },
+                    {
+                      "op": "recordHistory",
+                      "key": "plan-research-signal-001:applied",
+                      "payload": {
+                        "category": "research"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "defId": "camp-plan-meeting-001",
+            "instanceId": "camp-plan-meeting-001:d1"
+          }
+        },
+        "selectedId": "plan-defend-core-001"
+      }
+    },
+    {
+      "name": "trust 60 modify second intervention is rejected without second debit",
+      "ok": true,
+      "detail": {
+        "result": {
+          "ok": false,
+          "commandId": "cmd-000002",
+          "reason": "plan-not-open"
+        },
+        "commandPoints": 2
+      }
+    },
+    {
+      "name": "trust 80 support commits exactly once for one CP",
+      "ok": true,
+      "detail": {
+        "result": {
+          "ok": true,
+          "commandId": "cmd-000001",
+          "event": {
+            "eventId": "evt-000004",
+            "seq": 4,
+            "type": "plan.meeting.committed",
+            "actorId": "player-1",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "instanceId": "camp-plan-meeting-001:d1",
+              "meetingDay": 1,
+              "action": "support",
+              "selectedId": "plan-defend-core-001",
+              "pointsBefore": 3,
+              "pointsAfter": 2,
+              "candidates": [
+                {
+                  "id": "plan-defend-core-001",
+                  "title": "收缩核心防线",
+                  "category": "defense",
+                  "proposerId": "commander",
+                  "cost": 1,
+                  "expected": "核心建筑承压下降，夜间失守风险降低",
+                  "risk": "外围采集与前哨推进放缓",
+                  "affectedRoles": [
+                    "commander",
+                    "sergeant",
+                    "guardJi",
+                    "guardChen"
+                  ],
+                  "votes": 7,
+                  "voteWeight": 7,
+                  "ballots": [
+                    {
+                      "npcId": "commander",
+                      "weight": 3,
+                      "score": 58
+                    },
+                    {
+                      "npcId": "doctor",
+                      "weight": 1,
+                      "score": 45
+                    },
+                    {
+                      "npcId": "radio",
+                      "weight": 1,
+                      "score": 47
+                    },
+                    {
+                      "npcId": "sergeant",
+                      "weight": 2,
+                      "score": 55
+                    }
+                  ],
+                  "rank": 1,
+                  "validDay": 1,
+                  "effects": [
+                    {
+                      "op": "adjustMeter",
+                      "key": "campCollapse",
+                      "value": -3
+                    },
+                    {
+                      "op": "recordHistory",
+                      "key": "plan-defend-core-001:applied",
+                      "payload": {
+                        "category": "defense"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "plan-relay-priority-001",
+                  "title": "把中继优先级调到前线",
+                  "category": "research",
+                  "proposerId": "radio",
+                  "cost": 1,
+                  "expected": "提前识别下一波路线，降低共振压力",
+                  "risk": "短期会增加外围行动的暴露",
+                  "affectedRoles": [
+                    "radio",
+                    "sergeant",
+                    "guardJiang"
+                  ],
+                  "votes": 7,
+                  "voteWeight": 7,
+                  "ballots": [
+                    {
+                      "npcId": "commander",
+                      "weight": 3,
+                      "score": 41
+                    },
+                    {
+                      "npcId": "doctor",
+                      "weight": 1,
+                      "score": 40
+                    },
+                    {
+                      "npcId": "radio",
+                      "weight": 1,
+                      "score": 52
+                    },
+                    {
+                      "npcId": "sergeant",
+                      "weight": 2,
+                      "score": 38
+                    }
+                  ],
+                  "rank": 2,
+                  "validDay": 1,
+                  "effects": [
+                    {
+                      "op": "adjustMeter",
+                      "key": "resonancePressure",
+                      "value": -3
+                    },
+                    {
+                      "op": "adjustMeter",
+                      "key": "campCollapse",
+                      "value": 1
+                    },
+                    {
+                      "op": "recordHistory",
+                      "key": "plan-relay-priority-001:applied",
+                      "payload": {
+                        "category": "research"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "plan-research-signal-001",
+                  "title": "校准共振信标",
+                  "category": "research",
+                  "proposerId": "radio",
+                  "cost": 1,
+                  "expected": "中继预警更稳定，共振压力下降",
+                  "risk": "需要把人员留在指挥频道",
+                  "affectedRoles": [
+                    "radio",
+                    "commander",
+                    "doctor"
+                  ],
+                  "votes": 7,
+                  "voteWeight": 7,
+                  "ballots": [
+                    {
+                      "npcId": "commander",
+                      "weight": 3,
+                      "score": 39
+                    },
+                    {
+                      "npcId": "doctor",
+                      "weight": 1,
+                      "score": 38
+                    },
+                    {
+                      "npcId": "radio",
+                      "weight": 1,
+                      "score": 50
+                    },
+                    {
+                      "npcId": "sergeant",
+                      "weight": 2,
+                      "score": 36
+                    }
+                  ],
+                  "rank": 3,
+                  "validDay": 1,
+                  "effects": [
+                    {
+                      "op": "adjustMeter",
+                      "key": "resonancePressure",
+                      "value": -4
+                    },
+                    {
+                      "op": "recordHistory",
+                      "key": "plan-research-signal-001:applied",
+                      "payload": {
+                        "category": "research"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "defId": "camp-plan-meeting-001",
+            "definitionVersion": 1,
+            "instanceId": "camp-plan-meeting-001:d1",
+            "effects": []
+          },
+          "result": {
+            "payload": {
+              "instanceId": "camp-plan-meeting-001:d1",
+              "meetingDay": 1,
+              "action": "support",
+              "selectedId": "plan-defend-core-001",
+              "pointsBefore": 3,
+              "pointsAfter": 2,
+              "candidates": [
+                {
+                  "id": "plan-defend-core-001",
+                  "title": "收缩核心防线",
+                  "category": "defense",
+                  "proposerId": "commander",
+                  "cost": 1,
+                  "expected": "核心建筑承压下降，夜间失守风险降低",
+                  "risk": "外围采集与前哨推进放缓",
+                  "affectedRoles": [
+                    "commander",
+                    "sergeant",
+                    "guardJi",
+                    "guardChen"
+                  ],
+                  "votes": 7,
+                  "voteWeight": 7,
+                  "ballots": [
+                    {
+                      "npcId": "commander",
+                      "weight": 3,
+                      "score": 58
+                    },
+                    {
+                      "npcId": "doctor",
+                      "weight": 1,
+                      "score": 45
+                    },
+                    {
+                      "npcId": "radio",
+                      "weight": 1,
+                      "score": 47
+                    },
+                    {
+                      "npcId": "sergeant",
+                      "weight": 2,
+                      "score": 55
+                    }
+                  ],
+                  "rank": 1,
+                  "validDay": 1,
+                  "effects": [
+                    {
+                      "op": "adjustMeter",
+                      "key": "campCollapse",
+                      "value": -3
+                    },
+                    {
+                      "op": "recordHistory",
+                      "key": "plan-defend-core-001:applied",
+                      "payload": {
+                        "category": "defense"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "plan-relay-priority-001",
+                  "title": "把中继优先级调到前线",
+                  "category": "research",
+                  "proposerId": "radio",
+                  "cost": 1,
+                  "expected": "提前识别下一波路线，降低共振压力",
+                  "risk": "短期会增加外围行动的暴露",
+                  "affectedRoles": [
+                    "radio",
+                    "sergeant",
+                    "guardJiang"
+                  ],
+                  "votes": 7,
+                  "voteWeight": 7,
+                  "ballots": [
+                    {
+                      "npcId": "commander",
+                      "weight": 3,
+                      "score": 41
+                    },
+                    {
+                      "npcId": "doctor",
+                      "weight": 1,
+                      "score": 40
+                    },
+                    {
+                      "npcId": "radio",
+                      "weight": 1,
+                      "score": 52
+                    },
+                    {
+                      "npcId": "sergeant",
+                      "weight": 2,
+                      "score": 38
+                    }
+                  ],
+                  "rank": 2,
+                  "validDay": 1,
+                  "effects": [
+                    {
+                      "op": "adjustMeter",
+                      "key": "resonancePressure",
+                      "value": -3
+                    },
+                    {
+                      "op": "adjustMeter",
+                      "key": "campCollapse",
+                      "value": 1
+                    },
+                    {
+                      "op": "recordHistory",
+                      "key": "plan-relay-priority-001:applied",
+                      "payload": {
+                        "category": "research"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "plan-research-signal-001",
+                  "title": "校准共振信标",
+                  "category": "research",
+                  "proposerId": "radio",
+                  "cost": 1,
+                  "expected": "中继预警更稳定，共振压力下降",
+                  "risk": "需要把人员留在指挥频道",
+                  "affectedRoles": [
+                    "radio",
+                    "commander",
+                    "doctor"
+                  ],
+                  "votes": 7,
+                  "voteWeight": 7,
+                  "ballots": [
+                    {
+                      "npcId": "commander",
+                      "weight": 3,
+                      "score": 39
+                    },
+                    {
+                      "npcId": "doctor",
+                      "weight": 1,
+                      "score": 38
+                    },
+                    {
+                      "npcId": "radio",
+                      "weight": 1,
+                      "score": 50
+                    },
+                    {
+                      "npcId": "sergeant",
+                      "weight": 2,
+                      "score": 36
+                    }
+                  ],
+                  "rank": 3,
+                  "validDay": 1,
+                  "effects": [
+                    {
+                      "op": "adjustMeter",
+                      "key": "resonancePressure",
+                      "value": -4
+                    },
+                    {
+                      "op": "recordHistory",
+                      "key": "plan-research-signal-001:applied",
+                      "payload": {
+                        "category": "research"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "defId": "camp-plan-meeting-001",
+            "instanceId": "camp-plan-meeting-001:d1"
+          }
+        },
+        "selectedId": "plan-defend-core-001"
+      }
+    },
+    {
+      "name": "trust 80 support second intervention is rejected without second debit",
+      "ok": true,
+      "detail": {
+        "result": {
+          "ok": false,
+          "commandId": "cmd-000002",
+          "reason": "plan-not-open"
+        },
+        "commandPoints": 2
+      }
+    },
+    {
+      "name": "trust 80 deny commits exactly once for one CP",
+      "ok": true,
+      "detail": {
+        "result": {
+          "ok": true,
+          "commandId": "cmd-000001",
+          "event": {
+            "eventId": "evt-000004",
+            "seq": 4,
+            "type": "plan.meeting.committed",
+            "actorId": "player-1",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "instanceId": "camp-plan-meeting-001:d1",
+              "meetingDay": 1,
+              "action": "deny",
+              "selectedId": "plan-relay-priority-001",
+              "pointsBefore": 3,
+              "pointsAfter": 2,
+              "candidates": [
+                {
+                  "id": "plan-defend-core-001",
+                  "title": "收缩核心防线",
+                  "category": "defense",
+                  "proposerId": "commander",
+                  "cost": 1,
+                  "expected": "核心建筑承压下降，夜间失守风险降低",
+                  "risk": "外围采集与前哨推进放缓",
+                  "affectedRoles": [
+                    "commander",
+                    "sergeant",
+                    "guardJi",
+                    "guardChen"
+                  ],
+                  "votes": 7,
+                  "voteWeight": 7,
+                  "ballots": [
+                    {
+                      "npcId": "commander",
+                      "weight": 3,
+                      "score": 58
+                    },
+                    {
+                      "npcId": "doctor",
+                      "weight": 1,
+                      "score": 45
+                    },
+                    {
+                      "npcId": "radio",
+                      "weight": 1,
+                      "score": 47
+                    },
+                    {
+                      "npcId": "sergeant",
+                      "weight": 2,
+                      "score": 55
+                    }
+                  ],
+                  "rank": 1,
+                  "validDay": 1,
+                  "effects": [
+                    {
+                      "op": "adjustMeter",
+                      "key": "campCollapse",
+                      "value": -3
+                    },
+                    {
+                      "op": "recordHistory",
+                      "key": "plan-defend-core-001:applied",
+                      "payload": {
+                        "category": "defense"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "plan-relay-priority-001",
+                  "title": "把中继优先级调到前线",
+                  "category": "research",
+                  "proposerId": "radio",
+                  "cost": 1,
+                  "expected": "提前识别下一波路线，降低共振压力",
+                  "risk": "短期会增加外围行动的暴露",
+                  "affectedRoles": [
+                    "radio",
+                    "sergeant",
+                    "guardJiang"
+                  ],
+                  "votes": 7,
+                  "voteWeight": 7,
+                  "ballots": [
+                    {
+                      "npcId": "commander",
+                      "weight": 3,
+                      "score": 41
+                    },
+                    {
+                      "npcId": "doctor",
+                      "weight": 1,
+                      "score": 40
+                    },
+                    {
+                      "npcId": "radio",
+                      "weight": 1,
+                      "score": 52
+                    },
+                    {
+                      "npcId": "sergeant",
+                      "weight": 2,
+                      "score": 38
+                    }
+                  ],
+                  "rank": 2,
+                  "validDay": 1,
+                  "effects": [
+                    {
+                      "op": "adjustMeter",
+                      "key": "resonancePressure",
+                      "value": -3
+                    },
+                    {
+                      "op": "adjustMeter",
+                      "key": "campCollapse",
+                      "value": 1
+                    },
+                    {
+                      "op": "recordHistory",
+                      "key": "plan-relay-priority-001:applied",
+                      "payload": {
+                        "category": "research"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "plan-research-signal-001",
+                  "title": "校准共振信标",
+                  "category": "research",
+                  "proposerId": "radio",
+                  "cost": 1,
+                  "expected": "中继预警更稳定，共振压力下降",
+                  "risk": "需要把人员留在指挥频道",
+                  "affectedRoles": [
+                    "radio",
+                    "commander",
+                    "doctor"
+                  ],
+                  "votes": 7,
+                  "voteWeight": 7,
+                  "ballots": [
+                    {
+                      "npcId": "commander",
+                      "weight": 3,
+                      "score": 39
+                    },
+                    {
+                      "npcId": "doctor",
+                      "weight": 1,
+                      "score": 38
+                    },
+                    {
+                      "npcId": "radio",
+                      "weight": 1,
+                      "score": 50
+                    },
+                    {
+                      "npcId": "sergeant",
+                      "weight": 2,
+                      "score": 36
+                    }
+                  ],
+                  "rank": 3,
+                  "validDay": 1,
+                  "effects": [
+                    {
+                      "op": "adjustMeter",
+                      "key": "resonancePressure",
+                      "value": -4
+                    },
+                    {
+                      "op": "recordHistory",
+                      "key": "plan-research-signal-001:applied",
+                      "payload": {
+                        "category": "research"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "defId": "camp-plan-meeting-001",
+            "definitionVersion": 1,
+            "instanceId": "camp-plan-meeting-001:d1",
+            "effects": []
+          },
+          "result": {
+            "payload": {
+              "instanceId": "camp-plan-meeting-001:d1",
+              "meetingDay": 1,
+              "action": "deny",
+              "selectedId": "plan-relay-priority-001",
+              "pointsBefore": 3,
+              "pointsAfter": 2,
+              "candidates": [
+                {
+                  "id": "plan-defend-core-001",
+                  "title": "收缩核心防线",
+                  "category": "defense",
+                  "proposerId": "commander",
+                  "cost": 1,
+                  "expected": "核心建筑承压下降，夜间失守风险降低",
+                  "risk": "外围采集与前哨推进放缓",
+                  "affectedRoles": [
+                    "commander",
+                    "sergeant",
+                    "guardJi",
+                    "guardChen"
+                  ],
+                  "votes": 7,
+                  "voteWeight": 7,
+                  "ballots": [
+                    {
+                      "npcId": "commander",
+                      "weight": 3,
+                      "score": 58
+                    },
+                    {
+                      "npcId": "doctor",
+                      "weight": 1,
+                      "score": 45
+                    },
+                    {
+                      "npcId": "radio",
+                      "weight": 1,
+                      "score": 47
+                    },
+                    {
+                      "npcId": "sergeant",
+                      "weight": 2,
+                      "score": 55
+                    }
+                  ],
+                  "rank": 1,
+                  "validDay": 1,
+                  "effects": [
+                    {
+                      "op": "adjustMeter",
+                      "key": "campCollapse",
+                      "value": -3
+                    },
+                    {
+                      "op": "recordHistory",
+                      "key": "plan-defend-core-001:applied",
+                      "payload": {
+                        "category": "defense"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "plan-relay-priority-001",
+                  "title": "把中继优先级调到前线",
+                  "category": "research",
+                  "proposerId": "radio",
+                  "cost": 1,
+                  "expected": "提前识别下一波路线，降低共振压力",
+                  "risk": "短期会增加外围行动的暴露",
+                  "affectedRoles": [
+                    "radio",
+                    "sergeant",
+                    "guardJiang"
+                  ],
+                  "votes": 7,
+                  "voteWeight": 7,
+                  "ballots": [
+                    {
+                      "npcId": "commander",
+                      "weight": 3,
+                      "score": 41
+                    },
+                    {
+                      "npcId": "doctor",
+                      "weight": 1,
+                      "score": 40
+                    },
+                    {
+                      "npcId": "radio",
+                      "weight": 1,
+                      "score": 52
+                    },
+                    {
+                      "npcId": "sergeant",
+                      "weight": 2,
+                      "score": 38
+                    }
+                  ],
+                  "rank": 2,
+                  "validDay": 1,
+                  "effects": [
+                    {
+                      "op": "adjustMeter",
+                      "key": "resonancePressure",
+                      "value": -3
+                    },
+                    {
+                      "op": "adjustMeter",
+                      "key": "campCollapse",
+                      "value": 1
+                    },
+                    {
+                      "op": "recordHistory",
+                      "key": "plan-relay-priority-001:applied",
+                      "payload": {
+                        "category": "research"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "plan-research-signal-001",
+                  "title": "校准共振信标",
+                  "category": "research",
+                  "proposerId": "radio",
+                  "cost": 1,
+                  "expected": "中继预警更稳定，共振压力下降",
+                  "risk": "需要把人员留在指挥频道",
+                  "affectedRoles": [
+                    "radio",
+                    "commander",
+                    "doctor"
+                  ],
+                  "votes": 7,
+                  "voteWeight": 7,
+                  "ballots": [
+                    {
+                      "npcId": "commander",
+                      "weight": 3,
+                      "score": 39
+                    },
+                    {
+                      "npcId": "doctor",
+                      "weight": 1,
+                      "score": 38
+                    },
+                    {
+                      "npcId": "radio",
+                      "weight": 1,
+                      "score": 50
+                    },
+                    {
+                      "npcId": "sergeant",
+                      "weight": 2,
+                      "score": 36
+                    }
+                  ],
+                  "rank": 3,
+                  "validDay": 1,
+                  "effects": [
+                    {
+                      "op": "adjustMeter",
+                      "key": "resonancePressure",
+                      "value": -4
+                    },
+                    {
+                      "op": "recordHistory",
+                      "key": "plan-research-signal-001:applied",
+                      "payload": {
+                        "category": "research"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "defId": "camp-plan-meeting-001",
+            "instanceId": "camp-plan-meeting-001:d1"
+          }
+        },
+        "selectedId": "plan-relay-priority-001"
+      }
+    },
+    {
+      "name": "trust 80 deny second intervention is rejected without second debit",
+      "ok": true,
+      "detail": {
+        "result": {
+          "ok": false,
+          "commandId": "cmd-000002",
+          "reason": "plan-not-open"
+        },
+        "commandPoints": 2
+      }
+    },
+    {
+      "name": "trust 80 modify commits exactly once for one CP",
+      "ok": true,
+      "detail": {
+        "result": {
+          "ok": true,
+          "commandId": "cmd-000001",
+          "event": {
+            "eventId": "evt-000004",
+            "seq": 4,
+            "type": "plan.meeting.committed",
+            "actorId": "player-1",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "instanceId": "camp-plan-meeting-001:d1",
+              "meetingDay": 1,
+              "action": "modify",
+              "selectedId": "plan-defend-core-001",
+              "pointsBefore": 3,
+              "pointsAfter": 2,
+              "candidates": [
+                {
+                  "id": "plan-defend-core-001",
+                  "title": "收缩核心防线",
+                  "category": "defense",
+                  "proposerId": "commander",
+                  "cost": 1,
+                  "expected": "核心建筑承压下降，夜间失守风险降低",
+                  "risk": "外围采集与前哨推进放缓",
+                  "affectedRoles": [
+                    "commander",
+                    "sergeant",
+                    "guardJi",
+                    "guardChen"
+                  ],
+                  "votes": 7,
+                  "voteWeight": 7,
+                  "ballots": [
+                    {
+                      "npcId": "commander",
+                      "weight": 3,
+                      "score": 58
+                    },
+                    {
+                      "npcId": "doctor",
+                      "weight": 1,
+                      "score": 45
+                    },
+                    {
+                      "npcId": "radio",
+                      "weight": 1,
+                      "score": 47
+                    },
+                    {
+                      "npcId": "sergeant",
+                      "weight": 2,
+                      "score": 55
+                    }
+                  ],
+                  "rank": 1,
+                  "validDay": 1,
+                  "effects": [
+                    {
+                      "op": "adjustMeter",
+                      "key": "campCollapse",
+                      "value": -3
+                    },
+                    {
+                      "op": "recordHistory",
+                      "key": "plan-defend-core-001:applied",
+                      "payload": {
+                        "category": "defense"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "plan-relay-priority-001",
+                  "title": "把中继优先级调到前线",
+                  "category": "research",
+                  "proposerId": "radio",
+                  "cost": 1,
+                  "expected": "提前识别下一波路线，降低共振压力",
+                  "risk": "短期会增加外围行动的暴露",
+                  "affectedRoles": [
+                    "radio",
+                    "sergeant",
+                    "guardJiang"
+                  ],
+                  "votes": 7,
+                  "voteWeight": 7,
+                  "ballots": [
+                    {
+                      "npcId": "commander",
+                      "weight": 3,
+                      "score": 41
+                    },
+                    {
+                      "npcId": "doctor",
+                      "weight": 1,
+                      "score": 40
+                    },
+                    {
+                      "npcId": "radio",
+                      "weight": 1,
+                      "score": 52
+                    },
+                    {
+                      "npcId": "sergeant",
+                      "weight": 2,
+                      "score": 38
+                    }
+                  ],
+                  "rank": 2,
+                  "validDay": 1,
+                  "effects": [
+                    {
+                      "op": "adjustMeter",
+                      "key": "resonancePressure",
+                      "value": -3
+                    },
+                    {
+                      "op": "adjustMeter",
+                      "key": "campCollapse",
+                      "value": 1
+                    },
+                    {
+                      "op": "recordHistory",
+                      "key": "plan-relay-priority-001:applied",
+                      "payload": {
+                        "category": "research"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "plan-research-signal-001",
+                  "title": "校准共振信标",
+                  "category": "research",
+                  "proposerId": "radio",
+                  "cost": 1,
+                  "expected": "中继预警更稳定，共振压力下降",
+                  "risk": "需要把人员留在指挥频道",
+                  "affectedRoles": [
+                    "radio",
+                    "commander",
+                    "doctor"
+                  ],
+                  "votes": 7,
+                  "voteWeight": 7,
+                  "ballots": [
+                    {
+                      "npcId": "commander",
+                      "weight": 3,
+                      "score": 39
+                    },
+                    {
+                      "npcId": "doctor",
+                      "weight": 1,
+                      "score": 38
+                    },
+                    {
+                      "npcId": "radio",
+                      "weight": 1,
+                      "score": 50
+                    },
+                    {
+                      "npcId": "sergeant",
+                      "weight": 2,
+                      "score": 36
+                    }
+                  ],
+                  "rank": 3,
+                  "validDay": 1,
+                  "effects": [
+                    {
+                      "op": "adjustMeter",
+                      "key": "resonancePressure",
+                      "value": -4
+                    },
+                    {
+                      "op": "recordHistory",
+                      "key": "plan-research-signal-001:applied",
+                      "payload": {
+                        "category": "research"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "defId": "camp-plan-meeting-001",
+            "definitionVersion": 1,
+            "instanceId": "camp-plan-meeting-001:d1",
+            "effects": []
+          },
+          "result": {
+            "payload": {
+              "instanceId": "camp-plan-meeting-001:d1",
+              "meetingDay": 1,
+              "action": "modify",
+              "selectedId": "plan-defend-core-001",
+              "pointsBefore": 3,
+              "pointsAfter": 2,
+              "candidates": [
+                {
+                  "id": "plan-defend-core-001",
+                  "title": "收缩核心防线",
+                  "category": "defense",
+                  "proposerId": "commander",
+                  "cost": 1,
+                  "expected": "核心建筑承压下降，夜间失守风险降低",
+                  "risk": "外围采集与前哨推进放缓",
+                  "affectedRoles": [
+                    "commander",
+                    "sergeant",
+                    "guardJi",
+                    "guardChen"
+                  ],
+                  "votes": 7,
+                  "voteWeight": 7,
+                  "ballots": [
+                    {
+                      "npcId": "commander",
+                      "weight": 3,
+                      "score": 58
+                    },
+                    {
+                      "npcId": "doctor",
+                      "weight": 1,
+                      "score": 45
+                    },
+                    {
+                      "npcId": "radio",
+                      "weight": 1,
+                      "score": 47
+                    },
+                    {
+                      "npcId": "sergeant",
+                      "weight": 2,
+                      "score": 55
+                    }
+                  ],
+                  "rank": 1,
+                  "validDay": 1,
+                  "effects": [
+                    {
+                      "op": "adjustMeter",
+                      "key": "campCollapse",
+                      "value": -3
+                    },
+                    {
+                      "op": "recordHistory",
+                      "key": "plan-defend-core-001:applied",
+                      "payload": {
+                        "category": "defense"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "plan-relay-priority-001",
+                  "title": "把中继优先级调到前线",
+                  "category": "research",
+                  "proposerId": "radio",
+                  "cost": 1,
+                  "expected": "提前识别下一波路线，降低共振压力",
+                  "risk": "短期会增加外围行动的暴露",
+                  "affectedRoles": [
+                    "radio",
+                    "sergeant",
+                    "guardJiang"
+                  ],
+                  "votes": 7,
+                  "voteWeight": 7,
+                  "ballots": [
+                    {
+                      "npcId": "commander",
+                      "weight": 3,
+                      "score": 41
+                    },
+                    {
+                      "npcId": "doctor",
+                      "weight": 1,
+                      "score": 40
+                    },
+                    {
+                      "npcId": "radio",
+                      "weight": 1,
+                      "score": 52
+                    },
+                    {
+                      "npcId": "sergeant",
+                      "weight": 2,
+                      "score": 38
+                    }
+                  ],
+                  "rank": 2,
+                  "validDay": 1,
+                  "effects": [
+                    {
+                      "op": "adjustMeter",
+                      "key": "resonancePressure",
+                      "value": -3
+                    },
+                    {
+                      "op": "adjustMeter",
+                      "key": "campCollapse",
+                      "value": 1
+                    },
+                    {
+                      "op": "recordHistory",
+                      "key": "plan-relay-priority-001:applied",
+                      "payload": {
+                        "category": "research"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "plan-research-signal-001",
+                  "title": "校准共振信标",
+                  "category": "research",
+                  "proposerId": "radio",
+                  "cost": 1,
+                  "expected": "中继预警更稳定，共振压力下降",
+                  "risk": "需要把人员留在指挥频道",
+                  "affectedRoles": [
+                    "radio",
+                    "commander",
+                    "doctor"
+                  ],
+                  "votes": 7,
+                  "voteWeight": 7,
+                  "ballots": [
+                    {
+                      "npcId": "commander",
+                      "weight": 3,
+                      "score": 39
+                    },
+                    {
+                      "npcId": "doctor",
+                      "weight": 1,
+                      "score": 38
+                    },
+                    {
+                      "npcId": "radio",
+                      "weight": 1,
+                      "score": 50
+                    },
+                    {
+                      "npcId": "sergeant",
+                      "weight": 2,
+                      "score": 36
+                    }
+                  ],
+                  "rank": 3,
+                  "validDay": 1,
+                  "effects": [
+                    {
+                      "op": "adjustMeter",
+                      "key": "resonancePressure",
+                      "value": -4
+                    },
+                    {
+                      "op": "recordHistory",
+                      "key": "plan-research-signal-001:applied",
+                      "payload": {
+                        "category": "research"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "defId": "camp-plan-meeting-001",
+            "instanceId": "camp-plan-meeting-001:d1"
+          }
+        },
+        "selectedId": "plan-defend-core-001"
+      }
+    },
+    {
+      "name": "trust 80 modify second intervention is rejected without second debit",
+      "ok": true,
+      "detail": {
+        "result": {
+          "ok": false,
+          "commandId": "cmd-000002",
+          "reason": "plan-not-open"
+        },
+        "commandPoints": 2
+      }
+    },
+    {
+      "name": "candidate force=false freezes exact meeting and ledger",
+      "ok": true,
+      "detail": {
+        "fixtureMode": "actual current-day source generation",
+        "meetingDay": 1,
+        "currentDay": 1,
+        "result": {
+          "ok": true,
+          "duplicate": true
+        }
+      }
+    },
+    {
+      "name": "candidate force=true freezes exact meeting and ledger",
+      "ok": true,
+      "detail": {
+        "fixtureMode": "actual current-day source generation",
+        "meetingDay": 1,
+        "currentDay": 1,
+        "result": {
+          "ok": true,
+          "duplicate": true
+        }
+      }
+    },
+    {
+      "name": "committed force=false freezes exact meeting and ledger",
+      "ok": true,
+      "detail": {
+        "fixtureMode": "actual current-day source generation",
+        "meetingDay": 1,
+        "currentDay": 1,
+        "result": {
+          "ok": true,
+          "duplicate": true
+        }
+      }
+    },
+    {
+      "name": "committed force=true freezes exact meeting and ledger",
+      "ok": true,
+      "detail": {
+        "fixtureMode": "actual current-day source generation",
+        "meetingDay": 1,
+        "currentDay": 1,
+        "result": {
+          "ok": true,
+          "duplicate": true
+        }
+      }
+    },
+    {
+      "name": "resolved-transient force=false freezes exact meeting and ledger",
+      "ok": true,
+      "detail": {
+        "fixtureMode": "TEST-ONLY same-day transient derived from real source resolution; never written/booted",
+        "meetingDay": 2,
+        "currentDay": 2,
+        "result": {
+          "ok": true,
+          "duplicate": true
+        }
+      }
+    },
+    {
+      "name": "resolved-transient force=true freezes exact meeting and ledger",
+      "ok": true,
+      "detail": {
+        "fixtureMode": "TEST-ONLY same-day transient derived from real source resolution; never written/booted",
+        "meetingDay": 2,
+        "currentDay": 2,
+        "result": {
+          "ok": true,
+          "duplicate": true
+        }
+      }
+    },
+    {
+      "name": "fallback-transient force=false freezes exact meeting and ledger",
+      "ok": true,
+      "detail": {
+        "fixtureMode": "TEST-ONLY same-day transient derived from real source resolution; never written/booted",
+        "meetingDay": 2,
+        "currentDay": 2,
+        "result": {
+          "ok": true,
+          "duplicate": true
+        }
+      }
+    },
+    {
+      "name": "fallback-transient force=true freezes exact meeting and ledger",
+      "ok": true,
+      "detail": {
+        "fixtureMode": "TEST-ONLY same-day transient derived from real source resolution; never written/booted",
+        "meetingDay": 2,
+        "currentDay": 2,
+        "result": {
+          "ok": true,
+          "duplicate": true
+        }
+      }
+    },
+    {
+      "name": "extra same-day SUMMARY keeps playerAction/choice and blocks second CP intervention",
+      "ok": true,
+      "detail": {
+        "originalId": "camp-plan-meeting-001:d1",
+        "originalAction": "modify",
+        "pointsBefore": 3,
+        "pointsAfter": 3,
+        "generate": {
+          "ok": true,
+          "duplicate": true
+        },
+        "second": {
+          "ok": false,
+          "commandId": "cmd-000002",
+          "reason": "plan-not-open"
+        }
+      }
+    },
+    {
+      "name": "trust eighty zero CP rejects without mutation",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "night command preserves its real night Gate without CP mutation",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "old complete committed save boots without reward or schema change",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "restored legacy meeting remains frozen and cannot spend another CP",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "legacy already-committed low-trust plan still executes once on real next day",
+      "ok": true,
+      "detail": {
+        "meeting": {
+          "version": 1,
+          "status": "resolved",
+          "meetingDay": 1,
+          "instanceId": "camp-plan-meeting-001:d1",
+          "source": "TEST-ONLY original generation",
+          "candidates": [
+            {
+              "id": "plan-defend-core-001",
+              "title": "收缩核心防线",
+              "category": "defense",
+              "proposerId": "commander",
+              "cost": 1,
+              "expected": "核心建筑承压下降，夜间失守风险降低",
+              "risk": "外围采集与前哨推进放缓",
+              "affectedRoles": [
+                "commander",
+                "sergeant",
+                "guardJi",
+                "guardChen"
+              ],
+              "votes": 7,
+              "voteWeight": 7,
+              "ballots": [
+                {
+                  "npcId": "commander",
+                  "weight": 3,
+                  "score": 58
+                },
+                {
+                  "npcId": "doctor",
+                  "weight": 1,
+                  "score": 45
+                },
+                {
+                  "npcId": "radio",
+                  "weight": 1,
+                  "score": 47
+                },
+                {
+                  "npcId": "sergeant",
+                  "weight": 2,
+                  "score": 55
+                }
+              ],
+              "rank": 1,
+              "validDay": 1,
+              "effects": [
+                {
+                  "op": "adjustMeter",
+                  "key": "campCollapse",
+                  "value": -3
+                },
+                {
+                  "op": "recordHistory",
+                  "key": "plan-defend-core-001:applied",
+                  "payload": {
+                    "category": "defense"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "plan-relay-priority-001",
+              "title": "把中继优先级调到前线",
+              "category": "research",
+              "proposerId": "radio",
+              "cost": 1,
+              "expected": "提前识别下一波路线，降低共振压力",
+              "risk": "短期会增加外围行动的暴露",
+              "affectedRoles": [
+                "radio",
+                "sergeant",
+                "guardJiang"
+              ],
+              "votes": 7,
+              "voteWeight": 7,
+              "ballots": [
+                {
+                  "npcId": "commander",
+                  "weight": 3,
+                  "score": 41
+                },
+                {
+                  "npcId": "doctor",
+                  "weight": 1,
+                  "score": 40
+                },
+                {
+                  "npcId": "radio",
+                  "weight": 1,
+                  "score": 52
+                },
+                {
+                  "npcId": "sergeant",
+                  "weight": 2,
+                  "score": 38
+                }
+              ],
+              "rank": 2,
+              "validDay": 1,
+              "effects": [
+                {
+                  "op": "adjustMeter",
+                  "key": "resonancePressure",
+                  "value": -3
+                },
+                {
+                  "op": "adjustMeter",
+                  "key": "campCollapse",
+                  "value": 1
+                },
+                {
+                  "op": "recordHistory",
+                  "key": "plan-relay-priority-001:applied",
+                  "payload": {
+                    "category": "research"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "plan-research-signal-001",
+              "title": "校准共振信标",
+              "category": "research",
+              "proposerId": "radio",
+              "cost": 1,
+              "expected": "中继预警更稳定，共振压力下降",
+              "risk": "需要把人员留在指挥频道",
+              "affectedRoles": [
+                "radio",
+                "commander",
+                "doctor"
+              ],
+              "votes": 7,
+              "voteWeight": 7,
+              "ballots": [
+                {
+                  "npcId": "commander",
+                  "weight": 3,
+                  "score": 39
+                },
+                {
+                  "npcId": "doctor",
+                  "weight": 1,
+                  "score": 38
+                },
+                {
+                  "npcId": "radio",
+                  "weight": 1,
+                  "score": 50
+                },
+                {
+                  "npcId": "sergeant",
+                  "weight": 2,
+                  "score": 36
+                }
+              ],
+              "rank": 3,
+              "validDay": 1,
+              "effects": [
+                {
+                  "op": "adjustMeter",
+                  "key": "resonancePressure",
+                  "value": -4
+                },
+                {
+                  "op": "recordHistory",
+                  "key": "plan-research-signal-001:applied",
+                  "payload": {
+                    "category": "research"
+                  }
+                }
+              ]
+            }
+          ],
+          "selectedId": "plan-relay-priority-001",
+          "playerAction": "modify",
+          "committedDay": 1,
+          "resolvedDay": 2,
+          "autonomyResult": {
+            "route": "modify",
+            "selectedId": "plan-relay-priority-001",
+            "effectId": "plan:1:plan-relay-priority-001",
+            "results": [
+              {
+                "ok": true,
+                "op": "adjustMeter",
+                "key": "resonancePressure",
+                "before": 25,
+                "after": 22
+              },
+              {
+                "ok": true,
+                "op": "adjustMeter",
+                "key": "campCollapse",
+                "before": 0,
+                "after": 1
+              },
+              {
+                "ok": true,
+                "op": "recordHistory",
+                "key": "plan-relay-priority-001:applied"
+              }
+            ]
+          },
+          "history": [
+            {
+              "meetingDay": 1,
+              "resolvedDay": 2,
+              "selectedId": "plan-relay-priority-001",
+              "action": "modify",
+              "effectId": "plan:1:plan-relay-priority-001"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "real day2 prior day1 success is authoritative once",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "real day2 first meeting after success remains allowed then frozen",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "real day2 prior day1 fallback is authoritative once",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "real day2 first meeting after fallback remains allowed then frozen",
+      "ok": true,
+      "detail": {}
+    }
+  ],
+  "failures": [],
+  "legacyInput": {
+    "testOnly": true,
+    "naturalGameplay": false,
+    "acquiredBy": "actual complete base inline runtime CommandBus commit and saveProgress writer",
+    "writerHtmlSha256": "412c69fd80e79e8b307511798c4d6bf5bee712116dbb45c3df5c951ad3100ba8",
+    "fixtureName": "plan-committed-legacy-basewriter.json",
+    "fixtureSha256": "d9b8811fed88c25f9f1da0849d772d92e19742280f41e2aec3871d178d9bb05b",
+    "checksum": "707889bd",
+    "instanceId": "camp-plan-meeting-001:d1",
+    "commandPoints": 1,
+    "provenance": {
+      "testOnly": true,
+      "naturalGameplay": false,
+      "acquiredBy": "actual complete base inline runtime CommandBus commit and saveProgress writer",
+      "writerHtmlSha256": "412c69fd80e79e8b307511798c4d6bf5bee712116dbb45c3df5c951ad3100ba8",
+      "fileSha256": "d9b8811fed88c25f9f1da0849d772d92e19742280f41e2aec3871d178d9bb05b",
+      "checksum": "707889bd",
+      "saveVersion": 21,
+      "contentVersion": 3,
+      "instanceId": "camp-plan-meeting-001:d1",
+      "declaredInputs": {
+        "campTrust": 20,
+        "commandPointsBeforeCommit": 2,
+        "action": "modify",
+        "selectedOriginalRank": 2
+      },
+      "receiptFabricated": false,
+      "scope": "source method compatibility fixture, not browser evidence or a minimal partial save"
+    }
+  },
+  "ok": true,
+  "count": 48,
+  "passed": 48
+}

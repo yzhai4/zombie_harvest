@@ -1,0 +1,5235 @@
+{
+  "schema": "NpcPublicActionsBrowserV1",
+  "runner": "browser-npc-public-actions-v1",
+  "runnerSha256": "42ed580151cd311bdc116b013817b07e543f16039362f973946193fff10f2dcb",
+  "sourceHtmlSha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+  "sourceFixtureSha256": "1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f",
+  "repositoryRootResolution": "explicit --repo-root for external execution",
+  "deathOriginalWriterSha256": "5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4",
+  "deathCaptureMetaSha256": "a24e58af9364dc6a81b86a7fddf0b618fc19ca72c9823dcaff0756e4f32b25e5",
+  "originalHtmlSha256": "19cb05c4341ab1353e1ac5362b685a4af3a88fc826e349504b9d57a42639eb6f",
+  "sharedFixtureHelperSha256": "e9872eeba85d49019d1bd806f3dd18357a5abc8f2f92922922f6a5324ec220dc",
+  "ioAdapterSha256": "e0b467f2b9ee75b941f72c6338ed5376f4e6d0a8c7a1d1a7c210fa630efc63e7",
+  "mode": "TEST-ONLY offline actual-loader-writer derivatives with actual public browser controls",
+  "naturalGameplay": false,
+  "naturalGameplayClaim": false,
+  "injectionBeforeLoader": true,
+  "gameStateMutationAfterBoot": false,
+  "hiddenGameActionsAfterBoot": false,
+  "parameters": {
+    "source": "artifact:source.html",
+    "input": "artifact:original-writer.json",
+    "deathInteract": "artifact:actual-advance-death-interact-parent-native-input.json",
+    "deathOrder": "artifact:actual-advance-death-order-parent-native-input.json",
+    "expectedHtmlSha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b",
+    "expectedInputSha256": "1e29b29ed13ea722b20955d79306b307820099cfad4d78cd68175f770d8f269f",
+    "repoRoot": "explicit external dependency root",
+    "out": "artifact:./"
+  },
+  "checks": [
+    {
+      "name": "band-1.018-view-only: boot HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "band-1.018-view-only: baseline-real-pagehide-writer HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "band-1.018-view-only: public target identity remains original same NPC",
+      "ok": true
+    },
+    {
+      "name": "band-1.018-view-only: original ten identities retained",
+      "ok": true
+    },
+    {
+      "name": "band-1.018-view-only: view enabled but support/orders disabled at 1.018",
+      "ok": true
+    },
+    {
+      "name": "band-1.018-view-only: after-view-real-writer HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "band-1.018-view-only: pure view has no persisted business facts",
+      "ok": true
+    },
+    {
+      "name": "band-1.018-view-only: near roster card allows pure view",
+      "ok": true
+    },
+    {
+      "name": "band-1.018-view-only: roster renderer baseline preserves existing business values",
+      "ok": true
+    },
+    {
+      "name": "band-1.018-view-only: after-roster-view-real-writer HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "band-1.018-view-only: roster view has no persisted business facts",
+      "ok": true
+    },
+    {
+      "name": "band-1.018-view-only: authored visible target tile is public",
+      "ok": true
+    },
+    {
+      "name": "band-1.018-view-only: after-E-rejection-real-writer HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "band-1.018-view-only: rejection retains exact original NPC/player command",
+      "ok": true
+    },
+    {
+      "name": "band-1.018-view-only: rejected command owns no advance",
+      "ok": true
+    },
+    {
+      "name": "band-1.018-view-only: hovered E rejects exact NPC without fake success",
+      "ok": true
+    },
+    {
+      "name": "band-1.018-view-only: terminal-real-writer HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "inner-zero-energy-first-E: boot HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "inner-zero-energy-first-E: baseline-real-pagehide-writer HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "inner-zero-energy-first-E: public target identity remains original same NPC",
+      "ok": true
+    },
+    {
+      "name": "inner-zero-energy-first-E: original ten identities retained",
+      "ok": true
+    },
+    {
+      "name": "inner-zero-energy-first-E: zero energy keeps view but paid button disabled",
+      "ok": true
+    },
+    {
+      "name": "inner-zero-energy-first-E: authored visible target tile is public",
+      "ok": true
+    },
+    {
+      "name": "inner-zero-energy-first-E: dialogue-open exact original ID/player typed receipt",
+      "ok": true
+    },
+    {
+      "name": "inner-zero-energy-first-E: dialogue-open gross payment and clock",
+      "ok": true
+    },
+    {
+      "name": "inner-zero-energy-first-E: explicit real proof stages",
+      "ok": true
+    },
+    {
+      "name": "inner-zero-energy-first-E: zero-step outcome has no child",
+      "ok": true
+    },
+    {
+      "name": "inner-zero-energy-first-E: view did not arm paid support and first E is zero cost",
+      "ok": true
+    },
+    {
+      "name": "inner-zero-energy-first-E: after-paid-E-rejection-real-writer HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "inner-zero-energy-first-E: rejection retains exact original NPC/player command",
+      "ok": true
+    },
+    {
+      "name": "inner-zero-energy-first-E: rejected command owns no advance",
+      "ok": true
+    },
+    {
+      "name": "inner-zero-energy-first-E: second E rejects energy without support receipt",
+      "ok": true
+    },
+    {
+      "name": "inner-zero-energy-first-E: terminal-real-writer HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "inner-public-buttons-support-reload: boot HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "inner-public-buttons-support-reload: baseline-real-pagehide-writer HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "inner-public-buttons-support-reload: public target identity remains original same NPC",
+      "ok": true
+    },
+    {
+      "name": "inner-public-buttons-support-reload: original ten identities retained",
+      "ok": true
+    },
+    {
+      "name": "inner-public-buttons-support-reload: dialogue-open exact original ID/player typed receipt",
+      "ok": true
+    },
+    {
+      "name": "inner-public-buttons-support-reload: dialogue-open gross payment and clock",
+      "ok": true
+    },
+    {
+      "name": "inner-public-buttons-support-reload: explicit real proof stages",
+      "ok": true
+    },
+    {
+      "name": "inner-public-buttons-support-reload: zero-step outcome has no child",
+      "ok": true
+    },
+    {
+      "name": "inner-public-buttons-support-reload: public confirmation is explicit and same ID",
+      "ok": true
+    },
+    {
+      "name": "inner-public-buttons-support-reload: support-requested exact original ID/player typed receipt",
+      "ok": true
+    },
+    {
+      "name": "inner-public-buttons-support-reload: support-requested gross payment and clock",
+      "ok": true
+    },
+    {
+      "name": "inner-public-buttons-support-reload: explicit real proof stages",
+      "ok": true
+    },
+    {
+      "name": "inner-public-buttons-support-reload: actual 15 minute child causal join",
+      "ok": true
+    },
+    {
+      "name": "inner-public-buttons-support-reload: actual same NPC support bond and memory changed",
+      "ok": true
+    },
+    {
+      "name": "inner-public-buttons-support-reload: support-reloaded-real-writer HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "inner-public-buttons-support-reload: reload keeps same support without repeat payment or support",
+      "ok": true
+    },
+    {
+      "name": "inner-public-buttons-support-reload: terminal-real-writer HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "critical-low-risk-guard: boot HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "critical-low-risk-guard: baseline-real-pagehide-writer HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "critical-low-risk-guard: public target identity remains original same NPC",
+      "ok": true
+    },
+    {
+      "name": "critical-low-risk-guard: original ten identities retained",
+      "ok": true
+    },
+    {
+      "name": "critical-low-risk-guard: original critical low-risk order remains publicly enabled",
+      "ok": true
+    },
+    {
+      "name": "critical-low-risk-guard: support-and-order exact original ID/player typed receipt",
+      "ok": true
+    },
+    {
+      "name": "critical-low-risk-guard: support-and-order gross payment and clock",
+      "ok": true
+    },
+    {
+      "name": "critical-low-risk-guard: explicit real proof stages",
+      "ok": true
+    },
+    {
+      "name": "critical-low-risk-guard: actual 15 minute child causal join",
+      "ok": true
+    },
+    {
+      "name": "critical-low-risk-guard: real critical guard support remains same NPC",
+      "ok": true
+    },
+    {
+      "name": "critical-low-risk-guard: terminal-real-writer HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "supported-autonomous-refusal: boot HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "supported-autonomous-refusal: baseline-real-pagehide-writer HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "supported-autonomous-refusal: public target identity remains original same NPC",
+      "ok": true
+    },
+    {
+      "name": "supported-autonomous-refusal: original ten identities retained",
+      "ok": true
+    },
+    {
+      "name": "supported-autonomous-refusal: legitimate request remains available before autonomy refusal",
+      "ok": true
+    },
+    {
+      "name": "supported-autonomous-refusal: rejection retains exact original NPC/player command",
+      "ok": true
+    },
+    {
+      "name": "supported-autonomous-refusal: rejected command owns no advance",
+      "ok": true
+    },
+    {
+      "name": "supported-autonomous-refusal: autonomous refusal keeps its own facts without order success",
+      "ok": true
+    },
+    {
+      "name": "supported-autonomous-refusal: refusal-after-automatic-save-reload HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "supported-autonomous-refusal: reload retains automatically saved lawful refusal",
+      "ok": true
+    },
+    {
+      "name": "supported-autonomous-refusal: terminal-real-writer HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "supported-status-inquiry: boot HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "supported-status-inquiry: baseline-real-pagehide-writer HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "supported-status-inquiry: public target identity remains original same NPC",
+      "ok": true
+    },
+    {
+      "name": "supported-status-inquiry: original ten identities retained",
+      "ok": true
+    },
+    {
+      "name": "supported-status-inquiry: authored visible target tile is public",
+      "ok": true
+    },
+    {
+      "name": "supported-status-inquiry: status-inquiry exact original ID/player typed receipt",
+      "ok": true
+    },
+    {
+      "name": "supported-status-inquiry: status-inquiry gross payment and clock",
+      "ok": true
+    },
+    {
+      "name": "supported-status-inquiry: explicit real proof stages",
+      "ok": true
+    },
+    {
+      "name": "supported-status-inquiry: zero-step outcome has no child",
+      "ok": true
+    },
+    {
+      "name": "supported-status-inquiry: status inquiry preserves support and original memory effect",
+      "ok": true
+    },
+    {
+      "name": "supported-status-inquiry: terminal-real-writer HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "actual-advance-death-interact: boot HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "actual-advance-death-interact: public target identity remains original same NPC",
+      "ok": true
+    },
+    {
+      "name": "actual-advance-death-interact: original ten identities retained",
+      "ok": true
+    },
+    {
+      "name": "actual-advance-death-interact: authored visible target tile is public",
+      "ok": true
+    },
+    {
+      "name": "actual-advance-death-interact: dialogue-open exact original ID/player typed receipt",
+      "ok": true
+    },
+    {
+      "name": "actual-advance-death-interact: dialogue-open gross payment and clock",
+      "ok": true
+    },
+    {
+      "name": "actual-advance-death-interact: explicit real proof stages",
+      "ok": true
+    },
+    {
+      "name": "actual-advance-death-interact: zero-step outcome has no child",
+      "ok": true
+    },
+    {
+      "name": "actual-advance-death-interact: genuine paid public control qualifies living original target",
+      "ok": true
+    },
+    {
+      "name": "actual-advance-death-interact: interruption and rejection preserve actual player parent",
+      "ok": true
+    },
+    {
+      "name": "actual-advance-death-interact: gross2 and actual15 child retained",
+      "ok": true
+    },
+    {
+      "name": "actual-advance-death-interact: death happened inside actual paid child",
+      "ok": true
+    },
+    {
+      "name": "actual-advance-death-interact: real post-simulation death state gets no completion effect",
+      "ok": true
+    },
+    {
+      "name": "actual-advance-death-interact: only original lawful pre-simulation own effects retained",
+      "ok": true
+    },
+    {
+      "name": "actual-advance-death-interact: interruption-after-automatic-save-reload HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "actual-advance-death-interact: automatic interrupted writer reload has no resurrected support/order/repeated payment",
+      "ok": true
+    },
+    {
+      "name": "actual-advance-death-interact: terminal-real-writer HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "actual-advance-death-order: boot HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "actual-advance-death-order: public target identity remains original same NPC",
+      "ok": true
+    },
+    {
+      "name": "actual-advance-death-order: original ten identities retained",
+      "ok": true
+    },
+    {
+      "name": "actual-advance-death-order: genuine paid public control qualifies living original target",
+      "ok": true
+    },
+    {
+      "name": "actual-advance-death-order: interruption and rejection preserve actual player parent",
+      "ok": true
+    },
+    {
+      "name": "actual-advance-death-order: gross2 and actual15 child retained",
+      "ok": true
+    },
+    {
+      "name": "actual-advance-death-order: death happened inside actual paid child",
+      "ok": true
+    },
+    {
+      "name": "actual-advance-death-order: real post-simulation death state gets no completion effect",
+      "ok": true
+    },
+    {
+      "name": "actual-advance-death-order: only original lawful pre-simulation own effects retained",
+      "ok": true
+    },
+    {
+      "name": "actual-advance-death-order: interruption-after-automatic-save-reload HTTP exact source",
+      "ok": true
+    },
+    {
+      "name": "actual-advance-death-order: automatic interrupted writer reload has no resurrected support/order/repeated payment",
+      "ok": true
+    },
+    {
+      "name": "actual-advance-death-order: terminal-real-writer HTTP exact source",
+      "ok": true
+    }
+  ],
+  "errors": [],
+  "scenes": [
+    {
+      "name": "band-1.018-view-only",
+      "kind": "band",
+      "distance": 1.0181599311636986,
+      "paused": true,
+      "energy": 10,
+      "inputSha256": "f7a3f1ca9114e571684cb97579d8a2d767192198ba38fa9f97ed8476300b6b04",
+      "fixtureSourceCategory": "offline derivative of unchanged actual source19cb writer",
+      "changes": [
+        "TEST-ONLY player relocated to (11,9), original sergeant relocated by declared distance; original ten IDs retained",
+        "TEST-ONLY existing enemies cleared; other original NPCs placed far away; moderate needs, zero need/work clocks, story cooldown1000 and null motion targets isolate this consumer",
+        "TEST-ONLY energy=10, paused=true, rate1; no browser post-boot state or receipt injection"
+      ],
+      "offlineViewGate": {
+        "ok": true,
+        "npc": {
+          "id": "sergeant",
+          "name": "贺川",
+          "role": "士官长",
+          "icon": "🪖",
+          "desc": "训练士兵并负责换防",
+          "homeZone": "barracks",
+          "workZone": "eastGate",
+          "x": 11,
+          "y": 10.018159931163698,
+          "maxHp": 100,
+          "hp": 100,
+          "lifeState": "healthy",
+          "wounds": [],
+          "morale": 72,
+          "behaviorState": "work",
+          "currentOrder": null,
+          "fallbackPoint": {
+            "x": 2,
+            "y": 2
+          },
+          "inventory": {
+            "medicine": 0,
+            "ammo": 2
+          },
+          "appearance": {
+            "bodyType": "broad",
+            "skin": "#d89d77",
+            "hair": "#42372f",
+            "hairStyle": "cropped",
+            "signature": "whistle",
+            "palette": {
+              "cloth": "#896d54",
+              "clothDark": "#554332",
+              "accent": "#d9a94f",
+              "tool": "#c4cbd0"
+            },
+            "equipment": {
+              "head": "helmet",
+              "outer": "uniform",
+              "back": "fieldPack",
+              "weapon": "rifle",
+              "offhand": "whistle",
+              "tool": "rifle"
+            }
+          },
+          "equipment": {
+            "head": "helmet",
+            "outer": "uniform",
+            "back": "fieldPack",
+            "weapon": "rifle",
+            "offhand": "whistle",
+            "tool": "rifle"
+          },
+          "personality": {
+            "courage": 86,
+            "duty": 90,
+            "compassion": 48,
+            "discipline": 86,
+            "riskTolerance": 78,
+            "loyalty": 84
+          },
+          "attributes": {
+            "production": 88,
+            "weaponSkill": 83,
+            "armorSkill": 88,
+            "turretSkill": 87,
+            "buildSkill": 80,
+            "medicalSkill": 65,
+            "researchSkill": 82,
+            "logisticsSkill": 89,
+            "commandSkill": 86
+          },
+          "hero": {
+            "tier": "ordinary",
+            "status": "locked",
+            "progress": 0,
+            "activeSkill": null,
+            "passiveSkill": null,
+            "promotedDay": null
+          },
+          "relations": {
+            "trustToPlayer": 0,
+            "trustToCommander": 0,
+            "bondToPlayer": 0,
+            "respectToPlayer": 0,
+            "fearOfPlayer": 0,
+            "resentmentOfPlayer": 0,
+            "loyaltyToCamp": 84,
+            "loyaltyToCommander": 80,
+            "belongingToCamp": 76,
+            "values": {
+              "safety": 50,
+              "order": 86,
+              "compassion": 48,
+              "autonomy": 50,
+              "truth": 50
+            },
+            "knowledgeOfPlayer": {
+              "facts": [],
+              "lastHeardAt": 0
+            },
+            "opinionFlags": {},
+            "allies": [
+              "commander"
+            ],
+            "rivals": []
+          },
+          "memory": {
+            "helpedByPlayer": 0,
+            "witnessedDeaths": 0,
+            "failedOrders": 0,
+            "importantEvents": [],
+            "relayCoreHandoff": null
+          },
+          "needs": {
+            "hunger": 5,
+            "fatigue": 5,
+            "stress": 10,
+            "energy": 90,
+            "social": 10,
+            "safety": 10
+          },
+          "sanity": 72,
+          "sanityClock": 0,
+          "sanityLastReason": "营地仍然安全",
+          "scheduleState": "work",
+          "lastReport": "",
+          "actingRole": null,
+          "actingFor": null,
+          "eventChain": {
+            "step": 0,
+            "cooldown": 1000,
+            "active": null,
+            "resolved": []
+          },
+          "perception": {
+            "clock": 0,
+            "targetId": null,
+            "targetAt": 0,
+            "contacts": {},
+            "sharedUntil": 0
+          },
+          "supportRequested": false,
+          "order": null,
+          "bond": 0,
+          "combatHp": 100,
+          "combatStatus": "ready",
+          "simMoveClock": 0,
+          "needClock": 0,
+          "workClock": 0,
+          "workPulseSeq": 0,
+          "workHistory": [],
+          "routineIntent": null,
+          "escapePressure": 0,
+          "motionTarget": null,
+          "garrisonedOutpostId": null
+        },
+        "npcId": "sergeant",
+        "distance": 1.018159931163698,
+        "operation": "view",
+        "requiresAdvance": false
+      },
+      "offlineSupportGate": {
+        "ok": false,
+        "reason": "npc-too-far"
+      },
+      "verified": true,
+      "publicBefore": {
+        "text": "🪖\n贺川 · 士官长\n训练士兵并负责换防 · 也可按 1-7 选择\n×\n−\n1🔎 查看贺川状态\n查看范围 1.25 格 · 不请求支援、不支付体力\n2💬 交谈并请求贺川支援\n请靠近到 1 格内，再请求支援或下达命令\n3🎯 守墙\n请靠近到 1 格内，再请求支援或下达命令\n4🎯 巡逻\n请靠近到 1 格内，再请求支援或下达命令\n5🎯 支援玩家\n请靠近到 1 格内，再请求支援或下达命令\n6🔎 探索废弃水车\n消耗 3 行动体力 · 记录到收藏册\n7✦ 营地核心\n预演：营地核心的功能交互，不会改变位置",
+        "title": "贺川 · 士官长",
+        "buttons": [
+          {
+            "action": "npcView",
+            "npcId": "sergeant",
+            "text": "1🔎 查看贺川状态\n查看范围 1.25 格 · 不请求支援、不支付体力",
+            "disabled": false
+          },
+          {
+            "action": "npc",
+            "npcId": "sergeant",
+            "text": "2💬 交谈并请求贺川支援\n请靠近到 1 格内，再请求支援或下达命令",
+            "disabled": true
+          },
+          {
+            "action": "npcOrder",
+            "npcId": "sergeant",
+            "order": "guard",
+            "text": "3🎯 守墙\n请靠近到 1 格内，再请求支援或下达命令",
+            "disabled": true
+          },
+          {
+            "action": "npcOrder",
+            "npcId": "sergeant",
+            "order": "patrol",
+            "text": "4🎯 巡逻\n请靠近到 1 格内，再请求支援或下达命令",
+            "disabled": true
+          },
+          {
+            "action": "npcOrder",
+            "npcId": "sergeant",
+            "order": "cover",
+            "text": "5🎯 支援玩家\n请靠近到 1 格内，再请求支援或下达命令",
+            "disabled": true
+          },
+          {
+            "action": "landmark",
+            "text": "6🔎 探索废弃水车\n消耗 3 行动体力 · 记录到收藏册",
+            "disabled": false
+          },
+          {
+            "action": "area",
+            "text": "7✦ 营地核心\n预演：营地核心的功能交互，不会改变位置",
+            "disabled": false
+          }
+        ]
+      },
+      "viewToast": "贺川：健康 · HP 100/100 · work · 尚未请求支援；请求或命令需靠近到 1 格内",
+      "rosterRendererBaseline": {
+        "waitMs": 12621,
+        "reason": "world-tick",
+        "manualSave": false,
+        "cardNotClickedYet": true
+      },
+      "rejectionToast": "请靠近到 1 格内，再请求支援或下达命令",
+      "receipts": [
+        {
+          "event": {
+            "eventId": "evt-000003",
+            "seq": 3,
+            "type": "command.rejected",
+            "actorId": "player-1",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "type": "npc.interact",
+              "reason": "npc-too-far"
+            }
+          },
+          "command": {
+            "commandId": "cmd-000001",
+            "type": "npc.interact",
+            "actorId": "player-1",
+            "payload": {
+              "npcId": "sergeant"
+            }
+          }
+        }
+      ],
+      "terminal": {
+        "day": 1,
+        "hour": 6,
+        "minute": 0,
+        "energy": 10,
+        "roster": 10,
+        "target": {
+          "id": "sergeant",
+          "x": 11,
+          "y": 10.018159931163698,
+          "maxHp": 100,
+          "hp": 100,
+          "lifeState": "healthy",
+          "wounds": [],
+          "morale": 72,
+          "behaviorState": "work",
+          "currentOrder": null,
+          "fallbackPoint": {
+            "x": 2,
+            "y": 2
+          },
+          "homeZone": "barracks",
+          "workZone": "eastGate",
+          "inventory": {
+            "medicine": 0,
+            "ammo": 2
+          },
+          "appearance": {
+            "bodyType": "broad",
+            "skin": "#d89d77",
+            "hair": "#42372f",
+            "hairStyle": "cropped",
+            "signature": "whistle",
+            "palette": {
+              "cloth": "#896d54",
+              "clothDark": "#554332",
+              "accent": "#d9a94f",
+              "tool": "#c4cbd0"
+            },
+            "equipment": {
+              "head": "helmet",
+              "outer": "uniform",
+              "back": "fieldPack",
+              "weapon": "rifle",
+              "offhand": "whistle",
+              "tool": "rifle"
+            }
+          },
+          "equipment": {
+            "head": "helmet",
+            "outer": "uniform",
+            "back": "fieldPack",
+            "weapon": "rifle",
+            "offhand": "whistle",
+            "tool": "rifle"
+          },
+          "personality": {
+            "courage": 86,
+            "duty": 90,
+            "compassion": 48,
+            "discipline": 86,
+            "riskTolerance": 78,
+            "loyalty": 84
+          },
+          "relations": {
+            "trustToPlayer": 0,
+            "trustToCommander": 0,
+            "bondToPlayer": 0,
+            "respectToPlayer": 0,
+            "fearOfPlayer": 0,
+            "resentmentOfPlayer": 0,
+            "loyaltyToCamp": 84,
+            "loyaltyToCommander": 80,
+            "belongingToCamp": 76,
+            "values": {
+              "safety": 50,
+              "order": 86,
+              "compassion": 48,
+              "autonomy": 50,
+              "truth": 50
+            },
+            "knowledgeOfPlayer": {
+              "facts": [],
+              "lastHeardAt": 0
+            },
+            "opinionFlags": {},
+            "allies": [
+              "commander"
+            ],
+            "rivals": []
+          },
+          "memory": {
+            "helpedByPlayer": 0,
+            "witnessedDeaths": 0,
+            "failedOrders": 0,
+            "importantEvents": [],
+            "relayCoreHandoff": null
+          },
+          "attributes": {
+            "production": 88,
+            "weaponSkill": 83,
+            "armorSkill": 88,
+            "turretSkill": 87,
+            "buildSkill": 80,
+            "medicalSkill": 65,
+            "researchSkill": 82,
+            "logisticsSkill": 89,
+            "commandSkill": 86
+          },
+          "hero": {
+            "tier": "ordinary",
+            "status": "locked",
+            "progress": 0,
+            "activeSkill": null,
+            "passiveSkill": null,
+            "promotedDay": null
+          },
+          "bond": 0,
+          "supportRequested": false,
+          "order": null,
+          "simMoveClock": 0,
+          "needClock": 0,
+          "workClock": 0,
+          "routineIntent": null,
+          "workPulseSeq": 0,
+          "workHistory": [],
+          "motionTarget": null,
+          "needs": {
+            "hunger": 5,
+            "fatigue": 5,
+            "stress": 10,
+            "energy": 90,
+            "social": 10,
+            "safety": 10
+          },
+          "sanity": 72,
+          "sanityClock": 0,
+          "sanityLastReason": "营地仍然安全",
+          "scheduleState": "work",
+          "lastReport": "",
+          "actingRole": null,
+          "actingFor": null,
+          "garrisonedOutpostId": null,
+          "eventChain": {
+            "step": 0,
+            "cooldown": 1000,
+            "active": null,
+            "resolved": []
+          },
+          "perception": {
+            "clock": 0,
+            "targetId": null,
+            "targetAt": 0,
+            "contacts": {},
+            "sharedUntil": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "inner-zero-energy-first-E",
+      "kind": "zero",
+      "distance": 0.5,
+      "paused": true,
+      "energy": 0,
+      "inputSha256": "c4e979704aac5443d5bd851aa936f72da90c3fcacdf0cdcc91360dff134acfca",
+      "fixtureSourceCategory": "offline derivative of unchanged actual source19cb writer",
+      "changes": [
+        "TEST-ONLY player relocated to (11,9), original sergeant relocated by declared distance; original ten IDs retained",
+        "TEST-ONLY existing enemies cleared; other original NPCs placed far away; moderate needs, zero need/work clocks, story cooldown1000 and null motion targets isolate this consumer",
+        "TEST-ONLY energy=0, paused=true, rate1; no browser post-boot state or receipt injection"
+      ],
+      "offlineViewGate": {
+        "ok": true,
+        "npc": {
+          "id": "sergeant",
+          "name": "贺川",
+          "role": "士官长",
+          "icon": "🪖",
+          "desc": "训练士兵并负责换防",
+          "homeZone": "barracks",
+          "workZone": "eastGate",
+          "x": 11,
+          "y": 9.5,
+          "maxHp": 100,
+          "hp": 100,
+          "lifeState": "healthy",
+          "wounds": [],
+          "morale": 72,
+          "behaviorState": "work",
+          "currentOrder": null,
+          "fallbackPoint": {
+            "x": 2,
+            "y": 2
+          },
+          "inventory": {
+            "medicine": 0,
+            "ammo": 2
+          },
+          "appearance": {
+            "bodyType": "broad",
+            "skin": "#d89d77",
+            "hair": "#42372f",
+            "hairStyle": "cropped",
+            "signature": "whistle",
+            "palette": {
+              "cloth": "#896d54",
+              "clothDark": "#554332",
+              "accent": "#d9a94f",
+              "tool": "#c4cbd0"
+            },
+            "equipment": {
+              "head": "helmet",
+              "outer": "uniform",
+              "back": "fieldPack",
+              "weapon": "rifle",
+              "offhand": "whistle",
+              "tool": "rifle"
+            }
+          },
+          "equipment": {
+            "head": "helmet",
+            "outer": "uniform",
+            "back": "fieldPack",
+            "weapon": "rifle",
+            "offhand": "whistle",
+            "tool": "rifle"
+          },
+          "personality": {
+            "courage": 86,
+            "duty": 90,
+            "compassion": 48,
+            "discipline": 86,
+            "riskTolerance": 78,
+            "loyalty": 84
+          },
+          "attributes": {
+            "production": 88,
+            "weaponSkill": 83,
+            "armorSkill": 88,
+            "turretSkill": 87,
+            "buildSkill": 80,
+            "medicalSkill": 65,
+            "researchSkill": 82,
+            "logisticsSkill": 89,
+            "commandSkill": 86
+          },
+          "hero": {
+            "tier": "ordinary",
+            "status": "locked",
+            "progress": 0,
+            "activeSkill": null,
+            "passiveSkill": null,
+            "promotedDay": null
+          },
+          "relations": {
+            "trustToPlayer": 0,
+            "trustToCommander": 0,
+            "bondToPlayer": 0,
+            "respectToPlayer": 0,
+            "fearOfPlayer": 0,
+            "resentmentOfPlayer": 0,
+            "loyaltyToCamp": 84,
+            "loyaltyToCommander": 80,
+            "belongingToCamp": 76,
+            "values": {
+              "safety": 50,
+              "order": 86,
+              "compassion": 48,
+              "autonomy": 50,
+              "truth": 50
+            },
+            "knowledgeOfPlayer": {
+              "facts": [],
+              "lastHeardAt": 0
+            },
+            "opinionFlags": {},
+            "allies": [
+              "commander"
+            ],
+            "rivals": []
+          },
+          "memory": {
+            "helpedByPlayer": 0,
+            "witnessedDeaths": 0,
+            "failedOrders": 0,
+            "importantEvents": [],
+            "relayCoreHandoff": null
+          },
+          "needs": {
+            "hunger": 5,
+            "fatigue": 5,
+            "stress": 10,
+            "energy": 90,
+            "social": 10,
+            "safety": 10
+          },
+          "sanity": 72,
+          "sanityClock": 0,
+          "sanityLastReason": "营地仍然安全",
+          "scheduleState": "work",
+          "lastReport": "",
+          "actingRole": null,
+          "actingFor": null,
+          "eventChain": {
+            "step": 0,
+            "cooldown": 1000,
+            "active": null,
+            "resolved": []
+          },
+          "perception": {
+            "clock": 0,
+            "targetId": null,
+            "targetAt": 0,
+            "contacts": {},
+            "sharedUntil": 0
+          },
+          "supportRequested": false,
+          "order": null,
+          "bond": 0,
+          "combatHp": 100,
+          "combatStatus": "ready",
+          "simMoveClock": 0,
+          "needClock": 0,
+          "workClock": 0,
+          "workPulseSeq": 0,
+          "workHistory": [],
+          "routineIntent": null,
+          "escapePressure": 0,
+          "motionTarget": null,
+          "garrisonedOutpostId": null
+        },
+        "npcId": "sergeant",
+        "distance": 0.5,
+        "operation": "view",
+        "requiresAdvance": false
+      },
+      "offlineSupportGate": {
+        "ok": false,
+        "reason": "npc-energy"
+      },
+      "verified": true,
+      "publicBefore": {
+        "text": "🪖\n贺川 · 士官长\n训练士兵并负责换防 · 也可按 1-7 选择\n×\n−\n1🔎 查看贺川状态\n查看范围 1.25 格 · 不请求支援、不支付体力\n2💬 交谈并请求贺川支援\n需要 2 行动体力；仍可查看状态\n3🎯 守墙\n需要 2 行动体力；仍可查看状态\n4🎯 巡逻\n需要 2 行动体力；仍可查看状态\n5🎯 支援玩家\n需要 2 行动体力；仍可查看状态\n6🔎 探索废弃水车\n消耗 3 行动体力 · 记录到收藏册\n7✦ 营地核心\n预演：营地核心的功能交互，不会改变位置",
+        "title": "贺川 · 士官长",
+        "buttons": [
+          {
+            "action": "npcView",
+            "npcId": "sergeant",
+            "text": "1🔎 查看贺川状态\n查看范围 1.25 格 · 不请求支援、不支付体力",
+            "disabled": false
+          },
+          {
+            "action": "npc",
+            "npcId": "sergeant",
+            "text": "2💬 交谈并请求贺川支援\n需要 2 行动体力；仍可查看状态",
+            "disabled": true
+          },
+          {
+            "action": "npcOrder",
+            "npcId": "sergeant",
+            "order": "guard",
+            "text": "3🎯 守墙\n需要 2 行动体力；仍可查看状态",
+            "disabled": true
+          },
+          {
+            "action": "npcOrder",
+            "npcId": "sergeant",
+            "order": "patrol",
+            "text": "4🎯 巡逻\n需要 2 行动体力；仍可查看状态",
+            "disabled": true
+          },
+          {
+            "action": "npcOrder",
+            "npcId": "sergeant",
+            "order": "cover",
+            "text": "5🎯 支援玩家\n需要 2 行动体力；仍可查看状态",
+            "disabled": true
+          },
+          {
+            "action": "landmark",
+            "text": "6🔎 探索废弃水车\n消耗 3 行动体力 · 记录到收藏册",
+            "disabled": true
+          },
+          {
+            "action": "area",
+            "text": "7✦ 营地核心\n预演：营地核心的功能交互，不会改变位置",
+            "disabled": false
+          }
+        ]
+      },
+      "receipts": [
+        {
+          "event": {
+            "eventId": "evt-000003",
+            "seq": 3,
+            "type": "npc.dialogueOpened",
+            "actorId": "player-1",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "ok": true,
+              "proofVersion": 1,
+              "npcId": "sergeant",
+              "operation": "dialogue-open",
+              "outcome": "completed",
+              "target": {
+                "id": "sergeant",
+                "before": {
+                  "id": "sergeant",
+                  "supportRequested": false,
+                  "order": null,
+                  "bond": 0,
+                  "hp": 100,
+                  "lifeState": "healthy",
+                  "sanity": 72,
+                  "helpedByPlayer": 0
+                },
+                "beforeAdvance": null,
+                "afterAdvance": null,
+                "atCompletion": {
+                  "id": "sergeant",
+                  "supportRequested": false,
+                  "order": null,
+                  "bond": 0,
+                  "hp": 100,
+                  "lifeState": "healthy",
+                  "sanity": 72,
+                  "helpedByPlayer": 0
+                },
+                "presentAtCompletion": true,
+                "snapshotStages": {
+                  "before": "before-payment-and-own-effects",
+                  "beforeAdvance": null,
+                  "afterAdvance": null,
+                  "atCompletion": "reducer-final-state"
+                }
+              },
+              "payment": {
+                "cost": {
+                  "energy": 0
+                },
+                "before": {
+                  "energy": 0
+                },
+                "after": {
+                  "energy": 0
+                }
+              },
+              "resources": {
+                "energyBefore": 0,
+                "energyAfterPayment": 0,
+                "energyAfter": 0
+              },
+              "clock": {
+                "before": {
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 0,
+                  "world": 360
+                },
+                "after": {
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 0,
+                  "world": 360
+                },
+                "requestedMinutes": 0,
+                "elapsedMinutes": 0
+              },
+              "advance": null
+            }
+          },
+          "command": {
+            "commandId": "cmd-000001",
+            "type": "npc.interact",
+            "actorId": "player-1",
+            "payload": {
+              "npcId": "sergeant"
+            }
+          }
+        },
+        {
+          "event": {
+            "eventId": "evt-000004",
+            "seq": 4,
+            "type": "command.rejected",
+            "actorId": "player-1",
+            "commandId": "cmd-000002",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "type": "npc.interact",
+              "reason": "npc-energy"
+            }
+          },
+          "command": {
+            "commandId": "cmd-000002",
+            "type": "npc.interact",
+            "actorId": "player-1",
+            "payload": {
+              "npcId": "sergeant"
+            }
+          }
+        }
+      ],
+      "terminal": {
+        "day": 1,
+        "hour": 6,
+        "minute": 0,
+        "energy": 0,
+        "roster": 10,
+        "target": {
+          "id": "sergeant",
+          "x": 11,
+          "y": 9.5,
+          "maxHp": 100,
+          "hp": 100,
+          "lifeState": "healthy",
+          "wounds": [],
+          "morale": 72,
+          "behaviorState": "work",
+          "currentOrder": null,
+          "fallbackPoint": {
+            "x": 2,
+            "y": 2
+          },
+          "homeZone": "barracks",
+          "workZone": "eastGate",
+          "inventory": {
+            "medicine": 0,
+            "ammo": 2
+          },
+          "appearance": {
+            "bodyType": "broad",
+            "skin": "#d89d77",
+            "hair": "#42372f",
+            "hairStyle": "cropped",
+            "signature": "whistle",
+            "palette": {
+              "cloth": "#896d54",
+              "clothDark": "#554332",
+              "accent": "#d9a94f",
+              "tool": "#c4cbd0"
+            },
+            "equipment": {
+              "head": "helmet",
+              "outer": "uniform",
+              "back": "fieldPack",
+              "weapon": "rifle",
+              "offhand": "whistle",
+              "tool": "rifle"
+            }
+          },
+          "equipment": {
+            "head": "helmet",
+            "outer": "uniform",
+            "back": "fieldPack",
+            "weapon": "rifle",
+            "offhand": "whistle",
+            "tool": "rifle"
+          },
+          "personality": {
+            "courage": 86,
+            "duty": 90,
+            "compassion": 48,
+            "discipline": 86,
+            "riskTolerance": 78,
+            "loyalty": 84
+          },
+          "relations": {
+            "trustToPlayer": 0,
+            "trustToCommander": 0,
+            "bondToPlayer": 0,
+            "respectToPlayer": 0,
+            "fearOfPlayer": 0,
+            "resentmentOfPlayer": 0,
+            "loyaltyToCamp": 84,
+            "loyaltyToCommander": 80,
+            "belongingToCamp": 76,
+            "values": {
+              "safety": 50,
+              "order": 86,
+              "compassion": 48,
+              "autonomy": 50,
+              "truth": 50
+            },
+            "knowledgeOfPlayer": {
+              "facts": [],
+              "lastHeardAt": 0
+            },
+            "opinionFlags": {},
+            "allies": [
+              "commander"
+            ],
+            "rivals": []
+          },
+          "memory": {
+            "helpedByPlayer": 0,
+            "witnessedDeaths": 0,
+            "failedOrders": 0,
+            "importantEvents": [],
+            "relayCoreHandoff": null
+          },
+          "attributes": {
+            "production": 88,
+            "weaponSkill": 83,
+            "armorSkill": 88,
+            "turretSkill": 87,
+            "buildSkill": 80,
+            "medicalSkill": 65,
+            "researchSkill": 82,
+            "logisticsSkill": 89,
+            "commandSkill": 86
+          },
+          "hero": {
+            "tier": "ordinary",
+            "status": "locked",
+            "progress": 0,
+            "activeSkill": null,
+            "passiveSkill": null,
+            "promotedDay": null
+          },
+          "bond": 0,
+          "supportRequested": false,
+          "order": null,
+          "simMoveClock": 0,
+          "needClock": 0,
+          "workClock": 0,
+          "routineIntent": null,
+          "workPulseSeq": 0,
+          "workHistory": [],
+          "motionTarget": null,
+          "needs": {
+            "hunger": 5,
+            "fatigue": 5,
+            "stress": 10,
+            "energy": 90,
+            "social": 10,
+            "safety": 10
+          },
+          "sanity": 72,
+          "sanityClock": 0,
+          "sanityLastReason": "营地仍然安全",
+          "scheduleState": "work",
+          "lastReport": "",
+          "actingRole": null,
+          "actingFor": null,
+          "garrisonedOutpostId": null,
+          "eventChain": {
+            "step": 0,
+            "cooldown": 1000,
+            "active": null,
+            "resolved": []
+          },
+          "perception": {
+            "clock": 0,
+            "targetId": null,
+            "targetAt": 0,
+            "contacts": {},
+            "sharedUntil": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "inner-public-buttons-support-reload",
+      "kind": "support",
+      "distance": 0.5,
+      "paused": false,
+      "energy": 20,
+      "inputSha256": "0b38ac4d817656db582cf9c869989b21a13653f7c9ae3d6514ea1ff93502088b",
+      "fixtureSourceCategory": "offline derivative of unchanged actual source19cb writer",
+      "changes": [
+        "TEST-ONLY player relocated to (11,9), original sergeant relocated by declared distance; original ten IDs retained",
+        "TEST-ONLY existing enemies cleared; other original NPCs placed far away; moderate needs, zero need/work clocks, story cooldown1000 and null motion targets isolate this consumer",
+        "TEST-ONLY energy=20, paused=false, rate1; no browser post-boot state or receipt injection"
+      ],
+      "offlineViewGate": {
+        "ok": true,
+        "npc": {
+          "id": "sergeant",
+          "name": "贺川",
+          "role": "士官长",
+          "icon": "🪖",
+          "desc": "训练士兵并负责换防",
+          "homeZone": "barracks",
+          "workZone": "eastGate",
+          "x": 11,
+          "y": 9.5,
+          "maxHp": 100,
+          "hp": 100,
+          "lifeState": "healthy",
+          "wounds": [],
+          "morale": 72,
+          "behaviorState": "work",
+          "currentOrder": null,
+          "fallbackPoint": {
+            "x": 2,
+            "y": 2
+          },
+          "inventory": {
+            "medicine": 0,
+            "ammo": 2
+          },
+          "appearance": {
+            "bodyType": "broad",
+            "skin": "#d89d77",
+            "hair": "#42372f",
+            "hairStyle": "cropped",
+            "signature": "whistle",
+            "palette": {
+              "cloth": "#896d54",
+              "clothDark": "#554332",
+              "accent": "#d9a94f",
+              "tool": "#c4cbd0"
+            },
+            "equipment": {
+              "head": "helmet",
+              "outer": "uniform",
+              "back": "fieldPack",
+              "weapon": "rifle",
+              "offhand": "whistle",
+              "tool": "rifle"
+            }
+          },
+          "equipment": {
+            "head": "helmet",
+            "outer": "uniform",
+            "back": "fieldPack",
+            "weapon": "rifle",
+            "offhand": "whistle",
+            "tool": "rifle"
+          },
+          "personality": {
+            "courage": 86,
+            "duty": 90,
+            "compassion": 48,
+            "discipline": 86,
+            "riskTolerance": 78,
+            "loyalty": 84
+          },
+          "attributes": {
+            "production": 88,
+            "weaponSkill": 83,
+            "armorSkill": 88,
+            "turretSkill": 87,
+            "buildSkill": 80,
+            "medicalSkill": 65,
+            "researchSkill": 82,
+            "logisticsSkill": 89,
+            "commandSkill": 86
+          },
+          "hero": {
+            "tier": "ordinary",
+            "status": "locked",
+            "progress": 0,
+            "activeSkill": null,
+            "passiveSkill": null,
+            "promotedDay": null
+          },
+          "relations": {
+            "trustToPlayer": 0,
+            "trustToCommander": 0,
+            "bondToPlayer": 0,
+            "respectToPlayer": 0,
+            "fearOfPlayer": 0,
+            "resentmentOfPlayer": 0,
+            "loyaltyToCamp": 84,
+            "loyaltyToCommander": 80,
+            "belongingToCamp": 76,
+            "values": {
+              "safety": 50,
+              "order": 86,
+              "compassion": 48,
+              "autonomy": 50,
+              "truth": 50
+            },
+            "knowledgeOfPlayer": {
+              "facts": [],
+              "lastHeardAt": 0
+            },
+            "opinionFlags": {},
+            "allies": [
+              "commander"
+            ],
+            "rivals": []
+          },
+          "memory": {
+            "helpedByPlayer": 0,
+            "witnessedDeaths": 0,
+            "failedOrders": 0,
+            "importantEvents": [],
+            "relayCoreHandoff": null
+          },
+          "needs": {
+            "hunger": 5,
+            "fatigue": 5,
+            "stress": 10,
+            "energy": 90,
+            "social": 10,
+            "safety": 10
+          },
+          "sanity": 72,
+          "sanityClock": 0,
+          "sanityLastReason": "营地仍然安全",
+          "scheduleState": "work",
+          "lastReport": "",
+          "actingRole": null,
+          "actingFor": null,
+          "eventChain": {
+            "step": 0,
+            "cooldown": 1000,
+            "active": null,
+            "resolved": []
+          },
+          "perception": {
+            "clock": 0,
+            "targetId": null,
+            "targetAt": 0,
+            "contacts": {},
+            "sharedUntil": 0
+          },
+          "supportRequested": false,
+          "order": null,
+          "bond": 0,
+          "combatHp": 100,
+          "combatStatus": "ready",
+          "simMoveClock": 0,
+          "needClock": 0,
+          "workClock": 0,
+          "workPulseSeq": 0,
+          "workHistory": [],
+          "routineIntent": null,
+          "escapePressure": 0,
+          "motionTarget": null,
+          "garrisonedOutpostId": null
+        },
+        "npcId": "sergeant",
+        "distance": 0.5,
+        "operation": "view",
+        "requiresAdvance": false
+      },
+      "offlineSupportGate": {
+        "ok": true,
+        "npc": {
+          "id": "sergeant",
+          "name": "贺川",
+          "role": "士官长",
+          "icon": "🪖",
+          "desc": "训练士兵并负责换防",
+          "homeZone": "barracks",
+          "workZone": "eastGate",
+          "x": 11,
+          "y": 9.5,
+          "maxHp": 100,
+          "hp": 100,
+          "lifeState": "healthy",
+          "wounds": [],
+          "morale": 72,
+          "behaviorState": "work",
+          "currentOrder": null,
+          "fallbackPoint": {
+            "x": 2,
+            "y": 2
+          },
+          "inventory": {
+            "medicine": 0,
+            "ammo": 2
+          },
+          "appearance": {
+            "bodyType": "broad",
+            "skin": "#d89d77",
+            "hair": "#42372f",
+            "hairStyle": "cropped",
+            "signature": "whistle",
+            "palette": {
+              "cloth": "#896d54",
+              "clothDark": "#554332",
+              "accent": "#d9a94f",
+              "tool": "#c4cbd0"
+            },
+            "equipment": {
+              "head": "helmet",
+              "outer": "uniform",
+              "back": "fieldPack",
+              "weapon": "rifle",
+              "offhand": "whistle",
+              "tool": "rifle"
+            }
+          },
+          "equipment": {
+            "head": "helmet",
+            "outer": "uniform",
+            "back": "fieldPack",
+            "weapon": "rifle",
+            "offhand": "whistle",
+            "tool": "rifle"
+          },
+          "personality": {
+            "courage": 86,
+            "duty": 90,
+            "compassion": 48,
+            "discipline": 86,
+            "riskTolerance": 78,
+            "loyalty": 84
+          },
+          "attributes": {
+            "production": 88,
+            "weaponSkill": 83,
+            "armorSkill": 88,
+            "turretSkill": 87,
+            "buildSkill": 80,
+            "medicalSkill": 65,
+            "researchSkill": 82,
+            "logisticsSkill": 89,
+            "commandSkill": 86
+          },
+          "hero": {
+            "tier": "ordinary",
+            "status": "locked",
+            "progress": 0,
+            "activeSkill": null,
+            "passiveSkill": null,
+            "promotedDay": null
+          },
+          "relations": {
+            "trustToPlayer": 0,
+            "trustToCommander": 0,
+            "bondToPlayer": 0,
+            "respectToPlayer": 0,
+            "fearOfPlayer": 0,
+            "resentmentOfPlayer": 0,
+            "loyaltyToCamp": 84,
+            "loyaltyToCommander": 80,
+            "belongingToCamp": 76,
+            "values": {
+              "safety": 50,
+              "order": 86,
+              "compassion": 48,
+              "autonomy": 50,
+              "truth": 50
+            },
+            "knowledgeOfPlayer": {
+              "facts": [],
+              "lastHeardAt": 0
+            },
+            "opinionFlags": {},
+            "allies": [
+              "commander"
+            ],
+            "rivals": []
+          },
+          "memory": {
+            "helpedByPlayer": 0,
+            "witnessedDeaths": 0,
+            "failedOrders": 0,
+            "importantEvents": [],
+            "relayCoreHandoff": null
+          },
+          "needs": {
+            "hunger": 5,
+            "fatigue": 5,
+            "stress": 10,
+            "energy": 90,
+            "social": 10,
+            "safety": 10
+          },
+          "sanity": 72,
+          "sanityClock": 0,
+          "sanityLastReason": "营地仍然安全",
+          "scheduleState": "work",
+          "lastReport": "",
+          "actingRole": null,
+          "actingFor": null,
+          "eventChain": {
+            "step": 0,
+            "cooldown": 1000,
+            "active": null,
+            "resolved": []
+          },
+          "perception": {
+            "clock": 0,
+            "targetId": null,
+            "targetAt": 0,
+            "contacts": {},
+            "sharedUntil": 0
+          },
+          "supportRequested": false,
+          "order": null,
+          "bond": 0,
+          "combatHp": 100,
+          "combatStatus": "ready",
+          "simMoveClock": 0,
+          "needClock": 0,
+          "workClock": 0,
+          "workPulseSeq": 0,
+          "workHistory": [],
+          "routineIntent": null,
+          "escapePressure": 0,
+          "motionTarget": null,
+          "garrisonedOutpostId": null
+        },
+        "npcId": "sergeant",
+        "distance": 0.5,
+        "operation": "support-requested",
+        "order": null,
+        "requiresAdvance": true
+      },
+      "verified": true,
+      "publicBefore": {
+        "text": "🪖\n贺川 · 士官长\n训练士兵并负责换防 · 也可按 1-7 选择\n×\n−\n1🔎 查看贺川状态\n查看范围 1.25 格 · 不请求支援、不支付体力\n2💬 交谈并请求贺川支援\n确认消耗 2 行动体力 · 推进 15 分钟 · 羁绊 0/3\n3🎯 守墙\n在指定防线待命，增加防线余量。\n4🎯 巡逻\n在接触前拦截尸群，但更容易暴露在危险中。\n5🎯 支援玩家\n跟随玩家行动，降低其遭遇危险时的压力。\n6🔎 探索废弃水车\n消耗 3 行动体力 · 记录到收藏册\n7✦ 营地核心\n预演：营地核心的功能交互，不会改变位置",
+        "title": "贺川 · 士官长",
+        "buttons": [
+          {
+            "action": "npcView",
+            "npcId": "sergeant",
+            "text": "1🔎 查看贺川状态\n查看范围 1.25 格 · 不请求支援、不支付体力",
+            "disabled": false
+          },
+          {
+            "action": "npc",
+            "npcId": "sergeant",
+            "text": "2💬 交谈并请求贺川支援\n确认消耗 2 行动体力 · 推进 15 分钟 · 羁绊 0/3",
+            "disabled": false
+          },
+          {
+            "action": "npcOrder",
+            "npcId": "sergeant",
+            "order": "guard",
+            "text": "3🎯 守墙\n在指定防线待命，增加防线余量。",
+            "disabled": false
+          },
+          {
+            "action": "npcOrder",
+            "npcId": "sergeant",
+            "order": "patrol",
+            "text": "4🎯 巡逻\n在接触前拦截尸群，但更容易暴露在危险中。",
+            "disabled": false
+          },
+          {
+            "action": "npcOrder",
+            "npcId": "sergeant",
+            "order": "cover",
+            "text": "5🎯 支援玩家\n跟随玩家行动，降低其遭遇危险时的压力。",
+            "disabled": false
+          },
+          {
+            "action": "landmark",
+            "text": "6🔎 探索废弃水车\n消耗 3 行动体力 · 记录到收藏册",
+            "disabled": false
+          },
+          {
+            "action": "area",
+            "text": "7✦ 营地核心\n预演：营地核心的功能交互，不会改变位置",
+            "disabled": false
+          }
+        ]
+      },
+      "receipts": [
+        {
+          "event": {
+            "eventId": "evt-000003",
+            "seq": 3,
+            "type": "npc.dialogueOpened",
+            "actorId": "player-1",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "ok": true,
+              "proofVersion": 1,
+              "npcId": "sergeant",
+              "operation": "dialogue-open",
+              "outcome": "completed",
+              "target": {
+                "id": "sergeant",
+                "before": {
+                  "id": "sergeant",
+                  "supportRequested": false,
+                  "order": null,
+                  "bond": 0,
+                  "hp": 100,
+                  "lifeState": "healthy",
+                  "sanity": 72,
+                  "helpedByPlayer": 0
+                },
+                "beforeAdvance": null,
+                "afterAdvance": null,
+                "atCompletion": {
+                  "id": "sergeant",
+                  "supportRequested": false,
+                  "order": null,
+                  "bond": 0,
+                  "hp": 100,
+                  "lifeState": "healthy",
+                  "sanity": 72,
+                  "helpedByPlayer": 0
+                },
+                "presentAtCompletion": true,
+                "snapshotStages": {
+                  "before": "before-payment-and-own-effects",
+                  "beforeAdvance": null,
+                  "afterAdvance": null,
+                  "atCompletion": "reducer-final-state"
+                }
+              },
+              "payment": {
+                "cost": {
+                  "energy": 0
+                },
+                "before": {
+                  "energy": 20
+                },
+                "after": {
+                  "energy": 20
+                }
+              },
+              "resources": {
+                "energyBefore": 20,
+                "energyAfterPayment": 20,
+                "energyAfter": 20
+              },
+              "clock": {
+                "before": {
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 0,
+                  "world": 360
+                },
+                "after": {
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 0,
+                  "world": 360
+                },
+                "requestedMinutes": 0,
+                "elapsedMinutes": 0
+              },
+              "advance": null
+            }
+          },
+          "command": {
+            "commandId": "cmd-000001",
+            "type": "npc.interact",
+            "actorId": "player-1",
+            "payload": {
+              "npcId": "sergeant"
+            }
+          }
+        },
+        {
+          "event": {
+            "eventId": "evt-000008",
+            "seq": 8,
+            "type": "npc.interacted",
+            "actorId": "player-1",
+            "commandId": "cmd-000003",
+            "causationId": null,
+            "tick": {
+              "world": 376,
+              "phase": 0,
+              "schedule": 16
+            },
+            "payload": {
+              "ok": true,
+              "proofVersion": 1,
+              "npcId": "sergeant",
+              "operation": "support-requested",
+              "outcome": "completed",
+              "target": {
+                "id": "sergeant",
+                "before": {
+                  "id": "sergeant",
+                  "supportRequested": false,
+                  "order": null,
+                  "bond": 0,
+                  "hp": 100,
+                  "lifeState": "healthy",
+                  "sanity": 72,
+                  "helpedByPlayer": 0
+                },
+                "beforeAdvance": {
+                  "id": "sergeant",
+                  "supportRequested": true,
+                  "order": "guard",
+                  "bond": 1,
+                  "hp": 100,
+                  "lifeState": "healthy",
+                  "sanity": 72,
+                  "helpedByPlayer": 0
+                },
+                "afterAdvance": {
+                  "id": "sergeant",
+                  "supportRequested": true,
+                  "order": "guard",
+                  "bond": 1,
+                  "hp": 100,
+                  "lifeState": "healthy",
+                  "sanity": 72,
+                  "helpedByPlayer": 0
+                },
+                "atCompletion": {
+                  "id": "sergeant",
+                  "supportRequested": true,
+                  "order": "guard",
+                  "bond": 1,
+                  "hp": 100,
+                  "lifeState": "healthy",
+                  "sanity": 74,
+                  "helpedByPlayer": 1
+                },
+                "presentAtCompletion": true,
+                "snapshotStages": {
+                  "before": "before-payment-and-own-effects",
+                  "beforeAdvance": "after-pre-simulation-own-effects",
+                  "afterAdvance": "after-world-simulation-before-post-effects",
+                  "atCompletion": "reducer-final-state"
+                }
+              },
+              "payment": {
+                "cost": {
+                  "energy": 2
+                },
+                "before": {
+                  "energy": 20
+                },
+                "after": {
+                  "energy": 18
+                }
+              },
+              "resources": {
+                "energyBefore": 20,
+                "energyAfterPayment": 18,
+                "energyAfter": 18
+              },
+              "clock": {
+                "before": {
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 1,
+                  "world": 361
+                },
+                "after": {
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 16,
+                  "world": 376
+                },
+                "requestedMinutes": 15,
+                "elapsedMinutes": 15
+              },
+              "advance": {
+                "commandId": "cmd-000004",
+                "eventId": "evt-000005",
+                "causationId": "cmd-000003",
+                "minutes": 15,
+                "tick": {
+                  "world": 376,
+                  "phase": 0,
+                  "schedule": 16
+                }
+              }
+            }
+          },
+          "command": {
+            "commandId": "cmd-000003",
+            "type": "npc.interact",
+            "actorId": "player-1",
+            "payload": {
+              "npcId": "sergeant"
+            }
+          }
+        }
+      ],
+      "terminal": {
+        "day": 1,
+        "hour": 6,
+        "minute": 27,
+        "energy": 19,
+        "roster": 10,
+        "target": {
+          "id": "sergeant",
+          "x": 10.226995585504204,
+          "y": 10.926619904477574,
+          "maxHp": 100,
+          "hp": 100,
+          "lifeState": "healthy",
+          "wounds": [],
+          "morale": 72,
+          "behaviorState": "work",
+          "currentOrder": null,
+          "fallbackPoint": {
+            "x": 2,
+            "y": 2
+          },
+          "homeZone": "barracks",
+          "workZone": "eastGate",
+          "inventory": {
+            "medicine": 0,
+            "ammo": 2
+          },
+          "appearance": {
+            "bodyType": "broad",
+            "skin": "#d89d77",
+            "hair": "#42372f",
+            "hairStyle": "cropped",
+            "signature": "whistle",
+            "palette": {
+              "cloth": "#896d54",
+              "clothDark": "#554332",
+              "accent": "#d9a94f",
+              "tool": "#c4cbd0"
+            },
+            "equipment": {
+              "head": "helmet",
+              "outer": "uniform",
+              "back": "fieldPack",
+              "weapon": "rifle",
+              "offhand": "whistle",
+              "tool": "rifle"
+            }
+          },
+          "equipment": {
+            "head": "helmet",
+            "outer": "uniform",
+            "back": "fieldPack",
+            "weapon": "rifle",
+            "offhand": "whistle",
+            "tool": "rifle"
+          },
+          "personality": {
+            "courage": 86,
+            "duty": 90,
+            "compassion": 48,
+            "discipline": 86,
+            "riskTolerance": 78,
+            "loyalty": 84
+          },
+          "relations": {
+            "trustToPlayer": 3,
+            "trustToCommander": 0,
+            "bondToPlayer": 2.0999999999999996,
+            "respectToPlayer": 0.75,
+            "fearOfPlayer": 0,
+            "resentmentOfPlayer": 0,
+            "loyaltyToCamp": 84,
+            "loyaltyToCommander": 80,
+            "belongingToCamp": 76,
+            "values": {
+              "safety": 50,
+              "order": 86,
+              "compassion": 48,
+              "autonomy": 50,
+              "truth": 50
+            },
+            "knowledgeOfPlayer": {
+              "facts": [],
+              "lastHeardAt": 0
+            },
+            "opinionFlags": {},
+            "allies": [
+              "commander"
+            ],
+            "rivals": []
+          },
+          "memory": {
+            "helpedByPlayer": 1,
+            "witnessedDeaths": 0,
+            "failedOrders": 0,
+            "importantEvents": [
+              "第1天：玩家请求支援"
+            ],
+            "relayCoreHandoff": null
+          },
+          "attributes": {
+            "production": 88,
+            "weaponSkill": 83,
+            "armorSkill": 88,
+            "turretSkill": 87,
+            "buildSkill": 80,
+            "medicalSkill": 65,
+            "researchSkill": 82,
+            "logisticsSkill": 89,
+            "commandSkill": 86
+          },
+          "hero": {
+            "tier": "ordinary",
+            "status": "locked",
+            "progress": 0,
+            "activeSkill": null,
+            "passiveSkill": null,
+            "promotedDay": null
+          },
+          "bond": 1,
+          "supportRequested": true,
+          "order": "guard",
+          "simMoveClock": 11,
+          "needClock": 27,
+          "workClock": 27,
+          "routineIntent": null,
+          "workPulseSeq": 0,
+          "workHistory": [],
+          "motionTarget": {
+            "x": 9,
+            "y": 12
+          },
+          "needs": {
+            "hunger": 5.485999999999997,
+            "fatigue": 4.244000000000005,
+            "stress": 9.837999999999997,
+            "energy": 91.21500000000002,
+            "social": 9.837999999999997,
+            "safety": 9.784000000000011
+          },
+          "sanity": 74,
+          "sanityClock": 27,
+          "sanityLastReason": "接受玩家支援请求（+2）",
+          "scheduleState": "休整",
+          "lastReport": "等待执行守墙",
+          "actingRole": null,
+          "actingFor": null,
+          "garrisonedOutpostId": null,
+          "eventChain": {
+            "step": 0,
+            "cooldown": 973,
+            "active": null,
+            "resolved": []
+          },
+          "perception": {
+            "clock": 5,
+            "targetId": null,
+            "targetAt": 0,
+            "contacts": {},
+            "sharedUntil": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "critical-low-risk-guard",
+      "kind": "critical",
+      "distance": 0.5,
+      "paused": false,
+      "energy": 20,
+      "inputSha256": "995a7812fec1f3399f1a13dfba02cb7feeba1ed78db4297e625ca2bf43f3c0eb",
+      "fixtureSourceCategory": "offline derivative of unchanged actual source19cb writer",
+      "changes": [
+        "TEST-ONLY player relocated to (11,9), original sergeant relocated by declared distance; original ten IDs retained",
+        "TEST-ONLY existing enemies cleared; other original NPCs placed far away; moderate needs, zero need/work clocks, story cooldown1000 and null motion targets isolate this consumer",
+        "TEST-ONLY energy=20, paused=false, rate1; no browser post-boot state or receipt injection",
+        "TEST-ONLY hp25/lifeState critical retains original low-risk admission"
+      ],
+      "offlineViewGate": {
+        "ok": true,
+        "npc": {
+          "id": "sergeant",
+          "name": "贺川",
+          "role": "士官长",
+          "icon": "🪖",
+          "desc": "训练士兵并负责换防",
+          "homeZone": "barracks",
+          "workZone": "eastGate",
+          "x": 11,
+          "y": 9.5,
+          "maxHp": 100,
+          "hp": 25,
+          "lifeState": "critical",
+          "wounds": [],
+          "morale": 72,
+          "behaviorState": "work",
+          "currentOrder": null,
+          "fallbackPoint": {
+            "x": 2,
+            "y": 2
+          },
+          "inventory": {
+            "medicine": 0,
+            "ammo": 2
+          },
+          "appearance": {
+            "bodyType": "broad",
+            "skin": "#d89d77",
+            "hair": "#42372f",
+            "hairStyle": "cropped",
+            "signature": "whistle",
+            "palette": {
+              "cloth": "#896d54",
+              "clothDark": "#554332",
+              "accent": "#d9a94f",
+              "tool": "#c4cbd0"
+            },
+            "equipment": {
+              "head": "helmet",
+              "outer": "uniform",
+              "back": "fieldPack",
+              "weapon": "rifle",
+              "offhand": "whistle",
+              "tool": "rifle"
+            }
+          },
+          "equipment": {
+            "head": "helmet",
+            "outer": "uniform",
+            "back": "fieldPack",
+            "weapon": "rifle",
+            "offhand": "whistle",
+            "tool": "rifle"
+          },
+          "personality": {
+            "courage": 86,
+            "duty": 90,
+            "compassion": 48,
+            "discipline": 86,
+            "riskTolerance": 78,
+            "loyalty": 84
+          },
+          "attributes": {
+            "production": 88,
+            "weaponSkill": 83,
+            "armorSkill": 88,
+            "turretSkill": 87,
+            "buildSkill": 80,
+            "medicalSkill": 65,
+            "researchSkill": 82,
+            "logisticsSkill": 89,
+            "commandSkill": 86
+          },
+          "hero": {
+            "tier": "ordinary",
+            "status": "locked",
+            "progress": 0,
+            "activeSkill": null,
+            "passiveSkill": null,
+            "promotedDay": null
+          },
+          "relations": {
+            "trustToPlayer": 0,
+            "trustToCommander": 0,
+            "bondToPlayer": 0,
+            "respectToPlayer": 0,
+            "fearOfPlayer": 0,
+            "resentmentOfPlayer": 0,
+            "loyaltyToCamp": 84,
+            "loyaltyToCommander": 80,
+            "belongingToCamp": 76,
+            "values": {
+              "safety": 50,
+              "order": 86,
+              "compassion": 48,
+              "autonomy": 50,
+              "truth": 50
+            },
+            "knowledgeOfPlayer": {
+              "facts": [],
+              "lastHeardAt": 0
+            },
+            "opinionFlags": {},
+            "allies": [
+              "commander"
+            ],
+            "rivals": []
+          },
+          "memory": {
+            "helpedByPlayer": 0,
+            "witnessedDeaths": 0,
+            "failedOrders": 0,
+            "importantEvents": [],
+            "relayCoreHandoff": null
+          },
+          "needs": {
+            "hunger": 5,
+            "fatigue": 5,
+            "stress": 10,
+            "energy": 90,
+            "social": 10,
+            "safety": 10
+          },
+          "sanity": 72,
+          "sanityClock": 0,
+          "sanityLastReason": "营地仍然安全",
+          "scheduleState": "work",
+          "lastReport": "",
+          "actingRole": null,
+          "actingFor": null,
+          "eventChain": {
+            "step": 0,
+            "cooldown": 1000,
+            "active": null,
+            "resolved": []
+          },
+          "perception": {
+            "clock": 0,
+            "targetId": null,
+            "targetAt": 0,
+            "contacts": {},
+            "sharedUntil": 0
+          },
+          "supportRequested": false,
+          "order": null,
+          "bond": 0,
+          "combatHp": 100,
+          "combatStatus": "ready",
+          "simMoveClock": 0,
+          "needClock": 0,
+          "workClock": 0,
+          "workPulseSeq": 0,
+          "workHistory": [],
+          "routineIntent": null,
+          "escapePressure": 0,
+          "motionTarget": null,
+          "garrisonedOutpostId": null
+        },
+        "npcId": "sergeant",
+        "distance": 0.5,
+        "operation": "view",
+        "requiresAdvance": false
+      },
+      "offlineSupportGate": {
+        "ok": true,
+        "npc": {
+          "id": "sergeant",
+          "name": "贺川",
+          "role": "士官长",
+          "icon": "🪖",
+          "desc": "训练士兵并负责换防",
+          "homeZone": "barracks",
+          "workZone": "eastGate",
+          "x": 11,
+          "y": 9.5,
+          "maxHp": 100,
+          "hp": 25,
+          "lifeState": "critical",
+          "wounds": [],
+          "morale": 72,
+          "behaviorState": "work",
+          "currentOrder": null,
+          "fallbackPoint": {
+            "x": 2,
+            "y": 2
+          },
+          "inventory": {
+            "medicine": 0,
+            "ammo": 2
+          },
+          "appearance": {
+            "bodyType": "broad",
+            "skin": "#d89d77",
+            "hair": "#42372f",
+            "hairStyle": "cropped",
+            "signature": "whistle",
+            "palette": {
+              "cloth": "#896d54",
+              "clothDark": "#554332",
+              "accent": "#d9a94f",
+              "tool": "#c4cbd0"
+            },
+            "equipment": {
+              "head": "helmet",
+              "outer": "uniform",
+              "back": "fieldPack",
+              "weapon": "rifle",
+              "offhand": "whistle",
+              "tool": "rifle"
+            }
+          },
+          "equipment": {
+            "head": "helmet",
+            "outer": "uniform",
+            "back": "fieldPack",
+            "weapon": "rifle",
+            "offhand": "whistle",
+            "tool": "rifle"
+          },
+          "personality": {
+            "courage": 86,
+            "duty": 90,
+            "compassion": 48,
+            "discipline": 86,
+            "riskTolerance": 78,
+            "loyalty": 84
+          },
+          "attributes": {
+            "production": 88,
+            "weaponSkill": 83,
+            "armorSkill": 88,
+            "turretSkill": 87,
+            "buildSkill": 80,
+            "medicalSkill": 65,
+            "researchSkill": 82,
+            "logisticsSkill": 89,
+            "commandSkill": 86
+          },
+          "hero": {
+            "tier": "ordinary",
+            "status": "locked",
+            "progress": 0,
+            "activeSkill": null,
+            "passiveSkill": null,
+            "promotedDay": null
+          },
+          "relations": {
+            "trustToPlayer": 0,
+            "trustToCommander": 0,
+            "bondToPlayer": 0,
+            "respectToPlayer": 0,
+            "fearOfPlayer": 0,
+            "resentmentOfPlayer": 0,
+            "loyaltyToCamp": 84,
+            "loyaltyToCommander": 80,
+            "belongingToCamp": 76,
+            "values": {
+              "safety": 50,
+              "order": 86,
+              "compassion": 48,
+              "autonomy": 50,
+              "truth": 50
+            },
+            "knowledgeOfPlayer": {
+              "facts": [],
+              "lastHeardAt": 0
+            },
+            "opinionFlags": {},
+            "allies": [
+              "commander"
+            ],
+            "rivals": []
+          },
+          "memory": {
+            "helpedByPlayer": 0,
+            "witnessedDeaths": 0,
+            "failedOrders": 0,
+            "importantEvents": [],
+            "relayCoreHandoff": null
+          },
+          "needs": {
+            "hunger": 5,
+            "fatigue": 5,
+            "stress": 10,
+            "energy": 90,
+            "social": 10,
+            "safety": 10
+          },
+          "sanity": 72,
+          "sanityClock": 0,
+          "sanityLastReason": "营地仍然安全",
+          "scheduleState": "work",
+          "lastReport": "",
+          "actingRole": null,
+          "actingFor": null,
+          "eventChain": {
+            "step": 0,
+            "cooldown": 1000,
+            "active": null,
+            "resolved": []
+          },
+          "perception": {
+            "clock": 0,
+            "targetId": null,
+            "targetAt": 0,
+            "contacts": {},
+            "sharedUntil": 0
+          },
+          "supportRequested": false,
+          "order": null,
+          "bond": 0,
+          "combatHp": 100,
+          "combatStatus": "ready",
+          "simMoveClock": 0,
+          "needClock": 0,
+          "workClock": 0,
+          "workPulseSeq": 0,
+          "workHistory": [],
+          "routineIntent": null,
+          "escapePressure": 0,
+          "motionTarget": null,
+          "garrisonedOutpostId": null
+        },
+        "npcId": "sergeant",
+        "distance": 0.5,
+        "operation": "support-requested",
+        "order": null,
+        "requiresAdvance": true
+      },
+      "verified": true,
+      "publicBefore": {
+        "text": "🪖\n贺川 · 士官长\n训练士兵并负责换防 · 也可按 1-7 选择\n×\n−\n1🔎 查看贺川状态\n查看范围 1.25 格 · 不请求支援、不支付体力\n2💬 交谈并请求贺川支援\n确认消耗 2 行动体力 · 推进 15 分钟 · 羁绊 0/3\n3🎯 守墙\n在指定防线待命，增加防线余量。\n4🎯 巡逻\n在接触前拦截尸群，但更容易暴露在危险中。\n5🎯 支援玩家\n跟随玩家行动，降低其遭遇危险时的压力。\n6🔎 探索废弃水车\n消耗 3 行动体力 · 记录到收藏册\n7✦ 营地核心\n预演：营地核心的功能交互，不会改变位置",
+        "title": "贺川 · 士官长",
+        "buttons": [
+          {
+            "action": "npcView",
+            "npcId": "sergeant",
+            "text": "1🔎 查看贺川状态\n查看范围 1.25 格 · 不请求支援、不支付体力",
+            "disabled": false
+          },
+          {
+            "action": "npc",
+            "npcId": "sergeant",
+            "text": "2💬 交谈并请求贺川支援\n确认消耗 2 行动体力 · 推进 15 分钟 · 羁绊 0/3",
+            "disabled": false
+          },
+          {
+            "action": "npcOrder",
+            "npcId": "sergeant",
+            "order": "guard",
+            "text": "3🎯 守墙\n在指定防线待命，增加防线余量。",
+            "disabled": false
+          },
+          {
+            "action": "npcOrder",
+            "npcId": "sergeant",
+            "order": "patrol",
+            "text": "4🎯 巡逻\n在接触前拦截尸群，但更容易暴露在危险中。",
+            "disabled": false
+          },
+          {
+            "action": "npcOrder",
+            "npcId": "sergeant",
+            "order": "cover",
+            "text": "5🎯 支援玩家\n跟随玩家行动，降低其遭遇危险时的压力。",
+            "disabled": false
+          },
+          {
+            "action": "landmark",
+            "text": "6🔎 探索废弃水车\n消耗 3 行动体力 · 记录到收藏册",
+            "disabled": false
+          },
+          {
+            "action": "area",
+            "text": "7✦ 营地核心\n预演：营地核心的功能交互，不会改变位置",
+            "disabled": false
+          }
+        ]
+      },
+      "receipts": [
+        {
+          "event": {
+            "eventId": "evt-000005",
+            "seq": 5,
+            "type": "npc.orderChanged",
+            "actorId": "player-1",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 375,
+              "phase": 0,
+              "schedule": 15
+            },
+            "payload": {
+              "ok": true,
+              "proofVersion": 1,
+              "npcId": "sergeant",
+              "operation": "support-and-order",
+              "outcome": "completed",
+              "orderId": "guard",
+              "target": {
+                "id": "sergeant",
+                "before": {
+                  "id": "sergeant",
+                  "supportRequested": false,
+                  "order": null,
+                  "bond": 0,
+                  "hp": 25,
+                  "lifeState": "critical",
+                  "sanity": 72,
+                  "helpedByPlayer": 0
+                },
+                "beforeAdvance": {
+                  "id": "sergeant",
+                  "supportRequested": true,
+                  "order": null,
+                  "bond": 1,
+                  "hp": 25,
+                  "lifeState": "critical",
+                  "sanity": 72,
+                  "helpedByPlayer": 1
+                },
+                "afterAdvance": {
+                  "id": "sergeant",
+                  "supportRequested": true,
+                  "order": null,
+                  "bond": 1,
+                  "hp": 25,
+                  "lifeState": "critical",
+                  "sanity": 72,
+                  "helpedByPlayer": 1
+                },
+                "atCompletion": {
+                  "id": "sergeant",
+                  "supportRequested": true,
+                  "order": "guard",
+                  "bond": 1,
+                  "hp": 25,
+                  "lifeState": "critical",
+                  "sanity": 72,
+                  "helpedByPlayer": 1
+                },
+                "presentAtCompletion": true,
+                "snapshotStages": {
+                  "before": "before-payment-and-own-effects",
+                  "beforeAdvance": "after-pre-simulation-own-effects",
+                  "afterAdvance": "after-world-simulation-before-post-effects",
+                  "atCompletion": "reducer-final-state"
+                }
+              },
+              "payment": {
+                "cost": {
+                  "energy": 2
+                },
+                "before": {
+                  "energy": 20
+                },
+                "after": {
+                  "energy": 18
+                }
+              },
+              "resources": {
+                "energyBefore": 20,
+                "energyAfterPayment": 18,
+                "energyAfter": 18
+              },
+              "clock": {
+                "before": {
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 0,
+                  "world": 360
+                },
+                "after": {
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 15,
+                  "world": 375
+                },
+                "requestedMinutes": 15,
+                "elapsedMinutes": 15
+              },
+              "advance": {
+                "commandId": "cmd-000002",
+                "eventId": "evt-000003",
+                "causationId": "cmd-000001",
+                "minutes": 15,
+                "tick": {
+                  "world": 375,
+                  "phase": 0,
+                  "schedule": 15
+                }
+              }
+            }
+          },
+          "command": {
+            "commandId": "cmd-000001",
+            "type": "npc.order",
+            "actorId": "player-1",
+            "payload": {
+              "npcId": "sergeant",
+              "orderId": "guard"
+            }
+          }
+        }
+      ],
+      "terminal": {
+        "day": 1,
+        "hour": 6,
+        "minute": 16,
+        "energy": 18,
+        "roster": 10,
+        "target": {
+          "id": "sergeant",
+          "x": 10.95314787143343,
+          "y": 9.558565160708213,
+          "maxHp": 100,
+          "hp": 25,
+          "lifeState": "critical",
+          "wounds": [],
+          "morale": 72,
+          "behaviorState": "work",
+          "currentOrder": null,
+          "fallbackPoint": {
+            "x": 2,
+            "y": 2
+          },
+          "homeZone": "barracks",
+          "workZone": "eastGate",
+          "inventory": {
+            "medicine": 0,
+            "ammo": 2
+          },
+          "appearance": {
+            "bodyType": "broad",
+            "skin": "#d89d77",
+            "hair": "#42372f",
+            "hairStyle": "cropped",
+            "signature": "whistle",
+            "palette": {
+              "cloth": "#896d54",
+              "clothDark": "#554332",
+              "accent": "#d9a94f",
+              "tool": "#c4cbd0"
+            },
+            "equipment": {
+              "head": "helmet",
+              "outer": "uniform",
+              "back": "fieldPack",
+              "weapon": "rifle",
+              "offhand": "whistle",
+              "tool": "rifle"
+            }
+          },
+          "equipment": {
+            "head": "helmet",
+            "outer": "uniform",
+            "back": "fieldPack",
+            "weapon": "rifle",
+            "offhand": "whistle",
+            "tool": "rifle"
+          },
+          "personality": {
+            "courage": 86,
+            "duty": 90,
+            "compassion": 48,
+            "discipline": 86,
+            "riskTolerance": 78,
+            "loyalty": 84
+          },
+          "relations": {
+            "trustToPlayer": 3,
+            "trustToCommander": 0,
+            "bondToPlayer": 2.0999999999999996,
+            "respectToPlayer": 0.75,
+            "fearOfPlayer": 0,
+            "resentmentOfPlayer": 0,
+            "loyaltyToCamp": 84,
+            "loyaltyToCommander": 80,
+            "belongingToCamp": 76,
+            "allies": [
+              "commander"
+            ],
+            "rivals": [],
+            "values": {
+              "safety": 50,
+              "order": 86,
+              "compassion": 48,
+              "autonomy": 50,
+              "truth": 50
+            },
+            "knowledgeOfPlayer": {
+              "facts": [],
+              "lastHeardAt": 0
+            },
+            "opinionFlags": {}
+          },
+          "memory": {
+            "helpedByPlayer": 1,
+            "witnessedDeaths": 0,
+            "failedOrders": 0,
+            "importantEvents": [
+              "第1天：接受了「守墙」命令"
+            ],
+            "relayCoreHandoff": null
+          },
+          "attributes": {
+            "production": 88,
+            "weaponSkill": 83,
+            "armorSkill": 88,
+            "turretSkill": 87,
+            "buildSkill": 80,
+            "medicalSkill": 65,
+            "researchSkill": 82,
+            "logisticsSkill": 89,
+            "commandSkill": 86
+          },
+          "hero": {
+            "tier": "ordinary",
+            "status": "locked",
+            "progress": 0,
+            "activeSkill": null,
+            "passiveSkill": null,
+            "promotedDay": null
+          },
+          "bond": 1,
+          "supportRequested": true,
+          "order": "guard",
+          "simMoveClock": 0,
+          "needClock": 16,
+          "workClock": 16,
+          "routineIntent": null,
+          "workPulseSeq": 0,
+          "workHistory": [],
+          "motionTarget": {
+            "x": 9,
+            "y": 12
+          },
+          "needs": {
+            "hunger": 5.287999999999999,
+            "fatigue": 4.5520000000000005,
+            "stress": 9.904,
+            "energy": 90.72,
+            "social": 9.904,
+            "safety": 9.872000000000002
+          },
+          "sanity": 72,
+          "sanityClock": 16,
+          "sanityLastReason": "营地仍然安全",
+          "scheduleState": "休整",
+          "lastReport": "已接受守墙，当前信任 3",
+          "actingRole": null,
+          "actingFor": null,
+          "garrisonedOutpostId": null,
+          "eventChain": {
+            "step": 0,
+            "cooldown": 984,
+            "active": null,
+            "resolved": []
+          },
+          "perception": {
+            "clock": 1,
+            "targetId": null,
+            "targetAt": 0,
+            "contacts": {},
+            "sharedUntil": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "supported-autonomous-refusal",
+      "kind": "refusal",
+      "distance": 0.5,
+      "paused": true,
+      "energy": 10,
+      "supported": true,
+      "inputSha256": "6564137a93574b3f50878fb010fe8f1bc286fb2fa50e2d778beaa3c739467407",
+      "fixtureSourceCategory": "offline derivative of unchanged actual source19cb writer",
+      "changes": [
+        "TEST-ONLY player relocated to (11,9), original sergeant relocated by declared distance; original ten IDs retained",
+        "TEST-ONLY existing enemies cleared; other original NPCs placed far away; moderate needs, zero need/work clocks, story cooldown1000 and null motion targets isolate this consumer",
+        "TEST-ONLY energy=10, paused=true, rate1; no browser post-boot state or receipt injection",
+        "TEST-ONLY prior support/bond/helpedByPlayer fixture state; not a naturally earned support claim",
+        "TEST-ONLY original relation/stress/sanity/personality fields choose baseline legitimate high-risk refusal"
+      ],
+      "offlineViewGate": {
+        "ok": true,
+        "npc": {
+          "id": "sergeant",
+          "name": "贺川",
+          "role": "士官长",
+          "icon": "🪖",
+          "desc": "训练士兵并负责换防",
+          "homeZone": "barracks",
+          "workZone": "eastGate",
+          "x": 11,
+          "y": 9.5,
+          "maxHp": 100,
+          "hp": 100,
+          "lifeState": "healthy",
+          "wounds": [],
+          "morale": 72,
+          "behaviorState": "work",
+          "currentOrder": null,
+          "fallbackPoint": {
+            "x": 2,
+            "y": 2
+          },
+          "inventory": {
+            "medicine": 0,
+            "ammo": 2
+          },
+          "appearance": {
+            "bodyType": "broad",
+            "skin": "#d89d77",
+            "hair": "#42372f",
+            "hairStyle": "cropped",
+            "signature": "whistle",
+            "palette": {
+              "cloth": "#896d54",
+              "clothDark": "#554332",
+              "accent": "#d9a94f",
+              "tool": "#c4cbd0"
+            },
+            "equipment": {
+              "head": "helmet",
+              "outer": "uniform",
+              "back": "fieldPack",
+              "weapon": "rifle",
+              "offhand": "whistle",
+              "tool": "rifle"
+            }
+          },
+          "equipment": {
+            "head": "helmet",
+            "outer": "uniform",
+            "back": "fieldPack",
+            "weapon": "rifle",
+            "offhand": "whistle",
+            "tool": "rifle"
+          },
+          "personality": {
+            "courage": 86,
+            "duty": 90,
+            "compassion": 48,
+            "discipline": 86,
+            "riskTolerance": 1,
+            "loyalty": 84
+          },
+          "attributes": {
+            "production": 88,
+            "weaponSkill": 83,
+            "armorSkill": 88,
+            "turretSkill": 87,
+            "buildSkill": 80,
+            "medicalSkill": 65,
+            "researchSkill": 82,
+            "logisticsSkill": 89,
+            "commandSkill": 86
+          },
+          "hero": {
+            "tier": "ordinary",
+            "status": "locked",
+            "progress": 0,
+            "activeSkill": null,
+            "passiveSkill": null,
+            "promotedDay": null
+          },
+          "relations": {
+            "trustToPlayer": 0,
+            "trustToCommander": 0,
+            "bondToPlayer": 0,
+            "respectToPlayer": 0,
+            "fearOfPlayer": 80,
+            "resentmentOfPlayer": 80,
+            "loyaltyToCamp": 0,
+            "loyaltyToCommander": 0,
+            "belongingToCamp": 0,
+            "allies": [
+              "commander"
+            ],
+            "rivals": [],
+            "values": {
+              "safety": 50,
+              "order": 86,
+              "compassion": 48,
+              "autonomy": 50,
+              "truth": 50
+            },
+            "knowledgeOfPlayer": {
+              "facts": [],
+              "lastHeardAt": 0
+            },
+            "opinionFlags": {}
+          },
+          "memory": {
+            "helpedByPlayer": 1,
+            "witnessedDeaths": 0,
+            "failedOrders": 0,
+            "importantEvents": [],
+            "relayCoreHandoff": null
+          },
+          "needs": {
+            "hunger": 5,
+            "fatigue": 5,
+            "stress": 100,
+            "energy": 90,
+            "social": 10,
+            "safety": 10
+          },
+          "sanity": 5,
+          "sanityClock": 0,
+          "sanityLastReason": "营地仍然安全",
+          "scheduleState": "work",
+          "lastReport": "",
+          "actingRole": null,
+          "actingFor": null,
+          "eventChain": {
+            "step": 0,
+            "cooldown": 1000,
+            "active": null,
+            "resolved": []
+          },
+          "perception": {
+            "clock": 0,
+            "targetId": null,
+            "targetAt": 0,
+            "contacts": {},
+            "sharedUntil": 0
+          },
+          "supportRequested": true,
+          "order": "guard",
+          "bond": 1,
+          "combatHp": 100,
+          "combatStatus": "ready",
+          "simMoveClock": 0,
+          "needClock": 0,
+          "workClock": 0,
+          "workPulseSeq": 0,
+          "workHistory": [],
+          "routineIntent": null,
+          "escapePressure": 0,
+          "motionTarget": null,
+          "garrisonedOutpostId": null
+        },
+        "npcId": "sergeant",
+        "distance": 0.5,
+        "operation": "view",
+        "requiresAdvance": false
+      },
+      "offlineSupportGate": {
+        "ok": false,
+        "reason": "npc-already-supported"
+      },
+      "verified": true,
+      "publicBefore": {
+        "text": "🪖\n贺川 · 士官长\n训练士兵并负责换防 · 也可按 1-7 选择\n×\n−\n1🔎 查看贺川状态\n查看范围 1.25 格 · 不请求支援、不支付体力\n2✅ 已请求 · 守墙\n当前命令：守墙 · 羁绊 1/3\n3✅ 守墙\n在指定防线待命，增加防线余量。\n4🎯 巡逻\n在接触前拦截尸群，但更容易暴露在危险中。\n5🎯 支援玩家\n跟随玩家行动，降低其遭遇危险时的压力。\n6🔎 探索废弃水车\n消耗 3 行动体力 · 记录到收藏册\n7✦ 营地核心\n预演：营地核心的功能交互，不会改变位置",
+        "title": "贺川 · 士官长",
+        "buttons": [
+          {
+            "action": "npcView",
+            "npcId": "sergeant",
+            "text": "1🔎 查看贺川状态\n查看范围 1.25 格 · 不请求支援、不支付体力",
+            "disabled": false
+          },
+          {
+            "action": "npc",
+            "npcId": "sergeant",
+            "text": "2✅ 已请求 · 守墙\n当前命令：守墙 · 羁绊 1/3",
+            "disabled": true
+          },
+          {
+            "action": "npcOrder",
+            "npcId": "sergeant",
+            "order": "guard",
+            "text": "3✅ 守墙\n在指定防线待命，增加防线余量。",
+            "disabled": false
+          },
+          {
+            "action": "npcOrder",
+            "npcId": "sergeant",
+            "order": "patrol",
+            "text": "4🎯 巡逻\n在接触前拦截尸群，但更容易暴露在危险中。",
+            "disabled": false
+          },
+          {
+            "action": "npcOrder",
+            "npcId": "sergeant",
+            "order": "cover",
+            "text": "5🎯 支援玩家\n跟随玩家行动，降低其遭遇危险时的压力。",
+            "disabled": false
+          },
+          {
+            "action": "landmark",
+            "text": "6🔎 探索废弃水车\n消耗 3 行动体力 · 记录到收藏册",
+            "disabled": false
+          },
+          {
+            "action": "area",
+            "text": "7✦ 营地核心\n预演：营地核心的功能交互，不会改变位置",
+            "disabled": false
+          }
+        ]
+      },
+      "refusalToast": "贺川拒绝了高风险命令",
+      "automaticOutcomeCheckpoint": {
+        "reason": "command:npc:npc-order-refused",
+        "wallMs": 653,
+        "sha256": "5e373daa3357ee46027257033908e8646b044fa54869f491dab8658a3876bbab",
+        "manualSave": false,
+        "pagehideBeforeEvidence": false,
+        "method": "read-only native localStorage polling for wrapper-specific checkpoint reason plus matching real outcome and command.rejected"
+      },
+      "refusalRelations": {
+        "before": {
+          "trustToPlayer": 0,
+          "trustToCommander": 0,
+          "bondToPlayer": 0,
+          "respectToPlayer": 0,
+          "fearOfPlayer": 80,
+          "resentmentOfPlayer": 80,
+          "loyaltyToCamp": 0,
+          "loyaltyToCommander": 0,
+          "belongingToCamp": 0,
+          "values": {
+            "safety": 50,
+            "order": 86,
+            "compassion": 48,
+            "autonomy": 50,
+            "truth": 50
+          },
+          "knowledgeOfPlayer": {
+            "facts": [],
+            "lastHeardAt": 0
+          },
+          "opinionFlags": {},
+          "allies": [
+            "commander"
+          ],
+          "rivals": []
+        },
+        "after": {
+          "trustToPlayer": -1,
+          "trustToCommander": 0,
+          "bondToPlayer": 0,
+          "respectToPlayer": 0,
+          "fearOfPlayer": 80,
+          "resentmentOfPlayer": 82,
+          "loyaltyToCamp": 0,
+          "loyaltyToCommander": 0,
+          "belongingToCamp": 0,
+          "allies": [
+            "commander"
+          ],
+          "rivals": [],
+          "values": {
+            "safety": 50,
+            "order": 86,
+            "compassion": 48,
+            "autonomy": 50,
+            "truth": 50
+          },
+          "knowledgeOfPlayer": {
+            "facts": [
+              "refused:patrol"
+            ],
+            "lastHeardAt": 360
+          },
+          "opinionFlags": {}
+        },
+        "lastReport": "拒绝巡逻：戒备"
+      },
+      "receipts": [
+        {
+          "event": {
+            "eventId": "evt-000005",
+            "seq": 5,
+            "type": "command.rejected",
+            "actorId": "player-1",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "type": "npc.order",
+              "reason": "npc-order-refused"
+            }
+          },
+          "command": {
+            "commandId": "cmd-000001",
+            "type": "npc.order",
+            "actorId": "player-1",
+            "payload": {
+              "npcId": "sergeant",
+              "orderId": "patrol"
+            }
+          }
+        }
+      ],
+      "terminal": {
+        "day": 1,
+        "hour": 6,
+        "minute": 0,
+        "energy": 10,
+        "roster": 10,
+        "target": {
+          "id": "sergeant",
+          "x": 11,
+          "y": 9.5,
+          "maxHp": 100,
+          "hp": 100,
+          "lifeState": "healthy",
+          "wounds": [],
+          "morale": 72,
+          "behaviorState": "work",
+          "currentOrder": null,
+          "fallbackPoint": {
+            "x": 2,
+            "y": 2
+          },
+          "homeZone": "barracks",
+          "workZone": "eastGate",
+          "inventory": {
+            "medicine": 0,
+            "ammo": 2
+          },
+          "appearance": {
+            "bodyType": "broad",
+            "skin": "#d89d77",
+            "hair": "#42372f",
+            "hairStyle": "cropped",
+            "signature": "whistle",
+            "palette": {
+              "cloth": "#896d54",
+              "clothDark": "#554332",
+              "accent": "#d9a94f",
+              "tool": "#c4cbd0"
+            },
+            "equipment": {
+              "head": "helmet",
+              "outer": "uniform",
+              "back": "fieldPack",
+              "weapon": "rifle",
+              "offhand": "whistle",
+              "tool": "rifle"
+            }
+          },
+          "equipment": {
+            "head": "helmet",
+            "outer": "uniform",
+            "back": "fieldPack",
+            "weapon": "rifle",
+            "offhand": "whistle",
+            "tool": "rifle"
+          },
+          "personality": {
+            "courage": 86,
+            "duty": 90,
+            "compassion": 48,
+            "discipline": 86,
+            "riskTolerance": 1,
+            "loyalty": 84
+          },
+          "relations": {
+            "trustToPlayer": -1,
+            "trustToCommander": 0,
+            "bondToPlayer": 0,
+            "respectToPlayer": 0,
+            "fearOfPlayer": 80,
+            "resentmentOfPlayer": 82,
+            "loyaltyToCamp": 0,
+            "loyaltyToCommander": 0,
+            "belongingToCamp": 0,
+            "values": {
+              "safety": 50,
+              "order": 86,
+              "compassion": 48,
+              "autonomy": 50,
+              "truth": 50
+            },
+            "knowledgeOfPlayer": {
+              "facts": [
+                "refused:patrol"
+              ],
+              "lastHeardAt": 360
+            },
+            "opinionFlags": {},
+            "allies": [
+              "commander"
+            ],
+            "rivals": []
+          },
+          "memory": {
+            "helpedByPlayer": 1,
+            "witnessedDeaths": 0,
+            "failedOrders": 0,
+            "importantEvents": [],
+            "relayCoreHandoff": null
+          },
+          "attributes": {
+            "production": 88,
+            "weaponSkill": 83,
+            "armorSkill": 88,
+            "turretSkill": 87,
+            "buildSkill": 80,
+            "medicalSkill": 65,
+            "researchSkill": 82,
+            "logisticsSkill": 89,
+            "commandSkill": 86
+          },
+          "hero": {
+            "tier": "ordinary",
+            "status": "locked",
+            "progress": 0,
+            "activeSkill": null,
+            "passiveSkill": null,
+            "promotedDay": null
+          },
+          "bond": 1,
+          "supportRequested": true,
+          "order": "guard",
+          "simMoveClock": 0,
+          "needClock": 0,
+          "workClock": 0,
+          "routineIntent": null,
+          "workPulseSeq": 0,
+          "workHistory": [],
+          "motionTarget": null,
+          "needs": {
+            "hunger": 5,
+            "fatigue": 5,
+            "stress": 100,
+            "energy": 90,
+            "social": 10,
+            "safety": 10
+          },
+          "sanity": 5,
+          "sanityClock": 0,
+          "sanityLastReason": "营地仍然安全",
+          "scheduleState": "work",
+          "lastReport": "拒绝巡逻：戒备",
+          "actingRole": null,
+          "actingFor": null,
+          "garrisonedOutpostId": null,
+          "eventChain": {
+            "step": 0,
+            "cooldown": 1000,
+            "active": null,
+            "resolved": []
+          },
+          "perception": {
+            "clock": 0,
+            "targetId": null,
+            "targetAt": 0,
+            "contacts": {},
+            "sharedUntil": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "supported-status-inquiry",
+      "kind": "status",
+      "distance": 0.5,
+      "paused": true,
+      "energy": 0,
+      "supported": true,
+      "inputSha256": "1f7e85f2732bf1f037ab8de69c247409876c8726c33b5aa082151ee7a775a9ee",
+      "fixtureSourceCategory": "offline derivative of unchanged actual source19cb writer",
+      "changes": [
+        "TEST-ONLY player relocated to (11,9), original sergeant relocated by declared distance; original ten IDs retained",
+        "TEST-ONLY existing enemies cleared; other original NPCs placed far away; moderate needs, zero need/work clocks, story cooldown1000 and null motion targets isolate this consumer",
+        "TEST-ONLY energy=0, paused=true, rate1; no browser post-boot state or receipt injection",
+        "TEST-ONLY prior support/bond/helpedByPlayer fixture state; not a naturally earned support claim"
+      ],
+      "offlineViewGate": {
+        "ok": true,
+        "npc": {
+          "id": "sergeant",
+          "name": "贺川",
+          "role": "士官长",
+          "icon": "🪖",
+          "desc": "训练士兵并负责换防",
+          "homeZone": "barracks",
+          "workZone": "eastGate",
+          "x": 11,
+          "y": 9.5,
+          "maxHp": 100,
+          "hp": 100,
+          "lifeState": "healthy",
+          "wounds": [],
+          "morale": 72,
+          "behaviorState": "work",
+          "currentOrder": null,
+          "fallbackPoint": {
+            "x": 2,
+            "y": 2
+          },
+          "inventory": {
+            "medicine": 0,
+            "ammo": 2
+          },
+          "appearance": {
+            "bodyType": "broad",
+            "skin": "#d89d77",
+            "hair": "#42372f",
+            "hairStyle": "cropped",
+            "signature": "whistle",
+            "palette": {
+              "cloth": "#896d54",
+              "clothDark": "#554332",
+              "accent": "#d9a94f",
+              "tool": "#c4cbd0"
+            },
+            "equipment": {
+              "head": "helmet",
+              "outer": "uniform",
+              "back": "fieldPack",
+              "weapon": "rifle",
+              "offhand": "whistle",
+              "tool": "rifle"
+            }
+          },
+          "equipment": {
+            "head": "helmet",
+            "outer": "uniform",
+            "back": "fieldPack",
+            "weapon": "rifle",
+            "offhand": "whistle",
+            "tool": "rifle"
+          },
+          "personality": {
+            "courage": 86,
+            "duty": 90,
+            "compassion": 48,
+            "discipline": 86,
+            "riskTolerance": 78,
+            "loyalty": 84
+          },
+          "attributes": {
+            "production": 88,
+            "weaponSkill": 83,
+            "armorSkill": 88,
+            "turretSkill": 87,
+            "buildSkill": 80,
+            "medicalSkill": 65,
+            "researchSkill": 82,
+            "logisticsSkill": 89,
+            "commandSkill": 86
+          },
+          "hero": {
+            "tier": "ordinary",
+            "status": "locked",
+            "progress": 0,
+            "activeSkill": null,
+            "passiveSkill": null,
+            "promotedDay": null
+          },
+          "relations": {
+            "trustToPlayer": 0,
+            "trustToCommander": 0,
+            "bondToPlayer": 0,
+            "respectToPlayer": 0,
+            "fearOfPlayer": 0,
+            "resentmentOfPlayer": 0,
+            "loyaltyToCamp": 84,
+            "loyaltyToCommander": 80,
+            "belongingToCamp": 76,
+            "values": {
+              "safety": 50,
+              "order": 86,
+              "compassion": 48,
+              "autonomy": 50,
+              "truth": 50
+            },
+            "knowledgeOfPlayer": {
+              "facts": [],
+              "lastHeardAt": 0
+            },
+            "opinionFlags": {},
+            "allies": [
+              "commander"
+            ],
+            "rivals": []
+          },
+          "memory": {
+            "helpedByPlayer": 1,
+            "witnessedDeaths": 0,
+            "failedOrders": 0,
+            "importantEvents": [],
+            "relayCoreHandoff": null
+          },
+          "needs": {
+            "hunger": 5,
+            "fatigue": 5,
+            "stress": 10,
+            "energy": 90,
+            "social": 10,
+            "safety": 10
+          },
+          "sanity": 72,
+          "sanityClock": 0,
+          "sanityLastReason": "营地仍然安全",
+          "scheduleState": "work",
+          "lastReport": "",
+          "actingRole": null,
+          "actingFor": null,
+          "eventChain": {
+            "step": 0,
+            "cooldown": 1000,
+            "active": null,
+            "resolved": []
+          },
+          "perception": {
+            "clock": 0,
+            "targetId": null,
+            "targetAt": 0,
+            "contacts": {},
+            "sharedUntil": 0
+          },
+          "supportRequested": true,
+          "order": "guard",
+          "bond": 1,
+          "combatHp": 100,
+          "combatStatus": "ready",
+          "simMoveClock": 0,
+          "needClock": 0,
+          "workClock": 0,
+          "workPulseSeq": 0,
+          "workHistory": [],
+          "routineIntent": null,
+          "escapePressure": 0,
+          "motionTarget": null,
+          "garrisonedOutpostId": null
+        },
+        "npcId": "sergeant",
+        "distance": 0.5,
+        "operation": "view",
+        "requiresAdvance": false
+      },
+      "offlineSupportGate": {
+        "ok": false,
+        "reason": "npc-already-supported"
+      },
+      "verified": true,
+      "publicBefore": {
+        "text": "🪖\n贺川 · 士官长\n训练士兵并负责换防 · 也可按 1-7 选择\n×\n−\n1🔎 查看贺川状态\n查看范围 1.25 格 · 不请求支援、不支付体力\n2✅ 已请求 · 守墙\n当前命令：守墙 · 羁绊 1/3\n3✅ 守墙\n在指定防线待命，增加防线余量。\n4🎯 巡逻\n在接触前拦截尸群，但更容易暴露在危险中。\n5🎯 支援玩家\n跟随玩家行动，降低其遭遇危险时的压力。\n6🔎 探索废弃水车\n消耗 3 行动体力 · 记录到收藏册\n7✦ 营地核心\n预演：营地核心的功能交互，不会改变位置",
+        "title": "贺川 · 士官长",
+        "buttons": [
+          {
+            "action": "npcView",
+            "npcId": "sergeant",
+            "text": "1🔎 查看贺川状态\n查看范围 1.25 格 · 不请求支援、不支付体力",
+            "disabled": false
+          },
+          {
+            "action": "npc",
+            "npcId": "sergeant",
+            "text": "2✅ 已请求 · 守墙\n当前命令：守墙 · 羁绊 1/3",
+            "disabled": true
+          },
+          {
+            "action": "npcOrder",
+            "npcId": "sergeant",
+            "order": "guard",
+            "text": "3✅ 守墙\n在指定防线待命，增加防线余量。",
+            "disabled": false
+          },
+          {
+            "action": "npcOrder",
+            "npcId": "sergeant",
+            "order": "patrol",
+            "text": "4🎯 巡逻\n在接触前拦截尸群，但更容易暴露在危险中。",
+            "disabled": false
+          },
+          {
+            "action": "npcOrder",
+            "npcId": "sergeant",
+            "order": "cover",
+            "text": "5🎯 支援玩家\n跟随玩家行动，降低其遭遇危险时的压力。",
+            "disabled": false
+          },
+          {
+            "action": "landmark",
+            "text": "6🔎 探索废弃水车\n消耗 3 行动体力 · 记录到收藏册",
+            "disabled": true
+          },
+          {
+            "action": "area",
+            "text": "7✦ 营地核心\n预演：营地核心的功能交互，不会改变位置",
+            "disabled": false
+          }
+        ]
+      },
+      "receipts": [
+        {
+          "event": {
+            "eventId": "evt-000003",
+            "seq": 3,
+            "type": "npc.statusInquired",
+            "actorId": "player-1",
+            "commandId": "cmd-000001",
+            "causationId": null,
+            "tick": {
+              "world": 360,
+              "phase": 0,
+              "schedule": 0
+            },
+            "payload": {
+              "ok": true,
+              "proofVersion": 1,
+              "npcId": "sergeant",
+              "operation": "status-inquiry",
+              "outcome": "completed",
+              "target": {
+                "id": "sergeant",
+                "before": {
+                  "id": "sergeant",
+                  "supportRequested": true,
+                  "order": "guard",
+                  "bond": 1,
+                  "hp": 100,
+                  "lifeState": "healthy",
+                  "sanity": 72,
+                  "helpedByPlayer": 1
+                },
+                "beforeAdvance": null,
+                "afterAdvance": null,
+                "atCompletion": {
+                  "id": "sergeant",
+                  "supportRequested": true,
+                  "order": "guard",
+                  "bond": 1,
+                  "hp": 100,
+                  "lifeState": "healthy",
+                  "sanity": 72,
+                  "helpedByPlayer": 1
+                },
+                "presentAtCompletion": true,
+                "snapshotStages": {
+                  "before": "before-payment-and-own-effects",
+                  "beforeAdvance": null,
+                  "afterAdvance": null,
+                  "atCompletion": "reducer-final-state"
+                }
+              },
+              "payment": {
+                "cost": {
+                  "energy": 0
+                },
+                "before": {
+                  "energy": 0
+                },
+                "after": {
+                  "energy": 0
+                }
+              },
+              "resources": {
+                "energyBefore": 0,
+                "energyAfterPayment": 0,
+                "energyAfter": 0
+              },
+              "clock": {
+                "before": {
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 0,
+                  "world": 360
+                },
+                "after": {
+                  "day": 1,
+                  "hour": 6,
+                  "minute": 0,
+                  "world": 360
+                },
+                "requestedMinutes": 0,
+                "elapsedMinutes": 0
+              },
+              "advance": null
+            }
+          },
+          "command": {
+            "commandId": "cmd-000001",
+            "type": "npc.interact",
+            "actorId": "player-1",
+            "payload": {
+              "npcId": "sergeant"
+            }
+          }
+        }
+      ],
+      "terminal": {
+        "day": 1,
+        "hour": 6,
+        "minute": 0,
+        "energy": 0,
+        "roster": 10,
+        "target": {
+          "id": "sergeant",
+          "x": 11,
+          "y": 9.5,
+          "maxHp": 100,
+          "hp": 100,
+          "lifeState": "healthy",
+          "wounds": [],
+          "morale": 72,
+          "behaviorState": "work",
+          "currentOrder": null,
+          "fallbackPoint": {
+            "x": 2,
+            "y": 2
+          },
+          "homeZone": "barracks",
+          "workZone": "eastGate",
+          "inventory": {
+            "medicine": 0,
+            "ammo": 2
+          },
+          "appearance": {
+            "bodyType": "broad",
+            "skin": "#d89d77",
+            "hair": "#42372f",
+            "hairStyle": "cropped",
+            "signature": "whistle",
+            "palette": {
+              "cloth": "#896d54",
+              "clothDark": "#554332",
+              "accent": "#d9a94f",
+              "tool": "#c4cbd0"
+            },
+            "equipment": {
+              "head": "helmet",
+              "outer": "uniform",
+              "back": "fieldPack",
+              "weapon": "rifle",
+              "offhand": "whistle",
+              "tool": "rifle"
+            }
+          },
+          "equipment": {
+            "head": "helmet",
+            "outer": "uniform",
+            "back": "fieldPack",
+            "weapon": "rifle",
+            "offhand": "whistle",
+            "tool": "rifle"
+          },
+          "personality": {
+            "courage": 86,
+            "duty": 90,
+            "compassion": 48,
+            "discipline": 86,
+            "riskTolerance": 78,
+            "loyalty": 84
+          },
+          "relations": {
+            "trustToPlayer": 1,
+            "trustToCommander": 0,
+            "bondToPlayer": 0.7,
+            "respectToPlayer": 0.25,
+            "fearOfPlayer": 0,
+            "resentmentOfPlayer": 0,
+            "loyaltyToCamp": 84,
+            "loyaltyToCommander": 80,
+            "belongingToCamp": 76,
+            "allies": [
+              "commander"
+            ],
+            "rivals": [],
+            "values": {
+              "safety": 50,
+              "order": 86,
+              "compassion": 48,
+              "autonomy": 50,
+              "truth": 50
+            },
+            "knowledgeOfPlayer": {
+              "facts": [],
+              "lastHeardAt": 0
+            },
+            "opinionFlags": {}
+          },
+          "memory": {
+            "helpedByPlayer": 1,
+            "witnessedDeaths": 0,
+            "failedOrders": 0,
+            "importantEvents": [
+              "第1天：玩家再次询问当前命令"
+            ],
+            "relayCoreHandoff": null
+          },
+          "attributes": {
+            "production": 88,
+            "weaponSkill": 83,
+            "armorSkill": 88,
+            "turretSkill": 87,
+            "buildSkill": 80,
+            "medicalSkill": 65,
+            "researchSkill": 82,
+            "logisticsSkill": 89,
+            "commandSkill": 86
+          },
+          "hero": {
+            "tier": "ordinary",
+            "status": "locked",
+            "progress": 0,
+            "activeSkill": null,
+            "passiveSkill": null,
+            "promotedDay": null
+          },
+          "bond": 1,
+          "supportRequested": true,
+          "order": "guard",
+          "simMoveClock": 0,
+          "needClock": 0,
+          "workClock": 0,
+          "routineIntent": null,
+          "workPulseSeq": 0,
+          "workHistory": [],
+          "motionTarget": null,
+          "needs": {
+            "hunger": 5,
+            "fatigue": 5,
+            "stress": 10,
+            "energy": 90,
+            "social": 10,
+            "safety": 10
+          },
+          "sanity": 72,
+          "sanityClock": 0,
+          "sanityLastReason": "营地仍然安全",
+          "scheduleState": "work",
+          "lastReport": "",
+          "actingRole": null,
+          "actingFor": null,
+          "garrisonedOutpostId": null,
+          "eventChain": {
+            "step": 0,
+            "cooldown": 1000,
+            "active": null,
+            "resolved": []
+          },
+          "perception": {
+            "clock": 0,
+            "targetId": null,
+            "targetAt": 0,
+            "contacts": {},
+            "sharedUntil": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "actual-advance-death-interact",
+      "kind": "death-interact",
+      "npcId": "doctor",
+      "tileX": 16,
+      "tileY": 20,
+      "inputFile": "death-interact-input.json",
+      "inputSha256": "6ef33914193d1d3fb0d0f01c204cff5fc0a8b654b65f6c040c17f806ea38f157",
+      "inputSourceRef": "artifact:actual-advance-death-interact-parent-native-input.json",
+      "parentNativeInputSha256": "af9f8f2a02e52522c87245fc70b9cf5b75983f174f0ec9fc782a266698dd25c0",
+      "originalWriterSha256": "5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4",
+      "fixtureSourceCategory": "TEST-ONLY offline derivative made by independent real source loader/writer; historical failed route capture is not natural success",
+      "changes": [
+        "Original real writer wz-4 normal hp100 kind/AI/damage rules preserved; other enemies isolated out",
+        "TEST-ONLY original ten NPC identities retained; doctor hp1 critical at16,20 and player16,19.7; other NPCs30,20 with null motion targets/zero move clock",
+        "TEST-ONLY original enemy initial position16,20.4 goal16,20 and initial think/attackClock/perception0; real continuous motion enabled",
+        "No browser after-boot GameState/receipt injection; geometry is not proof of death, actual child combat/death receipts required"
+      ],
+      "offlineViewGate": null,
+      "offlineSupportGate": null,
+      "verified": true,
+      "publicBefore": {
+        "text": "🧟\n尸潮接触 · 1 只僵尸\n状态卡：重伤 · HP 1/100 · 岗位工作 · 稳定 · 精力 81 · 已锁定 player-1 · 戒备 · 信任 0 · 再按一次 E 确认请求支援 · 也可按 1-7 选择\n×\n−\n1🪓 攻击相邻僵尸\n使用生锈斧 · -5行动体力\n2🔎 查看苏禾状态\n查看范围 1.25 格 · 不请求支援、不支付体力\n3💬 交谈并请求苏禾支援\n确认消耗 2 行动体力 · 推进 15 分钟 · 羁绊 0/3\n4🎯 守墙\n在防线后待命，降低突破造成的损伤。\n5🎯 巡逻\n携带急救包巡逻，拦下一次突破。\n6🎯 支援玩家\n跟在玩家身后，结算时额外治疗。\n7🧺 采集木材\n消耗 8 行动体力 · 前往附近资源",
+        "title": "尸潮接触 · 1 只僵尸",
+        "buttons": [
+          {
+            "action": "attack",
+            "text": "1🪓 攻击相邻僵尸\n使用生锈斧 · -5行动体力",
+            "disabled": false
+          },
+          {
+            "action": "npcView",
+            "npcId": "doctor",
+            "text": "2🔎 查看苏禾状态\n查看范围 1.25 格 · 不请求支援、不支付体力",
+            "disabled": false
+          },
+          {
+            "action": "npc",
+            "npcId": "doctor",
+            "text": "3💬 交谈并请求苏禾支援\n确认消耗 2 行动体力 · 推进 15 分钟 · 羁绊 0/3",
+            "disabled": false
+          },
+          {
+            "action": "npcOrder",
+            "npcId": "doctor",
+            "order": "guard",
+            "text": "4🎯 守墙\n在防线后待命，降低突破造成的损伤。",
+            "disabled": false
+          },
+          {
+            "action": "npcOrder",
+            "npcId": "doctor",
+            "order": "patrol",
+            "text": "5🎯 巡逻\n携带急救包巡逻，拦下一次突破。",
+            "disabled": false
+          },
+          {
+            "action": "npcOrder",
+            "npcId": "doctor",
+            "order": "cover",
+            "text": "6🎯 支援玩家\n跟在玩家身后，结算时额外治疗。",
+            "disabled": false
+          },
+          {
+            "action": "gather",
+            "text": "7🧺 采集木材\n消耗 8 行动体力 · 前往附近资源",
+            "disabled": false
+          }
+        ]
+      },
+      "receipts": [
+        {
+          "event": {
+            "eventId": "evt-000256",
+            "seq": 256,
+            "type": "npc.dialogueOpened",
+            "actorId": "player-1",
+            "commandId": "cmd-000514",
+            "causationId": null,
+            "tick": {
+              "world": 670,
+              "phase": 0,
+              "schedule": 310
+            },
+            "payload": {
+              "ok": true,
+              "proofVersion": 1,
+              "npcId": "doctor",
+              "operation": "dialogue-open",
+              "outcome": "completed",
+              "target": {
+                "id": "doctor",
+                "before": {
+                  "id": "doctor",
+                  "supportRequested": false,
+                  "order": null,
+                  "bond": 0,
+                  "hp": 1,
+                  "lifeState": "critical",
+                  "sanity": 68,
+                  "helpedByPlayer": 0
+                },
+                "beforeAdvance": null,
+                "afterAdvance": null,
+                "atCompletion": {
+                  "id": "doctor",
+                  "supportRequested": false,
+                  "order": null,
+                  "bond": 0,
+                  "hp": 1,
+                  "lifeState": "critical",
+                  "sanity": 68,
+                  "helpedByPlayer": 0
+                },
+                "presentAtCompletion": true,
+                "snapshotStages": {
+                  "before": "before-payment-and-own-effects",
+                  "beforeAdvance": null,
+                  "afterAdvance": null,
+                  "atCompletion": "reducer-final-state"
+                }
+              },
+              "payment": {
+                "cost": {
+                  "energy": 0
+                },
+                "before": {
+                  "energy": 50
+                },
+                "after": {
+                  "energy": 50
+                }
+              },
+              "resources": {
+                "energyBefore": 50,
+                "energyAfterPayment": 50,
+                "energyAfter": 50
+              },
+              "clock": {
+                "before": {
+                  "day": 1,
+                  "hour": 11,
+                  "minute": 10,
+                  "world": 670
+                },
+                "after": {
+                  "day": 1,
+                  "hour": 11,
+                  "minute": 10,
+                  "world": 670
+                },
+                "requestedMinutes": 0,
+                "elapsedMinutes": 0
+              },
+              "advance": null
+            }
+          },
+          "command": {
+            "commandId": "cmd-000514",
+            "type": "npc.interact",
+            "actorId": "player-1",
+            "payload": {
+              "npcId": "doctor"
+            }
+          }
+        },
+        {
+          "event": {
+            "eventId": "evt-000262",
+            "seq": 262,
+            "type": "npc.actionInterrupted",
+            "actorId": "player-1",
+            "commandId": "cmd-000516",
+            "causationId": "cmd-000516",
+            "tick": {
+              "world": 686,
+              "phase": 0,
+              "schedule": 326
+            },
+            "payload": {
+              "ok": false,
+              "proofVersion": 1,
+              "npcId": "doctor",
+              "operation": "support-requested",
+              "outcome": "interrupted",
+              "target": {
+                "id": "doctor",
+                "before": {
+                  "id": "doctor",
+                  "supportRequested": false,
+                  "order": null,
+                  "bond": 0,
+                  "hp": 1,
+                  "lifeState": "critical",
+                  "sanity": 68,
+                  "helpedByPlayer": 0
+                },
+                "beforeAdvance": {
+                  "id": "doctor",
+                  "supportRequested": true,
+                  "order": "cover",
+                  "bond": 1,
+                  "hp": 1,
+                  "lifeState": "critical",
+                  "sanity": 68,
+                  "helpedByPlayer": 0
+                },
+                "afterAdvance": {
+                  "id": "doctor",
+                  "supportRequested": false,
+                  "order": null,
+                  "bond": 1,
+                  "hp": 0,
+                  "lifeState": "dead",
+                  "sanity": 67,
+                  "helpedByPlayer": 0
+                },
+                "atCompletion": {
+                  "id": "doctor",
+                  "supportRequested": false,
+                  "order": null,
+                  "bond": 1,
+                  "hp": 0,
+                  "lifeState": "dead",
+                  "sanity": 67,
+                  "helpedByPlayer": 0
+                },
+                "presentAtCompletion": true,
+                "snapshotStages": {
+                  "before": "before-payment-and-own-effects",
+                  "beforeAdvance": "after-pre-simulation-own-effects",
+                  "afterAdvance": "after-world-simulation-before-post-effects",
+                  "atCompletion": "reducer-final-state"
+                }
+              },
+              "payment": {
+                "cost": {
+                  "energy": 2
+                },
+                "before": {
+                  "energy": 50
+                },
+                "after": {
+                  "energy": 48
+                }
+              },
+              "resources": {
+                "energyBefore": 50,
+                "energyAfterPayment": 48,
+                "energyAfter": 49
+              },
+              "clock": {
+                "before": {
+                  "day": 1,
+                  "hour": 11,
+                  "minute": 11,
+                  "world": 671
+                },
+                "after": {
+                  "day": 1,
+                  "hour": 11,
+                  "minute": 26,
+                  "world": 686
+                },
+                "requestedMinutes": 15,
+                "elapsedMinutes": 15
+              },
+              "advance": {
+                "commandId": "cmd-000517",
+                "eventId": "evt-000261",
+                "causationId": "cmd-000516",
+                "minutes": 15,
+                "tick": {
+                  "world": 686,
+                  "phase": 0,
+                  "schedule": 326
+                }
+              },
+              "reason": "npc-died-or-unavailable"
+            }
+          },
+          "parent": {
+            "commandId": "cmd-000516",
+            "type": "npc.interact",
+            "actorId": "player-1",
+            "payload": {
+              "npcId": "doctor"
+            }
+          },
+          "child": {
+            "commandId": "cmd-000517",
+            "type": "world.advance",
+            "actorId": "player-1",
+            "payload": {
+              "minutes": 15
+            }
+          },
+          "advance": {
+            "eventId": "evt-000261",
+            "seq": 261,
+            "type": "time.advanced",
+            "actorId": "system",
+            "commandId": "cmd-000517",
+            "causationId": "cmd-000516",
+            "tick": {
+              "world": 686,
+              "phase": 0,
+              "schedule": 326
+            },
+            "payload": {
+              "minutes": 15,
+              "day": 1,
+              "hour": 11,
+              "minute": 26
+            }
+          },
+          "rejection": {
+            "eventId": "evt-000263",
+            "seq": 263,
+            "type": "command.rejected",
+            "actorId": "player-1",
+            "commandId": "cmd-000516",
+            "causationId": null,
+            "tick": {
+              "world": 686,
+              "phase": 0,
+              "schedule": 326
+            },
+            "payload": {
+              "type": "npc.interact",
+              "reason": "npc-action-interrupted"
+            }
+          },
+          "wallMs": 728
+        }
+      ],
+      "automaticOutcomeCheckpoint": {
+        "reason": "command:npc:npc-action-interrupted",
+        "wallMs": 660,
+        "sha256": "91be3c3d7ccec14be4134563a0b4d8e8a43d207ea54c077cdcf99ec8add32725",
+        "manualSave": false,
+        "pagehideBeforeEvidence": false,
+        "method": "read-only native localStorage polling for wrapper-specific checkpoint reason plus matching real outcome and command.rejected"
+      },
+      "interruptionToast": "苏禾的行动已中断；已发生的体力支付、时间和战斗后果保留",
+      "terminal": {
+        "day": 1,
+        "hour": 11,
+        "minute": 26,
+        "energy": 49,
+        "roster": 10,
+        "target": {
+          "id": "doctor",
+          "x": 15.964264405811567,
+          "y": 19.973165483822758,
+          "maxHp": 100,
+          "hp": 0,
+          "lifeState": "dead",
+          "wounds": [],
+          "morale": 72,
+          "behaviorState": "dead",
+          "currentOrder": null,
+          "fallbackPoint": {
+            "x": 2,
+            "y": 2
+          },
+          "homeZone": "infirmary",
+          "workZone": "core",
+          "inventory": {
+            "medicine": 0,
+            "ammo": 2
+          },
+          "appearance": {
+            "bodyType": "slim",
+            "skin": "#e0aa84",
+            "hair": "#5d4038",
+            "hairStyle": "bun",
+            "signature": "redCross",
+            "palette": {
+              "cloth": "#d8e3d3",
+              "clothDark": "#88a18e",
+              "accent": "#d86767",
+              "tool": "#dce6e4"
+            },
+            "equipment": {
+              "head": "none",
+              "outer": "coat",
+              "back": "medicalPack",
+              "weapon": "none",
+              "offhand": "none",
+              "tool": "medkit"
+            }
+          },
+          "equipment": {
+            "head": "none",
+            "outer": "coat",
+            "back": "medicalPack",
+            "weapon": "none",
+            "offhand": "none",
+            "tool": "medkit"
+          },
+          "personality": {
+            "courage": 46,
+            "duty": 76,
+            "compassion": 96,
+            "discipline": 78,
+            "riskTolerance": 34,
+            "loyalty": 72
+          },
+          "relations": {
+            "trustToPlayer": 0,
+            "trustToCommander": 0,
+            "bondToPlayer": 0,
+            "respectToPlayer": 0,
+            "fearOfPlayer": 0,
+            "resentmentOfPlayer": 0,
+            "loyaltyToCamp": 72,
+            "loyaltyToCommander": 68,
+            "belongingToCamp": 64,
+            "values": {
+              "safety": 50,
+              "order": 78,
+              "compassion": 96,
+              "autonomy": 50,
+              "truth": 50
+            },
+            "knowledgeOfPlayer": {
+              "facts": [],
+              "lastHeardAt": 0
+            },
+            "opinionFlags": {},
+            "allies": [],
+            "rivals": []
+          },
+          "memory": {
+            "helpedByPlayer": 0,
+            "witnessedDeaths": 0,
+            "failedOrders": 0,
+            "importantEvents": [
+              "第1天战斗死亡"
+            ],
+            "relayCoreHandoff": null
+          },
+          "attributes": {
+            "production": 77,
+            "weaponSkill": 42,
+            "armorSkill": 77,
+            "turretSkill": 77,
+            "buildSkill": 81,
+            "medicalSkill": 86,
+            "researchSkill": 56,
+            "logisticsSkill": 77,
+            "commandSkill": 77
+          },
+          "hero": {
+            "tier": "hero",
+            "status": "promoted",
+            "progress": 100,
+            "activeSkill": "triage-burst",
+            "passiveSkill": "medical-triage",
+            "promotedDay": 1
+          },
+          "bond": 1,
+          "supportRequested": false,
+          "order": null,
+          "simMoveClock": 0,
+          "needClock": 26,
+          "workClock": 26,
+          "routineIntent": null,
+          "workPulseSeq": 5,
+          "workHistory": [
+            {
+              "id": "work.doctor.1",
+              "at": 430,
+              "role": "doctor",
+              "status": "completed",
+              "task": "巡查伤员与医务库存",
+              "destination": "infirmary"
+            },
+            {
+              "id": "work.doctor.2",
+              "at": 480,
+              "role": "doctor",
+              "status": "completed",
+              "task": "巡查伤员与医务库存",
+              "destination": "infirmary"
+            },
+            {
+              "id": "work.doctor.3",
+              "at": 540,
+              "role": "doctor",
+              "status": "completed",
+              "task": "巡查伤员与医务库存",
+              "destination": "infirmary"
+            },
+            {
+              "id": "work.doctor.4",
+              "at": 620,
+              "role": "doctor",
+              "status": "completed",
+              "task": "巡查伤员与医务库存",
+              "destination": "infirmary"
+            },
+            {
+              "id": "work.doctor.5",
+              "at": 660,
+              "role": "doctor",
+              "status": "completed",
+              "task": "巡查伤员与医务库存",
+              "destination": "infirmary"
+            }
+          ],
+          "motionTarget": {
+            "x": 11,
+            "y": 10
+          },
+          "needs": {
+            "hunger": 23.86800000000007,
+            "fatigue": 12.31200000000001,
+            "stress": 8.043999999999976,
+            "energy": 80.85799999999969,
+            "social": 28.40400000000009,
+            "safety": 16.1120000000002
+          },
+          "sanity": 67,
+          "sanityClock": 26,
+          "sanityLastReason": "白天敌袭造成的战斗冲击（-1）",
+          "scheduleState": "阵亡",
+          "lastReport": "战斗阵亡，岗位永久空缺",
+          "actingRole": null,
+          "actingFor": null,
+          "garrisonedOutpostId": null,
+          "eventChain": {
+            "step": 0,
+            "cooldown": 0,
+            "active": null,
+            "resolved": []
+          },
+          "perception": {
+            "clock": 0,
+            "targetId": "player-1",
+            "targetAt": 686,
+            "contacts": {
+              "player-1": {
+                "x": 16,
+                "y": 19.7,
+                "sourceId": "doctor",
+                "at": 686,
+                "expiresAt": 741
+              }
+            },
+            "sharedUntil": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "actual-advance-death-order",
+      "kind": "death-order",
+      "npcId": "doctor",
+      "tileX": 16,
+      "tileY": 20,
+      "inputFile": "death-order-input.json",
+      "inputSha256": "92c99d7d22de7c2b0c4ececb812f20265d7d06a1418d731905c44f94ae273bc2",
+      "inputSourceRef": "artifact:actual-advance-death-order-parent-native-input.json",
+      "parentNativeInputSha256": "2d9242855e9ee0bcb81971dedc6fb3e84f8ecbd813b7bb2bab90dd5c912063ed",
+      "originalWriterSha256": "5fdd18e8307d4109e671d7fb98298722611854fafb23c5b72a3491c1f1e32ee4",
+      "fixtureSourceCategory": "TEST-ONLY offline derivative made by independent real source loader/writer; historical failed route capture is not natural success",
+      "changes": [
+        "Original real writer wz-4 normal hp100 kind/AI/damage rules preserved; other enemies isolated out",
+        "TEST-ONLY original ten NPC identities retained; doctor hp1 critical at16,20 and player16,19.7; other NPCs30,20 with null motion targets/zero move clock",
+        "TEST-ONLY original enemy initial position16,20.4 goal16,20 and initial think/attackClock/perception0; real continuous motion enabled",
+        "No browser after-boot GameState/receipt injection; geometry is not proof of death, actual child combat/death receipts required"
+      ],
+      "offlineViewGate": null,
+      "offlineSupportGate": null,
+      "verified": true,
+      "publicBefore": {
+        "text": "🧟\n尸潮接触 · 1 只僵尸\n状态卡：重伤 · HP 1/100 · 岗位工作 · 稳定 · 精力 81 · 已锁定 player-1 · 戒备 · 信任 0 · 再按一次 E 确认请求支援 · 也可按 1-7 选择\n×\n−\n1🪓 攻击相邻僵尸\n使用生锈斧 · -5行动体力\n2🔎 查看苏禾状态\n查看范围 1.25 格 · 不请求支援、不支付体力\n3💬 交谈并请求苏禾支援\n确认消耗 2 行动体力 · 推进 15 分钟 · 羁绊 0/3\n4🎯 守墙\n在防线后待命，降低突破造成的损伤。\n5🎯 巡逻\n携带急救包巡逻，拦下一次突破。\n6🎯 支援玩家\n跟在玩家身后，结算时额外治疗。\n7🧺 采集木材\n消耗 8 行动体力 · 前往附近资源",
+        "title": "尸潮接触 · 1 只僵尸",
+        "buttons": [
+          {
+            "action": "attack",
+            "text": "1🪓 攻击相邻僵尸\n使用生锈斧 · -5行动体力",
+            "disabled": false
+          },
+          {
+            "action": "npcView",
+            "npcId": "doctor",
+            "text": "2🔎 查看苏禾状态\n查看范围 1.25 格 · 不请求支援、不支付体力",
+            "disabled": false
+          },
+          {
+            "action": "npc",
+            "npcId": "doctor",
+            "text": "3💬 交谈并请求苏禾支援\n确认消耗 2 行动体力 · 推进 15 分钟 · 羁绊 0/3",
+            "disabled": false
+          },
+          {
+            "action": "npcOrder",
+            "npcId": "doctor",
+            "order": "guard",
+            "text": "4🎯 守墙\n在防线后待命，降低突破造成的损伤。",
+            "disabled": false
+          },
+          {
+            "action": "npcOrder",
+            "npcId": "doctor",
+            "order": "patrol",
+            "text": "5🎯 巡逻\n携带急救包巡逻，拦下一次突破。",
+            "disabled": false
+          },
+          {
+            "action": "npcOrder",
+            "npcId": "doctor",
+            "order": "cover",
+            "text": "6🎯 支援玩家\n跟在玩家身后，结算时额外治疗。",
+            "disabled": false
+          },
+          {
+            "action": "gather",
+            "text": "7🧺 采集木材\n消耗 8 行动体力 · 前往附近资源",
+            "disabled": false
+          }
+        ]
+      },
+      "automaticOutcomeCheckpoint": {
+        "reason": "command:npc:npc-action-interrupted",
+        "wallMs": 660,
+        "sha256": "71c7e0ec44a94424f11285b8966c6c5a0c4bb33ac22a4a659e26ad9931e60301",
+        "manualSave": false,
+        "pagehideBeforeEvidence": false,
+        "method": "read-only native localStorage polling for wrapper-specific checkpoint reason plus matching real outcome and command.rejected"
+      },
+      "receipts": [
+        {
+          "event": {
+            "eventId": "evt-000260",
+            "seq": 260,
+            "type": "npc.actionInterrupted",
+            "actorId": "player-1",
+            "commandId": "cmd-000513",
+            "causationId": "cmd-000513",
+            "tick": {
+              "world": 685,
+              "phase": 0,
+              "schedule": 325
+            },
+            "payload": {
+              "ok": false,
+              "proofVersion": 1,
+              "npcId": "doctor",
+              "operation": "support-and-order",
+              "outcome": "interrupted",
+              "orderId": "guard",
+              "target": {
+                "id": "doctor",
+                "before": {
+                  "id": "doctor",
+                  "supportRequested": false,
+                  "order": null,
+                  "bond": 0,
+                  "hp": 1,
+                  "lifeState": "critical",
+                  "sanity": 68,
+                  "helpedByPlayer": 0
+                },
+                "beforeAdvance": {
+                  "id": "doctor",
+                  "supportRequested": true,
+                  "order": null,
+                  "bond": 1,
+                  "hp": 1,
+                  "lifeState": "critical",
+                  "sanity": 68,
+                  "helpedByPlayer": 1
+                },
+                "afterAdvance": {
+                  "id": "doctor",
+                  "supportRequested": false,
+                  "order": null,
+                  "bond": 1,
+                  "hp": 0,
+                  "lifeState": "dead",
+                  "sanity": 67,
+                  "helpedByPlayer": 1
+                },
+                "atCompletion": {
+                  "id": "doctor",
+                  "supportRequested": false,
+                  "order": null,
+                  "bond": 1,
+                  "hp": 0,
+                  "lifeState": "dead",
+                  "sanity": 67,
+                  "helpedByPlayer": 1
+                },
+                "presentAtCompletion": true,
+                "snapshotStages": {
+                  "before": "before-payment-and-own-effects",
+                  "beforeAdvance": "after-pre-simulation-own-effects",
+                  "afterAdvance": "after-world-simulation-before-post-effects",
+                  "atCompletion": "reducer-final-state"
+                }
+              },
+              "payment": {
+                "cost": {
+                  "energy": 2
+                },
+                "before": {
+                  "energy": 50
+                },
+                "after": {
+                  "energy": 48
+                }
+              },
+              "resources": {
+                "energyBefore": 50,
+                "energyAfterPayment": 48,
+                "energyAfter": 49
+              },
+              "clock": {
+                "before": {
+                  "day": 1,
+                  "hour": 11,
+                  "minute": 10,
+                  "world": 670
+                },
+                "after": {
+                  "day": 1,
+                  "hour": 11,
+                  "minute": 25,
+                  "world": 685
+                },
+                "requestedMinutes": 15,
+                "elapsedMinutes": 15
+              },
+              "advance": {
+                "commandId": "cmd-000514",
+                "eventId": "evt-000259",
+                "causationId": "cmd-000513",
+                "minutes": 15,
+                "tick": {
+                  "world": 685,
+                  "phase": 0,
+                  "schedule": 325
+                }
+              },
+              "reason": "npc-died-or-unavailable"
+            }
+          },
+          "parent": {
+            "commandId": "cmd-000513",
+            "type": "npc.order",
+            "actorId": "player-1",
+            "payload": {
+              "npcId": "doctor",
+              "orderId": "guard"
+            }
+          },
+          "child": {
+            "commandId": "cmd-000514",
+            "type": "world.advance",
+            "actorId": "player-1",
+            "payload": {
+              "minutes": 15
+            }
+          },
+          "advance": {
+            "eventId": "evt-000259",
+            "seq": 259,
+            "type": "time.advanced",
+            "actorId": "system",
+            "commandId": "cmd-000514",
+            "causationId": "cmd-000513",
+            "tick": {
+              "world": 685,
+              "phase": 0,
+              "schedule": 325
+            },
+            "payload": {
+              "minutes": 15,
+              "day": 1,
+              "hour": 11,
+              "minute": 25
+            }
+          },
+          "rejection": {
+            "eventId": "evt-000261",
+            "seq": 261,
+            "type": "command.rejected",
+            "actorId": "player-1",
+            "commandId": "cmd-000513",
+            "causationId": null,
+            "tick": {
+              "world": 685,
+              "phase": 0,
+              "schedule": 325
+            },
+            "payload": {
+              "type": "npc.order",
+              "reason": "npc-action-interrupted"
+            }
+          },
+          "wallMs": 731
+        }
+      ],
+      "interruptionToast": "苏禾的行动已中断；已发生的体力支付、时间和战斗后果保留",
+      "terminal": {
+        "day": 1,
+        "hour": 11,
+        "minute": 26,
+        "energy": 49,
+        "roster": 10,
+        "target": {
+          "id": "doctor",
+          "x": 16,
+          "y": 20,
+          "maxHp": 100,
+          "hp": 0,
+          "lifeState": "dead",
+          "wounds": [],
+          "morale": 72,
+          "behaviorState": "dead",
+          "currentOrder": null,
+          "fallbackPoint": {
+            "x": 2,
+            "y": 2
+          },
+          "homeZone": "infirmary",
+          "workZone": "core",
+          "inventory": {
+            "medicine": 0,
+            "ammo": 2
+          },
+          "appearance": {
+            "bodyType": "slim",
+            "skin": "#e0aa84",
+            "hair": "#5d4038",
+            "hairStyle": "bun",
+            "signature": "redCross",
+            "palette": {
+              "cloth": "#d8e3d3",
+              "clothDark": "#88a18e",
+              "accent": "#d86767",
+              "tool": "#dce6e4"
+            },
+            "equipment": {
+              "head": "none",
+              "outer": "coat",
+              "back": "medicalPack",
+              "weapon": "none",
+              "offhand": "none",
+              "tool": "medkit"
+            }
+          },
+          "equipment": {
+            "head": "none",
+            "outer": "coat",
+            "back": "medicalPack",
+            "weapon": "none",
+            "offhand": "none",
+            "tool": "medkit"
+          },
+          "personality": {
+            "courage": 46,
+            "duty": 76,
+            "compassion": 96,
+            "discipline": 78,
+            "riskTolerance": 34,
+            "loyalty": 72
+          },
+          "relations": {
+            "trustToPlayer": 3,
+            "trustToCommander": 0,
+            "bondToPlayer": 2.0999999999999996,
+            "respectToPlayer": 0.75,
+            "fearOfPlayer": 0,
+            "resentmentOfPlayer": 0,
+            "loyaltyToCamp": 72,
+            "loyaltyToCommander": 68,
+            "belongingToCamp": 64,
+            "values": {
+              "safety": 50,
+              "order": 78,
+              "compassion": 96,
+              "autonomy": 50,
+              "truth": 50
+            },
+            "knowledgeOfPlayer": {
+              "facts": [],
+              "lastHeardAt": 0
+            },
+            "opinionFlags": {},
+            "allies": [],
+            "rivals": []
+          },
+          "memory": {
+            "helpedByPlayer": 1,
+            "witnessedDeaths": 0,
+            "failedOrders": 0,
+            "importantEvents": [
+              "第1天：接受了「守墙」命令",
+              "第1天战斗死亡"
+            ],
+            "relayCoreHandoff": null
+          },
+          "attributes": {
+            "production": 77,
+            "weaponSkill": 42,
+            "armorSkill": 77,
+            "turretSkill": 77,
+            "buildSkill": 81,
+            "medicalSkill": 86,
+            "researchSkill": 56,
+            "logisticsSkill": 77,
+            "commandSkill": 77
+          },
+          "hero": {
+            "tier": "hero",
+            "status": "promoted",
+            "progress": 100,
+            "activeSkill": "triage-burst",
+            "passiveSkill": "medical-triage",
+            "promotedDay": 1
+          },
+          "bond": 1,
+          "supportRequested": false,
+          "order": null,
+          "simMoveClock": 15,
+          "needClock": 25,
+          "workClock": 25,
+          "routineIntent": null,
+          "workPulseSeq": 5,
+          "workHistory": [
+            {
+              "id": "work.doctor.1",
+              "at": 430,
+              "role": "doctor",
+              "status": "completed",
+              "task": "巡查伤员与医务库存",
+              "destination": "infirmary"
+            },
+            {
+              "id": "work.doctor.2",
+              "at": 480,
+              "role": "doctor",
+              "status": "completed",
+              "task": "巡查伤员与医务库存",
+              "destination": "infirmary"
+            },
+            {
+              "id": "work.doctor.3",
+              "at": 540,
+              "role": "doctor",
+              "status": "completed",
+              "task": "巡查伤员与医务库存",
+              "destination": "infirmary"
+            },
+            {
+              "id": "work.doctor.4",
+              "at": 620,
+              "role": "doctor",
+              "status": "completed",
+              "task": "巡查伤员与医务库存",
+              "destination": "infirmary"
+            },
+            {
+              "id": "work.doctor.5",
+              "at": 660,
+              "role": "doctor",
+              "status": "completed",
+              "task": "巡查伤员与医务库存",
+              "destination": "infirmary"
+            }
+          ],
+          "motionTarget": null,
+          "needs": {
+            "hunger": 23.85000000000007,
+            "fatigue": 12.30000000000001,
+            "stress": 8.049999999999976,
+            "energy": 80.8799999999997,
+            "social": 28.400000000000087,
+            "safety": 16.1200000000002
+          },
+          "sanity": 67,
+          "sanityClock": 25,
+          "sanityLastReason": "白天敌袭造成的战斗冲击（-1）",
+          "scheduleState": "阵亡",
+          "lastReport": "战斗阵亡，岗位永久空缺",
+          "actingRole": null,
+          "actingFor": null,
+          "garrisonedOutpostId": null,
+          "eventChain": {
+            "step": 0,
+            "cooldown": 0,
+            "active": null,
+            "resolved": []
+          },
+          "perception": {
+            "clock": 0,
+            "targetId": "wz-4",
+            "targetAt": 685,
+            "contacts": {
+              "wz-4": {
+                "x": 16,
+                "y": 20.4,
+                "sourceId": "doctor",
+                "at": 685,
+                "expiresAt": 740
+              }
+            },
+            "sharedUntil": 0
+          }
+        }
+      }
+    }
+  ],
+  "documentHashes": [
+    {
+      "scene": "band-1.018-view-only",
+      "stage": "boot",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "band-1.018-view-only",
+      "stage": "baseline-real-pagehide-writer",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "band-1.018-view-only",
+      "stage": "after-view-real-writer",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "band-1.018-view-only",
+      "stage": "after-roster-view-real-writer",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "band-1.018-view-only",
+      "stage": "after-E-rejection-real-writer",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "band-1.018-view-only",
+      "stage": "terminal-real-writer",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "inner-zero-energy-first-E",
+      "stage": "boot",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "inner-zero-energy-first-E",
+      "stage": "baseline-real-pagehide-writer",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "inner-zero-energy-first-E",
+      "stage": "after-paid-E-rejection-real-writer",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "inner-zero-energy-first-E",
+      "stage": "terminal-real-writer",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "inner-public-buttons-support-reload",
+      "stage": "boot",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "inner-public-buttons-support-reload",
+      "stage": "baseline-real-pagehide-writer",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "inner-public-buttons-support-reload",
+      "stage": "support-reloaded-real-writer",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "inner-public-buttons-support-reload",
+      "stage": "terminal-real-writer",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "critical-low-risk-guard",
+      "stage": "boot",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "critical-low-risk-guard",
+      "stage": "baseline-real-pagehide-writer",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "critical-low-risk-guard",
+      "stage": "terminal-real-writer",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "supported-autonomous-refusal",
+      "stage": "boot",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "supported-autonomous-refusal",
+      "stage": "baseline-real-pagehide-writer",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "supported-autonomous-refusal",
+      "stage": "refusal-after-automatic-save-reload",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "supported-autonomous-refusal",
+      "stage": "terminal-real-writer",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "supported-status-inquiry",
+      "stage": "boot",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "supported-status-inquiry",
+      "stage": "baseline-real-pagehide-writer",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "supported-status-inquiry",
+      "stage": "terminal-real-writer",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "actual-advance-death-interact",
+      "stage": "boot",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "actual-advance-death-interact",
+      "stage": "interruption-after-automatic-save-reload",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "actual-advance-death-interact",
+      "stage": "terminal-real-writer",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "actual-advance-death-order",
+      "stage": "boot",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "actual-advance-death-order",
+      "stage": "interruption-after-automatic-save-reload",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "actual-advance-death-order",
+      "stage": "terminal-real-writer",
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    }
+  ],
+  "browserVersion": "155.0.8059.80",
+  "allMainDocuments": [
+    {
+      "scene": "band-1.018-view-only",
+      "url": "http://127.0.0.1:53950/",
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "band-1.018-view-only",
+      "url": "http://127.0.0.1:53950/",
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "band-1.018-view-only",
+      "url": "http://127.0.0.1:53950/",
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "band-1.018-view-only",
+      "url": "http://127.0.0.1:53950/",
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "band-1.018-view-only",
+      "url": "http://127.0.0.1:53950/",
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "band-1.018-view-only",
+      "url": "http://127.0.0.1:53950/",
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "inner-zero-energy-first-E",
+      "url": "http://127.0.0.1:53950/",
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "inner-zero-energy-first-E",
+      "url": "http://127.0.0.1:53950/",
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "inner-zero-energy-first-E",
+      "url": "http://127.0.0.1:53950/",
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "inner-zero-energy-first-E",
+      "url": "http://127.0.0.1:53950/",
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "inner-public-buttons-support-reload",
+      "url": "http://127.0.0.1:53950/",
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "inner-public-buttons-support-reload",
+      "url": "http://127.0.0.1:53950/",
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "inner-public-buttons-support-reload",
+      "url": "http://127.0.0.1:53950/",
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "inner-public-buttons-support-reload",
+      "url": "http://127.0.0.1:53950/",
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "critical-low-risk-guard",
+      "url": "http://127.0.0.1:53950/",
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "critical-low-risk-guard",
+      "url": "http://127.0.0.1:53950/",
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "critical-low-risk-guard",
+      "url": "http://127.0.0.1:53950/",
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "supported-autonomous-refusal",
+      "url": "http://127.0.0.1:53950/",
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "supported-autonomous-refusal",
+      "url": "http://127.0.0.1:53950/",
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "supported-autonomous-refusal",
+      "url": "http://127.0.0.1:53950/",
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "supported-autonomous-refusal",
+      "url": "http://127.0.0.1:53950/",
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "supported-status-inquiry",
+      "url": "http://127.0.0.1:53950/",
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "supported-status-inquiry",
+      "url": "http://127.0.0.1:53950/",
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "supported-status-inquiry",
+      "url": "http://127.0.0.1:53950/",
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "actual-advance-death-interact",
+      "url": "http://127.0.0.1:53950/",
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "actual-advance-death-interact",
+      "url": "http://127.0.0.1:53950/",
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "actual-advance-death-interact",
+      "url": "http://127.0.0.1:53950/",
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "actual-advance-death-order",
+      "url": "http://127.0.0.1:53950/",
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "actual-advance-death-order",
+      "url": "http://127.0.0.1:53950/",
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    },
+    {
+      "scene": "actual-advance-death-order",
+      "url": "http://127.0.0.1:53950/",
+      "status": 200,
+      "sha256": "2dd27255389b5af2f0f6e077af2ab89cd5f31d938311849e42d9ea95e9868f1b"
+    }
+  ],
+  "cleanup": {
+    "contextsClosed": true,
+    "browserClosed": true,
+    "httpServerClosed": true
+  },
+  "passed": 112,
+  "count": 112,
+  "ok": true
+}

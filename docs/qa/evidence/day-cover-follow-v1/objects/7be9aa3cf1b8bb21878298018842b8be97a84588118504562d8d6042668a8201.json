@@ -1,0 +1,63 @@
+{
+  "eventId": "evt-000049",
+  "seq": 49,
+  "type": "relay.materialsGathered",
+  "actorId": "system",
+  "commandId": null,
+  "causationId": "cmd-000279",
+  "tick": {
+    "world": 416,
+    "phase": 0,
+    "schedule": 56
+  },
+  "payload": {
+    "projectId": "camp-relay-001",
+    "at": 416,
+    "progress": {
+      "wood": 2,
+      "parts": 2,
+      "stone": 0
+    },
+    "reports": [
+      "阿梁筹到木材 2",
+      "周岚整理零件 1",
+      "阿默回收电子零件 1"
+    ],
+    "sources": [
+      {
+        "resourceId": "stock.wood",
+        "sourceType": "inventory",
+        "amount": 2
+      },
+      {
+        "resourceId": "stock.parts",
+        "sourceType": "inventory",
+        "amount": 1
+      },
+      {
+        "resourceId": "stock.parts",
+        "sourceType": "inventory",
+        "amount": 1
+      }
+    ]
+  },
+  "defId": "relay-chain-001",
+  "definitionVersion": 1,
+  "instanceId": "camp-relay-001",
+  "effects": [
+    {
+      "type": "fact",
+      "key": "construction",
+      "eventType": "relay.constructionStarted",
+      "amount": 0,
+      "payload": {}
+    },
+    {
+      "type": "resource",
+      "key": "materials",
+      "eventType": null,
+      "amount": 0,
+      "payload": {}
+    }
+  ]
+}

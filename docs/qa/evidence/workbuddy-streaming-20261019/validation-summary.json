@@ -1,0 +1,234 @@
+{
+  "schema": "IMSAVERWorkBuddyStreamingValidationV1",
+  "scope": "engineering_assistance_not_game_acceptance",
+  "officialCliVersion": "2.169.0",
+  "finalSourceSha256": {
+    "run.py": "c7f047ef04e6092c739d47376b38afb30a128ea023e0111f648f60fdfb03eedd",
+    "streaming.py": "ae2bd97a02f61d436a4bbd3907639fc1a07472c0df3ba9cf02850d01b80959b0",
+    "test_routing.py": "370e41ff181b53ce38be2babd143b2474949a23e4cfcf70912339fdc5cd74669",
+    "test_streaming.py": "a403e37e6b3578f27fe55f5b0a32dcb53fe1f4512aa7479efb030f5f586915de"
+  },
+  "offlineValidation": {
+    "routingAndTerminal": 15,
+    "realSubprocessCollector": 8,
+    "exitCodes": [
+      0,
+      0
+    ],
+    "networkCalls": 0
+  },
+  "onlineTasks": [
+    {
+      "label": "protocol01",
+      "originalReceiptSha256": "ef969c809422dd2d72a9c1da66f5888c72d4b7d971c0a1ee879f0d5097e163c4",
+      "originalProgressSha256": "ed5fcbb1d39d7d09c45c471867fca828b1f8c8d1c107970f2a84ac6652802498",
+      "receipt": {
+        "schema": "IMSAVERWorkBuddyTaskV1",
+        "startedAt": "2026-10-19T03:24:26.113275+00:00",
+        "routeReason": "primary_default",
+        "primary": "step-5-preview",
+        "fallback": "deepseek-v4.1-flash",
+        "cliVersion": "2.169.0",
+        "runnerSha256": "bfc811aa146410b8ca27ec57b33cf961007bc41360191e23f7c9207e6e423cd4",
+        "inputs": {
+          "taskSha256": "fddbf564908885e0244d9d310a59a499520dca1470f221a39bb6931026cb416f",
+          "promptSha256": "ac58d4d6858d2073d9eb791ba0a09c8c225ffc4b9acdfaa3829deeb1f3d30240",
+          "inputCharacters": 51,
+          "sources": []
+        },
+        "attempts": [
+          {
+            "requestedModel": "step-5-preview",
+            "exitCode": 0,
+            "stdoutSha256": "5e2e92986f180678724d55a8f84ba09000f709000a3f9f0ad358359d96688548",
+            "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "modelIds": [
+              "step-5-preview"
+            ],
+            "usage": {
+              "input_tokens": 3154,
+              "output_tokens": 152,
+              "cache_creation_input_tokens": 3154,
+              "cache_read_input_tokens": 0,
+              "cache_creation": null,
+              "server_tool_use": null,
+              "service_tier": null
+            },
+            "rawUsage": [],
+            "subtype": "success",
+            "isError": false,
+            "toolCalls": 0,
+            "status": "success",
+            "stream": {
+              "exitCode": 0,
+              "timeoutReason": null,
+              "processTerminated": true,
+              "processKilled": false,
+              "resultSeen": true,
+              "firstEventSeconds": 3.922,
+              "firstModelActivitySeconds": 8.234,
+              "readersStopped": true,
+              "eventCount": 70,
+              "partialCount": 64,
+              "textCharacters": 2,
+              "thinkingCharacters": 736,
+              "protocolErrors": 0
+            },
+            "billingUnknown": true,
+            "elapsedSeconds": 11.06,
+            "requestedEffort": "low",
+            "requestedOutputTokens": 1024,
+            "requestedThinkingTokens": 512,
+            "processId": null,
+            "processTerminated": true,
+            "timeouts": {
+              "total": 90,
+              "firstModelOutput": 45,
+              "modelIdle": 30
+            },
+            "transport": "one_shot_stream_json",
+            "observedProviderRequests": [
+              {
+                "agent": "cli",
+                "model": "step-5-preview"
+              }
+            ],
+            "observedProviderRequestCount": 1,
+            "truncationObserved": false,
+            "requestObservation": "private_cli_log_lower_bound"
+          }
+        ],
+        "classification": "model_assistance_not_acceptance",
+        "finishedAt": "2026-10-19T03:24:37.208173+00:00",
+        "status": "success",
+        "selectedModel": "step-5-preview",
+        "responseSha256": "a12b7cb43c9d9134b5bb1b35e9096b66775d9e92e7611d1cc92b02edd6782a87"
+      },
+      "progress": {
+        "pid": 10832,
+        "model": "step-5-preview",
+        "elapsedSeconds": 11.062,
+        "firstEventSeconds": 3.922,
+        "firstModelActivitySeconds": 8.234,
+        "resultSeen": true,
+        "phase": "result_received",
+        "timeoutReason": null,
+        "eventCount": 70,
+        "partialCount": 64,
+        "textCharacters": 2,
+        "thinkingCharacters": 736,
+        "protocolErrors": 0
+      }
+    },
+    {
+      "label": "material-review01",
+      "originalReceiptSha256": "f7222e37161c2d7979c5ac448bf1221ee86e75a7290699c5ca4c9791d956c61a",
+      "originalProgressSha256": "8fde32e759a93812ffd92d5bdd89c4c26328370ea305cfe8c127629406809df2",
+      "receipt": {
+        "schema": "IMSAVERWorkBuddyTaskV1",
+        "startedAt": "2026-10-19T03:28:13.488809+00:00",
+        "routeReason": "primary_default",
+        "primary": "step-5-preview",
+        "fallback": "deepseek-v4.1-flash",
+        "cliVersion": "2.169.0",
+        "runnerSha256": "c5f4210ef0f5b24620139217a01e5923900136b0bb80b9896890abfc86706e1a",
+        "inputs": {
+          "taskSha256": "ce4c6a901399e5313e665a1e98df8931d6bed9e1a3e8c42dbc726d5fe5a0f6d8",
+          "promptSha256": "c56a1316c034855c382e7e399e5f63706149aa99d2e214f254a4a2214347f5fe",
+          "inputCharacters": 20436,
+          "sources": [
+            {
+              "path": ".codex/skills/imsaver-workbuddy/scripts/streaming.py",
+              "sha256": "ae2bd97a02f61d436a4bbd3907639fc1a07472c0df3ba9cf02850d01b80959b0",
+              "firstLine": 1,
+              "lastLine": 200
+            },
+            {
+              "path": ".codex/skills/imsaver-workbuddy/scripts/run.py",
+              "sha256": "c5f4210ef0f5b24620139217a01e5923900136b0bb80b9896890abfc86706e1a",
+              "firstLine": 126,
+              "lastLine": 263
+            }
+          ]
+        },
+        "collectorSha256": "ae2bd97a02f61d436a4bbd3907639fc1a07472c0df3ba9cf02850d01b80959b0",
+        "attempts": [
+          {
+            "requestedModel": "step-5-preview",
+            "status": "timeout",
+            "billingUnknown": true,
+            "timeoutReason": "total_timeout",
+            "stdoutSha256": "35f08aa0e5ab35678b20f74c8569435f9c237d88d353b98bca57fbab24f7fd85",
+            "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stream": {
+              "exitCode": 1,
+              "timeoutReason": "total_timeout",
+              "processId": 26376,
+              "processTerminated": true,
+              "processKilled": true,
+              "resultSeen": false,
+              "firstEventSeconds": 7.765,
+              "firstModelActivitySeconds": 11.547,
+              "readersStopped": true,
+              "eventCount": 6094,
+              "partialCount": 6060,
+              "textCharacters": 0,
+              "thinkingCharacters": 61888,
+              "protocolErrors": 0
+            },
+            "elapsedSeconds": 300.38,
+            "requestedEffort": "low",
+            "requestedOutputTokens": 8192,
+            "requestedThinkingTokens": 1024,
+            "processId": 26376,
+            "processTerminated": true,
+            "timeouts": {
+              "total": 300,
+              "firstModelOutput": 90,
+              "modelIdle": 60
+            },
+            "transport": "one_shot_stream_json",
+            "observedProviderRequests": [
+              {
+                "agent": "cli",
+                "model": "step-5-preview"
+              },
+              {
+                "agent": "cli",
+                "model": "step-5-preview"
+              }
+            ],
+            "observedProviderRequestCount": 2,
+            "truncationObserved": true,
+            "requestObservation": "private_cli_log_lower_bound"
+          }
+        ],
+        "classification": "model_assistance_not_acceptance",
+        "finishedAt": "2026-10-19T03:33:23.635092+00:00",
+        "status": "timeout",
+        "selectedModel": "step-5-preview"
+      },
+      "progress": {
+        "pid": 26376,
+        "model": "step-5-preview",
+        "elapsedSeconds": 300.375,
+        "firstEventSeconds": 7.765,
+        "firstModelActivitySeconds": 11.547,
+        "resultSeen": false,
+        "phase": "timeout",
+        "timeoutReason": "total_timeout",
+        "eventCount": 6094,
+        "partialCount": 6060,
+        "textCharacters": 0,
+        "thinkingCharacters": 61888,
+        "protocolErrors": 0
+      }
+    }
+  ],
+  "onlineNotReboundToFinalSource": true,
+  "longTaskStability": "not_proven",
+  "tokenSavings": "not_measured",
+  "creditForTheseStreamTasks": "unknown",
+  "fallbackInvoked": false,
+  "productionDeployed": false
+}

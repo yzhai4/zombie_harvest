@@ -1,0 +1,111 @@
+{
+  "schema": "NpcSelfHistoricalResultClassificationsV1",
+  "rows": [
+    {
+      "filename": "candidate9cb2-first.json",
+      "sha256": "b7ee8987116b96895db9350ec2b963a310dd4ba1241a79569178d70fc7595b45",
+      "bytes": 104562,
+      "classification": "intermediate79-source",
+      "sourceHtmlSha256": "9cb2a92ce80fb071ec0f4d61a6434b2a42781f97e73ee6d639157141b30e96ea",
+      "runnerSha256": "f09e3de657c8fe726c15f3af473842e660fa9e213e2f4d43ad13d8b6743c9413",
+      "count": 79,
+      "passed": 79,
+      "ok": true,
+      "retainedPrivately": true,
+      "notCurrentEvidence": true
+    },
+    {
+      "filename": "negative61ea-first.json",
+      "sha256": "095f3a0d63c87a26a03d6785cc44e2382ccb7420cf69807c749b013e47365d87",
+      "bytes": 128819,
+      "classification": "intermediate79-negative",
+      "sourceHtmlSha256": "61ea64b27a65cc4a271c214c16126b40a453eae40c8684c106bc8edc89e5f115",
+      "runnerSha256": "f09e3de657c8fe726c15f3af473842e660fa9e213e2f4d43ad13d8b6743c9413",
+      "count": 79,
+      "passed": 6,
+      "ok": false,
+      "retainedPrivately": true,
+      "notCurrentEvidence": true
+    },
+    {
+      "filename": "candidate6883-diagnostic.json",
+      "sha256": "8ae870aba759cff25167384ecd561263cd7414a337107920d594d579b481e888",
+      "bytes": 123110,
+      "classification": "97of98-method-prototype-failure",
+      "sourceHtmlSha256": "68834890643f962c46b1c7c74e52d8f436609b260d31e079df2b579f26eef395",
+      "runnerSha256": "31f86c56a409adc8bcd4dca15c6b5d0391ed99265b638471d0bfd4229451f7f3",
+      "count": 98,
+      "passed": 97,
+      "ok": false,
+      "retainedPrivately": true,
+      "notCurrentEvidence": true
+    },
+    {
+      "filename": "candidate6883-final.json",
+      "sha256": "75b06643dd189dcb593785b9f7dcafdc77ed31a8d23276cff89c168c58b72846",
+      "bytes": 122970,
+      "classification": "duplicate97of98-method-failure-before-fix",
+      "sourceHtmlSha256": "68834890643f962c46b1c7c74e52d8f436609b260d31e079df2b579f26eef395",
+      "runnerSha256": "31f86c56a409adc8bcd4dca15c6b5d0391ed99265b638471d0bfd4229451f7f3",
+      "count": 98,
+      "passed": 97,
+      "ok": false,
+      "retainedPrivately": true,
+      "notCurrentEvidence": true
+    },
+    {
+      "filename": "candidate6883-final02.json",
+      "sha256": "327f8437306130cc7ed4402fdbddf9f7901ef361eb743b436dbc2c97f5904ab5",
+      "bytes": 128457,
+      "classification": "historical98-green6883",
+      "sourceHtmlSha256": "68834890643f962c46b1c7c74e52d8f436609b260d31e079df2b579f26eef395",
+      "runnerSha256": "7f235a08ba1ee913327ae3da87894c00f47844a1cd51f054bc1a46f127da7a5c",
+      "count": 98,
+      "passed": 98,
+      "ok": true,
+      "retainedPrivately": true,
+      "notCurrentEvidence": true
+    },
+    {
+      "filename": "candidate-d251-final98.json",
+      "sha256": "f5ad71cb0eedcda9a705cd67d186741521396659f41680257a1ab0ad15354deb",
+      "bytes": 128494,
+      "classification": "historical98-greend251-before-Chrome",
+      "sourceHtmlSha256": "d2512764bc54c9efb665168869cde08c6b8ac00f567ecb02229915fadd1d3896",
+      "runnerSha256": "7f235a08ba1ee913327ae3da87894c00f47844a1cd51f054bc1a46f127da7a5c",
+      "count": 98,
+      "passed": 98,
+      "ok": true,
+      "retainedPrivately": true,
+      "notCurrentEvidence": true
+    },
+    {
+      "filename": "negative61ea-final98.json",
+      "sha256": "bcb998368f3ed63949e92ee09d72e94f30be9e19d661351647a2cab36258058b",
+      "bytes": 147245,
+      "classification": "historical98-missing-capability-negative",
+      "sourceHtmlSha256": "61ea64b27a65cc4a271c214c16126b40a453eae40c8684c106bc8edc89e5f115",
+      "runnerSha256": "7f235a08ba1ee913327ae3da87894c00f47844a1cd51f054bc1a46f127da7a5c",
+      "count": 98,
+      "passed": 9,
+      "ok": false,
+      "retainedPrivately": true,
+      "notCurrentEvidence": true
+    },
+    {
+      "filename": "negative-d251-promotion104.json",
+      "sha256": "c9b0fe26df433fff28923c2ff6af50404a06ee7a7a5f90d7700ecd8c32541c0a",
+      "bytes": 131946,
+      "classification": "intermediate104-same-product-negative-before-artifact-ordering-method-final",
+      "sourceHtmlSha256": "d2512764bc54c9efb665168869cde08c6b8ac00f567ecb02229915fadd1d3896",
+      "runnerSha256": "20660200e1373651cd5aac7e8b5bc08c6786f5bc68fbe8a663057b470f307b63",
+      "count": 104,
+      "passed": 101,
+      "ok": false,
+      "retainedPrivately": true,
+      "notCurrentEvidence": true
+    }
+  ],
+  "productCounterexample": "The old98 source method did not execute real context promotion rendering in negative-trust input production. Subsequent real Chrome found pagehide writer npc-hero rejection. Current104 adds real renderer/writer/validator/reload and reproduces it on d251; c420 fixes only total-progress lower bound.",
+  "methodCounterexample": "Original97/98 failure was a cross-VM array-prototype comparison in browser fixture generation; old raw bytes and execution binding remain, transport companion included. It was not a product failure."
+}

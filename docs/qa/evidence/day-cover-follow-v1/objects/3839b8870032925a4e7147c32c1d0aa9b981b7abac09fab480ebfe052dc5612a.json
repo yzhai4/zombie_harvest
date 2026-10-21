@@ -1,0 +1,82 @@
+{
+  "schema": "DayCoverSavedRingBoundaryV1",
+  "status": "SAVED_RING_BOUNDARY_FAILED",
+  "sourceHtmlSha256": "bd8a16700c6802093b772a5506bdaee52cd87365be8636e163895436a46e9883",
+  "inputSha256": "03c22b6dec27460ba7be140a80300cc84d96e20d552c140681c4706b8cb7dd0c",
+  "testOnly": true,
+  "naturalGameplay": false,
+  "browser": false,
+  "checks": [
+    {
+      "name": "Actual old complete writer validates and installs through real Continue",
+      "ok": true
+    },
+    {
+      "name": "Captured floating boundary is classified within-ring without changing the old writer",
+      "ok": false,
+      "error": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'following'\n- 'within-ring'\n"
+    },
+    {
+      "name": "Actual original motion step stays in place and creates no new payment or reward",
+      "ok": false,
+      "error": "Expected values to be strictly equal:\n+ actual - expected\n\n+ {\n+   x: 13.199999999999992,\n+   y: 13.99999999999999\n+ }\n- null\n"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "source-executed.html",
+      "sha256": "bd8a16700c6802093b772a5506bdaee52cd87365be8636e163895436a46e9883",
+      "bytes": 993869
+    },
+    {
+      "path": "input-test-only-native.json",
+      "sha256": "03c22b6dec27460ba7be140a80300cc84d96e20d552c140681c4706b8cb7dd0c",
+      "bytes": 283407
+    },
+    {
+      "path": "runner-executed.mjs",
+      "sha256": "68d9cd61b3497d0d32df591032db3ccf5d5b7596c016e7c7e1e55ebea23739fe",
+      "bytes": 6216
+    },
+    {
+      "path": "factory-executed.mjs",
+      "sha256": "e9872eeba85d49019d1bd806f3dd18357a5abc8f2f92922922f6a5324ec220dc",
+      "bytes": 2959
+    },
+    {
+      "path": "io-adapter-executed.mjs",
+      "sha256": "6e0da555742e930b8bf926eeec0db0ee22f17240a4fa305978841f8ba862c0a3",
+      "bytes": 51172
+    },
+    {
+      "path": "qa-alias.js",
+      "sha256": "d70afefdc636c8d1f8409a3ab53b66fb5b4af2336d0fa5457d8a84fadf5b6b4e",
+      "bytes": 79
+    },
+    {
+      "path": "before-step-live.json",
+      "sha256": "8386e502707f31e5f59181583fb816c80952956c05a93080864efa2728e48893",
+      "bytes": 5966
+    },
+    {
+      "path": "after-step-live.json",
+      "sha256": "a6ad678d29ece120cbbedcc8d15557931293636290458f2b0258238ddbaf62b7",
+      "bytes": 5932
+    }
+  ],
+  "errors": [],
+  "distance": 2.2000000000000006,
+  "initialDuty": {
+    "assigned": true,
+    "busy": true,
+    "dayDuty": true,
+    "follow": true,
+    "resting": false,
+    "owner": "cover",
+    "reason": "following"
+  },
+  "actualFunctionScope": "Unchanged full old writer -> actual loader/Continue; only original pure duty function and original one motion step are exposed. No postboot state/storage patch, no direct world advance or task clearing.",
+  "count": 3,
+  "passed": 1,
+  "ok": false
+}

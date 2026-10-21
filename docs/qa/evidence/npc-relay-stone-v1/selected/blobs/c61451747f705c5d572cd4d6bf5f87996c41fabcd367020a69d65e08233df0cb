@@ -1,0 +1,617 @@
+{
+  "schema": "NpcRelayStoneBrowserV1",
+  "status": "FAILED",
+  "sourceHtmlSha256": "595551a3fd73d0bbdfecb4d2e4d5e468b2bac7d1e119bf95b74b4b6ab8ad7bd6",
+  "runnerSha256": "792a3b8befee564b41ba0916f7e0297915994cd42a5bba8ea49b41310c24e52f",
+  "inputManifestSha256": "5698a3068e3f832a297d0a5692c5488ccff3ea49893a2ec1c7d17e4f34f29147",
+  "naturalGameplayClaim": false,
+  "humanUnderstanding": false,
+  "sourceVmExecuted": false,
+  "gameStateWritesAfterBoot": false,
+  "fixtureStorageWritesAfterBoot": false,
+  "hiddenBusinessCalls": 0,
+  "forceClicks": 0,
+  "scope": "Four independent TEST-ONLY full-writer Chrome scenes; public nearby NPC story, close/reopen, two real choices, bounded refusal, actual normal writer/selected/Continue/new tick. No A08 continuation, natural outcome, all-NPC/Actor or balance claim.",
+  "budget": {
+    "overallMs": 135000,
+    "choiceSceneMs": 40000,
+    "refusalSceneMs": 20000,
+    "controlsPerScene": 14,
+    "navigation": 0,
+    "attack": 0,
+    "rest": 0,
+    "eat": 0,
+    "support": 0,
+    "minimumHp": 35,
+    "maximumHpLoss": 12
+  },
+  "checks": [
+    {
+      "name": "accept-close-reopen: actual initial loader raw equals complete fixture",
+      "ok": true
+    },
+    {
+      "name": "accept-close-reopen: AI-OFF fixed-template route and real personal source",
+      "ok": true
+    },
+    {
+      "name": "accept-close-reopen: public entry selects exact chain",
+      "ok": true
+    },
+    {
+      "name": "accept-close-reopen: two actual public bound choices and readable external feedback",
+      "ok": false
+    },
+    {
+      "name": "defer: actual initial loader raw equals complete fixture",
+      "ok": true
+    },
+    {
+      "name": "defer: AI-OFF fixed-template route and real personal source",
+      "ok": true
+    },
+    {
+      "name": "defer: public entry selects exact chain",
+      "ok": true
+    },
+    {
+      "name": "defer: two actual public bound choices and readable external feedback",
+      "ok": false
+    },
+    {
+      "name": "range-band: actual initial loader raw equals complete fixture",
+      "ok": true
+    },
+    {
+      "name": "range-band: AI-OFF fixed-template route and real personal source",
+      "ok": true
+    },
+    {
+      "name": "range-band: public 1.25 view stays enabled while 1.0 action is disabled",
+      "ok": true
+    },
+    {
+      "name": "range-band: view-desktop external 1.0 vs1.25 reason and personal view are actually readable",
+      "ok": true
+    },
+    {
+      "name": "range-band: view-390 external 1.0 vs1.25 reason and personal view are actually readable",
+      "ok": true
+    },
+    {
+      "name": "range-band: view never pays or starts/resolves the stone action",
+      "ok": true
+    },
+    {
+      "name": "range-band: only one preboot seed",
+      "ok": true
+    },
+    {
+      "name": "stone-zero: actual initial loader raw equals complete fixture",
+      "ok": true
+    },
+    {
+      "name": "stone-zero: AI-OFF fixed-template route and real personal source",
+      "ok": true
+    },
+    {
+      "name": "stone-zero: public entry selects exact chain",
+      "ok": true
+    },
+    {
+      "name": "stone-zero: two actual public bound choices and readable external feedback",
+      "ok": false
+    },
+    {
+      "name": "immutable method browser-npc-relay-stone-v1.mjs",
+      "ok": true
+    },
+    {
+      "name": "immutable html index.html",
+      "ok": true
+    },
+    {
+      "name": "immutable input-manifest input-manifest-v1.json",
+      "ok": true
+    },
+    {
+      "name": "immutable input near-writer.json",
+      "ok": true
+    },
+    {
+      "name": "immutable input range-band-writer.json",
+      "ok": true
+    },
+    {
+      "name": "immutable input stone-zero-writer.json",
+      "ok": true
+    },
+    {
+      "name": "immutable asset /actor-sprites.js",
+      "ok": true
+    },
+    {
+      "name": "immutable asset /content/packs/watchpost-manual-v1.json",
+      "ok": true
+    },
+    {
+      "name": "immutable asset /content/packs/npc-relay-stone-v1.json",
+      "ok": true
+    },
+    {
+      "name": "actual main document accept-close-reopen matches candidate",
+      "ok": true
+    },
+    {
+      "name": "actual main document defer matches candidate",
+      "ok": true
+    },
+    {
+      "name": "actual main document range-band matches candidate",
+      "ok": true
+    },
+    {
+      "name": "actual main document stone-zero matches candidate",
+      "ok": true
+    },
+    {
+      "name": "accept-close-reopen actual load/reload document count",
+      "ok": false,
+      "detail": 1
+    },
+    {
+      "name": "defer actual load/reload document count",
+      "ok": false,
+      "detail": 1
+    },
+    {
+      "name": "range-band actual load/reload document count",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "stone-zero actual load/reload document count",
+      "ok": true,
+      "detail": 1
+    }
+  ],
+  "errors": [
+    {
+      "scene": "accept-close-reopen",
+      "type": "AssertionError",
+      "message": "accept-close-reopen: two actual public bound choices and readable external feedback"
+    },
+    {
+      "scene": "defer",
+      "type": "AssertionError",
+      "message": "defer: two actual public bound choices and readable external feedback"
+    },
+    {
+      "scene": "stone-zero",
+      "type": "AssertionError",
+      "message": "stone-zero: two actual public bound choices and readable external feedback"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "accept-close-reopen",
+      "inputId": "near",
+      "inputSha256": "df08b55ad5f2a1c6efcd933ba03f75adf7de3571a99801c596030dc1658bd13f",
+      "actions": [
+        {
+          "selector": "#continueSaveBtn",
+          "label": "continue-fixture",
+          "at": 1792385229278
+        },
+        {
+          "selector": "[data-context-action=\"npcRelayStone\"][data-npc-id=\"commander\"]",
+          "label": "nearby-owned-fact-story",
+          "at": 1792385229418
+        }
+      ],
+      "captures": [
+        {
+          "file": "accept-close-reopen-choices-390.png",
+          "uiAt": 1792385229607,
+          "liveAt": 1792385229664,
+          "screenshotAfter": 1792385229786,
+          "atomic": false
+        }
+      ],
+      "status": "FAILED",
+      "lastPublicSafety": {
+        "label": "capture-choices-390",
+        "started": true,
+        "hp": 86,
+        "phase": "DAY"
+      }
+    },
+    {
+      "id": "defer",
+      "inputId": "near",
+      "inputSha256": "df08b55ad5f2a1c6efcd933ba03f75adf7de3571a99801c596030dc1658bd13f",
+      "actions": [
+        {
+          "selector": "#continueSaveBtn",
+          "label": "continue-fixture",
+          "at": 1792385230656
+        },
+        {
+          "selector": "[data-context-action=\"npcRelayStone\"][data-npc-id=\"commander\"]",
+          "label": "nearby-owned-fact-story",
+          "at": 1792385230798
+        }
+      ],
+      "captures": [
+        {
+          "file": "defer-choices-390.png",
+          "uiAt": 1792385231010,
+          "liveAt": 1792385231048,
+          "screenshotAfter": 1792385231158,
+          "atomic": false
+        }
+      ],
+      "status": "FAILED",
+      "lastPublicSafety": {
+        "label": "capture-choices-390",
+        "started": true,
+        "hp": 86,
+        "phase": "DAY"
+      }
+    },
+    {
+      "id": "range-band",
+      "inputId": "range-band",
+      "inputSha256": "8f864ee94f0091f624752dd30e6442b7a4e7e057a7cfb0df7da26d28ab8103b2",
+      "actions": [
+        {
+          "selector": "#continueSaveBtn",
+          "label": "continue-fixture",
+          "at": 1792385232255
+        },
+        {
+          "selector": "[data-context-action=\"npcView\"][data-npc-id=\"commander\"]",
+          "label": "legal-view-only",
+          "at": 1792385232402
+        }
+      ],
+      "captures": [
+        {
+          "file": "range-band-view-desktop.png",
+          "uiAt": 1792385232427,
+          "screenshotAfter": 1792385232701,
+          "atomic": false
+        },
+        {
+          "file": "range-band-view-390.png",
+          "uiAt": 1792385232846,
+          "screenshotAfter": 1792385233261,
+          "atomic": false
+        }
+      ],
+      "status": "VERIFIED",
+      "lastPublicSafety": {
+        "label": "after-legal-view-only",
+        "started": true,
+        "hp": 86,
+        "phase": "DAY"
+      }
+    },
+    {
+      "id": "stone-zero",
+      "inputId": "stone-zero",
+      "inputSha256": "5a903306e752c005ed6e50856ff5158bc4daff5c9ee645085940c026c083bc07",
+      "actions": [
+        {
+          "selector": "#continueSaveBtn",
+          "label": "continue-fixture",
+          "at": 1792385234417
+        },
+        {
+          "selector": "[data-context-action=\"npcRelayStone\"][data-npc-id=\"commander\"]",
+          "label": "nearby-owned-fact-story",
+          "at": 1792385234713
+        }
+      ],
+      "captures": [
+        {
+          "file": "stone-zero-choices-390.png",
+          "uiAt": 1792385234926,
+          "liveAt": 1792385235034,
+          "screenshotAfter": 1792385235292,
+          "atomic": false
+        }
+      ],
+      "status": "FAILED",
+      "lastPublicSafety": {
+        "label": "capture-choices-390",
+        "started": true,
+        "hp": 86,
+        "phase": "DAY"
+      }
+    }
+  ],
+  "documents": [
+    {
+      "scene": "accept-close-reopen",
+      "status": 200,
+      "sha256": "595551a3fd73d0bbdfecb4d2e4d5e468b2bac7d1e119bf95b74b4b6ab8ad7bd6",
+      "bytes": 1018966
+    },
+    {
+      "scene": "defer",
+      "status": 200,
+      "sha256": "595551a3fd73d0bbdfecb4d2e4d5e468b2bac7d1e119bf95b74b4b6ab8ad7bd6",
+      "bytes": 1018966
+    },
+    {
+      "scene": "range-band",
+      "status": 200,
+      "sha256": "595551a3fd73d0bbdfecb4d2e4d5e468b2bac7d1e119bf95b74b4b6ab8ad7bd6",
+      "bytes": 1018966
+    },
+    {
+      "scene": "stone-zero",
+      "status": 200,
+      "sha256": "595551a3fd73d0bbdfecb4d2e4d5e468b2bac7d1e119bf95b74b4b6ab8ad7bd6",
+      "bytes": 1018966
+    }
+  ],
+  "cleanup": {
+    "contextsClosed": true,
+    "browserClosed": true,
+    "serverClosed": true
+  },
+  "browserVersion": "155.0.8059.80",
+  "count": 36,
+  "passed": 31,
+  "elapsedMs": 8460,
+  "ok": false,
+  "artifacts": [
+    {
+      "file": "accept-close-reopen-baseline-live.json",
+      "sha256": "ac4f7ac5f867997c0f27e77188674f1a1d22774bcc382a3e5a71b0d39f16921d",
+      "bytes": 150293
+    },
+    {
+      "file": "accept-close-reopen-choices-390-live.json",
+      "sha256": "57db941329d0c1cdd9d526735060686eb7bd3e2492189053bae53c753e93c920",
+      "bytes": 153852
+    },
+    {
+      "file": "accept-close-reopen-choices-390-ui.json",
+      "sha256": "3a24bbf64ed28483a810303763897e84883f69c981ff2500277c108a26e9dfef",
+      "bytes": 3259
+    },
+    {
+      "file": "accept-close-reopen-choices-390.png",
+      "sha256": "f95e79148840f1db2043964d9214f215af1279262a84d6cc4a6aff005064d750",
+      "bytes": 155044
+    },
+    {
+      "file": "accept-close-reopen-failure-last-writer-native.json",
+      "sha256": "df08b55ad5f2a1c6efcd933ba03f75adf7de3571a99801c596030dc1658bd13f",
+      "bytes": 325891
+    },
+    {
+      "file": "accept-close-reopen-failure-live-read.json",
+      "sha256": "704481498b360ec897ae7491514b83a248da5b025ab39e34b5076647a41ee3ac",
+      "bytes": 253836
+    },
+    {
+      "file": "accept-close-reopen-failure.png",
+      "sha256": "b52058fc6e931fde5f5e0e6253eda89e4e595311b73a45b3939c411376518f09",
+      "bytes": 155040
+    },
+    {
+      "file": "accept-close-reopen-initial-selected-metadata.json",
+      "sha256": "8891b020922a4782bdcdf3a3b78c03135fbe8e171590731f9819feaf2767a781",
+      "bytes": 295
+    },
+    {
+      "file": "accept-close-reopen-initial-selected-native.json",
+      "sha256": "df08b55ad5f2a1c6efcd933ba03f75adf7de3571a99801c596030dc1658bd13f",
+      "bytes": 325891
+    },
+    {
+      "file": "asset-actor-sprites.js",
+      "sha256": "257f4b38760813c21c723bbb9f934f1198e742fd1223db48705f34787e0f71b7",
+      "bytes": 19246
+    },
+    {
+      "file": "asset-npc-relay-stone-v1.json",
+      "sha256": "cca7e6712418c1f1512f19413a8c3f9823df8a5424c4b41e0432d088cad4e1ec",
+      "bytes": 1912
+    },
+    {
+      "file": "asset-watchpost-manual-v1.json",
+      "sha256": "b2d196a171d3a4e828d8486c36ea664992e51fd8df1223ea395172a511b869e3",
+      "bytes": 3264
+    },
+    {
+      "file": "bindings-after.json",
+      "sha256": "89d98e5d05f07a46ed152f8cc481e91bfad8aa22c2b1cf57d854607f4d7d8dd0",
+      "bytes": 3750
+    },
+    {
+      "file": "bindings-before.json",
+      "sha256": "e54870594d0b07f0f20f1a25b784a0378f0f757bb650dc6b7e5d5c3f344774ec",
+      "bytes": 2958
+    },
+    {
+      "file": "defer-baseline-live.json",
+      "sha256": "cd5dedd41fb46d54d849e25a7245907e15ef1945fd6dbd0e593a7b356e68154f",
+      "bytes": 150293
+    },
+    {
+      "file": "defer-choices-390-live.json",
+      "sha256": "0731f7dc7e7138ab2c9a7c54be26d979aca1d771eeb81bf4b25a9167b4ef0df7",
+      "bytes": 153852
+    },
+    {
+      "file": "defer-choices-390-ui.json",
+      "sha256": "17c566640328a972cd04cdb5852827090fd52c651bc2cd498e671512a0aa9e41",
+      "bytes": 3259
+    },
+    {
+      "file": "defer-choices-390.png",
+      "sha256": "58e129b8aa4e8e33d9742f4fb39cd09e9d4eddd9659b526f49f41c142bb4d0e6",
+      "bytes": 155031
+    },
+    {
+      "file": "defer-failure-last-writer-native.json",
+      "sha256": "df08b55ad5f2a1c6efcd933ba03f75adf7de3571a99801c596030dc1658bd13f",
+      "bytes": 325891
+    },
+    {
+      "file": "defer-failure-live-read.json",
+      "sha256": "fe1e758ae121545feddf55cdab651241e7a14b80f8bb6bba9f37886a4bd2541b",
+      "bytes": 253836
+    },
+    {
+      "file": "defer-failure.png",
+      "sha256": "411eeebd208dc7101fa66132bcdf6a72233aabc48254f01a26e0764677709084",
+      "bytes": 155041
+    },
+    {
+      "file": "defer-initial-selected-metadata.json",
+      "sha256": "8891b020922a4782bdcdf3a3b78c03135fbe8e171590731f9819feaf2767a781",
+      "bytes": 295
+    },
+    {
+      "file": "defer-initial-selected-native.json",
+      "sha256": "df08b55ad5f2a1c6efcd933ba03f75adf7de3571a99801c596030dc1658bd13f",
+      "bytes": 325891
+    },
+    {
+      "file": "input-manifest.json",
+      "sha256": "5698a3068e3f832a297d0a5692c5488ccff3ea49893a2ec1c7d17e4f34f29147",
+      "bytes": 4124
+    },
+    {
+      "file": "invocation.json",
+      "sha256": "b454dc3d38c205d88744ae4be844deb31685883ce6a17e706e35f306c896395a",
+      "bytes": 1569
+    },
+    {
+      "file": "near-input-native.json",
+      "sha256": "df08b55ad5f2a1c6efcd933ba03f75adf7de3571a99801c596030dc1658bd13f",
+      "bytes": 325891
+    },
+    {
+      "file": "range-band-baseline-live.json",
+      "sha256": "a6d89e165402db9fa67c0a4896dae00982c5039d51c528eda7246912bcbcbf38",
+      "bytes": 150293
+    },
+    {
+      "file": "range-band-endpoint-live.json",
+      "sha256": "331228600695937893ab6034e225a1f382def8969b13ec9cf9cfd27102509582",
+      "bytes": 150293
+    },
+    {
+      "file": "range-band-initial-selected-metadata.json",
+      "sha256": "239763ac1aa1d4bcbb58ba9fc6c7fde194c26b00d94f2715a9f287667f01570f",
+      "bytes": 295
+    },
+    {
+      "file": "range-band-initial-selected-native.json",
+      "sha256": "8f864ee94f0091f624752dd30e6442b7a4e7e057a7cfb0df7da26d28ab8103b2",
+      "bytes": 325892
+    },
+    {
+      "file": "range-band-input-native.json",
+      "sha256": "8f864ee94f0091f624752dd30e6442b7a4e7e057a7cfb0df7da26d28ab8103b2",
+      "bytes": 325892
+    },
+    {
+      "file": "range-band-view-390-live.json",
+      "sha256": "748d8d3a8547ad778ebb7e026135c56fd2f2bb88e61e295ac9cbcdd84154ad05",
+      "bytes": 150293
+    },
+    {
+      "file": "range-band-view-390-ui.json",
+      "sha256": "274191cbca64f84aa59e5e36c206639dceb2e5b73cd1fe0de4cf8ab43f6d6bae",
+      "bytes": 2260
+    },
+    {
+      "file": "range-band-view-390.png",
+      "sha256": "e9bc82fabe5d8e03aa0860b0fdbb0ffd14a6159206917dc068b0f33f2512517a",
+      "bytes": 159363
+    },
+    {
+      "file": "range-band-view-desktop-live.json",
+      "sha256": "a3271641a22443043eaa3ac78c54dda95f14d0aa21b66ae3e78a074916c8bde7",
+      "bytes": 150293
+    },
+    {
+      "file": "range-band-view-desktop-ui.json",
+      "sha256": "5103b66c406853f8ba20323987ca2649283f6fc4f838b8b3d4f8783d50d3e9d5",
+      "bytes": 2288
+    },
+    {
+      "file": "range-band-view-desktop.png",
+      "sha256": "0a13ac417c8a301776f25ea9eae128a6e0d8e4410f914e77b189762fdd7366b6",
+      "bytes": 544942
+    },
+    {
+      "file": "runner-executed.mjs",
+      "sha256": "792a3b8befee564b41ba0916f7e0297915994cd42a5bba8ea49b41310c24e52f",
+      "bytes": 25866
+    },
+    {
+      "file": "source-executed.html",
+      "sha256": "595551a3fd73d0bbdfecb4d2e4d5e468b2bac7d1e119bf95b74b4b6ab8ad7bd6",
+      "bytes": 1018966
+    },
+    {
+      "file": "stone-zero-baseline-live.json",
+      "sha256": "603997900c2aa2552a5fd92f98579dd51b377beade4b5f02d693374fd8e8f65a",
+      "bytes": 150293
+    },
+    {
+      "file": "stone-zero-choices-390-live.json",
+      "sha256": "f0bab0b58d7ca523c15b7294110ee48aafa45658dc97469cde294da7189b9350",
+      "bytes": 153852
+    },
+    {
+      "file": "stone-zero-choices-390-ui.json",
+      "sha256": "c9bd88601294e83859219518c082979cfd0f8c413f1932a9fb1929497e8c8a86",
+      "bytes": 2977
+    },
+    {
+      "file": "stone-zero-choices-390.png",
+      "sha256": "62b484b8dcdd443e859fa0ec03c2ca14d6a45c139e94cf02fd0f38945c1c4323",
+      "bytes": 145953
+    },
+    {
+      "file": "stone-zero-failure-last-writer-native.json",
+      "sha256": "5a903306e752c005ed6e50856ff5158bc4daff5c9ee645085940c026c083bc07",
+      "bytes": 325897
+    },
+    {
+      "file": "stone-zero-failure-live-read.json",
+      "sha256": "a00a329bab7bdde08b2fe0c674a1142bca52c5d0e344efb3fa29a5e2f3c63cad",
+      "bytes": 253836
+    },
+    {
+      "file": "stone-zero-failure.png",
+      "sha256": "b588946786438e8f9da7292429754921adb257eb501967a8068b5596801e3f21",
+      "bytes": 145947
+    },
+    {
+      "file": "stone-zero-initial-selected-metadata.json",
+      "sha256": "e80316be8d60bae3b7942d8ce84b028428635811fd3a03f28ae5dbf0204c3caf",
+      "bytes": 295
+    },
+    {
+      "file": "stone-zero-initial-selected-native.json",
+      "sha256": "5a903306e752c005ed6e50856ff5158bc4daff5c9ee645085940c026c083bc07",
+      "bytes": 325897
+    },
+    {
+      "file": "stone-zero-input-native.json",
+      "sha256": "5a903306e752c005ed6e50856ff5158bc4daff5c9ee645085940c026c083bc07",
+      "bytes": 325897
+    }
+  ]
+}

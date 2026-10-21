@@ -1,0 +1,210 @@
+{
+  "schema": "ExplicitPathOnlyPublicCompanionV1",
+  "isOriginalNativeReport": false,
+  "originalExternalRetained": true,
+  "original": {
+    "portableName": "closure.json",
+    "sha256": "dd9cd2f099b123b91e94fa41a8617f8d0a5568cdc410529cc186f37eae7f9f0e",
+    "bytes": 5843
+  },
+  "replacedMetadataFields": [
+    {
+      "field": "$.rows[0].command[0]",
+      "originalValueSha256": "16e0b943fe5b1ad8ee8e2d55008e5e2377f6f5d70a1134f11dfd25d37e313c41",
+      "originalValueBytes": 88,
+      "replacement": "external-path-sha256:16e0b943fe5b1ad8ee8e2d55008e5e2377f6f5d70a1134f11dfd25d37e313c41"
+    },
+    {
+      "field": "$.rows[0].cwd",
+      "originalValueSha256": "ffb14d7eca524082d2a91c03debbd3e0e932d267ca8bf0adf4876cb21b483321",
+      "originalValueBytes": 119,
+      "replacement": "external-path-sha256:ffb14d7eca524082d2a91c03debbd3e0e932d267ca8bf0adf4876cb21b483321"
+    },
+    {
+      "field": "$.rows[1].command[0]",
+      "originalValueSha256": "16e0b943fe5b1ad8ee8e2d55008e5e2377f6f5d70a1134f11dfd25d37e313c41",
+      "originalValueBytes": 88,
+      "replacement": "external-path-sha256:16e0b943fe5b1ad8ee8e2d55008e5e2377f6f5d70a1134f11dfd25d37e313c41"
+    },
+    {
+      "field": "$.rows[1].cwd",
+      "originalValueSha256": "ffb14d7eca524082d2a91c03debbd3e0e932d267ca8bf0adf4876cb21b483321",
+      "originalValueBytes": 119,
+      "replacement": "external-path-sha256:ffb14d7eca524082d2a91c03debbd3e0e932d267ca8bf0adf4876cb21b483321"
+    },
+    {
+      "field": "$.rows[2].command[0]",
+      "originalValueSha256": "16e0b943fe5b1ad8ee8e2d55008e5e2377f6f5d70a1134f11dfd25d37e313c41",
+      "originalValueBytes": 88,
+      "replacement": "external-path-sha256:16e0b943fe5b1ad8ee8e2d55008e5e2377f6f5d70a1134f11dfd25d37e313c41"
+    },
+    {
+      "field": "$.rows[2].cwd",
+      "originalValueSha256": "ffb14d7eca524082d2a91c03debbd3e0e932d267ca8bf0adf4876cb21b483321",
+      "originalValueBytes": 119,
+      "replacement": "external-path-sha256:ffb14d7eca524082d2a91c03debbd3e0e932d267ca8bf0adf4876cb21b483321"
+    },
+    {
+      "field": "$.rows[3].command[0]",
+      "originalValueSha256": "c53065b67a95ee184e9c363729b3d4c1756e0d0f32d466eb52dc2cc14658360c",
+      "originalValueBytes": 88,
+      "replacement": "external-path-sha256:c53065b67a95ee184e9c363729b3d4c1756e0d0f32d466eb52dc2cc14658360c"
+    },
+    {
+      "field": "$.rows[3].cwd",
+      "originalValueSha256": "ffb14d7eca524082d2a91c03debbd3e0e932d267ca8bf0adf4876cb21b483321",
+      "originalValueBytes": 119,
+      "replacement": "external-path-sha256:ffb14d7eca524082d2a91c03debbd3e0e932d267ca8bf0adf4876cb21b483321"
+    }
+  ],
+  "resultFactsUnchanged": true,
+  "report": {
+    "schema": "DayFatalSourceClosureV1",
+    "status": "TERMINAL",
+    "ok": false,
+    "sourceHtmlSha256": "7b23b0b757ed2242903c952f54c5c31145499ba98280aa80f1578e64b78780cc",
+    "uniqueContracts": 4,
+    "passed": 2,
+    "drift": [],
+    "rows": [
+      {
+        "name": "content-chain",
+        "order": 1,
+        "command": [
+          "external-path-sha256:16e0b943fe5b1ad8ee8e2d55008e5e2377f6f5d70a1134f11dfd25d37e313c41",
+          "scripts/check-content-chain.mjs"
+        ],
+        "cwd": "external-path-sha256:ffb14d7eca524082d2a91c03debbd3e0e932d267ca8bf0adf4876cb21b483321",
+        "startedAt": "2026-10-18T00:23:27.789968+00:00",
+        "htmlSha256": "7b23b0b757ed2242903c952f54c5c31145499ba98280aa80f1578e64b78780cc",
+        "runnerRepositoryPath": "scripts/check-content-chain.mjs",
+        "runnerSha256": "d9ad6f8dae00c239b07c3ef7e03f4da6c78950e33e9e555aa252c2c14f545d0e",
+        "status": "TERMINAL",
+        "exitCode": 1,
+        "finishedAt": "2026-10-18T00:23:27.900954+00:00",
+        "htmlUnchanged": true,
+        "runnerUnchanged": true,
+        "artifacts": [
+          {
+            "path": "01-content-chain/runner-executed",
+            "bytes": 45123,
+            "sha256": "d9ad6f8dae00c239b07c3ef7e03f4da6c78950e33e9e555aa252c2c14f545d0e"
+          },
+          {
+            "path": "01-content-chain/stderr.log",
+            "bytes": 986,
+            "sha256": "1809b9e0dc71725be6750308b2831e131f6106422d5688449322f3362f975dfc"
+          },
+          {
+            "path": "01-content-chain/stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ]
+      },
+      {
+        "name": "plan-day",
+        "order": 2,
+        "command": [
+          "external-path-sha256:16e0b943fe5b1ad8ee8e2d55008e5e2377f6f5d70a1134f11dfd25d37e313c41",
+          "scripts/check-plan-day.mjs"
+        ],
+        "cwd": "external-path-sha256:ffb14d7eca524082d2a91c03debbd3e0e932d267ca8bf0adf4876cb21b483321",
+        "startedAt": "2026-10-18T00:23:27.789968+00:00",
+        "htmlSha256": "7b23b0b757ed2242903c952f54c5c31145499ba98280aa80f1578e64b78780cc",
+        "runnerRepositoryPath": "scripts/check-plan-day.mjs",
+        "runnerSha256": "58f80463e60aa67a056b7e839e34d19c951ce25c26a1c01b7845367024fa6199",
+        "status": "TERMINAL",
+        "exitCode": 1,
+        "finishedAt": "2026-10-18T00:23:27.893803+00:00",
+        "htmlUnchanged": true,
+        "runnerUnchanged": true,
+        "artifacts": [
+          {
+            "path": "02-plan-day/runner-executed",
+            "bytes": 27632,
+            "sha256": "58f80463e60aa67a056b7e839e34d19c951ce25c26a1c01b7845367024fa6199"
+          },
+          {
+            "path": "02-plan-day/stderr.log",
+            "bytes": 976,
+            "sha256": "a01dd9b399724c95848e71de6dbe1b22590ae2be31fd7b49e8199435fcfabb5d"
+          },
+          {
+            "path": "02-plan-day/stdout.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ]
+      },
+      {
+        "name": "camp-area",
+        "order": 3,
+        "command": [
+          "external-path-sha256:16e0b943fe5b1ad8ee8e2d55008e5e2377f6f5d70a1134f11dfd25d37e313c41",
+          "scripts/check-camp-area.mjs"
+        ],
+        "cwd": "external-path-sha256:ffb14d7eca524082d2a91c03debbd3e0e932d267ca8bf0adf4876cb21b483321",
+        "startedAt": "2026-10-18T00:23:27.789968+00:00",
+        "htmlSha256": "7b23b0b757ed2242903c952f54c5c31145499ba98280aa80f1578e64b78780cc",
+        "runnerRepositoryPath": "scripts/check-camp-area.mjs",
+        "runnerSha256": "e339624854235b17d3380a4101973cd3896fbd4e4304b3cf70a39b428f97963a",
+        "status": "TERMINAL",
+        "exitCode": 0,
+        "finishedAt": "2026-10-18T00:23:27.888397+00:00",
+        "htmlUnchanged": true,
+        "runnerUnchanged": true,
+        "artifacts": [
+          {
+            "path": "03-camp-area/runner-executed",
+            "bytes": 12895,
+            "sha256": "e339624854235b17d3380a4101973cd3896fbd4e4304b3cf70a39b428f97963a"
+          },
+          {
+            "path": "03-camp-area/stderr.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "03-camp-area/stdout.log",
+            "bytes": 1190,
+            "sha256": "9022a5d5aec72a132da9030c94171c798ede6b90ad02957bce0d65f171c4e4de"
+          }
+        ]
+      },
+      {
+        "name": "three-day-safety",
+        "order": 4,
+        "command": [
+          "external-path-sha256:c53065b67a95ee184e9c363729b3d4c1756e0d0f32d466eb52dc2cc14658360c",
+          "-X",
+          "utf8",
+          "scripts/check-three-day-safety.py"
+        ],
+        "cwd": "external-path-sha256:ffb14d7eca524082d2a91c03debbd3e0e932d267ca8bf0adf4876cb21b483321",
+        "startedAt": "2026-10-18T00:23:27.940977+00:00",
+        "htmlSha256": "7b23b0b757ed2242903c952f54c5c31145499ba98280aa80f1578e64b78780cc",
+        "runnerRepositoryPath": null,
+        "runnerSha256": null,
+        "status": "TERMINAL",
+        "exitCode": 0,
+        "finishedAt": "2026-10-18T00:23:28.569384+00:00",
+        "htmlUnchanged": true,
+        "runnerUnchanged": true,
+        "artifacts": [
+          {
+            "path": "04-three-day-safety/stderr.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "04-three-day-safety/stdout.log",
+            "bytes": 3695,
+            "sha256": "79b5e9176e14a2801f98f27962eeb83622cbbd107c9e0bd53445b14a61cbdb99"
+          }
+        ]
+      }
+    ],
+    "finishedAt": "2026-10-18T00:23:28.606500+00:00"
+  }
+}

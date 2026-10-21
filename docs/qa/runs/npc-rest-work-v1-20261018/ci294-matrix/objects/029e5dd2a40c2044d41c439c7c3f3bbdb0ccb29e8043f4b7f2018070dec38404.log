@@ -1,0 +1,60 @@
+{
+  "runner": "relay-construction-v1-contract",
+  "ok": true,
+  "count": 13,
+  "passed": 13,
+  "checks": [
+    {
+      "name": "briefed begins staging and records a single construction event",
+      "ok": true
+    },
+    {
+      "name": "staging commits complete materials exactly once",
+      "ok": true
+    },
+    {
+      "name": "building advances without crossing the terminal threshold",
+      "ok": true
+    },
+    {
+      "name": "building completion is a separate terminal step",
+      "ok": true
+    },
+    {
+      "name": "stale instance is rejected before business effects",
+      "ok": true
+    },
+    {
+      "name": "stale event is rejected before material effects",
+      "ok": true
+    },
+    {
+      "name": "missing required worker is recoverable",
+      "ok": true
+    },
+    {
+      "name": "insufficient inventory rolls the whole step back",
+      "ok": true
+    },
+    {
+      "name": "negative work cannot create a hidden partial transition",
+      "ok": true
+    },
+    {
+      "name": "duplicate command is a no-op with the original token",
+      "ok": true
+    },
+    {
+      "name": "save reload preserves the construction token",
+      "ok": true
+    },
+    {
+      "name": "resource source is mandatory for material movement",
+      "ok": true
+    },
+    {
+      "name": "online rejects a second stationOnline transition",
+      "ok": true
+    }
+  ]
+}

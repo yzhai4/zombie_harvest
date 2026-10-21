@@ -1,0 +1,195 @@
+{
+  "schema": "RelayRoleBrowserSourceInputManifestV1",
+  "sourceHtmlSha256": "dccb52ff94a0101992f6696c3ecb93c7092b1049d85dbbe2701d5e6ad1ca004a",
+  "method": "TEST-ONLY actual dccb full source loader/native writer; real death/successor functions and explicit offline duplicate-configuration variant. Inputs are not natural/browser production captures. No postboot browser state override is authorized.",
+  "naturalGameplay": false,
+  "originalWriter": {
+    "file": "ancestry/original-briefed-native.json",
+    "sha256": "38cdf0a6ce9a38263091f475db7a6730444464d510f812e84a0658b7a5bc2b77",
+    "bytes": 82162
+  },
+  "ancestryOriginalA": {
+    "file": "ancestry/original-A-native.json",
+    "sha256": "ebd2c2a6f1ab12b0e62dc6ba235231b4a229916759cdf1662c2594ed9ac4c7e6",
+    "bytes": 63429
+  },
+  "ancestryHandoffProvenance": {
+    "file": "ancestry/handoff-provenance.json",
+    "sha256": "6f0afef528651a2f1beaf0b5079f74f1cf870a17af703915414121b741696c95",
+    "bytes": 3709
+  },
+  "sourceCheckerProof": {
+    "file": "source-native-checker-report.json",
+    "sha256": "c09d8ec5df20cbef8543eea1cf1c60eb239343f10888455b96f86b803704dc87",
+    "bytes": 12560
+  },
+  "sourceCheckerRunnerSha256": "ec2cdcca561b80647fde3db0251f036a4158ba7a9be91286c4082da7156f4039",
+  "sourceCheckerResult": {
+    "ok": true,
+    "count": 10,
+    "passed": 10
+  },
+  "scenes": [
+    {
+      "id": "normal-briefed",
+      "file": "inputs/normal-briefed-native.json",
+      "sha256": "149ae3feb4d9884013c8dc56283cca5ebb1923c893b49b85a14dae143edf2d12",
+      "bytes": 82126,
+      "changes": [
+        "Actual dccb source Continue and native save of unchanged real c21 handoff writer; no business setup mutation."
+      ],
+      "controls": {
+        "clockPaused": false,
+        "clockRate": 1
+      },
+      "expected": {
+        "status": "briefed",
+        "bindings": {
+          "radio": "radio",
+          "carpenter": "carpenter",
+          "quartermaster": "quartermaster"
+        },
+        "blockedReason": null,
+        "nameSource": "Actual public NPC_TEMPLATES / same-ID roster label; serializeNpc omits name from native save. No name field was inserted.",
+        "npcRosterCount": 10,
+        "livingNpcCount": 10,
+        "enemyIds": [
+          "wz-1",
+          "wz-2",
+          "wz-3",
+          "wz-4",
+          "frontier-1"
+        ],
+        "handoffAt": null,
+        "materialProgress": {
+          "wood": 0,
+          "parts": 0,
+          "stone": 0
+        },
+        "workMinutes": 0
+      },
+      "actualSourceWriterAndValidator": true
+    },
+    {
+      "id": "missing-quartermaster",
+      "file": "inputs/missing-quartermaster-native.json",
+      "sha256": "51c0cad0aacb4db0aaf66b66111f7287957121a843db9aaa87a8cfeef2e61ab5",
+      "bytes": 93848,
+      "changes": [
+        "Actual markNpcDead(carpenter) invokes existing death consequences; actual assignMorningSuccessors once assigns quartermaster to carpenter and opens quartermaster vacancy. No manual actingRole/HP write."
+      ],
+      "controls": {
+        "clockPaused": false,
+        "clockRate": 1
+      },
+      "expected": {
+        "status": "briefed",
+        "bindings": {
+          "radio": "radio",
+          "carpenter": "quartermaster",
+          "quartermaster": null
+        },
+        "blockedReason": "missing-role",
+        "nameSource": "Actual public NPC_TEMPLATES / same-ID roster label; serializeNpc omits name from native save. No name field was inserted.",
+        "npcRosterCount": 10,
+        "livingNpcCount": 9,
+        "enemyIds": [
+          "wz-1",
+          "wz-2",
+          "wz-3",
+          "wz-4",
+          "frontier-1"
+        ],
+        "handoffAt": null,
+        "materialProgress": {
+          "wood": 0,
+          "parts": 0,
+          "stone": 0
+        },
+        "workMinutes": 0
+      },
+      "actualSourceWriterAndValidator": true
+    },
+    {
+      "id": "restored",
+      "file": "inputs/restored-native.json",
+      "sha256": "7807bebb7888c8c211ba233d6fdeb664f9b561ee29c2f2b1ae8c13586779af85",
+      "bytes": 94764,
+      "changes": [
+        "From the actual missing-role scene after a blocked consumer-only60 probe, actual assignMorningSuccessors again fills quartermaster with cook. Native captured before resumed consumer. No world calendar advance."
+      ],
+      "controls": {
+        "clockPaused": false,
+        "clockRate": 1
+      },
+      "expected": {
+        "status": "briefed",
+        "bindings": {
+          "radio": "radio",
+          "carpenter": "quartermaster",
+          "quartermaster": "cook"
+        },
+        "blockedReason": null,
+        "nameSource": "Actual public NPC_TEMPLATES / same-ID roster label; serializeNpc omits name from native save. No name field was inserted.",
+        "npcRosterCount": 10,
+        "livingNpcCount": 9,
+        "enemyIds": [
+          "wz-1",
+          "wz-2",
+          "wz-3",
+          "wz-4",
+          "frontier-1"
+        ],
+        "handoffAt": null,
+        "materialProgress": {
+          "wood": 0,
+          "parts": 0,
+          "stone": 0
+        },
+        "workMinutes": 0
+      },
+      "actualSourceWriterAndValidator": true
+    },
+    {
+      "id": "invalid-config",
+      "file": "inputs/invalid-config-native.json",
+      "sha256": "9b2a8688ff8a027a3600f9bb7fc1666c1b7dce6257461b63a702ff5b3837198b",
+      "bytes": 82118,
+      "changes": [
+        "TEST-ONLY offline complete writer derivative changes assignedNpcIds only to [radio,carpenter,carpenter], then actual validator/Continue/native writer; not historical actual project configuration."
+      ],
+      "controls": {
+        "clockPaused": false,
+        "clockRate": 1
+      },
+      "expected": {
+        "status": "briefed",
+        "bindings": {
+          "radio": null,
+          "carpenter": null,
+          "quartermaster": null
+        },
+        "blockedReason": "invalid-role-configuration",
+        "nameSource": "Actual public NPC_TEMPLATES / same-ID roster label; serializeNpc omits name from native save. No name field was inserted.",
+        "npcRosterCount": 10,
+        "livingNpcCount": 10,
+        "enemyIds": [
+          "wz-1",
+          "wz-2",
+          "wz-3",
+          "wz-4",
+          "frontier-1"
+        ],
+        "handoffAt": null,
+        "materialProgress": {
+          "wood": 0,
+          "parts": 0,
+          "stone": 0
+        },
+        "workMinutes": 0
+      },
+      "actualSourceWriterAndValidator": true
+    }
+  ],
+  "scope": "All inputs retain original roster IDs/resources/enemies except actual death/succession consequences. Real initial exploration spawned frontier-1; original four IDs remain, total five enemies. Real handoffAt:null remains unmodified. Scene input status is as captured; unpaused browser time can legitimately progress normal/restored scenes."
+}

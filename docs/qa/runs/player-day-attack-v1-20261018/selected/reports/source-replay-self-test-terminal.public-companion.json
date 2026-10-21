@@ -1,0 +1,63 @@
+{
+  "schema": "ExplicitPathOnlyPublicCompanionV1",
+  "isOriginalNativeReport": false,
+  "original": {
+    "portableName": "terminal.json",
+    "sha256": "e98689c74d542be3a9474d28ea4e70db634cab00c031157c854bac7d43bf1725",
+    "bytes": 1424
+  },
+  "originalExternalRetained": true,
+  "replacedMetadataFields": [
+    {
+      "field": "$.command[0]",
+      "originalValueSha256": "16e0b943fe5b1ad8ee8e2d55008e5e2377f6f5d70a1134f11dfd25d37e313c41",
+      "originalValueBytes": 88,
+      "replacement": "external-path-sha256:16e0b943fe5b1ad8ee8e2d55008e5e2377f6f5d70a1134f11dfd25d37e313c41"
+    },
+    {
+      "field": "$.cwd",
+      "originalValueSha256": "ffb14d7eca524082d2a91c03debbd3e0e932d267ca8bf0adf4876cb21b483321",
+      "originalValueBytes": 119,
+      "replacement": "external-path-sha256:ffb14d7eca524082d2a91c03debbd3e0e932d267ca8bf0adf4876cb21b483321"
+    }
+  ],
+  "resultFactsUnchanged": true,
+  "report": {
+    "order": 14,
+    "name": "replay-self-test",
+    "command": [
+      "external-path-sha256:16e0b943fe5b1ad8ee8e2d55008e5e2377f6f5d70a1134f11dfd25d37e313c41",
+      "scripts/replay-harness.mjs",
+      "--self-test"
+    ],
+    "cwd": "external-path-sha256:ffb14d7eca524082d2a91c03debbd3e0e932d267ca8bf0adf4876cb21b483321",
+    "status": "TERMINAL",
+    "startedAt": "2026-10-17T22:46:57.856967+00:00",
+    "sourceHtmlSha256": "3545adb19fc8e75256013a50ce9885e051aa4170757a0c33095cc682cfcb7aa1",
+    "runnerRepositoryPath": "scripts/replay-harness.mjs",
+    "runnerSha256": "6b4f64ac34994add7b6b6b950b817f24f671388003899e61b635f6cee30f007b",
+    "runnerBytes": 30953,
+    "sourceInventory": "../source-inventory.json",
+    "finishedAt": "2026-10-17T22:46:57.979108+00:00",
+    "exitCode": 0,
+    "htmlUnchanged": true,
+    "runnerUnchanged": true,
+    "artifacts": [
+      {
+        "path": "14-replay-self-test/runner-executed.mjs",
+        "bytes": 30953,
+        "sha256": "6b4f64ac34994add7b6b6b950b817f24f671388003899e61b635f6cee30f007b"
+      },
+      {
+        "path": "14-replay-self-test/stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "14-replay-self-test/stdout.log",
+        "bytes": 67,
+        "sha256": "0813da21b6068f27a332a072cc73180b1362f2dffb7ed3b99e31a2a8392a8538"
+      }
+    ]
+  }
+}

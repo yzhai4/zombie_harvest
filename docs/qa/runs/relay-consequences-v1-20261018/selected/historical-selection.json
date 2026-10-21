@@ -1,0 +1,44 @@
+{
+  "schema": "RelayConsequencesHistoricalSelectionV1",
+  "reports": [
+    {
+      "id": "source-01-04a",
+      "sourceHtmlSha256": "04a7ff13dc663d679330004867e2e960ab6e6472ddaaf3489d2597fc4cde50c7",
+      "passedContracts": 14,
+      "uniqueContracts": 15,
+      "actualExitCode": 1,
+      "artifact": {
+        "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/historical-04a-source-closure.public-companion.json",
+        "sha256": "355ba97f1822b197f4973493f570608ad951579548b151105b564e95fed41e6c"
+      },
+      "original": {
+        "portableName": "closure.json",
+        "sha256": "bb0e4f67d3fcf4e994e8a5c2cb782ce4e8e3085e95f876efdefc553d12d56652",
+        "bytes": 42981
+      },
+      "currentPassedSelection": false,
+      "classification": "Original memory preflight retained stale e0 IO expectation; other14 original terminals remain their own source."
+    },
+    {
+      "id": "memory-supplement-01-04a",
+      "sourceHtmlSha256": "04a7ff13dc663d679330004867e2e960ab6e6472ddaaf3489d2597fc4cde50c7",
+      "count": 25,
+      "passed": 25,
+      "artifact": {
+        "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/historical-04a-memory25.json",
+        "sha256": "02fe5ea7ee3bba4ba1fbe405c48082785ce2f4080e7113e40360611a43520de9"
+      },
+      "terminal": {
+        "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/reports/historical-04a-memory-terminal.json",
+        "sha256": "c75d70470a502da23e54d48ca1e2934f13e5e801d885753ef57bdd8dcb73de7b"
+      },
+      "currentPassedSelection": false,
+      "scope": "Original same04a IO-binding recheck only; not a final-source rerun. Full historical artifact graph external."
+    }
+  ],
+  "stationDamageDiagnostic": {
+    "path": "docs/qa/runs/relay-consequences-v1-20261018/selected/station-damage-diagnostic-selection.json",
+    "sha256": "43fca1a416296ea897117e619bec6ffd6fd7b2fc1ea6b4480a48d170adc6b8b2"
+  },
+  "scope": "Intermediate04a and2dd evidence is historical/diagnostic only. Public A continuation and role-ui extra-N outputs are not selected/current until separately reviewed; no pending result prefilled."
+}
